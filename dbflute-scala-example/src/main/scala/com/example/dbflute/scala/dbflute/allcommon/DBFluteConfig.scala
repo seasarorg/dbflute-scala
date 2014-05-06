@@ -710,11 +710,7 @@ object DBFluteConfig {
         }
     }
 
-    class ImplementedOracleArrayType(arrayTypeName: String, elementType: Class[_]) extends OracleArrayType {
-
-        def ImplementedOracleArrayType(arrayTypeName: String, elementType: Class[_]) {
-            super(arrayTypeName, elementType);
-        }
+    class ImplementedOracleArrayType(arrayTypeName: String, elementType: Class[_]) extends OracleArrayType(arrayTypeName, elementType) {
 
         @Override
         protected def createOracleAgent(): OracleAgent = {
@@ -722,11 +718,7 @@ object DBFluteConfig {
         }
     }
 
-    class ImplementedOracleStructType extends OracleStructType {
-
-        def ImplementedOracleStructType(structTypeName: String, entityType: Class[?]) {
-            super(structTypeName, entityType);
-        }
+    class ImplementedOracleStructType(structTypeName: String, entityType: Class[_]) extends OracleStructType(structTypeName, entityType) {
 
         @Override
         protected def createOracleAgent(): OracleAgent = {
@@ -747,8 +739,8 @@ object DBFluteConfig {
         }
 
         protected def unwrap(conn: Connection): Connection = {
-            if (conn instanceof NotClosingConnectionWrapper) {
-                return ((NotClosingConnectionWrapper)conn).getActualConnection();
+            if (conn.isInstanceOf[NotClosingConnectionWrapper]) {
+                return conn.asInstanceOf[NotClosingConnectionWrapper].getActualConnection();
             }
             return conn;
         }
@@ -770,7 +762,7 @@ object DBFluteConfig {
 
         protected def getFieldConnection(conn: Connection, fieldName: String): Connection = {
             val field: Field = DfReflectionUtil.getWholeField(conn.getClass(), fieldName);
-            return (Connection)DfReflectionUtil.getValueForcedly(field, conn);
+            return DfReflectionUtil.getValueForcedly(field, conn).asInstanceOf[Connection];
         }
     }
 
@@ -780,7 +772,7 @@ object DBFluteConfig {
     class ImplementedSQLExceptionDigger extends SQLExceptionDigger {
 
         def digUp(cause: Throwable): SQLException = {
-            val found: SQLException = resolveS2DBCP(cause);
+            var found: SQLException = resolveS2DBCP(cause);
             if (found != null) {
                 return found;
             }
@@ -797,8 +789,8 @@ object DBFluteConfig {
 
         protected def resolveDefault(cause: Throwable):SQLException = {
             val nestedCause: Throwable = cause.getCause();
-            if (nestedCause instanceof SQLException) {
-                return (SQLException)nestedCause;
+            if (nestedCause.isInstanceOf[SQLException]) {
+                return nestedCause.asInstanceOf[SQLException];
             }
             return null;
         }

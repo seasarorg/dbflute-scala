@@ -24,6 +24,7 @@ class PassedUnitContainerTestCase extends ContainerTestCase {
   override def prepareModuleList(): List[Module] = {
     val dataSource = createDataSource();
     val moduleList = new ArrayList[Module]();
+    // not migration yet
     //moduleList.add(new DBFluteModule(dataSource));
     val transactionModule = createTransactionModule(dataSource);
     if (transactionModule != null) {
