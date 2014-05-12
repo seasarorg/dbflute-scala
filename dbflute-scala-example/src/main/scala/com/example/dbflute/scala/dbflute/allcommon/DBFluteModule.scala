@@ -12,155 +12,145 @@ import com.example.dbflute.scala.dbflute.exbhv.*;
 /**
  * @author DBFlute(AutoGenerator)
  */
-public class DBFluteModule extends AbstractModule {
-
-    protected DataSource dataSource;
-
-    public DBFluteModule(DataSource dataSource) {
-        if (dataSource == null) {
-            String msg = "The argument 'dataSource' should not be null!";
-            throw new IllegalArgumentException(msg);
-        }
-        this.dataSource = dataSource;
-    }
+class DBFluteModule(dataSource: DataSource) extends AbstractModule {
 
     @Override
-    protected void configure() {
+    protected def configure(): Unit = {
         createDBFluteInitializer(); // initialized by only a creation
 
         // The components of DBFlute Runtime.
-        ImplementedBehaviorSelector behaviorSelector = createImplementedBehaviorSelector();
-        BehaviorCommandInvoker behaviorCommandInvoker = createBehaviorCommandInvoker();
-        ImplementedInvokerAssistant invokerAssistant = createImplementedInvokerAssistant();
+        val behaviorSelector: ImplementedBehaviorSelector = createImplementedBehaviorSelector();
+        val behaviorCommandInvoker: BehaviorCommandInvoker = createBehaviorCommandInvoker();
+        val invokerAssistant: ImplementedInvokerAssistant = createImplementedInvokerAssistant();
         behaviorCommandInvoker.setInvokerAssistant(invokerAssistant);
-        ImplementedCommonColumnAutoSetupper commonColumnAutoSetupper = createImplementedCommonColumnAutoSetupper();
+        val commonColumnAutoSetupper: ImplementedCommonColumnAutoSetupper = createImplementedCommonColumnAutoSetupper();
 
-        bind(BehaviorSelector.class).toInstance(behaviorSelector);
-        bind(BehaviorCommandInvoker.class).toInstance(behaviorCommandInvoker);
-        bind(InvokerAssistant.class).toInstance(invokerAssistant);
-        bind(CommonColumnAutoSetupper.class).toInstance(commonColumnAutoSetupper);
+        bind(classOf[BehaviorSelector]).toInstance(behaviorSelector);
+        bind(classOf[BehaviorCommandInvoker]).toInstance(behaviorCommandInvoker);
+        bind(classOf[InvokerAssistant]).toInstance(invokerAssistant);
+        bind(classOf[CommonColumnAutoSetupper]).toInstance(commonColumnAutoSetupper);
 
         // The components of Behavior.
         setupBehavior(behaviorCommandInvoker, behaviorSelector, commonColumnAutoSetupper);
     }
 
-    protected DBFluteInitializer createDBFluteInitializer() {
+    protected def createDBFluteInitializer(): DBFluteInitializer = {
         return new com.example.dbflute.guice.dbflute.nogen.ExtendedDBFluteInitializer();
     }
 
-    protected ImplementedBehaviorSelector createImplementedBehaviorSelector() {
+    protected def createImplementedBehaviorSelector(): ImplementedBehaviorSelector = {
         return new ImplementedBehaviorSelector();
     }
 
-    protected BehaviorCommandInvoker createBehaviorCommandInvoker() {
+    protected def createBehaviorCommandInvoker(): BehaviorCommandInvoker = {
         return new BehaviorCommandInvoker();
     }
 
-    protected ImplementedInvokerAssistant createImplementedInvokerAssistant() {
-        ImplementedInvokerAssistant invokerAssistant = new com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant();
+    protected def createImplementedInvokerAssistant(): ImplementedInvokerAssistant = {
+        val invokerAssistant:ImplementedInvokerAssistant = new com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant();
         invokerAssistant.setDataSource(dataSource);
         return invokerAssistant;
     }
 
-    protected ImplementedCommonColumnAutoSetupper createImplementedCommonColumnAutoSetupper() {
+    protected def createImplementedCommonColumnAutoSetupper(): ImplementedCommonColumnAutoSetupper = {
         return new com.example.dbflute.scala.dbflute.allcommon.ImplementedCommonColumnAutoSetupper();
     }
 
-    protected void setupBehavior(BehaviorCommandInvoker ker, BehaviorSelector tor, CommonColumnAutoSetupper per) {
+    protected def setupBehavior(ker: BehaviorCommandInvoker, tor: BehaviorSelector, per: CommonColumnAutoSetupper): Unit = {
         {
-            MemberBhv bhv = new MemberBhv();
+            val bhv: MemberBhv = new MemberBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberBhv.class).toInstance(bhv);
+            bind(classOf[MemberBhv]).toInstance(bhv);
         }
         {
-            MemberAddressBhv bhv = new MemberAddressBhv();
+            val bhv: MemberAddressBhv = new MemberAddressBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberAddressBhv.class).toInstance(bhv);
+            bind(classOf[MemberAddressBhv]).toInstance(bhv);
         }
         {
-            MemberFollowingBhv bhv = new MemberFollowingBhv();
+            val bhv: MemberFollowingBhv = new MemberFollowingBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberFollowingBhv.class).toInstance(bhv);
+            bind(classOf[MemberFollowingBhv]).toInstance(bhv);
         }
         {
-            MemberLoginBhv bhv = new MemberLoginBhv();
+            val bhv: MemberLoginBhv = new MemberLoginBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberLoginBhv.class).toInstance(bhv);
+            bind(classOf[MemberLoginBhv]).toInstance(bhv);
         }
         {
-            MemberSecurityBhv bhv = new MemberSecurityBhv();
+            val bhv: MemberSecurityBhv = new MemberSecurityBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberSecurityBhv.class).toInstance(bhv);
+            bind(classOf[MemberSecurityBhv]).toInstance(bhv);
         }
         {
-            MemberServiceBhv bhv = new MemberServiceBhv();
+            val bhv: MemberServiceBhv = new MemberServiceBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberServiceBhv.class).toInstance(bhv);
+            bind(classOf[MemberServiceBhv]).toInstance(bhv);
         }
         {
-            MemberStatusBhv bhv = new MemberStatusBhv();
+            val bhv: MemberStatusBhv = new MemberStatusBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberStatusBhv.class).toInstance(bhv);
+            bind(classOf[MemberStatusBhv]).toInstance(bhv);
         }
         {
-            MemberWithdrawalBhv bhv = new MemberWithdrawalBhv();
+            val bhv: MemberWithdrawalBhv = new MemberWithdrawalBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(MemberWithdrawalBhv.class).toInstance(bhv);
+            bind(classOf[MemberWithdrawalBhv]).toInstance(bhv);
         }
         {
-            ProductBhv bhv = new ProductBhv();
+            val bhv: ProductBhv = new ProductBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(ProductBhv.class).toInstance(bhv);
+            bind(classOf[ProductBhv]).toInstance(bhv);
         }
         {
-            ProductCategoryBhv bhv = new ProductCategoryBhv();
+            val bhv: ProductCategoryBhv = new ProductCategoryBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(ProductCategoryBhv.class).toInstance(bhv);
+            bind(classOf[ProductCategoryBhv]).toInstance(bhv);
         }
         {
-            PurchaseBhv bhv = new PurchaseBhv();
+            val bhv: PurchaseBhv = new PurchaseBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(PurchaseBhv.class).toInstance(bhv);
+            bind(classOf[PurchaseBhv]).toInstance(bhv);
         }
         {
-            SummaryProductBhv bhv = new SummaryProductBhv();
+            val bhv: SummaryProductBhv = new SummaryProductBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(SummaryProductBhv.class).toInstance(bhv);
+            bind(classOf[SummaryProductBhv]).toInstance(bhv);
         }
         {
-            SummaryWithdrawalBhv bhv = new SummaryWithdrawalBhv();
+            val bhv: SummaryWithdrawalBhv = new SummaryWithdrawalBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor);
-            bind(SummaryWithdrawalBhv.class).toInstance(bhv);
+            bind(classOf[SummaryWithdrawalBhv]).toInstance(bhv);
         }
         {
-            Vendor$DollarBhv bhv = new Vendor$DollarBhv();
+            val bhv: Vendor$DollarBhv = new Vendor$DollarBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(Vendor$DollarBhv.class).toInstance(bhv);
+            bind(classOf[Vendor$DollarBhv]).toInstance(bhv);
         }
         {
-            VendorCheckBhv bhv = new VendorCheckBhv();
+            val bhv: VendorCheckBhv = new VendorCheckBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(VendorCheckBhv.class).toInstance(bhv);
+            bind(classOf[VendorCheckBhv]).toInstance(bhv);
         }
         {
-            VendorIdentityOnlyBhv bhv = new VendorIdentityOnlyBhv();
+            val bhv: VendorIdentityOnlyBhv = new VendorIdentityOnlyBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(VendorIdentityOnlyBhv.class).toInstance(bhv);
+            bind(classOf[VendorIdentityOnlyBhv]).toInstance(bhv);
         }
         {
-            VendorPrimaryKeyOnlyBhv bhv = new VendorPrimaryKeyOnlyBhv();
+            val bhv: VendorPrimaryKeyOnlyBhv = new VendorPrimaryKeyOnlyBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(VendorPrimaryKeyOnlyBhv.class).toInstance(bhv);
+            bind(classOf[VendorPrimaryKeyOnlyBhv]).toInstance(bhv);
         }
         {
-            VendorTheLongAndWindingTableAndColumnBhv bhv = new VendorTheLongAndWindingTableAndColumnBhv();
+            val bhv: VendorTheLongAndWindingTableAndColumnBhv = new VendorTheLongAndWindingTableAndColumnBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(VendorTheLongAndWindingTableAndColumnBhv.class).toInstance(bhv);
+            bind(classOf[VendorTheLongAndWindingTableAndColumnBhv]).toInstance(bhv);
         }
         {
-            VendorTheLongAndWindingTableAndColumnRefBhv bhv = new VendorTheLongAndWindingTableAndColumnRefBhv();
+            val bhv: VendorTheLongAndWindingTableAndColumnRefBhv = new VendorTheLongAndWindingTableAndColumnRefBhv();
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(VendorTheLongAndWindingTableAndColumnRefBhv.class).toInstance(bhv);
+            bind(classOf[VendorTheLongAndWindingTableAndColumnRefBhv]).toInstance(bhv);
         }
     }
 }

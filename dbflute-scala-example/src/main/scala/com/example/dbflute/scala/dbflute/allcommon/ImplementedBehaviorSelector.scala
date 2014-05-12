@@ -20,22 +20,22 @@ import com.google.inject.Injector;
  * The implementation of behavior selector.
  * @author DBFlute(AutoGenerator)
  */
-public class ImplementedBehaviorSelector implements BehaviorSelector {
+class ImplementedBehaviorSelector implements BehaviorSelector {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /** Log instance. */
-    private static final Log _log = LogFactory.getLog(ImplementedBehaviorSelector.class);
+    private val _log: Log = LogFactory.getLog(classOf[ImplementedBehaviorSelector]);
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     /** The cache of behavior. */
-    protected final Map<Class<? extends BehaviorReadable>, BehaviorReadable> _behaviorCache = newHashMap();
+    protected var Map[Class[? extends BehaviorReadable], BehaviorReadable] _behaviorCache = newHashMap();
 
     /** The container of Guice. */
-    protected Injector _container;
+    protected var _container: Injector;
 
     // ===================================================================================
     //                                                                          Initialize
@@ -43,7 +43,7 @@ public class ImplementedBehaviorSelector implements BehaviorSelector {
     /**
      * Initialize condition-bean meta data.
      */
-    public void initializeConditionBeanMetaData() {
+    def initializeConditionBeanMetaData(): Unit = {
         final Map<String, DBMeta> dbmetaMap = DBMetaInstanceHandler.getUnmodifiableDBMetaMap();
         final Collection<DBMeta> dbmetas = dbmetaMap.values();
         long before = 0;

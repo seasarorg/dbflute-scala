@@ -12,13 +12,13 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author DBFlute(AutoGenerator)
  */
-public class DBFluteInitializer {
+class DBFluteInitializer {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /** Log instance. */
-    private static final Log _log = LogFactory.getLog(DBFluteInitializer.class);
+    private val _log: Log = LogFactory.getLog(classOf[DBFluteInitializer]);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -27,14 +27,9 @@ public class DBFluteInitializer {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    /**
-     * Constructor, which initializes various components.
-     */
-    public DBFluteInitializer() {
-        announce();
-        prologue();
-        standBy();
-    }
+    announce();
+    prologue();
+    standBy();
 
     // ===================================================================================
     //                                                                             Curtain
@@ -42,7 +37,7 @@ public class DBFluteInitializer {
     /**
      * DBFlute will begin in just a few second.
      */
-    protected void announce() {
+    protected def announce(): Unit = {
         _log.info("...Initializing DBFlute components");
     }
 
@@ -51,24 +46,24 @@ public class DBFluteInitializer {
      * You can override this to set your DBFluteConfig settings
      * with calling super.prologue() in it.
      */
-    protected void prologue() {
+    protected def prologue(): Unit = {
     }
 
     /**
      * Enjoy your DBFlute life.
      */
-    protected void standBy() {
-        if (!DBFluteConfig.getInstance().isLocked()) {
-            DBFluteConfig.getInstance().lock();
+    protected def standBy(): Unit = {
+        if (!DBFluteConfig.isLocked()) {
+            DBFluteConfig.lock();
         }
     }
 
     // ===================================================================================
     //                                                                            Contents
     //                                                                            ========
-    protected void handleSqlLogRegistry() { // for S2Container
-        if (DBFluteConfig.getInstance().isUseSqlLogRegistry()) {
-            final StringBuilder sb = new StringBuilder();
+    protected def handleSqlLogRegistry(): Unit = { // for S2Container
+        if (DBFluteConfig.isUseSqlLogRegistry()) {
+            val sb = new StringBuilder();
             sb.append("{SqlLog Information}").append(ln());
             sb.append("  [SqlLogRegistry]").append(ln());
             if (TnSqlLogRegistry.setupSqlLogRegistry()) {
@@ -79,14 +74,14 @@ public class DBFluteInitializer {
             }
            _log.info(sb);
         } else {
-            final Object sqlLogRegistry = TnSqlLogRegistry.findContainerSqlLogRegistry();
+            val sqlLogRegistry: Object = TnSqlLogRegistry.findContainerSqlLogRegistry();
             if (sqlLogRegistry != null) {
                 TnSqlLogRegistry.closeRegistration();
             }
         }
     }
 
-    protected void loadCoolClasses() { // for S2Container 
+    protected def loadCoolClasses(): Unit = { // for S2Container 
         ConditionBeanContext.loadCoolClasses(); // against the ClassLoader Headache!
     }
 
@@ -102,29 +97,28 @@ public class DBFluteInitializer {
      * This method should be executed when application is initialized.
      * @param dataSourceFqcn The FQCN of data source. (NotNull)
      */
-    protected void setupDataSourceHandler(String dataSourceFqcn) { // for Spring
-        final DBFluteConfig config = DBFluteConfig.getInstance();
-        final DataSourceHandler dataSourceHandler = config.getDataSourceHandler();
+    protected def setupDataSourceHandler(dataSourceFqcn: String): Unit = { // for Spring
+        val dataSourceHandler: DataSourceHandler = DBFluteConfig.getDataSourceHandler();
         if (dataSourceHandler != null) {
             return;
         }
         if (dataSourceFqcn.startsWith("org.apache.commons.dbcp.")) {
-            config.unlock();
-            config.setDataSourceHandler(new DBFluteConfig.SpringTransactionalDataSourceHandler());
+            DBFluteConfig.unlock();
+            DBFluteConfig.setDataSourceHandler(new DBFluteConfig.SpringTransactionalDataSourceHandler());
         }
     }
 
     // ===================================================================================
     //                                                                       Assist Helper
     //                                                                       =============
-    protected boolean isCurrentDBDef(DBDef currentDBDef) {
-        return DBCurrent.getInstance().isCurrentDBDef(currentDBDef);
+    protected def isCurrentDBDef(currentDBDef: DBDef): Boolean = {
+        return DBCurrent.isCurrentDBDef(currentDBDef);
     }
 
     // ===================================================================================
     //                                                                      General Helper
     //                                                                      ==============
-    protected String ln() {
+    protected def ln(): String = {
         return DBFluteSystem.getBasicLn();
     }
 }
