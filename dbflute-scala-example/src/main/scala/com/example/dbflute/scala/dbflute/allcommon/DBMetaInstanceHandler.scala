@@ -255,7 +255,7 @@ object DBMetaInstanceHandler extends DBMetaProvider {
 
     protected def toDBMetaInstance(dbmetaName: String): DBMeta = {
         try {
-            // TODO jflute singleton
+            // TODO jflute how to get object instance by name
             val dbmetaType: Class[_] = Class.forName(dbmetaName);
             val method: Method = dbmetaType.getMethod("getInstance", null.asInstanceOf[Class[_]]);
             val result: Object = method.invoke(null, null.asInstanceOf[Array[Object]]);

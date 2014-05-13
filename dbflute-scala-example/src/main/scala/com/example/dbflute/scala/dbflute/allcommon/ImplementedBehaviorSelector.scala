@@ -1,19 +1,4 @@
-##
-## Copyright 2004-2014 the Seasar Foundation and the Others.
-##
-## Licensed under the Apache License, Version 2.0 (the "License");
-## you may not use this file except in compliance with the License.
-## You may obtain a copy of the License at
-##
-##     http://www.apache.org/licenses/LICENSE-2.0
-##
-## Unless required by applicable law or agreed to in writing, software
-## distributed under the License is distributed on an "AS IS" BASIS,
-## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-## either express or implied. See the License for the specific language
-## governing permissions and limitations under the License.
-##
-${database.allClassCopyright}package ${glPackageBaseCommon};
+package com.example.dbflute.scala.dbflute.allcommon;
 
 import scala.collection.JavaConverters._
 
@@ -30,40 +15,20 @@ import org.seasar.dbflute.exception.IllegalBehaviorStateException;
 import org.seasar.dbflute.util.DfTraceViewUtil;
 import org.seasar.dbflute.util.DfTypeUtil;
 
-#if ($database.isTargetContainerSeasar())
-import org.seasar.framework.container.S2Container;
-import org.seasar.framework.container.ComponentNotFoundRuntimeException;
-#end
-#if ($database.isTargetContainerSpring())
-import org.springframework.context.ApplicationContext;
-#end
-#if ($database.isTargetContainerLucy())
-import org.t2framework.lucy.Lucy;
-#end
-#if ($database.isTargetContainerGuice())
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-#end
-#if ($database.isTargetContainerSlim3())
-import org.slim3.container.S3Container;
-#end
-#if ($database.isTargetContainerCDI())
-import javax.enterprise.context.spi.CreationalContext;
-import javax.enterprise.inject.spi.Bean;
-import javax.enterprise.inject.spi.BeanManager;
-#end
 
 /**
  * The implementation of behavior selector.
  * @author DBFlute(AutoGenerator)
  */
-class ${glImplementedBehaviorSelector} extends BehaviorSelector {
+class ImplementedBehaviorSelector extends BehaviorSelector {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /** Log instance. */
-    private val _log: Log = LogFactory.getLog(classOf[${glImplementedBehaviorSelector}]);
+    private val _log: Log = LogFactory.getLog(classOf[ImplementedBehaviorSelector]);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -71,30 +36,8 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
     /** The cache of behavior. */
     protected var Map[Class[_ extends BehaviorReadable], BehaviorReadable] _behaviorCache = newHashMap();
 
-#if ($database.isTargetContainerSeasar())
-    /** The container of Seasar. */
-    protected var _container: S2Container;
-#end
-#if ($database.isTargetContainerSpring())
-    /** The container of Spring. */
-    protected var _container: ApplicationContext;
-#end
-#if ($database.isTargetContainerLucy())
-    /** The container of Lucy. */
-    protected var _container: Lucy;
-#end
-#if ($database.isTargetContainerGuice())
     /** The container of Guice. */
     protected var _container: Injector;
-#end
-#if ($database.isTargetContainerSlim3())
-    /** The container of Slim3. */
-    protected var _container: S3Container;
-#end
-#if ($database.isTargetContainerCDI())
-    /** The container of CDI. */
-    protected var _container: BeanManager;
-#end
 
     // ===================================================================================
     //                                                                          Initialize
@@ -103,14 +46,14 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
      * Initialize condition-bean meta data.
      */
     def initializeConditionBeanMetaData(): Unit = {
-        val dbmetaMap: Map[String, DBMeta] = ${glDBMetaInstanceHandler}.getUnmodifiableDBMetaMap();
+        val dbmetaMap: Map[String, DBMeta] = DBMetaInstanceHandler.getUnmodifiableDBMetaMap();
         val dbmetas: Collection[DBMeta] = dbmetaMap.values();
         var before: Long = 0;
         if (_log.isInfoEnabled()) {
             before = System.currentTimeMillis();
             _log.info("...Initializing condition-bean meta data");
         }
-        var count: Int = 0;
+        var count = 0;
         dbmetas.asScala.foreach(dbmeta => {
             try {
                 val bhv: BehaviorReadable = byName(dbmeta.getTableDbName());
@@ -166,7 +109,7 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
      */
     def byName(tableFlexibleName: String): BehaviorReadable = {
         assertStringNotNullAndNotTrimmedEmpty("tableFlexibleName", tableFlexibleName);
-        val dbmeta: DBMeta = ${glDBMetaInstanceHandler}.findDBMeta(tableFlexibleName);
+        val dbmeta: DBMeta = DBMetaInstanceHandler.findDBMeta(tableFlexibleName);
         return select(getBehaviorType(dbmeta));
     }
 
@@ -195,53 +138,10 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
     // ===================================================================================
     //                                                                           Component
     //                                                                           =========
-#if ($database.isTargetContainerSeasar() || $database.isTargetContainerSpring() || $database.isTargetContainerLucy() || $database.isTargetContainerCDI())
-    @SuppressWarnings("unchecked")
-#end
     protected def getComponent[COMPONENT](componentType: Class[COMPONENT]): COMPONENT = { // only for behavior
         assertObjectNotNull("componentType", componentType);
         assertObjectNotNull("_container", _container);
-#if ($database.isTargetContainerSeasar())
-        try {
-		    return (COMPONENT)_container.getComponent(componentType).asInstanceOf[COMPONENT];
-		} catch { // Normally it doesn't come.
-		    case e: ComponentNotFoundRuntimeException => {
-		        val component: COMPONENT = try {
-		            // for HotDeploy Mode
-    		        component = _container.getRoot().getComponent(componentType).asInstanceOf[COMPONENT];
-	    	    } catch (ComponentNotFoundRuntimeException ignored) {
-	    	        case ignored: ComponentNotFoundRuntimeException => {
-		                throw e;
-		            }
-		        }
-    		    _container = _container.getRoot(); // Change container.
-	    	    return component;
-		    }
-		}
-#end
-#if ($database.isTargetContainerSpring())
-		return _container.getBean(initUncap(toClassTitle(componentType))).asInstanceOf[COMPONENT];
-#end
-#if ($database.isTargetContainerLucy())
-		return _container.get(initUncap(toClassTitle(componentType))).asInstanceOf[COMPONENT];
-#end
-#if ($database.isTargetContainerGuice())
 		return _container.getInstance(componentType);
-#end
-#if ($database.isTargetContainerSlim3())
-		return _container.lookup(toClassTitle(componentType));
-#end
-#if ($database.isTargetContainerCDI())
-        var result: COMPONENT = null;
-        val bean: Bean[COMPONENT] = _container.resolve(_container.getBeans(componentType)).asInstanceOf[Bean[COMPONENT]];
-        if (bean != null) {
-            val context: CreationalContext[COMPONENT] = _container.createCreationalContext(bean);
-            if (context != null) {
-                result = _container.getReference(bean, componentType, context).asInstanceOf[COMPONENT];
-            }
-        }
-        return result;
-#end
     }
 
     // ===================================================================================
@@ -302,35 +202,8 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-#if ($database.isTargetContainerSeasar())
-    def setContainer(S2Container container): Unit = {
-        this._container = container;
-    }
-#end
-#if ($database.isTargetContainerSpring())
-    def setContainer(ApplicationContext container): Unit = {
-        this._container = container;
-    }
-#end
-#if ($database.isTargetContainerLucy())
-    def setContainer(Lucy container): Unit = {
-        this._container = container;
-    }
-#end
-#if ($database.isTargetContainerGuice())
     @Inject
     def setContainer(Injector container): Unit = {
         this._container = container;
     }
-#end
-#if ($database.isTargetContainerSlim3())
-    def setContainer(S3Container container): Unit = {
-        this._container = container;
-    }
-#end
-#if ($database.isTargetContainerCDI())
-    def setContainer(BeanManager container): Unit = {
-        this._container = container;
-    }
-#end
 }
