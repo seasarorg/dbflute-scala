@@ -3,14 +3,14 @@ package org.dbflute.scala.testlib.dbflute.bsentity.dbmeta;
 import java.util.List;
 import java.util.Map;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.*;
-import org.dbflute.scala.testlib.dbflute.exentity.*;
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info.*;
 import org.seasar.dbflute.dbmeta.name.*;
+import org.dbflute.scala.testlib.dbflute.allcommon.*;
+import org.dbflute.scala.testlib.dbflute.exentity.*;
 
 /**
  * The DB meta of VENDOR_IDENTITY_ONLY. (Singleton)
@@ -58,7 +58,7 @@ public class VendorIdentityOnlyDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnIdentityOnlyId = cci("IDENTITY_ONLY_ID", "IDENTITY_ONLY_ID", null, null, true, "identityOnlyId", Long.class, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_639958A3_8899_445D_8464_1C138CBDBC59", false, null, null, null, null, null);
+    protected final ColumnInfo _columnIdentityOnlyId = cci("IDENTITY_ONLY_ID", "IDENTITY_ONLY_ID", null, null, true, "identityOnlyId", Long.class, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_DC96E3EB_1708_4885_854E_8EE13A385F5F", false, null, null, null, null, null);
 
     public ColumnInfo columnIdentityOnlyId() { return _columnIdentityOnlyId; }
 
@@ -99,9 +99,9 @@ public class VendorIdentityOnlyDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.example.dbflute.guice.dbflute.exentity.VendorIdentityOnly"; }
-    public String getConditionBeanTypeName() { return "com.example.dbflute.guice.dbflute.cbean.VendorIdentityOnlyCB"; }
-    public String getBehaviorTypeName() { return "com.example.dbflute.guice.dbflute.exbhv.VendorIdentityOnlyBhv"; }
+    public String getEntityTypeName() { return "org.dbflute.scala.testlib.dbflute.exentity.VendorIdentityOnly"; }
+    public String getConditionBeanTypeName() { return "org.dbflute.scala.testlib.dbflute.cbean.VendorIdentityOnlyCB"; }
+    public String getBehaviorTypeName() { return "org.dbflute.scala.testlib.dbflute.exbhv.VendorIdentityOnlyBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type

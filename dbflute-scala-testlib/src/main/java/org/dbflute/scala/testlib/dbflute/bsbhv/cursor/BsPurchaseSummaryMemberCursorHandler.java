@@ -2,8 +2,8 @@ package org.dbflute.scala.testlib.dbflute.bsbhv.cursor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.dbflute.scala.testlib.dbflute.exbhv.cursor.PurchaseSummaryMemberCursor;
 import org.seasar.dbflute.jdbc.CursorHandler;
+import org.dbflute.scala.testlib.dbflute.exbhv.cursor.PurchaseSummaryMemberCursor;
 
 /**
  * The cursor handler of PurchaseSummaryMember.

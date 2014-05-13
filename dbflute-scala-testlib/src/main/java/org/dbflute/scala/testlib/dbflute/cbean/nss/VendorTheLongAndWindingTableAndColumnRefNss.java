@@ -1,7 +1,7 @@
 package org.dbflute.scala.testlib.dbflute.cbean.nss;
 
-import org.dbflute.scala.testlib.dbflute.cbean.cq.VendorTheLongAndWindingTableAndColumnRefCQ;
 import org.seasar.dbflute.cbean.ConditionQuery;
+import org.dbflute.scala.testlib.dbflute.cbean.cq.VendorTheLongAndWindingTableAndColumnRefCQ;
 
 /**
  * The nest select set-upper of VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF.

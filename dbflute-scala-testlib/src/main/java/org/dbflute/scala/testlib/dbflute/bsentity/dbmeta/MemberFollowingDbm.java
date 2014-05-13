@@ -3,14 +3,14 @@ package org.dbflute.scala.testlib.dbflute.bsentity.dbmeta;
 import java.util.List;
 import java.util.Map;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.*;
-import org.dbflute.scala.testlib.dbflute.exentity.*;
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info.*;
 import org.seasar.dbflute.dbmeta.name.*;
+import org.dbflute.scala.testlib.dbflute.allcommon.*;
+import org.dbflute.scala.testlib.dbflute.exentity.*;
 
 /**
  * The DB meta of MEMBER_FOLLOWING. (Singleton)
@@ -75,7 +75,7 @@ public class MemberFollowingDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnMemberFollowingId = cci("MEMBER_FOLLOWING_ID", "MEMBER_FOLLOWING_ID", null, "会員フォローイングID", true, "memberFollowingId", Long.class, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_E8B51523_57D7_4A02_B422_7E53027E4BBB", false, null, null, null, null, null);
+    protected final ColumnInfo _columnMemberFollowingId = cci("MEMBER_FOLLOWING_ID", "MEMBER_FOLLOWING_ID", null, "会員フォローイングID", true, "memberFollowingId", Long.class, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_5896D351_7BC7_40B7_AA02_B5AAB07278FA", false, null, null, null, null, null);
     protected final ColumnInfo _columnMyMemberId = cci("MY_MEMBER_ID", "MY_MEMBER_ID", null, "わたし", true, "myMemberId", Integer.class, false, false, "INTEGER", 10, 0, null, false, null, null, "memberByMyMemberId", null, null);
     protected final ColumnInfo _columnYourMemberId = cci("YOUR_MEMBER_ID", "YOUR_MEMBER_ID", null, "あなた", true, "yourMemberId", Integer.class, false, false, "INTEGER", 10, 0, null, false, null, null, "memberByYourMemberId", null, null);
     protected final ColumnInfo _columnFollowDatetime = cci("FOLLOW_DATETIME", "FOLLOW_DATETIME", null, "その瞬間", true, "followDatetime", java.sql.Timestamp.class, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
@@ -133,9 +133,9 @@ public class MemberFollowingDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.example.dbflute.guice.dbflute.exentity.MemberFollowing"; }
-    public String getConditionBeanTypeName() { return "com.example.dbflute.guice.dbflute.cbean.MemberFollowingCB"; }
-    public String getBehaviorTypeName() { return "com.example.dbflute.guice.dbflute.exbhv.MemberFollowingBhv"; }
+    public String getEntityTypeName() { return "org.dbflute.scala.testlib.dbflute.exentity.MemberFollowing"; }
+    public String getConditionBeanTypeName() { return "org.dbflute.scala.testlib.dbflute.cbean.MemberFollowingCB"; }
+    public String getBehaviorTypeName() { return "org.dbflute.scala.testlib.dbflute.exbhv.MemberFollowingBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type

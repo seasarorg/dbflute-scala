@@ -3,14 +3,14 @@ package org.dbflute.scala.testlib.dbflute.bsentity.dbmeta;
 import java.util.List;
 import java.util.Map;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.*;
-import org.dbflute.scala.testlib.dbflute.exentity.*;
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info.*;
 import org.seasar.dbflute.dbmeta.name.*;
+import org.dbflute.scala.testlib.dbflute.allcommon.*;
+import org.dbflute.scala.testlib.dbflute.exentity.*;
 
 /**
  * The DB meta of MEMBER_SERVICE. (Singleton)
@@ -100,7 +100,7 @@ public class MemberServiceDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnMemberServiceId = cci("MEMBER_SERVICE_ID", "MEMBER_SERVICE_ID", null, "会員サービスID", true, "memberServiceId", Integer.class, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_F192A012_8808_486B_9234_0575F9944AE0", false, null, null, null, null, null);
+    protected final ColumnInfo _columnMemberServiceId = cci("MEMBER_SERVICE_ID", "MEMBER_SERVICE_ID", null, "会員サービスID", true, "memberServiceId", Integer.class, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_02A7F18D_EF4F_4FB1_8202_F175274583FE", false, null, null, null, null, null);
     protected final ColumnInfo _columnMemberId = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", true, "memberId", Integer.class, false, false, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected final ColumnInfo _columnServicePointCount = cci("SERVICE_POINT_COUNT", "SERVICE_POINT_COUNT", null, "サービスポイント数", true, "servicePointCount", Integer.class, false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
     protected final ColumnInfo _columnServiceRankCode = cci("SERVICE_RANK_CODE", "SERVICE_RANK_CODE", null, "サービスランクコード", true, "serviceRankCode", String.class, false, false, "CHAR", 3, 0, null, false, null, null, "serviceRank", null, CDef.DefMeta.ServiceRank);
@@ -182,9 +182,9 @@ public class MemberServiceDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.example.dbflute.guice.dbflute.exentity.MemberService"; }
-    public String getConditionBeanTypeName() { return "com.example.dbflute.guice.dbflute.cbean.MemberServiceCB"; }
-    public String getBehaviorTypeName() { return "com.example.dbflute.guice.dbflute.exbhv.MemberServiceBhv"; }
+    public String getEntityTypeName() { return "org.dbflute.scala.testlib.dbflute.exentity.MemberService"; }
+    public String getConditionBeanTypeName() { return "org.dbflute.scala.testlib.dbflute.cbean.MemberServiceCB"; }
+    public String getBehaviorTypeName() { return "org.dbflute.scala.testlib.dbflute.exbhv.MemberServiceBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type

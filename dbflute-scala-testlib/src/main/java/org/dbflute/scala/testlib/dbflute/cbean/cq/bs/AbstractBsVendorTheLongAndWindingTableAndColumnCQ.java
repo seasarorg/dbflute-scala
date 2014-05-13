@@ -2,9 +2,6 @@ package org.dbflute.scala.testlib.dbflute.cbean.cq.bs;
 
 import java.util.*;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.*;
-import org.dbflute.scala.testlib.dbflute.cbean.*;
-import org.dbflute.scala.testlib.dbflute.cbean.cq.*;
 import org.seasar.dbflute.cbean.*;
 import org.seasar.dbflute.cbean.chelper.*;
 import org.seasar.dbflute.cbean.ckey.*;
@@ -12,6 +9,9 @@ import org.seasar.dbflute.cbean.coption.*;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.dbflute.scala.testlib.dbflute.allcommon.*;
+import org.dbflute.scala.testlib.dbflute.cbean.*;
+import org.dbflute.scala.testlib.dbflute.cbean.cq.*;
 
 /**
  * The abstract condition-query of VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN.
@@ -151,7 +151,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * {exists (select THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID from VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF where ...)} <br />
      * VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF by THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID, named 'vendorTheLongAndWindingTableAndColumnRefAsOne'.
      * <pre>
-     * cb.query().<span style="color: #FD4747">existsVendorTheLongAndWindingTableAndColumnRefList</span>(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnRefCB&gt;() {
+     * cb.query().<span style="color: #DD4747">existsVendorTheLongAndWindingTableAndColumnRefList</span>(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnRefCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnRefCB subCB) {
      *         subCB.query().setXxx...
      *     }
@@ -161,8 +161,9 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      */
     public void existsVendorTheLongAndWindingTableAndColumnRefList(SubQuery<VendorTheLongAndWindingTableAndColumnRefCB> subQuery) {
         assertObjectNotNull("subQuery", subQuery);
-        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForExistsReferrer(this); subQuery.query(cb);
-        String pp = keepTheLongAndWindingTableAndColumnId_ExistsReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query()); // for saving query-value.
+        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepTheLongAndWindingTableAndColumnId_ExistsReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query());
         registerExistsReferrer(cb.query(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", pp, "vendorTheLongAndWindingTableAndColumnRefList");
     }
     public abstract String keepTheLongAndWindingTableAndColumnId_ExistsReferrer_VendorTheLongAndWindingTableAndColumnRefList(VendorTheLongAndWindingTableAndColumnRefCQ sq);
@@ -172,7 +173,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * {not exists (select THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID from VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF where ...)} <br />
      * VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF by THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID, named 'vendorTheLongAndWindingTableAndColumnRefAsOne'.
      * <pre>
-     * cb.query().<span style="color: #FD4747">notExistsVendorTheLongAndWindingTableAndColumnRefList</span>(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnRefCB&gt;() {
+     * cb.query().<span style="color: #DD4747">notExistsVendorTheLongAndWindingTableAndColumnRefList</span>(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnRefCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnRefCB subCB) {
      *         subCB.query().setXxx...
      *     }
@@ -182,8 +183,9 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      */
     public void notExistsVendorTheLongAndWindingTableAndColumnRefList(SubQuery<VendorTheLongAndWindingTableAndColumnRefCB> subQuery) {
         assertObjectNotNull("subQuery", subQuery);
-        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForExistsReferrer(this); subQuery.query(cb);
-        String pp = keepTheLongAndWindingTableAndColumnId_NotExistsReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query()); // for saving query-value.
+        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepTheLongAndWindingTableAndColumnId_NotExistsReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query());
         registerNotExistsReferrer(cb.query(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", pp, "vendorTheLongAndWindingTableAndColumnRefList");
     }
     public abstract String keepTheLongAndWindingTableAndColumnId_NotExistsReferrer_VendorTheLongAndWindingTableAndColumnRefList(VendorTheLongAndWindingTableAndColumnRefCQ sq);
@@ -196,8 +198,9 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      */
     public void inScopeVendorTheLongAndWindingTableAndColumnRefList(SubQuery<VendorTheLongAndWindingTableAndColumnRefCB> subQuery) {
         assertObjectNotNull("subQuery", subQuery);
-        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForInScopeRelation(this); subQuery.query(cb);
-        String pp = keepTheLongAndWindingTableAndColumnId_InScopeRelation_VendorTheLongAndWindingTableAndColumnRefList(cb.query()); // for saving query-value.
+        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepTheLongAndWindingTableAndColumnId_InScopeRelation_VendorTheLongAndWindingTableAndColumnRefList(cb.query());
         registerInScopeRelation(cb.query(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", pp, "vendorTheLongAndWindingTableAndColumnRefList");
     }
     public abstract String keepTheLongAndWindingTableAndColumnId_InScopeRelation_VendorTheLongAndWindingTableAndColumnRefList(VendorTheLongAndWindingTableAndColumnRefCQ sq);
@@ -210,16 +213,18 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      */
     public void notInScopeVendorTheLongAndWindingTableAndColumnRefList(SubQuery<VendorTheLongAndWindingTableAndColumnRefCB> subQuery) {
         assertObjectNotNull("subQuery", subQuery);
-        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForInScopeRelation(this); subQuery.query(cb);
-        String pp = keepTheLongAndWindingTableAndColumnId_NotInScopeRelation_VendorTheLongAndWindingTableAndColumnRefList(cb.query()); // for saving query-value.
+        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepTheLongAndWindingTableAndColumnId_NotInScopeRelation_VendorTheLongAndWindingTableAndColumnRefList(cb.query());
         registerNotInScopeRelation(cb.query(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", pp, "vendorTheLongAndWindingTableAndColumnRefList");
     }
     public abstract String keepTheLongAndWindingTableAndColumnId_NotInScopeRelation_VendorTheLongAndWindingTableAndColumnRefList(VendorTheLongAndWindingTableAndColumnRefCQ sq);
 
     public void xsderiveVendorTheLongAndWindingTableAndColumnRefList(String fn, SubQuery<VendorTheLongAndWindingTableAndColumnRefCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
-        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForDerivedReferrer(this); sq.query(cb);
-        String pp = keepTheLongAndWindingTableAndColumnId_SpecifyDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query()); // for saving query-value.
+        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        String pp = keepTheLongAndWindingTableAndColumnId_SpecifyDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query());
         registerSpecifyDerivedReferrer(fn, cb.query(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", pp, "vendorTheLongAndWindingTableAndColumnRefList", al, op);
     }
     public abstract String keepTheLongAndWindingTableAndColumnId_SpecifyDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefList(VendorTheLongAndWindingTableAndColumnRefCQ sq);
@@ -229,12 +234,12 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * {FOO &lt;= (select max(BAR) from VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF where ...)} <br />
      * VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF by THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID, named 'vendorTheLongAndWindingTableAndColumnRefAsOne'.
      * <pre>
-     * cb.query().<span style="color: #FD4747">derivedVendorTheLongAndWindingTableAndColumnRefList()</span>.<span style="color: #FD4747">max</span>(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnRefCB&gt;() {
+     * cb.query().<span style="color: #DD4747">derivedVendorTheLongAndWindingTableAndColumnRefList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnRefCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnRefCB subCB) {
-     *         subCB.specify().<span style="color: #FD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
      *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
      *     }
-     * }).<span style="color: #FD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
      * </pre>
      * @return The object to set up a function for referrer table. (NotNull)
      */
@@ -250,9 +255,9 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
     }
     public void xqderiveVendorTheLongAndWindingTableAndColumnRefList(String fn, SubQuery<VendorTheLongAndWindingTableAndColumnRefCB> sq, String rd, Object vl, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
-        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForDerivedReferrer(this); sq.query(cb);
-        String sqpp = keepTheLongAndWindingTableAndColumnId_QueryDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query()); // for saving query-value.
-        String prpp = keepTheLongAndWindingTableAndColumnId_QueryDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefListParameter(vl);
+        VendorTheLongAndWindingTableAndColumnRefCB cb = new VendorTheLongAndWindingTableAndColumnRefCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        String sqpp = keepTheLongAndWindingTableAndColumnId_QueryDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefList(cb.query()); String prpp = keepTheLongAndWindingTableAndColumnId_QueryDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefListParameter(vl);
         registerQueryDerivedReferrer(fn, cb.query(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", sqpp, "vendorTheLongAndWindingTableAndColumnRefList", rd, vl, prpp, op);
     }
     public abstract String keepTheLongAndWindingTableAndColumnId_QueryDerivedReferrer_VendorTheLongAndWindingTableAndColumnRefList(VendorTheLongAndWindingTableAndColumnRefCQ sq);
@@ -298,7 +303,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_NAME: {UQ, NotNull, VARCHAR(200)} <br />
-     * <pre>e.g. setTheLongAndWindingTableAndColumnName_LikeSearch("xxx", new <span style="color: #FD4747">LikeSearchOption</span>().likeContain());</pre>
+     * <pre>e.g. setTheLongAndWindingTableAndColumnName_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param theLongAndWindingTableAndColumnName The value of theLongAndWindingTableAndColumnName as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param likeSearchOption The option of like-search. (NotNull)
      */
@@ -345,7 +350,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
      * SHORT_NAME: {NotNull, VARCHAR(200)} <br />
-     * <pre>e.g. setShortName_LikeSearch("xxx", new <span style="color: #FD4747">LikeSearchOption</span>().likeContain());</pre>
+     * <pre>e.g. setShortName_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param shortName The value of shortName as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param likeSearchOption The option of like-search. (NotNull)
      */
@@ -478,7 +483,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * Prepare ScalarCondition as equal. <br />
      * {where FOO = (select max(BAR) from ...)
      * <pre>
-     * cb.query().<span style="color: #FD4747">scalar_Equal()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
+     * cb.query().<span style="color: #DD4747">scalar_Equal()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnCB subCB) {
      *         subCB.specify().setXxx... <span style="color: #3F7E5E">// derived column for function</span>
      *         subCB.query().setYyy...
@@ -495,7 +500,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * Prepare ScalarCondition as equal. <br />
      * {where FOO &lt;&gt; (select max(BAR) from ...)
      * <pre>
-     * cb.query().<span style="color: #FD4747">scalar_NotEqual()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
+     * cb.query().<span style="color: #DD4747">scalar_NotEqual()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnCB subCB) {
      *         subCB.specify().setXxx... <span style="color: #3F7E5E">// derived column for function</span>
      *         subCB.query().setYyy...
@@ -512,7 +517,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * Prepare ScalarCondition as greaterThan. <br />
      * {where FOO &gt; (select max(BAR) from ...)
      * <pre>
-     * cb.query().<span style="color: #FD4747">scalar_GreaterThan()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
+     * cb.query().<span style="color: #DD4747">scalar_GreaterThan()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnCB subCB) {
      *         subCB.specify().setFoo... <span style="color: #3F7E5E">// derived column for function</span>
      *         subCB.query().setBar...
@@ -529,7 +534,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * Prepare ScalarCondition as lessThan. <br />
      * {where FOO &lt; (select max(BAR) from ...)
      * <pre>
-     * cb.query().<span style="color: #FD4747">scalar_LessThan()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
+     * cb.query().<span style="color: #DD4747">scalar_LessThan()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnCB subCB) {
      *         subCB.specify().setFoo... <span style="color: #3F7E5E">// derived column for function</span>
      *         subCB.query().setBar...
@@ -546,7 +551,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * Prepare ScalarCondition as greaterEqual. <br />
      * {where FOO &gt;= (select max(BAR) from ...)
      * <pre>
-     * cb.query().<span style="color: #FD4747">scalar_GreaterEqual()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
+     * cb.query().<span style="color: #DD4747">scalar_GreaterEqual()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnCB subCB) {
      *         subCB.specify().setFoo... <span style="color: #3F7E5E">// derived column for function</span>
      *         subCB.query().setBar...
@@ -563,7 +568,7 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      * Prepare ScalarCondition as lessEqual. <br />
      * {where FOO &lt;= (select max(BAR) from ...)
      * <pre>
-     * cb.query().<span style="color: #FD4747">scalar_LessEqual()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
+     * cb.query().<span style="color: #DD4747">scalar_LessEqual()</span>.max(new SubQuery&lt;VendorTheLongAndWindingTableAndColumnCB&gt;() {
      *     public void query(VendorTheLongAndWindingTableAndColumnCB subCB) {
      *         subCB.specify().setFoo... <span style="color: #3F7E5E">// derived column for function</span>
      *         subCB.query().setBar...
@@ -599,9 +604,10 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
     //                                                                       =============
     public void xsmyselfDerive(String fn, SubQuery<VendorTheLongAndWindingTableAndColumnCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
-        VendorTheLongAndWindingTableAndColumnCB cb = new VendorTheLongAndWindingTableAndColumnCB(); cb.xsetupForDerivedReferrer(this); sq.query(cb);
+        VendorTheLongAndWindingTableAndColumnCB cb = new VendorTheLongAndWindingTableAndColumnCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        String pp = keepSpecifyMyselfDerived(cb.query());
         String pk = "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID";
-        String pp = keepSpecifyMyselfDerived(cb.query()); // for saving query-value.
         registerSpecifyMyselfDerived(fn, cb.query(), pk, pk, pp, "myselfDerived", al, op);
     }
     public abstract String keepSpecifyMyselfDerived(VendorTheLongAndWindingTableAndColumnCQ sq);
@@ -634,8 +640,9 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      */
     public void myselfExists(SubQuery<VendorTheLongAndWindingTableAndColumnCB> subQuery) {
         assertObjectNotNull("subQuery", subQuery);
-        VendorTheLongAndWindingTableAndColumnCB cb = new VendorTheLongAndWindingTableAndColumnCB(); cb.xsetupForMyselfExists(this); subQuery.query(cb);
-        String pp = keepMyselfExists(cb.query()); // for saving query-value.
+        VendorTheLongAndWindingTableAndColumnCB cb = new VendorTheLongAndWindingTableAndColumnCB(); cb.xsetupForMyselfExists(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepMyselfExists(cb.query());
         registerMyselfExists(cb.query(), pp);
     }
     public abstract String keepMyselfExists(VendorTheLongAndWindingTableAndColumnCQ sq);
@@ -649,11 +656,43 @@ public abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ extends 
      */
     public void myselfInScope(SubQuery<VendorTheLongAndWindingTableAndColumnCB> subQuery) {
         assertObjectNotNull("subQuery", subQuery);
-        VendorTheLongAndWindingTableAndColumnCB cb = new VendorTheLongAndWindingTableAndColumnCB(); cb.xsetupForMyselfInScope(this); subQuery.query(cb);
-        String pp = keepMyselfInScope(cb.query()); // for saving query-value.
+        VendorTheLongAndWindingTableAndColumnCB cb = new VendorTheLongAndWindingTableAndColumnCB(); cb.xsetupForMyselfInScope(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        String pp = keepMyselfInScope(cb.query());
         registerMyselfInScope(cb.query(), pp);
     }
     public abstract String keepMyselfInScope(VendorTheLongAndWindingTableAndColumnCQ sq);
+
+    // ===================================================================================
+    //                                                                          Compatible
+    //                                                                          ==========
+    /**
+     * Order along the list of manual values. #beforejava8 <br />
+     * This function with Union is unsupported! <br />
+     * The order values are bound (treated as bind parameter).
+     * <pre>
+     * MemberCB cb = new MemberCB();
+     * List&lt;CDef.MemberStatus&gt; orderValueList = new ArrayList&lt;CDef.MemberStatus&gt;();
+     * orderValueList.add(CDef.MemberStatus.Withdrawal);
+     * orderValueList.add(CDef.MemberStatus.Formalized);
+     * orderValueList.add(CDef.MemberStatus.Provisional);
+     * cb.query().addOrderBy_MemberStatusCode_Asc().<span style="color: #DD4747">withManualOrder(orderValueList)</span>;
+     * <span style="color: #3F7E5E">// order by </span>
+     * <span style="color: #3F7E5E">//   case</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'WDL' then 0</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'FML' then 1</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'PRV' then 2</span>
+     * <span style="color: #3F7E5E">//     else 3</span>
+     * <span style="color: #3F7E5E">//   end asc, ...</span>
+     * </pre>
+     * @param orderValueList The list of order values for manual ordering. (NotNull)
+     */
+    public void withManualOrder(List<? extends Object> orderValueList) { // is user public!
+        assertObjectNotNull("withManualOrder(orderValueList)", orderValueList);
+        final ManualOrderBean manualOrderBean = new ManualOrderBean();
+        manualOrderBean.acceptOrderValueList(orderValueList);
+        withManualOrder(manualOrderBean);
+    }
 
     // ===================================================================================
     //                                                                       Very Internal

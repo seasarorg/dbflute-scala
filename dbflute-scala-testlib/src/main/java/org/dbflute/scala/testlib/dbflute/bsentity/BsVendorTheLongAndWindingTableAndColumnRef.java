@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Date;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.DBMetaInstanceHandler;
-import org.dbflute.scala.testlib.dbflute.exentity.*;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.dbflute.scala.testlib.dbflute.allcommon.DBMetaInstanceHandler;
+import org.dbflute.scala.testlib.dbflute.exentity.*;
 
 /**
  * The entity of VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF as TABLE. <br />
@@ -208,17 +208,17 @@ public abstract class BsVendorTheLongAndWindingTableAndColumnRef implements Enti
     /**
      * Determine the object is equal with this. <br />
      * If primary-keys or columns of the other are same as this one, returns true.
-     * @param other The other entity. (NullAllowed: if null, returns false fixedly)
+     * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    public boolean equals(Object other) {
-        if (other == null || !(other instanceof BsVendorTheLongAndWindingTableAndColumnRef)) { return false; }
-        BsVendorTheLongAndWindingTableAndColumnRef otherEntity = (BsVendorTheLongAndWindingTableAndColumnRef)other;
-        if (!xSV(getTheLongAndWindingTableAndColumnRefId(), otherEntity.getTheLongAndWindingTableAndColumnRefId())) { return false; }
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof BsVendorTheLongAndWindingTableAndColumnRef)) { return false; }
+        BsVendorTheLongAndWindingTableAndColumnRef other = (BsVendorTheLongAndWindingTableAndColumnRef)obj;
+        if (!xSV(getTheLongAndWindingTableAndColumnRefId(), other.getTheLongAndWindingTableAndColumnRefId())) { return false; }
         return true;
     }
-    protected boolean xSV(Object value1, Object value2) { // isSameValue()
-        return InternalUtil.isSameValue(value1, value2);
+    protected boolean xSV(Object value1, Object value2) {
+        return FunCustodial.isSameValue(value1, value2);
     }
 
     /**
@@ -231,8 +231,8 @@ public abstract class BsVendorTheLongAndWindingTableAndColumnRef implements Enti
         result = xCH(result, getTheLongAndWindingTableAndColumnRefId());
         return result;
     }
-    protected int xCH(int result, Object value) { // calculateHashcode()
-        return InternalUtil.calculateHashcode(result, value);
+    protected int xCH(int result, Object value) {
+        return FunCustodial.calculateHashcode(result, value);
     }
 
     /**
@@ -247,7 +247,7 @@ public abstract class BsVendorTheLongAndWindingTableAndColumnRef implements Enti
      * @return The display string of all columns and relation existences. (NotNull)
      */
     public String toString() {
-        return buildDisplayString(InternalUtil.toClassTitle(this), true, true);
+        return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
     }
 
     /**
@@ -290,7 +290,7 @@ public abstract class BsVendorTheLongAndWindingTableAndColumnRef implements Enti
         return sb.toString();
     }
     protected String xfUD(Date date) { // formatUtilDate()
-        return InternalUtil.toString(date, xgDP());
+        return FunCustodial.toString(date, xgDP());
     }
     protected String xgDP() { // getDatePattern
         return "yyyy-MM-dd";

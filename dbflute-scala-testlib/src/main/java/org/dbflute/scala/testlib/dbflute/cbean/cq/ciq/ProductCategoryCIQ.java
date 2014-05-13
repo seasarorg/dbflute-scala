@@ -1,16 +1,15 @@
 package org.dbflute.scala.testlib.dbflute.cbean.cq.ciq;
 
 import java.util.Map;
-
-import org.dbflute.scala.testlib.dbflute.cbean.*;
-import org.dbflute.scala.testlib.dbflute.cbean.cq.*;
-import org.dbflute.scala.testlib.dbflute.cbean.cq.bs.*;
 import org.seasar.dbflute.cbean.*;
 import org.seasar.dbflute.cbean.ckey.*;
 import org.seasar.dbflute.cbean.coption.ConditionOption;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.exception.IllegalConditionBeanOperationException;
+import org.dbflute.scala.testlib.dbflute.cbean.*;
+import org.dbflute.scala.testlib.dbflute.cbean.cq.bs.*;
+import org.dbflute.scala.testlib.dbflute.cbean.cq.*;
 
 /**
  * The condition-query for in-line of PRODUCT_CATEGORY.

@@ -3,14 +3,14 @@ package org.dbflute.scala.testlib.dbflute.bsentity.dbmeta;
 import java.util.List;
 import java.util.Map;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.*;
-import org.dbflute.scala.testlib.dbflute.exentity.*;
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info.*;
 import org.seasar.dbflute.dbmeta.name.*;
+import org.dbflute.scala.testlib.dbflute.allcommon.*;
+import org.dbflute.scala.testlib.dbflute.exentity.*;
 
 /**
  * The DB meta of REGION. (Singleton)
@@ -112,9 +112,9 @@ public class RegionDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.example.dbflute.guice.dbflute.exentity.Region"; }
-    public String getConditionBeanTypeName() { return "com.example.dbflute.guice.dbflute.cbean.RegionCB"; }
-    public String getBehaviorTypeName() { return "com.example.dbflute.guice.dbflute.exbhv.RegionBhv"; }
+    public String getEntityTypeName() { return "org.dbflute.scala.testlib.dbflute.exentity.Region"; }
+    public String getConditionBeanTypeName() { return "org.dbflute.scala.testlib.dbflute.cbean.RegionCB"; }
+    public String getBehaviorTypeName() { return "org.dbflute.scala.testlib.dbflute.exbhv.RegionBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type

@@ -3,14 +3,14 @@ package org.dbflute.scala.testlib.dbflute.bsentity.dbmeta;
 import java.util.List;
 import java.util.Map;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.*;
-import org.dbflute.scala.testlib.dbflute.exentity.*;
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info.*;
 import org.seasar.dbflute.dbmeta.name.*;
+import org.dbflute.scala.testlib.dbflute.allcommon.*;
+import org.dbflute.scala.testlib.dbflute.exentity.*;
 
 /**
  * The DB meta of MEMBER. (Singleton)
@@ -110,7 +110,7 @@ public class MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnMemberId = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", true, "memberId", Integer.class, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_7348F9C0_87A7_4509_8B9C_7DA01491D58A", false, null, null, "memberAddressAsValid,memberSecurityAsOne,memberServiceAsOne,memberWithdrawalAsOne", "memberAddressList,memberFollowingByMyMemberIdList,memberFollowingByYourMemberIdList,memberLoginList,purchaseList", null);
+    protected final ColumnInfo _columnMemberId = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", true, "memberId", Integer.class, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_1A38B1DC_21CC_4C65_A587_AFB48B4374F6", false, null, null, "memberAddressAsValid,memberSecurityAsOne,memberServiceAsOne,memberWithdrawalAsOne", "memberAddressList,memberFollowingByMyMemberIdList,memberFollowingByYourMemberIdList,memberLoginList,purchaseList", null);
     protected final ColumnInfo _columnMemberName = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", true, "memberName", String.class, false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected final ColumnInfo _columnMemberAccount = cci("MEMBER_ACCOUNT", "MEMBER_ACCOUNT", null, "会員アカウント", true, "memberAccount", String.class, false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected final ColumnInfo _columnMemberStatusCode = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", true, "memberStatusCode", String.class, false, false, "CHAR", 3, 0, null, false, null, null, "memberStatus", null, CDef.DefMeta.MemberStatus);
@@ -234,9 +234,9 @@ public class MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.example.dbflute.guice.dbflute.exentity.Member"; }
-    public String getConditionBeanTypeName() { return "com.example.dbflute.guice.dbflute.cbean.MemberCB"; }
-    public String getBehaviorTypeName() { return "com.example.dbflute.guice.dbflute.exbhv.MemberBhv"; }
+    public String getEntityTypeName() { return "org.dbflute.scala.testlib.dbflute.exentity.Member"; }
+    public String getConditionBeanTypeName() { return "org.dbflute.scala.testlib.dbflute.cbean.MemberCB"; }
+    public String getBehaviorTypeName() { return "org.dbflute.scala.testlib.dbflute.exbhv.MemberBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type

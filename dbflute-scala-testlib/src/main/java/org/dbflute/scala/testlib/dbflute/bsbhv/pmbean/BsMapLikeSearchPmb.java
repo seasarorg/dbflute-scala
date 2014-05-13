@@ -2,8 +2,6 @@ package org.dbflute.scala.testlib.dbflute.bsbhv.pmbean;
 
 import java.util.*;
 
-import org.dbflute.scala.testlib.dbflute.allcommon.*;
-import org.dbflute.scala.testlib.dbflute.exbhv.*;
 import org.seasar.dbflute.outsidesql.typed.*;
 import org.seasar.dbflute.jdbc.*;
 import org.seasar.dbflute.jdbc.ParameterUtil.ShortCharHandlingMode;
@@ -11,6 +9,8 @@ import org.seasar.dbflute.cbean.coption.LikeSearchOption;
 import org.seasar.dbflute.util.DfCollectionUtil;
 import org.seasar.dbflute.exception.*;
 import org.seasar.dbflute.util.DfTypeUtil;
+import org.dbflute.scala.testlib.dbflute.allcommon.*;
+import org.dbflute.scala.testlib.dbflute.exbhv.*;
 
 /**
  * The base class for typed parameter-bean of MapLikeSearch. <br />

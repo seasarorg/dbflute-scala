@@ -15,6 +15,8 @@
 ##
 ${database.allClassCopyright}package ${glPackageBaseCommon};
 
+import scala.collection.JavaConverters._
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
@@ -101,27 +103,29 @@ class ${glImplementedBehaviorSelector} implements BehaviorSelector {
      * Initialize condition-bean meta data.
      */
     def initializeConditionBeanMetaData(): Unit = {
-        final Map<String, DBMeta> dbmetaMap = ${glDBMetaInstanceHandler}.getUnmodifiableDBMetaMap();
-        final Collection<DBMeta> dbmetas = dbmetaMap.values();
-        long before = 0;
+        val dbmetaMap: Map[String, DBMeta] = ${glDBMetaInstanceHandler}.getUnmodifiableDBMetaMap();
+        val Collection[DBMeta] dbmetas = dbmetaMap.values();
+        var before: Long = 0;
         if (_log.isInfoEnabled()) {
             before = System.currentTimeMillis();
             _log.info("...Initializing condition-bean meta data");
         }
         int count = 0;
-        for (DBMeta dbmeta : dbmetas) {
+        dbmetas.asScala.foreach(dbmeta => {
             try {
-                final BehaviorReadable bhv = byName(dbmeta.getTableDbName());
+                val bhv: BehaviorReadable = byName(dbmeta.getTableDbName());
                 bhv.warmUpCommand();
                 ++count;
-            } catch (IllegalBehaviorStateException ignored) { // means the behavior is suppressed
-                if (_log.isDebugEnabled()) {
-                    _log.debug("No behavior for " + dbmeta.getTableDbName());
+            } catch { // means the behavior is suppressed
+                case ignored: IllegalBehaviorStateException => {
+                    if (_log.isDebugEnabled()) {
+                        _log.debug("No behavior for " + dbmeta.getTableDbName());
+                    }
                 }
             }
-        }
+        });
         if (_log.isInfoEnabled()) {
-            long after = System.currentTimeMillis();
+            val after: Long = System.currentTimeMillis();
             _log.info("CB initialized: " + count + " [" + DfTraceViewUtil.convertToPerformanceView(after - before) + "]");
         }
     }
@@ -135,20 +139,19 @@ class ${glImplementedBehaviorSelector} implements BehaviorSelector {
      * @param behaviorType Behavior type. (NotNull)
      * @return The selected instance of the behavior. (NotNull)
      */
-    @SuppressWarnings("unchecked")
-    public <BEHAVIOR extends BehaviorReadable> BEHAVIOR select(Class<BEHAVIOR> behaviorType) {
-        BEHAVIOR bhv = (BEHAVIOR) _behaviorCache.get(behaviorType);
+    def select[BEHAVIOR extends BehaviorReadable](behaviorType: Class<BEHAVIOR>): BEHAVIOR = {
+        val bhv: BEHAVIOR = _behaviorCache.get(behaviorType).asInstanceOf[BEHAVIOR];
         if (bhv != null) {
             return bhv;
         }
-        synchronized (_behaviorCache) {
-            bhv = (BEHAVIOR) _behaviorCache.get(behaviorType);
+        _behaviorCache.synchronized {
+            bhv = _behaviorCache.get(behaviorType).asInstanceOf[BEHAVIOR];
             if (bhv != null) {
                 // a previous thread might have initialized
                 // or reading might failed by same-time writing
                 return bhv;
             }
-            bhv = (BEHAVIOR) getComponent(behaviorType);
+            bhv = getComponent(behaviorType).asInstanceOf[BEHAVIOR];
             _behaviorCache.put(behaviorType, bhv);
             return bhv;
         }
@@ -161,9 +164,9 @@ class ${glImplementedBehaviorSelector} implements BehaviorSelector {
      * @throws org.seasar.dbflute.exception.DBMetaNotFoundException When the table is not found.
      * @throws org.seasar.dbflute.exception.IllegalBehaviorStateException When the behavior class is suppressed.
      */
-    public BehaviorReadable byName(String tableFlexibleName) {
+    def byName(tableFlexibleName: String): BehaviorReadable = {
         assertStringNotNullAndNotTrimmedEmpty("tableFlexibleName", tableFlexibleName);
-        final DBMeta dbmeta = ${glDBMetaInstanceHandler}.findDBMeta(tableFlexibleName);
+        val dbmeta: DBMeta = ${glDBMetaInstanceHandler}.findDBMeta(tableFlexibleName);
         return select(getBehaviorType(dbmeta));
     }
 
@@ -173,18 +176,18 @@ class ${glImplementedBehaviorSelector} implements BehaviorSelector {
      * @return The type of behavior (as readable type). (NotNull)
      * @throws org.seasar.dbflute.exception.IllegalBehaviorStateException When the behavior class is suppressed.
      */
-    @SuppressWarnings("unchecked")
-    protected Class<BehaviorReadable> getBehaviorType(DBMeta dbmeta) {
-        final String behaviorTypeName = dbmeta.getBehaviorTypeName();
+    protected def getBehaviorType(dbmeta: DBMeta): Class[BehaviorReadable] = {
+        val behaviorTypeName: String = dbmeta.getBehaviorTypeName();
         if (behaviorTypeName == null) {
-            String msg = "The dbmeta.getBehaviorTypeName() should not return null: dbmeta=" + dbmeta;
+            val msg: String = "The dbmeta.getBehaviorTypeName() should not return null: dbmeta=" + dbmeta;
             throw new IllegalStateException(msg);
         }
-        final Class<BehaviorReadable> behaviorType;
-        try {
-            behaviorType = (Class<BehaviorReadable>) Class.forName(behaviorTypeName);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalBehaviorStateException("The class does not exist: " + behaviorTypeName, e);
+        val behaviorType: Class[BehaviorReadable] = try {
+            behaviorType = Class.forName(behaviorTypeName).asInstsanceOf[Class[BehaviorReadable]];
+        } catch {
+            case e: ClassNotFoundException => {
+                throw new IllegalBehaviorStateException("The class does not exist: " + behaviorTypeName, e);
+            }
         }
         return behaviorType;
     }
@@ -195,29 +198,32 @@ class ${glImplementedBehaviorSelector} implements BehaviorSelector {
 #if ($database.isTargetContainerSeasar() || $database.isTargetContainerSpring() || $database.isTargetContainerLucy() || $database.isTargetContainerCDI())
     @SuppressWarnings("unchecked")
 #end
-    protected <COMPONENT> COMPONENT getComponent(Class<COMPONENT> componentType) { // only for behavior
+    protected def getComponent[COMPONENT](componentType: Class[COMPONENT]): COMPONENT = { // only for behavior
         assertObjectNotNull("componentType", componentType);
         assertObjectNotNull("_container", _container);
 #if ($database.isTargetContainerSeasar())
         try {
-		    return (COMPONENT)_container.getComponent(componentType);
-		} catch (ComponentNotFoundRuntimeException e) { // Normally it doesn't come.
-		    final COMPONENT component;
-		    try {
-		        // for HotDeploy Mode
-		        component = (COMPONENT)_container.getRoot().getComponent(componentType);
-		    } catch (ComponentNotFoundRuntimeException ignored) {
-		        throw e;
+		    return (COMPONENT)_container.getComponent(componentType).asInstanceOf[COMPONENT];
+		} catch { // Normally it doesn't come.
+		    case e: ComponentNotFoundRuntimeException => {
+		        val component: COMPONENT = try {
+		            // for HotDeploy Mode
+    		        component = _container.getRoot().getComponent(componentType).asInstanceOf[COMPONENT];
+	    	    } catch (ComponentNotFoundRuntimeException ignored) {
+	    	        case ignored: ComponentNotFoundRuntimeException => {
+		                throw e;
+		            }
+		        }
+    		    _container = _container.getRoot(); // Change container.
+	    	    return component;
 		    }
-		    _container = _container.getRoot(); // Change container.
-		    return component;
 		}
 #end
 #if ($database.isTargetContainerSpring())
-		return (COMPONENT)_container.getBean(initUncap(toClassTitle(componentType)));
+		return _container.getBean(initUncap(toClassTitle(componentType))).asInstanceOf[COMPONENT];
 #end
 #if ($database.isTargetContainerLucy())
-		return (COMPONENT)_container.get(initUncap(toClassTitle(componentType)));
+		return _container.get(initUncap(toClassTitle(componentType))).asInstanceOf[COMPONENT];
 #end
 #if ($database.isTargetContainerGuice())
 		return _container.getInstance(componentType);
@@ -226,8 +232,8 @@ class ${glImplementedBehaviorSelector} implements BehaviorSelector {
 		return _container.lookup(toClassTitle(componentType));
 #end
 #if ($database.isTargetContainerCDI())
-        COMPONENT result = null;
-        Bean<COMPONENT> bean = (Bean<COMPONENT>) _container.resolve(_container.getBeans(componentType));
+        var result: COMPONENT = null;
+        val bean: Bean[COMPONENT] = _container.resolve(_container.getBeans(componentType)).asInstanceOf[Bean[COMPONENT]];
         if (bean != null) {
             CreationalContext<COMPONENT> context = _container.createCreationalContext(bean);
             if (context != null) {

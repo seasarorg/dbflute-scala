@@ -1,7 +1,7 @@
 package org.dbflute.scala.testlib.dbflute.cbean.nss;
 
-import org.dbflute.scala.testlib.dbflute.cbean.cq.MemberLoginCQ;
 import org.seasar.dbflute.cbean.ConditionQuery;
+import org.dbflute.scala.testlib.dbflute.cbean.cq.MemberLoginCQ;
 
 /**
  * The nest select set-upper of MEMBER_LOGIN.

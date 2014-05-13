@@ -1,13 +1,12 @@
 package com.example.dbflute.scala.dbflute.whitebox
-import com.example.dbflute.guice.unit.UnitContainerTestCase
 
-import scala.Function1
-import scala.collection.JavaConverters._
-import com.example.dbflute.guice.dbflute.cbean.MemberCB
-import com.example.dbflute.guice.dbflute.exbhv.MemberBhv
+import scala.collection.JavaConverters.asScalaBufferConverter
+import org.seasar.dbflute.helper.HandyDate
+import org.seasar.dbflute.unit.core.PlainTestCase
 import org.seasar.dbflute.BehaviorSelector
-import com.example.dbflute.guice.dbflute.exbhv.MemberBhv
-import scala.collection.mutable.Buffer
+import org.dbflute.scala.testlib.dbflute.exbhv.MemberBhv
+import org.dbflute.scala.testlib.dbflute.cbean.MemberCB
+import org.dbflute.scala.testlib.unit.UnitContainerTestCase
 
 /**
  * @author jflute

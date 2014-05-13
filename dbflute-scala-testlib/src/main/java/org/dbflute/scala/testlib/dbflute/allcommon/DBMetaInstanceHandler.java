@@ -3,7 +3,6 @@ package org.dbflute.scala.testlib.dbflute.allcommon;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
 import java.lang.reflect.Method;
 
 import org.seasar.dbflute.Entity;
@@ -32,37 +31,36 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
     protected static final Map<String, String> _tableDbNameClassNameMap;
     static {
         final Map<String, String> tmpMap = newHashMap();
-        tmpMap.put("MEMBER", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberDbm");
-        tmpMap.put("MEMBER_ADDRESS", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberAddressDbm");
-        tmpMap.put("MEMBER_FOLLOWING", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberFollowingDbm");
-        tmpMap.put("MEMBER_LOGIN", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberLoginDbm");
-        tmpMap.put("MEMBER_SECURITY", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberSecurityDbm");
-        tmpMap.put("MEMBER_SERVICE", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberServiceDbm");
-        tmpMap.put("MEMBER_STATUS", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberStatusDbm");
-        tmpMap.put("MEMBER_WITHDRAWAL", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.MemberWithdrawalDbm");
-        tmpMap.put("PRODUCT", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.ProductDbm");
-        tmpMap.put("PRODUCT_CATEGORY", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.ProductCategoryDbm");
-        tmpMap.put("PRODUCT_STATUS", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.ProductStatusDbm");
-        tmpMap.put("PURCHASE", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.PurchaseDbm");
-        tmpMap.put("REGION", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.RegionDbm");
-        tmpMap.put("SERVICE_RANK", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.ServiceRankDbm");
-        tmpMap.put("SUMMARY_PRODUCT", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.SummaryProductDbm");
-        tmpMap.put("SUMMARY_WITHDRAWAL", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.SummaryWithdrawalDbm");
-        tmpMap.put("VENDOR_$_DOLLAR", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.Vendor$DollarDbm");
-        tmpMap.put("VENDOR_CHECK", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.VendorCheckDbm");
-        tmpMap.put("VENDOR_IDENTITY_ONLY", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.VendorIdentityOnlyDbm");
-        tmpMap.put("VENDOR_PRIMARY_KEY_ONLY", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.VendorPrimaryKeyOnlyDbm");
-        tmpMap.put("VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.VendorTheLongAndWindingTableAndColumnDbm");
-        tmpMap.put("VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.VendorTheLongAndWindingTableAndColumnRefDbm");
-        tmpMap.put("WITHDRAWAL_REASON", "com.example.dbflute.guice.dbflute.bsentity.dbmeta.WithdrawalReasonDbm");
+        tmpMap.put("MEMBER", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberDbm");
+        tmpMap.put("MEMBER_ADDRESS", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberAddressDbm");
+        tmpMap.put("MEMBER_FOLLOWING", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberFollowingDbm");
+        tmpMap.put("MEMBER_LOGIN", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberLoginDbm");
+        tmpMap.put("MEMBER_SECURITY", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberSecurityDbm");
+        tmpMap.put("MEMBER_SERVICE", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberServiceDbm");
+        tmpMap.put("MEMBER_STATUS", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberStatusDbm");
+        tmpMap.put("MEMBER_WITHDRAWAL", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.MemberWithdrawalDbm");
+        tmpMap.put("PRODUCT", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.ProductDbm");
+        tmpMap.put("PRODUCT_CATEGORY", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.ProductCategoryDbm");
+        tmpMap.put("PRODUCT_STATUS", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.ProductStatusDbm");
+        tmpMap.put("PURCHASE", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.PurchaseDbm");
+        tmpMap.put("REGION", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.RegionDbm");
+        tmpMap.put("SERVICE_RANK", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.ServiceRankDbm");
+        tmpMap.put("SUMMARY_PRODUCT", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.SummaryProductDbm");
+        tmpMap.put("SUMMARY_WITHDRAWAL", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.SummaryWithdrawalDbm");
+        tmpMap.put("VENDOR_$_DOLLAR", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.Vendor$DollarDbm");
+        tmpMap.put("VENDOR_CHECK", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.VendorCheckDbm");
+        tmpMap.put("VENDOR_IDENTITY_ONLY", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.VendorIdentityOnlyDbm");
+        tmpMap.put("VENDOR_PRIMARY_KEY_ONLY", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.VendorPrimaryKeyOnlyDbm");
+        tmpMap.put("VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.VendorTheLongAndWindingTableAndColumnDbm");
+        tmpMap.put("VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.VendorTheLongAndWindingTableAndColumnRefDbm");
+        tmpMap.put("WITHDRAWAL_REASON", "org.dbflute.scala.testlib.dbflute.bsentity.dbmeta.WithdrawalReasonDbm");
         _tableDbNameClassNameMap = Collections.unmodifiableMap(tmpMap);
     }
 
     /** The flexible map of table DB name. This is for conversion at finding. */
     protected static final Map<String, String> _tableDbNameFlexibleMap = StringKeyMap.createAsFlexible();
     static {
-        final Set<String> tableDbNameSet = _tableDbNameClassNameMap.keySet();
-        for (String tableDbName : tableDbNameSet) {
+        for (String tableDbName : _tableDbNameClassNameMap.keySet()) {
             _tableDbNameFlexibleMap.put(tableDbName, tableDbName);
         }
     }
@@ -90,8 +88,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
                 findDBMeta(tableDbName); // initialize
             }
             if (!isInitialized()) {
-                String msg = "Failed to initialize tableDbNameInstanceMap:";
-                msg = msg + " tableDbNameInstanceMap=" + _tableDbNameInstanceMap;
+                String msg = "Failed to initialize tableDbNameInstanceMap: " + _tableDbNameInstanceMap;
                 throw new IllegalStateException(msg);
             }
         }
@@ -160,7 +157,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
     }
 
     // ===================================================================================
-    //                                                                       By Table Name
+    //                                                                       by Table Name
     //                                                                       =============
     /**
      * @param tableFlexibleName The flexible name of table. (NotNull)
@@ -225,7 +222,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
     }
 
     // ===================================================================================
-    //                                                                      By Entity Type
+    //                                                                      by Entity Type
     //                                                                      ==============
     /**
      * @param entityType The entity type of table, which should implement the entity interface. (NotNull)
@@ -255,19 +252,20 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
             if (dbmetaName == null) {
                 return null;
             }
-            _tableDbNameInstanceMap.put(tableDbName, getDBMeta(dbmetaName));
+            _tableDbNameInstanceMap.put(tableDbName, toDBMetaInstance(dbmetaName));
             return _tableDbNameInstanceMap.get(tableDbName);
         }
     }
 
-    protected static DBMeta getDBMeta(String className) {
+    protected static DBMeta toDBMetaInstance(String dbmetaName) {
         try {
-            Class<?> clazz = Class.forName(className);
-            Method methoz = clazz.getMethod("getInstance", (Class[])null);
-            Object result = methoz.invoke(null, (Object[])null);
+            Class<?> dbmetaType = Class.forName(dbmetaName);
+            Method method = dbmetaType.getMethod("getInstance", (Class[])null);
+            Object result = method.invoke(null, (Object[])null);
             return (DBMeta)result;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to get the instance: " + className, e);
+            String msg = "Failed to get the instance: " + dbmetaName;
+            throw new IllegalStateException(msg, e);
         }
     }
 
@@ -299,7 +297,8 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
         try {
             return (Entity)entityType.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to new the instance: " + entityType, e);
+            String msg = "Failed to new the instance: " + entityType;
+            throw new IllegalStateException(msg, e);
         }
     }
 

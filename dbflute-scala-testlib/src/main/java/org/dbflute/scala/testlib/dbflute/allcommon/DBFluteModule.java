@@ -3,12 +3,11 @@ package org.dbflute.scala.testlib.dbflute.allcommon;
 import javax.sql.DataSource;
 
 import com.google.inject.AbstractModule;
-
-import org.dbflute.scala.testlib.dbflute.exbhv.*;
 import org.seasar.dbflute.BehaviorSelector;
 import org.seasar.dbflute.bhv.core.BehaviorCommandInvoker;
 import org.seasar.dbflute.bhv.core.CommonColumnAutoSetupper;
 import org.seasar.dbflute.bhv.core.InvokerAssistant;
+import org.dbflute.scala.testlib.dbflute.exbhv.*;
 
 /**
  * @author DBFlute(AutoGenerator)
