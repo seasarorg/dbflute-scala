@@ -57,8 +57,11 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
         final StringBuilder sb = new StringBuilder();
         readLine(templateFile, "UTF-8", new FileLineHandler() {
             public void handle(String line) {
-                sb.append(filterLine(relativePath, templateFile, line));
-                sb.append(ln());
+                String filtered = filterLine(relativePath, templateFile, line);
+                if (filtered != null) {
+                    sb.append(filtered);
+                    sb.append(ln());
+                }
             }
         });
         final String contents = sb.toString();
@@ -74,50 +77,134 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
         if (line.startsWith("#")) { // velocity line
             return line;
         }
+        if (line.contains("Serial version UID") || line.contains("serialVersionUID")) {
+            return null;
+        }
         String work = line;
-        if (isMethodLine(line)) {
-            final String accessModifier = Srl.substringFirstFront(line.trim(), " ");
-            work = filterMethodLine(line, accessModifier);
+        String trimmedWork = work.trim();
+        if (isFieldLine(line)) {
+            work = filterFieldLine(line, work, trimmedWork);
+        } else if (isMethodLine(work)) {
+            final String accessModifier = Srl.substringFirstFront(trimmedWork, " ");
+            work = filterMethodLine(work, accessModifier);
         }
         return work;
     }
 
+    // -----------------------------------------------------
+    //                                           Method Line
+    //                                           -----------
     protected boolean isMethodLine(String line) {
         return Srl.containsAny(line, "public", "protected", "private") && line.contains(") {");
     }
 
     protected String filterMethodLine(String line, final String accessModifier) {
-        String work;
-        final String javaReturnType = extractDefinedClassType(line, accessModifier);
-        final String scalaReturnType = filterType(javaReturnType);
-        final String scalaReturnExp = "): " + scalaReturnType + " = {";
-        final String scalaDef = (!accessModifier.equals("public") ? (accessModifier + " ") : "") + "def";
-        work = replace(replace(line, accessModifier + " " + javaReturnType, scalaDef), ") {", scalaReturnExp);
+        String work = replace(line, ", ", ",");
+        work = doFilterMethodDefAndReturn(line, accessModifier, work);
+        work = doFilterMethodArgument(line, accessModifier, work);
+        work = replace(work, ",", ", ");
         return work;
     }
 
-    protected String extractDefinedClassType(String line, String accessModifier) {
+    protected String doFilterMethodDefAndReturn(String line, String accessModifier, String work) {
+        final String javaReturnType = extractDefinedClassType(line, accessModifier, work);
+        final String scalaReturnType = filterType(javaReturnType);
+        final String scalaReturnExp = "): " + scalaReturnType + " = {";
+        final String scalaDef = (!accessModifier.equals("public") ? (accessModifier + " ") : "") + "def";
+        return replace(replace(work, accessModifier + " " + javaReturnType, scalaDef), ") {", scalaReturnExp);
+    }
+
+    protected String extractDefinedClassType(String line, String accessModifier, String work) {
         final String afterModifier;
-        if (line.contains(accessModifier + " ")) {
-            afterModifier = Srl.substringFirstRear(line, accessModifier + " ");
+        if (work.contains(accessModifier + " ")) {
+            afterModifier = Srl.substringFirstRear(work, accessModifier + " ");
         } else {
-            log(line);
-            throw new IllegalStateException("No way: " + line);
+            log(work);
+            throw new IllegalStateException("No way: " + work);
         }
-        final String frontFirstSpace = Srl.substringFirstFront(afterModifier, " ");
-        final String rearFirstSpace = Srl.substringFirstRear(afterModifier, " ");
-        if (Srl.contains(frontFirstSpace, "<") && !frontFirstSpace.endsWith(">")) {
-            final String rear = Srl.substringFirstFront(rearFirstSpace, "> ");
-            return frontFirstSpace + " " + rear + ">";
+        return Srl.substringFirstFront(afterModifier, " ");
+    }
+
+    protected String doFilterMethodArgument(String line, String accessModifier, String work) {
+        String args = Srl.substringFirstFront(Srl.substringFirstRear(work, "("), ")");
+        StringBuilder sb = new StringBuilder();
+        if (!args.isEmpty()) {
+            List<String> argElementList = splitList(args, ",");
+            for (String argElement : argElementList) {
+                List<String> argDefList = splitList(argElement, " ");
+                if (argDefList.size() != 2) {
+                    String msg = "Unknown argument definition: " + argDefList.size() + ", " + line;
+                    throw new IllegalStateException(msg);
+                }
+                if (sb.length() > 0) {
+                    sb.append(",");
+                }
+                String dataType = argDefList.get(0);
+                String variable = argDefList.get(1);
+                sb.append(variable).append(": ").append(filterType(dataType));
+            }
         }
-        return frontFirstSpace;
+        String front = Srl.substringFirstFront(work, "(");
+        String rear = Srl.substringFirstRear(work, ")");
+        return front + "(" + sb.toString() + ")" + rear;
     }
 
     protected String filterType(String typeExp) {
         if (typeExp.equals("void")) {
             return "Unit";
         }
+        if (typeExp.equals("boolean")) {
+            return "Boolean";
+        }
+        if (typeExp.equals("int")) {
+            return "Integer";
+        }
         return replace(replace(typeExp, "<", "["), ">", "]");
+    }
+
+    // -----------------------------------------------------
+    //                                           Field Line
+    //                                           -----------
+    protected boolean isFieldLine(String line) {
+        if (!Srl.containsAny(line, "public", "protected", "private")) {
+            return false;
+        }
+        return line.endsWith(";") || line.contains("; //") || Srl.containsAll(line, ";", "=");
+    }
+
+    protected String filterFieldLine(String line, String work, String trimmedWork) {
+        final String accessModifier = Srl.substringFirstFront(trimmedWork, " ");
+        final String indentSpace = Srl.substringFirstFront(work, accessModifier);
+        final String afterModifier = Srl.substringFirstRear(trimmedWork, " ");
+        String valOrVar;
+        String rear;
+        if (afterModifier.contains("final ")) {
+            valOrVar = "val";
+            rear = Srl.substringFirstRear(afterModifier, "final ");
+        } else {
+            valOrVar = "var";
+            rear = Srl.ltrim(afterModifier, "static ");
+        }
+        String variableDef = Srl.substringFirstFront(rear, ";", "=");
+        List<String> variableElementList = splitListTrimmed(variableDef.trim(), " ");
+        if (variableElementList.size() != 2) {
+            String msg = "Unknown argument definition: " + variableElementList.size() + ", " + line;
+            throw new IllegalStateException(msg);
+        }
+        String type = filterType(variableElementList.get(0));
+        String variable = variableElementList.get(1);
+        String suffix;
+        if (rear.contains("=")) {
+            suffix = " =" + Srl.substringFirstRear(rear, "=");
+        } else {
+            if (type.equals("Boolean")) {
+                suffix = " = false;";
+            } else {
+                suffix = " = null;";
+            }
+        }
+        work = indentSpace + accessModifier + " " + valOrVar + " " + variable + ": " + type + suffix;
+        return work;
     }
 
     // ===================================================================================
