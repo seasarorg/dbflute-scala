@@ -25,13 +25,13 @@ import org.seasar.dbflute.bhv.core.CommonColumnAutoSetupper;
  * The basic implementation of the auto set-upper of common column.
  * @author ${database.classAuthor}
  */
-public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAutoSetupper {
+class ${glImplementedCommonColumnAutoSetupper} extends CommonColumnAutoSetupper {
 
     // =====================================================================================
     //                                                                            Definition
     //                                                                            ==========
     /** Log instance. */
-    private val _log: Log = LogFactory.getLog(classOf[${glImplementedBehaviorSelector}]);
+    private val _log: Log = LogFactory.getLog(classOf[${glImplementedCommonColumnAutoSetupper}]);
 #if ($database.isExistCommonColumnSetupElement())
 
     // =====================================================================================
@@ -62,7 +62,7 @@ public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAut
     /**
      * {@inheritDoc}
      */
-    def handleCommonColumnOfInsertIfNeeds(Entity targetEntity): Unit = {
+    def handleCommonColumnOfInsertIfNeeds(targetEntity: Entity): Unit = {
         val entity: ${glEntityDefinedCommonColumn} = askIfEntitySetup(targetEntity);
         if (entity == null) {
             return;
@@ -70,6 +70,10 @@ public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAut
         if (isInternalDebugEnabled()) {
             logSettingUp(entity, "INSERT");
         }
+        doHandleCommonColumnOfInsertIfNeeds(entity);
+    }
+
+    protected def doHandleCommonColumnOfInsertIfNeeds(entity: ${glEntityDefinedCommonColumn}): Unit = {
 #foreach ($columnName in ${database.commonColumnNameList})
 #set ($filteredColumnName = ${database.filterCommonColumn(${columnName})})
 #set ($entityCommonColumnMap = ${database.commonColumnMap})
@@ -103,6 +107,10 @@ public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAut
         if (isInternalDebugEnabled()) {
             logSettingUp(entity, "UPDATE");
         }
+        doHandleCommonColumnOfUpdateIfNeeds(entity);
+    }
+
+    protected def doHandleCommonColumnOfUpdateIfNeeds(entity: ${glEntityDefinedCommonColumn}): Unit = {
 #foreach ($columnName in ${database.commonColumnNameList})
 #set ($filteredColumnName = ${database.filterCommonColumn(${columnName})})
 #set ($entityCommonColumnMap = ${database.CommonColumnMap})
@@ -128,7 +136,7 @@ public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAut
     // =====================================================================================
     //                                                                         Assist Helper
     //                                                                         =============
-    protected def askIfEntitySetup(Entity targetEntity): ${glEntityDefinedCommonColumn} = {
+    protected def askIfEntitySetup(targetEntity: Entity): ${glEntityDefinedCommonColumn} = {
         if (!hasCommonColumn(targetEntity)) {
             return null;
         }
@@ -140,7 +148,7 @@ public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAut
     }
 
     protected def hasCommonColumn(targetEntity: Entity): Boolean = {
-        return targetEntity instanceof ${glEntityDefinedCommonColumn};
+        return targetEntity.isInstanceOf[${glEntityDefinedCommonColumn}];
     }
 
     protected def canCommonColumnAutoSetup(entity: ${glEntityDefinedCommonColumn}): Boolean = {
@@ -158,13 +166,13 @@ public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAut
     /**
      * {@inheritDoc}
      */
-    def handleCommonColumnOfInsertIfNeeds(Entity targetEntity): Unit = {
+    def handleCommonColumnOfInsertIfNeeds(targetEntity: Entity): Unit = {
     }
 
     /**
      * {@inheritDoc}
      */
-    def handleCommonColumnOfUpdateIfNeeds(Entity targetEntity): Unit = {
+    def handleCommonColumnOfUpdateIfNeeds(targetEntity: Entity): Unit = {
     }
 #end
 
@@ -175,7 +183,7 @@ public class ${glImplementedCommonColumnAutoSetupper} implements CommonColumnAut
         return ${glDBFluteConfig}.isInternalDebug() && _log.isDebugEnabled();
     }
 
-    protected def logSettingUp(${glEntityDefinedCommonColumn} entity, String keyword): Unit = {
+    protected def logSettingUp(entity: ${glEntityDefinedCommonColumn}, keyword: String): Unit = {
         _log.debug("...Setting up column columns of " + entity.getTableDbName() + " before " + keyword);
     }
 }

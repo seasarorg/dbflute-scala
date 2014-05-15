@@ -34,7 +34,7 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
     //                                                                           Attribute
     //                                                                           =========
     /** The cache of behavior. */
-    protected var Map[Class[_ extends BehaviorReadable], BehaviorReadable] _behaviorCache = newHashMap();
+    protected var _behaviorCache: Map[Class[_ <: BehaviorReadable], BehaviorReadable] = new HashMap();
 
     /** The container of Guice. */
     protected var _container: Injector;
@@ -53,7 +53,7 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
             before = System.currentTimeMillis();
             _log.info("...Initializing condition-bean meta data");
         }
-        var count = 0;
+        var count: Int = 0;
         dbmetas.asScala.foreach(dbmeta => {
             try {
                 val bhv: BehaviorReadable = byName(dbmeta.getTableDbName());
@@ -82,8 +82,8 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
      * @param behaviorType Behavior type. (NotNull)
      * @return The selected instance of the behavior. (NotNull)
      */
-    def select[BEHAVIOR extends BehaviorReadable](behaviorType: Class[BEHAVIOR]): BEHAVIOR = {
-        val bhv: BEHAVIOR = _behaviorCache.get(behaviorType).asInstanceOf[BEHAVIOR];
+    def select[BEHAVIOR <: BehaviorReadable](behaviorType: Class[BEHAVIOR]): BEHAVIOR = {
+        var bhv: BEHAVIOR = _behaviorCache.get(behaviorType).asInstanceOf[BEHAVIOR];
         if (bhv != null) {
             return bhv;
         }
@@ -126,7 +126,7 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
             throw new IllegalStateException(msg);
         }
         val behaviorType: Class[BehaviorReadable] = try {
-            behaviorType = Class.forName(behaviorTypeName).asInstsanceOf[Class[BehaviorReadable]];
+            Class.forName(behaviorTypeName).asInstanceOf[Class[BehaviorReadable]];
         } catch {
             case e: ClassNotFoundException => {
                 throw new IllegalBehaviorStateException("The class does not exist: " + behaviorTypeName, e);
@@ -147,16 +147,12 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
     // ===================================================================================
     //                                                                      General Helper
     //                                                                      ==============
-    protected def initUncap(String str): String = {
+    protected def initUncap(str: String): String = {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
-    protected def toClassTitle(Object obj): String = {
+    protected def toClassTitle(obj: Object): String = {
         return DfTypeUtil.toClassTitle(obj);
-    }
-
-    protected def newHashMap[KEY, VALUE](): HashMap[KEY, VALUE] = {
-        return new HashMap[KEY, VALUE]();
     }
 
     // ===================================================================================
@@ -203,7 +199,7 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
     //                                                                            Accessor
     //                                                                            ========
     @Inject
-    def setContainer(Injector container): Unit = {
+    def setContainer(container: Injector): Unit = {
         this._container = container;
     }
 }

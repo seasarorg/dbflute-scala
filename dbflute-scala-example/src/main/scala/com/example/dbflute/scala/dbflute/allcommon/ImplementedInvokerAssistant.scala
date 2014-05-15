@@ -29,16 +29,16 @@ import org.seasar.dbflute.twowaysql.factory.SqlAnalyzerFactory;
 /**
  * @author DBFlute(AutoGenerator)
  */
-public class ImplementedInvokerAssistant implements InvokerAssistant {
+class ImplementedInvokerAssistant extends InvokerAssistant {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected static final String[] DEFAULT_CLIENT_INVOKE_NAMES
-        = new String[] { "Page", "Action", "Controller", "ControllerImpl", "Task", "Test" };
+    protected val DEFAULT_CLIENT_INVOKE_NAMES: Array[String]
+        = Array[String]("Page", "Action", "Controller", "ControllerImpl", "Task", "Test");
 
-    protected static final String[] DEFAULT_BYPASS_INVOKE_NAMES
-        = new String[] { "Service", "ServiceImpl", "Facade", "FacadeImpl", "Logic", "LogicImpl" };
+    protected val DEFAULT_BYPASS_INVOKE_NAMES: Array[String]
+        = Array[String]("Service", "ServiceImpl", "Facade", "FacadeImpl", "Logic", "LogicImpl");
 
     // ===================================================================================
     //                                                                           Attribute
@@ -46,25 +46,34 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     // -----------------------------------------------------
     //                                          DI Component
     //                                          ------------
-    protected DataSource _dataSource;
-    protected DBFluteInitializer _introduction;
+    protected var _dataSource: DataSource = null;
+    protected var _introduction: DBFluteInitializer = null;
 
     // -----------------------------------------------------
     //                                        Lazy Component
     //                                        --------------
-    protected volatile DBMetaProvider _dbmetaProvider;
-    protected volatile SqlClauseCreator _sqlClauseCreator;
-    protected volatile StatementFactory _statementFactory;
-    protected volatile TnBeanMetaDataFactory _beanMetaDataFactory;
-    protected volatile SqlAnalyzerFactory _sqlAnalyzerFactory;
-    protected volatile OutsideSqlExecutorFactory _outsideSqlExecutorFactory;
-    protected volatile SQLExceptionHandlerFactory _sqlExceptionHandlerFactory;
-    protected volatile SequenceCacheHandler _sequenceCacheHandler;
+    @volatile
+    protected var _dbmetaProvider: DBMetaProvider = null;
+    @volatile
+    protected var _sqlClauseCreator: SqlClauseCreator = null;
+    @volatile
+    protected var _statementFactory: StatementFactory = null;
+    @volatile
+    protected var _beanMetaDataFactory: TnBeanMetaDataFactory = null;
+    @volatile
+    protected var _sqlAnalyzerFactory: SqlAnalyzerFactory = null;
+    @volatile
+    protected var _outsideSqlExecutorFactory: OutsideSqlExecutorFactory = null;
+    @volatile
+    protected var _sqlExceptionHandlerFactory: SQLExceptionHandlerFactory = null;
+    @volatile
+    protected var _sequenceCacheHandler: SequenceCacheHandler = null;
 
     // -----------------------------------------------------
     //                                       Disposable Flag
     //                                       ---------------
-    protected volatile boolean _disposable;
+    @volatile
+    protected var _disposable: Boolean = false;
 
     // ===================================================================================
     //                                                                 Assistant Main Work
@@ -72,29 +81,29 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     // -----------------------------------------------------
     //                                         Current DBDef
     //                                         -------------
-    public DBDef assistCurrentDBDef() {
-        return DBCurrent.getInstance().currentDBDef();
+    def assistCurrentDBDef(): DBDef = {
+        return DBCurrent.currentDBDef();
     }
 
     // -----------------------------------------------------
     //                                           Data Source
     //                                           -----------
-    public DataSource assistDataSource() { // DI component
+    def assistDataSource(): DataSource = { // DI component
         // this instance will be cached in SQL executions
         // so the handler should be set before initialization of DBFlute
         // (and it means you cannot switch data source after initialization)
-        DataSourceHandler handler = DBFluteConfig.getInstance().getDataSourceHandler();
-        return handler != null ? new HandlingDataSourceWrapper(_dataSource, handler) : _dataSource;
+        val handler: DataSourceHandler = DBFluteConfig.getDataSourceHandler();
+        return if (handler != null) { new HandlingDataSourceWrapper(_dataSource, handler) } else { _dataSource };
     }
 
     // -----------------------------------------------------
     //                                       DBMeta Provider
     //                                       ---------------
-    public DBMetaProvider assistDBMetaProvider() { // lazy component
+    def assistDBMetaProvider(): DBMetaProvider = { // lazy component
         if (_dbmetaProvider != null) {
             return _dbmetaProvider;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_dbmetaProvider != null) {
                 return _dbmetaProvider;
             }
@@ -103,18 +112,18 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _dbmetaProvider;
     }
 
-    protected DBMetaProvider createDBMetaProvider() {
+    protected def createDBMetaProvider(): DBMetaProvider = {
         return DBMetaInstanceHandler.getProvider();
     }
 
     // -----------------------------------------------------
     //                                    SQL Clause Creator
     //                                    ------------------
-    public SqlClauseCreator assistSqlClauseCreator() { // lazy component
+    def assistSqlClauseCreator(): SqlClauseCreator = { // lazy component
         if (_sqlClauseCreator != null) {
             return _sqlClauseCreator;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_sqlClauseCreator != null) {
                 return _sqlClauseCreator;
             }
@@ -123,8 +132,8 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _sqlClauseCreator;
     }
 
-    protected SqlClauseCreator createSqlClauseCreator() {
-        SqlClauseCreator creator = DBFluteConfig.getInstance().getSqlClauseCreator();
+    protected def createSqlClauseCreator(): SqlClauseCreator = {
+        val creator: SqlClauseCreator = DBFluteConfig.getSqlClauseCreator();
         if (creator != null) {
             return creator;
         }
@@ -134,11 +143,11 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     // -----------------------------------------------------
     //                                     Statement Factory
     //                                     -----------------
-    public StatementFactory assistStatementFactory() { // lazy component
+    def assistStatementFactory(): StatementFactory = { // lazy component
         if (_statementFactory != null) {
             return _statementFactory;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_statementFactory != null) {
                 return _statementFactory;
             }
@@ -147,22 +156,22 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _statementFactory;
     }
 
-    protected StatementFactory createStatementFactory() {
-        final TnStatementFactoryImpl factory = new TnStatementFactoryImpl();
+    protected def createStatementFactory(): StatementFactory = {
+        val factory: TnStatementFactoryImpl = new TnStatementFactoryImpl();
         factory.setDefaultStatementConfig(assistDefaultStatementConfig());
-        factory.setInternalDebug(DBFluteConfig.getInstance().isInternalDebug());
-        factory.setCursorSelectFetchSize(DBFluteConfig.getInstance().getCursorSelectFetchSize());
+        factory.setInternalDebug(DBFluteConfig.isInternalDebug());
+        factory.setCursorSelectFetchSize(DBFluteConfig.getCursorSelectFetchSize());
         return factory;
     }
 
     // -----------------------------------------------------
     //                                Bean Meta Data Factory
     //                                ----------------------
-    public TnBeanMetaDataFactory assistBeanMetaDataFactory() { // lazy component
+    def assistBeanMetaDataFactory(): TnBeanMetaDataFactory = { // lazy component
         if (_beanMetaDataFactory != null) {
             return _beanMetaDataFactory;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_beanMetaDataFactory != null) {
                 return _beanMetaDataFactory;
             }
@@ -171,10 +180,10 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _beanMetaDataFactory;
     }
 
-    protected TnBeanMetaDataFactory createBeanMetaDataFactory() {
-        final TnBeanMetaDataFactoryExtension factory = new TnBeanMetaDataFactoryExtension();
+    protected def createBeanMetaDataFactory(): TnBeanMetaDataFactory = {
+        val factory: TnBeanMetaDataFactoryExtension = new TnBeanMetaDataFactoryExtension();
         factory.setDataSource(_dataSource);
-        factory.setInternalDebug(DBFluteConfig.getInstance().isInternalDebug());
+        factory.setInternalDebug(DBFluteConfig.isInternalDebug());
         return factory;
     }
 
@@ -184,11 +193,11 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     /**
      * {@inheritDoc}
      */
-    public SqlAnalyzerFactory assistSqlAnalyzerFactory() { // lazy component
+    def assistSqlAnalyzerFactory(): SqlAnalyzerFactory = { // lazy component
         if (_sqlAnalyzerFactory != null) {
             return _sqlAnalyzerFactory;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_sqlAnalyzerFactory != null) {
                 return _sqlAnalyzerFactory;
             }
@@ -197,7 +206,7 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _sqlAnalyzerFactory;
     }
 
-    protected SqlAnalyzerFactory createSqlAnalyzerFactory() {
+    protected def createSqlAnalyzerFactory(): SqlAnalyzerFactory = {
         return new DefaultSqlAnalyzerFactory();
     }
 
@@ -207,11 +216,11 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     /**
      * {@inheritDoc}
      */
-    public OutsideSqlExecutorFactory assistOutsideSqlExecutorFactory() {
+    def assistOutsideSqlExecutorFactory(): OutsideSqlExecutorFactory = {
         if (_outsideSqlExecutorFactory != null) {
             return _outsideSqlExecutorFactory;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_outsideSqlExecutorFactory != null) {
                 return _outsideSqlExecutorFactory;
             }
@@ -220,8 +229,8 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _outsideSqlExecutorFactory;
     }
 
-    protected OutsideSqlExecutorFactory createOutsideSqlExecutorFactory() {
-        OutsideSqlExecutorFactory factory = DBFluteConfig.getInstance().getOutsideSqlExecutorFactory();
+    protected def createOutsideSqlExecutorFactory(): OutsideSqlExecutorFactory = {
+        val factory: OutsideSqlExecutorFactory = DBFluteConfig.getOutsideSqlExecutorFactory();
         if (factory != null) {
             return factory;
         }
@@ -234,8 +243,8 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     /**
      * {@inheritDoc}
      */
-    public SQLExceptionDigger assistSQLExceptionDigger() {
-        return DBFluteConfig.getInstance().getSQLExceptionDigger();
+    def assistSQLExceptionDigger(): SQLExceptionDigger = {
+        return DBFluteConfig.getSQLExceptionDigger();
     }
 
     // -----------------------------------------------------
@@ -244,11 +253,11 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     /**
      * {@inheritDoc}
      */
-    public SQLExceptionHandlerFactory assistSQLExceptionHandlerFactory() { // lazy component
+    def assistSQLExceptionHandlerFactory(): SQLExceptionHandlerFactory = { // lazy component
         if (_sqlExceptionHandlerFactory != null) {
             return _sqlExceptionHandlerFactory;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_sqlExceptionHandlerFactory != null) {
                 return _sqlExceptionHandlerFactory;
             }
@@ -257,7 +266,7 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _sqlExceptionHandlerFactory;
     }
 
-    protected SQLExceptionHandlerFactory createSQLExceptionHandlerFactory() {
+    protected def createSQLExceptionHandlerFactory(): SQLExceptionHandlerFactory = {
         return new DefaultSQLExceptionHandlerFactory();
     }
 
@@ -267,11 +276,11 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     /**
      * {@inheritDoc}
      */
-    public SequenceCacheHandler assistSequenceCacheHandler() { // lazy component
+    def assistSequenceCacheHandler(): SequenceCacheHandler = { // lazy component
         if (_sequenceCacheHandler != null) {
             return _sequenceCacheHandler;
         }
-        synchronized (this) {
+        this.synchronized {
             if (_sequenceCacheHandler != null) {
                 return _sequenceCacheHandler;
             }
@@ -280,82 +289,82 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
         return _sequenceCacheHandler;
     }
 
-    protected SequenceCacheHandler createSequenceCacheHandler() {
-        SequenceCacheHandler handler = new SequenceCacheHandler();
-        SequenceCacheKeyGenerator generator = DBFluteConfig.getInstance().getSequenceCacheKeyGenerator();
+    protected def createSequenceCacheHandler(): SequenceCacheHandler = {
+        val handler: SequenceCacheHandler = new SequenceCacheHandler();
+        val generator: SequenceCacheKeyGenerator = DBFluteConfig.getSequenceCacheKeyGenerator();
         if (generator != null) {
             handler.setSequenceCacheKeyGenerator(generator);
         }
-        handler.setInternalDebug(DBFluteConfig.getInstance().isInternalDebug());
+        handler.setInternalDebug(DBFluteConfig.isInternalDebug());
         return handler;
     }
 
     // -----------------------------------------------------
     //                                     SQL File Encoding
     //                                     -----------------
-    public String assistSqlFileEncoding() {
+    def assistSqlFileEncoding(): String = {
         return "UTF-8";
     }
 
     // -----------------------------------------------------
     //                               Statement Configuration
     //                               -----------------------
-    public StatementConfig assistDefaultStatementConfig() {
-        return DBFluteConfig.getInstance().getDefaultStatementConfig();
+    def assistDefaultStatementConfig(): StatementConfig = {
+        return DBFluteConfig.getDefaultStatementConfig();
     }
 
     // -----------------------------------------------------
     //                            Behavior Exception Thrower
     //                            --------------------------
-    public BehaviorExceptionThrower assistBehaviorExceptionThrower() {
+    def assistBehaviorExceptionThrower(): BehaviorExceptionThrower = {
         return new BehaviorExceptionThrower();
     }
 
     // -----------------------------------------------------
     //                                 Geared Cipher Manager
     //                                 ---------------------
-    public GearedCipherManager assistGearedCipherManager() {
-        return DBFluteConfig.getInstance().getGearedCipherManager();
+    def assistGearedCipherManager(): GearedCipherManager = {
+        return DBFluteConfig.getGearedCipherManager();
     }
 
     // -----------------------------------------------------
     //                                    Resource Parameter
     //                                    ------------------
-    public ResourceParameter assistResourceParameter() {
-        ResourceParameter resourceParameter = new ResourceParameter();
-        resourceParameter.setOutsideSqlPackage(DBFluteConfig.getInstance().getOutsideSqlPackage());
-        resourceParameter.setLogDateFormat(DBFluteConfig.getInstance().getLogDateFormat());
-        resourceParameter.setLogTimestampFormat(DBFluteConfig.getInstance().getLogTimestampFormat());
-        resourceParameter.setInternalDebug(DBFluteConfig.getInstance().isInternalDebug());
+    def assistResourceParameter(): ResourceParameter = {
+        val resourceParameter: ResourceParameter = new ResourceParameter();
+        resourceParameter.setOutsideSqlPackage(DBFluteConfig.getOutsideSqlPackage());
+        resourceParameter.setLogDateFormat(DBFluteConfig.getLogDateFormat());
+        resourceParameter.setLogTimestampFormat(DBFluteConfig.getLogTimestampFormat());
+        resourceParameter.setInternalDebug(DBFluteConfig.isInternalDebug());
         return resourceParameter;
     }
 
     // -----------------------------------------------------
     //                                          Invoke Names
     //                                          ------------
-    public String[] assistClientInvokeNames() {
+    def assistClientInvokeNames(): Array[String] = {
         return DEFAULT_CLIENT_INVOKE_NAMES;
     }
 
-    public String[] assistByPassInvokeNames() {
+    def assistByPassInvokeNames(): Array[String] = {
         return DEFAULT_BYPASS_INVOKE_NAMES;
     }
 
     // ===================================================================================
     //                                                                             Dispose
     //                                                                             =======
-    public void toBeDisposable(final DisposableProcess callerProcess) { // for HotDeploy
+    def toBeDisposable(callerProcess: InvokerAssistant.DisposableProcess): Unit = { // for HotDeploy
         // do nothing: unsupported at this DI container
     }
 
-    public boolean isDisposable() {
+    def isDisposable(): Boolean = {
         return _disposable;
     }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public void setDataSource(DataSource dataSource) {
+    def setDataSource(dataSource: DataSource): Unit = {
         _dataSource = dataSource;
     }
 
@@ -364,7 +373,7 @@ public class ImplementedInvokerAssistant implements InvokerAssistant {
     // so this variable is actually unused in this class
     // (needs to be injected only when the DI container
     // is set by its DI setting file)
-    public void setIntroduction(DBFluteInitializer introduction) {
+    def setIntroduction(introduction: DBFluteInitializer): Unit = {
         _introduction = introduction;
     }
 }

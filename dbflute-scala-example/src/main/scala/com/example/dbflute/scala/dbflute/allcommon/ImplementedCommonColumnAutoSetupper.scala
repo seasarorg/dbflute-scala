@@ -10,13 +10,13 @@ import org.seasar.dbflute.bhv.core.CommonColumnAutoSetupper;
  * The basic implementation of the auto set-upper of common column.
  * @author DBFlute(AutoGenerator)
  */
-public class ImplementedCommonColumnAutoSetupper implements CommonColumnAutoSetupper {
+class ImplementedCommonColumnAutoSetupper extends CommonColumnAutoSetupper {
 
     // =====================================================================================
     //                                                                            Definition
     //                                                                            ==========
     /** Log instance. */
-    private static final Log _log = LogFactory.getLog(ImplementedCommonColumnAutoSetupper.class);
+    private val _log: Log = LogFactory.getLog(classOf[ImplementedCommonColumnAutoSetupper]);
 
     // =====================================================================================
     //                                                                             Attribute
@@ -27,81 +27,89 @@ public class ImplementedCommonColumnAutoSetupper implements CommonColumnAutoSetu
     /**
      * {@inheritDoc}
      */
-    public void handleCommonColumnOfInsertIfNeeds(Entity targetEntity) {
-        final EntityDefinedCommonColumn entity = askIfEntitySetup(targetEntity);
+    def handleCommonColumnOfInsertIfNeeds(targetEntity: Entity): Unit = {
+        val entity: EntityDefinedCommonColumn = askIfEntitySetup(targetEntity);
         if (entity == null) {
             return;
         }
         if (isInternalDebugEnabled()) {
             logSettingUp(entity, "INSERT");
         }
+        doHandleCommonColumnOfInsertIfNeeds(entity);
+    }
 
-        final java.sql.Timestamp registerDatetime = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
+    protected def doHandleCommonColumnOfInsertIfNeeds(entity: EntityDefinedCommonColumn): Unit = {
+
+        val registerDatetime: java.sql.Timestamp = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
         entity.setRegisterDatetime(registerDatetime);
 
-        final String registerUser = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
+        val registerUser: String = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
         entity.setRegisterUser(registerUser);
 
-        final java.sql.Timestamp updateDatetime = entity.getRegisterDatetime();
+        val updateDatetime: java.sql.Timestamp = entity.getRegisterDatetime();
         entity.setUpdateDatetime(updateDatetime);
 
-        final String updateUser = entity.getRegisterUser();
+        val updateUser: String = entity.getRegisterUser();
         entity.setUpdateUser(updateUser);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void handleCommonColumnOfUpdateIfNeeds(Entity targetEntity) {
-        final EntityDefinedCommonColumn entity = askIfEntitySetup(targetEntity);
+    def handleCommonColumnOfUpdateIfNeeds(targetEntity: Entity): Unit = {
+        val entity: EntityDefinedCommonColumn = askIfEntitySetup(targetEntity);
         if (entity == null) {
             return;
         }
         if (isInternalDebugEnabled()) {
             logSettingUp(entity, "UPDATE");
         }
+        doHandleCommonColumnOfUpdateIfNeeds(entity);
+    }
 
-        final java.sql.Timestamp updateDatetime = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
+    protected def doHandleCommonColumnOfUpdateIfNeeds(entity: EntityDefinedCommonColumn): Unit = {
+
+        val updateDatetime: java.sql.Timestamp = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
         entity.setUpdateDatetime(updateDatetime);
 
-        final String updateUser = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
+        val updateUser: String = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
         entity.setUpdateUser(updateUser);
     }
 
     // =====================================================================================
     //                                                                         Assist Helper
     //                                                                         =============
-    protected EntityDefinedCommonColumn askIfEntitySetup(Entity targetEntity) {
+    protected def askIfEntitySetup(targetEntity: Entity): EntityDefinedCommonColumn = {
         if (!hasCommonColumn(targetEntity)) {
             return null;
         }
-        final EntityDefinedCommonColumn entity = downcastEntity(targetEntity);
+        val entity: EntityDefinedCommonColumn = downcastEntity(targetEntity);
         if (!canCommonColumnAutoSetup(entity)) {
             return null;
         }
         return entity;
     }
 
-    protected boolean hasCommonColumn(Entity targetEntity) {
-        return targetEntity instanceof EntityDefinedCommonColumn;
+    protected def hasCommonColumn(targetEntity: Entity): Boolean = {
+        return targetEntity.isInstanceOf[EntityDefinedCommonColumn];
     }
 
-    protected boolean canCommonColumnAutoSetup(EntityDefinedCommonColumn entity) {
+    protected def canCommonColumnAutoSetup(entity: EntityDefinedCommonColumn): Boolean = {
         return entity.canCommonColumnAutoSetup();
     }
 
-    protected EntityDefinedCommonColumn downcastEntity(Entity targetEntity) {
-        return (EntityDefinedCommonColumn)targetEntity;
+    protected def downcastEntity(targetEntity: Entity): EntityDefinedCommonColumn = {
+        return targetEntity.asInstanceOf[EntityDefinedCommonColumn];
     }
 
     // =====================================================================================
     //                                                                               Logging
     //                                                                               =======
-    protected boolean isInternalDebugEnabled() {
-        return DBFluteConfig.getInstance().isInternalDebug() && _log.isDebugEnabled();
+    protected def isInternalDebugEnabled(): Boolean = {
+        return DBFluteConfig.isInternalDebug() && _log.isDebugEnabled();
     }
 
-    protected void logSettingUp(EntityDefinedCommonColumn entity, String keyword) {
+    protected def logSettingUp(entity: EntityDefinedCommonColumn, keyword: String): Unit = {
         _log.debug("...Setting up column columns of " + entity.getTableDbName() + " before " + keyword);
     }
 }

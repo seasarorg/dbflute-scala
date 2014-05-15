@@ -69,7 +69,7 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
     //                                                                           Attribute
     //                                                                           =========
     /** The cache of behavior. */
-    protected var Map[Class[_ extends BehaviorReadable], BehaviorReadable] _behaviorCache = newHashMap();
+    protected var _behaviorCache: Map[Class[_ <: BehaviorReadable], BehaviorReadable] = new HashMap();
 
 #if ($database.isTargetContainerSeasar())
     /** The container of Seasar. */
@@ -139,8 +139,8 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
      * @param behaviorType Behavior type. (NotNull)
      * @return The selected instance of the behavior. (NotNull)
      */
-    def select[BEHAVIOR extends BehaviorReadable](behaviorType: Class[BEHAVIOR]): BEHAVIOR = {
-        val bhv: BEHAVIOR = _behaviorCache.get(behaviorType).asInstanceOf[BEHAVIOR];
+    def select[BEHAVIOR <: BehaviorReadable](behaviorType: Class[BEHAVIOR]): BEHAVIOR = {
+        var bhv: BEHAVIOR = _behaviorCache.get(behaviorType).asInstanceOf[BEHAVIOR];
         if (bhv != null) {
             return bhv;
         }
@@ -183,7 +183,7 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
             throw new IllegalStateException(msg);
         }
         val behaviorType: Class[BehaviorReadable] = try {
-            behaviorType = Class.forName(behaviorTypeName).asInstsanceOf[Class[BehaviorReadable]];
+            Class.forName(behaviorTypeName).asInstanceOf[Class[BehaviorReadable]];
         } catch {
             case e: ClassNotFoundException => {
                 throw new IllegalBehaviorStateException("The class does not exist: " + behaviorTypeName, e);
@@ -247,16 +247,12 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
     // ===================================================================================
     //                                                                      General Helper
     //                                                                      ==============
-    protected def initUncap(String str): String = {
+    protected def initUncap(str: String): String = {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
-    protected def toClassTitle(Object obj): String = {
+    protected def toClassTitle(obj: Object): String = {
         return DfTypeUtil.toClassTitle(obj);
-    }
-
-    protected def newHashMap[KEY, VALUE](): HashMap[KEY, VALUE] = {
-        return new HashMap[KEY, VALUE]();
     }
 
     // ===================================================================================
@@ -303,33 +299,33 @@ class ${glImplementedBehaviorSelector} extends BehaviorSelector {
     //                                                                            Accessor
     //                                                                            ========
 #if ($database.isTargetContainerSeasar())
-    def setContainer(S2Container container): Unit = {
+    def setContainer(container: S2Container): Unit = {
         this._container = container;
     }
 #end
 #if ($database.isTargetContainerSpring())
-    def setContainer(ApplicationContext container): Unit = {
+    def setContainer(container: ApplicationContext): Unit = {
         this._container = container;
     }
 #end
 #if ($database.isTargetContainerLucy())
-    def setContainer(Lucy container): Unit = {
+    def setContainer(container: Lucy): Unit = {
         this._container = container;
     }
 #end
 #if ($database.isTargetContainerGuice())
     @Inject
-    def setContainer(Injector container): Unit = {
+    def setContainer(container: Injector): Unit = {
         this._container = container;
     }
 #end
 #if ($database.isTargetContainerSlim3())
-    def setContainer(S3Container container): Unit = {
+    def setContainer(container: S3Container): Unit = {
         this._container = container;
     }
 #end
 #if ($database.isTargetContainerCDI())
-    def setContainer(BeanManager container): Unit = {
+    def setContainer(container: BeanManager): Unit = {
         this._container = container;
     }
 #end

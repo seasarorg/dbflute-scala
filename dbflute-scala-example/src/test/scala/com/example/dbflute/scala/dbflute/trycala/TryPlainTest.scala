@@ -11,5 +11,7 @@ class TryPlainTest extends PlainTestCase {
   def test_asInstanceOf_null() {
     val str: HandyDate = null;
     log(str.asInstanceOf[String]);
+
+    val a = new Array[Integer](0);
   }
 }
