@@ -17,12 +17,13 @@
 # *The line that starts with '#' means comment-out.
 #
 map:{
-    # for the test of sequence cache on this DBMS
-    ; PURCHASE     = PUBLIC.SEQ_PURCHASE:dfcache() # increment way (increment=8)
-    ; MEMBER       = SEQ_MEMBER:dfcache(10) # batch way (increment=1)
-
-    # for the test of same sequence with seuquece cache
-    ; MEMBER_LOGIN = EXAMPLEDB.PUBLIC.SEQ_MEMBER_LOGIN:dfcache(12) # batch way (increment=3)
-    ; PRODUCT      = SEQ_MEMBER_LOGIN:dfcache(12) # batch way (increment=3)
+# #pending
+#    # for the test of sequence cache on this DBMS
+#    ; PURCHASE     = PUBLIC.SEQ_PURCHASE:dfcache() # increment way (increment=8)
+#    ; MEMBER       = SEQ_MEMBER:dfcache(10) # batch way (increment=1)
+#
+#    # for the test of same sequence with seuquece cache
+#    ; MEMBER_LOGIN = EXAMPLEDB.PUBLIC.SEQ_MEMBER_LOGIN:dfcache(12) # batch way (increment=3)
+#    ; PRODUCT      = SEQ_MEMBER_LOGIN:dfcache(12) # batch way (increment=3)
 }
 # ----------------/

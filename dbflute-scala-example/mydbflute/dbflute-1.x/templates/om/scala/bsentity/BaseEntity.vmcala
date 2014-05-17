@@ -40,9 +40,9 @@ import ${glPackageBaseCommon}.${glDBMetaInstanceHandler};
 #if ($table.hasClassification())
 import ${glPackageBaseCommon}.${glCDef};
 #end
-import ${myExtendedEntityPackageName}._
+import ${myExtendedEntityPackageName}._;
 #if ($table.isLoadableCustomizeEntity())
-import ${glPackageExtendedEntity}._
+import ${glPackageExtendedEntity}._;
 #end
 #set ($myEntityInterfaceName = "")
 #if (${table.hasAllCommonColumn()})
@@ -51,7 +51,7 @@ import ${glPackageExtendedEntity}._
   #set ($myEntityInterfaceName = "Entity")
 #end
 #if ($table.hasRelationalNullObjectProviderImport())
-import ${table.relationalNullObjectProviderPackage}._
+import ${table.relationalNullObjectProviderPackage}._;
 #end
 
 /**

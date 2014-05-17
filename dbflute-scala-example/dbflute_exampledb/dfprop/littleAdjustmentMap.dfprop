@@ -246,7 +246,7 @@ map:{
     #  *Basically for fixed DBFluteConfig settings
     #
     # @JavaOnly
-    ; extendedDBFluteInitializerClass = com.example.dbflute.guice.dbflute.nogen.ExtendedDBFluteInitializer
+    ; extendedDBFluteInitializerClass = com.example.dbflute.scala.dbflute.nogen.ExtendedDBFluteInitializer
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

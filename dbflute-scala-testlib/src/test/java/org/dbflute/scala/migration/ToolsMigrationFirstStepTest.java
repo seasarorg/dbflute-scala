@@ -426,7 +426,7 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
         work = replace(work, "new ArrayList<ELEMENT>", "new ArrayList[ELEMENT]");
         work = replace(work, "protected static final ", "protected val ");
         if (line.startsWith("import ")) {
-            work = replace(work, ".*;", "._");
+            work = replace(work, ".*;", "._;");
         }
         work = replace(work, "synchronized (this) {", "this.synchronized {");
         return work;

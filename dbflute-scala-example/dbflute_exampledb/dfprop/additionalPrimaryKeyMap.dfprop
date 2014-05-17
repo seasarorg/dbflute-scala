@@ -19,9 +19,10 @@
 # *The line that starts with '#' means comment-out.
 #
 map:{
-    ; PK_SUMMARY_PRODUCT = map:{
-        ; tableName = SUMMARY_PRODUCT ; columnName = PRODUCT_ID
-    }
+# #pending
+#    ; PK_SUMMARY_PRODUCT = map:{
+#        ; tableName = SUMMARY_PRODUCT ; columnName = PRODUCT_ID
+#    }
 }
 # ----------------/
 

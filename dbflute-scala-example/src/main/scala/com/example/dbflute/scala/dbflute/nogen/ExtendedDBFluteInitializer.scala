@@ -1,4 +1,4 @@
-package com.example.dbflute.guice.dbflute.nogen;
+package com.example.dbflute.scala.dbflute.nogen;
 
 import org.seasar.dbflute.DBDef
 import org.seasar.dbflute.bhv.core.BehaviorCommandInvoker

@@ -12,7 +12,7 @@ import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
-import com.example.dbflute.scala.dbflute.exentity._
+import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
  * The entity of (会員)MEMBER as TABLE. <br />

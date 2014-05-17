@@ -96,10 +96,11 @@ map:{
         ; %Desc = map:{ MEMBER_STATUS = list:{ DISPLAY_ORDER } }
     }
     ; Myself = map:{
-        ; !ScalarCondition = map:{ suffix:_STATUS = list:{} }
-        ; !MyselfDerived = map:{ prefix:PRODUCT_ST = list:{} ; suffix:_STATUS = list:{ dummy } }
-        ; !MyselfExists = map:{ suffix:_STATUS = list:{} ; SERVICE_RANK = list:{} }
-        ; !MyselfInScope = map:{ suffix:_STATUS = list:{} ; SERVICE_RANK = list:{ SERVICE_RANK_CODE } }
+# #pending
+#        ; !ScalarCondition = map:{ suffix:_STATUS = list:{} }
+#        ; !MyselfDerived = map:{ prefix:PRODUCT_ST = list:{} ; suffix:_STATUS = list:{ dummy } }
+#        ; !MyselfExists = map:{ suffix:_STATUS = list:{} ; SERVICE_RANK = list:{} }
+#        ; !MyselfInScope = map:{ suffix:_STATUS = list:{} ; SERVICE_RANK = list:{ SERVICE_RANK_CODE } }
     }
 }
 # ----------------/
