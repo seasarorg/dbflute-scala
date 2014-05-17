@@ -57,7 +57,7 @@ map:{
         # If you want to include some tables in generating target expressly,
         # you should specify the list of target table hints.
         # ex) list:{PURCHASE ; contain:MEMBER}
-        ; tableTargetList=list:{MEMBER}
+        ; tableTargetList=list:{MEMBER ; MEMBER_STATUS ; PURCHASE}
 
         # o columnExceptList: (NotRequired - Default 'list:{}')
         # If you want to exclude some columns in generating target,

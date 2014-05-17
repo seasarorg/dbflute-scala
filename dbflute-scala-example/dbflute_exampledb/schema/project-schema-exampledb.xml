@@ -49,6 +49,10 @@
             comment="バージョンNO: データのバージョンを示すナンバー。&#xa;更新回数と等しく、主に排他制御のために利用される。"
             dbType="BIGINT" javaType="Long" name="VERSION_NO"
             required="true" size="19" type="BIGINT"/>
+        <foreign-key foreignSchema="EXAMPLEDB.PUBLIC"
+            foreignTable="MEMBER_STATUS" name="FK_MEMBER_MEMBER_STATUS">
+            <reference foreign="MEMBER_STATUS_CODE" local="MEMBER_STATUS_CODE"/>
+        </foreign-key>
         <unique name="UQ_MEMBER_MEMBER_ACCOUNT_INDEX_8">
             <unique-column name="MEMBER_ACCOUNT" position="1"/>
         </unique>
@@ -61,6 +65,30 @@
         <index name="IX_MEMBER_MEMBER_NAME">
             <index-column name="MEMBER_NAME" position="1"/>
         </index>
+    </table>
+    <table
+        comment="会員ステータス: 会員のステータスを示す固定的なマスタテーブル。いわゆるテーブル区分値！&#xa;業務運用上で増えることはなく、増減するときはプログラム修正ともなうレベルの業務変更と考えられる。&#xa;&#xa;こういった固定的なマスタテーブルには、更新日時などの共通カラムは定義していないが、業務上そういった情報を管理する必要性が低いという理由に加え、ExampleDBとして共通カラムでER図が埋め尽くされてしまい見づらくなるというところで割り切っている。実業務では統一的に定義することもある。"
+        name="MEMBER_STATUS" schema="EXAMPLEDB.PUBLIC" type="TABLE">
+        <column
+            comment="会員ステータスコード: 会員ステータスを識別するコード。&#xa;固定的なデータなので連番とか番号にはせず、データを直接見たときも人が直感的にわかるように、例えば &quot;FML&quot; とかの３桁のコード形式にしている。(3って何会員だっけ？とかの問答をやりたくないので)&#xa;"
+            dbType="CHAR" javaType="String" name="MEMBER_STATUS_CODE"
+            pkName="CONSTRAINT_4" primaryKey="true" required="true"
+            size="3" type="CHAR"/>
+        <column
+            comment="会員ステータス名称: 表示用の名称。&#xa;国際化対応するときはもっと色々考える必要があるかと...ということで英語名カラムがないので、そのまま区分値メソッド名の一部としても利用される。"
+            dbType="VARCHAR" javaType="String" name="MEMBER_STATUS_NAME"
+            required="true" size="50" type="VARCHAR"/>
+        <column
+            comment="説明: 会員ステータスそれぞれの説明。&#xa;区分値の一つ一つの要素に気の利いた説明があるとディベロッパーがとても助かるので絶対に欲しい。"
+            dbType="VARCHAR" javaType="String" name="DESCRIPTION"
+            required="true" size="200" type="VARCHAR"/>
+        <column
+            comment="表示順: UI上のステータスの表示順を示すNO。&#xa;並べるときは、このカラムに対して昇順のソート条件にする。"
+            dbType="INTEGER" javaType="Integer" name="DISPLAY_ORDER"
+            required="true" size="10" type="INTEGER"/>
+        <unique name="UQ_MEMBER_STATUS_DISPLAY_ORDER_INDEX_4">
+            <unique-column name="DISPLAY_ORDER" position="1"/>
+        </unique>
     </table>
     <sequenceGroup>
         <sequence incrementSize="1"

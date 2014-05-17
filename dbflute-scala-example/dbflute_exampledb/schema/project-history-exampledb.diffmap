@@ -1,4 +1,46 @@
 map:{
+    ; 2014/05/17 19:02:02 = map:{
+        ; diffDate = 2014/05/17 19:02:02
+        ; tableCount = map:{
+            ; next = 2
+            ; previous = 1
+        }
+        ; tableDiff = map:{
+            ; MEMBER_STATUS = map:{
+                ; tableName = MEMBER_STATUS
+                ; diffType = ADD
+            }
+            ; MEMBER = map:{
+                ; tableName = MEMBER
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_MEMBER_MEMBER_STATUS = map:{
+                        ; constraintName = FK_MEMBER_MEMBER_STATUS
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+        ; craftDiff = map:{
+            ; TableCls = map:{
+                ; craftTitle = TableCls
+                ; craftRowDiff = map:{
+                    ; MEMBER_STATUS::PRV = map:{
+                        ; craftKeyName = MEMBER_STATUS::PRV
+                        ; diffType = ADD
+                    }
+                    ; MEMBER_STATUS::FML = map:{
+                        ; craftKeyName = MEMBER_STATUS::FML
+                        ; diffType = ADD
+                    }
+                    ; MEMBER_STATUS::WDL = map:{
+                        ; craftKeyName = MEMBER_STATUS::WDL
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2014/05/17 11:17:50 = map:{
         ; diffDate = 2014/05/17 11:17:50
         ; tableCount = map:{

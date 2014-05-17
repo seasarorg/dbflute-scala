@@ -137,14 +137,14 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
 
     /** 
      * Add order-by as ascend. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @return this. (NotNull)
      */
     def addOrderBy_MemberStatusCode_Asc(): BsMemberCQ = { regOBA("MEMBER_STATUS_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @return this. (NotNull)
      */
     def addOrderBy_MemberStatusCode_Desc(): BsMemberCQ = { regOBD("MEMBER_STATUS_CODE"); return this; }
@@ -337,11 +337,50 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     //                                                                         Union Query
     //                                                                         ===========
     protected def reflectRelationOnUnionQuery(bqs: ConditionQuery, uqs: ConditionQuery): Unit = {
+        val bq: MemberCQ = (MemberCQ)bqs;
+        val uq: MemberCQ = (MemberCQ)uqs;
+        if (bq.hasConditionQueryMemberStatus()) {
+            uq.queryMemberStatus().reflectRelationOnUnionQuery(bq.queryMemberStatus(), uq.queryMemberStatus());
+        }
     }
 
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
+    /**
+     * Get the condition-query for relation table. <br />
+     * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    def queryMemberStatus(): MemberStatusCQ = {
+        return getConditionQueryMemberStatus();
+    }
+    protected var _conditionQueryMemberStatus: MemberStatusCQ = null;
+    def getConditionQueryMemberStatus(): MemberStatusCQ = {
+        if (_conditionQueryMemberStatus == null) {
+            _conditionQueryMemberStatus = xcreateQueryMemberStatus();
+            xsetupOuterJoinMemberStatus();
+        }
+        return _conditionQueryMemberStatus;
+    }
+    protected def xcreateQueryMemberStatus(): MemberStatusCQ = {
+        val nrp: String = resolveNextRelationPath("MEMBER",  "memberStatus");
+        val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
+        val cq: MemberStatusCQ = new MemberStatusCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
+        cq.xsetBaseCB(_baseCB);
+        cq.xsetForeignPropertyName("memberStatus");
+        cq.xsetRelationPath(nrp); return cq;
+    }
+    protected def xsetupOuterJoinMemberStatus(): Unit = {
+        val cq: MemberStatusCQ = getConditionQueryMemberStatus();
+        val joinOnMap: Map[String, String] = newLinkedHashMapSized(4);
+        joinOnMap.put("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE");
+        registerOuterJoin(cq, joinOnMap, "memberStatus");
+    }
+    def hasConditionQueryMemberStatus(): Boolean = {
+        return _conditionQueryMemberStatus != null;
+    }
+
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;
     }

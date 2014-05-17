@@ -16,6 +16,8 @@
 ${database.allClassCopyright}package ${myBaseEntityPackageName};
 #set ($myClassName = "${myBaseObjectClassName}")
 
+import scala.collection.JavaConverters._
+
 import java.lang.Long;
 import java.io.Serializable;
 import java.util.List;
@@ -204,11 +206,11 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
      */
     def set${col.javaName}As${col.classificationName}(cdef: ${glCDef}.${col.classificationName}): Unit = {
 #if ($col.isJavaNativeNumberObject())
-        set${col.javaName}(cdef != null ? FunCustodial.toNumber(cdef.code(), classOf[${col.javaNative}]) : null);
+        set${col.javaName}(if (cdef != null) { FunCustodial.toNumber(cdef.code, classOf[${col.javaNative}]) } else { null });
 #elseif ($col.isJavaNativeBooleanObject())
-        set${col.javaName}(cdef != null ? FunCustodial.toBoolean(cdef.code()) : null);
+        set${col.javaName}(if (cdef != null) { FunCustodial.toBoolean(cdef.code) } else { null });
 #else
-        set${col.javaName}(cdef != null ? cdef.code() : null);
+        set${col.javaName}(if (cdef != null) { cdef.code } else { null });
 #end
     }
 #if ($classificationTop.isSisterBooleanHandling())
@@ -285,7 +287,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 #end
     def is${col.javaName}${classificationElement.name}(): Boolean = {
         val cdef: ${glCDef}.${col.classificationName} = get${col.javaName}As${col.classificationName}();
-        return cdef != null ? cdef.equals(${glCDef}.${col.classificationName}.${classificationElement.name}) : false;
+        return if (cdef != null) { cdef.equals(${glCDef}.${col.classificationName}.${classificationElement.name}) } else { false };
     }
 
 #end
@@ -637,8 +639,9 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 #end
 #foreach ($referrer in $table.referrerAsManyList)
 #set ($referrerVariableName = "_${referrer.referrerPropertyName}")
-        if (${referrerVariableName} != null) { for (Entity e : ${referrerVariableName})
-        { if (e != null) { sb.append(l).append(xbRDS(e, "${referrer.referrerPropertyName}")); } } }
+        if (${referrerVariableName} != null) {
+            ${referrerVariableName}.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "${referrer.referrerPropertyName}")) } });
+        }
 #end
 #end
         return sb.toString();

@@ -1,0 +1,4 @@
+"UNIQUE_CODE"	"TARGET_DATA"
+"MEMBER_STATUS::PRV"	"Provisional|3"
+"MEMBER_STATUS::FML"	"Formalized|1"
+"MEMBER_STATUS::WDL"	"Withdrawal|2"

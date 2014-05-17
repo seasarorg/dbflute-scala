@@ -7,6 +7,7 @@ import java.util.HashMap
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
+import org.seasar.dbflute.dbmeta.AbstractDBMeta._;
 import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info._
@@ -45,7 +46,7 @@ object MemberDbm extends AbstractDBMeta {
     def findPropertyGateway(propertyName: String): PropertyGateway = { return doFindEpg(_epgMap, propertyName); }
     class EpgMemberId extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberId(AbstractDBMeta.cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberId(cti(vl)); }
     }
     class EpgMemberName extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberName(); }
@@ -85,7 +86,7 @@ object MemberDbm extends AbstractDBMeta {
     }
     class EpgVersionNo extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Member].getVersionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setVersionNo(AbstractDBMeta.ctl(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setVersionNo(ctl(vl)); }
     }
 
     // ===================================================================================
@@ -107,7 +108,7 @@ object MemberDbm extends AbstractDBMeta {
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", true, "memberId", classOf[Integer], true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_52943728_871A_4F3B_AF10_627A00C2BFD9", false, null, null, null, null, null);
     protected val _columnMemberName: ColumnInfo = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", true, "memberName", classOf[String], false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnMemberAccount: ColumnInfo = cci("MEMBER_ACCOUNT", "MEMBER_ACCOUNT", null, "会員アカウント", true, "memberAccount", classOf[String], false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
-    protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", true, "memberStatusCode", classOf[String], false, false, "CHAR", 3, 0, null, false, null, null, null, null, null);
+    protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", true, "memberStatusCode", classOf[String], false, false, "CHAR", 3, 0, null, false, null, null, "memberStatus", null, CDef.DefMeta.MemberStatus);
     protected val _columnFormalizedDatetime: ColumnInfo = cci("FORMALIZED_DATETIME", "FORMALIZED_DATETIME", null, "正式会員日時", false, "formalizedDatetime", classOf[java.sql.Timestamp], false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
     protected val _columnBirthdate: ColumnInfo = cci("BIRTHDATE", "BIRTHDATE", null, "生年月日", false, "birthdate", classOf[java.util.Date], false, false, "DATE", 8, 0, null, false, null, null, null, null, null);
     protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, "登録日時", true, "registerDatetime", classOf[java.sql.Timestamp], false, false, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
@@ -162,6 +163,10 @@ object MemberDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                      Foreign Property
     //                                      ----------------
+    def foreignMemberStatus(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberStatusDbm.columnMemberStatusCode());
+        return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, false, false, false, false, null, null, false, "memberList");
+    }
 
     // -----------------------------------------------------
     //                                     Referrer Property

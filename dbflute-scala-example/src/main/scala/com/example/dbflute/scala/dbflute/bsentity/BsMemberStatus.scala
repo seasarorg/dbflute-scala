@@ -7,76 +7,60 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
-import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
- * The entity of (会員)MEMBER as TABLE. <br />
+ * The entity of (会員ステータス)MEMBER_STATUS as TABLE. <br />
  * <pre>
  * [primary-key]
- *     MEMBER_ID
+ *     MEMBER_STATUS_CODE
  * 
  * [column]
- *     MEMBER_ID, MEMBER_NAME, MEMBER_ACCOUNT, MEMBER_STATUS_CODE, FORMALIZED_DATETIME, BIRTHDATE, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER, VERSION_NO
+ *     MEMBER_STATUS_CODE, MEMBER_STATUS_NAME, DESCRIPTION, DISPLAY_ORDER
  * 
  * [sequence]
  *     
  * 
  * [identity]
- *     MEMBER_ID
+ *     
  * 
  * [version-no]
- *     VERSION_NO
+ *     
  * 
  * [foreign table]
- *     MEMBER_STATUS
+ *     
  * 
  * [referrer table]
- *     
+ *     MEMBER
  * 
  * [foreign property]
- *     memberStatus
+ *     
  * 
  * [referrer property]
- *     
+ *     memberList
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer memberId = entity.getMemberId();
- * String memberName = entity.getMemberName();
- * String memberAccount = entity.getMemberAccount();
  * String memberStatusCode = entity.getMemberStatusCode();
- * java.sql.Timestamp formalizedDatetime = entity.getFormalizedDatetime();
- * java.util.Date birthdate = entity.getBirthdate();
- * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
- * String registerUser = entity.getRegisterUser();
- * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
- * String updateUser = entity.getUpdateUser();
- * Long versionNo = entity.getVersionNo();
- * entity.setMemberId(memberId);
- * entity.setMemberName(memberName);
- * entity.setMemberAccount(memberAccount);
+ * String memberStatusName = entity.getMemberStatusName();
+ * String description = entity.getDescription();
+ * Integer displayOrder = entity.getDisplayOrder();
  * entity.setMemberStatusCode(memberStatusCode);
- * entity.setFormalizedDatetime(formalizedDatetime);
- * entity.setBirthdate(birthdate);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterUser(registerUser);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateUser(updateUser);
- * entity.setVersionNo(versionNo);
+ * entity.setMemberStatusName(memberStatusName);
+ * entity.setDescription(description);
+ * entity.setDisplayOrder(displayOrder);
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMember extends EntityDefinedCommonColumn with Serializable with Cloneable {
+abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                          Definition
@@ -88,47 +72,23 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     // -----------------------------------------------------
     //                                                Column
     //                                                ------
-    /** (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} */
-    protected var _memberId: Integer = null;
-
-    /** (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} */
-    protected var _memberName: String = null;
-
-    /** (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} */
-    protected var _memberAccount: String = null;
-
-    /** (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} */
+    /** (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} */
     protected var _memberStatusCode: String = null;
 
-    /** (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} */
-    protected var _formalizedDatetime: java.sql.Timestamp = null;
+    /** (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} */
+    protected var _memberStatusName: String = null;
 
-    /** (生年月日)BIRTHDATE: {DATE(8)} */
-    protected var _birthdate: java.util.Date = null;
+    /** (説明)DESCRIPTION: {NotNull, VARCHAR(200)} */
+    protected var _description: String = null;
 
-    /** (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _registerDatetime: java.sql.Timestamp = null;
-
-    /** (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} */
-    protected var _registerUser: String = null;
-
-    /** (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _updateDatetime: java.sql.Timestamp = null;
-
-    /** (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} */
-    protected var _updateUser: String = null;
-
-    /** (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} */
-    protected var _versionNo: Long = null;
+    /** (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} */
+    protected var _displayOrder: Integer = null;
 
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
-
-    /** Is common column auto set up effective? */
-    protected var __canCommonColumnAutoSetup: Boolean = true;
 
     /** Is the entity created by DBFlute select process? */
     protected var __createdBySelect: Boolean = false;
@@ -140,14 +100,14 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * {@inheritDoc}
      */
     def getTableDbName(): String = {
-        return "MEMBER";
+        return "MEMBER_STATUS";
     }
 
     /**
      * {@inheritDoc}
      */
     def getTablePropertyName(): String = { // according to Java Beans rule
-        return "member";
+        return "memberStatus";
     }
 
     // ===================================================================================
@@ -167,7 +127,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (getMemberId() == null) { return false; }
+        if (getMemberStatusCode() == null) { return false; }
         return true;
     }
 
@@ -176,7 +136,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     //                                                             =======================
     /**
      * Get the value of memberStatusCode as the classification of MemberStatus. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
      * status of member from entry to withdrawal
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -187,7 +147,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
 
     /**
      * Set the value of memberStatusCode as the classification of MemberStatus. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
      * status of member from entry to withdrawal
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -264,28 +224,29 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'. */
-    protected var _memberStatus: MemberStatus = null;
-
-    /**
-     * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
-     * @return The entity of foreign property 'memberStatus'. (NullAllowed: when e.g. null FK column, no setupSelect)
-     */
-    def getMemberStatus(): MemberStatus = {
-        return _memberStatus;
-    }
-
-    /**
-     * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
-     * @param memberStatus The entity of foreign property 'memberStatus'. (NullAllowed)
-     */
-    def setMemberStatus(memberStatus: MemberStatus): Unit = {
-        _memberStatus = memberStatus;
-    }
-
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'. */
+    protected var _memberList: List[Member] = null;
+
+    /**
+     * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
+     * @return The entity list of referrer property 'memberList'. (NotNull: even if no loading, returns empty list)
+     */
+    def getMemberList(): List[Member] = {
+        if (_memberList == null) { _memberList = newReferrerList(); }
+        return _memberList;
+    }
+
+    /**
+     * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
+     * @param memberList The entity list of referrer property 'memberList'. (NullAllowed)
+     */
+    def setMemberList(memberList: List[Member]): Unit = {
+        _memberList = memberList;
+    }
+
     protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
         return new ArrayList[ELEMENT]();
     }
@@ -336,30 +297,6 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     // ===================================================================================
-    //                                                                       Common Column
-    //                                                                       =============
-    /**
-     * {@inheritDoc}
-     */
-    def enableCommonColumnAutoSetup(): Unit = {
-        __canCommonColumnAutoSetup = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def disableCommonColumnAutoSetup(): Unit = {
-        __canCommonColumnAutoSetup = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def canCommonColumnAutoSetup(): Boolean = {
-        return __canCommonColumnAutoSetup;
-    }
-
-    // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
     /**
@@ -369,9 +306,9 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * @return Comparing result.
      */
     def equals(obj: Object): Boolean = {
-        if (obj == null || !(obj.isInstanceOf[BsMember])) { return false; }
-        val other: BsMember = obj.asInstanceOf[BsMember];
-        if (!xSV(getMemberId(), other.getMemberId())) { return false; }
+        if (obj == null || !(obj.isInstanceOf[BsMemberStatus])) { return false; }
+        val other: BsMemberStatus = obj.asInstanceOf[BsMemberStatus];
+        if (!xSV(getMemberStatusCode(), other.getMemberStatusCode())) { return false; }
         return true;
     }
     protected def xSV(value1: Object, value2: Object): Boolean = {
@@ -385,7 +322,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     def hashCode(): Integer = {
         var result: Integer = 17;
         result = xCH(result, getTableDbName());
-        result = xCH(result, getMemberId());
+        result = xCH(result, getMemberStatusCode());
         return result;
     }
     protected def xCH(result: Integer, value: Object): Integer = {
@@ -414,8 +351,11 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
         val l: String = "\n  ";
-        if (_memberStatus != null)
-        { sb.append(l).append(xbRDS(_memberStatus, "memberStatus")); }
+        if (_memberList != null) {
+            _memberList.asScala.foreach(e => {
+                if (e != null) { sb.append(l).append(xbRDS(e, "memberList")) }
+            });
+        }
         return sb.toString();
     }
     protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
@@ -436,33 +376,21 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val delimiter: String = ",  ";
-        sb.append(delimiter).append(getMemberId());
-        sb.append(delimiter).append(getMemberName());
-        sb.append(delimiter).append(getMemberAccount());
         sb.append(delimiter).append(getMemberStatusCode());
-        sb.append(delimiter).append(getFormalizedDatetime());
-        sb.append(delimiter).append(xfUD(getBirthdate()));
-        sb.append(delimiter).append(getRegisterDatetime());
-        sb.append(delimiter).append(getRegisterUser());
-        sb.append(delimiter).append(getUpdateDatetime());
-        sb.append(delimiter).append(getUpdateUser());
-        sb.append(delimiter).append(getVersionNo());
+        sb.append(delimiter).append(getMemberStatusName());
+        sb.append(delimiter).append(getDescription());
+        sb.append(delimiter).append(getDisplayOrder());
         if (sb.length() > delimiter.length()) {
             sb.delete(0, delimiter.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
-    protected def xfUD(date: Date): String = { // formatUtilDate()
-        return FunCustodial.toString(date, xgDP());
-    }
-    protected def xgDP(): String = { // getDatePattern
-        return "yyyy-MM-dd";
-    }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val c: String = ",  ";
-        if (_memberStatus != null) { sb.append(c).append("memberStatus"); }
+        if (_memberList != null && !_memberList.isEmpty())
+        { sb.append(c).append("memberList"); }
         if (sb.length() > c.length()) {
             sb.delete(0, c.length()).insert(0, "(").append(")");
         }
@@ -473,9 +401,9 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    def clone(): Member = {
+    def clone(): MemberStatus = {
         try {
-            return super.clone().asInstanceOf[Member];
+            return super.clone().asInstanceOf[MemberStatus];
         } catch {
             case e: CloneNotSupportedException => {
                 throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
@@ -487,58 +415,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
-     * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
-     */
-    def getMemberId(): Integer = {
-        return _memberId;
-    }
-
-    /**
-     * [set] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
-     * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
-     */
-    def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
-        this._memberId = memberId;
-    }
-
-    /**
-     * [get] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
-     * @return The value of the column 'MEMBER_NAME'. (basically NotNull if selected: for the constraint)
-     */
-    def getMemberName(): String = {
-        return convertEmptyToNull(_memberName);
-    }
-
-    /**
-     * [set] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
-     * @param memberName The value of the column 'MEMBER_NAME'. (basically NotNull if update: for the constraint)
-     */
-    def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
-        this._memberName = memberName;
-    }
-
-    /**
-     * [get] (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
-     * @return The value of the column 'MEMBER_ACCOUNT'. (basically NotNull if selected: for the constraint)
-     */
-    def getMemberAccount(): String = {
-        return convertEmptyToNull(_memberAccount);
-    }
-
-    /**
-     * [set] (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
-     * @param memberAccount The value of the column 'MEMBER_ACCOUNT'. (basically NotNull if update: for the constraint)
-     */
-    def setMemberAccount(memberAccount: String): Unit = {
-        __modifiedProperties.addPropertyName("memberAccount");
-        this._memberAccount = memberAccount;
-    }
-
-    /**
-     * [get] (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * [get] (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
      * @return The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
     def getMemberStatusCode(): String = {
@@ -546,7 +423,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [set] (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * [set] (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
      * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
     def setMemberStatusCode(memberStatusCode: String): Unit = {
@@ -555,122 +432,54 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [get] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
-     * @return The value of the column 'FORMALIZED_DATETIME'. (NullAllowed even if selected: for no constraint)
+     * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} <br />
+     * @return The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def getFormalizedDatetime(): java.sql.Timestamp = {
-        return _formalizedDatetime;
+    def getMemberStatusName(): String = {
+        return convertEmptyToNull(_memberStatusName);
     }
 
     /**
-     * [set] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
-     * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (NullAllowed: null update allowed for no constraint)
+     * [set] (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} <br />
+     * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if update: for the constraint)
      */
-    def setFormalizedDatetime(formalizedDatetime: java.sql.Timestamp): Unit = {
-        __modifiedProperties.addPropertyName("formalizedDatetime");
-        this._formalizedDatetime = formalizedDatetime;
+    def setMemberStatusName(memberStatusName: String): Unit = {
+        __modifiedProperties.addPropertyName("memberStatusName");
+        this._memberStatusName = memberStatusName;
     }
 
     /**
-     * [get] (生年月日)BIRTHDATE: {DATE(8)} <br />
-     * @return The value of the column 'BIRTHDATE'. (NullAllowed even if selected: for no constraint)
+     * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
+     * @return The value of the column 'DESCRIPTION'. (basically NotNull if selected: for the constraint)
      */
-    def getBirthdate(): java.util.Date = {
-        return _birthdate;
+    def getDescription(): String = {
+        return convertEmptyToNull(_description);
     }
 
     /**
-     * [set] (生年月日)BIRTHDATE: {DATE(8)} <br />
-     * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
+     * [set] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
+     * @param description The value of the column 'DESCRIPTION'. (basically NotNull if update: for the constraint)
      */
-    def setBirthdate(birthdate: java.util.Date): Unit = {
-        __modifiedProperties.addPropertyName("birthdate");
-        this._birthdate = birthdate;
+    def setDescription(description: String): Unit = {
+        __modifiedProperties.addPropertyName("description");
+        this._description = description;
     }
 
     /**
-     * [get] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
-     * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
+     * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'DISPLAY_ORDER'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
-        return _registerDatetime;
+    def getDisplayOrder(): Integer = {
+        return _displayOrder;
     }
 
     /**
-     * [set] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
-     * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
+     * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
+     * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
-        this._registerDatetime = registerDatetime;
-    }
-
-    /**
-     * [get] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
-     * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
-     */
-    def getRegisterUser(): String = {
-        return convertEmptyToNull(_registerUser);
-    }
-
-    /**
-     * [set] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
-     * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
-     */
-    def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
-        this._registerUser = registerUser;
-    }
-
-    /**
-     * [get] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
-     * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
-     */
-    def getUpdateDatetime(): java.sql.Timestamp = {
-        return _updateDatetime;
-    }
-
-    /**
-     * [set] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
-     * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
-     */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
-        this._updateDatetime = updateDatetime;
-    }
-
-    /**
-     * [get] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
-     * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
-     */
-    def getUpdateUser(): String = {
-        return convertEmptyToNull(_updateUser);
-    }
-
-    /**
-     * [set] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
-     * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
-     */
-    def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
-        this._updateUser = updateUser;
-    }
-
-    /**
-     * [get] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
-     * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
-     */
-    def getVersionNo(): Long = {
-        return _versionNo;
-    }
-
-    /**
-     * [set] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
-     * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
-     */
-    def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
-        this._versionNo = versionNo;
+    def setDisplayOrder(displayOrder: Integer): Unit = {
+        __modifiedProperties.addPropertyName("displayOrder");
+        this._displayOrder = displayOrder;
     }
 
     protected def convertEmptyToNull(value: String): String = {

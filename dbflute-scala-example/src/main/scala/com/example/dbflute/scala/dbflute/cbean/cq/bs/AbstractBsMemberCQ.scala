@@ -292,11 +292,45 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCode The value of memberStatusCode as equal. (NullAllowed: if null (or empty), no condition)
      */
      def setMemberStatusCode_Equal(memberStatusCode: String): Unit = {
         doSetMemberStatusCode_Equal(fRES(memberStatusCode));
+    }
+
+    /**
+     * Equal(=). As MemberStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * status of member from entry to withdrawal
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, no condition)
+     */
+    def setMemberStatusCode_Equal_AsMemberStatus(cdef: CDef.MemberStatus): Unit = {
+        doSetMemberStatusCode_Equal(if (cdef != null) { cdef.code } else { null });
+    }
+
+    /**
+     * Equal(=). As Formalized (FML). And OnlyOnceRegistered. <br />
+     * Formalized: as formal member, allowed to use all service
+     */
+    def setMemberStatusCode_Equal_Formalized(): Unit = {
+        setMemberStatusCode_Equal_AsMemberStatus(CDef.MemberStatus.Formalized);
+    }
+
+    /**
+     * Equal(=). As Withdrawal (WDL). And OnlyOnceRegistered. <br />
+     * Withdrawal: withdrawal is fixed, not allowed to use service
+     */
+    def setMemberStatusCode_Equal_Withdrawal(): Unit = {
+        setMemberStatusCode_Equal_AsMemberStatus(CDef.MemberStatus.Withdrawal);
+    }
+
+    /**
+     * Equal(=). As Provisional (PRV). And OnlyOnceRegistered. <br />
+     * Provisional: first status after entry, allowed to use only part of service
+     */
+    def setMemberStatusCode_Equal_Provisional(): Unit = {
+        setMemberStatusCode_Equal_AsMemberStatus(CDef.MemberStatus.Provisional);
     }
 
     protected def doSetMemberStatusCode_Equal(memberStatusCode: String): Unit = {
@@ -305,11 +339,45 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCode The value of memberStatusCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
      def setMemberStatusCode_NotEqual(memberStatusCode: String): Unit = {
         doSetMemberStatusCode_NotEqual(fRES(memberStatusCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As MemberStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * status of member from entry to withdrawal
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, no condition)
+     */
+    def setMemberStatusCode_NotEqual_AsMemberStatus(cdef: CDef.MemberStatus): Unit = {
+        doSetMemberStatusCode_NotEqual(if (cdef != null) { cdef.code } else { null });
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Formalized (FML). And OnlyOnceRegistered. <br />
+     * Formalized: as formal member, allowed to use all service
+     */
+    def setMemberStatusCode_NotEqual_Formalized(): Unit = {
+        setMemberStatusCode_NotEqual_AsMemberStatus(CDef.MemberStatus.Formalized);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Withdrawal (WDL). And OnlyOnceRegistered. <br />
+     * Withdrawal: withdrawal is fixed, not allowed to use service
+     */
+    def setMemberStatusCode_NotEqual_Withdrawal(): Unit = {
+        setMemberStatusCode_NotEqual_AsMemberStatus(CDef.MemberStatus.Withdrawal);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As Provisional (PRV). And OnlyOnceRegistered. <br />
+     * Provisional: first status after entry, allowed to use only part of service
+     */
+    def setMemberStatusCode_NotEqual_Provisional(): Unit = {
+        setMemberStatusCode_NotEqual_AsMemberStatus(CDef.MemberStatus.Provisional);
     }
 
     protected def doSetMemberStatusCode_NotEqual(memberStatusCode: String): Unit = {
@@ -318,11 +386,21 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
     def setMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
         doSetMemberStatusCode_InScope(memberStatusCodeList);
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As MemberStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * status of member from entry to withdrawal
+     * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
+     */
+    def setMemberStatusCode_InScope_AsMemberStatus(cdefList: Collection[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_InScope(cTStrL(cdefList));
     }
 
     def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
@@ -331,46 +409,25 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
     def setMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
         doSetMemberStatusCode_NotInScope(memberStatusCodeList);
     }
 
+    /**
+     * NotInScope {not in ('a', 'b')}. As MemberStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
+     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
+     * status of member from entry to withdrawal
+     * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
+     */
+    def setMemberStatusCode_NotInScope_AsMemberStatus(cdefList: Collection[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_NotInScope(cTStrL(cdefList));
+    }
+
     def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
-    }
-
-    /**
-     * PrefixSearch {like 'xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
-     * @param memberStatusCode The value of memberStatusCode as prefixSearch. (NullAllowed: if null (or empty), no condition)
-     */
-    def setMemberStatusCode_PrefixSearch(memberStatusCode: String): Unit = {
-        setMemberStatusCode_LikeSearch(memberStatusCode, cLSOP());
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
-     * <pre>e.g. setMemberStatusCode_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param memberStatusCode The value of memberStatusCode as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of like-search. (NotNull)
-     */
-    def setMemberStatusCode_LikeSearch(memberStatusCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_LS, fRES(memberStatusCode), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE", likeSearchOption);
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br />
-     * And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3)}
-     * @param memberStatusCode The value of memberStatusCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
-     */
-    def setMemberStatusCode_NotLikeSearch(memberStatusCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_NLS, fRES(memberStatusCode), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE", likeSearchOption);
     }
 
     protected def regMemberStatusCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberStatusCode(), "MEMBER_STATUS_CODE"); }

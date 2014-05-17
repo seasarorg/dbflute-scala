@@ -35,13 +35,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     VERSION_NO
  *
  * [foreign table]
- *     
+ *     MEMBER_STATUS
  *
  * [referrer table]
  *     
  *
  * [foreign property]
- *     
+ *     memberStatus
  *
  * [referrer property]
  *     
@@ -379,6 +379,19 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
+    /**
+     * Pull out the list of foreign table 'MemberStatus'.
+     * @param memberList The list of member. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    def pulloutMemberStatus(memberList: List[Member]): List[MemberStatus] = {
+        return helpPulloutInternally(memberList, new InternalPulloutCallback<Member, MemberStatus>() {
+            def getFr(et: Member): MemberStatus = { return et.getMemberStatus(); }
+            def hasRf(): Boolean = { return true; }
+            public void setRfLs(MemberStatus et, List[Member] ls)
+            { et.setMemberList(ls); }
+        });
+    }
 
     // ===================================================================================
     //                                                                      Extract Column

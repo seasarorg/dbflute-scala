@@ -23,6 +23,7 @@ import java.util.HashMap
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
+import org.seasar.dbflute.dbmeta.AbstractDBMeta._;
 import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info._
@@ -63,9 +64,9 @@ object ${myClassName} extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = column${col.javaBeansRulePropertyNameInitCap}();
 #if ($col.isCheckSelectedClassification())
-            AbstractDBMeta.ccls(col, vl);
+            ccls(col, vl);
 #end
-            et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}As${col.classificationName}(AbstractDBMeta.gcls(col, vl).asInstanceOf[${glCDef}.${col.classificationName}]);
+            et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}As${col.classificationName}(gcls(col, vl).asInstanceOf[${glCDef}.${col.classificationName}]);
         }
 #else
 ## /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,13 +76,13 @@ object ${myClassName} extends AbstractDBMeta {
         def read(et: Entity): Object = { return et.asInstanceOf[${myExtendedObjectClassName}].get${col.javaName}(); }
 #if ($col.isJavaNativeNumberObject())
 #if ($col.isJavaNativeInteger())
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(AbstractDBMeta.cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(cti(vl)); }
 #elseif ($col.isJavaNativeLong())
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(AbstractDBMeta.ctl(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(ctl(vl)); }
 #elseif ($col.isJavaNativeBigDecimal())
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(AbstractDBMeta.ctb(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(ctb(vl)); }
 #else
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(AbstractDBMeta.ctn(vl, classOf[${col.javaNative}])); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(ctn(vl, classOf[${col.javaNative}])); }
 #end
 #else
 #if ($col.isJavaNativeUtilList())
@@ -172,9 +173,9 @@ object ${myClassName} extends AbstractDBMeta {
 #if ($fk.isSimpleKeyFK())
 #set ($col = $fk.localColumnAsOne)
 #set ($yourCol = ${fk.getForeignColumnByLocalColumn(${col})})
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(column${col.javaBeansRulePropertyNameInitCap}(), ${fk.foreignTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(column${col.javaBeansRulePropertyNameInitCap}(), ${fk.foreignTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
 #else
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMapSized(4);
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMapSized(4);
 #foreach ($col in $fk.localColumnList)
 #set ($yourCol = ${fk.getForeignColumnByLocalColumn(${col})})
         mp.put(column${col.javaBeansRulePropertyNameInitCap}(), ${fk.foreignTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
@@ -189,9 +190,9 @@ object ${myClassName} extends AbstractDBMeta {
 #if ($referrer.isSimpleKeyFK())
 #set ($col = $referrer.foreignColumnAsOne)
 #set ($yourCol = ${referrer.getLocalColumnByForeignColumn(${col})})
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(column${col.javaBeansRulePropertyNameInitCap}(), ${referrer.referrerTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(column${col.javaBeansRulePropertyNameInitCap}(), ${referrer.referrerTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
 #else
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMapSized(4);
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMapSized(4);
 #foreach ($col in $referrer.foreignColumnList)
 #set ($yourCol = ${referrer.getLocalColumnByForeignColumn(${col})})
         mp.put(column${col.javaBeansRulePropertyNameInitCap}(), ${referrer.referrerTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
@@ -208,9 +209,9 @@ object ${myClassName} extends AbstractDBMeta {
     def referrer${referrer.referrerJavaBeansRulePropertyNameInitCap}(): ReferrerInfo = {
 #if ($referrer.isSimpleKeyFK())
 #set ($col = $referrer.foreignColumnAsOne)
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(column${col.javaBeansRulePropertyNameInitCap}(), ${referrer.referrerTableDBMetaClassName}.column${referrer.getLocalColumnByForeignColumn(${col}).javaBeansRulePropertyNameInitCap}());
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(column${col.javaBeansRulePropertyNameInitCap}(), ${referrer.referrerTableDBMetaClassName}.column${referrer.getLocalColumnByForeignColumn(${col}).javaBeansRulePropertyNameInitCap}());
 #else
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMapSized(4);
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMapSized(4);
 #foreach ($col in $referrer.foreignColumnList)
         mp.put(column${col.javaBeansRulePropertyNameInitCap}(), ${referrer.referrerTableDBMetaClassName}.column${referrer.getLocalColumnByForeignColumn(${col}).javaBeansRulePropertyNameInitCap}());
 #end

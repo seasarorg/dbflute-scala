@@ -35,6 +35,7 @@ object DBMetaInstanceHandler extends DBMetaProvider {
     protected var _tableDbNameClassNameMap: Map[String, String] = null;
     val tmpMap: Map[String, String] = new HashMap();
     tmpMap.put("MEMBER", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberDbm");
+    tmpMap.put("MEMBER_STATUS", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberStatusDbm");
     _tableDbNameClassNameMap = Collections.unmodifiableMap(tmpMap);
 
     /** The flexible map of table DB name. This is for conversion at finding. */
