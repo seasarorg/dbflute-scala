@@ -10,6 +10,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
 
 /**
  * @author jflute
+ * @since 1.0.5G (2014/05/17 Saturday)
  */
 class TryDbTest extends UnitContainerTestCase {
 
