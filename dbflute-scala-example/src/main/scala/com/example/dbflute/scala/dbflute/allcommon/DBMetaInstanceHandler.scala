@@ -34,28 +34,6 @@ object DBMetaInstanceHandler extends DBMetaProvider {
     protected var _tableDbNameClassNameMap: Map[String, String] = null;
     val tmpMap: Map[String, String] = new HashMap();
     tmpMap.put("MEMBER", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberDbm");
-    tmpMap.put("MEMBER_ADDRESS", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberAddressDbm");
-    tmpMap.put("MEMBER_FOLLOWING", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberFollowingDbm");
-    tmpMap.put("MEMBER_LOGIN", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberLoginDbm");
-    tmpMap.put("MEMBER_SECURITY", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberSecurityDbm");
-    tmpMap.put("MEMBER_SERVICE", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberServiceDbm");
-    tmpMap.put("MEMBER_STATUS", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberStatusDbm");
-    tmpMap.put("MEMBER_WITHDRAWAL", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberWithdrawalDbm");
-    tmpMap.put("PRODUCT", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.ProductDbm");
-    tmpMap.put("PRODUCT_CATEGORY", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.ProductCategoryDbm");
-    tmpMap.put("PRODUCT_STATUS", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.ProductStatusDbm");
-    tmpMap.put("PURCHASE", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.PurchaseDbm");
-    tmpMap.put("REGION", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.RegionDbm");
-    tmpMap.put("SERVICE_RANK", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.ServiceRankDbm");
-    tmpMap.put("SUMMARY_PRODUCT", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.SummaryProductDbm");
-    tmpMap.put("SUMMARY_WITHDRAWAL", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.SummaryWithdrawalDbm");
-    tmpMap.put("VENDOR_$_DOLLAR", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.Vendor$DollarDbm");
-    tmpMap.put("VENDOR_CHECK", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.VendorCheckDbm");
-    tmpMap.put("VENDOR_IDENTITY_ONLY", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.VendorIdentityOnlyDbm");
-    tmpMap.put("VENDOR_PRIMARY_KEY_ONLY", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.VendorPrimaryKeyOnlyDbm");
-    tmpMap.put("VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.VendorTheLongAndWindingTableAndColumnDbm");
-    tmpMap.put("VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.VendorTheLongAndWindingTableAndColumnRefDbm");
-    tmpMap.put("WITHDRAWAL_REASON", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.WithdrawalReasonDbm");
     _tableDbNameClassNameMap = Collections.unmodifiableMap(tmpMap);
 
     /** The flexible map of table DB name. This is for conversion at finding. */
@@ -255,10 +233,9 @@ object DBMetaInstanceHandler extends DBMetaProvider {
 
     protected def toDBMetaInstance(dbmetaName: String): DBMeta = {
         try {
-            // TODO jflute how to get object instance by name
             val dbmetaType: Class[_] = Class.forName(dbmetaName);
-            val method: Method = dbmetaType.getMethod("getInstance", null.asInstanceOf[Class[_]]);
-            val result: Object = method.invoke(null, null.asInstanceOf[Array[Object]]);
+            val field: Field = dbmetaType.getField("MODULE$");
+            val result: Object = field.get(null);
             return result.asInstanceOf[DBMeta];
         } catch {
             case e: Exception => {

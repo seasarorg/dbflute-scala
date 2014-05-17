@@ -52,10 +52,9 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
     }
 
     protected void migrateToScala(final String relativePath, final File templateFile) throws IOException {
-        //        adjust
-        //        if (!templateFile.getName().equals("BaseBhv.vm")) { // #provisional
-        //            return;
-        //        }
+        if (relativePath.contains("allcommon")) { // #provisional
+            return;
+        }
         final StringBuilder sb = new StringBuilder();
         readLine(templateFile, "UTF-8", new FileLineHandler() {
             public void handle(String line) {
@@ -117,10 +116,11 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
         work = replace(work, "public ", "");
         if (work.contains(" implements ")) {
             if (work.contains(" extends ")) {
-                work = replace(work, " implements ", ", ");
+                work = replace(work, " implements ", " with ");
             } else {
                 work = replace(work, " implements ", " extends ");
             }
+            work = replace(work, ", ", " with ");
         }
         return work;
     }
@@ -423,6 +423,7 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
         work = replace(work, "<String, Object>()", "[String, Object]()");
         work = replace(work, ".getInstance()", "");
         work = replace(work, "String[]", "Array[String]");
+        work = replace(work, "new ArrayList<ELEMENT>", "new ArrayList[ELEMENT]");
         work = replace(work, "protected static final ", "protected val ");
         if (line.startsWith("import ")) {
             work = replace(work, ".*;", "._");

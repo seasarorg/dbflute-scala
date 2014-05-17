@@ -250,10 +250,9 @@ object ${glDBMetaInstanceHandler} extends DBMetaProvider {
 
     protected def toDBMetaInstance(dbmetaName: String): DBMeta = {
         try {
-            // TODO jflute how to get object instance by name
             val dbmetaType: Class[_] = Class.forName(dbmetaName);
-            val method: Method = dbmetaType.getMethod("getInstance", null.asInstanceOf[Class[_]]);
-            val result: Object = method.invoke(null, null.asInstanceOf[Array[Object]]);
+            val field: Field = dbmetaType.getField("MODULE$");
+            val result: Object = field.get(null);
             return result.asInstanceOf[DBMeta];
         } catch {
             case e: Exception => {

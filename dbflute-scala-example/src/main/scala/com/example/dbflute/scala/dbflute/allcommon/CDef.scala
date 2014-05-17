@@ -1,6 +1,8 @@
 package com.example.dbflute.scala.dbflute.allcommon;
 
-import java.util.*;
+import scala.collection.JavaConverters._
+
+import java.util._;
 
 import org.seasar.dbflute.jdbc.Classification;
 import org.seasar.dbflute.jdbc.ClassificationCodeType;
@@ -10,59 +12,63 @@ import org.seasar.dbflute.jdbc.ClassificationMeta;
  * The definition of classification.
  * @author DBFlute(AutoGenerator)
  */
-public interface CDef extends Classification {
+object CDef extends Classification {
 
     /** The empty array for no sisters. */
-    String[] EMPTY_SISTERS = new String[]{};
+    val EMPTY_SISTERS: Array[String] = Array[String]();
 
     /** The empty map for no sub-items. */
-    @SuppressWarnings("unchecked")
-    Map<String, Object> EMPTY_SUB_ITEM_MAP = (Map<String, Object>)Collections.EMPTY_MAP;
+    val EMPTY_SUB_ITEM_MAP: Map[String, Object] = Collections.EMPTY_MAP.asInstanceOf[Map[String, Object]];
+
+    sealed abstract class Flg(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+
+        def subItemMap(): Map[String, Object] = { return _subItemMapMap.get(code); }
+        def meta(): ClassificationMeta = { return CDef.DefMeta.Flg; }
+
+        def key1(): String = {
+            return subItemMap().get("key1").asInstanceOf[String];
+        }
+
+        private val _subItemMapMap: Map[String, Map[String, Object]] = new HashMap();
+        {
+            {
+                val subItemMap: Map[String, Object] = new HashMap();
+                subItemMap.put("key1", "value1");
+                _subItemMapMap.put(Flg.True.code, Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                val subItemMap: Map[String, Object] = new HashMap();
+                subItemMap.put("key1", "value1");
+                _subItemMapMap.put(Flg.False.code, Collections.unmodifiableMap(subItemMap));
+            }
+        }
+
+        def inGroup(groupName: String): Boolean = {
+            return false;
+        }
+
+        @Override def toString(): String = { return code; }
+    }
 
     /**
      * general boolean classification for every flg-column
      */
-    public enum Flg implements CDef {
+    object Flg {
+
         /** Yes: means valid */
-        True("1", "Yes", EMPTY_SISTERS)
-        ,
+        case object True extends Flg("1", "Yes", EMPTY_SISTERS);
         /** No: means invalid */
-        False("0", "No", EMPTY_SISTERS)
-        ;
-        private static final Map<String, Flg> _codeValueMap = new HashMap<String, Flg>();
-        static {
-            for (Flg value : values()) {
-                _codeValueMap.put(value.code().toLowerCase(), value);
-                for (String sister : value.sisters()) { _codeValueMap.put(sister.toLowerCase(), value); }
-            }
-        }
-        private static final Map<String, Map<String, Object>> _subItemMapMap = new HashMap<String, Map<String, Object>>();
-        static {
-            {
-                Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("key1", "value1");
-                _subItemMapMap.put(True.code(), Collections.unmodifiableMap(subItemMap));
-            }
-            {
-                Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("key1", "value1");
-                _subItemMapMap.put(False.code(), Collections.unmodifiableMap(subItemMap));
-            }
-        }
-        private String _code; private String _alias; private String[] _sisters;
-        private Flg(String code, String alias, String[] sisters)
-        { _code = code; _alias = alias; _sisters = sisters; }
-        public String code() { return _code; } public String alias() { return _alias; }
-        private String[] sisters() { return _sisters; }
-        public Map<String, Object> subItemMap() { return _subItemMapMap.get(code()); }
-        public ClassificationMeta meta() { return CDef.DefMeta.Flg; }
+        case object False extends Flg("0", "No", EMPTY_SISTERS);
 
-        public String key1() {
-            return (String)subItemMap().get("key1");
+        private val _codeValueMap: Map[String, Flg] = new HashMap();
+        {
+            _codeValueMap.put("1".toLowerCase(), True);
+            _codeValueMap.put("0".toLowerCase(), False);
         }
-
-        public boolean inGroup(String groupName) {
-            return false;
+        private val _nameValueMap: Map[String, Flg] = new HashMap();
+        {
+            _nameValueMap.put("True", True);
+            _nameValueMap.put("False", False);
         }
 
         /**
@@ -70,9 +76,9 @@ public interface CDef extends Classification {
          * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
          */
-        public static Flg codeOf(Object code) {
+        def codeOf(code: Object): Flg = {
             if (code == null) { return null; }
-            if (code instanceof Flg) { return (Flg)code; }
+            if (code.isInstanceOf[Flg]) { return code.asInstanceOf[Flg]; }
             return _codeValueMap.get(code.toString().toLowerCase());
         }
 
@@ -81,17 +87,17 @@ public interface CDef extends Classification {
          * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
          */
-        public static Flg nameOf(String name) {
+        def nameOf(name: String): Flg = {
             if (name == null) { return null; }
-            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+            return _nameValueMap.get(name);
         }
 
         /**
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        public static List<Flg> listAll() {
-            return new ArrayList<Flg>(Arrays.asList(values()));
+        def listAll(): List[Flg] = {
+            return new ArrayList[Flg](_nameValueMap.values());
         }
 
         /**
@@ -99,72 +105,76 @@ public interface CDef extends Classification {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        public static List<Flg> groupOf(String groupName) {
-            return new ArrayList<Flg>(4);
+        def groupOf(groupName: String): List[Flg] = {
+            return new ArrayList[Flg](4);
+        }
+    }
+
+    sealed abstract class MemberStatus(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+
+        def subItemMap(): Map[String, Object] = { return _subItemMapMap.get(code); }
+        def meta(): ClassificationMeta = { return CDef.DefMeta.MemberStatus; }
+
+        def key1(): String = {
+            return subItemMap().get("key1").asInstanceOf[String];
         }
 
-        @Override public String toString() { return code(); }
+        def key2(): String = {
+            return subItemMap().get("key2").asInstanceOf[String];
+        }
+
+        private val _subItemMapMap: Map[String, Map[String, Object]] = new HashMap();
+        {
+            {
+                val subItemMap: Map[String, Object] = new HashMap();
+                subItemMap.put("key1", "1");
+                subItemMap.put("key2", "as formal member, allowed to use all service");
+                _subItemMapMap.put(MemberStatus.Formalized.code, Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                val subItemMap: Map[String, Object] = new HashMap();
+                subItemMap.put("key1", "2");
+                subItemMap.put("key2", "withdrawal is fixed, not allowed to use service");
+                _subItemMapMap.put(MemberStatus.Withdrawal.code, Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                val subItemMap: Map[String, Object] = new HashMap();
+                subItemMap.put("key1", "3");
+                subItemMap.put("key2", "first status after entry, allowed to use only part of service");
+                _subItemMapMap.put(MemberStatus.Provisional.code, Collections.unmodifiableMap(subItemMap));
+            }
+        }
+
+        def inGroup(groupName: String): Boolean = {
+            return false;
+        }
+
+        @Override def toString(): String = { return code; }
     }
 
     /**
      * status of member from entry to withdrawal
      */
-    public enum MemberStatus implements CDef {
+    object MemberStatus {
+
         /** Formalized: as formal member, allowed to use all service */
-        Formalized("FML", "Formalized", EMPTY_SISTERS)
-        ,
+        case object Formalized extends MemberStatus("FML", "Formalized", EMPTY_SISTERS);
         /** Withdrawal: withdrawal is fixed, not allowed to use service */
-        Withdrawal("WDL", "Withdrawal", EMPTY_SISTERS)
-        ,
+        case object Withdrawal extends MemberStatus("WDL", "Withdrawal", EMPTY_SISTERS);
         /** Provisional: first status after entry, allowed to use only part of service */
-        Provisional("PRV", "Provisional", EMPTY_SISTERS)
-        ;
-        private static final Map<String, MemberStatus> _codeValueMap = new HashMap<String, MemberStatus>();
-        static {
-            for (MemberStatus value : values()) {
-                _codeValueMap.put(value.code().toLowerCase(), value);
-                for (String sister : value.sisters()) { _codeValueMap.put(sister.toLowerCase(), value); }
-            }
-        }
-        private static final Map<String, Map<String, Object>> _subItemMapMap = new HashMap<String, Map<String, Object>>();
-        static {
-            {
-                Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("key1", "1");
-                subItemMap.put("key2", "as formal member, allowed to use all service");
-                _subItemMapMap.put(Formalized.code(), Collections.unmodifiableMap(subItemMap));
-            }
-            {
-                Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("key1", "2");
-                subItemMap.put("key2", "withdrawal is fixed, not allowed to use service");
-                _subItemMapMap.put(Withdrawal.code(), Collections.unmodifiableMap(subItemMap));
-            }
-            {
-                Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("key1", "3");
-                subItemMap.put("key2", "first status after entry, allowed to use only part of service");
-                _subItemMapMap.put(Provisional.code(), Collections.unmodifiableMap(subItemMap));
-            }
-        }
-        private String _code; private String _alias; private String[] _sisters;
-        private MemberStatus(String code, String alias, String[] sisters)
-        { _code = code; _alias = alias; _sisters = sisters; }
-        public String code() { return _code; } public String alias() { return _alias; }
-        private String[] sisters() { return _sisters; }
-        public Map<String, Object> subItemMap() { return _subItemMapMap.get(code()); }
-        public ClassificationMeta meta() { return CDef.DefMeta.MemberStatus; }
+        case object Provisional extends MemberStatus("PRV", "Provisional", EMPTY_SISTERS);
 
-        public String key1() {
-            return (String)subItemMap().get("key1");
+        private val _codeValueMap: Map[String, MemberStatus] = new HashMap();
+        {
+            _codeValueMap.put("FML".toLowerCase(), Formalized);
+            _codeValueMap.put("WDL".toLowerCase(), Withdrawal);
+            _codeValueMap.put("PRV".toLowerCase(), Provisional);
         }
-
-        public String key2() {
-            return (String)subItemMap().get("key2");
-        }
-
-        public boolean inGroup(String groupName) {
-            return false;
+        private val _nameValueMap: Map[String, MemberStatus] = new HashMap();
+        {
+            _nameValueMap.put("Formalized", Formalized);
+            _nameValueMap.put("Withdrawal", Withdrawal);
+            _nameValueMap.put("Provisional", Provisional);
         }
 
         /**
@@ -172,9 +182,9 @@ public interface CDef extends Classification {
          * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
          */
-        public static MemberStatus codeOf(Object code) {
+        def codeOf(code: Object): MemberStatus = {
             if (code == null) { return null; }
-            if (code instanceof MemberStatus) { return (MemberStatus)code; }
+            if (code.isInstanceOf[MemberStatus]) { return code.asInstanceOf[MemberStatus]; }
             return _codeValueMap.get(code.toString().toLowerCase());
         }
 
@@ -183,17 +193,17 @@ public interface CDef extends Classification {
          * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
          */
-        public static MemberStatus nameOf(String name) {
+        def nameOf(name: String): MemberStatus = {
             if (name == null) { return null; }
-            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+            return _nameValueMap.get(name);
         }
 
         /**
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        public static List<MemberStatus> listAll() {
-            return new ArrayList<MemberStatus>(Arrays.asList(values()));
+        def listAll(): List[MemberStatus] = {
+            return new ArrayList[MemberStatus](_nameValueMap.values());
         }
 
         /**
@@ -201,49 +211,55 @@ public interface CDef extends Classification {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        public static List<MemberStatus> groupOf(String groupName) {
-            return new ArrayList<MemberStatus>(4);
+        def groupOf(groupName: String): List[MemberStatus] = {
+            return new ArrayList[MemberStatus](4);
+        }
+    }
+
+    sealed abstract class ServiceRank(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+
+        def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
+        def meta(): ClassificationMeta = { return CDef.DefMeta.ServiceRank; }
+
+
+        def inGroup(groupName: String): Boolean = {
+            return false;
         }
 
-        @Override public String toString() { return code(); }
+        @Override def toString(): String = { return code; }
     }
 
     /**
      * rank of service member gets
      */
-    public enum ServiceRank implements CDef {
-        /** PLATINUM: platinum rank */
-        Platinum("PLT", "PLATINUM", EMPTY_SISTERS)
-        ,
-        /** GOLD: gold rank */
-        Gold("GLD", "GOLD", EMPTY_SISTERS)
-        ,
-        /** SILVER: silver rank */
-        Silver("SIL", "SILVER", EMPTY_SISTERS)
-        ,
-        /** BRONZE: bronze rank */
-        Bronze("BRZ", "BRONZE", EMPTY_SISTERS)
-        ,
-        /** PLASTIC: plastic rank */
-        Plastic("PLS", "PLASTIC", EMPTY_SISTERS)
-        ;
-        private static final Map<String, ServiceRank> _codeValueMap = new HashMap<String, ServiceRank>();
-        static {
-            for (ServiceRank value : values()) {
-                _codeValueMap.put(value.code().toLowerCase(), value);
-                for (String sister : value.sisters()) { _codeValueMap.put(sister.toLowerCase(), value); }
-            }
-        }
-        private String _code; private String _alias; private String[] _sisters;
-        private ServiceRank(String code, String alias, String[] sisters)
-        { _code = code; _alias = alias; _sisters = sisters; }
-        public String code() { return _code; } public String alias() { return _alias; }
-        private String[] sisters() { return _sisters; }
-        public Map<String, Object> subItemMap() { return EMPTY_SUB_ITEM_MAP; }
-        public ClassificationMeta meta() { return CDef.DefMeta.ServiceRank; }
+    object ServiceRank {
 
-        public boolean inGroup(String groupName) {
-            return false;
+        /** PLATINUM: platinum rank */
+        case object Platinum extends ServiceRank("PLT", "PLATINUM", EMPTY_SISTERS);
+        /** GOLD: gold rank */
+        case object Gold extends ServiceRank("GLD", "GOLD", EMPTY_SISTERS);
+        /** SILVER: silver rank */
+        case object Silver extends ServiceRank("SIL", "SILVER", EMPTY_SISTERS);
+        /** BRONZE: bronze rank */
+        case object Bronze extends ServiceRank("BRZ", "BRONZE", EMPTY_SISTERS);
+        /** PLASTIC: plastic rank */
+        case object Plastic extends ServiceRank("PLS", "PLASTIC", EMPTY_SISTERS);
+
+        private val _codeValueMap: Map[String, ServiceRank] = new HashMap();
+        {
+            _codeValueMap.put("PLT".toLowerCase(), Platinum);
+            _codeValueMap.put("GLD".toLowerCase(), Gold);
+            _codeValueMap.put("SIL".toLowerCase(), Silver);
+            _codeValueMap.put("BRZ".toLowerCase(), Bronze);
+            _codeValueMap.put("PLS".toLowerCase(), Plastic);
+        }
+        private val _nameValueMap: Map[String, ServiceRank] = new HashMap();
+        {
+            _nameValueMap.put("Platinum", Platinum);
+            _nameValueMap.put("Gold", Gold);
+            _nameValueMap.put("Silver", Silver);
+            _nameValueMap.put("Bronze", Bronze);
+            _nameValueMap.put("Plastic", Plastic);
         }
 
         /**
@@ -251,9 +267,9 @@ public interface CDef extends Classification {
          * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
          */
-        public static ServiceRank codeOf(Object code) {
+        def codeOf(code: Object): ServiceRank = {
             if (code == null) { return null; }
-            if (code instanceof ServiceRank) { return (ServiceRank)code; }
+            if (code.isInstanceOf[ServiceRank]) { return code.asInstanceOf[ServiceRank]; }
             return _codeValueMap.get(code.toString().toLowerCase());
         }
 
@@ -262,17 +278,17 @@ public interface CDef extends Classification {
          * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
          */
-        public static ServiceRank nameOf(String name) {
+        def nameOf(name: String): ServiceRank = {
             if (name == null) { return null; }
-            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+            return _nameValueMap.get(name);
         }
 
         /**
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        public static List<ServiceRank> listAll() {
-            return new ArrayList<ServiceRank>(Arrays.asList(values()));
+        def listAll(): List[ServiceRank] = {
+            return new ArrayList[ServiceRank](_nameValueMap.values());
         }
 
         /**
@@ -280,46 +296,51 @@ public interface CDef extends Classification {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        public static List<ServiceRank> groupOf(String groupName) {
-            return new ArrayList<ServiceRank>(4);
+        def groupOf(groupName: String): List[ServiceRank] = {
+            return new ArrayList[ServiceRank](4);
+        }
+    }
+
+    sealed abstract class Region(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+
+        def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
+        def meta(): ClassificationMeta = { return CDef.DefMeta.Region; }
+
+
+        def inGroup(groupName: String): Boolean = {
+            return false;
         }
 
-        @Override public String toString() { return code(); }
+        @Override def toString(): String = { return code; }
     }
 
     /**
      * mainly region of member address
      */
-    public enum Region implements CDef {
-        /** AMERICA */
-        America("1", "AMERICA", EMPTY_SISTERS)
-        ,
-        /** CANADA */
-        Canada("2", "CANADA", EMPTY_SISTERS)
-        ,
-        /** CHINA */
-        China("3", "CHINA", EMPTY_SISTERS)
-        ,
-        /** CHIBA */
-        Chiba("4", "CHIBA", EMPTY_SISTERS)
-        ;
-        private static final Map<String, Region> _codeValueMap = new HashMap<String, Region>();
-        static {
-            for (Region value : values()) {
-                _codeValueMap.put(value.code().toLowerCase(), value);
-                for (String sister : value.sisters()) { _codeValueMap.put(sister.toLowerCase(), value); }
-            }
-        }
-        private String _code; private String _alias; private String[] _sisters;
-        private Region(String code, String alias, String[] sisters)
-        { _code = code; _alias = alias; _sisters = sisters; }
-        public String code() { return _code; } public String alias() { return _alias; }
-        private String[] sisters() { return _sisters; }
-        public Map<String, Object> subItemMap() { return EMPTY_SUB_ITEM_MAP; }
-        public ClassificationMeta meta() { return CDef.DefMeta.Region; }
+    object Region {
 
-        public boolean inGroup(String groupName) {
-            return false;
+        /** AMERICA */
+        case object America extends Region("1", "AMERICA", EMPTY_SISTERS);
+        /** CANADA */
+        case object Canada extends Region("2", "CANADA", EMPTY_SISTERS);
+        /** CHINA */
+        case object China extends Region("3", "CHINA", EMPTY_SISTERS);
+        /** CHIBA */
+        case object Chiba extends Region("4", "CHIBA", EMPTY_SISTERS);
+
+        private val _codeValueMap: Map[String, Region] = new HashMap();
+        {
+            _codeValueMap.put("1".toLowerCase(), America);
+            _codeValueMap.put("2".toLowerCase(), Canada);
+            _codeValueMap.put("3".toLowerCase(), China);
+            _codeValueMap.put("4".toLowerCase(), Chiba);
+        }
+        private val _nameValueMap: Map[String, Region] = new HashMap();
+        {
+            _nameValueMap.put("America", America);
+            _nameValueMap.put("Canada", Canada);
+            _nameValueMap.put("China", China);
+            _nameValueMap.put("Chiba", Chiba);
         }
 
         /**
@@ -327,9 +348,9 @@ public interface CDef extends Classification {
          * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
          */
-        public static Region codeOf(Object code) {
+        def codeOf(code: Object): Region = {
             if (code == null) { return null; }
-            if (code instanceof Region) { return (Region)code; }
+            if (code.isInstanceOf[Region]) { return code.asInstanceOf[Region]; }
             return _codeValueMap.get(code.toString().toLowerCase());
         }
 
@@ -338,17 +359,17 @@ public interface CDef extends Classification {
          * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
          */
-        public static Region nameOf(String name) {
+        def nameOf(name: String): Region = {
             if (name == null) { return null; }
-            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+            return _nameValueMap.get(name);
         }
 
         /**
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        public static List<Region> listAll() {
-            return new ArrayList<Region>(Arrays.asList(values()));
+        def listAll(): List[Region] = {
+            return new ArrayList[Region](_nameValueMap.values());
         }
 
         /**
@@ -356,46 +377,51 @@ public interface CDef extends Classification {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        public static List<Region> groupOf(String groupName) {
-            return new ArrayList<Region>(4);
+        def groupOf(groupName: String): List[Region] = {
+            return new ArrayList[Region](4);
+        }
+    }
+
+    sealed abstract class WithdrawalReason(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+
+        def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
+        def meta(): ClassificationMeta = { return CDef.DefMeta.WithdrawalReason; }
+
+
+        def inGroup(groupName: String): Boolean = {
+            return false;
         }
 
-        @Override public String toString() { return code(); }
+        @Override def toString(): String = { return code; }
     }
 
     /**
      * reason for member withdrawal
      */
-    public enum WithdrawalReason implements CDef {
-        /** SIT: サイトが使いにくいから */
-        Sit("SIT", "SIT", EMPTY_SISTERS)
-        ,
-        /** PRD: 商品に魅力がないから */
-        Prd("PRD", "PRD", EMPTY_SISTERS)
-        ,
-        /** FRT: フリテンだから */
-        Frt("FRT", "FRT", EMPTY_SISTERS)
-        ,
-        /** OTH: その他理由 */
-        Oth("OTH", "OTH", EMPTY_SISTERS)
-        ;
-        private static final Map<String, WithdrawalReason> _codeValueMap = new HashMap<String, WithdrawalReason>();
-        static {
-            for (WithdrawalReason value : values()) {
-                _codeValueMap.put(value.code().toLowerCase(), value);
-                for (String sister : value.sisters()) { _codeValueMap.put(sister.toLowerCase(), value); }
-            }
-        }
-        private String _code; private String _alias; private String[] _sisters;
-        private WithdrawalReason(String code, String alias, String[] sisters)
-        { _code = code; _alias = alias; _sisters = sisters; }
-        public String code() { return _code; } public String alias() { return _alias; }
-        private String[] sisters() { return _sisters; }
-        public Map<String, Object> subItemMap() { return EMPTY_SUB_ITEM_MAP; }
-        public ClassificationMeta meta() { return CDef.DefMeta.WithdrawalReason; }
+    object WithdrawalReason {
 
-        public boolean inGroup(String groupName) {
-            return false;
+        /** SIT: サイトが使いにくいから */
+        case object Sit extends WithdrawalReason("SIT", "SIT", EMPTY_SISTERS);
+        /** PRD: 商品に魅力がないから */
+        case object Prd extends WithdrawalReason("PRD", "PRD", EMPTY_SISTERS);
+        /** FRT: フリテンだから */
+        case object Frt extends WithdrawalReason("FRT", "FRT", EMPTY_SISTERS);
+        /** OTH: その他理由 */
+        case object Oth extends WithdrawalReason("OTH", "OTH", EMPTY_SISTERS);
+
+        private val _codeValueMap: Map[String, WithdrawalReason] = new HashMap();
+        {
+            _codeValueMap.put("SIT".toLowerCase(), Sit);
+            _codeValueMap.put("PRD".toLowerCase(), Prd);
+            _codeValueMap.put("FRT".toLowerCase(), Frt);
+            _codeValueMap.put("OTH".toLowerCase(), Oth);
+        }
+        private val _nameValueMap: Map[String, WithdrawalReason] = new HashMap();
+        {
+            _nameValueMap.put("Sit", Sit);
+            _nameValueMap.put("Prd", Prd);
+            _nameValueMap.put("Frt", Frt);
+            _nameValueMap.put("Oth", Oth);
         }
 
         /**
@@ -403,9 +429,9 @@ public interface CDef extends Classification {
          * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
          */
-        public static WithdrawalReason codeOf(Object code) {
+        def codeOf(code: Object): WithdrawalReason = {
             if (code == null) { return null; }
-            if (code instanceof WithdrawalReason) { return (WithdrawalReason)code; }
+            if (code.isInstanceOf[WithdrawalReason]) { return code.asInstanceOf[WithdrawalReason]; }
             return _codeValueMap.get(code.toString().toLowerCase());
         }
 
@@ -414,17 +440,17 @@ public interface CDef extends Classification {
          * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
          */
-        public static WithdrawalReason nameOf(String name) {
+        def nameOf(name: String): WithdrawalReason = {
             if (name == null) { return null; }
-            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+            return _nameValueMap.get(name);
         }
 
         /**
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        public static List<WithdrawalReason> listAll() {
-            return new ArrayList<WithdrawalReason>(Arrays.asList(values()));
+        def listAll(): List[WithdrawalReason] = {
+            return new ArrayList[WithdrawalReason](_nameValueMap.values());
         }
 
         /**
@@ -432,49 +458,55 @@ public interface CDef extends Classification {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        public static List<WithdrawalReason> groupOf(String groupName) {
-            return new ArrayList<WithdrawalReason>(4);
+        def groupOf(groupName: String): List[WithdrawalReason] = {
+            return new ArrayList[WithdrawalReason](4);
+        }
+    }
+
+    sealed abstract class ProductCategory(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+
+        def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
+        def meta(): ClassificationMeta = { return CDef.DefMeta.ProductCategory; }
+
+
+        def inGroup(groupName: String): Boolean = {
+            return false;
         }
 
-        @Override public String toString() { return code(); }
+        @Override def toString(): String = { return code; }
     }
 
     /**
      * category of product. self reference
      */
-    public enum ProductCategory implements CDef {
-        /** 音楽 */
-        音楽("MSC", "音楽", EMPTY_SISTERS)
-        ,
-        /** 食品 */
-        食品("FOD", "食品", EMPTY_SISTERS)
-        ,
-        /** ハーブ: of 食品 */
-        ハーブ("HEB", "ハーブ", EMPTY_SISTERS)
-        ,
-        /** 音楽CD: of 音楽 */
-        音楽cd("MCD", "音楽CD", EMPTY_SISTERS)
-        ,
-        /** 楽器: of 音楽 */
-        楽器("INS", "楽器", EMPTY_SISTERS)
-        ;
-        private static final Map<String, ProductCategory> _codeValueMap = new HashMap<String, ProductCategory>();
-        static {
-            for (ProductCategory value : values()) {
-                _codeValueMap.put(value.code().toLowerCase(), value);
-                for (String sister : value.sisters()) { _codeValueMap.put(sister.toLowerCase(), value); }
-            }
-        }
-        private String _code; private String _alias; private String[] _sisters;
-        private ProductCategory(String code, String alias, String[] sisters)
-        { _code = code; _alias = alias; _sisters = sisters; }
-        public String code() { return _code; } public String alias() { return _alias; }
-        private String[] sisters() { return _sisters; }
-        public Map<String, Object> subItemMap() { return EMPTY_SUB_ITEM_MAP; }
-        public ClassificationMeta meta() { return CDef.DefMeta.ProductCategory; }
+    object ProductCategory {
 
-        public boolean inGroup(String groupName) {
-            return false;
+        /** 音楽 */
+        case object 音楽 extends ProductCategory("MSC", "音楽", EMPTY_SISTERS);
+        /** 食品 */
+        case object 食品 extends ProductCategory("FOD", "食品", EMPTY_SISTERS);
+        /** ハーブ: of 食品 */
+        case object ハーブ extends ProductCategory("HEB", "ハーブ", EMPTY_SISTERS);
+        /** 音楽CD: of 音楽 */
+        case object 音楽cd extends ProductCategory("MCD", "音楽CD", EMPTY_SISTERS);
+        /** 楽器: of 音楽 */
+        case object 楽器 extends ProductCategory("INS", "楽器", EMPTY_SISTERS);
+
+        private val _codeValueMap: Map[String, ProductCategory] = new HashMap();
+        {
+            _codeValueMap.put("MSC".toLowerCase(), 音楽);
+            _codeValueMap.put("FOD".toLowerCase(), 食品);
+            _codeValueMap.put("HEB".toLowerCase(), ハーブ);
+            _codeValueMap.put("MCD".toLowerCase(), 音楽cd);
+            _codeValueMap.put("INS".toLowerCase(), 楽器);
+        }
+        private val _nameValueMap: Map[String, ProductCategory] = new HashMap();
+        {
+            _nameValueMap.put("音楽", 音楽);
+            _nameValueMap.put("食品", 食品);
+            _nameValueMap.put("ハーブ", ハーブ);
+            _nameValueMap.put("音楽cd", 音楽cd);
+            _nameValueMap.put("楽器", 楽器);
         }
 
         /**
@@ -482,9 +514,9 @@ public interface CDef extends Classification {
          * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
          */
-        public static ProductCategory codeOf(Object code) {
+        def codeOf(code: Object): ProductCategory = {
             if (code == null) { return null; }
-            if (code instanceof ProductCategory) { return (ProductCategory)code; }
+            if (code.isInstanceOf[ProductCategory]) { return code.asInstanceOf[ProductCategory]; }
             return _codeValueMap.get(code.toString().toLowerCase());
         }
 
@@ -493,17 +525,17 @@ public interface CDef extends Classification {
          * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
          */
-        public static ProductCategory nameOf(String name) {
+        def nameOf(name: String): ProductCategory = {
             if (name == null) { return null; }
-            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+            return _nameValueMap.get(name);
         }
 
         /**
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        public static List<ProductCategory> listAll() {
-            return new ArrayList<ProductCategory>(Arrays.asList(values()));
+        def listAll(): List[ProductCategory] = {
+            return new ArrayList[ProductCategory](_nameValueMap.values());
         }
 
         /**
@@ -511,43 +543,47 @@ public interface CDef extends Classification {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        public static List<ProductCategory> groupOf(String groupName) {
-            return new ArrayList<ProductCategory>(4);
+        def groupOf(groupName: String): List[ProductCategory] = {
+            return new ArrayList[ProductCategory](4);
+        }
+    }
+
+    sealed abstract class ProductStatus(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+
+        def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
+        def meta(): ClassificationMeta = { return CDef.DefMeta.ProductStatus; }
+
+
+        def inGroup(groupName: String): Boolean = {
+            return false;
         }
 
-        @Override public String toString() { return code(); }
+        @Override def toString(): String = { return code; }
     }
 
     /**
      * status for product
      */
-    public enum ProductStatus implements CDef {
-        /** 生産販売可能 */
-        生産販売可能("ONS", "生産販売可能", EMPTY_SISTERS)
-        ,
-        /** 生産中止 */
-        生産中止("PST", "生産中止", EMPTY_SISTERS)
-        ,
-        /** 販売中止 */
-        販売中止("SST", "販売中止", EMPTY_SISTERS)
-        ;
-        private static final Map<String, ProductStatus> _codeValueMap = new HashMap<String, ProductStatus>();
-        static {
-            for (ProductStatus value : values()) {
-                _codeValueMap.put(value.code().toLowerCase(), value);
-                for (String sister : value.sisters()) { _codeValueMap.put(sister.toLowerCase(), value); }
-            }
-        }
-        private String _code; private String _alias; private String[] _sisters;
-        private ProductStatus(String code, String alias, String[] sisters)
-        { _code = code; _alias = alias; _sisters = sisters; }
-        public String code() { return _code; } public String alias() { return _alias; }
-        private String[] sisters() { return _sisters; }
-        public Map<String, Object> subItemMap() { return EMPTY_SUB_ITEM_MAP; }
-        public ClassificationMeta meta() { return CDef.DefMeta.ProductStatus; }
+    object ProductStatus {
 
-        public boolean inGroup(String groupName) {
-            return false;
+        /** 生産販売可能 */
+        case object 生産販売可能 extends ProductStatus("ONS", "生産販売可能", EMPTY_SISTERS);
+        /** 生産中止 */
+        case object 生産中止 extends ProductStatus("PST", "生産中止", EMPTY_SISTERS);
+        /** 販売中止 */
+        case object 販売中止 extends ProductStatus("SST", "販売中止", EMPTY_SISTERS);
+
+        private val _codeValueMap: Map[String, ProductStatus] = new HashMap();
+        {
+            _codeValueMap.put("ONS".toLowerCase(), 生産販売可能);
+            _codeValueMap.put("PST".toLowerCase(), 生産中止);
+            _codeValueMap.put("SST".toLowerCase(), 販売中止);
+        }
+        private val _nameValueMap: Map[String, ProductStatus] = new HashMap();
+        {
+            _nameValueMap.put("生産販売可能", 生産販売可能);
+            _nameValueMap.put("生産中止", 生産中止);
+            _nameValueMap.put("販売中止", 販売中止);
         }
 
         /**
@@ -555,9 +591,9 @@ public interface CDef extends Classification {
          * @param code The value of code, which is case-insensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the code. (NullAllowed: if not found, returns null)
          */
-        public static ProductStatus codeOf(Object code) {
+        def codeOf(code: Object): ProductStatus = {
             if (code == null) { return null; }
-            if (code instanceof ProductStatus) { return (ProductStatus)code; }
+            if (code.isInstanceOf[ProductStatus]) { return code.asInstanceOf[ProductStatus]; }
             return _codeValueMap.get(code.toString().toLowerCase());
         }
 
@@ -566,17 +602,17 @@ public interface CDef extends Classification {
          * @param name The string of name, which is case-sensitive. (NullAllowed: if null, returns null)
          * @return The instance of the corresponding classification to the name. (NullAllowed: if not found, returns null)
          */
-        public static ProductStatus nameOf(String name) {
+        def nameOf(name: String): ProductStatus = {
             if (name == null) { return null; }
-            try { return valueOf(name); } catch (RuntimeException ignored) { return null; }
+            return _nameValueMap.get(name);
         }
 
         /**
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        public static List<ProductStatus> listAll() {
-            return new ArrayList<ProductStatus>(Arrays.asList(values()));
+        def listAll(): List[ProductStatus] = {
+            return new ArrayList[ProductStatus](_nameValueMap.values());
         }
 
         /**
@@ -584,93 +620,88 @@ public interface CDef extends Classification {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        public static List<ProductStatus> groupOf(String groupName) {
-            return new ArrayList<ProductStatus>(4);
+        def groupOf(groupName: String): List[ProductStatus] = {
+            return new ArrayList[ProductStatus](4);
         }
-
-        @Override public String toString() { return code(); }
     }
 
-    public enum DefMeta implements ClassificationMeta {
-        /** general boolean classification for every flg-column */
-        Flg
-        ,
-        /** status of member from entry to withdrawal */
-        MemberStatus
-        ,
-        /** rank of service member gets */
-        ServiceRank
-        ,
-        /** mainly region of member address */
-        Region
-        ,
-        /** reason for member withdrawal */
-        WithdrawalReason
-        ,
-        /** category of product. self reference */
-        ProductCategory
-        ,
-        /** status for product */
-        ProductStatus
-        ;
-        public Classification codeOf(Object code) {
-            if ("Flg".equals(name())) { return CDef.Flg.codeOf(code); }
-            if ("MemberStatus".equals(name())) { return CDef.MemberStatus.codeOf(code); }
-            if ("ServiceRank".equals(name())) { return CDef.ServiceRank.codeOf(code); }
-            if ("Region".equals(name())) { return CDef.Region.codeOf(code); }
-            if ("WithdrawalReason".equals(name())) { return CDef.WithdrawalReason.codeOf(code); }
-            if ("ProductCategory".equals(name())) { return CDef.ProductCategory.codeOf(code); }
-            if ("ProductStatus".equals(name())) { return CDef.ProductStatus.codeOf(code); }
+    sealed abstract class DefMeta(val name: String) extends ClassificationMeta {
+
+        def codeOf(code: Object): Classification = {
+            if ("Flg".equals(this.name)) { return CDef.Flg.codeOf(code).asInstanceOf[CDef.Flg]; }
+            if ("MemberStatus".equals(this.name)) { return CDef.MemberStatus.codeOf(code).asInstanceOf[CDef.MemberStatus]; }
+            if ("ServiceRank".equals(this.name)) { return CDef.ServiceRank.codeOf(code).asInstanceOf[CDef.ServiceRank]; }
+            if ("Region".equals(this.name)) { return CDef.Region.codeOf(code).asInstanceOf[CDef.Region]; }
+            if ("WithdrawalReason".equals(this.name)) { return CDef.WithdrawalReason.codeOf(code).asInstanceOf[CDef.WithdrawalReason]; }
+            if ("ProductCategory".equals(this.name)) { return CDef.ProductCategory.codeOf(code).asInstanceOf[CDef.ProductCategory]; }
+            if ("ProductStatus".equals(this.name)) { return CDef.ProductStatus.codeOf(code).asInstanceOf[CDef.ProductStatus]; }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
-        public Classification nameOf(String name) {
-            if ("Flg".equals(name())) { return CDef.Flg.valueOf(name); }
-            if ("MemberStatus".equals(name())) { return CDef.MemberStatus.valueOf(name); }
-            if ("ServiceRank".equals(name())) { return CDef.ServiceRank.valueOf(name); }
-            if ("Region".equals(name())) { return CDef.Region.valueOf(name); }
-            if ("WithdrawalReason".equals(name())) { return CDef.WithdrawalReason.valueOf(name); }
-            if ("ProductCategory".equals(name())) { return CDef.ProductCategory.valueOf(name); }
-            if ("ProductStatus".equals(name())) { return CDef.ProductStatus.valueOf(name); }
+        def nameOf(name: String): Classification = {
+            if ("Flg".equals(this.name)) { return CDef.Flg.nameOf(name); }
+            if ("MemberStatus".equals(this.name)) { return CDef.MemberStatus.nameOf(name); }
+            if ("ServiceRank".equals(this.name)) { return CDef.ServiceRank.nameOf(name); }
+            if ("Region".equals(this.name)) { return CDef.Region.nameOf(name); }
+            if ("WithdrawalReason".equals(this.name)) { return CDef.WithdrawalReason.nameOf(name); }
+            if ("ProductCategory".equals(this.name)) { return CDef.ProductCategory.nameOf(name); }
+            if ("ProductStatus".equals(this.name)) { return CDef.ProductStatus.nameOf(name); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
-        public List<Classification> listAll() {
-            if ("Flg".equals(name())) { return toClassificationList(CDef.Flg.listAll()); }
-            if ("MemberStatus".equals(name())) { return toClassificationList(CDef.MemberStatus.listAll()); }
-            if ("ServiceRank".equals(name())) { return toClassificationList(CDef.ServiceRank.listAll()); }
-            if ("Region".equals(name())) { return toClassificationList(CDef.Region.listAll()); }
-            if ("WithdrawalReason".equals(name())) { return toClassificationList(CDef.WithdrawalReason.listAll()); }
-            if ("ProductCategory".equals(name())) { return toClassificationList(CDef.ProductCategory.listAll()); }
-            if ("ProductStatus".equals(name())) { return toClassificationList(CDef.ProductStatus.listAll()); }
+        def listAll(): List[Classification] = {
+            if ("Flg".equals(this.name)) { return toClassificationList(CDef.Flg.listAll()); }
+            if ("MemberStatus".equals(this.name)) { return toClassificationList(CDef.MemberStatus.listAll()); }
+            if ("ServiceRank".equals(this.name)) { return toClassificationList(CDef.ServiceRank.listAll()); }
+            if ("Region".equals(this.name)) { return toClassificationList(CDef.Region.listAll()); }
+            if ("WithdrawalReason".equals(this.name)) { return toClassificationList(CDef.WithdrawalReason.listAll()); }
+            if ("ProductCategory".equals(this.name)) { return toClassificationList(CDef.ProductCategory.listAll()); }
+            if ("ProductStatus".equals(this.name)) { return toClassificationList(CDef.ProductStatus.listAll()); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
-        public List<Classification> groupOf(String groupName) {
-            if ("Flg".equals(name())) { return toClassificationList(CDef.Flg.groupOf(groupName)); }
-            if ("MemberStatus".equals(name())) { return toClassificationList(CDef.MemberStatus.groupOf(groupName)); }
-            if ("ServiceRank".equals(name())) { return toClassificationList(CDef.ServiceRank.groupOf(groupName)); }
-            if ("Region".equals(name())) { return toClassificationList(CDef.Region.groupOf(groupName)); }
-            if ("WithdrawalReason".equals(name())) { return toClassificationList(CDef.WithdrawalReason.groupOf(groupName)); }
-            if ("ProductCategory".equals(name())) { return toClassificationList(CDef.ProductCategory.groupOf(groupName)); }
-            if ("ProductStatus".equals(name())) { return toClassificationList(CDef.ProductStatus.groupOf(groupName)); }
+        def groupOf(groupName: String): List[Classification] = {
+            if ("Flg".equals(this.name)) { return toClassificationList(CDef.Flg.groupOf(groupName)); }
+            if ("MemberStatus".equals(this.name)) { return toClassificationList(CDef.MemberStatus.groupOf(groupName)); }
+            if ("ServiceRank".equals(this.name)) { return toClassificationList(CDef.ServiceRank.groupOf(groupName)); }
+            if ("Region".equals(this.name)) { return toClassificationList(CDef.Region.groupOf(groupName)); }
+            if ("WithdrawalReason".equals(this.name)) { return toClassificationList(CDef.WithdrawalReason.groupOf(groupName)); }
+            if ("ProductCategory".equals(this.name)) { return toClassificationList(CDef.ProductCategory.groupOf(groupName)); }
+            if ("ProductStatus".equals(this.name)) { return toClassificationList(CDef.ProductStatus.groupOf(groupName)); }
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
-        @SuppressWarnings("unchecked")
-        private List<Classification> toClassificationList(List<?> clsList) {
-            return (List<Classification>)clsList;
+        private def toClassificationList(clsList: List[_]): List[Classification] = {
+            return clsList.asInstanceOf[List[Classification]];
         }
 
-        public ClassificationCodeType codeType() {
-            if ("Flg".equals(name())) { return ClassificationCodeType.Number; }
-            if ("MemberStatus".equals(name())) { return ClassificationCodeType.String; }
-            if ("ServiceRank".equals(name())) { return ClassificationCodeType.Number; }
-            if ("Region".equals(name())) { return ClassificationCodeType.Number; }
-            if ("WithdrawalReason".equals(name())) { return ClassificationCodeType.String; }
-            if ("ProductCategory".equals(name())) { return ClassificationCodeType.String; }
-            if ("ProductStatus".equals(name())) { return ClassificationCodeType.String; }
+        def codeType(): ClassificationCodeType = {
+            if ("Flg".equals(name)) { return ClassificationCodeType.Number; }
+            if ("MemberStatus".equals(name)) { return ClassificationCodeType.String; }
+            if ("ServiceRank".equals(name)) { return ClassificationCodeType.Number; }
+            if ("Region".equals(name)) { return ClassificationCodeType.Number; }
+            if ("WithdrawalReason".equals(name)) { return ClassificationCodeType.String; }
+            if ("ProductCategory".equals(name)) { return ClassificationCodeType.String; }
+            if ("ProductStatus".equals(name)) { return ClassificationCodeType.String; }
             return ClassificationCodeType.String; // as default
         }
+    }
+
+    object DefMeta {
+
+        /** general boolean classification for every flg-column */
+        case object Flg extends DefMeta("Flg");
+        /** status of member from entry to withdrawal */
+        case object MemberStatus extends DefMeta("MemberStatus");
+        /** rank of service member gets */
+        case object ServiceRank extends DefMeta("ServiceRank");
+        /** mainly region of member address */
+        case object Region extends DefMeta("Region");
+        /** reason for member withdrawal */
+        case object WithdrawalReason extends DefMeta("WithdrawalReason");
+        /** category of product. self reference */
+        case object ProductCategory extends DefMeta("ProductCategory");
+        /** status for product */
+        case object ProductStatus extends DefMeta("ProductStatus");
     }
 }
