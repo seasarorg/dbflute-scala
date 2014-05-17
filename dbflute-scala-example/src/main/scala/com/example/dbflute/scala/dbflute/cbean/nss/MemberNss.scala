@@ -1,6 +1,7 @@
 package com.example.dbflute.scala.dbflute.cbean.nss;
 
 import org.seasar.dbflute.cbean.ConditionQuery;
+import org.seasar.dbflute.cbean.AbstractConditionQuery._;
 import com.example.dbflute.scala.dbflute.cbean.cq.MemberCQ;
 
 /**
@@ -24,8 +25,17 @@ class MemberNss(query: MemberCQ) {
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
     def withMemberStatus(): MemberStatusNss = {
-        _query.doNss(new MemberCQ.NssCall() { def qf(): ConditionQuery = { return _query.queryMemberStatus(); }});
+        _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryMemberStatus(); }});
         return new MemberStatusNss(_query.queryMemberStatus());
     }
 
+    /**
+     * With nested relation columns to select clause. <br />
+     * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    def withMemberSecurityAsOne(): MemberSecurityNss = {
+        _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryMemberSecurityAsOne(); }});
+        return new MemberSecurityNss(_query.queryMemberSecurityAsOne());
+    }
 }

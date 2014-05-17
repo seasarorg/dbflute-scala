@@ -626,7 +626,7 @@ object Hp${myConditionBeanClassName} {
 #foreach ($referrer in $table.referrerAsOneList)
 #set ($tmpPropertyName = "${referrer.referrerPropertyNameAsOne}")
 #set ($tmpCBClassName = "${referrer.referrerTableExtendedConditionBeanClassName}")
-        protected var _${tmpPropertyName}: ${tmpCBClassName}${database.sharp}HpSpecification = null;
+        protected var _${tmpPropertyName}: Hp${tmpCBClassName}.HpSpecification = null;
 #end
 #foreach ($col in $table.columns)
         /**

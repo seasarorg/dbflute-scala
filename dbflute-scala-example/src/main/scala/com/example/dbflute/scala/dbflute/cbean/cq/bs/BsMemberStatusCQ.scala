@@ -230,7 +230,7 @@ class BsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alia
     // ===================================================================================
     //                                                                         Union Query
     //                                                                         ===========
-    protected def reflectRelationOnUnionQuery(bqs: ConditionQuery, uqs: ConditionQuery): Unit = {
+    def reflectRelationOnUnionQuery(bqs: ConditionQuery, uqs: ConditionQuery): Unit = {
     }
 
     // ===================================================================================

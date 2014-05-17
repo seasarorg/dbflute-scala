@@ -2,18 +2,18 @@ package com.example.dbflute.scala.dbflute.cbean.nss;
 
 import org.seasar.dbflute.cbean.ConditionQuery;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
-import com.example.dbflute.scala.dbflute.cbean.cq.PurchaseCQ;
+import com.example.dbflute.scala.dbflute.cbean.cq.MemberSecurityCQ;
 
 /**
- * The nest select set-upper of PURCHASE.
+ * The nest select set-upper of MEMBER_SECURITY.
  * @author DBFlute(AutoGenerator)
  */
-class PurchaseNss(query: PurchaseCQ) {
+class MemberSecurityNss(query: MemberSecurityCQ) {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected var _query: PurchaseCQ = query;
+    protected var _query: MemberSecurityCQ = query;
     def hasConditionQuery(): Boolean = { return _query != null; }
 
     // ===================================================================================

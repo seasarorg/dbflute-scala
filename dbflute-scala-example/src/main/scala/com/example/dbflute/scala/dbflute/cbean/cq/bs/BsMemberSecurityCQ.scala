@@ -11,80 +11,59 @@ import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 
 /**
- * The base condition-query of PURCHASE.
+ * The base condition-query of MEMBER_SECURITY.
  * @author DBFlute(AutoGenerator)
  */
-class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer) extends AbstractBsPurchaseCQ(referrerQuery, sqlClause, aliasName, nestLevel) {
+class BsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer) extends AbstractBsMemberSecurityCQ(referrerQuery, sqlClause, aliasName, nestLevel) {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected var _inlineQuery: PurchaseCIQ = null;
+    protected var _inlineQuery: MemberSecurityCIQ = null;
 
     // ===================================================================================
     //                                                                 InlineView/OrClause
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br />
-     * {select ... from ... left outer join (select * from PURCHASE) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from MEMBER_SECURITY) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #DD4747">inline()</span>.setFoo...;
      * </pre>
      * @return The condition-query for InlineView query. (NotNull)
      */
-    def inline(): PurchaseCIQ = {
+    def inline(): MemberSecurityCIQ = {
         if (_inlineQuery == null) { _inlineQuery = xcreateCIQ(); }
         _inlineQuery.xsetOnClause(false); return _inlineQuery;
     }
 
-    protected def xcreateCIQ(): PurchaseCIQ = {
-        val ciq: PurchaseCIQ = xnewCIQ();
+    protected def xcreateCIQ(): MemberSecurityCIQ = {
+        val ciq: MemberSecurityCIQ = xnewCIQ();
         ciq.xsetBaseCB(_baseCB);
         return ciq;
     }
 
-    protected def xnewCIQ(): PurchaseCIQ = {
-        return new PurchaseCIQ(xgetReferrerQuery(), xgetSqlClause(), xgetAliasName(), xgetNestLevel(), this);
+    protected def xnewCIQ(): MemberSecurityCIQ = {
+        return new MemberSecurityCIQ(xgetReferrerQuery(), xgetSqlClause(), xgetAliasName(), xgetNestLevel(), this);
     }
 
     /**
      * Prepare OnClause query. <br />
-     * {select ... from ... left outer join PURCHASE on ... and FOO = [value] ...}
+     * {select ... from ... left outer join MEMBER_SECURITY on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #DD4747">on()</span>.setFoo...;
      * </pre>
      * @return The condition-query for OnClause query. (NotNull)
      * @throws IllegalConditionBeanOperationException When this condition-query is base query.
      */
-    def on(): PurchaseCIQ = {
+    def on(): MemberSecurityCIQ = {
         if (isBaseQuery()) { throw new IllegalConditionBeanOperationException("OnClause for local table is unavailable!"); }
-        val inlineQuery: PurchaseCIQ = inline(); inlineQuery.xsetOnClause(true); return inlineQuery;
+        val inlineQuery: MemberSecurityCIQ = inline(); inlineQuery.xsetOnClause(true); return inlineQuery;
     }
 
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
-    protected var _purchaseId: ConditionValue = null;
-    def getPurchaseId(): ConditionValue = {
-        if (_purchaseId == null) { _purchaseId = nCV(); }
-        return _purchaseId;
-    }
-    protected def getCValuePurchaseId(): ConditionValue = { return getPurchaseId(); }
-
-    /** 
-     * Add order-by as ascend. <br />
-     * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
-     * @return this. (NotNull)
-     */
-    def addOrderBy_PurchaseId_Asc(): BsPurchaseCQ = { regOBA("PURCHASE_ID"); return this; }
-
-    /**
-     * Add order-by as descend. <br />
-     * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
-     * @return this. (NotNull)
-     */
-    def addOrderBy_PurchaseId_Desc(): BsPurchaseCQ = { regOBD("PURCHASE_ID"); return this; }
 
     protected var _memberId: ConditionValue = null;
     def getMemberId(): ConditionValue = {
@@ -95,122 +74,101 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
 
     /** 
      * Add order-by as ascend. <br />
-     * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
+     * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @return this. (NotNull)
      */
-    def addOrderBy_MemberId_Asc(): BsPurchaseCQ = { regOBA("MEMBER_ID"); return this; }
+    def addOrderBy_MemberId_Asc(): BsMemberSecurityCQ = { regOBA("MEMBER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
+     * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @return this. (NotNull)
      */
-    def addOrderBy_MemberId_Desc(): BsPurchaseCQ = { regOBD("MEMBER_ID"); return this; }
+    def addOrderBy_MemberId_Desc(): BsMemberSecurityCQ = { regOBD("MEMBER_ID"); return this; }
 
-    protected var _productId: ConditionValue = null;
-    def getProductId(): ConditionValue = {
-        if (_productId == null) { _productId = nCV(); }
-        return _productId;
+    protected var _loginPassword: ConditionValue = null;
+    def getLoginPassword(): ConditionValue = {
+        if (_loginPassword == null) { _loginPassword = nCV(); }
+        return _loginPassword;
     }
-    protected def getCValueProductId(): ConditionValue = { return getProductId(); }
+    protected def getCValueLoginPassword(): ConditionValue = { return getLoginPassword(); }
 
     /** 
      * Add order-by as ascend. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (ログインパスワード)LOGIN_PASSWORD: {NotNull, VARCHAR(50)}
      * @return this. (NotNull)
      */
-    def addOrderBy_ProductId_Asc(): BsPurchaseCQ = { regOBA("PRODUCT_ID"); return this; }
+    def addOrderBy_LoginPassword_Asc(): BsMemberSecurityCQ = { regOBA("LOGIN_PASSWORD"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (ログインパスワード)LOGIN_PASSWORD: {NotNull, VARCHAR(50)}
      * @return this. (NotNull)
      */
-    def addOrderBy_ProductId_Desc(): BsPurchaseCQ = { regOBD("PRODUCT_ID"); return this; }
+    def addOrderBy_LoginPassword_Desc(): BsMemberSecurityCQ = { regOBD("LOGIN_PASSWORD"); return this; }
 
-    protected var _purchaseDatetime: ConditionValue = null;
-    def getPurchaseDatetime(): ConditionValue = {
-        if (_purchaseDatetime == null) { _purchaseDatetime = nCV(); }
-        return _purchaseDatetime;
+    protected var _reminderQuestion: ConditionValue = null;
+    def getReminderQuestion(): ConditionValue = {
+        if (_reminderQuestion == null) { _reminderQuestion = nCV(); }
+        return _reminderQuestion;
     }
-    protected def getCValuePurchaseDatetime(): ConditionValue = { return getPurchaseDatetime(); }
+    protected def getCValueReminderQuestion(): ConditionValue = { return getReminderQuestion(); }
 
     /** 
      * Add order-by as ascend. <br />
-     * (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)}
+     * (リマインダ質問)REMINDER_QUESTION: {NotNull, VARCHAR(50)}
      * @return this. (NotNull)
      */
-    def addOrderBy_PurchaseDatetime_Asc(): BsPurchaseCQ = { regOBA("PURCHASE_DATETIME"); return this; }
+    def addOrderBy_ReminderQuestion_Asc(): BsMemberSecurityCQ = { regOBA("REMINDER_QUESTION"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)}
+     * (リマインダ質問)REMINDER_QUESTION: {NotNull, VARCHAR(50)}
      * @return this. (NotNull)
      */
-    def addOrderBy_PurchaseDatetime_Desc(): BsPurchaseCQ = { regOBD("PURCHASE_DATETIME"); return this; }
+    def addOrderBy_ReminderQuestion_Desc(): BsMemberSecurityCQ = { regOBD("REMINDER_QUESTION"); return this; }
 
-    protected var _purchaseCount: ConditionValue = null;
-    def getPurchaseCount(): ConditionValue = {
-        if (_purchaseCount == null) { _purchaseCount = nCV(); }
-        return _purchaseCount;
+    protected var _reminderAnswer: ConditionValue = null;
+    def getReminderAnswer(): ConditionValue = {
+        if (_reminderAnswer == null) { _reminderAnswer = nCV(); }
+        return _reminderAnswer;
     }
-    protected def getCValuePurchaseCount(): ConditionValue = { return getPurchaseCount(); }
+    protected def getCValueReminderAnswer(): ConditionValue = { return getReminderAnswer(); }
 
     /** 
      * Add order-by as ascend. <br />
-     * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
+     * (リマインダ回答)REMINDER_ANSWER: {NotNull, VARCHAR(50)}
      * @return this. (NotNull)
      */
-    def addOrderBy_PurchaseCount_Asc(): BsPurchaseCQ = { regOBA("PURCHASE_COUNT"); return this; }
+    def addOrderBy_ReminderAnswer_Asc(): BsMemberSecurityCQ = { regOBA("REMINDER_ANSWER"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
+     * (リマインダ回答)REMINDER_ANSWER: {NotNull, VARCHAR(50)}
      * @return this. (NotNull)
      */
-    def addOrderBy_PurchaseCount_Desc(): BsPurchaseCQ = { regOBD("PURCHASE_COUNT"); return this; }
+    def addOrderBy_ReminderAnswer_Desc(): BsMemberSecurityCQ = { regOBD("REMINDER_ANSWER"); return this; }
 
-    protected var _purchasePrice: ConditionValue = null;
-    def getPurchasePrice(): ConditionValue = {
-        if (_purchasePrice == null) { _purchasePrice = nCV(); }
-        return _purchasePrice;
+    protected var _reminderUseCount: ConditionValue = null;
+    def getReminderUseCount(): ConditionValue = {
+        if (_reminderUseCount == null) { _reminderUseCount = nCV(); }
+        return _reminderUseCount;
     }
-    protected def getCValuePurchasePrice(): ConditionValue = { return getPurchasePrice(); }
+    protected def getCValueReminderUseCount(): ConditionValue = { return getReminderUseCount(); }
 
     /** 
      * Add order-by as ascend. <br />
-     * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
+     * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @return this. (NotNull)
      */
-    def addOrderBy_PurchasePrice_Asc(): BsPurchaseCQ = { regOBA("PURCHASE_PRICE"); return this; }
+    def addOrderBy_ReminderUseCount_Asc(): BsMemberSecurityCQ = { regOBA("REMINDER_USE_COUNT"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
+     * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @return this. (NotNull)
      */
-    def addOrderBy_PurchasePrice_Desc(): BsPurchaseCQ = { regOBD("PURCHASE_PRICE"); return this; }
-
-    protected var _paymentCompleteFlg: ConditionValue = null;
-    def getPaymentCompleteFlg(): ConditionValue = {
-        if (_paymentCompleteFlg == null) { _paymentCompleteFlg = nCV(); }
-        return _paymentCompleteFlg;
-    }
-    protected def getCValuePaymentCompleteFlg(): ConditionValue = { return getPaymentCompleteFlg(); }
-
-    /** 
-     * Add order-by as ascend. <br />
-     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
-     * @return this. (NotNull)
-     */
-    def addOrderBy_PaymentCompleteFlg_Asc(): BsPurchaseCQ = { regOBA("PAYMENT_COMPLETE_FLG"); return this; }
-
-    /**
-     * Add order-by as descend. <br />
-     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
-     * @return this. (NotNull)
-     */
-    def addOrderBy_PaymentCompleteFlg_Desc(): BsPurchaseCQ = { regOBD("PAYMENT_COMPLETE_FLG"); return this; }
+    def addOrderBy_ReminderUseCount_Desc(): BsMemberSecurityCQ = { regOBD("REMINDER_USE_COUNT"); return this; }
 
     protected var _registerDatetime: ConditionValue = null;
     def getRegisterDatetime(): ConditionValue = {
@@ -224,14 +182,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
      * REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @return this. (NotNull)
      */
-    def addOrderBy_RegisterDatetime_Asc(): BsPurchaseCQ = { regOBA("REGISTER_DATETIME"); return this; }
+    def addOrderBy_RegisterDatetime_Asc(): BsMemberSecurityCQ = { regOBA("REGISTER_DATETIME"); return this; }
 
     /**
      * Add order-by as descend. <br />
      * REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @return this. (NotNull)
      */
-    def addOrderBy_RegisterDatetime_Desc(): BsPurchaseCQ = { regOBD("REGISTER_DATETIME"); return this; }
+    def addOrderBy_RegisterDatetime_Desc(): BsMemberSecurityCQ = { regOBD("REGISTER_DATETIME"); return this; }
 
     protected var _registerUser: ConditionValue = null;
     def getRegisterUser(): ConditionValue = {
@@ -245,14 +203,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @return this. (NotNull)
      */
-    def addOrderBy_RegisterUser_Asc(): BsPurchaseCQ = { regOBA("REGISTER_USER"); return this; }
+    def addOrderBy_RegisterUser_Asc(): BsMemberSecurityCQ = { regOBA("REGISTER_USER"); return this; }
 
     /**
      * Add order-by as descend. <br />
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @return this. (NotNull)
      */
-    def addOrderBy_RegisterUser_Desc(): BsPurchaseCQ = { regOBD("REGISTER_USER"); return this; }
+    def addOrderBy_RegisterUser_Desc(): BsMemberSecurityCQ = { regOBD("REGISTER_USER"); return this; }
 
     protected var _updateDatetime: ConditionValue = null;
     def getUpdateDatetime(): ConditionValue = {
@@ -266,14 +224,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
      * UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @return this. (NotNull)
      */
-    def addOrderBy_UpdateDatetime_Asc(): BsPurchaseCQ = { regOBA("UPDATE_DATETIME"); return this; }
+    def addOrderBy_UpdateDatetime_Asc(): BsMemberSecurityCQ = { regOBA("UPDATE_DATETIME"); return this; }
 
     /**
      * Add order-by as descend. <br />
      * UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @return this. (NotNull)
      */
-    def addOrderBy_UpdateDatetime_Desc(): BsPurchaseCQ = { regOBD("UPDATE_DATETIME"); return this; }
+    def addOrderBy_UpdateDatetime_Desc(): BsMemberSecurityCQ = { regOBD("UPDATE_DATETIME"); return this; }
 
     protected var _updateUser: ConditionValue = null;
     def getUpdateUser(): ConditionValue = {
@@ -287,14 +245,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @return this. (NotNull)
      */
-    def addOrderBy_UpdateUser_Asc(): BsPurchaseCQ = { regOBA("UPDATE_USER"); return this; }
+    def addOrderBy_UpdateUser_Asc(): BsMemberSecurityCQ = { regOBA("UPDATE_USER"); return this; }
 
     /**
      * Add order-by as descend. <br />
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @return this. (NotNull)
      */
-    def addOrderBy_UpdateUser_Desc(): BsPurchaseCQ = { regOBD("UPDATE_USER"); return this; }
+    def addOrderBy_UpdateUser_Desc(): BsMemberSecurityCQ = { regOBD("UPDATE_USER"); return this; }
 
     protected var _versionNo: ConditionValue = null;
     def getVersionNo(): ConditionValue = {
@@ -308,14 +266,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @return this. (NotNull)
      */
-    def addOrderBy_VersionNo_Asc(): BsPurchaseCQ = { regOBA("VERSION_NO"); return this; }
+    def addOrderBy_VersionNo_Asc(): BsMemberSecurityCQ = { regOBA("VERSION_NO"); return this; }
 
     /**
      * Add order-by as descend. <br />
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @return this. (NotNull)
      */
-    def addOrderBy_VersionNo_Desc(): BsPurchaseCQ = { regOBD("VERSION_NO"); return this; }
+    def addOrderBy_VersionNo_Desc(): BsMemberSecurityCQ = { regOBD("VERSION_NO"); return this; }
 
     // ===================================================================================
     //                                                             SpecifiedDerivedOrderBy
@@ -334,7 +292,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsPurchaseCQ =
+    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsMemberSecurityCQ =
     { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
 
     /**
@@ -351,15 +309,15 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsPurchaseCQ =
+    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsMemberSecurityCQ =
     { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
 
     // ===================================================================================
     //                                                                         Union Query
     //                                                                         ===========
     def reflectRelationOnUnionQuery(bqs: ConditionQuery, uqs: ConditionQuery): Unit = {
-        val bq: PurchaseCQ = bqs.asInstanceOf[PurchaseCQ];
-        val uq: PurchaseCQ = uqs.asInstanceOf[PurchaseCQ];
+        val bq: MemberSecurityCQ = bqs.asInstanceOf[MemberSecurityCQ];
+        val uq: MemberSecurityCQ = uqs.asInstanceOf[MemberSecurityCQ];
         if (bq.hasConditionQueryMember()) {
             uq.queryMember().reflectRelationOnUnionQuery(bq.queryMember(), uq.queryMember());
         }
@@ -385,7 +343,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
         return _conditionQueryMember;
     }
     protected def xcreateQueryMember(): MemberCQ = {
-        val nrp: String = resolveNextRelationPath("PURCHASE",  "member");
+        val nrp: String = resolveNextRelationPath("MEMBER_SECURITY",  "member");
         val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
         val cq: MemberCQ = new MemberCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
         cq.xsetBaseCB(_baseCB);
@@ -409,9 +367,9 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     // ===================================================================================
     //                                                                     ScalarCondition
     //                                                                     ===============
-    protected var _scalarConditionMap: Map[String, PurchaseCQ] = null;
-    def getScalarCondition(): Map[String, PurchaseCQ] = { return _scalarConditionMap; }
-    def keepScalarCondition(sq: PurchaseCQ): String = {
+    protected var _scalarConditionMap: Map[String, MemberSecurityCQ] = null;
+    def getScalarCondition(): Map[String, MemberSecurityCQ] = { return _scalarConditionMap; }
+    def keepScalarCondition(sq: MemberSecurityCQ): String = {
         if (_scalarConditionMap == null) { _scalarConditionMap = newLinkedHashMapSized(4); }
         val ky: String = "subQueryMapKey" + (_scalarConditionMap.size() + 1);
         _scalarConditionMap.put(ky, sq); return "scalarCondition." + ky;
@@ -420,17 +378,17 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     // ===================================================================================
     //                                                                       MyselfDerived
     //                                                                       =============
-    protected var _specifyMyselfDerivedMap: Map[String, PurchaseCQ] = null;
-    def getSpecifyMyselfDerived(): Map[String, PurchaseCQ] = { return _specifyMyselfDerivedMap; }
-    def keepSpecifyMyselfDerived(sq: PurchaseCQ): String = {
+    protected var _specifyMyselfDerivedMap: Map[String, MemberSecurityCQ] = null;
+    def getSpecifyMyselfDerived(): Map[String, MemberSecurityCQ] = { return _specifyMyselfDerivedMap; }
+    def keepSpecifyMyselfDerived(sq: MemberSecurityCQ): String = {
         if (_specifyMyselfDerivedMap == null) { _specifyMyselfDerivedMap = newLinkedHashMapSized(4); }
         val ky: String = "subQueryMapKey" + (_specifyMyselfDerivedMap.size() + 1);
         _specifyMyselfDerivedMap.put(ky, sq); return "specifyMyselfDerived." + ky;
     }
 
-    protected var _queryMyselfDerivedMap: Map[String, PurchaseCQ] = null;
-    def getQueryMyselfDerived(): Map[String, PurchaseCQ] = { return _queryMyselfDerivedMap; }
-    def keepQueryMyselfDerived(sq: PurchaseCQ): String = {
+    protected var _queryMyselfDerivedMap: Map[String, MemberSecurityCQ] = null;
+    def getQueryMyselfDerived(): Map[String, MemberSecurityCQ] = { return _queryMyselfDerivedMap; }
+    def keepQueryMyselfDerived(sq: MemberSecurityCQ): String = {
         if (_queryMyselfDerivedMap == null) { _queryMyselfDerivedMap = newLinkedHashMapSized(4); }
         val ky: String = "subQueryMapKey" + (_queryMyselfDerivedMap.size() + 1);
         _queryMyselfDerivedMap.put(ky, sq); return "queryMyselfDerived." + ky;
@@ -446,9 +404,9 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     // ===================================================================================
     //                                                                        MyselfExists
     //                                                                        ============
-    protected var _myselfExistsMap: Map[String, PurchaseCQ] = null;
-    def getMyselfExists(): Map[String, PurchaseCQ] = { return _myselfExistsMap; }
-    def keepMyselfExists(sq: PurchaseCQ): String = {
+    protected var _myselfExistsMap: Map[String, MemberSecurityCQ] = null;
+    def getMyselfExists(): Map[String, MemberSecurityCQ] = { return _myselfExistsMap; }
+    def keepMyselfExists(sq: MemberSecurityCQ): String = {
         if (_myselfExistsMap == null) { _myselfExistsMap = newLinkedHashMapSized(4); }
         val ky: String = "subQueryMapKey" + (_myselfExistsMap.size() + 1);
         _myselfExistsMap.put(ky, sq); return "myselfExists." + ky;
@@ -457,9 +415,9 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     // ===================================================================================
     //                                                                       MyselfInScope
     //                                                                       =============
-    protected var _myselfInScopeMap: Map[String, PurchaseCQ] = null;
-    def getMyselfInScope(): Map[String, PurchaseCQ] = { return _myselfInScopeMap; }
-    def keepMyselfInScope(sq: PurchaseCQ): String = {
+    protected var _myselfInScopeMap: Map[String, MemberSecurityCQ] = null;
+    def getMyselfInScope(): Map[String, MemberSecurityCQ] = { return _myselfInScopeMap; }
+    def keepMyselfInScope(sq: MemberSecurityCQ): String = {
         if (_myselfInScopeMap == null) { _myselfInScopeMap = newLinkedHashMapSized(4); }
         val ky: String = "subQueryMapKey" + (_myselfInScopeMap.size() + 1);
         _myselfInScopeMap.put(ky, sq); return "myselfInScope." + ky;
@@ -469,7 +427,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected def xCB(): String = { return classOf[PurchaseCB].getName(); }
-    protected def xCQ(): String = { return classOf[PurchaseCQ].getName(); }
+    protected def xCB(): String = { return classOf[MemberSecurityCB].getName(); }
+    protected def xCQ(): String = { return classOf[MemberSecurityCQ].getName(); }
     protected def xMap(): String = { return classOf[Map[_, _]].getName(); }
 }

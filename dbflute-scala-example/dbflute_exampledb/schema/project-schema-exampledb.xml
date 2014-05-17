@@ -67,6 +67,44 @@
         </index>
     </table>
     <table
+        comment="会員セキュリティ情報: 会員とは one-to-one で、会員一人につき必ず一つのセキュリティ情報がある"
+        name="MEMBER_SECURITY" schema="EXAMPLEDB.PUBLIC" type="TABLE">
+        <column comment="会員ID: そのまま one-to-one を構成するためのFKとなる。"
+            dbType="INTEGER" javaType="Integer" name="MEMBER_ID"
+            pkName="CONSTRAINT_6" primaryKey="true" required="true"
+            size="10" type="INTEGER"/>
+        <column
+            comment="ログインパスワード: ログイン時に利用するパスワード。&#xa;本当は良くないが、Exampleなのでひとまず暗号化していない。"
+            dbType="VARCHAR" javaType="String" name="LOGIN_PASSWORD"
+            required="true" size="50" type="VARCHAR"/>
+        <column comment="リマインダ質問: パスワードを忘れた際のリマインダ機能における質問の内容。"
+            dbType="VARCHAR" javaType="String" name="REMINDER_QUESTION"
+            required="true" size="50" type="VARCHAR"/>
+        <column comment="リマインダ回答: パスワードを忘れた際のリマインダ機能における質問の答え。"
+            dbType="VARCHAR" javaType="String" name="REMINDER_ANSWER"
+            required="true" size="50" type="VARCHAR"/>
+        <column
+            comment="リマインダ利用回数: リマインダを利用した回数。&#xa;これが多いと忘れっぽい会員と言えるが、そんなことを知ってもしょうがない。"
+            dbType="INTEGER" javaType="Integer"
+            name="REMINDER_USE_COUNT" required="true" size="10" type="INTEGER"/>
+        <column comment="" dbType="TIMESTAMP"
+            javaType="java.sql.Timestamp" name="REGISTER_DATETIME"
+            required="true" size="23, 10" type="TIMESTAMP"/>
+        <column comment="" dbType="VARCHAR" javaType="String"
+            name="REGISTER_USER" required="true" size="200" type="VARCHAR"/>
+        <column comment="" dbType="TIMESTAMP"
+            javaType="java.sql.Timestamp" name="UPDATE_DATETIME"
+            required="true" size="23, 10" type="TIMESTAMP"/>
+        <column comment="" dbType="VARCHAR" javaType="String"
+            name="UPDATE_USER" required="true" size="200" type="VARCHAR"/>
+        <column comment="" dbType="BIGINT" javaType="Long"
+            name="VERSION_NO" required="true" size="19" type="BIGINT"/>
+        <foreign-key foreignSchema="EXAMPLEDB.PUBLIC"
+            foreignTable="MEMBER" name="FK_MEMBER_SECURITY_MEMBER">
+            <reference foreign="MEMBER_ID" local="MEMBER_ID"/>
+        </foreign-key>
+    </table>
+    <table
         comment="会員ステータス: 会員のステータスを示す固定的なマスタテーブル。いわゆるテーブル区分値！&#xa;業務運用上で増えることはなく、増減するときはプログラム修正ともなうレベルの業務変更と考えられる。&#xa;&#xa;こういった固定的なマスタテーブルには、更新日時などの共通カラムは定義していないが、業務上そういった情報を管理する必要性が低いという理由に加え、ExampleDBとして共通カラムでER図が埋め尽くされてしまい見づらくなるというところで割り切っている。実業務では統一的に定義することもある。"
         name="MEMBER_STATUS" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column

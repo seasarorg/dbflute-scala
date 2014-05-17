@@ -167,6 +167,10 @@ object MemberDbm extends AbstractDBMeta {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberStatusDbm.columnMemberStatusCode());
         return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, false, false, false, false, null, null, false, "memberList");
     }
+    def foreignMemberSecurityAsOne(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberSecurityDbm.columnMemberId());
+        return cfi("FK_MEMBER_SECURITY_MEMBER", "memberSecurityAsOne", this, MemberSecurityDbm, mp, 1, true, false, true, false, null, null, false, "member");
+    }
 
     // -----------------------------------------------------
     //                                     Referrer Property

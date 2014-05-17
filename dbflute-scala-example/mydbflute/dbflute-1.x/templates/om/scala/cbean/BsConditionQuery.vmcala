@@ -473,10 +473,10 @@ class ${myClassName}(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasN
     // ===================================================================================
     //                                                                         Union Query
     //                                                                         ===========
-    protected def reflectRelationOnUnionQuery(bqs: ConditionQuery, uqs: ConditionQuery): Unit = {
+    def reflectRelationOnUnionQuery(bqs: ConditionQuery, uqs: ConditionQuery): Unit = {
 #if ($table.hasForeignKeyOrReferrerAsOne())
-        val bq: ${myConditionQueryClassName} = (${myConditionQueryClassName})bqs;
-        val uq: ${myConditionQueryClassName} = (${myConditionQueryClassName})uqs;
+        val bq: ${myConditionQueryClassName} = bqs.asInstanceOf[${myConditionQueryClassName}];
+        val uq: ${myConditionQueryClassName} = uqs.asInstanceOf[${myConditionQueryClassName}];
 #end
 #foreach ($fk in $table.foreignKeys)
         if (bq.hasConditionQuery${fk.foreignPropertyNameInitCap}()) {
