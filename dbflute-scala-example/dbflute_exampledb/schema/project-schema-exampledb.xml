@@ -67,26 +67,24 @@
         </index>
     </table>
     <table
-        comment="会員セキュリティ情報: 会員とは one-to-one で、会員一人につき必ず一つのセキュリティ情報がある"
-        name="MEMBER_SECURITY" schema="EXAMPLEDB.PUBLIC" type="TABLE">
-        <column comment="会員ID: そのまま one-to-one を構成するためのFKとなる。"
-            dbType="INTEGER" javaType="Integer" name="MEMBER_ID"
-            pkName="CONSTRAINT_6" primaryKey="true" required="true"
+        comment="会員サービス: 会員のサービス情報（ポイントサービスなど）。&#xa;テストケースのために、あえて統一性を崩してユニーク制約経由の one-to-one を表現している。"
+        name="MEMBER_SERVICE" schema="EXAMPLEDB.PUBLIC" type="TABLE">
+        <column autoIncrement="true"
+            comment="会員サービスID: 独立した主キーとなるが、実質的に会員IDとは one-to-one である。"
+            dbType="INTEGER"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_5B1E923A_B0F7_4C3B_B884_A6B7CFB91B16"
+            javaType="Integer" name="MEMBER_SERVICE_ID"
+            pkName="CONSTRAINT_6F" primaryKey="true" required="true"
             size="10" type="INTEGER"/>
-        <column
-            comment="ログインパスワード: ログイン時に利用するパスワード。&#xa;本当は良くないが、Exampleなのでひとまず暗号化していない。"
-            dbType="VARCHAR" javaType="String" name="LOGIN_PASSWORD"
-            required="true" size="50" type="VARCHAR"/>
-        <column comment="リマインダ質問: パスワードを忘れた際のリマインダ機能における質問の内容。"
-            dbType="VARCHAR" javaType="String" name="REMINDER_QUESTION"
-            required="true" size="50" type="VARCHAR"/>
-        <column comment="リマインダ回答: パスワードを忘れた際のリマインダ機能における質問の答え。"
-            dbType="VARCHAR" javaType="String" name="REMINDER_ANSWER"
-            required="true" size="50" type="VARCHAR"/>
-        <column
-            comment="リマインダ利用回数: リマインダを利用した回数。&#xa;これが多いと忘れっぽい会員と言えるが、そんなことを知ってもしょうがない。"
-            dbType="INTEGER" javaType="Integer"
-            name="REMINDER_USE_COUNT" required="true" size="10" type="INTEGER"/>
+        <column comment="会員ID: 会員を参照するID。ユニークなので、会員とは one-to-one の関係に。"
+            dbType="INTEGER" javaType="Integer" name="MEMBER_ID"
+            required="true" size="10" type="INTEGER"/>
+        <column comment="サービスポイント数: 購入したら増えて使ったら減る。" dbType="INTEGER"
+            javaType="Integer" name="SERVICE_POINT_COUNT"
+            required="true" size="10" type="INTEGER"/>
+        <column comment="サービスランクコード: どんなランクがあるのかドキドキですね。" dbType="CHAR"
+            javaType="String" name="SERVICE_RANK_CODE" required="true"
+            size="3" type="CHAR"/>
         <column comment="" dbType="TIMESTAMP"
             javaType="java.sql.Timestamp" name="REGISTER_DATETIME"
             required="true" size="23, 10" type="TIMESTAMP"/>
@@ -100,9 +98,25 @@
         <column comment="" dbType="BIGINT" javaType="Long"
             name="VERSION_NO" required="true" size="19" type="BIGINT"/>
         <foreign-key foreignSchema="EXAMPLEDB.PUBLIC"
-            foreignTable="MEMBER" name="FK_MEMBER_SECURITY_MEMBER">
+            foreignTable="MEMBER" name="FK_MEMBER_SERVICE_MEMBER">
             <reference foreign="MEMBER_ID" local="MEMBER_ID"/>
         </foreign-key>
+        <foreign-key foreignSchema="EXAMPLEDB.PUBLIC"
+            foreignTable="SERVICE_RANK" name="FK_MEMBER_SERVICE_SERVICE_RANK_CODE">
+            <reference foreign="SERVICE_RANK_CODE" local="SERVICE_RANK_CODE"/>
+        </foreign-key>
+        <unique name="UQ_MEMBER_SERVICE_INDEX_6">
+            <unique-column name="MEMBER_ID" position="1"/>
+        </unique>
+        <index name="FK_MEMBER_SERVICE_MEMBER_INDEX_6">
+            <index-column name="MEMBER_ID" position="1"/>
+        </index>
+        <index name="FK_MEMBER_SERVICE_SERVICE_RANK_CODE_INDEX_6">
+            <index-column name="SERVICE_RANK_CODE" position="1"/>
+        </index>
+        <index name="IX_MEMBER_SERVICE_POINT_COUNT">
+            <index-column name="SERVICE_POINT_COUNT" position="1"/>
+        </index>
     </table>
     <table
         comment="会員ステータス: 会員のステータスを示す固定的なマスタテーブル。いわゆるテーブル区分値！&#xa;業務運用上で増えることはなく、増減するときはプログラム修正ともなうレベルの業務変更と考えられる。&#xa;&#xa;こういった固定的なマスタテーブルには、更新日時などの共通カラムは定義していないが、業務上そういった情報を管理する必要性が低いという理由に加え、ExampleDBとして共通カラムでER図が埋め尽くされてしまい見づらくなるというところで割り切っている。実業務では統一的に定義することもある。"
@@ -127,6 +141,50 @@
         <unique name="UQ_MEMBER_STATUS_DISPLAY_ORDER_INDEX_4">
             <unique-column name="DISPLAY_ORDER" position="1"/>
         </unique>
+    </table>
+    <table comment="商品:" name="PRODUCT" schema="EXAMPLEDB.PUBLIC" type="TABLE">
+        <column autoIncrement="true" comment="" dbType="INTEGER"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_8B72CF33_1578_4B50_A021_B5DF0616765D"
+            javaType="Integer" name="PRODUCT_ID" pkName="CONSTRAINT_1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column
+            comment="商品名称: ExampleDBとして、コメントの少ないケースを表現するため、あえてコメントを控えている。&#xa;実業務ではしっかりとコメントを入れることが強く強く推奨される。「よりによってこのテーブルでやらないでよ！」あわわ、何も聞こえません〜"
+            dbType="VARCHAR" javaType="String" name="PRODUCT_NAME"
+            required="true" size="50" type="VARCHAR"/>
+        <column
+            comment="商品ハンドルコード: これだけは書いておこう、商品を識別する業務上のコード。よく品番とか言うかもしれませんねぇ..."
+            dbType="VARCHAR" javaType="String"
+            name="PRODUCT_HANDLE_CODE" required="true" size="100" type="VARCHAR"/>
+        <column comment="" dbType="CHAR" javaType="String"
+            name="PRODUCT_CATEGORY_CODE" required="true" size="3" type="CHAR"/>
+        <column comment="" dbType="CHAR" javaType="String"
+            name="PRODUCT_STATUS_CODE" required="true" size="3" type="CHAR"/>
+        <column comment="定価:" dbType="INTEGER" javaType="Integer"
+            name="REGULAR_PRICE" required="true" size="10" type="INTEGER"/>
+        <column comment="" dbType="TIMESTAMP"
+            javaType="java.sql.Timestamp" name="REGISTER_DATETIME"
+            required="true" size="23, 10" type="TIMESTAMP"/>
+        <column comment="" dbType="VARCHAR" javaType="String"
+            name="REGISTER_USER" required="true" size="200" type="VARCHAR"/>
+        <column comment="" dbType="TIMESTAMP"
+            javaType="java.sql.Timestamp" name="UPDATE_DATETIME"
+            required="true" size="23, 10" type="TIMESTAMP"/>
+        <column comment="" dbType="VARCHAR" javaType="String"
+            name="UPDATE_USER" required="true" size="200" type="VARCHAR"/>
+        <column comment="" dbType="BIGINT" javaType="Long"
+            name="VERSION_NO" required="true" size="19" type="BIGINT"/>
+        <unique name="UQ_PRODUCT_PRODUCT_HANDLE_CODE_INDEX_1">
+            <unique-column name="PRODUCT_HANDLE_CODE" position="1"/>
+        </unique>
+        <index name="FK_PRODUCT_PRODUCT_CATEGORY_INDEX_1">
+            <index-column name="PRODUCT_CATEGORY_CODE" position="1"/>
+        </index>
+        <index name="FK_PRODUCT_PRODUCT_STATUS_INDEX_1">
+            <index-column name="PRODUCT_STATUS_CODE" position="1"/>
+        </index>
+        <index name="IX_PRODUCT_PRODUCT_NAME">
+            <index-column name="PRODUCT_NAME" position="1"/>
+        </index>
     </table>
     <table
         comment="購入: 一つの商品に対する購入を表現する(購入履歴とも言える)。&#xa;実業務であれば購入詳細というテーブルを作り、「購入という行為」と「その中身（詳細）」を違う粒度のデータとしてそれぞれ管理するのが一般的と言えるでしょう。というか、注文とか請求とかそういうことを考え始めたらもっと複雑になるはずですが、ExampleDBということで割り切っています。"
@@ -171,6 +229,10 @@
             foreignTable="MEMBER" name="FK_PURCHASE_MEMBER">
             <reference foreign="MEMBER_ID" local="MEMBER_ID"/>
         </foreign-key>
+        <foreign-key foreignSchema="EXAMPLEDB.PUBLIC"
+            foreignTable="PRODUCT" name="FK_PURCHASE_PRODUCT">
+            <reference foreign="PRODUCT_ID" local="PRODUCT_ID"/>
+        </foreign-key>
         <unique name="UQ_PURCHASE_INDEX_9">
             <unique-column name="MEMBER_ID" position="1"/>
             <unique-column name="PRODUCT_ID" position="2"/>
@@ -193,6 +255,33 @@
             <index-column name="PRODUCT_ID" position="1"/>
             <index-column name="PURCHASE_DATETIME" position="2"/>
         </index>
+    </table>
+    <table comment="サービスランク: 会員のサービスレベルを表現するランク。(ゴールドとかプラチナとか)"
+        name="SERVICE_RANK" schema="EXAMPLEDB.PUBLIC" type="TABLE">
+        <column comment="サービスランクコード: サービスランクを識別するコード。" dbType="CHAR"
+            javaType="String" name="SERVICE_RANK_CODE"
+            pkName="CONSTRAINT_A" primaryKey="true" required="true"
+            size="3" type="CHAR"/>
+        <column
+            comment="サービスランク名称: サービスランクの名称。&#xa;ゴールドとかプラチナとか基本的には威厳のある名前"
+            dbType="VARCHAR" javaType="String" name="SERVICE_RANK_NAME"
+            required="true" size="50" type="VARCHAR"/>
+        <column
+            comment="サービスポイント発生率: 購入ごとのサービスポイントの発生率。&#xa;購入価格にこの値をかけた数が発生ポイント。ExampleDBとして数少ない貴重な小数点ありのカラム。"
+            dbType="DECIMAL" javaType="java.math.BigDecimal"
+            name="SERVICE_POINT_INCIDENCE" required="true" size="5, 3" type="DECIMAL"/>
+        <column comment="新規受け入れ可能フラグ: このランクへの新規受け入れができるかどうか。"
+            dbType="INTEGER" javaType="Integer"
+            name="NEW_ACCEPTABLE_FLG" required="true" size="10" type="INTEGER"/>
+        <column comment="説明: ランクに関する業務的な説明。" dbType="VARCHAR"
+            javaType="String" name="DESCRIPTION" required="true"
+            size="200" type="VARCHAR"/>
+        <column comment="表示順: UI上の表示順を表現する番号。" dbType="INTEGER"
+            javaType="Integer" name="DISPLAY_ORDER" required="true"
+            size="10" type="INTEGER"/>
+        <unique name="UQ_SERVICE_RANK_DISPLAY_ORDER_INDEX_A">
+            <unique-column name="DISPLAY_ORDER" position="1"/>
+        </unique>
     </table>
     <sequenceGroup>
         <sequence incrementSize="1"

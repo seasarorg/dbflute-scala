@@ -31,11 +31,11 @@ class MemberNss(query: MemberCQ) {
 
     /**
      * With nested relation columns to select clause. <br />
-     * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    def withMemberSecurityAsOne(): MemberSecurityNss = {
-        _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryMemberSecurityAsOne(); }});
-        return new MemberSecurityNss(_query.queryMemberSecurityAsOne());
+    def withMemberServiceAsOne(): MemberServiceNss = {
+        _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryMemberServiceAsOne(); }});
+        return new MemberServiceNss(_query.queryMemberServiceAsOne());
     }
 }

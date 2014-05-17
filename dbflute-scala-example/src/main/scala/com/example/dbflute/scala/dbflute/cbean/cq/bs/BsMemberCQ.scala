@@ -397,8 +397,8 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
         if (bq.hasConditionQueryMemberStatus()) {
             uq.queryMemberStatus().reflectRelationOnUnionQuery(bq.queryMemberStatus(), uq.queryMemberStatus());
         }
-        if (bq.hasConditionQueryMemberSecurityAsOne()) {
-            uq.queryMemberSecurityAsOne().reflectRelationOnUnionQuery(bq.queryMemberSecurityAsOne(), uq.queryMemberSecurityAsOne());
+        if (bq.hasConditionQueryMemberServiceAsOne()) {
+            uq.queryMemberServiceAsOne().reflectRelationOnUnionQuery(bq.queryMemberServiceAsOne(), uq.queryMemberServiceAsOne());
         }
     }
 
@@ -441,36 +441,36 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
 
     /**
      * Get the condition-query for relation table. <br />
-     * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @return The instance of condition-query. (NotNull)
      */
-    def queryMemberSecurityAsOne(): MemberSecurityCQ = {
-        return getConditionQueryMemberSecurityAsOne();
+    def queryMemberServiceAsOne(): MemberServiceCQ = {
+        return getConditionQueryMemberServiceAsOne();
     }
-    protected var _conditionQueryMemberSecurityAsOne: MemberSecurityCQ = null;
-    def getConditionQueryMemberSecurityAsOne(): MemberSecurityCQ = {
-        if (_conditionQueryMemberSecurityAsOne == null) {
-            _conditionQueryMemberSecurityAsOne = xcreateQueryMemberSecurityAsOne();
-            xsetupOuterJoinMemberSecurityAsOne();
+    protected var _conditionQueryMemberServiceAsOne: MemberServiceCQ = null;
+    def getConditionQueryMemberServiceAsOne(): MemberServiceCQ = {
+        if (_conditionQueryMemberServiceAsOne == null) {
+            _conditionQueryMemberServiceAsOne = xcreateQueryMemberServiceAsOne();
+            xsetupOuterJoinMemberServiceAsOne();
         }
-        return _conditionQueryMemberSecurityAsOne;
+        return _conditionQueryMemberServiceAsOne;
     }
-    protected def xcreateQueryMemberSecurityAsOne(): MemberSecurityCQ = {
-        val nrp: String = resolveNextRelationPath("MEMBER",  "memberSecurityAsOne");
+    protected def xcreateQueryMemberServiceAsOne(): MemberServiceCQ = {
+        val nrp: String = resolveNextRelationPath("MEMBER",  "memberServiceAsOne");
         val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        val cq: MemberSecurityCQ = new MemberSecurityCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
+        val cq: MemberServiceCQ = new MemberServiceCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
         cq.xsetBaseCB(_baseCB);
-        cq.xsetForeignPropertyName("memberSecurityAsOne");
+        cq.xsetForeignPropertyName("memberServiceAsOne");
         cq.xsetRelationPath(nrp); return cq;
     }
-    protected def xsetupOuterJoinMemberSecurityAsOne(): Unit = {
-        val cq: MemberSecurityCQ = getConditionQueryMemberSecurityAsOne();
+    protected def xsetupOuterJoinMemberServiceAsOne(): Unit = {
+        val cq: MemberServiceCQ = getConditionQueryMemberServiceAsOne();
         val joinOnMap: Map[String, String] = newLinkedHashMapSized(4);
         joinOnMap.put("MEMBER_ID", "MEMBER_ID");
-        registerOuterJoin(cq, joinOnMap, "memberSecurityAsOne");
+        registerOuterJoin(cq, joinOnMap, "memberServiceAsOne");
     }
-    def hasConditionQueryMemberSecurityAsOne(): Boolean = {
-        return _conditionQueryMemberSecurityAsOne != null;
+    def hasConditionQueryMemberServiceAsOne(): Boolean = {
+        return _conditionQueryMemberServiceAsOne != null;
     }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {

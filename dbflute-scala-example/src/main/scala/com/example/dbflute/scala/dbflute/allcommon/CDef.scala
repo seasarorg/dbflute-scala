@@ -35,12 +35,12 @@ object CDef {
             {
                 val subItemMap: Map[String, Object] = new HashMap();
                 subItemMap.put("key1", "value1");
-                _subItemMapMap.put(Flg.True.code, Collections.unmodifiableMap(subItemMap));
+                _subItemMapMap.put("1", Collections.unmodifiableMap(subItemMap));
             }
             {
                 val subItemMap: Map[String, Object] = new HashMap();
                 subItemMap.put("key1", "value1");
-                _subItemMapMap.put(Flg.False.code, Collections.unmodifiableMap(subItemMap));
+                _subItemMapMap.put("0", Collections.unmodifiableMap(subItemMap));
             }
         }
 
@@ -131,19 +131,19 @@ object CDef {
                 val subItemMap: Map[String, Object] = new HashMap();
                 subItemMap.put("key1", "1");
                 subItemMap.put("key2", "as formal member, allowed to use all service");
-                _subItemMapMap.put(MemberStatus.Formalized.code, Collections.unmodifiableMap(subItemMap));
+                _subItemMapMap.put("FML", Collections.unmodifiableMap(subItemMap));
             }
             {
                 val subItemMap: Map[String, Object] = new HashMap();
                 subItemMap.put("key1", "2");
                 subItemMap.put("key2", "withdrawal is fixed, not allowed to use service");
-                _subItemMapMap.put(MemberStatus.Withdrawal.code, Collections.unmodifiableMap(subItemMap));
+                _subItemMapMap.put("WDL", Collections.unmodifiableMap(subItemMap));
             }
             {
                 val subItemMap: Map[String, Object] = new HashMap();
                 subItemMap.put("key1", "3");
                 subItemMap.put("key2", "first status after entry, allowed to use only part of service");
-                _subItemMapMap.put(MemberStatus.Provisional.code, Collections.unmodifiableMap(subItemMap));
+                _subItemMapMap.put("PRV", Collections.unmodifiableMap(subItemMap));
             }
         }
 

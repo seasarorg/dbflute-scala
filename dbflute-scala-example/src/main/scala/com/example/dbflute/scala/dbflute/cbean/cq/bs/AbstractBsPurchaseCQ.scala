@@ -263,7 +263,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
     
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as equal. (NullAllowed: if null, no condition)
      */
      def setProductId_Equal(productId: Integer): Unit = {
@@ -276,7 +276,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as notEqual. (NullAllowed: if null, no condition)
      */
      def setProductId_NotEqual(productId: Integer): Unit = {
@@ -289,7 +289,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as greaterThan. (NullAllowed: if null, no condition)
      */
     def setProductId_GreaterThan(productId: Integer): Unit = {
@@ -298,7 +298,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as lessThan. (NullAllowed: if null, no condition)
      */
     def setProductId_LessThan(productId: Integer): Unit = {
@@ -307,7 +307,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setProductId_GreaterEqual(productId: Integer): Unit = {
@@ -316,7 +316,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as lessEqual. (NullAllowed: if null, no condition)
      */
     def setProductId_LessEqual(productId: Integer): Unit = {
@@ -327,7 +327,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * RangeOf with various options. (versatile) <br />
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br />
      * And NullIgnored, OnlyOnceRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param minNumber The min number of productId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of productId. (NullAllowed: if null, no to-condition)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -338,7 +338,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productIdList The collection of productId as inScope. (NullAllowed: if null (or empty), no condition)
      */
     def setProductId_InScope(productIdList: Collection[Integer]): Unit = {
@@ -351,7 +351,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)}
+     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productIdList The collection of productId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
     def setProductId_NotInScope(productIdList: Collection[Integer]): Unit = {

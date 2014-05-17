@@ -1,6 +1,7 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
 import java.lang.Long;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -177,9 +178,9 @@ object MemberDbm extends AbstractDBMeta {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberStatusDbm.columnMemberStatusCode());
         return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, false, false, false, false, null, null, false, "memberList");
     }
-    def foreignMemberSecurityAsOne(): ForeignInfo = {
-        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberSecurityDbm.columnMemberId());
-        return cfi("FK_MEMBER_SECURITY_MEMBER", "memberSecurityAsOne", this, MemberSecurityDbm, mp, 1, true, false, true, false, null, null, false, "member");
+    def foreignMemberServiceAsOne(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberServiceDbm.columnMemberId());
+        return cfi("FK_MEMBER_SERVICE_MEMBER", "memberServiceAsOne", this, MemberServiceDbm, mp, 1, true, false, true, false, null, null, false, "member");
     }
 
     // -----------------------------------------------------

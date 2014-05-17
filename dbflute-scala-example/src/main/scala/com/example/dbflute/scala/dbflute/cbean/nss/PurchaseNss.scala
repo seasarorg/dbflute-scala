@@ -28,5 +28,14 @@ class PurchaseNss(query: PurchaseCQ) {
         _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryMember(); }});
         return new MemberNss(_query.queryMember());
     }
+    /**
+     * With nested relation columns to select clause. <br />
+     * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    def withProduct(): ProductNss = {
+        _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryProduct(); }});
+        return new ProductNss(_query.queryProduct());
+    }
 
 }

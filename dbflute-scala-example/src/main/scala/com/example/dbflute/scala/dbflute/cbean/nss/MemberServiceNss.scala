@@ -2,18 +2,18 @@ package com.example.dbflute.scala.dbflute.cbean.nss;
 
 import org.seasar.dbflute.cbean.ConditionQuery;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
-import com.example.dbflute.scala.dbflute.cbean.cq.MemberSecurityCQ;
+import com.example.dbflute.scala.dbflute.cbean.cq.MemberServiceCQ;
 
 /**
- * The nest select set-upper of MEMBER_SECURITY.
+ * The nest select set-upper of MEMBER_SERVICE.
  * @author DBFlute(AutoGenerator)
  */
-class MemberSecurityNss(query: MemberSecurityCQ) {
+class MemberServiceNss(query: MemberServiceCQ) {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected var _query: MemberSecurityCQ = query;
+    protected var _query: MemberServiceCQ = query;
     def hasConditionQuery(): Boolean = { return _query != null; }
 
     // ===================================================================================
@@ -27,6 +27,15 @@ class MemberSecurityNss(query: MemberSecurityCQ) {
     def withMember(): MemberNss = {
         _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryMember(); }});
         return new MemberNss(_query.queryMember());
+    }
+    /**
+     * With nested relation columns to select clause. <br />
+     * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
+     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
+     */
+    def withServiceRank(): ServiceRankNss = {
+        _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryServiceRank(); }});
+        return new ServiceRankNss(_query.queryServiceRank());
     }
 
 }

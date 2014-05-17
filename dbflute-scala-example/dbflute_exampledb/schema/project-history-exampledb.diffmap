@@ -1,4 +1,39 @@
 map:{
+    ; 2014/05/18 00:36:04 = map:{
+        ; diffDate = 2014/05/18 00:36:04
+        ; tableCount = map:{
+            ; next = 6
+            ; previous = 4
+        }
+        ; tableDiff = map:{
+            ; MEMBER_SERVICE = map:{
+                ; tableName = MEMBER_SERVICE
+                ; diffType = ADD
+            }
+            ; PRODUCT = map:{
+                ; tableName = PRODUCT
+                ; diffType = ADD
+            }
+            ; SERVICE_RANK = map:{
+                ; tableName = SERVICE_RANK
+                ; diffType = ADD
+            }
+            ; PURCHASE = map:{
+                ; tableName = PURCHASE
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_PURCHASE_PRODUCT = map:{
+                        ; constraintName = FK_PURCHASE_PRODUCT
+                        ; diffType = ADD
+                    }
+                }
+            }
+            ; MEMBER_SECURITY = map:{
+                ; tableName = MEMBER_SECURITY
+                ; diffType = DELETE
+            }
+        }
+    }
     ; 2014/05/17 20:10:15 = map:{
         ; diffDate = 2014/05/17 20:10:15
         ; tableCount = map:{

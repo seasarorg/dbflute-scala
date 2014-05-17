@@ -35,13 +35,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     VERSION_NO
  *
  * [foreign table]
- *     MEMBER_STATUS, MEMBER_SECURITY(AsOne)
+ *     MEMBER_STATUS, MEMBER_SERVICE(AsOne)
  *
  * [referrer table]
- *     PURCHASE, MEMBER_SECURITY
+ *     PURCHASE, MEMBER_SERVICE
  *
  * [foreign property]
- *     memberStatus, memberSecurityAsOne
+ *     memberStatus, memberServiceAsOne
  *
  * [referrer property]
  *     purchaseList
@@ -492,15 +492,15 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         });
     }
     /**
-     * Pull out the list of referrer-as-one table 'MemberSecurity'.
+     * Pull out the list of referrer-as-one table 'MemberService'.
      * @param memberList The list of member. (NotNull, EmptyAllowed)
      * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMemberSecurityAsOne(memberList: List[Member]): List[MemberSecurity] = {
-        return helpPulloutInternally(memberList, new InternalPulloutCallback[Member, MemberSecurity]() {
-            def getFr(et: Member): MemberSecurity = { return et.getMemberSecurityAsOne(); }
+    def pulloutMemberServiceAsOne(memberList: List[Member]): List[MemberService] = {
+        return helpPulloutInternally(memberList, new InternalPulloutCallback[Member, MemberService]() {
+            def getFr(et: Member): MemberService = { return et.getMemberServiceAsOne(); }
             def hasRf(): Boolean = { return true; }
-            def setRfLs(et: MemberSecurity, ls: List[Member]): Unit =
+            def setRfLs(et: MemberService, ls: List[Member]): Unit =
             { if (!ls.isEmpty()) { et.setMember(ls.get(0)); } }
         });
     }

@@ -378,7 +378,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ",  ";
+        val delimiter: String = ", ";
         sb.append(delimiter).append(getMemberStatusCode());
         sb.append(delimiter).append(getMemberStatusName());
         sb.append(delimiter).append(getDescription());

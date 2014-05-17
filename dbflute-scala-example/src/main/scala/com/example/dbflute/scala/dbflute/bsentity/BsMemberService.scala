@@ -14,55 +14,54 @@ import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
+import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
- * The entity of (会員セキュリティ情報)MEMBER_SECURITY as TABLE. <br />
+ * The entity of (会員サービス)MEMBER_SERVICE as TABLE. <br />
  * <pre>
  * [primary-key]
- *     MEMBER_ID
+ *     MEMBER_SERVICE_ID
  * 
  * [column]
- *     MEMBER_ID, LOGIN_PASSWORD, REMINDER_QUESTION, REMINDER_ANSWER, REMINDER_USE_COUNT, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER, VERSION_NO
+ *     MEMBER_SERVICE_ID, MEMBER_ID, SERVICE_POINT_COUNT, SERVICE_RANK_CODE, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER, VERSION_NO
  * 
  * [sequence]
  *     
  * 
  * [identity]
- *     
+ *     MEMBER_SERVICE_ID
  * 
  * [version-no]
  *     VERSION_NO
  * 
  * [foreign table]
- *     MEMBER
+ *     MEMBER, SERVICE_RANK
  * 
  * [referrer table]
  *     
  * 
  * [foreign property]
- *     member
+ *     member, serviceRank
  * 
  * [referrer property]
  *     
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * Integer memberServiceId = entity.getMemberServiceId();
  * Integer memberId = entity.getMemberId();
- * String loginPassword = entity.getLoginPassword();
- * String reminderQuestion = entity.getReminderQuestion();
- * String reminderAnswer = entity.getReminderAnswer();
- * Integer reminderUseCount = entity.getReminderUseCount();
+ * Integer servicePointCount = entity.getServicePointCount();
+ * String serviceRankCode = entity.getServiceRankCode();
  * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
  * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * Long versionNo = entity.getVersionNo();
+ * entity.setMemberServiceId(memberServiceId);
  * entity.setMemberId(memberId);
- * entity.setLoginPassword(loginPassword);
- * entity.setReminderQuestion(reminderQuestion);
- * entity.setReminderAnswer(reminderAnswer);
- * entity.setReminderUseCount(reminderUseCount);
+ * entity.setServicePointCount(servicePointCount);
+ * entity.setServiceRankCode(serviceRankCode);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterUser(registerUser);
  * entity.setUpdateDatetime(updateDatetime);
@@ -72,7 +71,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializable with Cloneable {
+abstract class BsMemberService extends EntityDefinedCommonColumn with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                          Definition
@@ -84,20 +83,17 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
     // -----------------------------------------------------
     //                                                Column
     //                                                ------
-    /** (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER} */
+    /** (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} */
+    protected var _memberServiceId: Integer = null;
+
+    /** (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} */
     protected var _memberId: Integer = null;
 
-    /** (ログインパスワード)LOGIN_PASSWORD: {NotNull, VARCHAR(50)} */
-    protected var _loginPassword: String = null;
+    /** (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} */
+    protected var _servicePointCount: Integer = null;
 
-    /** (リマインダ質問)REMINDER_QUESTION: {NotNull, VARCHAR(50)} */
-    protected var _reminderQuestion: String = null;
-
-    /** (リマインダ回答)REMINDER_ANSWER: {NotNull, VARCHAR(50)} */
-    protected var _reminderAnswer: String = null;
-
-    /** (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)} */
-    protected var _reminderUseCount: Integer = null;
+    /** (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} */
+    protected var _serviceRankCode: String = null;
 
     /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
     protected var _registerDatetime: java.sql.Timestamp = null;
@@ -133,14 +129,14 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * {@inheritDoc}
      */
     def getTableDbName(): String = {
-        return "MEMBER_SECURITY";
+        return "MEMBER_SERVICE";
     }
 
     /**
      * {@inheritDoc}
      */
     def getTablePropertyName(): String = { // according to Java Beans rule
-        return "memberSecurity";
+        return "memberService";
     }
 
     // ===================================================================================
@@ -160,10 +156,138 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (getMemberId() == null) { return false; }
+        if (getMemberServiceId() == null) { return false; }
         return true;
     }
 
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of serviceRankCode as the classification of ServiceRank. <br />
+     * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * rank of service member gets
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    def getServiceRankCodeAsServiceRank(): CDef.ServiceRank = {
+        return CDef.ServiceRank.codeOf(getServiceRankCode());
+    }
+
+    /**
+     * Set the value of serviceRankCode as the classification of ServiceRank. <br />
+     * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * rank of service member gets
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    def setServiceRankCodeAsServiceRank(cdef: CDef.ServiceRank): Unit = {
+        setServiceRankCode(if (cdef != null) { cdef.code } else { null });
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of serviceRankCode as Platinum (PLT). <br />
+     * PLATINUM: platinum rank
+     */
+    def setServiceRankCode_Platinum(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Platinum);
+    }
+
+    /**
+     * Set the value of serviceRankCode as Gold (GLD). <br />
+     * GOLD: gold rank
+     */
+    def setServiceRankCode_Gold(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Gold);
+    }
+
+    /**
+     * Set the value of serviceRankCode as Silver (SIL). <br />
+     * SILVER: silver rank
+     */
+    def setServiceRankCode_Silver(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Silver);
+    }
+
+    /**
+     * Set the value of serviceRankCode as Bronze (BRZ). <br />
+     * BRONZE: bronze rank
+     */
+    def setServiceRankCode_Bronze(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Bronze);
+    }
+
+    /**
+     * Set the value of serviceRankCode as Plastic (PLS). <br />
+     * PLASTIC: plastic rank
+     */
+    def setServiceRankCode_Plastic(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Plastic);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of serviceRankCode Platinum? <br />
+     * PLATINUM: platinum rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCodePlatinum(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Platinum) } else { false };
+    }
+
+    /**
+     * Is the value of serviceRankCode Gold? <br />
+     * GOLD: gold rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCodeGold(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Gold) } else { false };
+    }
+
+    /**
+     * Is the value of serviceRankCode Silver? <br />
+     * SILVER: silver rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCodeSilver(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Silver) } else { false };
+    }
+
+    /**
+     * Is the value of serviceRankCode Bronze? <br />
+     * BRONZE: bronze rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCodeBronze(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Bronze) } else { false };
+    }
+
+    /**
+     * Is the value of serviceRankCode Plastic? <br />
+     * PLASTIC: plastic rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCodePlastic(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Plastic) } else { false };
+    }
+
+    // ===================================================================================
+    //                                                           Classification Name/Alias
+    //                                                           =========================
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
@@ -184,6 +308,25 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      */
     def setMember(member: Member): Unit = {
         _member = member;
+    }
+
+    /** (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'. */
+    protected var _serviceRank: ServiceRank = null;
+
+    /**
+     * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
+     * @return The entity of foreign property 'serviceRank'. (NullAllowed: when e.g. null FK column, no setupSelect)
+     */
+    def getServiceRank(): ServiceRank = {
+        return _serviceRank;
+    }
+
+    /**
+     * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
+     * @param serviceRank The entity of foreign property 'serviceRank'. (NullAllowed)
+     */
+    def setServiceRank(serviceRank: ServiceRank): Unit = {
+        _serviceRank = serviceRank;
     }
 
     // ===================================================================================
@@ -273,10 +416,10 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      */
     override def equals(obj: Any) = {
         obj match {
-            case obj: BsMemberSecurity => {
-                val other: BsMemberSecurity = obj.asInstanceOf[BsMemberSecurity];
+            case obj: BsMemberService => {
+                val other: BsMemberService = obj.asInstanceOf[BsMemberService];
                 {
-                     xSV(getMemberId(), other.getMemberId())
+                     xSV(getMemberServiceId(), other.getMemberServiceId())
                 }
             }
             case _ => false
@@ -293,7 +436,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, getMemberId());
+        hs = xCH(hs, getMemberServiceId());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -324,6 +467,8 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
         val l: String = "\n  ";
         if (_member != null)
         { sb.append(l).append(xbRDS(_member, "member")); }
+        if (_serviceRank != null)
+        { sb.append(l).append(xbRDS(_serviceRank, "serviceRank")); }
         return sb.toString();
     }
     protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
@@ -343,12 +488,11 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ",  ";
+        val delimiter: String = ", ";
+        sb.append(delimiter).append(getMemberServiceId());
         sb.append(delimiter).append(getMemberId());
-        sb.append(delimiter).append(getLoginPassword());
-        sb.append(delimiter).append(getReminderQuestion());
-        sb.append(delimiter).append(getReminderAnswer());
-        sb.append(delimiter).append(getReminderUseCount());
+        sb.append(delimiter).append(getServicePointCount());
+        sb.append(delimiter).append(getServiceRankCode());
         sb.append(delimiter).append(getRegisterDatetime());
         sb.append(delimiter).append(getRegisterUser());
         sb.append(delimiter).append(getUpdateDatetime());
@@ -364,6 +508,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
         val sb: StringBuilder = new StringBuilder();
         val c: String = ",  ";
         if (_member != null) { sb.append(c).append("member"); }
+        if (_serviceRank != null) { sb.append(c).append("serviceRank"); }
         if (sb.length() > c.length()) {
             sb.delete(0, c.length()).insert(0, "(").append(")");
         }
@@ -374,9 +519,9 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    override def clone(): MemberSecurity = {
+    override def clone(): MemberService = {
         try {
-            return super.clone().asInstanceOf[MemberSecurity];
+            return super.clone().asInstanceOf[MemberService];
         } catch {
             case e: CloneNotSupportedException => {
                 throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
@@ -388,7 +533,24 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * [get] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if selected: for the constraint)
+     */
+    def getMemberServiceId(): Integer = {
+        return _memberServiceId;
+    }
+
+    /**
+     * [set] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
+     * @param memberServiceId The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if update: for the constraint)
+     */
+    def setMemberServiceId(memberServiceId: Integer): Unit = {
+        __modifiedProperties.addPropertyName("memberServiceId");
+        this._memberServiceId = memberServiceId;
+    }
+
+    /**
+     * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
     def getMemberId(): Integer = {
@@ -396,7 +558,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
     }
 
     /**
-     * [set] (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * [set] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
@@ -405,71 +567,37 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
     }
 
     /**
-     * [get] (ログインパスワード)LOGIN_PASSWORD: {NotNull, VARCHAR(50)} <br />
-     * @return The value of the column 'LOGIN_PASSWORD'. (basically NotNull if selected: for the constraint)
+     * [get] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if selected: for the constraint)
      */
-    def getLoginPassword(): String = {
-        return convertEmptyToNull(_loginPassword);
+    def getServicePointCount(): Integer = {
+        return _servicePointCount;
     }
 
     /**
-     * [set] (ログインパスワード)LOGIN_PASSWORD: {NotNull, VARCHAR(50)} <br />
-     * @param loginPassword The value of the column 'LOGIN_PASSWORD'. (basically NotNull if update: for the constraint)
+     * [set] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
+     * @param servicePointCount The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if update: for the constraint)
      */
-    def setLoginPassword(loginPassword: String): Unit = {
-        __modifiedProperties.addPropertyName("loginPassword");
-        this._loginPassword = loginPassword;
+    def setServicePointCount(servicePointCount: Integer): Unit = {
+        __modifiedProperties.addPropertyName("servicePointCount");
+        this._servicePointCount = servicePointCount;
     }
 
     /**
-     * [get] (リマインダ質問)REMINDER_QUESTION: {NotNull, VARCHAR(50)} <br />
-     * @return The value of the column 'REMINDER_QUESTION'. (basically NotNull if selected: for the constraint)
+     * [get] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * @return The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def getReminderQuestion(): String = {
-        return convertEmptyToNull(_reminderQuestion);
+    def getServiceRankCode(): String = {
+        return convertEmptyToNull(_serviceRankCode);
     }
 
     /**
-     * [set] (リマインダ質問)REMINDER_QUESTION: {NotNull, VARCHAR(50)} <br />
-     * @param reminderQuestion The value of the column 'REMINDER_QUESTION'. (basically NotNull if update: for the constraint)
+     * [set] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setReminderQuestion(reminderQuestion: String): Unit = {
-        __modifiedProperties.addPropertyName("reminderQuestion");
-        this._reminderQuestion = reminderQuestion;
-    }
-
-    /**
-     * [get] (リマインダ回答)REMINDER_ANSWER: {NotNull, VARCHAR(50)} <br />
-     * @return The value of the column 'REMINDER_ANSWER'. (basically NotNull if selected: for the constraint)
-     */
-    def getReminderAnswer(): String = {
-        return convertEmptyToNull(_reminderAnswer);
-    }
-
-    /**
-     * [set] (リマインダ回答)REMINDER_ANSWER: {NotNull, VARCHAR(50)} <br />
-     * @param reminderAnswer The value of the column 'REMINDER_ANSWER'. (basically NotNull if update: for the constraint)
-     */
-    def setReminderAnswer(reminderAnswer: String): Unit = {
-        __modifiedProperties.addPropertyName("reminderAnswer");
-        this._reminderAnswer = reminderAnswer;
-    }
-
-    /**
-     * [get] (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)} <br />
-     * @return The value of the column 'REMINDER_USE_COUNT'. (basically NotNull if selected: for the constraint)
-     */
-    def getReminderUseCount(): Integer = {
-        return _reminderUseCount;
-    }
-
-    /**
-     * [set] (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)} <br />
-     * @param reminderUseCount The value of the column 'REMINDER_USE_COUNT'. (basically NotNull if update: for the constraint)
-     */
-    def setReminderUseCount(reminderUseCount: Integer): Unit = {
-        __modifiedProperties.addPropertyName("reminderUseCount");
-        this._reminderUseCount = reminderUseCount;
+    def setServiceRankCode(serviceRankCode: String): Unit = {
+        __modifiedProperties.addPropertyName("serviceRankCode");
+        this._serviceRankCode = serviceRankCode;
     }
 
     /**

@@ -19,10 +19,10 @@ import com.example.dbflute.scala.dbflute.allcommon._
 import com.example.dbflute.scala.dbflute.exentity._
 
 /**
- * The DB meta of MEMBER_STATUS. (Singleton)
+ * The DB meta of SERVICE_RANK. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
-object MemberStatusDbm extends AbstractDBMeta {
+object ServiceRankDbm extends AbstractDBMeta {
 
     // ===================================================================================
     //                                                                       Current DBDef
@@ -34,27 +34,37 @@ object MemberStatusDbm extends AbstractDBMeta {
     //                                                                    ================
     protected val _epgMap: Map[String, PropertyGateway] = newHashMap();
     {
-        setupEpg(_epgMap, new EpgMemberStatusCode(), "memberStatusCode");
-        setupEpg(_epgMap, new EpgMemberStatusName(), "memberStatusName");
+        setupEpg(_epgMap, new EpgServiceRankCode(), "serviceRankCode");
+        setupEpg(_epgMap, new EpgServiceRankName(), "serviceRankName");
+        setupEpg(_epgMap, new EpgServicePointIncidence(), "servicePointIncidence");
+        setupEpg(_epgMap, new EpgNewAcceptableFlg(), "newAcceptableFlg");
         setupEpg(_epgMap, new EpgDescription(), "description");
         setupEpg(_epgMap, new EpgDisplayOrder(), "displayOrder");
     }
     def findPropertyGateway(propertyName: String): PropertyGateway = { return doFindEpg(_epgMap, propertyName); }
-    class EpgMemberStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getMemberStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setMemberStatusCode(vl.asInstanceOf[String]); }
+    class EpgServiceRankCode extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getServiceRankCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setServiceRankCode(vl.asInstanceOf[String]); }
     }
-    class EpgMemberStatusName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getMemberStatusName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setMemberStatusName(vl.asInstanceOf[String]); }
+    class EpgServiceRankName extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getServiceRankName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setServiceRankName(vl.asInstanceOf[String]); }
+    }
+    class EpgServicePointIncidence extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getServicePointIncidence(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setServicePointIncidence(dgctb(vl)); }
+    }
+    class EpgNewAcceptableFlg extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getNewAcceptableFlg(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setNewAcceptableFlg(dgcti(vl)); }
     }
     class EpgDescription extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getDescription(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setDescription(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getDescription(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setDescription(vl.asInstanceOf[String]); }
     }
     class EpgDisplayOrder extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getDisplayOrder(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setDisplayOrder(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getDisplayOrder(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setDisplayOrder(dgcti(vl)); }
     }
 
     // delegating to protected static (illegal access error if directly call)
@@ -68,33 +78,39 @@ object MemberStatusDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected val _tableDbName: String = "MEMBER_STATUS";
-    protected val _tablePropertyName: String = "memberStatus";
-    protected val _tableSqlName: TableSqlName = new TableSqlName("EXAMPLEDB.PUBLIC.MEMBER_STATUS", _tableDbName);
+    protected val _tableDbName: String = "SERVICE_RANK";
+    protected val _tablePropertyName: String = "serviceRank";
+    protected val _tableSqlName: TableSqlName = new TableSqlName("EXAMPLEDB.PUBLIC.SERVICE_RANK", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getTableSqlNameFilter()); }
     def getTableDbName(): String = { return _tableDbName; }
     def getTablePropertyName(): String = { return _tablePropertyName; }
     def getTableSqlName(): TableSqlName = { return _tableSqlName; }
-    protected val _tableAlias: String = "会員ステータス";
+    protected val _tableAlias: String = "サービスランク";
     override def getTableAlias(): String = { return _tableAlias; }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", true, "memberStatusCode", classOf[String], true, false, "CHAR", 3, 0, null, false, null, null, null, "memberList", CDef.DefMeta.MemberStatus);
-    protected val _columnMemberStatusName: ColumnInfo = cci("MEMBER_STATUS_NAME", "MEMBER_STATUS_NAME", null, "会員ステータス名称", true, "memberStatusName", classOf[String], false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
+    protected val _columnServiceRankCode: ColumnInfo = cci("SERVICE_RANK_CODE", "SERVICE_RANK_CODE", null, "サービスランクコード", true, "serviceRankCode", classOf[String], true, false, "CHAR", 3, 0, null, false, null, null, null, "memberServiceList", CDef.DefMeta.ServiceRank);
+    protected val _columnServiceRankName: ColumnInfo = cci("SERVICE_RANK_NAME", "SERVICE_RANK_NAME", null, "サービスランク名称", true, "serviceRankName", classOf[String], false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
+    protected val _columnServicePointIncidence: ColumnInfo = cci("SERVICE_POINT_INCIDENCE", "SERVICE_POINT_INCIDENCE", null, "サービスポイント発生率", true, "servicePointIncidence", classOf[java.math.BigDecimal], false, false, "DECIMAL", 5, 3, null, false, null, null, null, null, null);
+    protected val _columnNewAcceptableFlg: ColumnInfo = cci("NEW_ACCEPTABLE_FLG", "NEW_ACCEPTABLE_FLG", null, "新規受け入れ可能フラグ", true, "newAcceptableFlg", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, null, null, CDef.DefMeta.Flg);
     protected val _columnDescription: ColumnInfo = cci("DESCRIPTION", "DESCRIPTION", null, "説明", true, "description", classOf[String], false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnDisplayOrder: ColumnInfo = cci("DISPLAY_ORDER", "DISPLAY_ORDER", null, "表示順", true, "displayOrder", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
 
-    def columnMemberStatusCode(): ColumnInfo = { return _columnMemberStatusCode; }
-    def columnMemberStatusName(): ColumnInfo = { return _columnMemberStatusName; }
+    def columnServiceRankCode(): ColumnInfo = { return _columnServiceRankCode; }
+    def columnServiceRankName(): ColumnInfo = { return _columnServiceRankName; }
+    def columnServicePointIncidence(): ColumnInfo = { return _columnServicePointIncidence; }
+    def columnNewAcceptableFlg(): ColumnInfo = { return _columnNewAcceptableFlg; }
     def columnDescription(): ColumnInfo = { return _columnDescription; }
     def columnDisplayOrder(): ColumnInfo = { return _columnDisplayOrder; }
 
     protected def ccil(): List[ColumnInfo] = {
         val ls: List[ColumnInfo] = newArrayList();
-        ls.add(columnMemberStatusCode());
-        ls.add(columnMemberStatusName());
+        ls.add(columnServiceRankCode());
+        ls.add(columnServiceRankName());
+        ls.add(columnServicePointIncidence());
+        ls.add(columnNewAcceptableFlg());
         ls.add(columnDescription());
         ls.add(columnDisplayOrder());
         return ls;
@@ -108,7 +124,7 @@ object MemberStatusDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected def cpui(): UniqueInfo = { return hpcpui(columnMemberStatusCode()); }
+    protected def cpui(): UniqueInfo = { return hpcpui(columnServiceRankCode()); }
     def hasPrimaryKey(): Boolean = { return true; }
     def hasCompoundPrimaryKey(): Boolean = { return false; }
 
@@ -122,9 +138,9 @@ object MemberStatusDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
-    def referrerMemberList(): ReferrerInfo = {
-        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberDbm.columnMemberStatusCode());
-        return cri("FK_MEMBER_MEMBER_STATUS", "memberList", this, MemberDbm, mp, false, "memberStatus");
+    def referrerMemberServiceList(): ReferrerInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnServiceRankCode(), MemberServiceDbm.columnServiceRankCode());
+        return cri("FK_MEMBER_SERVICE_SERVICE_RANK_CODE", "memberServiceList", this, MemberServiceDbm, mp, false, "serviceRank");
     }
 
     // ===================================================================================
@@ -134,28 +150,28 @@ object MemberStatusDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MemberStatus"; }
-    def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.MemberStatusCB"; }
-    def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.MemberStatusBhv"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.ServiceRank"; }
+    def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.ServiceRankCB"; }
+    def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.ServiceRankBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[MemberStatus] = { return classOf[MemberStatus]; }
+    def getEntityType(): Class[ServiceRank] = { return classOf[ServiceRank]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): MemberStatus = { return new MemberStatus(); }
+    def newMyEntity(): ServiceRank = { return new ServiceRank(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[MemberStatus], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[ServiceRank], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[MemberStatus], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[ServiceRank], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }

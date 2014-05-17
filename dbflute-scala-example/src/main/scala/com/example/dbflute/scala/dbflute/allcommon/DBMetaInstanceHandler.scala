@@ -30,9 +30,11 @@ object DBMetaInstanceHandler extends DBMetaProvider {
     {
         val tmpMap: Map[String, DBMeta] = new HashMap();
         tmpMap.put("MEMBER", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberDbm);
-        tmpMap.put("MEMBER_SECURITY", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberSecurityDbm);
+        tmpMap.put("MEMBER_SERVICE", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberServiceDbm);
         tmpMap.put("MEMBER_STATUS", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberStatusDbm);
+        tmpMap.put("PRODUCT", com.example.dbflute.scala.dbflute.bsentity.dbmeta.ProductDbm);
         tmpMap.put("PURCHASE", com.example.dbflute.scala.dbflute.bsentity.dbmeta.PurchaseDbm);
+        tmpMap.put("SERVICE_RANK", com.example.dbflute.scala.dbflute.bsentity.dbmeta.ServiceRankDbm);
         _tableDbNameInstanceMap = Collections.unmodifiableMap(tmpMap);
     }
 

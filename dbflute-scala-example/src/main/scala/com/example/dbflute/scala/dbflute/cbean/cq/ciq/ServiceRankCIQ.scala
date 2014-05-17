@@ -12,16 +12,16 @@ import com.example.dbflute.scala.dbflute.cbean.cq.bs._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 
 /**
- * The condition-query for in-line of MEMBER_SECURITY.
+ * The condition-query for in-line of SERVICE_RANK.
  * @author DBFlute(AutoGenerator)
  */
-class MemberSecurityCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer, myCQ: BsMemberSecurityCQ)
-        extends AbstractBsMemberSecurityCQ(childQuery, sqlClause, aliasName, nestLevel) {
+class ServiceRankCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer, myCQ: BsServiceRankCQ)
+        extends AbstractBsServiceRankCQ(childQuery, sqlClause, aliasName, nestLevel) {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected var _myCQ: BsMemberSecurityCQ = null;
+    protected var _myCQ: BsServiceRankCQ = null;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -63,28 +63,38 @@ class MemberSecurityCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasN
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
-    protected def getCValueMemberId(): ConditionValue = { return _myCQ.getMemberId(); }
-    protected def getCValueLoginPassword(): ConditionValue = { return _myCQ.getLoginPassword(); }
-    protected def getCValueReminderQuestion(): ConditionValue = { return _myCQ.getReminderQuestion(); }
-    protected def getCValueReminderAnswer(): ConditionValue = { return _myCQ.getReminderAnswer(); }
-    protected def getCValueReminderUseCount(): ConditionValue = { return _myCQ.getReminderUseCount(); }
-    protected def getCValueRegisterDatetime(): ConditionValue = { return _myCQ.getRegisterDatetime(); }
-    protected def getCValueRegisterUser(): ConditionValue = { return _myCQ.getRegisterUser(); }
-    protected def getCValueUpdateDatetime(): ConditionValue = { return _myCQ.getUpdateDatetime(); }
-    protected def getCValueUpdateUser(): ConditionValue = { return _myCQ.getUpdateUser(); }
-    protected def getCValueVersionNo(): ConditionValue = { return _myCQ.getVersionNo(); }
+    protected def getCValueServiceRankCode(): ConditionValue = { return _myCQ.getServiceRankCode(); }
+    def keepServiceRankCode_ExistsReferrer_MemberServiceList(sq: MemberServiceCQ): String =
+    { throwIICBOE("ExistsReferrer"); return null; }
+    def keepServiceRankCode_NotExistsReferrer_MemberServiceList(sq: MemberServiceCQ): String =
+    { throwIICBOE("NotExistsReferrer"); return null; }
+    def keepServiceRankCode_InScopeRelation_MemberServiceList(sq: MemberServiceCQ): String =
+    { return _myCQ.keepServiceRankCode_InScopeRelation_MemberServiceList(sq); }
+    def keepServiceRankCode_NotInScopeRelation_MemberServiceList(sq: MemberServiceCQ): String =
+    { return _myCQ.keepServiceRankCode_NotInScopeRelation_MemberServiceList(sq); }
+    def keepServiceRankCode_SpecifyDerivedReferrer_MemberServiceList(sq: MemberServiceCQ): String =
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    def keepServiceRankCode_QueryDerivedReferrer_MemberServiceList(sq: MemberServiceCQ): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepServiceRankCode_QueryDerivedReferrer_MemberServiceListParameter(vl: Object): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    protected def getCValueServiceRankName(): ConditionValue = { return _myCQ.getServiceRankName(); }
+    protected def getCValueServicePointIncidence(): ConditionValue = { return _myCQ.getServicePointIncidence(); }
+    protected def getCValueNewAcceptableFlg(): ConditionValue = { return _myCQ.getNewAcceptableFlg(); }
+    protected def getCValueDescription(): ConditionValue = { return _myCQ.getDescription(); }
+    protected def getCValueDisplayOrder(): ConditionValue = { return _myCQ.getDisplayOrder(); }
     protected def xfindFixedConditionDynamicParameterMap(pp: String): Map[String, Object] = { return null; }
-    def keepScalarCondition(sq: MemberSecurityCQ): String =
+    def keepScalarCondition(sq: ServiceRankCQ): String =
     { throwIICBOE("ScalarCondition"); return null; }
-    def keepSpecifyMyselfDerived(sq: MemberSecurityCQ): String =
+    def keepSpecifyMyselfDerived(sq: ServiceRankCQ): String =
     { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    def keepQueryMyselfDerived(sq: MemberSecurityCQ): String =
+    def keepQueryMyselfDerived(sq: ServiceRankCQ): String =
     { throwIICBOE("(Query)MyselfDerived"); return null;}
     def keepQueryMyselfDerivedParameter(vl: Object): String =
     { throwIICBOE("(Query)MyselfDerived"); return null;}
-    def keepMyselfExists(sq: MemberSecurityCQ): String =
+    def keepMyselfExists(sq: ServiceRankCQ): String =
     { throwIICBOE("MyselfExists"); return null;}
-    def keepMyselfInScope(sq: MemberSecurityCQ): String =
+    def keepMyselfInScope(sq: ServiceRankCQ): String =
     { throwIICBOE("MyselfInScope"); return null;}
 
     protected def throwIICBOE(name: String): Unit = { // throwInlineIllegalConditionBeanOperationException()
@@ -95,6 +105,6 @@ class MemberSecurityCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasN
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected def xinCB(): String = { return classOf[MemberSecurityCB].getName(); }
-    protected def xinCQ(): String = { return classOf[MemberSecurityCQ].getName(); }
+    protected def xinCB(): String = { return classOf[ServiceRankCB].getName(); }
+    protected def xinCQ(): String = { return classOf[ServiceRankCQ].getName(); }
 }

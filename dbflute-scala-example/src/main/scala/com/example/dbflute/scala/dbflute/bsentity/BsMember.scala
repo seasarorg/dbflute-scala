@@ -37,13 +37,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     VERSION_NO
  * 
  * [foreign table]
- *     MEMBER_STATUS, MEMBER_SECURITY(AsOne)
+ *     MEMBER_STATUS, MEMBER_SERVICE(AsOne)
  * 
  * [referrer table]
- *     PURCHASE, MEMBER_SECURITY
+ *     PURCHASE, MEMBER_SERVICE
  * 
  * [foreign property]
- *     memberStatus, memberSecurityAsOne
+ *     memberStatus, memberServiceAsOne
  * 
  * [referrer property]
  *     purchaseList
@@ -283,23 +283,23 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         _memberStatus = memberStatus;
     }
 
-    /** (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'. */
-    protected var _memberSecurityAsOne: MemberSecurity = null;
+    /** (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'. */
+    protected var _memberServiceAsOne: MemberService = null;
 
     /**
-     * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
-     * @return the entity of foreign property(referrer-as-one) 'memberSecurityAsOne'. (NullAllowed: when e.g. no data, no setupSelect)
+     * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
+     * @return the entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (NullAllowed: when e.g. no data, no setupSelect)
      */
-    def getMemberSecurityAsOne(): MemberSecurity = {
-        return _memberSecurityAsOne;
+    def getMemberServiceAsOne(): MemberService = {
+        return _memberServiceAsOne;
     }
 
     /**
-     * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
-     * @param memberSecurityAsOne The entity of foreign property(referrer-as-one) 'memberSecurityAsOne'. (NullAllowed)
+     * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
+     * @param memberServiceAsOne The entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (NullAllowed)
      */
-    def setMemberSecurityAsOne(memberSecurityAsOne: MemberSecurity): Unit = {
-        _memberSecurityAsOne = memberSecurityAsOne;
+    def setMemberServiceAsOne(memberServiceAsOne: MemberService): Unit = {
+        _memberServiceAsOne = memberServiceAsOne;
     }
 
     // ===================================================================================
@@ -460,8 +460,8 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         val l: String = "\n  ";
         if (_memberStatus != null)
         { sb.append(l).append(xbRDS(_memberStatus, "memberStatus")); }
-        if (_memberSecurityAsOne != null)
-        { sb.append(l).append(xbRDS(_memberSecurityAsOne, "memberSecurityAsOne")); }
+        if (_memberServiceAsOne != null)
+        { sb.append(l).append(xbRDS(_memberServiceAsOne, "memberServiceAsOne")); }
         if (_purchaseList != null) {
             _purchaseList.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
         }
@@ -484,7 +484,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ",  ";
+        val delimiter: String = ", ";
         sb.append(delimiter).append(getMemberId());
         sb.append(delimiter).append(getMemberName());
         sb.append(delimiter).append(getMemberAccount());
@@ -512,7 +512,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         val sb: StringBuilder = new StringBuilder();
         val c: String = ",  ";
         if (_memberStatus != null) { sb.append(c).append("memberStatus"); }
-        if (_memberSecurityAsOne != null) { sb.append(c).append("memberSecurityAsOne"); }
+        if (_memberServiceAsOne != null) { sb.append(c).append("memberServiceAsOne"); }
         if (_purchaseList != null && !_purchaseList.isEmpty())
         { sb.append(c).append("purchaseList"); }
         if (sb.length() > c.length()) {

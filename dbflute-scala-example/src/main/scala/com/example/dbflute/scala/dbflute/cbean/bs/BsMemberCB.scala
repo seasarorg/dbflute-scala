@@ -276,28 +276,28 @@ class BsMemberCB extends AbstractConditionBean {
         return _nssMemberStatus;
     }
 
-    protected var _nssMemberSecurityAsOne: MemberSecurityNss = null;
-    def getNssMemberSecurityAsOne(): MemberSecurityNss = {
-        if (_nssMemberSecurityAsOne == null) { _nssMemberSecurityAsOne = new MemberSecurityNss(null); }
-        return _nssMemberSecurityAsOne;
+    protected var _nssMemberServiceAsOne: MemberServiceNss = null;
+    def getNssMemberServiceAsOne(): MemberServiceNss = {
+        if (_nssMemberServiceAsOne == null) { _nssMemberServiceAsOne = new MemberServiceNss(null); }
+        return _nssMemberServiceAsOne;
     }
     /**
      * Set up relation columns to select clause. <br />
-     * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * <pre>
      * MemberCB cb = new MemberCB();
-     * cb.<span style="color: #DD4747">setupSelect_MemberSecurityAsOne()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     * cb.<span style="color: #DD4747">setupSelect_MemberServiceAsOne()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
      * Member member = memberBhv.selectEntityWithDeletedCheck(cb);
-     * ... = member.<span style="color: #DD4747">getMemberSecurityAsOne()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * ... = member.<span style="color: #DD4747">getMemberServiceAsOne()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    def setupSelect_MemberSecurityAsOne(): MemberSecurityNss = {
-        assertSetupSelectPurpose("memberSecurityAsOne");
-        doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryMemberSecurityAsOne(); } });
-        if (_nssMemberSecurityAsOne == null || !_nssMemberSecurityAsOne.hasConditionQuery()) { _nssMemberSecurityAsOne = new MemberSecurityNss(query().queryMemberSecurityAsOne()); }
-        return _nssMemberSecurityAsOne;
+    def setupSelect_MemberServiceAsOne(): MemberServiceNss = {
+        assertSetupSelectPurpose("memberServiceAsOne");
+        doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryMemberServiceAsOne(); } });
+        if (_nssMemberServiceAsOne == null || !_nssMemberServiceAsOne.hasConditionQuery()) { _nssMemberServiceAsOne = new MemberServiceNss(query().queryMemberServiceAsOne()); }
+        return _nssMemberServiceAsOne;
     }
 
     // [DBFlute-0.7.4]
@@ -492,7 +492,7 @@ object HpMemberCB {
     class HpSpecification(baseCB: ConditionBean, qyCall: HpSpQyCall[MemberCQ], purpose: HpCBPurpose, dbmetaProvider: DBMetaProvider)
             extends HpAbstractSpecification[MemberCQ](baseCB, qyCall, purpose, dbmetaProvider) {
         protected var _memberStatus: HpMemberStatusCB.HpSpecification = null;
-        protected var _memberSecurityAsOne: HpMemberSecurityCB.HpSpecification = null;
+        protected var _memberServiceAsOne: HpMemberServiceCB.HpSpecification = null;
         /**
          * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
          * @return The information object of specified column. (NotNull)
@@ -583,24 +583,24 @@ object HpMemberCB {
         }
         /**
          * Prepare to specify functions about relation table. <br />
-         * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+         * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
-        def specifyMemberSecurityAsOne(): HpMemberSecurityCB.HpSpecification = {
-            assertRelation("memberSecurityAsOne");
-            if (_memberSecurityAsOne == null) {
-                _memberSecurityAsOne = new HpMemberSecurityCB.HpSpecification(_baseCB, new HpSpQyCall[MemberSecurityCQ]() {
-                    def has(): Boolean = { return _qyCall.has() && _qyCall.qy().hasConditionQueryMemberSecurityAsOne(); }
-                    def qy(): MemberSecurityCQ = { return _qyCall.qy().queryMemberSecurityAsOne(); } }
+        def specifyMemberServiceAsOne(): HpMemberServiceCB.HpSpecification = {
+            assertRelation("memberServiceAsOne");
+            if (_memberServiceAsOne == null) {
+                _memberServiceAsOne = new HpMemberServiceCB.HpSpecification(_baseCB, new HpSpQyCall[MemberServiceCQ]() {
+                    def has(): Boolean = { return _qyCall.has() && _qyCall.qy().hasConditionQueryMemberServiceAsOne(); }
+                    def qy(): MemberServiceCQ = { return _qyCall.qy().queryMemberServiceAsOne(); } }
                     , _purpose, _dbmetaProvider);
                 if (xhasSyncQyCall()) { // inherits it
-                    _memberSecurityAsOne.xsetSyncQyCall(new HpSpQyCall[MemberSecurityCQ]() {
-                        def has(): Boolean = { return xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryMemberSecurityAsOne(); }
-                        def qy(): MemberSecurityCQ = { return xsyncQyCall().qy().queryMemberSecurityAsOne(); }
+                    _memberServiceAsOne.xsetSyncQyCall(new HpSpQyCall[MemberServiceCQ]() {
+                        def has(): Boolean = { return xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryMemberServiceAsOne(); }
+                        def qy(): MemberServiceCQ = { return xsyncQyCall().qy().queryMemberServiceAsOne(); }
                     });
                 }
             }
-            return _memberSecurityAsOne;
+            return _memberServiceAsOne;
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br />
