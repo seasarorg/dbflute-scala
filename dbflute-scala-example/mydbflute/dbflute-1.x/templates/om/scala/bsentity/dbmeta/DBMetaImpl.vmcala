@@ -108,11 +108,11 @@ object ${myClassName} extends AbstractDBMeta {
     def getTableSqlName(): TableSqlName = { return _tableSqlName; }
 #if ($table.hasAlias())
     protected val _tableAlias: String = "$table.alias";
-    def getTableAlias(): String = { return _tableAlias; }
+    override def getTableAlias(): String = { return _tableAlias; }
 #end
 #if ($table.isCommentForDBMetaValid())
     protected val _tableComment: String = "$table.commentForDBMeta";
-    def getTableComment(): String = { return _tableComment; }
+    override def getTableComment(): String = { return _tableComment; }
 #end
 
     // ===================================================================================
@@ -224,29 +224,29 @@ object ${myClassName} extends AbstractDBMeta {
     //                                                                        Various Info
     //                                                                        ============
 #if ($table.isUseIdentity())
-    def hasIdentity(): Boolean = { return true; }
+    override def hasIdentity(): Boolean = { return true; }
 #end
 #if ($table.isUseSequence())
-    def hasSequence(): Boolean = { return true; }
-    def getSequenceName(): String = { return "${table.sequenceSqlName}"; }
-    def getSequenceIncrementSize(): Integer = { return ${table.sequenceIncrementSizeExpression}; }
-    def getSequenceCacheSize(): Integer = { return ${table.sequenceCacheSizeExpression}; }
+    override def hasSequence(): Boolean = { return true; }
+    override def getSequenceName(): String = { return "${table.sequenceSqlName}"; }
+    override def getSequenceIncrementSize(): Integer = { return ${table.sequenceIncrementSizeExpression}; }
+    override def getSequenceCacheSize(): Integer = { return ${table.sequenceCacheSizeExpression}; }
 #end
 #if ($table.isUseVersionNo())
-    def hasVersionNo(): Boolean = { return true; }
-    def getVersionNoColumnInfo(): ColumnInfo = { return _column${table.versionNoJavaName}; }
+    override def hasVersionNo(): Boolean = { return true; }
+    override def getVersionNoColumnInfo(): ColumnInfo = { return _column${table.versionNoJavaName}; }
 #end
 #if ($table.isUseUpdateDate())
-    def hasUpdateDate(): Boolean = { return true; }
-    def getUpdateDateColumnInfo(): ColumnInfo = { return _column${table.updateDateJavaName}; }
+    override def hasUpdateDate(): Boolean = { return true; }
+    override def getUpdateDateColumnInfo(): ColumnInfo = { return _column${table.updateDateJavaName}; }
 #end
 #if ($table.hasAllCommonColumn())
-    def hasCommonColumn(): Boolean = { return true; }
-    def getCommonColumnInfoList(): List[ColumnInfo] =
+    override def hasCommonColumn(): Boolean = { return true; }
+    override def getCommonColumnInfoList(): List[ColumnInfo] =
     { return newArrayList(${table.commonColumnListSetupExpression}); }
-    def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =
+    override def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =
     { return newArrayList(${table.commonColumnBeforeInsertListSetupExpression}); }
-    def getCommonColumnInfoBeforeUpdateList(): List[ColumnInfo] =
+    override def getCommonColumnInfoBeforeUpdateList(): List[ColumnInfo] =
     { return newArrayList(${table.commonColumnBeforeUpdateListSetupExpression}); }
 #end
 
@@ -279,9 +279,9 @@ object ${myClassName} extends AbstractDBMeta {
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
-    def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _ <: Object]): Unit =
+    def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
     { doAcceptPrimaryKeyMap(et.asInstanceOf[${myExtendedObjectClassName}], mp); }
-    def acceptAllColumnMap(et: Entity, mp: Map[String, _ <: Object]): Unit =
+    def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
     { doAcceptAllColumnMap(et.asInstanceOf[${myExtendedObjectClassName}], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }

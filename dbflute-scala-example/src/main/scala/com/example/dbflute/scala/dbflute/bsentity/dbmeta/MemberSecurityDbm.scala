@@ -95,7 +95,7 @@ object MemberSecurityDbm extends AbstractDBMeta {
     def getTablePropertyName(): String = { return _tablePropertyName; }
     def getTableSqlName(): TableSqlName = { return _tableSqlName; }
     protected val _tableAlias: String = "会員セキュリティ情報";
-    def getTableAlias(): String = { return _tableAlias; }
+    override def getTableAlias(): String = { return _tableAlias; }
 
     // ===================================================================================
     //                                                                         Column Info
@@ -167,14 +167,14 @@ object MemberSecurityDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
-    def hasVersionNo(): Boolean = { return true; }
-    def getVersionNoColumnInfo(): ColumnInfo = { return _columnVersionNo; }
-    def hasCommonColumn(): Boolean = { return true; }
-    def getCommonColumnInfoList(): List[ColumnInfo] =
+    override def hasVersionNo(): Boolean = { return true; }
+    override def getVersionNoColumnInfo(): ColumnInfo = { return _columnVersionNo; }
+    override def hasCommonColumn(): Boolean = { return true; }
+    override def getCommonColumnInfoList(): List[ColumnInfo] =
     { return newArrayList(columnRegisterDatetime(), columnRegisterUser(), columnUpdateDatetime(), columnUpdateUser()); }
-    def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =
+    override def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =
     { return newArrayList(columnRegisterDatetime(), columnRegisterUser(), columnUpdateDatetime(), columnUpdateUser()); }
-    def getCommonColumnInfoBeforeUpdateList(): List[ColumnInfo] =
+    override def getCommonColumnInfoBeforeUpdateList(): List[ColumnInfo] =
     { return newArrayList(columnUpdateDatetime(), columnUpdateUser()); }
 
     // ===================================================================================
@@ -198,9 +198,9 @@ object MemberSecurityDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
-    def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _ <: Object]): Unit =
+    def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
     { doAcceptPrimaryKeyMap(et.asInstanceOf[MemberSecurity], mp); }
-    def acceptAllColumnMap(et: Entity, mp: Map[String, _ <: Object]): Unit =
+    def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
     { doAcceptAllColumnMap(et.asInstanceOf[MemberSecurity], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }

@@ -261,7 +261,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
      */
     def getPaymentCompleteFlgAlias(): String = {
         val cdef: CDef.Flg = getPaymentCompleteFlgAsFlg();
-        return if (cdef != null) { cdef.alias() } else { null };
+        return if (cdef != null) { cdef.alias } else { null };
     }
 
     // ===================================================================================
@@ -371,7 +371,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    def equals(obj: Object): Boolean = {
+    override def equals(obj: Object): Boolean = {
         if (obj == null || !(obj.isInstanceOf[BsPurchase])) { return false; }
         val other: BsPurchase = obj.asInstanceOf[BsPurchase];
         if (!xSV(getPurchaseId(), other.getPurchaseId())) { return false; }
@@ -385,7 +385,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
      * Calculate the hash-code from primary-keys or columns.
      * @return The hash-code from primary-key or columns.
      */
-    def hashCode(): Integer = {
+    override def hashCode(): Int = {
         var result: Integer = 17;
         result = xCH(result, getTableDbName());
         result = xCH(result, getPurchaseId());
@@ -398,7 +398,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     /**
      * {@inheritDoc}
      */
-    def instanceHash(): Integer = {
+    def instanceHash(): Int = {
         return super.hashCode();
     }
 
@@ -406,7 +406,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    def toString(): String = {
+    override def toString(): String = {
         return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
     }
 
@@ -471,7 +471,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    def clone(): Purchase = {
+    override def clone(): Purchase = {
         try {
             return super.clone().asInstanceOf[Purchase];
         } catch {

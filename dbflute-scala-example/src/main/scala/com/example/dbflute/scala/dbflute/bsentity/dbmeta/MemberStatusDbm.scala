@@ -65,7 +65,7 @@ object MemberStatusDbm extends AbstractDBMeta {
     def getTablePropertyName(): String = { return _tablePropertyName; }
     def getTableSqlName(): TableSqlName = { return _tableSqlName; }
     protected val _tableAlias: String = "会員ステータス";
-    def getTableAlias(): String = { return _tableAlias; }
+    override def getTableAlias(): String = { return _tableAlias; }
 
     // ===================================================================================
     //                                                                         Column Info
@@ -141,9 +141,9 @@ object MemberStatusDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
-    def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _ <: Object]): Unit =
+    def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
     { doAcceptPrimaryKeyMap(et.asInstanceOf[MemberStatus], mp); }
-    def acceptAllColumnMap(et: Entity, mp: Map[String, _ <: Object]): Unit =
+    def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
     { doAcceptAllColumnMap(et.asInstanceOf[MemberStatus], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }

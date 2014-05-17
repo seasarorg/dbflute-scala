@@ -407,7 +407,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    def equals(obj: Object): Boolean = {
+    override def equals(obj: Object): Boolean = {
         if (obj == null || !(obj.isInstanceOf[BsMember])) { return false; }
         val other: BsMember = obj.asInstanceOf[BsMember];
         if (!xSV(getMemberId(), other.getMemberId())) { return false; }
@@ -421,7 +421,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * Calculate the hash-code from primary-keys or columns.
      * @return The hash-code from primary-key or columns.
      */
-    def hashCode(): Integer = {
+    override def hashCode(): Int = {
         var result: Integer = 17;
         result = xCH(result, getTableDbName());
         result = xCH(result, getMemberId());
@@ -434,7 +434,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     /**
      * {@inheritDoc}
      */
-    def instanceHash(): Integer = {
+    def instanceHash(): Int = {
         return super.hashCode();
     }
 
@@ -442,7 +442,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    def toString(): String = {
+    override def toString(): String = {
         return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
     }
 
@@ -520,7 +520,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    def clone(): Member = {
+    override def clone(): Member = {
         try {
             return super.clone().asInstanceOf[Member];
         } catch {

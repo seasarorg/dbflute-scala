@@ -111,8 +111,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return delegateSelectCountPlainly(cb);
     }
 
-    @Override
-    protected def doReadCount(cb: ConditionBean): Integer = {
+    override protected def doReadCount(cb: ConditionBean): Int = {
         return selectCount(downcast(cb));
     }
 
@@ -120,26 +119,39 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     //                                                                       Entity Select
     //                                                                       =============
     /**
-     * Select the entity by the condition-bean. #beforejava8 <br />
-     * <span style="color: #AD4747; font-size: 120%">The return might be null if no data, so you should have null check.</span> <br />
-     * <span style="color: #AD4747; font-size: 120%">If the data always exists as your business rule, use selectEntityWithDeletedCheck().</span>
+     * Select the entity by the condition-bean. <br />
+     * It returns not-null optional entity, so you should ... <br />
+     * <span style="color: #AD4747; font-size: 120%">If the data always exists as your business rule, get() without check.</span> <br />
+     * <span style="color: #AD4747; font-size: 120%">If it might be no data, get() after check by isPresent() or orElse(), ...</span>
      * <pre>
      * MemberCB cb = new MemberCB();
      * cb.query().setFoo...(value);
-     * Member member = memberBhv.<span style="color: #DD4747">selectEntity</span>(cb);
-     * if (member != null) { <span style="color: #3F7E5E">// null check</span>
-     *     ... = member.get...();
+     * OptionalEntity&lt;Member&gt; entity = memberBhv.<span style="color: #DD4747">selectEntity</span>(cb);
+     *
+     * <span style="color: #3F7E5E">// if the data always exists as your business rule</span>
+     * entity.<span style="color: #DD4747">required</span>(member -&gt; {
+     *     ...
+     * });
+     * Member member = entity.entity.<span style="color: #DD4747">get()</span>;
+     *
+     * <span style="color: #3F7E5E">// if it might be no data, ifPresent(), isPresent(), ...</span>
+     * entity.<span style="color: #DD4747">ifPresent</span>(member -&gt; {
+     *     ...
+     * });
+     * if (entity.entity.<span style="color: #DD4747">isPresent()</span>) {
+     *     Member member = entity.entity.<span style="color: #DD4747">get()</span>;
      * } else {
      *     ...
      * }
      * </pre>
      * @param cb The condition-bean of Member. (NotNull)
-     * @return The entity selected by the condition. (NullAllowed: if no data, it returns null)
+     * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: MemberCB): Member = {
-        return doSelectEntity(cb, classOf[Member]);
+    def selectEntity(cb: MemberCB): OptionalEntity[Member] = {
+        return doSelectOptionalEntity(cb, classOf[Member]);
     }
 
     protected def doSelectEntity[ENTITY <: Member](cb: MemberCB, tp: Class[ENTITY]): ENTITY = {
@@ -154,7 +166,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return selectEntity(downcast(cb));
+        return selectEntity(downcast(cb)).orElseNull();
     }
 
     /**
@@ -291,7 +303,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     protected def doSelectPage[ENTITY <: Member](cb: MemberCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, MemberCB]() {
-            def callbackSelectCount(cb: MemberCB): Integer = { return doSelectCountPlainly(cb); }
+            def callbackSelectCount(cb: MemberCB): Int = { return doSelectCountPlainly(cb); }
             def callbackSelectList(cb: MemberCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
         });
     }
@@ -383,7 +395,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * Load referrer of purchaseList by the set-upper of referrer. <br />
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * <pre>
-     * memberBhv.<span style="color: #DD4747">loadPurchaseList</span>(memberList, new ConditionBeanSetupper&lt;PurchaseCB&gt;() {
+     * memberBhv.<span style="color: #DD4747">loadPurchaseList</span>(memberList, new ReferrerConditionSetupper&lt;PurchaseCB&gt;() {
      *     public void setup(PurchaseCB cb) {
      *         cb.setupSelect...();
      *         cb.query().setFoo...(value);
@@ -407,16 +419,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(memberList: List[Member], setupper: ConditionBeanSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
+    def loadPurchaseList(memberList: List[Member], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
         xassLRArg(memberList, setupper);
-        return doLoadPurchaseList(memberList, new LoadReferrerOption<PurchaseCB, Purchase>().xinit(setupper));
+        return doLoadPurchaseList(memberList, new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
     }
 
     /**
      * Load referrer of purchaseList by the set-upper of referrer. <br />
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * <pre>
-     * memberBhv.<span style="color: #DD4747">loadPurchaseList</span>(memberList, new ConditionBeanSetupper&lt;PurchaseCB&gt;() {
+     * memberBhv.<span style="color: #DD4747">loadPurchaseList</span>(memberList, new ReferrerConditionSetupper&lt;PurchaseCB&gt;() {
      *     public void setup(PurchaseCB cb) {
      *         cb.setupSelect...();
      *         cb.query().setFoo...(value);
@@ -438,50 +450,26 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(member: Member, setupper: ConditionBeanSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
+    def loadPurchaseList(member: Member, setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
         xassLRArg(member, setupper);
-        return doLoadPurchaseList(xnewLRLs(member), new LoadReferrerOption<PurchaseCB, Purchase>().xinit(setupper));
-    }
-
-    /**
-     * {Refer to overload method that has an argument of the list of entity.} #beforejava8
-     * @param member The entity of member. (NotNull)
-     * @param loadReferrerOption The option of load-referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    def loadPurchaseList(member: Member, loadReferrerOption: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
-        xassLRArg(member, loadReferrerOption);
-        return loadPurchaseList(xnewLRLs(member), loadReferrerOption);
-    }
-
-    /**
-     * {Refer to overload method that has an argument of condition-bean setupper.} #beforejava8
-     * @param memberList The entity list of member. (NotNull)
-     * @param loadReferrerOption The option of load-referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    @SuppressWarnings("unchecked")
-    def loadPurchaseList(memberList: List[Member], loadReferrerOption: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
-        xassLRArg(memberList, loadReferrerOption);
-        if (memberList.isEmpty()) { return (NestedReferrerLoader<Purchase>)EMPTY_LOADER; }
-        return doLoadPurchaseList(memberList, loadReferrerOption);
+        return doLoadPurchaseList(xnewLRLs(member), new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
     }
 
     protected def doLoadPurchaseList(memberList: List[Member], option: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
-        return helpLoadReferrerInternally(memberList, option, new InternalLoadReferrerCallback<Member, Integer, PurchaseCB, Purchase>() {
-            public Integer getPKVal(Member et)
+        return helpLoadReferrerInternally(memberList, option, new InternalLoadReferrerCallback[Member, Integer, PurchaseCB, Purchase]() {
+            def getPKVal(et: Member): Integer =
             { return et.getMemberId(); }
-            public void setRfLs(Member et, List<Purchase> ls)
+            def setRfLs(et: Member, ls: List[Purchase]): Unit =
             { et.setPurchaseList(ls); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
-            public void qyFKIn(PurchaseCB cb, List<Integer> ls)
+            def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setMemberId_InScope(ls); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_MemberId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnMemberId(); }
             def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb); }
             def getFKVal(re: Purchase): Integer = { return re.getMemberId(); }
-            public void setlcEt(Purchase re, Member le)
+            def setlcEt(re: Purchase, le: Member): Unit =
             { re.setMember(le); }
             def getRfPrNm(): String = { return "purchaseList"; }
         });
@@ -496,10 +484,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
     def pulloutMemberStatus(memberList: List[Member]): List[MemberStatus] = {
-        return helpPulloutInternally(memberList, new InternalPulloutCallback<Member, MemberStatus>() {
+        return helpPulloutInternally(memberList, new InternalPulloutCallback[Member, MemberStatus]() {
             def getFr(et: Member): MemberStatus = { return et.getMemberStatus(); }
             def hasRf(): Boolean = { return true; }
-            public void setRfLs(MemberStatus et, List[Member] ls)
+            def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
             { et.setMemberList(ls); }
         });
     }
@@ -509,10 +497,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
      */
     def pulloutMemberSecurityAsOne(memberList: List[Member]): List[MemberSecurity] = {
-        return helpPulloutInternally(memberList, new InternalPulloutCallback<Member, MemberSecurity>() {
+        return helpPulloutInternally(memberList, new InternalPulloutCallback[Member, MemberSecurity]() {
             def getFr(et: Member): MemberSecurity = { return et.getMemberSecurityAsOne(); }
             def hasRf(): Boolean = { return true; }
-            public void setRfLs(MemberSecurity et, List[Member] ls)
+            def setRfLs(et: MemberSecurity, ls: List[Member]): Unit =
             { if (!ls.isEmpty()) { et.setMember(ls.get(0)); } }
         });
     }
@@ -616,7 +604,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("member", member);
         prepareUpdateOption(op);
         helpUpdateInternally(member, new InternalUpdateCallback[Member]() {
-            def callbackDelegateUpdate(et: Member): Integer = { return delegateUpdate(et, op); } });
+            def callbackDelegateUpdate(et: Member): Int = { return delegateUpdate(et, op); } });
     }
 
     protected def prepareUpdateOption(op: UpdateOption[MemberCB]): Unit = {
@@ -675,7 +663,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("member", member);
         prepareUpdateOption(op);
         helpUpdateNonstrictInternally(member, new InternalUpdateNonstrictCallback[Member]() {
-            def callbackDelegateUpdateNonstrict(et: Member): Integer = { return delegateUpdateNonstrict(et, op); } });
+            def callbackDelegateUpdateNonstrict(et: Member): Int = { return delegateUpdateNonstrict(et, op); } });
     }
 
     @Override
@@ -702,7 +690,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
             def callbackInsert(et: Member): Unit = { doInsert(et, iop); }
             def callbackUpdate(et: Member): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): MemberCB = { return newMyConditionBean(); }
-            def callbackSelectCount(cb: MemberCB): Integer = { return selectCount(cb); }
+            def callbackSelectCount(cb: MemberCB): Int = { return selectCount(cb); }
         });
     }
 
@@ -771,7 +759,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("member", member);
         prepareDeleteOption(op);
         helpDeleteInternally(member, new InternalDeleteCallback[Member]() {
-            def callbackDelegateDelete(et: Member): Integer = { return delegateDelete(et, op); } });
+            def callbackDelegateDelete(et: Member): Int = { return delegateDelete(et, op); } });
     }
 
     protected def prepareDeleteOption(op: DeleteOption[MemberCB]): Unit = {
@@ -807,7 +795,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("member", member);
         prepareDeleteOption(op);
         helpDeleteNonstrictInternally(member, new InternalDeleteNonstrictCallback[Member]() {
-            def callbackDelegateDeleteNonstrict(et: Member): Integer = { return delegateDeleteNonstrict(et, op); } });
+            def callbackDelegateDeleteNonstrict(et: Member): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     /**
@@ -832,7 +820,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("member", member);
         prepareDeleteOption(op);
         helpDeleteNonstrictIgnoreDeletedInternally(member, new InternalDeleteNonstrictIgnoreDeletedCallback[Member]() {
-            def callbackDelegateDeleteNonstrict(et: Member): Integer = { return delegateDeleteNonstrict(et, op); } });
+            def callbackDelegateDeleteNonstrict(et: Member): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     @Override
@@ -868,12 +856,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param memberList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(memberList: List[Member]): Array[Integer] = {
+    def batchInsert(memberList: List[Member]): Array[Int] = {
         val op: InsertOption[MemberCB] = createInsertUpdateOption();
         return doBatchInsert(memberList, op);
     }
 
-    protected def doBatchInsert(memberList: List[Member], op: InsertOption[MemberCB]): Array[Integer] = {
+    protected def doBatchInsert(memberList: List[Member], op: InsertOption[MemberCB]): Array[Int] = {
         assertObjectNotNull("memberList", memberList);
         prepareBatchInsertOption(memberList, op);
         return delegateBatchInsert(memberList, op);
@@ -886,7 +874,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     @Override
-    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Integer] = {
+    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = {
         if (op == null) { return batchInsert(downcast(ls)); }
         else { return varyingBatchInsert(downcast(ls), downcast(op)); }
     }
@@ -915,12 +903,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(memberList: List[Member]): Array[Integer] = {
+    def batchUpdate(memberList: List[Member]): Array[Int] = {
         val op: UpdateOption[MemberCB] = createPlainUpdateOption();
         return doBatchUpdate(memberList, op);
     }
 
-    protected def doBatchUpdate(memberList: List[Member], op: UpdateOption[MemberCB]): Array[Integer] = {
+    protected def doBatchUpdate(memberList: List[Member], op: UpdateOption[MemberCB]): Array[Int] = {
         assertObjectNotNull("memberList", memberList);
         prepareBatchUpdateOption(memberList, op);
         return delegateBatchUpdate(memberList, op);
@@ -932,7 +920,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     @Override
-    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Integer] = {
+    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
         if (op == null) { return batchUpdate(downcast(ls)); }
         else { return varyingBatchUpdate(downcast(ls), downcast(op)); }
     }
@@ -965,7 +953,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(memberList: List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Integer] = {
+    def batchUpdate(memberList: List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Int] = {
         return doBatchUpdate(memberList, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
@@ -993,12 +981,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(memberList: List[Member]): Array[Integer] = {
+    def batchUpdateNonstrict(memberList: List[Member]): Array[Int] = {
         val option: UpdateOption[MemberCB] = createPlainUpdateOption();
         return doBatchUpdateNonstrict(memberList, option);
     }
 
-    protected def doBatchUpdateNonstrict(memberList: List[Member], op: UpdateOption[MemberCB]): Array[Integer] = {
+    protected def doBatchUpdateNonstrict(memberList: List[Member], op: UpdateOption[MemberCB]): Array[Int] = {
         assertObjectNotNull("memberList", memberList);
         prepareBatchUpdateOption(memberList, op);
         return delegateBatchUpdateNonstrict(memberList, op);
@@ -1031,12 +1019,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(memberList: List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Integer] = {
+    def batchUpdateNonstrict(memberList: List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Int] = {
         return doBatchUpdateNonstrict(memberList, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     @Override
-    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Integer] = {
+    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
         if (op == null) { return batchUpdateNonstrict(downcast(ls)); }
         else { return varyingBatchUpdateNonstrict(downcast(ls), downcast(op)); }
     }
@@ -1048,18 +1036,18 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(memberList: List[Member]): Array[Integer] = {
+    def batchDelete(memberList: List[Member]): Array[Int] = {
         return doBatchDelete(memberList, null);
     }
 
-    protected def doBatchDelete(memberList: List[Member], op: DeleteOption[MemberCB]): Array[Integer] = {
+    protected def doBatchDelete(memberList: List[Member], op: DeleteOption[MemberCB]): Array[Int] = {
         assertObjectNotNull("memberList", memberList);
         prepareDeleteOption(op);
         return delegateBatchDelete(memberList, op);
     }
 
     @Override
-    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Integer] = {
+    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
         if (op == null) { return batchDelete(downcast(ls)); }
         else { return varyingBatchDelete(downcast(ls), downcast(op)); }
     }
@@ -1071,18 +1059,18 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(memberList: List[Member]): Array[Integer] = {
+    def batchDeleteNonstrict(memberList: List[Member]): Array[Int] = {
         return doBatchDeleteNonstrict(memberList, null);
     }
 
-    protected def doBatchDeleteNonstrict(memberList: List[Member], op: DeleteOption[MemberCB]): Array[Integer] = {
+    protected def doBatchDeleteNonstrict(memberList: List[Member], op: DeleteOption[MemberCB]): Array[Int] = {
         assertObjectNotNull("memberList", memberList);
         prepareDeleteOption(op);
         return delegateBatchDeleteNonstrict(memberList, op);
     }
 
     @Override
-    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Integer] = {
+    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
         if (op == null) { return batchDeleteNonstrict(downcast(ls)); }
         else { return varyingBatchDeleteNonstrict(downcast(ls), downcast(op)); }
     }
@@ -1135,7 +1123,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     @Override
-    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Integer = {
+    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int = {
         if (option == null) { return queryInsert(downcast(setupper)); }
         else { return varyingQueryInsert(downcast(setupper), downcast(option)); }
     }
@@ -1173,7 +1161,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     @Override
-    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Integer = {
+    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int = {
         if (op == null) { return queryUpdate(downcast(et), cb.asInstanceOf[MemberCB]); }
         else { return varyingQueryUpdate(downcast(et), cb.asInstanceOf[MemberCB], downcast(op)); }
     }
@@ -1200,7 +1188,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     @Override
-    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Integer = {
+    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = {
         if (op == null) { return queryDelete(cb.asInstanceOf[MemberCB]); }
         else { return varyingQueryDelete(cb.asInstanceOf[MemberCB], downcast(op)); }
     }
@@ -1370,7 +1358,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(memberList: List[Member], option: InsertOption[MemberCB]): Array[Integer] = {
+    def varyingBatchInsert(memberList: List[Member], option: InsertOption[MemberCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
         return doBatchInsert(memberList, option);
     }
@@ -1384,7 +1372,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(memberList: List[Member], option: UpdateOption[MemberCB]): Array[Integer] = {
+    def varyingBatchUpdate(memberList: List[Member], option: UpdateOption[MemberCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdate(memberList, option);
     }
@@ -1398,7 +1386,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdateNonstrict(memberList: List[Member], option: UpdateOption[MemberCB]): Array[Integer] = {
+    def varyingBatchUpdateNonstrict(memberList: List[Member], option: UpdateOption[MemberCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdateNonstrict(memberList, option);
     }
@@ -1411,7 +1399,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(memberList: List[Member], option: DeleteOption[MemberCB]): Array[Integer] = {
+    def varyingBatchDelete(memberList: List[Member], option: DeleteOption[MemberCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDelete(memberList, option);
     }
@@ -1424,7 +1412,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDeleteNonstrict(memberList: List[Member], option: DeleteOption[MemberCB]): Array[Integer] = {
+    def varyingBatchDeleteNonstrict(memberList: List[Member], option: DeleteOption[MemberCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDeleteNonstrict(memberList, option);
     }
@@ -1565,21 +1553,21 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteNonstrictEntityCommand(et, op)); }
 
-    protected def delegateBatchInsert(ls: List[Member], op: InsertOption[MemberCB]): Array[Integer] =
-    { if (ls.isEmpty()) { return new Array[Integer](0); }
-      return invoke(createBatchInsertCommand(processBatchInternally(ls, op), op)).asInstanceOf[Array[Integer]]; }
-    protected def delegateBatchUpdate(ls: List[Member], op: UpdateOption[MemberCB]): Array[Integer] =
-    { if (ls.isEmpty()) { return new Array[Integer](0); }
-      return invoke(createBatchUpdateCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Integer]]; }
-    protected def delegateBatchUpdateNonstrict(ls: List[Member], op: UpdateOption[MemberCB]): Array[Integer] =
-    { if (ls.isEmpty()) { return new Array[Integer](0); }
-      return invoke(createBatchUpdateNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Integer]]; }
-    protected def delegateBatchDelete(ls: List[Member], op: DeleteOption[MemberCB]): Array[Integer] =
-    { if (ls.isEmpty()) { return new Array[Integer](0); }
-      return invoke(createBatchDeleteCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Integer]]; }
-    protected def delegateBatchDeleteNonstrict(ls: List[Member], op: DeleteOption[MemberCB]): Array[Integer] =
-    { if (ls.isEmpty()) { return new Array[Integer](0); }
-      return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Integer]]; }
+    protected def delegateBatchInsert(ls: List[Member], op: InsertOption[MemberCB]): Array[Int] =
+    { if (ls.isEmpty()) { return new Array[Int](0); }
+      return invoke(createBatchInsertCommand(processBatchInternally(ls, op), op)).asInstanceOf[Array[Int]]; }
+    protected def delegateBatchUpdate(ls: List[Member], op: UpdateOption[MemberCB]): Array[Int] =
+    { if (ls.isEmpty()) { return new Array[Int](0); }
+      return invoke(createBatchUpdateCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
+    protected def delegateBatchUpdateNonstrict(ls: List[Member], op: UpdateOption[MemberCB]): Array[Int] =
+    { if (ls.isEmpty()) { return new Array[Int](0); }
+      return invoke(createBatchUpdateNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
+    protected def delegateBatchDelete(ls: List[Member], op: DeleteOption[MemberCB]): Array[Int] =
+    { if (ls.isEmpty()) { return new Array[Int](0); }
+      return invoke(createBatchDeleteCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
+    protected def delegateBatchDeleteNonstrict(ls: List[Member], op: DeleteOption[MemberCB]): Array[Int] =
+    { if (ls.isEmpty()) { return new Array[Int](0); }
+      return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
 
     protected def delegateQueryInsert(et: Member, inCB: MemberCB, resCB: ConditionBean, op: InsertOption[MemberCB]): Integer =
     { if (!processBeforeQueryInsert(et, inCB, resCB, op)) { return 0; }

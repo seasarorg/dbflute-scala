@@ -37,7 +37,7 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
     protected var _behaviorCache: Map[Class[_ <: BehaviorReadable], BehaviorReadable] = new HashMap();
 
     /** The container of Guice. */
-    protected var _container: Injector;
+    protected var _container: Injector = null;
 
     // ===================================================================================
     //                                                                          Initialize
@@ -57,7 +57,8 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
         dbmetas.asScala.foreach(dbmeta => {
             try {
                 val bhv: BehaviorReadable = byName(dbmeta.getTableDbName());
-                bhv.warmUpCommand();
+                // #pending illegal cyclic reference involving class?
+                //bhv.warmUpCommand();
                 count = count + 1;
             } catch { // means the behavior is suppressed
                 case ignored: IllegalBehaviorStateException => {

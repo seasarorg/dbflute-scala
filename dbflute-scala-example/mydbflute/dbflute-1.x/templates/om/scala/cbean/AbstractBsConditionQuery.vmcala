@@ -615,7 +615,7 @@ abstract class ${myClassName}(referrerQuery: ConditionQuery, sqlClause: SqlClaus
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, no condition)
      */
     def set${tmpJavaName}_Equal_As${col.classificationName}(cdef: ${glCDef}.${col.classificationName}): Unit = {
-        doSet${tmpJavaName}_Equal(cTNum(if (cdef != null) { cdef.code() } else { null }, classOf[${col.javaNative}]));
+        doSet${tmpJavaName}_Equal(cTNum(if (cdef != null) { cdef.code } else { null }, classOf[${col.javaNative}]));
     }
 #if ($classificationTop.isSisterBooleanHandling())
 
@@ -671,7 +671,7 @@ abstract class ${myClassName}(referrerQuery: ConditionQuery, sqlClause: SqlClaus
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, no condition)
      */
     def set${tmpJavaName}_NotEqual_As${col.classificationName}(cdef: ${glCDef}.${col.classificationName}): Unit = {
-        doSet${tmpJavaName}_NotEqual(cTNum(if (cdef != null) { cdef.code() } else { null }, classOf[${col.javaNative}]));
+        doSet${tmpJavaName}_NotEqual(cTNum(if (cdef != null) { cdef.code } else { null }, classOf[${col.javaNative}]));
     }
 #foreach ($classificationElement in $col.classificationTop.classificationElementList)
 
@@ -1390,7 +1390,7 @@ abstract class ${myClassName}(referrerQuery: ConditionQuery, sqlClause: SqlClaus
         return xcreateSSQFunction(CK_LE.getOperand(), classOf[${myConditionBeanClassName}]);
     }
 
-    protected def xscalarCondition[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, op: HpSSQOption[CB]): Unit = {
+    override protected def xscalarCondition[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, op: HpSSQOption[CB]): Unit = {
         assertObjectNotNull("subQuery", sq);
         val cb: ${myConditionBeanClassName} = xcreateScalarConditionCB(); sq.query(cb.asInstanceOf[CB]);
         val pp: String = keepScalarCondition(cb.query()); // for saving query-value
@@ -1429,7 +1429,7 @@ abstract class ${myClassName}(referrerQuery: ConditionQuery, sqlClause: SqlClaus
     def myselfDerived(): HpQDRFunction[${myConditionBeanClassName}] = {
         return xcreateQDRFunctionMyselfDerived(classOf[${myConditionBeanClassName}]);
     }
-    protected def xqderiveMyselfDerived[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+    override protected def xqderiveMyselfDerived[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
         assertObjectNotNull("subQuery", sq);
         val cb: ${myConditionBeanClassName} = new ${myConditionBeanClassName}(); cb.xsetupForDerivedReferrer(this); sq.query(cb.asInstanceOf[CB]);
         val pk: String = "${table.primaryKeyAsOne.name}";

@@ -305,7 +305,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    def equals(obj: Object): Boolean = {
+    override def equals(obj: Object): Boolean = {
         if (obj == null || !(obj.isInstanceOf[BsMemberStatus])) { return false; }
         val other: BsMemberStatus = obj.asInstanceOf[BsMemberStatus];
         if (!xSV(getMemberStatusCode(), other.getMemberStatusCode())) { return false; }
@@ -319,7 +319,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * Calculate the hash-code from primary-keys or columns.
      * @return The hash-code from primary-key or columns.
      */
-    def hashCode(): Integer = {
+    override def hashCode(): Int = {
         var result: Integer = 17;
         result = xCH(result, getTableDbName());
         result = xCH(result, getMemberStatusCode());
@@ -332,7 +332,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     /**
      * {@inheritDoc}
      */
-    def instanceHash(): Integer = {
+    def instanceHash(): Int = {
         return super.hashCode();
     }
 
@@ -340,7 +340,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    def toString(): String = {
+    override def toString(): String = {
         return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
     }
 
@@ -399,7 +399,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    def clone(): MemberStatus = {
+    override def clone(): MemberStatus = {
         try {
             return super.clone().asInstanceOf[MemberStatus];
         } catch {

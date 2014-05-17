@@ -12,7 +12,7 @@ import org.seasar.dbflute.jdbc.ClassificationMeta;
  * The definition of classification.
  * @author DBFlute(AutoGenerator)
  */
-object CDef extends Classification {
+object CDef {
 
     /** The empty array for no sisters. */
     val EMPTY_SISTERS: Array[String] = Array[String]();
@@ -20,8 +20,9 @@ object CDef extends Classification {
     /** The empty map for no sub-items. */
     val EMPTY_SUB_ITEM_MAP: Map[String, Object] = Collections.EMPTY_MAP.asInstanceOf[Map[String, Object]];
 
-    sealed abstract class Flg(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+    sealed abstract class Flg(val code: String, val alias: String, val sisters: Array[String]) extends Classification {
 
+        def name(): String = { return getClass().getSimpleName(); }
         def subItemMap(): Map[String, Object] = { return _subItemMapMap.get(code); }
         def meta(): ClassificationMeta = { return CDef.DefMeta.Flg; }
 
@@ -47,7 +48,7 @@ object CDef extends Classification {
             return false;
         }
 
-        @Override def toString(): String = { return code; }
+        override def toString(): String = { return code; }
     }
 
     /**
@@ -110,8 +111,9 @@ object CDef extends Classification {
         }
     }
 
-    sealed abstract class MemberStatus(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+    sealed abstract class MemberStatus(val code: String, val alias: String, val sisters: Array[String]) extends Classification {
 
+        def name(): String = { return getClass().getSimpleName(); }
         def subItemMap(): Map[String, Object] = { return _subItemMapMap.get(code); }
         def meta(): ClassificationMeta = { return CDef.DefMeta.MemberStatus; }
 
@@ -149,7 +151,7 @@ object CDef extends Classification {
             return false;
         }
 
-        @Override def toString(): String = { return code; }
+        override def toString(): String = { return code; }
     }
 
     /**
@@ -216,8 +218,9 @@ object CDef extends Classification {
         }
     }
 
-    sealed abstract class ServiceRank(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+    sealed abstract class ServiceRank(val code: String, val alias: String, val sisters: Array[String]) extends Classification {
 
+        def name(): String = { return getClass().getSimpleName(); }
         def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
         def meta(): ClassificationMeta = { return CDef.DefMeta.ServiceRank; }
 
@@ -226,7 +229,7 @@ object CDef extends Classification {
             return false;
         }
 
-        @Override def toString(): String = { return code; }
+        override def toString(): String = { return code; }
     }
 
     /**
@@ -301,8 +304,9 @@ object CDef extends Classification {
         }
     }
 
-    sealed abstract class Region(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+    sealed abstract class Region(val code: String, val alias: String, val sisters: Array[String]) extends Classification {
 
+        def name(): String = { return getClass().getSimpleName(); }
         def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
         def meta(): ClassificationMeta = { return CDef.DefMeta.Region; }
 
@@ -311,7 +315,7 @@ object CDef extends Classification {
             return false;
         }
 
-        @Override def toString(): String = { return code; }
+        override def toString(): String = { return code; }
     }
 
     /**
@@ -382,8 +386,9 @@ object CDef extends Classification {
         }
     }
 
-    sealed abstract class WithdrawalReason(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+    sealed abstract class WithdrawalReason(val code: String, val alias: String, val sisters: Array[String]) extends Classification {
 
+        def name(): String = { return getClass().getSimpleName(); }
         def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
         def meta(): ClassificationMeta = { return CDef.DefMeta.WithdrawalReason; }
 
@@ -392,7 +397,7 @@ object CDef extends Classification {
             return false;
         }
 
-        @Override def toString(): String = { return code; }
+        override def toString(): String = { return code; }
     }
 
     /**
@@ -463,8 +468,9 @@ object CDef extends Classification {
         }
     }
 
-    sealed abstract class ProductCategory(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+    sealed abstract class ProductCategory(val code: String, val alias: String, val sisters: Array[String]) extends Classification {
 
+        def name(): String = { return getClass().getSimpleName(); }
         def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
         def meta(): ClassificationMeta = { return CDef.DefMeta.ProductCategory; }
 
@@ -473,7 +479,7 @@ object CDef extends Classification {
             return false;
         }
 
-        @Override def toString(): String = { return code; }
+        override def toString(): String = { return code; }
     }
 
     /**
@@ -548,8 +554,9 @@ object CDef extends Classification {
         }
     }
 
-    sealed abstract class ProductStatus(val code:String, val alias:String, val sisters:Array[String]) extends Classification {
+    sealed abstract class ProductStatus(val code: String, val alias: String, val sisters: Array[String]) extends Classification {
 
+        def name(): String = { return getClass().getSimpleName(); }
         def subItemMap(): Map[String, Object] = { return EMPTY_SUB_ITEM_MAP; }
         def meta(): ClassificationMeta = { return CDef.DefMeta.ProductStatus; }
 
@@ -558,7 +565,7 @@ object CDef extends Classification {
             return false;
         }
 
-        @Override def toString(): String = { return code; }
+        override def toString(): String = { return code; }
     }
 
     /**

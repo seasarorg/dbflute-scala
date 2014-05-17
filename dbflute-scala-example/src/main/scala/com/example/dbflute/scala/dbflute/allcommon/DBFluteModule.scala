@@ -58,24 +58,24 @@ class DBFluteModule(dataSource: DataSource) extends AbstractModule {
 
     protected def setupBehavior(ker: BehaviorCommandInvoker, tor: BehaviorSelector, per: CommonColumnAutoSetupper): Unit = {
         {
-            val bhv: MemberBhv = new MemberBhv();
-            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(classOf[MemberBhv]).toInstance(bhv);
+            //val bhv: MemberBhv = new MemberBhv();
+            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            //bind(classOf[MemberBhv]).toInstance(bhv);
         }
         {
-            val bhv: MemberSecurityBhv = new MemberSecurityBhv();
-            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(classOf[MemberSecurityBhv]).toInstance(bhv);
+            //val bhv: MemberSecurityBhv = new MemberSecurityBhv();
+            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            //bind(classOf[MemberSecurityBhv]).toInstance(bhv);
         }
         {
-            val bhv: MemberStatusBhv = new MemberStatusBhv();
-            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(classOf[MemberStatusBhv]).toInstance(bhv);
+            //val bhv: MemberStatusBhv = new MemberStatusBhv();
+            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            //bind(classOf[MemberStatusBhv]).toInstance(bhv);
         }
         {
-            val bhv: PurchaseBhv = new PurchaseBhv();
-            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            bind(classOf[PurchaseBhv]).toInstance(bhv);
+            //val bhv: PurchaseBhv = new PurchaseBhv();
+            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            //bind(classOf[PurchaseBhv]).toInstance(bhv);
         }
     }
 }

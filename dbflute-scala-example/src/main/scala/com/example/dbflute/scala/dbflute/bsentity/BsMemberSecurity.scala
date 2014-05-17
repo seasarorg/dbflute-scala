@@ -271,7 +271,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    def equals(obj: Object): Boolean = {
+    override def equals(obj: Object): Boolean = {
         if (obj == null || !(obj.isInstanceOf[BsMemberSecurity])) { return false; }
         val other: BsMemberSecurity = obj.asInstanceOf[BsMemberSecurity];
         if (!xSV(getMemberId(), other.getMemberId())) { return false; }
@@ -285,7 +285,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * Calculate the hash-code from primary-keys or columns.
      * @return The hash-code from primary-key or columns.
      */
-    def hashCode(): Integer = {
+    override def hashCode(): Int = {
         var result: Integer = 17;
         result = xCH(result, getTableDbName());
         result = xCH(result, getMemberId());
@@ -298,7 +298,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
     /**
      * {@inheritDoc}
      */
-    def instanceHash(): Integer = {
+    def instanceHash(): Int = {
         return super.hashCode();
     }
 
@@ -306,7 +306,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    def toString(): String = {
+    override def toString(): String = {
         return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
     }
 
@@ -369,7 +369,7 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    def clone(): MemberSecurity = {
+    override def clone(): MemberSecurity = {
         try {
             return super.clone().asInstanceOf[MemberSecurity];
         } catch {

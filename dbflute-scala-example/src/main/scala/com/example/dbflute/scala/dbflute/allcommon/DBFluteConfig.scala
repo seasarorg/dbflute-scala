@@ -52,7 +52,7 @@ object DBFluteConfig {
     protected var _pagingCountLater: Boolean = true;
     protected var _pagingCountLeastJoin: Boolean = true;
     protected var _innerJoinAutoDetect: Boolean = true;
-    protected var _thatsBadTimingDetect: Boolean = false;
+    protected var _thatsBadTimingDetect: Boolean = true;
     protected var _emptyStringQueryAllowed: Boolean = false;
     protected var _emptyStringParameterAllowed: Boolean = false;
     protected var _invalidQueryChecked: Boolean = false;

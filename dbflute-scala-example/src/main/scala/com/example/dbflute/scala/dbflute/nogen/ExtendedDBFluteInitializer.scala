@@ -17,8 +17,7 @@ import org.seasar.dbflute.cbean.cipher.CipherFunctionFilter
  */
 class ExtendedDBFluteInitializer extends DBFluteInitializer {
 
-  @Override
-  protected def prologue(): Unit = { // the example for fixed DBFluteConfig settings
+  override protected def prologue(): Unit = { // the example for fixed DBFluteConfig settings
     super.prologue(); // you need to call this
 
     DBFluteConfig.unlock();
@@ -31,8 +30,7 @@ class ExtendedDBFluteInitializer extends DBFluteInitializer {
 
   protected def prepareOutsideSqlExecutorFactory(): Unit = {
     DBFluteConfig.setOutsideSqlExecutorFactory(new DefaultOutsideSqlExecutorFactory() {
-      @Override
-      protected def createBasic[BEHAVIOR](
+      override protected def createBasic[BEHAVIOR](
         behaviorCommandInvoker: BehaviorCommandInvoker, tableDbName: String, currentDBDef: DBDef,
         defaultStatementConfig: StatementConfig, outsideSqlOption: OutsideSqlOption): OutsideSqlBasicExecutor[BEHAVIOR] = {
         val executor: OutsideSqlBasicExecutor[BEHAVIOR] = super.createBasic(behaviorCommandInvoker,
