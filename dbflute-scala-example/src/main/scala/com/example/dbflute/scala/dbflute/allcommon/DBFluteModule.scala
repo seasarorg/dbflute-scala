@@ -7,7 +7,7 @@ import org.seasar.dbflute.BehaviorSelector;
 import org.seasar.dbflute.bhv.core.BehaviorCommandInvoker;
 import org.seasar.dbflute.bhv.core.CommonColumnAutoSetupper;
 import org.seasar.dbflute.bhv.core.InvokerAssistant;
-import com.example.dbflute.scala.dbflute.exbhv.*;
+import com.example.dbflute.scala.dbflute.exbhv._;
 
 /**
  * @author DBFlute(AutoGenerator)
@@ -47,7 +47,7 @@ class DBFluteModule(dataSource: DataSource) extends AbstractModule {
     }
 
     protected def createImplementedInvokerAssistant(): ImplementedInvokerAssistant = {
-        val invokerAssistant:ImplementedInvokerAssistant = new com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant();
+        val invokerAssistant: ImplementedInvokerAssistant = new com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant();
         invokerAssistant.setDataSource(dataSource);
         return invokerAssistant;
     }

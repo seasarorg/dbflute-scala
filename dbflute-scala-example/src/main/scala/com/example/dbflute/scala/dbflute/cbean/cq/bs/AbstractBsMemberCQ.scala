@@ -4,6 +4,7 @@ import java.lang.Long;
 import java.util._;
 
 import org.seasar.dbflute.cbean._;
+import org.seasar.dbflute.cbean.AbstractConditionQuery._;
 import org.seasar.dbflute.cbean.chelper._;
 import org.seasar.dbflute.cbean.ckey._;
 import org.seasar.dbflute.cbean.coption._;
@@ -50,7 +51,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberId_Equal(memberId: Integer): Unit = {
-        regMemberId(AbstractConditionQuery.CK_EQ, memberId);
+        regMemberId(CK_EQ, memberId);
     }
 
     /**
@@ -63,7 +64,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberId_NotEqual(memberId: Integer): Unit = {
-        regMemberId(AbstractConditionQuery.CK_NES, memberId);
+        regMemberId(CK_NES, memberId);
     }
 
     /**
@@ -72,7 +73,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
     def setMemberId_GreaterThan(memberId: Integer): Unit = {
-        regMemberId(AbstractConditionQuery.CK_GT, memberId);
+        regMemberId(CK_GT, memberId);
     }
 
     /**
@@ -81,7 +82,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
     def setMemberId_LessThan(memberId: Integer): Unit = {
-        regMemberId(AbstractConditionQuery.CK_LT, memberId);
+        regMemberId(CK_LT, memberId);
     }
 
     /**
@@ -90,7 +91,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setMemberId_GreaterEqual(memberId: Integer): Unit = {
-        regMemberId(AbstractConditionQuery.CK_GE, memberId);
+        regMemberId(CK_GE, memberId);
     }
 
     /**
@@ -99,7 +100,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
     def setMemberId_LessEqual(memberId: Integer): Unit = {
-        regMemberId(AbstractConditionQuery.CK_LE, memberId);
+        regMemberId(CK_LE, memberId);
     }
 
     /**
@@ -125,7 +126,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberId_InScope(memberIdList: Collection[Integer]): Unit = {
-        regINS(AbstractConditionQuery.CK_INS, cTL(memberIdList), getCValueMemberId(), "MEMBER_ID");
+        regINS(CK_INS, cTL(memberIdList), getCValueMemberId(), "MEMBER_ID");
     }
 
     /**
@@ -138,20 +139,20 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberId_NotInScope(memberIdList: Collection[Integer]): Unit = {
-        regINS(AbstractConditionQuery.CK_NINS, cTL(memberIdList), getCValueMemberId(), "MEMBER_ID");
+        regINS(CK_NINS, cTL(memberIdList), getCValueMemberId(), "MEMBER_ID");
     }
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      */
-    def setMemberId_IsNull(): Unit = { regMemberId(AbstractConditionQuery.CK_ISN, AbstractConditionQuery.DOBJ); }
+    def setMemberId_IsNull(): Unit = { regMemberId(CK_ISN, AbstractConditionQuery.DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      */
-    def setMemberId_IsNotNull(): Unit = { regMemberId(AbstractConditionQuery.CK_ISNN, AbstractConditionQuery.DOBJ); }
+    def setMemberId_IsNotNull(): Unit = { regMemberId(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
     protected def regMemberId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
     protected def getCValueMemberId(): ConditionValue;
@@ -166,7 +167,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberName_Equal(memberName: String): Unit = {
-        regMemberName(AbstractConditionQuery.CK_EQ, memberName);
+        regMemberName(CK_EQ, memberName);
     }
 
     /**
@@ -186,7 +187,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param likeSearchOption The option of like-search. (NotNull)
      */
     def setMemberName_LikeSearch(memberName: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(AbstractConditionQuery.CK_LS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", likeSearchOption);
+        regLSQ(CK_LS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", likeSearchOption);
     }
 
     /**
@@ -197,7 +198,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */
     def setMemberName_NotLikeSearch(memberName: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(AbstractConditionQuery.CK_NLS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", likeSearchOption);
+        regLSQ(CK_NLS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", likeSearchOption);
     }
 
     protected def regMemberName(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberName(), "MEMBER_NAME"); }
@@ -213,7 +214,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberAccount_Equal(memberAccount: String): Unit = {
-        regMemberAccount(AbstractConditionQuery.CK_EQ, memberAccount);
+        regMemberAccount(CK_EQ, memberAccount);
     }
 
     /**
@@ -226,7 +227,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberAccount_NotEqual(memberAccount: String): Unit = {
-        regMemberAccount(AbstractConditionQuery.CK_NES, memberAccount);
+        regMemberAccount(CK_NES, memberAccount);
     }
 
     /**
@@ -239,7 +240,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     def doSetMemberAccount_InScope(memberAccountList: Collection[String]): Unit = {
-        regINS(AbstractConditionQuery.CK_INS, cTL(memberAccountList), getCValueMemberAccount(), "MEMBER_ACCOUNT");
+        regINS(CK_INS, cTL(memberAccountList), getCValueMemberAccount(), "MEMBER_ACCOUNT");
     }
 
     /**
@@ -252,7 +253,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     def doSetMemberAccount_NotInScope(memberAccountList: Collection[String]): Unit = {
-        regINS(AbstractConditionQuery.CK_NINS, cTL(memberAccountList), getCValueMemberAccount(), "MEMBER_ACCOUNT");
+        regINS(CK_NINS, cTL(memberAccountList), getCValueMemberAccount(), "MEMBER_ACCOUNT");
     }
 
     /**
@@ -272,7 +273,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param likeSearchOption The option of like-search. (NotNull)
      */
     def setMemberAccount_LikeSearch(memberAccount: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(AbstractConditionQuery.CK_LS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", likeSearchOption);
+        regLSQ(CK_LS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", likeSearchOption);
     }
 
     /**
@@ -283,7 +284,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */
     def setMemberAccount_NotLikeSearch(memberAccount: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(AbstractConditionQuery.CK_NLS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", likeSearchOption);
+        regLSQ(CK_NLS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", likeSearchOption);
     }
 
     protected def regMemberAccount(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberAccount(), "MEMBER_ACCOUNT"); }
@@ -299,7 +300,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberStatusCode_Equal(memberStatusCode: String): Unit = {
-        regMemberStatusCode(AbstractConditionQuery.CK_EQ, hSC("MEMBER_STATUS_CODE", memberStatusCode, 3, "E"));
+        regMemberStatusCode(CK_EQ, hSC("MEMBER_STATUS_CODE", memberStatusCode, 3, "E"));
     }
 
     /**
@@ -312,7 +313,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetMemberStatusCode_NotEqual(memberStatusCode: String): Unit = {
-        regMemberStatusCode(AbstractConditionQuery.CK_NES, hSC("MEMBER_STATUS_CODE", memberStatusCode, 3, "E"));
+        regMemberStatusCode(CK_NES, hSC("MEMBER_STATUS_CODE", memberStatusCode, 3, "E"));
     }
 
     /**
@@ -325,7 +326,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
-        regINS(AbstractConditionQuery.CK_INS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
+        regINS(CK_INS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
     /**
@@ -338,7 +339,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
-        regINS(AbstractConditionQuery.CK_NINS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
+        regINS(CK_NINS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
     /**
@@ -358,7 +359,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param likeSearchOption The option of like-search. (NotNull)
      */
     def setMemberStatusCode_LikeSearch(memberStatusCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(AbstractConditionQuery.CK_LS, fRES(memberStatusCode), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE", likeSearchOption);
+        regLSQ(CK_LS, fRES(memberStatusCode), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE", likeSearchOption);
     }
 
     /**
@@ -369,7 +370,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param likeSearchOption The option of not-like-search. (NotNull)
      */
     def setMemberStatusCode_NotLikeSearch(memberStatusCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(AbstractConditionQuery.CK_NLS, fRES(memberStatusCode), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE", likeSearchOption);
+        regLSQ(CK_NLS, fRES(memberStatusCode), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE", likeSearchOption);
     }
 
     protected def regMemberStatusCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberStatusCode(), "MEMBER_STATUS_CODE"); }
@@ -381,7 +382,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param formalizedDatetime The value of formalizedDatetime as equal. (NullAllowed: if null, no condition)
      */
     def setFormalizedDatetime_Equal(formalizedDatetime: java.sql.Timestamp): Unit = {
-        regFormalizedDatetime(AbstractConditionQuery.CK_EQ,  formalizedDatetime);
+        regFormalizedDatetime(CK_EQ,  formalizedDatetime);
     }
 
     /**
@@ -390,7 +391,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param formalizedDatetime The value of formalizedDatetime as greaterThan. (NullAllowed: if null, no condition)
      */
     def setFormalizedDatetime_GreaterThan(formalizedDatetime: java.sql.Timestamp): Unit = {
-        regFormalizedDatetime(AbstractConditionQuery.CK_GT,  formalizedDatetime);
+        regFormalizedDatetime(CK_GT,  formalizedDatetime);
     }
 
     /**
@@ -399,7 +400,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param formalizedDatetime The value of formalizedDatetime as lessThan. (NullAllowed: if null, no condition)
      */
     def setFormalizedDatetime_LessThan(formalizedDatetime: java.sql.Timestamp): Unit = {
-        regFormalizedDatetime(AbstractConditionQuery.CK_LT,  formalizedDatetime);
+        regFormalizedDatetime(CK_LT,  formalizedDatetime);
     }
 
     /**
@@ -408,7 +409,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param formalizedDatetime The value of formalizedDatetime as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setFormalizedDatetime_GreaterEqual(formalizedDatetime: java.sql.Timestamp): Unit = {
-        regFormalizedDatetime(AbstractConditionQuery.CK_GE,  formalizedDatetime);
+        regFormalizedDatetime(CK_GE,  formalizedDatetime);
     }
 
     /**
@@ -417,7 +418,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param formalizedDatetime The value of formalizedDatetime as lessEqual. (NullAllowed: if null, no condition)
      */
     def setFormalizedDatetime_LessEqual(formalizedDatetime: java.sql.Timestamp): Unit = {
-        regFormalizedDatetime(AbstractConditionQuery.CK_LE, formalizedDatetime);
+        regFormalizedDatetime(CK_LE, formalizedDatetime);
     }
 
     /**
@@ -452,13 +453,13 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * IsNull {is null}. And OnlyOnceRegistered. <br />
      * (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)}
      */
-    def setFormalizedDatetime_IsNull(): Unit = { regFormalizedDatetime(AbstractConditionQuery.CK_ISN, AbstractConditionQuery.DOBJ); }
+    def setFormalizedDatetime_IsNull(): Unit = { regFormalizedDatetime(CK_ISN, AbstractConditionQuery.DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br />
      * (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)}
      */
-    def setFormalizedDatetime_IsNotNull(): Unit = { regFormalizedDatetime(AbstractConditionQuery.CK_ISNN, AbstractConditionQuery.DOBJ); }
+    def setFormalizedDatetime_IsNotNull(): Unit = { regFormalizedDatetime(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
     protected def regFormalizedDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueFormalizedDatetime(), "FORMALIZED_DATETIME"); }
     protected def getCValueFormalizedDatetime(): ConditionValue;
@@ -469,7 +470,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param birthdate The value of birthdate as equal. (NullAllowed: if null, no condition)
      */
     def setBirthdate_Equal(birthdate: java.util.Date): Unit = {
-        regBirthdate(AbstractConditionQuery.CK_EQ,  fCTPD(birthdate));
+        regBirthdate(CK_EQ,  fCTPD(birthdate));
     }
 
     /**
@@ -478,7 +479,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param birthdate The value of birthdate as greaterThan. (NullAllowed: if null, no condition)
      */
     def setBirthdate_GreaterThan(birthdate: java.util.Date): Unit = {
-        regBirthdate(AbstractConditionQuery.CK_GT,  fCTPD(birthdate));
+        regBirthdate(CK_GT,  fCTPD(birthdate));
     }
 
     /**
@@ -487,7 +488,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param birthdate The value of birthdate as lessThan. (NullAllowed: if null, no condition)
      */
     def setBirthdate_LessThan(birthdate: java.util.Date): Unit = {
-        regBirthdate(AbstractConditionQuery.CK_LT,  fCTPD(birthdate));
+        regBirthdate(CK_LT,  fCTPD(birthdate));
     }
 
     /**
@@ -496,7 +497,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param birthdate The value of birthdate as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setBirthdate_GreaterEqual(birthdate: java.util.Date): Unit = {
-        regBirthdate(AbstractConditionQuery.CK_GE,  fCTPD(birthdate));
+        regBirthdate(CK_GE,  fCTPD(birthdate));
     }
 
     /**
@@ -505,7 +506,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param birthdate The value of birthdate as lessEqual. (NullAllowed: if null, no condition)
      */
     def setBirthdate_LessEqual(birthdate: java.util.Date): Unit = {
-        regBirthdate(AbstractConditionQuery.CK_LE, fCTPD(birthdate));
+        regBirthdate(CK_LE, fCTPD(birthdate));
     }
 
     /**
@@ -540,13 +541,13 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * IsNull {is null}. And OnlyOnceRegistered. <br />
      * (生年月日)BIRTHDATE: {DATE(8)}
      */
-    def setBirthdate_IsNull(): Unit = { regBirthdate(AbstractConditionQuery.CK_ISN, AbstractConditionQuery.DOBJ); }
+    def setBirthdate_IsNull(): Unit = { regBirthdate(CK_ISN, AbstractConditionQuery.DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br />
      * (生年月日)BIRTHDATE: {DATE(8)}
      */
-    def setBirthdate_IsNotNull(): Unit = { regBirthdate(AbstractConditionQuery.CK_ISNN, AbstractConditionQuery.DOBJ); }
+    def setBirthdate_IsNotNull(): Unit = { regBirthdate(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
     protected def regBirthdate(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueBirthdate(), "BIRTHDATE"); }
     protected def getCValueBirthdate(): ConditionValue;
@@ -557,7 +558,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param registerDatetime The value of registerDatetime as equal. (NullAllowed: if null, no condition)
      */
     def setRegisterDatetime_Equal(registerDatetime: java.sql.Timestamp): Unit = {
-        regRegisterDatetime(AbstractConditionQuery.CK_EQ,  registerDatetime);
+        regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
     protected def regRegisterDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
@@ -573,7 +574,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetRegisterUser_Equal(registerUser: String): Unit = {
-        regRegisterUser(AbstractConditionQuery.CK_EQ, registerUser);
+        regRegisterUser(CK_EQ, registerUser);
     }
 
     protected def regRegisterUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
@@ -585,7 +586,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param updateDatetime The value of updateDatetime as equal. (NullAllowed: if null, no condition)
      */
     def setUpdateDatetime_Equal(updateDatetime: java.sql.Timestamp): Unit = {
-        regUpdateDatetime(AbstractConditionQuery.CK_EQ,  updateDatetime);
+        regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
     protected def regUpdateDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
@@ -601,7 +602,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetUpdateUser_Equal(updateUser: String): Unit = {
-        regUpdateUser(AbstractConditionQuery.CK_EQ, updateUser);
+        regUpdateUser(CK_EQ, updateUser);
     }
 
     protected def regUpdateUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
@@ -617,7 +618,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     protected def doSetVersionNo_Equal(versionNo: Long): Unit = {
-        regVersionNo(AbstractConditionQuery.CK_EQ, versionNo);
+        regVersionNo(CK_EQ, versionNo);
     }
 
     /**
@@ -653,7 +654,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @return The object to set up a function. (NotNull)
      */
     def scalar_Equal(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(AbstractConditionQuery.CK_EQ.getOperand(), classOf[MemberCB]);
+        return xcreateSSQFunction(CK_EQ.getOperand(), classOf[MemberCB]);
     }
 
     /**
@@ -670,7 +671,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @return The object to set up a function. (NotNull)
      */
     def scalar_NotEqual(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(AbstractConditionQuery.CK_NES.getOperand(), classOf[MemberCB]);
+        return xcreateSSQFunction(CK_NES.getOperand(), classOf[MemberCB]);
     }
 
     /**
@@ -687,7 +688,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @return The object to set up a function. (NotNull)
      */
     def scalar_GreaterThan(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(AbstractConditionQuery.CK_GT.getOperand(), classOf[MemberCB]);
+        return xcreateSSQFunction(CK_GT.getOperand(), classOf[MemberCB]);
     }
 
     /**
@@ -704,7 +705,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @return The object to set up a function. (NotNull)
      */
     def scalar_LessThan(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(AbstractConditionQuery.CK_LT.getOperand(), classOf[MemberCB]);
+        return xcreateSSQFunction(CK_LT.getOperand(), classOf[MemberCB]);
     }
 
     /**
@@ -721,7 +722,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @return The object to set up a function. (NotNull)
      */
     def scalar_GreaterEqual(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(AbstractConditionQuery.CK_GE.getOperand(), classOf[MemberCB]);
+        return xcreateSSQFunction(CK_GE.getOperand(), classOf[MemberCB]);
     }
 
     /**
@@ -738,7 +739,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @return The object to set up a function. (NotNull)
      */
     def scalar_LessEqual(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(AbstractConditionQuery.CK_LE.getOperand(), classOf[MemberCB]);
+        return xcreateSSQFunction(CK_LE.getOperand(), classOf[MemberCB]);
     }
 
     protected def xscalarCondition[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, op: HpSSQOption[CB]): Unit = {
