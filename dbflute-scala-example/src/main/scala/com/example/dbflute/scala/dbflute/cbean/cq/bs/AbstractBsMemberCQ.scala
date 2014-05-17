@@ -143,6 +143,124 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
 
     /**
+     * Set up ExistsReferrer (correlated sub-query). <br />
+     * {exists (select MEMBER_ID from PURCHASE where ...)} <br />
+     * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">existsPurchaseList</span>(new SubQuery&lt;PurchaseCB&gt;() {
+     *     public void query(PurchaseCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of PurchaseList for 'exists'. (NotNull)
+     */
+    def existsPurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_ExistsReferrer_PurchaseList(cb.query());
+        registerExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
+    }
+    def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String;
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br />
+     * {not exists (select MEMBER_ID from PURCHASE where ...)} <br />
+     * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">notExistsPurchaseList</span>(new SubQuery&lt;PurchaseCB&gt;() {
+     *     public void query(PurchaseCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberId_NotExistsReferrer_PurchaseList for 'not exists'. (NotNull)
+     */
+    def notExistsPurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotExistsReferrer_PurchaseList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
+    }
+    def keepMemberId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String;
+
+    /**
+     * Set up InScopeRelation (sub-query). <br />
+     * {in (select MEMBER_ID from PURCHASE where ...)} <br />
+     * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
+     * @param subQuery The sub-query of PurchaseList for 'in-scope'. (NotNull)
+     */
+    def inScopePurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_InScopeRelation_PurchaseList(cb.query());
+        registerInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
+    }
+    def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String;
+
+    /**
+     * Set up NotInScopeRelation (sub-query). <br />
+     * {not in (select MEMBER_ID from PURCHASE where ...)} <br />
+     * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
+     * @param subQuery The sub-query of PurchaseList for 'not in-scope'. (NotNull)
+     */
+    def notInScopePurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotInScopeRelation_PurchaseList(cb.query());
+        registerNotInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
+    }
+    def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String;
+
+    def xsderivePurchaseList(fn: String, sq: SubQuery[PurchaseCB], al: String, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_SpecifyDerivedReferrer_PurchaseList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList", al, op);
+    }
+    def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String;
+
+    /**
+     * Prepare for (Query)DerivedReferrer. <br />
+     * {FOO &lt;= (select max(BAR) from PURCHASE where ...)} <br />
+     * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">derivedPurchaseList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;PurchaseCB&gt;() {
+     *     public void query(PurchaseCB subCB) {
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    def derivedPurchaseList(): HpQDRFunction[PurchaseCB] = {
+        return xcreateQDRFunctionPurchaseList();
+    }
+    protected def xcreateQDRFunctionPurchaseList(): HpQDRFunction[PurchaseCB] = {
+        return new HpQDRFunction[PurchaseCB](new HpQDRSetupper[PurchaseCB]() {
+            def setup(fn: String, sq: SubQuery[PurchaseCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+                xqderivePurchaseList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    def xqderivePurchaseList(fn: String, sq: SubQuery[PurchaseCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val sqpp: String = keepMemberId_QueryDerivedReferrer_PurchaseList(cb.query());
+        val prpp: String = keepMemberId_QueryDerivedReferrer_PurchaseListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MEMBER_ID", sqpp, "purchaseList", rd, vl, prpp, op);
+    }
+    def keepMemberId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String;
+    def keepMemberId_QueryDerivedReferrer_PurchaseListParameter(vl: Object): String;
+
+    /**
      * IsNull {is null}. And OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      */

@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
@@ -19,54 +18,56 @@ import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
- * The entity of (会員)MEMBER as TABLE. <br />
+ * The entity of (購入)PURCHASE as TABLE. <br />
  * <pre>
  * [primary-key]
- *     MEMBER_ID
+ *     PURCHASE_ID
  * 
  * [column]
- *     MEMBER_ID, MEMBER_NAME, MEMBER_ACCOUNT, MEMBER_STATUS_CODE, FORMALIZED_DATETIME, BIRTHDATE, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER, VERSION_NO
+ *     PURCHASE_ID, MEMBER_ID, PRODUCT_ID, PURCHASE_DATETIME, PURCHASE_COUNT, PURCHASE_PRICE, PAYMENT_COMPLETE_FLG, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER, VERSION_NO
  * 
  * [sequence]
  *     
  * 
  * [identity]
- *     MEMBER_ID
+ *     PURCHASE_ID
  * 
  * [version-no]
  *     VERSION_NO
  * 
  * [foreign table]
- *     MEMBER_STATUS
+ *     MEMBER
  * 
  * [referrer table]
- *     PURCHASE
+ *     
  * 
  * [foreign property]
- *     memberStatus
+ *     member
  * 
  * [referrer property]
- *     purchaseList
+ *     
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * Long purchaseId = entity.getPurchaseId();
  * Integer memberId = entity.getMemberId();
- * String memberName = entity.getMemberName();
- * String memberAccount = entity.getMemberAccount();
- * String memberStatusCode = entity.getMemberStatusCode();
- * java.sql.Timestamp formalizedDatetime = entity.getFormalizedDatetime();
- * java.util.Date birthdate = entity.getBirthdate();
+ * Integer productId = entity.getProductId();
+ * java.sql.Timestamp purchaseDatetime = entity.getPurchaseDatetime();
+ * Integer purchaseCount = entity.getPurchaseCount();
+ * Integer purchasePrice = entity.getPurchasePrice();
+ * Integer paymentCompleteFlg = entity.getPaymentCompleteFlg();
  * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
  * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * Long versionNo = entity.getVersionNo();
+ * entity.setPurchaseId(purchaseId);
  * entity.setMemberId(memberId);
- * entity.setMemberName(memberName);
- * entity.setMemberAccount(memberAccount);
- * entity.setMemberStatusCode(memberStatusCode);
- * entity.setFormalizedDatetime(formalizedDatetime);
- * entity.setBirthdate(birthdate);
+ * entity.setProductId(productId);
+ * entity.setPurchaseDatetime(purchaseDatetime);
+ * entity.setPurchaseCount(purchaseCount);
+ * entity.setPurchasePrice(purchasePrice);
+ * entity.setPaymentCompleteFlg(paymentCompleteFlg);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterUser(registerUser);
  * entity.setUpdateDatetime(updateDatetime);
@@ -76,7 +77,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMember extends EntityDefinedCommonColumn with Serializable with Cloneable {
+abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                          Definition
@@ -88,37 +89,40 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     // -----------------------------------------------------
     //                                                Column
     //                                                ------
-    /** (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} */
+    /** PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} */
+    protected var _purchaseId: Long = null;
+
+    /** (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} */
     protected var _memberId: Integer = null;
 
-    /** (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} */
-    protected var _memberName: String = null;
+    /** (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)} */
+    protected var _productId: Integer = null;
 
-    /** (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} */
-    protected var _memberAccount: String = null;
+    /** (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)} */
+    protected var _purchaseDatetime: java.sql.Timestamp = null;
 
-    /** (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} */
-    protected var _memberStatusCode: String = null;
+    /** (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} */
+    protected var _purchaseCount: Integer = null;
 
-    /** (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} */
-    protected var _formalizedDatetime: java.sql.Timestamp = null;
+    /** (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} */
+    protected var _purchasePrice: Integer = null;
 
-    /** (生年月日)BIRTHDATE: {DATE(8)} */
-    protected var _birthdate: java.util.Date = null;
+    /** (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} */
+    protected var _paymentCompleteFlg: Integer = null;
 
-    /** (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
+    /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
     protected var _registerDatetime: java.sql.Timestamp = null;
 
-    /** (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} */
+    /** REGISTER_USER: {NotNull, VARCHAR(200)} */
     protected var _registerUser: String = null;
 
-    /** (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
+    /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
     protected var _updateDatetime: java.sql.Timestamp = null;
 
-    /** (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} */
+    /** UPDATE_USER: {NotNull, VARCHAR(200)} */
     protected var _updateUser: String = null;
 
-    /** (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} */
+    /** VERSION_NO: {NotNull, BIGINT(19)} */
     protected var _versionNo: Long = null;
 
     // -----------------------------------------------------
@@ -140,14 +144,14 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * {@inheritDoc}
      */
     def getTableDbName(): String = {
-        return "MEMBER";
+        return "PURCHASE";
     }
 
     /**
      * {@inheritDoc}
      */
     def getTablePropertyName(): String = { // according to Java Beans rule
-        return "member";
+        return "purchase";
     }
 
     // ===================================================================================
@@ -167,7 +171,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (getMemberId() == null) { return false; }
+        if (getPurchaseId() == null) { return false; }
         return true;
     }
 
@@ -175,137 +179,116 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     //                                                             Classification Property
     //                                                             =======================
     /**
-     * Get the value of memberStatusCode as the classification of MemberStatus. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
-     * status of member from entry to withdrawal
+     * Get the value of paymentCompleteFlg as the classification of Flg. <br />
+     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * general boolean classification for every flg-column
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def getMemberStatusCodeAsMemberStatus(): CDef.MemberStatus = {
-        return CDef.MemberStatus.codeOf(getMemberStatusCode());
+    def getPaymentCompleteFlgAsFlg(): CDef.Flg = {
+        return CDef.Flg.codeOf(getPaymentCompleteFlg());
     }
 
     /**
-     * Set the value of memberStatusCode as the classification of MemberStatus. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
-     * status of member from entry to withdrawal
+     * Set the value of paymentCompleteFlg as the classification of Flg. <br />
+     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * general boolean classification for every flg-column
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
-    def setMemberStatusCodeAsMemberStatus(cdef: CDef.MemberStatus): Unit = {
-        setMemberStatusCode(if (cdef != null) { cdef.code } else { null });
+    def setPaymentCompleteFlgAsFlg(cdef: CDef.Flg): Unit = {
+        setPaymentCompleteFlg(if (cdef != null) { FunCustodial.toNumber(cdef.code, classOf[Integer]) } else { null });
     }
 
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
     /**
-     * Set the value of memberStatusCode as Formalized (FML). <br />
-     * Formalized: as formal member, allowed to use all service
+     * Set the value of paymentCompleteFlg as True (1). <br />
+     * Yes: means valid
      */
-    def setMemberStatusCode_Formalized(): Unit = {
-        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Formalized);
+    def setPaymentCompleteFlg_True(): Unit = {
+        setPaymentCompleteFlgAsFlg(CDef.Flg.True);
     }
 
     /**
-     * Set the value of memberStatusCode as Withdrawal (WDL). <br />
-     * Withdrawal: withdrawal is fixed, not allowed to use service
+     * Set the value of paymentCompleteFlg as False (0). <br />
+     * No: means invalid
      */
-    def setMemberStatusCode_Withdrawal(): Unit = {
-        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Withdrawal);
-    }
-
-    /**
-     * Set the value of memberStatusCode as Provisional (PRV). <br />
-     * Provisional: first status after entry, allowed to use only part of service
-     */
-    def setMemberStatusCode_Provisional(): Unit = {
-        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Provisional);
+    def setPaymentCompleteFlg_False(): Unit = {
+        setPaymentCompleteFlgAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
     /**
-     * Is the value of memberStatusCode Formalized? <br />
-     * Formalized: as formal member, allowed to use all service
+     * Is the value of paymentCompleteFlg True? <br />
+     * Yes: means valid
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeFormalized(): Boolean = {
-        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
-        return if (cdef != null) { cdef.equals(CDef.MemberStatus.Formalized) } else { false };
+    def isPaymentCompleteFlgTrue(): Boolean = {
+        val cdef: CDef.Flg = getPaymentCompleteFlgAsFlg();
+        return if (cdef != null) { cdef.equals(CDef.Flg.True) } else { false };
     }
 
     /**
-     * Is the value of memberStatusCode Withdrawal? <br />
-     * Withdrawal: withdrawal is fixed, not allowed to use service
+     * Is the value of paymentCompleteFlg False? <br />
+     * No: means invalid
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeWithdrawal(): Boolean = {
-        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
-        return if (cdef != null) { cdef.equals(CDef.MemberStatus.Withdrawal) } else { false };
-    }
-
-    /**
-     * Is the value of memberStatusCode Provisional? <br />
-     * Provisional: first status after entry, allowed to use only part of service
-     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
-     * @return The determination, true or false.
-     */
-    def isMemberStatusCodeProvisional(): Boolean = {
-        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
-        return if (cdef != null) { cdef.equals(CDef.MemberStatus.Provisional) } else { false };
+    def isPaymentCompleteFlgFalse(): Boolean = {
+        val cdef: CDef.Flg = getPaymentCompleteFlgAsFlg();
+        return if (cdef != null) { cdef.equals(CDef.Flg.False) } else { false };
     }
 
     // ===================================================================================
     //                                                           Classification Name/Alias
     //                                                           =========================
-    // ===================================================================================
-    //                                                                    Foreign Property
-    //                                                                    ================
-    /** (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'. */
-    protected var _memberStatus: MemberStatus = null;
-
     /**
-     * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
-     * @return The entity of foreign property 'memberStatus'. (NullAllowed: when e.g. null FK column, no setupSelect)
+     * Get the value of the column 'paymentCompleteFlg' as classification name.
+     * @return The string of classification name. (NullAllowed: when the column value is null)
      */
-    def getMemberStatus(): MemberStatus = {
-        return _memberStatus;
+    def getPaymentCompleteFlgName(): String = {
+        val cdef: CDef.Flg = getPaymentCompleteFlgAsFlg();
+        return if (cdef != null) { cdef.name() } else { null };
     }
 
     /**
-     * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
-     * @param memberStatus The entity of foreign property 'memberStatus'. (NullAllowed)
+     * Get the value of the column 'paymentCompleteFlg' as classification alias.
+     * @return The string of classification alias. (NullAllowed: when the column value is null)
      */
-    def setMemberStatus(memberStatus: MemberStatus): Unit = {
-        _memberStatus = memberStatus;
+    def getPaymentCompleteFlgAlias(): String = {
+        val cdef: CDef.Flg = getPaymentCompleteFlgAsFlg();
+        return if (cdef != null) { cdef.alias() } else { null };
+    }
+
+    // ===================================================================================
+    //                                                                    Foreign Property
+    //                                                                    ================
+    /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
+    protected var _member: Member = null;
+
+    /**
+     * (会員)MEMBER by my MEMBER_ID, named 'member'.
+     * @return The entity of foreign property 'member'. (NullAllowed: when e.g. null FK column, no setupSelect)
+     */
+    def getMember(): Member = {
+        return _member;
+    }
+
+    /**
+     * (会員)MEMBER by my MEMBER_ID, named 'member'.
+     * @param member The entity of foreign property 'member'. (NullAllowed)
+     */
+    def setMember(member: Member): Unit = {
+        _member = member;
     }
 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** (購入)PURCHASE by MEMBER_ID, named 'purchaseList'. */
-    protected var _purchaseList: List[Purchase] = null;
-
-    /**
-     * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
-     * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)
-     */
-    def getPurchaseList(): List[Purchase] = {
-        if (_purchaseList == null) { _purchaseList = newReferrerList(); }
-        return _purchaseList;
-    }
-
-    /**
-     * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
-     * @param purchaseList The entity list of referrer property 'purchaseList'. (NullAllowed)
-     */
-    def setPurchaseList(purchaseList: List[Purchase]): Unit = {
-        _purchaseList = purchaseList;
-    }
-
     protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
         return new ArrayList[ELEMENT]();
     }
@@ -389,9 +372,9 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * @return Comparing result.
      */
     def equals(obj: Object): Boolean = {
-        if (obj == null || !(obj.isInstanceOf[BsMember])) { return false; }
-        val other: BsMember = obj.asInstanceOf[BsMember];
-        if (!xSV(getMemberId(), other.getMemberId())) { return false; }
+        if (obj == null || !(obj.isInstanceOf[BsPurchase])) { return false; }
+        val other: BsPurchase = obj.asInstanceOf[BsPurchase];
+        if (!xSV(getPurchaseId(), other.getPurchaseId())) { return false; }
         return true;
     }
     protected def xSV(value1: Object, value2: Object): Boolean = {
@@ -405,7 +388,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     def hashCode(): Integer = {
         var result: Integer = 17;
         result = xCH(result, getTableDbName());
-        result = xCH(result, getMemberId());
+        result = xCH(result, getPurchaseId());
         return result;
     }
     protected def xCH(result: Integer, value: Object): Integer = {
@@ -434,11 +417,8 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
         val l: String = "\n  ";
-        if (_memberStatus != null)
-        { sb.append(l).append(xbRDS(_memberStatus, "memberStatus")); }
-        if (_purchaseList != null) {
-            _purchaseList.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
-        }
+        if (_member != null)
+        { sb.append(l).append(xbRDS(_member, "member")); }
         return sb.toString();
     }
     protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
@@ -459,12 +439,13 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val delimiter: String = ",  ";
+        sb.append(delimiter).append(getPurchaseId());
         sb.append(delimiter).append(getMemberId());
-        sb.append(delimiter).append(getMemberName());
-        sb.append(delimiter).append(getMemberAccount());
-        sb.append(delimiter).append(getMemberStatusCode());
-        sb.append(delimiter).append(getFormalizedDatetime());
-        sb.append(delimiter).append(xfUD(getBirthdate()));
+        sb.append(delimiter).append(getProductId());
+        sb.append(delimiter).append(getPurchaseDatetime());
+        sb.append(delimiter).append(getPurchaseCount());
+        sb.append(delimiter).append(getPurchasePrice());
+        sb.append(delimiter).append(getPaymentCompleteFlg());
         sb.append(delimiter).append(getRegisterDatetime());
         sb.append(delimiter).append(getRegisterUser());
         sb.append(delimiter).append(getUpdateDatetime());
@@ -476,18 +457,10 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
-    protected def xfUD(date: Date): String = { // formatUtilDate()
-        return FunCustodial.toString(date, xgDP());
-    }
-    protected def xgDP(): String = { // getDatePattern
-        return "yyyy-MM-dd";
-    }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val c: String = ",  ";
-        if (_memberStatus != null) { sb.append(c).append("memberStatus"); }
-        if (_purchaseList != null && !_purchaseList.isEmpty())
-        { sb.append(c).append("purchaseList"); }
+        if (_member != null) { sb.append(c).append("member"); }
         if (sb.length() > c.length()) {
             sb.delete(0, c.length()).insert(0, "(").append(")");
         }
@@ -498,9 +471,9 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    def clone(): Member = {
+    def clone(): Purchase = {
         try {
-            return super.clone().asInstanceOf[Member];
+            return super.clone().asInstanceOf[Purchase];
         } catch {
             case e: CloneNotSupportedException => {
                 throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
@@ -512,7 +485,24 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
+     * [get] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
+     * @return The value of the column 'PURCHASE_ID'. (basically NotNull if selected: for the constraint)
+     */
+    def getPurchaseId(): Long = {
+        return _purchaseId;
+    }
+
+    /**
+     * [set] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
+     * @param purchaseId The value of the column 'PURCHASE_ID'. (basically NotNull if update: for the constraint)
+     */
+    def setPurchaseId(purchaseId: Long): Unit = {
+        __modifiedProperties.addPropertyName("purchaseId");
+        this._purchaseId = purchaseId;
+    }
+
+    /**
+     * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
     def getMemberId(): Integer = {
@@ -520,7 +510,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [set] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
+     * [set] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
@@ -529,92 +519,93 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [get] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
-     * @return The value of the column 'MEMBER_NAME'. (basically NotNull if selected: for the constraint)
+     * [get] (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'PRODUCT_ID'. (basically NotNull if selected: for the constraint)
      */
-    def getMemberName(): String = {
-        return convertEmptyToNull(_memberName);
+    def getProductId(): Integer = {
+        return _productId;
     }
 
     /**
-     * [set] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
-     * @param memberName The value of the column 'MEMBER_NAME'. (basically NotNull if update: for the constraint)
+     * [set] (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10)} <br />
+     * @param productId The value of the column 'PRODUCT_ID'. (basically NotNull if update: for the constraint)
      */
-    def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
-        this._memberName = memberName;
+    def setProductId(productId: Integer): Unit = {
+        __modifiedProperties.addPropertyName("productId");
+        this._productId = productId;
     }
 
     /**
-     * [get] (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
-     * @return The value of the column 'MEMBER_ACCOUNT'. (basically NotNull if selected: for the constraint)
+     * [get] (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)} <br />
+     * @return The value of the column 'PURCHASE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getMemberAccount(): String = {
-        return convertEmptyToNull(_memberAccount);
+    def getPurchaseDatetime(): java.sql.Timestamp = {
+        return _purchaseDatetime;
     }
 
     /**
-     * [set] (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
-     * @param memberAccount The value of the column 'MEMBER_ACCOUNT'. (basically NotNull if update: for the constraint)
+     * [set] (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)} <br />
+     * @param purchaseDatetime The value of the column 'PURCHASE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setMemberAccount(memberAccount: String): Unit = {
-        __modifiedProperties.addPropertyName("memberAccount");
-        this._memberAccount = memberAccount;
+    def setPurchaseDatetime(purchaseDatetime: java.sql.Timestamp): Unit = {
+        __modifiedProperties.addPropertyName("purchaseDatetime");
+        this._purchaseDatetime = purchaseDatetime;
     }
 
     /**
-     * [get] (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
-     * @return The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if selected: for the constraint)
+     * [get] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'PURCHASE_COUNT'. (basically NotNull if selected: for the constraint)
      */
-    def getMemberStatusCode(): String = {
-        return convertEmptyToNull(_memberStatusCode);
+    def getPurchaseCount(): Integer = {
+        return _purchaseCount;
     }
 
     /**
-     * [set] (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
-     * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
+     * [set] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
+     * @param purchaseCount The value of the column 'PURCHASE_COUNT'. (basically NotNull if update: for the constraint)
      */
-    def setMemberStatusCode(memberStatusCode: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusCode");
-        this._memberStatusCode = memberStatusCode;
+    def setPurchaseCount(purchaseCount: Integer): Unit = {
+        __modifiedProperties.addPropertyName("purchaseCount");
+        this._purchaseCount = purchaseCount;
     }
 
     /**
-     * [get] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
-     * @return The value of the column 'FORMALIZED_DATETIME'. (NullAllowed even if selected: for no constraint)
+     * [get] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'PURCHASE_PRICE'. (basically NotNull if selected: for the constraint)
      */
-    def getFormalizedDatetime(): java.sql.Timestamp = {
-        return _formalizedDatetime;
+    def getPurchasePrice(): Integer = {
+        return _purchasePrice;
     }
 
     /**
-     * [set] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
-     * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (NullAllowed: null update allowed for no constraint)
+     * [set] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
+     * @param purchasePrice The value of the column 'PURCHASE_PRICE'. (basically NotNull if update: for the constraint)
      */
-    def setFormalizedDatetime(formalizedDatetime: java.sql.Timestamp): Unit = {
-        __modifiedProperties.addPropertyName("formalizedDatetime");
-        this._formalizedDatetime = formalizedDatetime;
+    def setPurchasePrice(purchasePrice: Integer): Unit = {
+        __modifiedProperties.addPropertyName("purchasePrice");
+        this._purchasePrice = purchasePrice;
     }
 
     /**
-     * [get] (生年月日)BIRTHDATE: {DATE(8)} <br />
-     * @return The value of the column 'BIRTHDATE'. (NullAllowed even if selected: for no constraint)
+     * [get] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * @return The value of the column 'PAYMENT_COMPLETE_FLG'. (basically NotNull if selected: for the constraint)
      */
-    def getBirthdate(): java.util.Date = {
-        return _birthdate;
+    def getPaymentCompleteFlg(): Integer = {
+        return _paymentCompleteFlg;
     }
 
     /**
-     * [set] (生年月日)BIRTHDATE: {DATE(8)} <br />
-     * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
+     * [set] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * @param paymentCompleteFlg The value of the column 'PAYMENT_COMPLETE_FLG'. (basically NotNull if update: for the constraint)
      */
-    def setBirthdate(birthdate: java.util.Date): Unit = {
-        __modifiedProperties.addPropertyName("birthdate");
-        this._birthdate = birthdate;
+    def setPaymentCompleteFlg(paymentCompleteFlg: Integer): Unit = {
+        checkImplicitSet("PAYMENT_COMPLETE_FLG", CDef.DefMeta.Flg, paymentCompleteFlg);
+        __modifiedProperties.addPropertyName("paymentCompleteFlg");
+        this._paymentCompleteFlg = paymentCompleteFlg;
     }
 
     /**
-     * [get] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
     def getRegisterDatetime(): java.sql.Timestamp = {
@@ -622,7 +613,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [set] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
@@ -631,7 +622,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [get] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
+     * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
      */
     def getRegisterUser(): String = {
@@ -639,7 +630,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [set] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
+     * [set] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
@@ -648,7 +639,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [get] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
     def getUpdateDatetime(): java.sql.Timestamp = {
@@ -656,7 +647,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [set] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
@@ -665,7 +656,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [get] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
+     * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
      */
     def getUpdateUser(): String = {
@@ -673,7 +664,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [set] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
+     * [set] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
@@ -682,7 +673,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [get] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
+     * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
      */
     def getVersionNo(): Long = {
@@ -690,7 +681,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
 
     /**
-     * [set] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
+     * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
@@ -700,5 +691,9 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
 
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
+    }
+
+    protected def checkImplicitSet(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkImplicitSet(this, columnDbName, meta, value);
     }
 }

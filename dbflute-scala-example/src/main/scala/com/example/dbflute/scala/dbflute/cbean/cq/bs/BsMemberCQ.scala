@@ -72,6 +72,61 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     }
     protected def getCValueMemberId(): ConditionValue = { return getMemberId(); }
 
+    protected var _memberId_ExistsReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
+    def getMemberId_ExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_ExistsReferrer_PurchaseListMap; }
+    def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String = {
+        if (_memberId_ExistsReferrer_PurchaseListMap == null) { _memberId_ExistsReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
+        val ky: String = "subQueryMapKey" + (_memberId_ExistsReferrer_PurchaseListMap.size() + 1);
+        _memberId_ExistsReferrer_PurchaseListMap.put(ky, sq); return "memberId_ExistsReferrer_PurchaseList." + ky;
+    }
+
+    protected var _memberId_NotExistsReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
+    def getMemberId_NotExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_NotExistsReferrer_PurchaseListMap; }
+    def keepMemberId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String = {
+        if (_memberId_NotExistsReferrer_PurchaseListMap == null) { _memberId_NotExistsReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
+        val ky: String = "subQueryMapKey" + (_memberId_NotExistsReferrer_PurchaseListMap.size() + 1);
+        _memberId_NotExistsReferrer_PurchaseListMap.put(ky, sq); return "memberId_NotExistsReferrer_PurchaseList." + ky;
+    }
+
+    protected var _memberId_SpecifyDerivedReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
+    def getMemberId_SpecifyDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_SpecifyDerivedReferrer_PurchaseListMap; }
+    def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = {
+        if (_memberId_SpecifyDerivedReferrer_PurchaseListMap == null) { _memberId_SpecifyDerivedReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
+        val ky: String = "subQueryMapKey" + (_memberId_SpecifyDerivedReferrer_PurchaseListMap.size() + 1);
+        _memberId_SpecifyDerivedReferrer_PurchaseListMap.put(ky, sq); return "memberId_SpecifyDerivedReferrer_PurchaseList." + ky;
+    }
+
+    protected var _memberId_InScopeRelation_PurchaseListMap: Map[String, PurchaseCQ] = null;
+    def getMemberId_InScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_InScopeRelation_PurchaseListMap; }
+    def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String = {
+        if (_memberId_InScopeRelation_PurchaseListMap == null) { _memberId_InScopeRelation_PurchaseListMap = newLinkedHashMapSized(4); }
+        val ky: String = "subQueryMapKey" + (_memberId_InScopeRelation_PurchaseListMap.size() + 1);
+        _memberId_InScopeRelation_PurchaseListMap.put(ky, sq); return "memberId_InScopeRelation_PurchaseList." + ky;
+    }
+
+    protected var _memberId_NotInScopeRelation_PurchaseListMap: Map[String, PurchaseCQ] = null;
+    def getMemberId_NotInScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_NotInScopeRelation_PurchaseListMap; }
+    def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String = {
+        if (_memberId_NotInScopeRelation_PurchaseListMap == null) { _memberId_NotInScopeRelation_PurchaseListMap = newLinkedHashMapSized(4); }
+        val ky: String = "subQueryMapKey" + (_memberId_NotInScopeRelation_PurchaseListMap.size() + 1);
+        _memberId_NotInScopeRelation_PurchaseListMap.put(ky, sq); return "memberId_NotInScopeRelation_PurchaseList." + ky;
+    }
+
+    protected var _memberId_QueryDerivedReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
+    def getMemberId_QueryDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_QueryDerivedReferrer_PurchaseListMap; }
+    def keepMemberId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = {
+        if (_memberId_QueryDerivedReferrer_PurchaseListMap == null) { _memberId_QueryDerivedReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
+        val ky: String = "subQueryMapKey" + (_memberId_QueryDerivedReferrer_PurchaseListMap.size() + 1);
+        _memberId_QueryDerivedReferrer_PurchaseListMap.put(ky, sq); return "memberId_QueryDerivedReferrer_PurchaseList." + ky;
+    }
+    protected var _memberId_QueryDerivedReferrer_PurchaseListParameterMap: Map[String, Object] = null;
+    def getMemberId_QueryDerivedReferrer_PurchaseListParameter(): Map[String, Object] = { return _memberId_QueryDerivedReferrer_PurchaseListParameterMap; }
+    def keepMemberId_QueryDerivedReferrer_PurchaseListParameter(vl: Object): String = {
+        if (_memberId_QueryDerivedReferrer_PurchaseListParameterMap == null) { _memberId_QueryDerivedReferrer_PurchaseListParameterMap = newLinkedHashMapSized(4); }
+        val ky: String = "subQueryParameterKey" + (_memberId_QueryDerivedReferrer_PurchaseListParameterMap.size() + 1);
+        _memberId_QueryDerivedReferrer_PurchaseListParameterMap.put(ky, vl); return "memberId_QueryDerivedReferrer_PurchaseListParameter." + ky;
+    }
+
     /** 
      * Add order-by as ascend. <br />
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}

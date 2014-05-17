@@ -321,7 +321,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
      */
     def get${col.JavaName}Name(): String = {
         val cdef: ${glCDef}.${col.classificationName} = get${col.javaName}As${col.classificationName}();
-        return cdef != null ? cdef.name() : null;
+        return if (cdef != null) { cdef.name() } else { null };
     }
 
 #end
@@ -332,7 +332,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
      */
     def get${col.JavaName}Alias(): String = {
         val cdef: ${glCDef}.${col.classificationName} = get${col.javaName}As${col.classificationName}();
-        return cdef != null ? cdef.alias() : null;
+        return if (cdef != null) { cdef.alias() } else { null };
     }
 
 #end

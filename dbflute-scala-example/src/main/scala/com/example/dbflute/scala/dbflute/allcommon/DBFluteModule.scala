@@ -67,5 +67,10 @@ class DBFluteModule(dataSource: DataSource) extends AbstractModule {
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberStatusBhv]).toInstance(bhv);
         }
+        {
+            val bhv: PurchaseBhv = new PurchaseBhv();
+            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            bind(classOf[PurchaseBhv]).toInstance(bhv);
+        }
     }
 }

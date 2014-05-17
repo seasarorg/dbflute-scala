@@ -105,7 +105,7 @@ object MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", true, "memberId", classOf[Integer], true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_52943728_871A_4F3B_AF10_627A00C2BFD9", false, null, null, null, null, null);
+    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", true, "memberId", classOf[Integer], true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_52943728_871A_4F3B_AF10_627A00C2BFD9", false, null, null, null, "purchaseList", null);
     protected val _columnMemberName: ColumnInfo = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", true, "memberName", classOf[String], false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnMemberAccount: ColumnInfo = cci("MEMBER_ACCOUNT", "MEMBER_ACCOUNT", null, "会員アカウント", true, "memberAccount", classOf[String], false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", true, "memberStatusCode", classOf[String], false, false, "CHAR", 3, 0, null, false, null, null, "memberStatus", null, CDef.DefMeta.MemberStatus);
@@ -171,6 +171,10 @@ object MemberDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+    def referrerPurchaseList(): ReferrerInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), PurchaseDbm.columnMemberId());
+        return cri("FK_PURCHASE_MEMBER", "purchaseList", this, PurchaseDbm, mp, false, "member");
+    }
 
     // ===================================================================================
     //                                                                        Various Info

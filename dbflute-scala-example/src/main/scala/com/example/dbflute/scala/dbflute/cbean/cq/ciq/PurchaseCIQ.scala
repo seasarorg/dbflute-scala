@@ -12,16 +12,16 @@ import com.example.dbflute.scala.dbflute.cbean.cq.bs._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 
 /**
- * The condition-query for in-line of MEMBER.
+ * The condition-query for in-line of PURCHASE.
  * @author DBFlute(AutoGenerator)
  */
-class MemberCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer, myCQ: BsMemberCQ)
-        extends AbstractBsMemberCQ(childQuery, sqlClause, aliasName, nestLevel) {
+class PurchaseCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer, myCQ: BsPurchaseCQ)
+        extends AbstractBsPurchaseCQ(childQuery, sqlClause, aliasName, nestLevel) {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected var _myCQ: BsMemberCQ = null;
+    protected var _myCQ: BsPurchaseCQ = null;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -68,43 +68,30 @@ class MemberCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: Str
     // ===================================================================================
     //                                                                Override about Query
     //                                                                ====================
+    protected def getCValuePurchaseId(): ConditionValue = { return _myCQ.getPurchaseId(); }
     protected def getCValueMemberId(): ConditionValue = { return _myCQ.getMemberId(); }
-    def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String =
-    { throwIICBOE("ExistsReferrer"); return null; }
-    def keepMemberId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String =
-    { throwIICBOE("NotExistsReferrer"); return null; }
-    def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String =
-    { return _myCQ.keepMemberId_InScopeRelation_PurchaseList(sq); }
-    def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String =
-    { return _myCQ.keepMemberId_NotInScopeRelation_PurchaseList(sq); }
-    def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String =
-    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
-    def keepMemberId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String =
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    def keepMemberId_QueryDerivedReferrer_PurchaseListParameter(vl: Object): String =
-    { throwIICBOE("(Query)DerivedReferrer"); return null; }
-    protected def getCValueMemberName(): ConditionValue = { return _myCQ.getMemberName(); }
-    protected def getCValueMemberAccount(): ConditionValue = { return _myCQ.getMemberAccount(); }
-    protected def getCValueMemberStatusCode(): ConditionValue = { return _myCQ.getMemberStatusCode(); }
-    protected def getCValueFormalizedDatetime(): ConditionValue = { return _myCQ.getFormalizedDatetime(); }
-    protected def getCValueBirthdate(): ConditionValue = { return _myCQ.getBirthdate(); }
+    protected def getCValueProductId(): ConditionValue = { return _myCQ.getProductId(); }
+    protected def getCValuePurchaseDatetime(): ConditionValue = { return _myCQ.getPurchaseDatetime(); }
+    protected def getCValuePurchaseCount(): ConditionValue = { return _myCQ.getPurchaseCount(); }
+    protected def getCValuePurchasePrice(): ConditionValue = { return _myCQ.getPurchasePrice(); }
+    protected def getCValuePaymentCompleteFlg(): ConditionValue = { return _myCQ.getPaymentCompleteFlg(); }
     protected def getCValueRegisterDatetime(): ConditionValue = { return _myCQ.getRegisterDatetime(); }
     protected def getCValueRegisterUser(): ConditionValue = { return _myCQ.getRegisterUser(); }
     protected def getCValueUpdateDatetime(): ConditionValue = { return _myCQ.getUpdateDatetime(); }
     protected def getCValueUpdateUser(): ConditionValue = { return _myCQ.getUpdateUser(); }
     protected def getCValueVersionNo(): ConditionValue = { return _myCQ.getVersionNo(); }
     protected def xfindFixedConditionDynamicParameterMap(pp: String): Map[String, Object] = { return null; }
-    def keepScalarCondition(sq: MemberCQ): String =
+    def keepScalarCondition(sq: PurchaseCQ): String =
     { throwIICBOE("ScalarCondition"); return null; }
-    def keepSpecifyMyselfDerived(sq: MemberCQ): String =
+    def keepSpecifyMyselfDerived(sq: PurchaseCQ): String =
     { throwIICBOE("(Specify)MyselfDerived"); return null;}
-    def keepQueryMyselfDerived(sq: MemberCQ): String =
+    def keepQueryMyselfDerived(sq: PurchaseCQ): String =
     { throwIICBOE("(Query)MyselfDerived"); return null;}
     def keepQueryMyselfDerivedParameter(vl: Object): String =
     { throwIICBOE("(Query)MyselfDerived"); return null;}
-    def keepMyselfExists(sq: MemberCQ): String =
+    def keepMyselfExists(sq: PurchaseCQ): String =
     { throwIICBOE("MyselfExists"); return null;}
-    def keepMyselfInScope(sq: MemberCQ): String =
+    def keepMyselfInScope(sq: PurchaseCQ): String =
     { throwIICBOE("MyselfInScope"); return null;}
 
     protected def throwIICBOE(name: String): Unit = { // throwInlineIllegalConditionBeanOperationException()
@@ -115,6 +102,6 @@ class MemberCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: Str
     //                                                                       Very Internal
     //                                                                       =============
     // very internal (for suppressing warn about 'Not Use Import')
-    protected def xinCB(): String = { return classOf[MemberCB].getName(); }
-    protected def xinCQ(): String = { return classOf[MemberCQ].getName(); }
+    protected def xinCB(): String = { return classOf[PurchaseCB].getName(); }
+    protected def xinCQ(): String = { return classOf[PurchaseCQ].getName(); }
 }

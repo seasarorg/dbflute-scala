@@ -352,9 +352,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
         sb.append(toString());
         val l: String = "\n  ";
         if (_memberList != null) {
-            _memberList.asScala.foreach(e => {
-                if (e != null) { sb.append(l).append(xbRDS(e, "memberList")) }
-            });
+            _memberList.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "memberList")) } });
         }
         return sb.toString();
     }

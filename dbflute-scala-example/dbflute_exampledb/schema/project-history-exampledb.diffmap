@@ -1,4 +1,17 @@
 map:{
+    ; 2014/05/17 20:05:37 = map:{
+        ; diffDate = 2014/05/17 20:05:37
+        ; tableCount = map:{
+            ; next = 3
+            ; previous = 2
+        }
+        ; tableDiff = map:{
+            ; PURCHASE = map:{
+                ; tableName = PURCHASE
+                ; diffType = ADD
+            }
+        }
+    }
     ; 2014/05/17 19:02:02 = map:{
         ; diffDate = 2014/05/17 19:02:02
         ; tableCount = map:{
