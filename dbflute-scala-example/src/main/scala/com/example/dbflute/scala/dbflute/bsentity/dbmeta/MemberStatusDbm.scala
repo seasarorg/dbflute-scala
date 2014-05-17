@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
+import java.lang.Long;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -12,6 +13,7 @@ import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info._
 import org.seasar.dbflute.dbmeta.name._
+import org.seasar.dbflute.jdbc.Classification;
 import com.example.dbflute.scala.dbflute.allcommon._
 import com.example.dbflute.scala.dbflute.exentity._
 
@@ -51,8 +53,16 @@ object MemberStatusDbm extends AbstractDBMeta {
     }
     class EpgDisplayOrder extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getDisplayOrder(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setDisplayOrder(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setDisplayOrder(dgcti(vl)); }
     }
+
+    // delegating to protected static (illegal access error if directly call)
+    def dgcti(vl: Object): Integer = { cti(vl); }
+    def dgctl(vl: Object): Long = { ctl(vl); }
+    def dgctb(vl: Object): BigDecimal = { ctb(vl); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
+    def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
 
     // ===================================================================================
     //                                                                          Table Info

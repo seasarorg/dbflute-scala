@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
+import java.lang.Long;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -12,6 +13,7 @@ import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info._
 import org.seasar.dbflute.dbmeta.name._
+import org.seasar.dbflute.jdbc.Classification;
 import com.example.dbflute.scala.dbflute.allcommon._
 import com.example.dbflute.scala.dbflute.exentity._
 
@@ -47,15 +49,15 @@ object PurchaseDbm extends AbstractDBMeta {
     def findPropertyGateway(propertyName: String): PropertyGateway = { return doFindEpg(_epgMap, propertyName); }
     class EpgPurchaseId extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getPurchaseId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPurchaseId(ctl(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPurchaseId(dgctl(vl)); }
     }
     class EpgMemberId extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getMemberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setMemberId(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setMemberId(dgcti(vl)); }
     }
     class EpgProductId extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getProductId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setProductId(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setProductId(dgcti(vl)); }
     }
     class EpgPurchaseDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getPurchaseDatetime(); }
@@ -63,15 +65,15 @@ object PurchaseDbm extends AbstractDBMeta {
     }
     class EpgPurchaseCount extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getPurchaseCount(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPurchaseCount(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPurchaseCount(dgcti(vl)); }
     }
     class EpgPurchasePrice extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getPurchasePrice(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPurchasePrice(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPurchasePrice(dgcti(vl)); }
     }
     class EpgPaymentCompleteFlg extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getPaymentCompleteFlg(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPaymentCompleteFlg(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPaymentCompleteFlg(dgcti(vl)); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getRegisterDatetime(); }
@@ -91,8 +93,16 @@ object PurchaseDbm extends AbstractDBMeta {
     }
     class EpgVersionNo extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getVersionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setVersionNo(ctl(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setVersionNo(dgctl(vl)); }
     }
+
+    // delegating to protected static (illegal access error if directly call)
+    def dgcti(vl: Object): Integer = { cti(vl); }
+    def dgctl(vl: Object): Long = { ctl(vl); }
+    def dgctb(vl: Object): BigDecimal = { ctb(vl); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
+    def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
 
     // ===================================================================================
     //                                                                          Table Info

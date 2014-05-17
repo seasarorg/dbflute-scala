@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import com.google.inject.AbstractModule;
 import org.seasar.dbflute.BehaviorSelector;
+import org.seasar.dbflute.bhv._;
 import org.seasar.dbflute.bhv.core.BehaviorCommandInvoker;
 import org.seasar.dbflute.bhv.core.CommonColumnAutoSetupper;
 import org.seasar.dbflute.bhv.core.InvokerAssistant;
@@ -57,25 +58,27 @@ class DBFluteModule(dataSource: DataSource) extends AbstractModule {
     }
 
     protected def setupBehavior(ker: BehaviorCommandInvoker, tor: BehaviorSelector, per: CommonColumnAutoSetupper): Unit = {
+        // unknown compile error 'illegal cyclic reference' if directly create the behaviors
+        // so use reflection here
         {
-            //val bhv: MemberBhv = new MemberBhv();
-            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            //bind(classOf[MemberBhv]).toInstance(bhv);
+            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            bind(classOf[MemberBhv]).toInstance(bhv.asInstanceOf[MemberBhv]);
         }
         {
-            //val bhv: MemberSecurityBhv = new MemberSecurityBhv();
-            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            //bind(classOf[MemberSecurityBhv]).toInstance(bhv);
+            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberSecurityBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            bind(classOf[MemberSecurityBhv]).toInstance(bhv.asInstanceOf[MemberSecurityBhv]);
         }
         {
-            //val bhv: MemberStatusBhv = new MemberStatusBhv();
-            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            //bind(classOf[MemberStatusBhv]).toInstance(bhv);
+            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberStatusBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            bind(classOf[MemberStatusBhv]).toInstance(bhv.asInstanceOf[MemberStatusBhv]);
         }
         {
-            //val bhv: PurchaseBhv = new PurchaseBhv();
-            //bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
-            //bind(classOf[PurchaseBhv]).toInstance(bhv);
+            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.PurchaseBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            bind(classOf[PurchaseBhv]).toInstance(bhv.asInstanceOf[PurchaseBhv]);
         }
     }
 }

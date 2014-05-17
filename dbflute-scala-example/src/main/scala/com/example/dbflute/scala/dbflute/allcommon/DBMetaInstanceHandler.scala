@@ -25,29 +25,30 @@ object DBMetaInstanceHandler extends DBMetaProvider {
     // ===================================================================================
     //                                                                        Resource Map
     //                                                                        ============
-    /** The map of DB meta instance by key: table DB-name. */
-    protected val _tableDbNameInstanceMap: Map[String, DBMeta] = new HashMap();
+    /** The map of DB meta instance by key 'table DB-name'. (NotNull) */
+    protected var _tableDbNameInstanceMap: Map[String, DBMeta] = new HashMap();
+    {
+        val tmpMap: Map[String, DBMeta] = new HashMap();
+        tmpMap.put("MEMBER", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberDbm);
+        tmpMap.put("MEMBER_SECURITY", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberSecurityDbm);
+        tmpMap.put("MEMBER_STATUS", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberStatusDbm);
+        tmpMap.put("PURCHASE", com.example.dbflute.scala.dbflute.bsentity.dbmeta.PurchaseDbm);
+        _tableDbNameInstanceMap = Collections.unmodifiableMap(tmpMap);
+    }
 
-    /** The map of DB meta instance by key: entity type. */
+    /** The map of DB meta instance by key 'entity type'. (NotNull, LazyLoaded) */
     protected val _entityTypeInstanceMap: Map[Class[_], DBMeta] = new HashMap();
 
-    /** The map of table DB name and DB meta class name. */
-    protected var _tableDbNameClassNameMap: Map[String, String] = null;
-    val tmpMap: Map[String, String] = new HashMap();
-    tmpMap.put("MEMBER", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberDbm");
-    tmpMap.put("MEMBER_SECURITY", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberSecurityDbm");
-    tmpMap.put("MEMBER_STATUS", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberStatusDbm");
-    tmpMap.put("PURCHASE", "com.example.dbflute.scala.dbflute.bsentity.dbmeta.PurchaseDbm");
-    _tableDbNameClassNameMap = Collections.unmodifiableMap(tmpMap);
-
-    /** The flexible map of table DB name. This is for conversion at finding. */
+    /** The flexible map of table DB name for conversion in finding process. (NotNull) */
     protected val _tableDbNameFlexibleMap: Map[String, String] = StringKeyMap.createAsFlexible();
-    val tableDbNameSet: Set[String] = _tableDbNameClassNameMap.keySet();
-    tableDbNameSet.asScala.foreach(tableDbName => _tableDbNameFlexibleMap.put(tableDbName, tableDbName))
+    {
+        val tableDbNameSet: Set[String] = _tableDbNameInstanceMap.keySet();
+        tableDbNameSet.asScala.foreach(tableDbName => _tableDbNameFlexibleMap.put(tableDbName, tableDbName))
+    }
 
     /**
      * Get the unmodifiable map of DB meta.
-     * @return The unmodifiable map that contains all instances of DB meta. (NotNull & NotEmpty)
+     * @return The unmodifiable map that contains all instances of DB meta. (NotNull, NotEmpty)
      */
     def getUnmodifiableDBMetaMap(): Map[String, DBMeta] = {
         initializeDBMetaMap();
@@ -64,7 +65,7 @@ object DBMetaInstanceHandler extends DBMetaProvider {
             return;
         }
         _tableDbNameInstanceMap.synchronized {
-            _tableDbNameClassNameMap.keySet().asScala.foreach(tableDbName => findDBMeta(tableDbName)); // initialize
+            _tableDbNameInstanceMap.keySet().asScala.foreach(tableDbName => findDBMeta(tableDbName)); // initialize
             if (!isInitialized()) {
                 val msg: String = "Failed to initialize tableDbNameInstanceMap: " + _tableDbNameInstanceMap;
                 throw new IllegalStateException(msg);
@@ -73,7 +74,7 @@ object DBMetaInstanceHandler extends DBMetaProvider {
     }
 
     protected def isInitialized(): Boolean = {
-        return _tableDbNameInstanceMap.size() == _tableDbNameClassNameMap.size();
+        return _tableDbNameInstanceMap.size() == _tableDbNameInstanceMap.size();
     }
 
     // ===================================================================================
@@ -214,39 +215,9 @@ object DBMetaInstanceHandler extends DBMetaProvider {
     // ===================================================================================
     //                                                                       Cached DBMeta
     //                                                                       =============
-    protected def getCachedDBMeta(tableDbName: String): DBMeta = { // lazy-load (thank you koyak!)
-        var dbmeta: DBMeta = _tableDbNameInstanceMap.get(tableDbName);
-        if (dbmeta != null) {
-            return dbmeta;
-        }
-        _tableDbNameInstanceMap.synchronized {
-            dbmeta = _tableDbNameInstanceMap.get(tableDbName);
-            if (dbmeta != null) {
-                // an other thread might have initialized
-                // or reading might failed by same-time writing
-                return dbmeta;
-            }
-            val dbmetaName: String = _tableDbNameClassNameMap.get(tableDbName);
-            if (dbmetaName == null) {
-                return null;
-            }
-            _tableDbNameInstanceMap.put(tableDbName, toDBMetaInstance(dbmetaName));
-            return _tableDbNameInstanceMap.get(tableDbName);
-        }
-    }
-
-    protected def toDBMetaInstance(dbmetaName: String): DBMeta = {
-        try {
-            val dbmetaType: Class[_] = Class.forName(dbmetaName);
-            val field: Field = dbmetaType.getField("MODULE$");
-            val result: Object = field.get(null);
-            return result.asInstanceOf[DBMeta];
-        } catch {
-            case e: Exception => {
-                val msg: String = "Failed to get the instance: " + dbmetaName;
-                throw new IllegalStateException(msg, e);
-            }
-        }
+    protected def getCachedDBMeta(tableDbName: String): DBMeta = {
+        // no lazy-load for now (don't know how to get instance from singleton object)
+        return _tableDbNameInstanceMap.get(tableDbName);
     }
 
     protected def getCachedDBMeta(entityType: Class[_]): DBMeta = { // lazy-load same as by-name

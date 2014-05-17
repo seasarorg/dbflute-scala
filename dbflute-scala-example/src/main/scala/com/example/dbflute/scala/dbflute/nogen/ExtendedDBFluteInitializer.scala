@@ -11,6 +11,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBFluteInitializer
 import org.seasar.dbflute.cbean.cipher.GearedCipherManager
 import org.seasar.dbflute.dbmeta.info.ColumnInfo
 import org.seasar.dbflute.cbean.cipher.CipherFunctionFilter
+import com.example.dbflute.scala.dbflute.bsentity.dbmeta.PurchaseDbm
 
 /**
  * @author jflute
@@ -42,7 +43,7 @@ class ExtendedDBFluteInitializer extends DBFluteInitializer {
 
   protected def prepareGearedCipher(): Unit = {
     val manager: GearedCipherManager = new GearedCipherManager();
-    val purchasePrice: ColumnInfo = null; // #pending PurchaseDbm.columnPurchasePrice();
+    val purchasePrice: ColumnInfo = PurchaseDbm.columnPurchasePrice();
     manager.addFunctionFilter(purchasePrice, new CipherFunctionFilter() {
       def encrypt(valueExp: String): String = {
         return "(" + valueExp + " + 13)";

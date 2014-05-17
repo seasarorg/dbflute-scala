@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
+import java.lang.Long;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -12,6 +13,7 @@ import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info._
 import org.seasar.dbflute.dbmeta.name._
+import org.seasar.dbflute.jdbc.Classification;
 import com.example.dbflute.scala.dbflute.allcommon._
 import com.example.dbflute.scala.dbflute.exentity._
 
@@ -45,7 +47,7 @@ object MemberSecurityDbm extends AbstractDBMeta {
     def findPropertyGateway(propertyName: String): PropertyGateway = { return doFindEpg(_epgMap, propertyName); }
     class EpgMemberId extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[MemberSecurity].getMemberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberSecurity].setMemberId(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberSecurity].setMemberId(dgcti(vl)); }
     }
     class EpgLoginPassword extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[MemberSecurity].getLoginPassword(); }
@@ -61,7 +63,7 @@ object MemberSecurityDbm extends AbstractDBMeta {
     }
     class EpgReminderUseCount extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[MemberSecurity].getReminderUseCount(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberSecurity].setReminderUseCount(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberSecurity].setReminderUseCount(dgcti(vl)); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[MemberSecurity].getRegisterDatetime(); }
@@ -81,8 +83,16 @@ object MemberSecurityDbm extends AbstractDBMeta {
     }
     class EpgVersionNo extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[MemberSecurity].getVersionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberSecurity].setVersionNo(ctl(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberSecurity].setVersionNo(dgctl(vl)); }
     }
+
+    // delegating to protected static (illegal access error if directly call)
+    def dgcti(vl: Object): Integer = { cti(vl); }
+    def dgctl(vl: Object): Long = { ctl(vl); }
+    def dgctb(vl: Object): BigDecimal = { ctb(vl); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
+    def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
 
     // ===================================================================================
     //                                                                          Table Info

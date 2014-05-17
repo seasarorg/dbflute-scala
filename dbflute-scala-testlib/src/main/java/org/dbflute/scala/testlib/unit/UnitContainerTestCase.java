@@ -9,18 +9,6 @@ import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 import org.dbflute.scala.testlib.EmbeddedH2UrlFactoryBean;
-import org.dbflute.scala.testlib.dbflute.allcommon.DBFluteModule;
-import org.dbflute.scala.testlib.dbflute.exbhv.MemberAddressBhv;
-import org.dbflute.scala.testlib.dbflute.exbhv.MemberFollowingBhv;
-import org.dbflute.scala.testlib.dbflute.exbhv.MemberLoginBhv;
-import org.dbflute.scala.testlib.dbflute.exbhv.MemberSecurityBhv;
-import org.dbflute.scala.testlib.dbflute.exbhv.MemberServiceBhv;
-import org.dbflute.scala.testlib.dbflute.exbhv.MemberWithdrawalBhv;
-import org.dbflute.scala.testlib.dbflute.exbhv.PurchaseBhv;
-import org.seasar.dbflute.BehaviorSelector;
-import org.seasar.dbflute.bhv.BehaviorWritable;
-import org.seasar.dbflute.bhv.DeleteOption;
-import org.seasar.dbflute.cbean.ConditionBean;
 import org.seasar.dbflute.unit.guice.ContainerTestCase;
 
 import com.atomikos.icatch.jta.UserTransactionImp;
@@ -40,13 +28,15 @@ public abstract class UnitContainerTestCase extends ContainerTestCase {
     protected List<Module> prepareModuleList() {
         final DataSource dataSource = createDataSource();
         final List<Module> moduleList = new ArrayList<Module>();
-        moduleList.add(new DBFluteModule(dataSource));
+        moduleList.add(prepareDBFluteModule(dataSource));
         final TransactionModule transactionModule = createTransactionModule(dataSource);
         if (transactionModule != null) {
             moduleList.add(transactionModule);
         }
         return moduleList;
     }
+
+    protected abstract Module prepareDBFluteModule(DataSource dataSource);
 
     protected DataSource createDataSource() {
         final AtomikosNonXADataSourceBean bean = new AtomikosNonXADataSourceBean();
@@ -101,26 +91,5 @@ public abstract class UnitContainerTestCase extends ContainerTestCase {
                 throw new IllegalStateException(e);
             }
         }
-    }
-
-    // ===================================================================================
-    //                                                                       Assist Helper
-    //                                                                       =============
-    private BehaviorSelector _behaviorSelector;
-
-    protected void deleteAll(Class<? extends BehaviorWritable> clazz) {
-        BehaviorWritable bhv = _behaviorSelector.select(clazz);
-        ConditionBean cb = bhv.newConditionBean();
-        bhv.rangeRemove(cb, new DeleteOption<ConditionBean>().allowNonQueryDelete());
-    }
-
-    protected void deleteMemberReferrer() {
-        deleteAll(MemberAddressBhv.class);
-        deleteAll(MemberFollowingBhv.class);
-        deleteAll(MemberLoginBhv.class);
-        deleteAll(MemberSecurityBhv.class);
-        deleteAll(MemberServiceBhv.class);
-        deleteAll(MemberWithdrawalBhv.class);
-        deleteAll(PurchaseBhv.class);
     }
 }

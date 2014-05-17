@@ -1,26 +1,27 @@
 package com.example.dbflute.scala.dbflute.whitebox
 
 import scala.collection.JavaConverters.asScalaBufferConverter
-import org.seasar.dbflute.helper.HandyDate
-import org.seasar.dbflute.unit.core.PlainTestCase
-import org.seasar.dbflute.BehaviorSelector
-import org.dbflute.scala.testlib.dbflute.exbhv.MemberBhv
-import org.dbflute.scala.testlib.dbflute.cbean.MemberCB
 import org.dbflute.scala.testlib.unit.UnitContainerTestCase
+import com.example.dbflute.scala.dbflute.cbean.MemberCB
+import com.example.dbflute.scala.dbflute.exbhv.MemberBhv
+import javax.sql.DataSource
+import com.google.inject.Module
+import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
 
 /**
  * @author jflute
  */
 class DemoTest extends UnitContainerTestCase {
 
-  // #why? "illegal cyclic reference involving class"
-  //protected var memberBhv: MemberBhv = null;
-  protected var selector: BehaviorSelector = null;
+  protected var memberBhv: MemberBhv = null;
 
-  def test_demo() {
+  def prepareDBFluteModule(dataSource: DataSource): Module = {
+    return new DBFluteModule(dataSource);
+  }
+
+  def test_demo(): Unit = {
     val cb = new MemberCB();
     cb.query().setMemberName_PrefixSearch("S");
-    val memberBhv = selector.select(classOf[MemberBhv]);
     val memberList = memberBhv.selectList(cb);
     memberList.asScala.foreach(member => log(member));
   }

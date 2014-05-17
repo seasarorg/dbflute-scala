@@ -16,6 +16,7 @@
 ${database.allClassCopyright}package ${myDBMetaPackageName};
 #set ($myClassName = "${myDBMetaClassName}")
 
+import java.lang.Long;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -28,6 +29,7 @@ import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info._
 import org.seasar.dbflute.dbmeta.name._
+import org.seasar.dbflute.jdbc.Classification;
 import ${glPackageBaseCommon}._
 import ${myExtendedEntityPackageName}._
 
@@ -64,9 +66,9 @@ object ${myClassName} extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = column${col.javaBeansRulePropertyNameInitCap}();
 #if ($col.isCheckSelectedClassification())
-            ccls(col, vl);
+            dgccls(col, vl);
 #end
-            et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}As${col.classificationName}(gcls(col, vl).asInstanceOf[${glCDef}.${col.classificationName}]);
+            et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}As${col.classificationName}(dggcls(col, vl).asInstanceOf[${glCDef}.${col.classificationName}]);
         }
 #else
 ## /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -76,13 +78,13 @@ object ${myClassName} extends AbstractDBMeta {
         def read(et: Entity): Object = { return et.asInstanceOf[${myExtendedObjectClassName}].get${col.javaName}(); }
 #if ($col.isJavaNativeNumberObject())
 #if ($col.isJavaNativeInteger())
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(cti(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(dgcti(vl)); }
 #elseif ($col.isJavaNativeLong())
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(ctl(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(dgctl(vl)); }
 #elseif ($col.isJavaNativeBigDecimal())
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(ctb(vl)); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(dgctb(vl)); }
 #else
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(ctn(vl, classOf[${col.javaNative}])); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}(dgctn(vl, classOf[${col.javaNative}])); }
 #end
 #else
 #if ($col.isJavaNativeUtilList())
@@ -95,6 +97,14 @@ object ${myClassName} extends AbstractDBMeta {
 #end
     }
 #end
+
+    // delegating to protected static (illegal access error if directly call)
+    def dgcti(vl: Object): Integer = { cti(vl); }
+    def dgctl(vl: Object): Long = { ctl(vl); }
+    def dgctb(vl: Object): BigDecimal = { ctb(vl); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
+    def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
 
     // ===================================================================================
     //                                                                          Table Info
