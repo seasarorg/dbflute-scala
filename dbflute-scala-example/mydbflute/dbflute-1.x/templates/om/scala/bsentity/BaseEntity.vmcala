@@ -20,8 +20,6 @@ import scala.collection.JavaConverters._
 
 import java.lang.Long;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 #if ($table.hasUtilDateColumn())
 import java.util.Date;
@@ -422,13 +420,13 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 #set ($referrerEntityClassName = "${referrer.referrerTableExtendedEntityClassName}")
 #set ($referrerVariableName = "_${referrer.referrerPropertyName}")
     /** ${referrer.referrerSimpleDisp}. */
-    protected var $referrerVariableName: List[${referrerEntityClassName}] = null;
+    protected var $referrerVariableName: scala.collection.immutable.List[${referrerEntityClassName}] = null;
 
     /**
      * ${referrer.referrerDispForJavaDoc}
      * @return The entity list of referrer property '${referrer.referrerJavaBeansRulePropertyName}'. (NotNull: even if no loading, returns empty list)
      */
-    def get${referrer.referrerJavaBeansRulePropertyNameInitCap}(): List[${referrerEntityClassName}] = {
+    def get${referrer.referrerJavaBeansRulePropertyNameInitCap}(): scala.collection.immutable.List[${referrerEntityClassName}] = {
         if (${referrerVariableName} == null) { ${referrerVariableName} = newReferrerList(); }
         return ${referrerVariableName};
     }
@@ -437,7 +435,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
      * ${referrer.referrerDispForJavaDoc}
      * @param ${referrer.referrerPropertyName} The entity list of referrer property '${referrer.referrerJavaBeansRulePropertyName}'. (NullAllowed)
      */
-    def set${referrer.referrerJavaBeansRulePropertyNameInitCap}(${referrer.referrerPropertyName}: List[${referrerEntityClassName}]): Unit = {
+    def set${referrer.referrerJavaBeansRulePropertyNameInitCap}(${referrer.referrerPropertyName}: scala.collection.immutable.List[${referrerEntityClassName}]): Unit = {
         ${referrerVariableName} = ${referrer.referrerPropertyName};
     }
 
@@ -489,11 +487,8 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 
 #end
 #end
-##
-## it uses List and ArrayList to be able to specify detail import clause
-##
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
-        return new ArrayList[ELEMENT]();
+    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
+        return scala.collection.immutable.List(); // #pending actually fixed empty list
     }
 
     // ===================================================================================
@@ -647,7 +642,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 #foreach ($referrer in $table.referrerAsManyList)
 #set ($referrerVariableName = "_${referrer.referrerPropertyName}")
         if (${referrerVariableName} != null) {
-            ${referrerVariableName}.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "${referrer.referrerPropertyName}")) } });
+            ${referrerVariableName}.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "${referrer.referrerPropertyName}")) } });
         }
 #end
 #end
@@ -719,7 +714,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 #end
 #foreach ($referrer in $table.referrerAsManyList)
 #set ($referrerVariableName = "_${referrer.referrerPropertyName}")
-        if (${referrerVariableName} != null && !${referrerVariableName}.isEmpty())
+        if (${referrerVariableName} != null && !${referrerVariableName}.isEmpty)
         { sb.append(c).append("${referrer.referrerPropertyName}"); }
 #end
         if (sb.length() > c.length()) {

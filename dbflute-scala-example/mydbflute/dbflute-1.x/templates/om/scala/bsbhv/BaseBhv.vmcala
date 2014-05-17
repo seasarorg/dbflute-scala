@@ -16,6 +16,8 @@
 ${database.allClassCopyright}package ${glPackageBaseBhv};
 #set ($myClassName = "${myBaseBhvClassName}")
 
+import scala.collection.JavaConverters._;
+
 import java.util.List;
 
 import org.seasar.dbflute._;
@@ -309,8 +311,9 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: ${myConditionBeanClassName}): ListResultBean[${myExtendedObjectClassName}] = {
-        return doSelectList(cb, classOf[${myExtendedObjectClassName}]);
+    def selectList(cb: ${myConditionBeanClassName}): scala.collection.immutable.List[${myExtendedObjectClassName}] = {
+        val javaList = doSelectList(cb, classOf[${myExtendedObjectClassName}]);
+        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[${myExtendedObjectClassName}]())); // #pending easy convert for now
     }
 
     protected def doSelectList[ENTITY <: ${myExtendedObjectClassName}](cb: ${myConditionBeanClassName}, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -322,7 +325,7 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return selectList(downcast(cb));
+        return doSelectList(downcast(cb), classOf[${myExtendedObjectClassName}]);
     }
 
     // ===================================================================================
@@ -514,8 +517,8 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def load${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: List[${myExtendedObjectClassName}], setupper: ${table.loadReferrerConditionSetupperName}[${referrerCBClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
-        xassLRArg(${myEntityListVariableName}, setupper);
+    def load${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: scala.collection.immutable.List[${myExtendedObjectClassName}], setupper: ${table.loadReferrerConditionSetupperName}[${referrerCBClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
+        xassLRArg(${myEntityListVariableName}.asJava, setupper); // #pending easy convert for now
         return doLoad${referrer.referrerJavaBeansRulePropertyNameInitCap}(${myEntityListVariableName}, new LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]().xinit(setupper));
     }
 
@@ -552,44 +555,16 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
      */
     def load${referrer.referrerPropertyNameInitCap}(${myEntityVariableName}: ${myExtendedObjectClassName}, setupper: ${table.loadReferrerConditionSetupperName}[${referrerCBClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
         xassLRArg(${myEntityVariableName}, setupper);
-        return doLoad${referrer.referrerJavaBeansRulePropertyNameInitCap}(xnewLRLs(${myEntityVariableName}), new LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]().xinit(setupper));
+        return doLoad${referrer.referrerJavaBeansRulePropertyNameInitCap}(scala.collection.immutable.List.apply(${myEntityVariableName}), new LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]().xinit(setupper));
     }
 
-#if ($table.isAvailableLoadReferrerByOldOption())
-    /**
-     * {Refer to overload method that has an argument of the list of entity.} #beforejava8
-     * @param ${myEntityVariableName} The entity of ${table.javaBeansRulePropertyName}. (NotNull)
-     * @param loadReferrerOption The option of load-referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    def load${referrer.referrerPropertyNameInitCap}(${myEntityVariableName}: ${myExtendedObjectClassName}, loadReferrerOption: LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
-        xassLRArg(${myEntityVariableName}, loadReferrerOption);
-        return load${referrer.referrerJavaBeansRulePropertyNameInitCap}(xnewLRLs(${myEntityVariableName}), loadReferrerOption);
-    }
-
-#end
 #if ($referrer.isSimpleKeyFK())
 #set ($referrerColumn = ${referrer.localColumnAsOne})
 #set ($localColumn = ${referrer.foreignColumnAsOne})
 #set ($keyJavaNative = "${referrerColumn.javaNative}")
-#if ($table.isAvailableLoadReferrerByOldOption())
-    /**
-     * {Refer to overload method that has an argument of condition-bean setupper.} #beforejava8
-     * @param ${myEntityListVariableName} The entity list of ${table.javaBeansRulePropertyName}. (NotNull)
-     * @param loadReferrerOption The option of load-referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    @SuppressWarnings("unchecked")
-    def load${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: List[${myExtendedObjectClassName}], loadReferrerOption: LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
-        xassLRArg(${myEntityListVariableName}, loadReferrerOption);
-        if (${myEntityListVariableName}.isEmpty()) { return (NestedReferrerLoader[${referrerEntityClassName}])EMPTY_LOADER; }
-        return doLoad${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}, loadReferrerOption);
-    }
-
-#end
-    protected def doLoad${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: List[${myExtendedObjectClassName}], option: LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
+    protected def doLoad${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: scala.collection.immutable.List[${myExtendedObjectClassName}], option: LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
         val referrerBhv: ${referrerBhvClassName} = xgetBSFLR().select(classOf[${referrerBhvClassName}]);
-        return helpLoadReferrerInternally(${myEntityListVariableName}, option, new InternalLoadReferrerCallback[${myExtendedObjectClassName}, ${keyJavaNative}, ${referrerCBClassName}, ${referrerEntityClassName}]() {
+        return helpLoadReferrerInternally(${myEntityListVariableName}.asJava, option, new InternalLoadReferrerCallback[${myExtendedObjectClassName}, ${keyJavaNative}, ${referrerCBClassName}, ${referrerEntityClassName}]() {
             def getPKVal(et: ${myExtendedObjectClassName}): ${keyJavaNative} =
 #if ($referrer.canImplicitConversion())
             { if (et.get${localColumn.javaName}() == null) { return null; }
@@ -606,13 +581,13 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
             { return et.get${localColumn.javaName}(); }
 #end
             def setRfLs(et: ${myExtendedObjectClassName}, ls: List[${referrerEntityClassName}]): Unit =
-            { et.set${referrer.referrerPropertyNameInitCap}(ls); }
+            { et.set${referrer.referrerPropertyNameInitCap}(scala.collection.immutable.List.fromArray(ls.toArray(Array[${referrerEntityClassName}]()))); }
             def newMyCB(): ${referrerCBClassName} = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: ${referrerCBClassName}, ls: List[${keyJavaNative}]): Unit =
             { cb.query().set${referrerColumn.javaName}_InScope(ls); }
             def qyOdFKAsc(cb: ${referrerCBClassName}): Unit = { cb.query().addOrderBy_${referrerColumn.javaName}_Asc(); }
             def spFKCol(cb: ${referrerCBClassName}): Unit = { cb.specify().column${referrerColumn.javaName}(); }
-            def selRfLs(cb: ${referrerCBClassName}): List[${referrerEntityClassName}] = { return referrerBhv.selectList(cb); }
+            def selRfLs(cb: ${referrerCBClassName}): List[${referrerEntityClassName}] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: ${referrerEntityClassName}): ${keyJavaNative} = { return re.get${referrerColumn.javaName}(); }
             def setlcEt(re: ${referrerEntityClassName}, le: ${myExtendedObjectClassName}): Unit =
             { re.set${referrer.foreignPropertyNameInitCap}(le); }
@@ -622,24 +597,9 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
 
 #else
 #set ($keyJavaNative = "java.util.Map<String, Object>")
-#if ($table.isAvailableLoadReferrerByOldOption())
-    /**
-     * {Refer to overload method that has an argument of condition-bean setupper.} #beforejava8
-     * @param ${myEntityListVariableName} The entity list of ${table.javaBeansRulePropertyName}. (NotNull)
-     * @param loadReferrerOption The option of load-referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    @SuppressWarnings("unchecked")
-    def load${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: List[${myExtendedObjectClassName}], loadReferrerOption: LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
-        xassLRArg(${myEntityListVariableName}, loadReferrerOption);
-        if (${myEntityListVariableName}.isEmpty()) { return (NestedReferrerLoader[${referrerEntityClassName}])EMPTY_LOADER; }
-        return doLoad${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}, loadReferrerOption);
-    }
-
-#end
-    protected def doLoad${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: List[${myExtendedObjectClassName}], option: LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
+    protected def doLoad${referrer.referrerPropertyNameInitCap}(${myEntityListVariableName}: scala.collection.immutable.List[${myExtendedObjectClassName}], option: LoadReferrerOption[${referrerCBClassName}, ${referrerEntityClassName}]): NestedReferrerLoader[${referrerEntityClassName}] = {
         val referrerBhv: ${referrerBhvClassName} = xgetBSFLR().select(classOf[${referrerBhvClassName}]);
-        return helpLoadReferrerInternally(${myEntityListVariableName}, option, new InternalLoadReferrerCallback[${myExtendedObjectClassName}, ${keyJavaNative}, ${referrerCBClassName}, ${referrerEntityClassName}]() {
+        return helpLoadReferrerInternally(${myEntityListVariableName}.asJava, option, new InternalLoadReferrerCallback[${myExtendedObjectClassName}, ${keyJavaNative}, ${referrerCBClassName}, ${referrerEntityClassName}]() {
             def getPKVal(et: ${myExtendedObjectClassName}): ${keyJavaNative} = {
                 val primaryKeyMap: ${keyJavaNative} = new java.util.LinkedHashMap();
 #foreach ($col in $referrer.foreignColumnList)
@@ -647,7 +607,7 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
 #end
                 return primaryKeyMap;
             }
-            def setRfLs(et: ${myExtendedObjectClassName}, ls: List[${referrerEntityClassName}]): Unit = { et.set${referrer.referrerPropertyNameInitCap}(ls); }
+            def setRfLs(et: ${myExtendedObjectClassName}, ls: List[${referrerEntityClassName}]): Unit = { et.set${referrer.referrerPropertyNameInitCap}(scala.collection.immutable.List.fromArray(ls.toArray(Array[${referrerEntityClassName}]()))); }
             def newMyCB(): ${referrerCBClassName} = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: ${referrerCBClassName}, ls: List[${keyJavaNative}]): Unit = {
                 val aliasName: String = cb.getSqlClause().getBasePointAliasName();
@@ -680,7 +640,7 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
                 cb.specify().column${col.javaName}();
 #end
             }
-            def selRfLs(cb: ${referrerCBClassName}): List[${referrerEntityClassName}] = { return referrerBhv.selectList(cb); }
+            def selRfLs(cb: ${referrerCBClassName}): List[${referrerEntityClassName}] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: ${referrerEntityClassName}): ${keyJavaNative} = {
                 val foreignKeyMap: ${keyJavaNative} = new java.util.LinkedHashMap<String,  Object>();
 #foreach ($col in $referrer.localColumnList)
@@ -717,7 +677,7 @@ abstract class ${myClassName} extends ${table.baseBehaviorExtendsClassName} {
             { if (!ls.isEmpty()) { et.set${foreignKey.referrerPropertyNameInitCapAsOne}(ls.get(0)); } }
 #else
             def setRfLs(et: ${foreignEntityClassName}, ls: List[${myExtendedObjectClassName}]): Unit =
-            { et.set${foreignKey.referrerPropertyNameInitCap}(ls); }
+            { et.set${foreignKey.referrerPropertyNameInitCap}(scala.collection.immutable.List.fromArray(ls.toArray(Array[${myExtendedObjectClassName}]()))); }
 #end
 #else
             def setRfLs(et: ${foreignEntityClassName}, ls: List[${myExtendedObjectClassName}]): Unit =
