@@ -1,4 +1,4 @@
-package com.example.dbflute.scala.dbflute.whitebox
+package com.example.dbflute.scala.dbflute.whitebox.cbean
 
 import scala.collection.JavaConverters.asScalaBufferConverter
 import org.dbflute.scala.testlib.unit.UnitContainerTestCase
