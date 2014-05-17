@@ -576,16 +576,23 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    override def equals(obj: Object): Boolean = {
-        if (obj == null || !(obj.isInstanceOf[$myClassName])) { return false; }
-        val other: $myClassName = obj.asInstanceOf[$myClassName];
+    override def equals(obj: Any) = {
+        obj match {
+            case obj: $myClassName => {
+                val other: $myClassName = obj.asInstanceOf[$myClassName];
+                {
+#set ($equalsCount = 0)
 #foreach ($col in $table.equalsHashcodeColumnList)
-        if (!xSV(get${col.javaName}(), other.get${col.javaName}())) { return false; }
+                    #if ($equalsCount > 0) &&#end xSV(get${col.javaName}(), other.get${col.javaName}())
+#set ($equalsCount = $equalsCount + 1)
 #end
-        return true;
+                }
+            }
+            case _ => false
+        }
     }
-    protected def xSV(value1: Object, value2: Object): Boolean = {
-        return FunCustodial.isSameValue(value1, value2);
+    protected def xSV(v1: Object, v2: Object): Boolean = {
+        return FunCustodial.isSameValue(v1, v2);
     }
 
     /**
@@ -593,15 +600,15 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
      * @return The hash-code from primary-key or columns.
      */
     override def hashCode(): Int = {
-        var result: Integer = 17;
-        result = xCH(result, getTableDbName());
+        var hs: Int = 17;
+        hs = xCH(hs, getTableDbName());
 #foreach ($col in $table.equalsHashcodeColumnList)
-        result = xCH(result, get${col.JavaName}());
+        hs = xCH(hs, get${col.JavaName}());
 #end
-        return result;
+        return hs;
     }
-    protected def xCH(result: Integer, value: Object): Integer = {
-        return FunCustodial.calculateHashcode(result, value);
+    protected def xCH(hs: Int, value: Object): Int = {
+        return FunCustodial.calculateHashcode(hs, value);
     }
 
     /**

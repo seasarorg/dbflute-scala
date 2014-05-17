@@ -305,14 +305,19 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    override def equals(obj: Object): Boolean = {
-        if (obj == null || !(obj.isInstanceOf[BsMemberStatus])) { return false; }
-        val other: BsMemberStatus = obj.asInstanceOf[BsMemberStatus];
-        if (!xSV(getMemberStatusCode(), other.getMemberStatusCode())) { return false; }
-        return true;
+    override def equals(obj: Any) = {
+        obj match {
+            case obj: BsMemberStatus => {
+                val other: BsMemberStatus = obj.asInstanceOf[BsMemberStatus];
+                {
+                     xSV(getMemberStatusCode(), other.getMemberStatusCode())
+                }
+            }
+            case _ => false
+        }
     }
-    protected def xSV(value1: Object, value2: Object): Boolean = {
-        return FunCustodial.isSameValue(value1, value2);
+    protected def xSV(v1: Object, v2: Object): Boolean = {
+        return FunCustodial.isSameValue(v1, v2);
     }
 
     /**
@@ -320,13 +325,13 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * @return The hash-code from primary-key or columns.
      */
     override def hashCode(): Int = {
-        var result: Integer = 17;
-        result = xCH(result, getTableDbName());
-        result = xCH(result, getMemberStatusCode());
-        return result;
+        var hs: Int = 17;
+        hs = xCH(hs, getTableDbName());
+        hs = xCH(hs, getMemberStatusCode());
+        return hs;
     }
-    protected def xCH(result: Integer, value: Object): Integer = {
-        return FunCustodial.calculateHashcode(result, value);
+    protected def xCH(hs: Int, value: Object): Int = {
+        return FunCustodial.calculateHashcode(hs, value);
     }
 
     /**

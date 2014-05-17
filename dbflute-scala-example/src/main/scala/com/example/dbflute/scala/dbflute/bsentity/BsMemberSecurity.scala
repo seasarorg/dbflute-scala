@@ -271,14 +271,19 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    override def equals(obj: Object): Boolean = {
-        if (obj == null || !(obj.isInstanceOf[BsMemberSecurity])) { return false; }
-        val other: BsMemberSecurity = obj.asInstanceOf[BsMemberSecurity];
-        if (!xSV(getMemberId(), other.getMemberId())) { return false; }
-        return true;
+    override def equals(obj: Any) = {
+        obj match {
+            case obj: BsMemberSecurity => {
+                val other: BsMemberSecurity = obj.asInstanceOf[BsMemberSecurity];
+                {
+                     xSV(getMemberId(), other.getMemberId())
+                }
+            }
+            case _ => false
+        }
     }
-    protected def xSV(value1: Object, value2: Object): Boolean = {
-        return FunCustodial.isSameValue(value1, value2);
+    protected def xSV(v1: Object, v2: Object): Boolean = {
+        return FunCustodial.isSameValue(v1, v2);
     }
 
     /**
@@ -286,13 +291,13 @@ abstract class BsMemberSecurity extends EntityDefinedCommonColumn with Serializa
      * @return The hash-code from primary-key or columns.
      */
     override def hashCode(): Int = {
-        var result: Integer = 17;
-        result = xCH(result, getTableDbName());
-        result = xCH(result, getMemberId());
-        return result;
+        var hs: Int = 17;
+        hs = xCH(hs, getTableDbName());
+        hs = xCH(hs, getMemberId());
+        return hs;
     }
-    protected def xCH(result: Integer, value: Object): Integer = {
-        return FunCustodial.calculateHashcode(result, value);
+    protected def xCH(hs: Int, value: Object): Int = {
+        return FunCustodial.calculateHashcode(hs, value);
     }
 
     /**
