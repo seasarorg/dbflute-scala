@@ -1,5 +1,7 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.JavaConverters._;
+
 import java.util.List;
 
 import org.seasar.dbflute._;
@@ -255,8 +257,9 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: MemberStatusCB): ListResultBean[MemberStatus] = {
-        return doSelectList(cb, classOf[MemberStatus]);
+    def selectList(cb: MemberStatusCB): scala.collection.immutable.List[MemberStatus] = {
+        val javaList = doSelectList(cb, classOf[MemberStatus]);
+        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[MemberStatus]())); // #pending easy convert for now
     }
 
     protected def doSelectList[ENTITY <: MemberStatus](cb: MemberStatusCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -268,7 +271,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return selectList(downcast(cb));
+        return doSelectList(downcast(cb), classOf[MemberStatus]);
     }
 
     // ===================================================================================
@@ -419,8 +422,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadMemberList(memberStatusList: List[MemberStatus], setupper: ReferrerConditionSetupper[MemberCB]): NestedReferrerLoader[Member] = {
-        xassLRArg(memberStatusList, setupper);
+    def loadMemberList(memberStatusList: scala.collection.immutable.List[MemberStatus], setupper: ReferrerConditionSetupper[MemberCB]): NestedReferrerLoader[Member] = {
+        xassLRArg(memberStatusList.asJava, setupper); // #pending easy convert for now
         return doLoadMemberList(memberStatusList, new LoadReferrerOption[MemberCB, Member]().xinit(setupper));
     }
 
@@ -452,22 +455,22 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      */
     def loadMemberList(memberStatus: MemberStatus, setupper: ReferrerConditionSetupper[MemberCB]): NestedReferrerLoader[Member] = {
         xassLRArg(memberStatus, setupper);
-        return doLoadMemberList(xnewLRLs(memberStatus), new LoadReferrerOption[MemberCB, Member]().xinit(setupper));
+        return doLoadMemberList(scala.collection.immutable.List.apply(memberStatus), new LoadReferrerOption[MemberCB, Member]().xinit(setupper));
     }
 
-    protected def doLoadMemberList(memberStatusList: List[MemberStatus], option: LoadReferrerOption[MemberCB, Member]): NestedReferrerLoader[Member] = {
+    protected def doLoadMemberList(memberStatusList: scala.collection.immutable.List[MemberStatus], option: LoadReferrerOption[MemberCB, Member]): NestedReferrerLoader[Member] = {
         val referrerBhv: MemberBhv = xgetBSFLR().select(classOf[MemberBhv]);
-        return helpLoadReferrerInternally(memberStatusList, option, new InternalLoadReferrerCallback[MemberStatus, String, MemberCB, Member]() {
+        return helpLoadReferrerInternally(memberStatusList.asJava, option, new InternalLoadReferrerCallback[MemberStatus, String, MemberCB, Member]() {
             def getPKVal(et: MemberStatus): String =
             { return et.getMemberStatusCode(); }
             def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
-            { et.setMemberList(ls); }
+            { et.setMemberList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Member]()))); }
             def newMyCB(): MemberCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: MemberCB, ls: List[String]): Unit =
             { cb.query().setMemberStatusCode_InScope(ls); }
             def qyOdFKAsc(cb: MemberCB): Unit = { cb.query().addOrderBy_MemberStatusCode_Asc(); }
             def spFKCol(cb: MemberCB): Unit = { cb.specify().columnMemberStatusCode(); }
-            def selRfLs(cb: MemberCB): List[Member] = { return referrerBhv.selectList(cb); }
+            def selRfLs(cb: MemberCB): List[Member] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: Member): String = { return re.getMemberStatusCode(); }
             def setlcEt(re: Member, le: MemberStatus): Unit =
             { re.setMemberStatus(le); }

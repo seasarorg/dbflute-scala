@@ -1,7 +1,9 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
+// #avoided same name type
 import java.lang.Long;
 import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -67,7 +69,7 @@ object ServiceRankDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setDisplayOrder(dgcti(vl)); }
     }
 
-    // delegating to protected static (illegal access error if directly call)
+    // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
@@ -141,6 +143,10 @@ object ServiceRankDbm extends AbstractDBMeta {
     def referrerMemberServiceList(): ReferrerInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnServiceRankCode(), MemberServiceDbm.columnServiceRankCode());
         return cri("FK_MEMBER_SERVICE_SERVICE_RANK_CODE", "memberServiceList", this, MemberServiceDbm, mp, false, "serviceRank");
+    }
+
+    override def getReferrerPropertyListType(): Class[_] = {
+        return classOf[scala.collection.immutable.List[_]];
     }
 
     // ===================================================================================

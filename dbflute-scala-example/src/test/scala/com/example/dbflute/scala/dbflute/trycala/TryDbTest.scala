@@ -1,6 +1,5 @@
 package com.example.dbflute.scala.dbflute.trycala
 
-import scala.collection.JavaConverters.asScalaBufferConverter
 import org.dbflute.scala.testlib.unit.UnitContainerTestCase
 import com.example.dbflute.scala.dbflute.exbhv.MemberBhv
 import com.example.dbflute.scala.dbflute.cbean.MemberCB
@@ -24,6 +23,6 @@ class TryDbTest extends UnitContainerTestCase {
     val cb = new MemberCB();
     cb.query().setMemberName_PrefixSearch("S");
     val memberList = memberBhv.selectList(cb);
-    memberList.asScala.foreach(member => log(member));
+    memberList.foreach(member => log(member));
   }
 }

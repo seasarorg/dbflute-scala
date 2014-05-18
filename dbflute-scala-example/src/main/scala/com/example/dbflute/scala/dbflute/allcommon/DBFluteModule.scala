@@ -58,8 +58,8 @@ class DBFluteModule(dataSource: DataSource) extends AbstractModule {
     }
 
     protected def setupBehavior(ker: BehaviorCommandInvoker, tor: BehaviorSelector, per: CommonColumnAutoSetupper): Unit = {
-        // unknown compile error 'illegal cyclic reference' if directly create the behaviors
-        // so use reflection here
+        // #avoided unknown compile error 'illegal cyclic reference'
+        // if directly create the behaviors so use reflection here
         {
             val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);

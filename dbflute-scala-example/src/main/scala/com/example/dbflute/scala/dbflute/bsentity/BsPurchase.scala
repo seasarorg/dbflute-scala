@@ -4,8 +4,6 @@ import scala.collection.JavaConverters._
 
 import java.lang.Long;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -308,8 +306,8 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
-        return new ArrayList[ELEMENT]();
+    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
+        return scala.collection.immutable.List(); // #pending actually fixed empty list
     }
 
     // ===================================================================================

@@ -1,5 +1,7 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.JavaConverters._;
+
 import java.util.List;
 
 import org.seasar.dbflute._;
@@ -255,8 +257,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: MemberCB): ListResultBean[Member] = {
-        return doSelectList(cb, classOf[Member]);
+    def selectList(cb: MemberCB): scala.collection.immutable.List[Member] = {
+        val javaList = doSelectList(cb, classOf[Member]);
+        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[Member]())); // #pending easy convert for now
     }
 
     protected def doSelectList[ENTITY <: Member](cb: MemberCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -268,7 +271,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return selectList(downcast(cb));
+        return doSelectList(downcast(cb), classOf[Member]);
     }
 
     // ===================================================================================
@@ -419,8 +422,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(memberList: List[Member], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
-        xassLRArg(memberList, setupper);
+    def loadPurchaseList(memberList: scala.collection.immutable.List[Member], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
+        xassLRArg(memberList.asJava, setupper); // #pending easy convert for now
         return doLoadPurchaseList(memberList, new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
     }
 
@@ -452,22 +455,22 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      */
     def loadPurchaseList(member: Member, setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
         xassLRArg(member, setupper);
-        return doLoadPurchaseList(xnewLRLs(member), new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
+        return doLoadPurchaseList(scala.collection.immutable.List.apply(member), new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
     }
 
-    protected def doLoadPurchaseList(memberList: List[Member], option: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
+    protected def doLoadPurchaseList(memberList: scala.collection.immutable.List[Member], option: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
-        return helpLoadReferrerInternally(memberList, option, new InternalLoadReferrerCallback[Member, Integer, PurchaseCB, Purchase]() {
+        return helpLoadReferrerInternally(memberList.asJava, option, new InternalLoadReferrerCallback[Member, Integer, PurchaseCB, Purchase]() {
             def getPKVal(et: Member): Integer =
             { return et.getMemberId(); }
             def setRfLs(et: Member, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(ls); }
+            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setMemberId_InScope(ls); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_MemberId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnMemberId(); }
-            def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb); }
+            def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: Purchase): Integer = { return re.getMemberId(); }
             def setlcEt(re: Purchase, le: Member): Unit =
             { re.setMember(le); }
@@ -488,7 +491,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
             def getFr(et: Member): MemberStatus = { return et.getMemberStatus(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
-            { et.setMemberList(ls); }
+            { et.setMemberList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Member]()))); }
         });
     }
     /**

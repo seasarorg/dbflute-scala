@@ -4,8 +4,6 @@ import scala.collection.JavaConverters._
 
 import java.lang.Long;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -353,13 +351,13 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     //                                                                   Referrer Property
     //                                                                   =================
     /** (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'. */
-    protected var _memberServiceList: List[MemberService] = null;
+    protected var _memberServiceList: scala.collection.immutable.List[MemberService] = null;
 
     /**
      * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
      * @return The entity list of referrer property 'memberServiceList'. (NotNull: even if no loading, returns empty list)
      */
-    def getMemberServiceList(): List[MemberService] = {
+    def getMemberServiceList(): scala.collection.immutable.List[MemberService] = {
         if (_memberServiceList == null) { _memberServiceList = newReferrerList(); }
         return _memberServiceList;
     }
@@ -368,12 +366,12 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
      * @param memberServiceList The entity list of referrer property 'memberServiceList'. (NullAllowed)
      */
-    def setMemberServiceList(memberServiceList: List[MemberService]): Unit = {
+    def setMemberServiceList(memberServiceList: scala.collection.immutable.List[MemberService]): Unit = {
         _memberServiceList = memberServiceList;
     }
 
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
-        return new ArrayList[ELEMENT]();
+    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
+        return scala.collection.immutable.List(); // #pending actually fixed empty list
     }
 
     // ===================================================================================
@@ -482,7 +480,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
         sb.append(toString());
         val l: String = "\n  ";
         if (_memberServiceList != null) {
-            _memberServiceList.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "memberServiceList")) } });
+            _memberServiceList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "memberServiceList")) } });
         }
         return sb.toString();
     }
@@ -519,7 +517,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val c: String = ",  ";
-        if (_memberServiceList != null && !_memberServiceList.isEmpty())
+        if (_memberServiceList != null && !_memberServiceList.isEmpty)
         { sb.append(c).append("memberServiceList"); }
         if (sb.length() > c.length()) {
             sb.delete(0, c.length()).insert(0, "(").append(")");

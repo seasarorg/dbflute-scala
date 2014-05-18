@@ -4,8 +4,6 @@ import scala.collection.JavaConverters._
 
 import java.lang.Long;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -228,13 +226,13 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     //                                                                   Referrer Property
     //                                                                   =================
     /** (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'. */
-    protected var _memberList: List[Member] = null;
+    protected var _memberList: scala.collection.immutable.List[Member] = null;
 
     /**
      * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
      * @return The entity list of referrer property 'memberList'. (NotNull: even if no loading, returns empty list)
      */
-    def getMemberList(): List[Member] = {
+    def getMemberList(): scala.collection.immutable.List[Member] = {
         if (_memberList == null) { _memberList = newReferrerList(); }
         return _memberList;
     }
@@ -243,12 +241,12 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
      * @param memberList The entity list of referrer property 'memberList'. (NullAllowed)
      */
-    def setMemberList(memberList: List[Member]): Unit = {
+    def setMemberList(memberList: scala.collection.immutable.List[Member]): Unit = {
         _memberList = memberList;
     }
 
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
-        return new ArrayList[ELEMENT]();
+    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
+        return scala.collection.immutable.List(); // #pending actually fixed empty list
     }
 
     // ===================================================================================
@@ -357,7 +355,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
         sb.append(toString());
         val l: String = "\n  ";
         if (_memberList != null) {
-            _memberList.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "memberList")) } });
+            _memberList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "memberList")) } });
         }
         return sb.toString();
     }
@@ -392,7 +390,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val c: String = ",  ";
-        if (_memberList != null && !_memberList.isEmpty())
+        if (_memberList != null && !_memberList.isEmpty)
         { sb.append(c).append("memberList"); }
         if (sb.length() > c.length()) {
             sb.delete(0, c.length()).insert(0, "(").append(")");

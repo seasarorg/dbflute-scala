@@ -1,7 +1,9 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
+// #avoided same name type
 import java.lang.Long;
 import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -97,7 +99,7 @@ object PurchaseDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setVersionNo(dgctl(vl)); }
     }
 
-    // delegating to protected static (illegal access error if directly call)
+    // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
@@ -184,16 +186,20 @@ object PurchaseDbm extends AbstractDBMeta {
     //                                      ----------------
     def foreignMember(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberDbm.columnMemberId());
-        return cfi("FK_PURCHASE_MEMBER", "member", this, MemberDbm, mp, 0, false, false, false, false, null, null, false, "purchaseList");
+        return cfi("FK_PURCHASE_MEMBER", "member", this, MemberDbm, mp, 0, null, false, false, false, false, null, null, false, "purchaseList");
     }
     def foreignProduct(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnProductId(), ProductDbm.columnProductId());
-        return cfi("FK_PURCHASE_PRODUCT", "product", this, ProductDbm, mp, 1, false, false, false, false, null, null, false, "purchaseList");
+        return cfi("FK_PURCHASE_PRODUCT", "product", this, ProductDbm, mp, 1, null, false, false, false, false, null, null, false, "purchaseList");
     }
 
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+
+    override def getReferrerPropertyListType(): Class[_] = {
+        return classOf[scala.collection.immutable.List[_]];
+    }
 
     // ===================================================================================
     //                                                                        Various Info

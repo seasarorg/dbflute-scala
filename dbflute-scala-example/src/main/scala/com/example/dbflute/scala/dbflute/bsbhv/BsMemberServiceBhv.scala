@@ -1,5 +1,7 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.JavaConverters._;
+
 import java.util.List;
 
 import org.seasar.dbflute._;
@@ -255,8 +257,9 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: MemberServiceCB): ListResultBean[MemberService] = {
-        return doSelectList(cb, classOf[MemberService]);
+    def selectList(cb: MemberServiceCB): scala.collection.immutable.List[MemberService] = {
+        val javaList = doSelectList(cb, classOf[MemberService]);
+        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[MemberService]())); // #pending easy convert for now
     }
 
     protected def doSelectList[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -268,7 +271,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return selectList(downcast(cb));
+        return doSelectList(downcast(cb), classOf[MemberService]);
     }
 
     // ===================================================================================
@@ -414,7 +417,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
             def getFr(et: MemberService): ServiceRank = { return et.getServiceRank(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: ServiceRank, ls: List[MemberService]): Unit =
-            { et.setMemberServiceList(ls); }
+            { et.setMemberServiceList(scala.collection.immutable.List.fromArray(ls.toArray(Array[MemberService]()))); }
         });
     }
 

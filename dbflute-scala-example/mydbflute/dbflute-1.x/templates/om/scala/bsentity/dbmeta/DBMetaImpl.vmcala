@@ -16,8 +16,10 @@
 ${database.allClassCopyright}package ${myDBMetaPackageName};
 #set ($myClassName = "${myDBMetaClassName}")
 
+// #avoided same name type
 import java.lang.Long;
 import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -99,7 +101,7 @@ object ${myClassName} extends AbstractDBMeta {
     }
 #end
 
-    // delegating to protected static (illegal access error if directly call)
+    // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
@@ -192,7 +194,7 @@ object ${myClassName} extends AbstractDBMeta {
         mp.put(column${col.javaBeansRulePropertyNameInitCap}(), ${fk.foreignTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
 #end
 #end
-        return cfi("${fk.name}", "${fk.foreignJavaBeansRulePropertyName}", this, ${fk.foreignTableDBMetaClassName}, mp, ${table.resolveForeignIndex($fk)}, ${fk.isOneToOne()}, ${fk.isBizOneToOne()}, false, ${fk.isAdditionalForeignKey()}, ${fk.fixedConditionArg}, ${fk.dynamicFixedConditionDBMetaSetupList}, ${fk.isFixedInline()}, ${fk.foreignReverseRelationPropertyNameArg});
+        return cfi("${fk.name}", "${fk.foreignJavaBeansRulePropertyName}", this, ${fk.foreignTableDBMetaClassName}, mp, ${table.resolveForeignIndex($fk)}, null, ${fk.isOneToOne()}, ${fk.isBizOneToOne()}, false, ${fk.isAdditionalForeignKey()}, ${fk.fixedConditionArg}, ${fk.dynamicFixedConditionDBMetaSetupList}, ${fk.isFixedInline()}, ${fk.foreignReverseRelationPropertyNameArg});
     }
 #end
 #foreach ($referrer in $table.referrerAsOneList)
@@ -209,7 +211,7 @@ object ${myClassName} extends AbstractDBMeta {
         mp.put(column${col.javaBeansRulePropertyNameInitCap}(), ${referrer.referrerTableDBMetaClassName}.column${yourCol.javaBeansRulePropertyNameInitCap}());
 #end
 #end
-        return cfi("${referrer.name}", "${referrer.referrerJavaBeansRulePropertyNameAsOne}", this, ${referrer.referrerTableDBMetaClassName}, mp, ${table.resolveReferrerIndexAsOne($referrer)}, ${referrer.isOneToOne()}, ${referrer.isBizOneToOne()}, true, ${referrer.isAdditionalForeignKey()}, ${referrer.fixedConditionArg}, ${referrer.dynamicFixedConditionDBMetaSetupList}, ${referrer.isFixedInline()}, ${referrer.referrerReverseRelationPropertyNameArg});
+        return cfi("${referrer.name}", "${referrer.referrerJavaBeansRulePropertyNameAsOne}", this, ${referrer.referrerTableDBMetaClassName}, mp, ${table.resolveReferrerIndexAsOne($referrer)}, null, ${referrer.isOneToOne()}, ${referrer.isBizOneToOne()}, true, ${referrer.isAdditionalForeignKey()}, ${referrer.fixedConditionArg}, ${referrer.dynamicFixedConditionDBMetaSetupList}, ${referrer.isFixedInline()}, ${referrer.referrerReverseRelationPropertyNameArg});
     }
 #end
 
@@ -230,6 +232,10 @@ object ${myClassName} extends AbstractDBMeta {
         return cri("${referrer.name}", "${referrer.referrerJavaBeansRulePropertyName}", this, ${referrer.referrerTableDBMetaClassName}, mp, ${referrer.isOneToOne()}, ${referrer.referrerReverseRelationPropertyNameArg});
     }
 #end
+
+    override def getReferrerPropertyListType(): Class[_] = {
+        return classOf[scala.collection.immutable.List[_]];
+    }
 
     // ===================================================================================
     //                                                                        Various Info

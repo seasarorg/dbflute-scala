@@ -1,7 +1,9 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
+// #avoided same name type
 import java.lang.Long;
 import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -92,7 +94,7 @@ object MemberDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setVersionNo(dgctl(vl)); }
     }
 
-    // delegating to protected static (illegal access error if directly call)
+    // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
@@ -176,11 +178,11 @@ object MemberDbm extends AbstractDBMeta {
     //                                      ----------------
     def foreignMemberStatus(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberStatusDbm.columnMemberStatusCode());
-        return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, false, false, false, false, null, null, false, "memberList");
+        return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, null, false, false, false, false, null, null, false, "memberList");
     }
     def foreignMemberServiceAsOne(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberServiceDbm.columnMemberId());
-        return cfi("FK_MEMBER_SERVICE_MEMBER", "memberServiceAsOne", this, MemberServiceDbm, mp, 1, true, false, true, false, null, null, false, "member");
+        return cfi("FK_MEMBER_SERVICE_MEMBER", "memberServiceAsOne", this, MemberServiceDbm, mp, 1, null, true, false, true, false, null, null, false, "member");
     }
 
     // -----------------------------------------------------
@@ -189,6 +191,10 @@ object MemberDbm extends AbstractDBMeta {
     def referrerPurchaseList(): ReferrerInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), PurchaseDbm.columnMemberId());
         return cri("FK_PURCHASE_MEMBER", "purchaseList", this, PurchaseDbm, mp, false, "member");
+    }
+
+    override def getReferrerPropertyListType(): Class[_] = {
+        return classOf[scala.collection.immutable.List[_]];
     }
 
     // ===================================================================================

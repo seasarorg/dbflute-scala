@@ -1,5 +1,7 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.JavaConverters._;
+
 import java.util.List;
 
 import org.seasar.dbflute._;
@@ -255,8 +257,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: ProductCB): ListResultBean[Product] = {
-        return doSelectList(cb, classOf[Product]);
+    def selectList(cb: ProductCB): scala.collection.immutable.List[Product] = {
+        val javaList = doSelectList(cb, classOf[Product]);
+        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[Product]())); // #pending easy convert for now
     }
 
     protected def doSelectList[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -268,7 +271,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return selectList(downcast(cb));
+        return doSelectList(downcast(cb), classOf[Product]);
     }
 
     // ===================================================================================
@@ -419,8 +422,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(productList: List[Product], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
-        xassLRArg(productList, setupper);
+    def loadPurchaseList(productList: scala.collection.immutable.List[Product], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
+        xassLRArg(productList.asJava, setupper); // #pending easy convert for now
         return doLoadPurchaseList(productList, new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
     }
 
@@ -452,22 +455,22 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      */
     def loadPurchaseList(product: Product, setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
         xassLRArg(product, setupper);
-        return doLoadPurchaseList(xnewLRLs(product), new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
+        return doLoadPurchaseList(scala.collection.immutable.List.apply(product), new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
     }
 
-    protected def doLoadPurchaseList(productList: List[Product], option: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
+    protected def doLoadPurchaseList(productList: scala.collection.immutable.List[Product], option: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
-        return helpLoadReferrerInternally(productList, option, new InternalLoadReferrerCallback[Product, Integer, PurchaseCB, Purchase]() {
+        return helpLoadReferrerInternally(productList.asJava, option, new InternalLoadReferrerCallback[Product, Integer, PurchaseCB, Purchase]() {
             def getPKVal(et: Product): Integer =
             { return et.getProductId(); }
             def setRfLs(et: Product, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(ls); }
+            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setProductId_InScope(ls); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_ProductId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnProductId(); }
-            def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb); }
+            def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: Purchase): Integer = { return re.getProductId(); }
             def setlcEt(re: Purchase, le: Product): Unit =
             { re.setProduct(le); }

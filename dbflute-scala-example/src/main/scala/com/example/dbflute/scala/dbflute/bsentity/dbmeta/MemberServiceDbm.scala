@@ -1,7 +1,9 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
+// #avoided same name type
 import java.lang.Long;
 import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap
@@ -82,7 +84,7 @@ object MemberServiceDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setVersionNo(dgctl(vl)); }
     }
 
-    // delegating to protected static (illegal access error if directly call)
+    // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
@@ -160,16 +162,20 @@ object MemberServiceDbm extends AbstractDBMeta {
     //                                      ----------------
     def foreignMember(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberDbm.columnMemberId());
-        return cfi("FK_MEMBER_SERVICE_MEMBER", "member", this, MemberDbm, mp, 0, true, false, false, false, null, null, false, "memberServiceAsOne");
+        return cfi("FK_MEMBER_SERVICE_MEMBER", "member", this, MemberDbm, mp, 0, null, true, false, false, false, null, null, false, "memberServiceAsOne");
     }
     def foreignServiceRank(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnServiceRankCode(), ServiceRankDbm.columnServiceRankCode());
-        return cfi("FK_MEMBER_SERVICE_SERVICE_RANK_CODE", "serviceRank", this, ServiceRankDbm, mp, 1, false, false, false, false, null, null, false, "memberServiceList");
+        return cfi("FK_MEMBER_SERVICE_SERVICE_RANK_CODE", "serviceRank", this, ServiceRankDbm, mp, 1, null, false, false, false, false, null, null, false, "memberServiceList");
     }
 
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+
+    override def getReferrerPropertyListType(): Class[_] = {
+        return classOf[scala.collection.immutable.List[_]];
+    }
 
     // ===================================================================================
     //                                                                        Various Info

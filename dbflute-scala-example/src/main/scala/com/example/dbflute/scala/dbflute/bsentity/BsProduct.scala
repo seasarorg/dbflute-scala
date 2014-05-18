@@ -4,8 +4,6 @@ import scala.collection.JavaConverters._
 
 import java.lang.Long;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -176,13 +174,13 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     //                                                                   Referrer Property
     //                                                                   =================
     /** (購入)PURCHASE by PRODUCT_ID, named 'purchaseList'. */
-    protected var _purchaseList: List[Purchase] = null;
+    protected var _purchaseList: scala.collection.immutable.List[Purchase] = null;
 
     /**
      * (購入)PURCHASE by PRODUCT_ID, named 'purchaseList'.
      * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)
      */
-    def getPurchaseList(): List[Purchase] = {
+    def getPurchaseList(): scala.collection.immutable.List[Purchase] = {
         if (_purchaseList == null) { _purchaseList = newReferrerList(); }
         return _purchaseList;
     }
@@ -191,12 +189,12 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * (購入)PURCHASE by PRODUCT_ID, named 'purchaseList'.
      * @param purchaseList The entity list of referrer property 'purchaseList'. (NullAllowed)
      */
-    def setPurchaseList(purchaseList: List[Purchase]): Unit = {
+    def setPurchaseList(purchaseList: scala.collection.immutable.List[Purchase]): Unit = {
         _purchaseList = purchaseList;
     }
 
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
-        return new ArrayList[ELEMENT]();
+    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
+        return scala.collection.immutable.List(); // #pending actually fixed empty list
     }
 
     // ===================================================================================
@@ -329,7 +327,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
         sb.append(toString());
         val l: String = "\n  ";
         if (_purchaseList != null) {
-            _purchaseList.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
+            _purchaseList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
         }
         return sb.toString();
     }
@@ -371,7 +369,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val c: String = ",  ";
-        if (_purchaseList != null && !_purchaseList.isEmpty())
+        if (_purchaseList != null && !_purchaseList.isEmpty)
         { sb.append(c).append("purchaseList"); }
         if (sb.length() > c.length()) {
             sb.delete(0, c.length()).insert(0, "(").append(")");

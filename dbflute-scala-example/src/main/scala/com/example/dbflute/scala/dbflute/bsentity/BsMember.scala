@@ -4,8 +4,6 @@ import scala.collection.JavaConverters._
 
 import java.lang.Long;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.Date;
 
@@ -306,13 +304,13 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     //                                                                   Referrer Property
     //                                                                   =================
     /** (購入)PURCHASE by MEMBER_ID, named 'purchaseList'. */
-    protected var _purchaseList: List[Purchase] = null;
+    protected var _purchaseList: scala.collection.immutable.List[Purchase] = null;
 
     /**
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)
      */
-    def getPurchaseList(): List[Purchase] = {
+    def getPurchaseList(): scala.collection.immutable.List[Purchase] = {
         if (_purchaseList == null) { _purchaseList = newReferrerList(); }
         return _purchaseList;
     }
@@ -321,12 +319,12 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * @param purchaseList The entity list of referrer property 'purchaseList'. (NullAllowed)
      */
-    def setPurchaseList(purchaseList: List[Purchase]): Unit = {
+    def setPurchaseList(purchaseList: scala.collection.immutable.List[Purchase]): Unit = {
         _purchaseList = purchaseList;
     }
 
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
-        return new ArrayList[ELEMENT]();
+    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
+        return scala.collection.immutable.List(); // #pending actually fixed empty list
     }
 
     // ===================================================================================
@@ -463,7 +461,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         if (_memberServiceAsOne != null)
         { sb.append(l).append(xbRDS(_memberServiceAsOne, "memberServiceAsOne")); }
         if (_purchaseList != null) {
-            _purchaseList.asScala.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
+            _purchaseList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
         }
         return sb.toString();
     }
@@ -513,7 +511,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
         val c: String = ",  ";
         if (_memberStatus != null) { sb.append(c).append("memberStatus"); }
         if (_memberServiceAsOne != null) { sb.append(c).append("memberServiceAsOne"); }
-        if (_purchaseList != null && !_purchaseList.isEmpty())
+        if (_purchaseList != null && !_purchaseList.isEmpty)
         { sb.append(c).append("purchaseList"); }
         if (sb.length() > c.length()) {
             sb.delete(0, c.length()).insert(0, "(").append(")");

@@ -218,7 +218,7 @@ object DBMetaInstanceHandler extends DBMetaProvider {
     //                                                                       Cached DBMeta
     //                                                                       =============
     protected def getCachedDBMeta(tableDbName: String): DBMeta = {
-        // no lazy-load for now (don't know how to get instance from singleton object)
+        // #avoided no lazy-load for now (don't know how to get instance from singleton object)
         return _tableDbNameInstanceMap.get(tableDbName);
     }
 

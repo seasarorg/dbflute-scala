@@ -1,5 +1,7 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.JavaConverters._;
+
 import java.util.List;
 
 import org.seasar.dbflute._;
@@ -255,8 +257,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: PurchaseCB): ListResultBean[Purchase] = {
-        return doSelectList(cb, classOf[Purchase]);
+    def selectList(cb: PurchaseCB): scala.collection.immutable.List[Purchase] = {
+        val javaList = doSelectList(cb, classOf[Purchase]);
+        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[Purchase]())); // #pending easy convert for now
     }
 
     protected def doSelectList[ENTITY <: Purchase](cb: PurchaseCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -268,7 +271,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return selectList(downcast(cb));
+        return doSelectList(downcast(cb), classOf[Purchase]);
     }
 
     // ===================================================================================
@@ -401,7 +404,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
             def getFr(et: Purchase): Member = { return et.getMember(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Member, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(ls); }
+            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
         });
     }
     /**
@@ -414,7 +417,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
             def getFr(et: Purchase): Product = { return et.getProduct(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Product, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(ls); }
+            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
         });
     }
 
