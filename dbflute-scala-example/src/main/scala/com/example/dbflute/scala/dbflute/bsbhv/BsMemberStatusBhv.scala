@@ -259,7 +259,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      */
     def selectList(cb: MemberStatusCB): scala.collection.immutable.List[MemberStatus] = {
         val javaList = doSelectList(cb, classOf[MemberStatus]);
-        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[MemberStatus]())); // #pending easy convert for now
+        return toScalaList(javaList);
     }
 
     protected def doSelectList[ENTITY <: MemberStatus](cb: MemberStatusCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -271,7 +271,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[MemberStatus]);
+        return doSelectList(downcast(cb), classOf[MemberStatus]); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -464,7 +464,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
             def getPKVal(et: MemberStatus): String =
             { return et.getMemberStatusCode(); }
             def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
-            { et.setMemberList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Member]()))); }
+            { et.setMemberList(toScalaList(ls)); }
             def newMyCB(): MemberCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: MemberCB, ls: List[String]): Unit =
             { cb.query().setMemberStatusCode_InScope(ls); }
@@ -726,9 +726,9 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param memberStatusList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(memberStatusList: List[MemberStatus]): Array[Int] = {
+    def batchInsert(memberStatusList: scala.collection.immutable.List[MemberStatus]): Array[Int] = {
         val op: InsertOption[MemberStatusCB] = createInsertUpdateOption();
-        return doBatchInsert(memberStatusList, op);
+        return doBatchInsert(memberStatusList.asJava, op);
     }
 
     protected def doBatchInsert(memberStatusList: List[MemberStatus], op: InsertOption[MemberStatusCB]): Array[Int] = {
@@ -745,8 +745,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchInsert(downcast(ls)); }
-        else { return varyingBatchInsert(downcast(ls), downcast(op)); }
+        if (op == null) { return batchInsert(toScalaList(downcast(ls))); }
+        else { return varyingBatchInsert(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -773,9 +773,9 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdate(memberStatusList: List[MemberStatus]): Array[Int] = {
+    def batchUpdate(memberStatusList: scala.collection.immutable.List[MemberStatus]): Array[Int] = {
         val op: UpdateOption[MemberStatusCB] = createPlainUpdateOption();
-        return doBatchUpdate(memberStatusList, op);
+        return doBatchUpdate(memberStatusList.asJava, op);
     }
 
     protected def doBatchUpdate(memberStatusList: List[MemberStatus], op: UpdateOption[MemberStatusCB]): Array[Int] = {
@@ -791,8 +791,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdate(downcast(ls)); }
-        else { return varyingBatchUpdate(downcast(ls), downcast(op)); }
+        if (op == null) { return batchUpdate(toScalaList(downcast(ls))); }
+        else { return varyingBatchUpdate(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -823,8 +823,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdate(memberStatusList: List[MemberStatus], updateColumnSpec: SpecifyQuery[MemberStatusCB]): Array[Int] = {
-        return doBatchUpdate(memberStatusList, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdate(memberStatusList: scala.collection.immutable.List[MemberStatus], updateColumnSpec: SpecifyQuery[MemberStatusCB]): Array[Int] = {
+        return doBatchUpdate(memberStatusList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     @Override
@@ -839,8 +839,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDelete(memberStatusList: List[MemberStatus]): Array[Int] = {
-        return doBatchDelete(memberStatusList, null);
+    def batchDelete(memberStatusList: scala.collection.immutable.List[MemberStatus]): Array[Int] = {
+        return doBatchDelete(memberStatusList.asJava, null);
     }
 
     protected def doBatchDelete(memberStatusList: List[MemberStatus], op: DeleteOption[MemberStatusCB]): Array[Int] = {
@@ -851,8 +851,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDelete(downcast(ls)); }
-        else { return varyingBatchDelete(downcast(ls), downcast(op)); }
+        if (op == null) { return batchDelete(toScalaList(downcast(ls))); }
+        else { return varyingBatchDelete(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     @Override
@@ -1083,9 +1083,9 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(memberStatusList: List[MemberStatus], option: InsertOption[MemberStatusCB]): Array[Int] = {
+    def varyingBatchInsert(memberStatusList: scala.collection.immutable.List[MemberStatus], option: InsertOption[MemberStatusCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
-        return doBatchInsert(memberStatusList, option);
+        return doBatchInsert(memberStatusList.asJava, option);
     }
 
     /**
@@ -1097,9 +1097,9 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(memberStatusList: List[MemberStatus], option: UpdateOption[MemberStatusCB]): Array[Int] = {
+    def varyingBatchUpdate(memberStatusList: scala.collection.immutable.List[MemberStatus], option: UpdateOption[MemberStatusCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdate(memberStatusList, option);
+        return doBatchUpdate(memberStatusList.asJava, option);
     }
 
     /**
@@ -1110,9 +1110,9 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(memberStatusList: List[MemberStatus], option: DeleteOption[MemberStatusCB]): Array[Int] = {
+    def varyingBatchDelete(memberStatusList: scala.collection.immutable.List[MemberStatus], option: DeleteOption[MemberStatusCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDelete(memberStatusList, option);
+        return doBatchDelete(memberStatusList.asJava, option);
     }
 
     // -----------------------------------------------------
@@ -1325,5 +1325,13 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[MemberStatus, MemberStatusCB] = {
         return sp.asInstanceOf[QueryInsertSetupper[MemberStatus, MemberStatusCB]];
+    }
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: List[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+         // #pending easy convert for now
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 }

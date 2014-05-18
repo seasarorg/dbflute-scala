@@ -259,7 +259,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      */
     def selectList(cb: PurchaseCB): scala.collection.immutable.List[Purchase] = {
         val javaList = doSelectList(cb, classOf[Purchase]);
-        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[Purchase]())); // #pending easy convert for now
+        return toScalaList(javaList);
     }
 
     protected def doSelectList[ENTITY <: Purchase](cb: PurchaseCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -271,7 +271,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[Purchase]);
+        return doSelectList(downcast(cb), classOf[Purchase]); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -399,26 +399,26 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMember(purchaseList: List[Purchase]): List[Member] = {
-        return helpPulloutInternally(purchaseList, new InternalPulloutCallback[Purchase, Member]() {
+    def pulloutMember(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Member] = {
+        return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[Purchase, Member]() {
             def getFr(et: Purchase): Member = { return et.getMember(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Member, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
-        });
+            { et.setPurchaseList(toScalaList(ls)); }
+        }));
     }
     /**
      * Pull out the list of foreign table 'Product'.
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutProduct(purchaseList: List[Purchase]): List[Product] = {
-        return helpPulloutInternally(purchaseList, new InternalPulloutCallback[Purchase, Product]() {
+    def pulloutProduct(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Product] = {
+        return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[Purchase, Product]() {
             def getFr(et: Purchase): Product = { return et.getProduct(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Product, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
-        });
+            { et.setPurchaseList(toScalaList(ls)); }
+        }));
     }
 
     // ===================================================================================
@@ -761,9 +761,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(purchaseList: List[Purchase]): Array[Int] = {
+    def batchInsert(purchaseList: scala.collection.immutable.List[Purchase]): Array[Int] = {
         val op: InsertOption[PurchaseCB] = createInsertUpdateOption();
-        return doBatchInsert(purchaseList, op);
+        return doBatchInsert(purchaseList.asJava, op);
     }
 
     protected def doBatchInsert(purchaseList: List[Purchase], op: InsertOption[PurchaseCB]): Array[Int] = {
@@ -780,8 +780,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchInsert(downcast(ls)); }
-        else { return varyingBatchInsert(downcast(ls), downcast(op)); }
+        if (op == null) { return batchInsert(toScalaList(downcast(ls))); }
+        else { return varyingBatchInsert(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -808,9 +808,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(purchaseList: List[Purchase]): Array[Int] = {
+    def batchUpdate(purchaseList: scala.collection.immutable.List[Purchase]): Array[Int] = {
         val op: UpdateOption[PurchaseCB] = createPlainUpdateOption();
-        return doBatchUpdate(purchaseList, op);
+        return doBatchUpdate(purchaseList.asJava, op);
     }
 
     protected def doBatchUpdate(purchaseList: List[Purchase], op: UpdateOption[PurchaseCB]): Array[Int] = {
@@ -826,8 +826,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdate(downcast(ls)); }
-        else { return varyingBatchUpdate(downcast(ls), downcast(op)); }
+        if (op == null) { return batchUpdate(toScalaList(downcast(ls))); }
+        else { return varyingBatchUpdate(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -858,8 +858,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(purchaseList: List[Purchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
-        return doBatchUpdate(purchaseList, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdate(purchaseList: scala.collection.immutable.List[Purchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
+        return doBatchUpdate(purchaseList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     /**
@@ -886,9 +886,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(purchaseList: List[Purchase]): Array[Int] = {
+    def batchUpdateNonstrict(purchaseList: scala.collection.immutable.List[Purchase]): Array[Int] = {
         val option: UpdateOption[PurchaseCB] = createPlainUpdateOption();
-        return doBatchUpdateNonstrict(purchaseList, option);
+        return doBatchUpdateNonstrict(purchaseList.asJava, option);
     }
 
     protected def doBatchUpdateNonstrict(purchaseList: List[Purchase], op: UpdateOption[PurchaseCB]): Array[Int] = {
@@ -924,14 +924,14 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(purchaseList: List[Purchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
-        return doBatchUpdateNonstrict(purchaseList, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdateNonstrict(purchaseList: scala.collection.immutable.List[Purchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
+        return doBatchUpdateNonstrict(purchaseList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     @Override
     protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdateNonstrict(downcast(ls)); }
-        else { return varyingBatchUpdateNonstrict(downcast(ls), downcast(op)); }
+        if (op == null) { return batchUpdateNonstrict(toScalaList(downcast(ls))); }
+        else { return varyingBatchUpdateNonstrict(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -941,8 +941,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(purchaseList: List[Purchase]): Array[Int] = {
-        return doBatchDelete(purchaseList, null);
+    def batchDelete(purchaseList: scala.collection.immutable.List[Purchase]): Array[Int] = {
+        return doBatchDelete(purchaseList.asJava, null);
     }
 
     protected def doBatchDelete(purchaseList: List[Purchase], op: DeleteOption[PurchaseCB]): Array[Int] = {
@@ -953,8 +953,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDelete(downcast(ls)); }
-        else { return varyingBatchDelete(downcast(ls), downcast(op)); }
+        if (op == null) { return batchDelete(toScalaList(downcast(ls))); }
+        else { return varyingBatchDelete(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -964,8 +964,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(purchaseList: List[Purchase]): Array[Int] = {
-        return doBatchDeleteNonstrict(purchaseList, null);
+    def batchDeleteNonstrict(purchaseList: scala.collection.immutable.List[Purchase]): Array[Int] = {
+        return doBatchDeleteNonstrict(purchaseList.asJava, null);
     }
 
     protected def doBatchDeleteNonstrict(purchaseList: List[Purchase], op: DeleteOption[PurchaseCB]): Array[Int] = {
@@ -976,8 +976,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDeleteNonstrict(downcast(ls)); }
-        else { return varyingBatchDeleteNonstrict(downcast(ls), downcast(op)); }
+        if (op == null) { return batchDeleteNonstrict(toScalaList(downcast(ls))); }
+        else { return varyingBatchDeleteNonstrict(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     // ===================================================================================
@@ -1263,9 +1263,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(purchaseList: List[Purchase], option: InsertOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchInsert(purchaseList: scala.collection.immutable.List[Purchase], option: InsertOption[PurchaseCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
-        return doBatchInsert(purchaseList, option);
+        return doBatchInsert(purchaseList.asJava, option);
     }
 
     /**
@@ -1277,9 +1277,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(purchaseList: List[Purchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchUpdate(purchaseList: scala.collection.immutable.List[Purchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdate(purchaseList, option);
+        return doBatchUpdate(purchaseList.asJava, option);
     }
 
     /**
@@ -1291,9 +1291,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdateNonstrict(purchaseList: List[Purchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchUpdateNonstrict(purchaseList: scala.collection.immutable.List[Purchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdateNonstrict(purchaseList, option);
+        return doBatchUpdateNonstrict(purchaseList.asJava, option);
     }
 
     /**
@@ -1304,9 +1304,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(purchaseList: List[Purchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchDelete(purchaseList: scala.collection.immutable.List[Purchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDelete(purchaseList, option);
+        return doBatchDelete(purchaseList.asJava, option);
     }
 
     /**
@@ -1317,9 +1317,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDeleteNonstrict(purchaseList: List[Purchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchDeleteNonstrict(purchaseList: scala.collection.immutable.List[Purchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDeleteNonstrict(purchaseList, option);
+        return doBatchDeleteNonstrict(purchaseList.asJava, option);
     }
 
     // -----------------------------------------------------
@@ -1532,5 +1532,13 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[Purchase, PurchaseCB] = {
         return sp.asInstanceOf[QueryInsertSetupper[Purchase, PurchaseCB]];
+    }
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: List[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+         // #pending easy convert for now
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 }

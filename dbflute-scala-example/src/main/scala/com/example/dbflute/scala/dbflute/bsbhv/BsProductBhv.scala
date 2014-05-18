@@ -259,7 +259,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      */
     def selectList(cb: ProductCB): scala.collection.immutable.List[Product] = {
         val javaList = doSelectList(cb, classOf[Product]);
-        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[Product]())); // #pending easy convert for now
+        return toScalaList(javaList);
     }
 
     protected def doSelectList[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -271,7 +271,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[Product]);
+        return doSelectList(downcast(cb), classOf[Product]); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -464,7 +464,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
             def getPKVal(et: Product): Integer =
             { return et.getProductId(); }
             def setRfLs(et: Product, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
+            { et.setPurchaseList(toScalaList(ls)); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setProductId_InScope(ls); }
@@ -833,9 +833,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(productList: List[Product]): Array[Int] = {
+    def batchInsert(productList: scala.collection.immutable.List[Product]): Array[Int] = {
         val op: InsertOption[ProductCB] = createInsertUpdateOption();
-        return doBatchInsert(productList, op);
+        return doBatchInsert(productList.asJava, op);
     }
 
     protected def doBatchInsert(productList: List[Product], op: InsertOption[ProductCB]): Array[Int] = {
@@ -852,8 +852,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchInsert(downcast(ls)); }
-        else { return varyingBatchInsert(downcast(ls), downcast(op)); }
+        if (op == null) { return batchInsert(toScalaList(downcast(ls))); }
+        else { return varyingBatchInsert(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -880,9 +880,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(productList: List[Product]): Array[Int] = {
+    def batchUpdate(productList: scala.collection.immutable.List[Product]): Array[Int] = {
         val op: UpdateOption[ProductCB] = createPlainUpdateOption();
-        return doBatchUpdate(productList, op);
+        return doBatchUpdate(productList.asJava, op);
     }
 
     protected def doBatchUpdate(productList: List[Product], op: UpdateOption[ProductCB]): Array[Int] = {
@@ -898,8 +898,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdate(downcast(ls)); }
-        else { return varyingBatchUpdate(downcast(ls), downcast(op)); }
+        if (op == null) { return batchUpdate(toScalaList(downcast(ls))); }
+        else { return varyingBatchUpdate(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -930,8 +930,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(productList: List[Product], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
-        return doBatchUpdate(productList, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdate(productList: scala.collection.immutable.List[Product], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
+        return doBatchUpdate(productList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     /**
@@ -958,9 +958,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(productList: List[Product]): Array[Int] = {
+    def batchUpdateNonstrict(productList: scala.collection.immutable.List[Product]): Array[Int] = {
         val option: UpdateOption[ProductCB] = createPlainUpdateOption();
-        return doBatchUpdateNonstrict(productList, option);
+        return doBatchUpdateNonstrict(productList.asJava, option);
     }
 
     protected def doBatchUpdateNonstrict(productList: List[Product], op: UpdateOption[ProductCB]): Array[Int] = {
@@ -996,14 +996,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(productList: List[Product], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
-        return doBatchUpdateNonstrict(productList, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdateNonstrict(productList: scala.collection.immutable.List[Product], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
+        return doBatchUpdateNonstrict(productList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     @Override
     protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdateNonstrict(downcast(ls)); }
-        else { return varyingBatchUpdateNonstrict(downcast(ls), downcast(op)); }
+        if (op == null) { return batchUpdateNonstrict(toScalaList(downcast(ls))); }
+        else { return varyingBatchUpdateNonstrict(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -1013,8 +1013,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(productList: List[Product]): Array[Int] = {
-        return doBatchDelete(productList, null);
+    def batchDelete(productList: scala.collection.immutable.List[Product]): Array[Int] = {
+        return doBatchDelete(productList.asJava, null);
     }
 
     protected def doBatchDelete(productList: List[Product], op: DeleteOption[ProductCB]): Array[Int] = {
@@ -1025,8 +1025,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDelete(downcast(ls)); }
-        else { return varyingBatchDelete(downcast(ls), downcast(op)); }
+        if (op == null) { return batchDelete(toScalaList(downcast(ls))); }
+        else { return varyingBatchDelete(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -1036,8 +1036,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(productList: List[Product]): Array[Int] = {
-        return doBatchDeleteNonstrict(productList, null);
+    def batchDeleteNonstrict(productList: scala.collection.immutable.List[Product]): Array[Int] = {
+        return doBatchDeleteNonstrict(productList.asJava, null);
     }
 
     protected def doBatchDeleteNonstrict(productList: List[Product], op: DeleteOption[ProductCB]): Array[Int] = {
@@ -1048,8 +1048,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDeleteNonstrict(downcast(ls)); }
-        else { return varyingBatchDeleteNonstrict(downcast(ls), downcast(op)); }
+        if (op == null) { return batchDeleteNonstrict(toScalaList(downcast(ls))); }
+        else { return varyingBatchDeleteNonstrict(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     // ===================================================================================
@@ -1335,9 +1335,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(productList: List[Product], option: InsertOption[ProductCB]): Array[Int] = {
+    def varyingBatchInsert(productList: scala.collection.immutable.List[Product], option: InsertOption[ProductCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
-        return doBatchInsert(productList, option);
+        return doBatchInsert(productList.asJava, option);
     }
 
     /**
@@ -1349,9 +1349,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(productList: List[Product], option: UpdateOption[ProductCB]): Array[Int] = {
+    def varyingBatchUpdate(productList: scala.collection.immutable.List[Product], option: UpdateOption[ProductCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdate(productList, option);
+        return doBatchUpdate(productList.asJava, option);
     }
 
     /**
@@ -1363,9 +1363,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdateNonstrict(productList: List[Product], option: UpdateOption[ProductCB]): Array[Int] = {
+    def varyingBatchUpdateNonstrict(productList: scala.collection.immutable.List[Product], option: UpdateOption[ProductCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdateNonstrict(productList, option);
+        return doBatchUpdateNonstrict(productList.asJava, option);
     }
 
     /**
@@ -1376,9 +1376,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(productList: List[Product], option: DeleteOption[ProductCB]): Array[Int] = {
+    def varyingBatchDelete(productList: scala.collection.immutable.List[Product], option: DeleteOption[ProductCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDelete(productList, option);
+        return doBatchDelete(productList.asJava, option);
     }
 
     /**
@@ -1389,9 +1389,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDeleteNonstrict(productList: List[Product], option: DeleteOption[ProductCB]): Array[Int] = {
+    def varyingBatchDeleteNonstrict(productList: scala.collection.immutable.List[Product], option: DeleteOption[ProductCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDeleteNonstrict(productList, option);
+        return doBatchDeleteNonstrict(productList.asJava, option);
     }
 
     // -----------------------------------------------------
@@ -1604,5 +1604,13 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[Product, ProductCB] = {
         return sp.asInstanceOf[QueryInsertSetupper[Product, ProductCB]];
+    }
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: List[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+         // #pending easy convert for now
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 }

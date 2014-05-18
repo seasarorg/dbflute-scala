@@ -259,7 +259,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      */
     def selectList(cb: MemberCB): scala.collection.immutable.List[Member] = {
         val javaList = doSelectList(cb, classOf[Member]);
-        return scala.collection.immutable.List.fromArray(javaList.toArray(Array[Member]())); // #pending easy convert for now
+        return toScalaList(javaList);
     }
 
     protected def doSelectList[ENTITY <: Member](cb: MemberCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
@@ -271,7 +271,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[Member]);
+        return doSelectList(downcast(cb), classOf[Member]); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -464,7 +464,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
             def getPKVal(et: Member): Integer =
             { return et.getMemberId(); }
             def setRfLs(et: Member, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Purchase]()))); }
+            { et.setPurchaseList(toScalaList(ls)); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setMemberId_InScope(ls); }
@@ -486,13 +486,13 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param memberList The list of member. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMemberStatus(memberList: List[Member]): List[MemberStatus] = {
-        return helpPulloutInternally(memberList, new InternalPulloutCallback[Member, MemberStatus]() {
+    def pulloutMemberStatus(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberStatus] = {
+        return toScalaList(helpPulloutInternally(memberList.asJava, new InternalPulloutCallback[Member, MemberStatus]() {
             def getFr(et: Member): MemberStatus = { return et.getMemberStatus(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
-            { et.setMemberList(scala.collection.immutable.List.fromArray(ls.toArray(Array[Member]()))); }
-        });
+            { et.setMemberList(toScalaList(ls)); }
+        }));
     }
     /**
      * Pull out the list of referrer-as-one table 'MemberService'.
@@ -859,9 +859,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param memberList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(memberList: List[Member]): Array[Int] = {
+    def batchInsert(memberList: scala.collection.immutable.List[Member]): Array[Int] = {
         val op: InsertOption[MemberCB] = createInsertUpdateOption();
-        return doBatchInsert(memberList, op);
+        return doBatchInsert(memberList.asJava, op);
     }
 
     protected def doBatchInsert(memberList: List[Member], op: InsertOption[MemberCB]): Array[Int] = {
@@ -878,8 +878,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchInsert(downcast(ls)); }
-        else { return varyingBatchInsert(downcast(ls), downcast(op)); }
+        if (op == null) { return batchInsert(toScalaList(downcast(ls))); }
+        else { return varyingBatchInsert(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -906,9 +906,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(memberList: List[Member]): Array[Int] = {
+    def batchUpdate(memberList: scala.collection.immutable.List[Member]): Array[Int] = {
         val op: UpdateOption[MemberCB] = createPlainUpdateOption();
-        return doBatchUpdate(memberList, op);
+        return doBatchUpdate(memberList.asJava, op);
     }
 
     protected def doBatchUpdate(memberList: List[Member], op: UpdateOption[MemberCB]): Array[Int] = {
@@ -924,8 +924,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdate(downcast(ls)); }
-        else { return varyingBatchUpdate(downcast(ls), downcast(op)); }
+        if (op == null) { return batchUpdate(toScalaList(downcast(ls))); }
+        else { return varyingBatchUpdate(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -956,8 +956,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(memberList: List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Int] = {
-        return doBatchUpdate(memberList, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdate(memberList: scala.collection.immutable.List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Int] = {
+        return doBatchUpdate(memberList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     /**
@@ -984,9 +984,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(memberList: List[Member]): Array[Int] = {
+    def batchUpdateNonstrict(memberList: scala.collection.immutable.List[Member]): Array[Int] = {
         val option: UpdateOption[MemberCB] = createPlainUpdateOption();
-        return doBatchUpdateNonstrict(memberList, option);
+        return doBatchUpdateNonstrict(memberList.asJava, option);
     }
 
     protected def doBatchUpdateNonstrict(memberList: List[Member], op: UpdateOption[MemberCB]): Array[Int] = {
@@ -1022,14 +1022,14 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(memberList: List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Int] = {
-        return doBatchUpdateNonstrict(memberList, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdateNonstrict(memberList: scala.collection.immutable.List[Member], updateColumnSpec: SpecifyQuery[MemberCB]): Array[Int] = {
+        return doBatchUpdateNonstrict(memberList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     @Override
     protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdateNonstrict(downcast(ls)); }
-        else { return varyingBatchUpdateNonstrict(downcast(ls), downcast(op)); }
+        if (op == null) { return batchUpdateNonstrict(toScalaList(downcast(ls))); }
+        else { return varyingBatchUpdateNonstrict(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -1039,8 +1039,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(memberList: List[Member]): Array[Int] = {
-        return doBatchDelete(memberList, null);
+    def batchDelete(memberList: scala.collection.immutable.List[Member]): Array[Int] = {
+        return doBatchDelete(memberList.asJava, null);
     }
 
     protected def doBatchDelete(memberList: List[Member], op: DeleteOption[MemberCB]): Array[Int] = {
@@ -1051,8 +1051,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDelete(downcast(ls)); }
-        else { return varyingBatchDelete(downcast(ls), downcast(op)); }
+        if (op == null) { return batchDelete(toScalaList(downcast(ls))); }
+        else { return varyingBatchDelete(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     /**
@@ -1062,8 +1062,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(memberList: List[Member]): Array[Int] = {
-        return doBatchDeleteNonstrict(memberList, null);
+    def batchDeleteNonstrict(memberList: scala.collection.immutable.List[Member]): Array[Int] = {
+        return doBatchDeleteNonstrict(memberList.asJava, null);
     }
 
     protected def doBatchDeleteNonstrict(memberList: List[Member], op: DeleteOption[MemberCB]): Array[Int] = {
@@ -1074,8 +1074,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDeleteNonstrict(downcast(ls)); }
-        else { return varyingBatchDeleteNonstrict(downcast(ls), downcast(op)); }
+        if (op == null) { return batchDeleteNonstrict(toScalaList(downcast(ls))); }
+        else { return varyingBatchDeleteNonstrict(toScalaList(downcast(ls)), downcast(op)); }
     }
 
     // ===================================================================================
@@ -1361,9 +1361,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(memberList: List[Member], option: InsertOption[MemberCB]): Array[Int] = {
+    def varyingBatchInsert(memberList: scala.collection.immutable.List[Member], option: InsertOption[MemberCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
-        return doBatchInsert(memberList, option);
+        return doBatchInsert(memberList.asJava, option);
     }
 
     /**
@@ -1375,9 +1375,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(memberList: List[Member], option: UpdateOption[MemberCB]): Array[Int] = {
+    def varyingBatchUpdate(memberList: scala.collection.immutable.List[Member], option: UpdateOption[MemberCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdate(memberList, option);
+        return doBatchUpdate(memberList.asJava, option);
     }
 
     /**
@@ -1389,9 +1389,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdateNonstrict(memberList: List[Member], option: UpdateOption[MemberCB]): Array[Int] = {
+    def varyingBatchUpdateNonstrict(memberList: scala.collection.immutable.List[Member], option: UpdateOption[MemberCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdateNonstrict(memberList, option);
+        return doBatchUpdateNonstrict(memberList.asJava, option);
     }
 
     /**
@@ -1402,9 +1402,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(memberList: List[Member], option: DeleteOption[MemberCB]): Array[Int] = {
+    def varyingBatchDelete(memberList: scala.collection.immutable.List[Member], option: DeleteOption[MemberCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDelete(memberList, option);
+        return doBatchDelete(memberList.asJava, option);
     }
 
     /**
@@ -1415,9 +1415,9 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDeleteNonstrict(memberList: List[Member], option: DeleteOption[MemberCB]): Array[Int] = {
+    def varyingBatchDeleteNonstrict(memberList: scala.collection.immutable.List[Member], option: DeleteOption[MemberCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDeleteNonstrict(memberList, option);
+        return doBatchDeleteNonstrict(memberList.asJava, option);
     }
 
     // -----------------------------------------------------
@@ -1630,5 +1630,13 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[Member, MemberCB] = {
         return sp.asInstanceOf[QueryInsertSetupper[Member, MemberCB]];
+    }
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: List[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+         // #pending easy convert for now
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 }
