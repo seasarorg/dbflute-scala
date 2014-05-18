@@ -155,10 +155,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @param subQuery The sub-query of PurchaseList for 'exists'. (NotNull)
      */
-    def existsPurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+    def existsPurchaseList(subQuery: (PurchaseCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForExistsReferrer(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMemberId_ExistsReferrer_PurchaseList(cb.query());
         registerExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
     }
@@ -177,10 +177,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @param subQuery The sub-query of MemberId_NotExistsReferrer_PurchaseList for 'not exists'. (NotNull)
      */
-    def notExistsPurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+    def notExistsPurchaseList(subQuery: (PurchaseCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForExistsReferrer(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMemberId_NotExistsReferrer_PurchaseList(cb.query());
         registerNotExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
     }
@@ -192,10 +192,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
      * @param subQuery The sub-query of PurchaseList for 'in-scope'. (NotNull)
      */
-    def inScopePurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+    def inScopePurchaseList(subQuery: (PurchaseCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForInScopeRelation(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMemberId_InScopeRelation_PurchaseList(cb.query());
         registerInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
     }
@@ -207,10 +207,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
      * @param subQuery The sub-query of PurchaseList for 'not in-scope'. (NotNull)
      */
-    def notInScopePurchaseList(subQuery: SubQuery[PurchaseCB]): Unit = {
+    def notInScopePurchaseList(subQuery: (PurchaseCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForInScopeRelation(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMemberId_NotInScopeRelation_PurchaseList(cb.query());
         registerNotInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
     }
@@ -972,10 +972,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * Prepare for MyselfExists (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfExists(subQuery: SubQuery[MemberCB]): Unit = {
+    def myselfExists(subQuery: (MemberCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberCB = new MemberCB(); cb.xsetupForMyselfExists(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfExists(cb.query());
         registerMyselfExists(cb.query(), pp);
     }
@@ -988,10 +988,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * Prepare for MyselfInScope (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfInScope(subQuery: SubQuery[MemberCB]): Unit = {
+    def myselfInScope(subQuery: (MemberCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberCB = new MemberCB(); cb.xsetupForMyselfInScope(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfInScope(cb.query());
         registerMyselfInScope(cb.query(), pp);
     }

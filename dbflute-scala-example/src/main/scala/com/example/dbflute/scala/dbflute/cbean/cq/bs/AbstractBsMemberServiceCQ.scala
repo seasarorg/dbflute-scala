@@ -785,10 +785,10 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * Prepare for MyselfExists (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfExists(subQuery: SubQuery[MemberServiceCB]): Unit = {
+    def myselfExists(subQuery: (MemberServiceCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberServiceCB = new MemberServiceCB(); cb.xsetupForMyselfExists(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfExists(cb.query());
         registerMyselfExists(cb.query(), pp);
     }
@@ -801,10 +801,10 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * Prepare for MyselfInScope (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfInScope(subQuery: SubQuery[MemberServiceCB]): Unit = {
+    def myselfInScope(subQuery: (MemberServiceCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberServiceCB = new MemberServiceCB(); cb.xsetupForMyselfInScope(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfInScope(cb.query());
         registerMyselfInScope(cb.query(), pp);
     }

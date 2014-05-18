@@ -97,8 +97,8 @@ object CDef {
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        def listAll(): List[Flg] = {
-            return new ArrayList[Flg](_nameValueMap.values());
+        def listAll(): scala.collection.immutable.List[Flg] = {
+            return toScalaList(_nameValueMap.values());
         }
 
         /**
@@ -106,8 +106,8 @@ object CDef {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        def groupOf(groupName: String): List[Flg] = {
-            return new ArrayList[Flg](4);
+        def groupOf(groupName: String): scala.collection.immutable.List[Flg] = {
+            return scala.collection.immutable.List[Flg]();
         }
     }
 
@@ -204,8 +204,8 @@ object CDef {
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        def listAll(): List[MemberStatus] = {
-            return new ArrayList[MemberStatus](_nameValueMap.values());
+        def listAll(): scala.collection.immutable.List[MemberStatus] = {
+            return toScalaList(_nameValueMap.values());
         }
 
         /**
@@ -213,8 +213,8 @@ object CDef {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        def groupOf(groupName: String): List[MemberStatus] = {
-            return new ArrayList[MemberStatus](4);
+        def groupOf(groupName: String): scala.collection.immutable.List[MemberStatus] = {
+            return scala.collection.immutable.List[MemberStatus]();
         }
     }
 
@@ -290,8 +290,8 @@ object CDef {
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        def listAll(): List[ServiceRank] = {
-            return new ArrayList[ServiceRank](_nameValueMap.values());
+        def listAll(): scala.collection.immutable.List[ServiceRank] = {
+            return toScalaList(_nameValueMap.values());
         }
 
         /**
@@ -299,8 +299,8 @@ object CDef {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        def groupOf(groupName: String): List[ServiceRank] = {
-            return new ArrayList[ServiceRank](4);
+        def groupOf(groupName: String): scala.collection.immutable.List[ServiceRank] = {
+            return scala.collection.immutable.List[ServiceRank]();
         }
     }
 
@@ -372,8 +372,8 @@ object CDef {
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        def listAll(): List[Region] = {
-            return new ArrayList[Region](_nameValueMap.values());
+        def listAll(): scala.collection.immutable.List[Region] = {
+            return toScalaList(_nameValueMap.values());
         }
 
         /**
@@ -381,8 +381,8 @@ object CDef {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        def groupOf(groupName: String): List[Region] = {
-            return new ArrayList[Region](4);
+        def groupOf(groupName: String): scala.collection.immutable.List[Region] = {
+            return scala.collection.immutable.List[Region]();
         }
     }
 
@@ -454,8 +454,8 @@ object CDef {
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        def listAll(): List[WithdrawalReason] = {
-            return new ArrayList[WithdrawalReason](_nameValueMap.values());
+        def listAll(): scala.collection.immutable.List[WithdrawalReason] = {
+            return toScalaList(_nameValueMap.values());
         }
 
         /**
@@ -463,8 +463,8 @@ object CDef {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        def groupOf(groupName: String): List[WithdrawalReason] = {
-            return new ArrayList[WithdrawalReason](4);
+        def groupOf(groupName: String): scala.collection.immutable.List[WithdrawalReason] = {
+            return scala.collection.immutable.List[WithdrawalReason]();
         }
     }
 
@@ -540,8 +540,8 @@ object CDef {
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        def listAll(): List[ProductCategory] = {
-            return new ArrayList[ProductCategory](_nameValueMap.values());
+        def listAll(): scala.collection.immutable.List[ProductCategory] = {
+            return toScalaList(_nameValueMap.values());
         }
 
         /**
@@ -549,8 +549,8 @@ object CDef {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        def groupOf(groupName: String): List[ProductCategory] = {
-            return new ArrayList[ProductCategory](4);
+        def groupOf(groupName: String): scala.collection.immutable.List[ProductCategory] = {
+            return scala.collection.immutable.List[ProductCategory]();
         }
     }
 
@@ -618,8 +618,8 @@ object CDef {
          * Get the list of all classification elements. (returns new copied list)
          * @return The list of all classification elements. (NotNull)
          */
-        def listAll(): List[ProductStatus] = {
-            return new ArrayList[ProductStatus](_nameValueMap.values());
+        def listAll(): scala.collection.immutable.List[ProductStatus] = {
+            return toScalaList(_nameValueMap.values());
         }
 
         /**
@@ -627,8 +627,8 @@ object CDef {
          * @param groupName The string of group name, which is case-sensitive. (NullAllowed: if null, returns empty list)
          * @return The list of classification elements in the group. (NotNull)
          */
-        def groupOf(groupName: String): List[ProductStatus] = {
-            return new ArrayList[ProductStatus](4);
+        def groupOf(groupName: String): scala.collection.immutable.List[ProductStatus] = {
+            return scala.collection.immutable.List[ProductStatus]();
         }
     }
 
@@ -678,8 +678,8 @@ object CDef {
             throw new IllegalStateException("Unknown definition: " + this); // basically unreachable
         }
 
-        private def toClassificationList(clsList: List[_]): List[Classification] = {
-            return clsList.asInstanceOf[List[Classification]];
+        private def toClassificationList(clsList: scala.collection.immutable.List[Classification]): List[Classification] = {
+            return clsList.asJava;
         }
 
         def codeType(): ClassificationCodeType = {
@@ -710,5 +710,13 @@ object CDef {
         case object ProductCategory extends DefMeta("ProductCategory");
         /** status for product */
         case object ProductStatus extends DefMeta("ProductStatus");
+    }
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+         // #pending easy convert for now
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 }

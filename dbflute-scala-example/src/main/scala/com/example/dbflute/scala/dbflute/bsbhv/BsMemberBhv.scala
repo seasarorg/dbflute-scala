@@ -2,6 +2,7 @@ package com.example.dbflute.scala.dbflute.bsbhv;
 
 import scala.collection.JavaConverters._;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.seasar.dbflute._;
@@ -1635,7 +1636,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: List[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
          // #pending easy convert for now
         return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }

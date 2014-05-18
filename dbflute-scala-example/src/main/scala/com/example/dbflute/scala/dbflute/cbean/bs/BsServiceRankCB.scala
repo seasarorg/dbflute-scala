@@ -310,10 +310,12 @@ class BsServiceRankCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: SpecifyQuery[ServiceRankCB]): HpColQyOperand[ServiceRankCB] = {
+    def columnQuery(leftSpecifyQuery: (ServiceRankCB) => Unit): HpColQyOperand[ServiceRankCB] = {
         return new HpColQyOperand[ServiceRankCB](new HpColQyHandler[ServiceRankCB]() {
             def handle(rightSp: SpecifyQuery[ServiceRankCB], operand: String): HpCalculator = {
-                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), leftSpecifyQuery, rightSp, operand);
+                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[ServiceRankCB]() {
+                    def specify(cb: ServiceRankCB): Unit = { leftSpecifyQuery(cb); }
+                }, rightSp, operand);
             }
         });
     }
@@ -360,8 +362,10 @@ class BsServiceRankCB extends AbstractConditionBean {
      * </pre>
      * @param orQuery The query for or-condition. (NotNull)
      */
-    def orScopeQuery(orQuery: OrQuery[ServiceRankCB]): Unit = {
-        xorSQ(this.asInstanceOf[ServiceRankCB], orQuery);
+    def orScopeQuery(orQuery: (ServiceRankCB) => Unit): Unit = {
+        xorSQ(this.asInstanceOf[ServiceRankCB], new OrQuery[ServiceRankCB]{
+            def query(orCB: ServiceRankCB): Unit = { orQuery(orCB); }
+        });
     }
 
     /**
@@ -383,8 +387,10 @@ class BsServiceRankCB extends AbstractConditionBean {
      * </pre>
      * @param andQuery The query for and-condition. (NotNull)
      */
-    def orScopeQueryAndPart(andQuery: AndQuery[ServiceRankCB]): Unit = {
-        xorSQAP(this.asInstanceOf[ServiceRankCB], andQuery);
+    def orScopeQueryAndPart(andQuery: (ServiceRankCB) => Unit): Unit = {
+        xorSQAP(this.asInstanceOf[ServiceRankCB], new AndQuery[ServiceRankCB] {
+            def query(cb: ServiceRankCB): Unit = { andQuery(cb); }
+        });
     }
 
     // ===================================================================================

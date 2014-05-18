@@ -310,10 +310,12 @@ class BsMemberStatusCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: SpecifyQuery[MemberStatusCB]): HpColQyOperand[MemberStatusCB] = {
+    def columnQuery(leftSpecifyQuery: (MemberStatusCB) => Unit): HpColQyOperand[MemberStatusCB] = {
         return new HpColQyOperand[MemberStatusCB](new HpColQyHandler[MemberStatusCB]() {
             def handle(rightSp: SpecifyQuery[MemberStatusCB], operand: String): HpCalculator = {
-                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), leftSpecifyQuery, rightSp, operand);
+                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[MemberStatusCB]() {
+                    def specify(cb: MemberStatusCB): Unit = { leftSpecifyQuery(cb); }
+                }, rightSp, operand);
             }
         });
     }
@@ -360,8 +362,10 @@ class BsMemberStatusCB extends AbstractConditionBean {
      * </pre>
      * @param orQuery The query for or-condition. (NotNull)
      */
-    def orScopeQuery(orQuery: OrQuery[MemberStatusCB]): Unit = {
-        xorSQ(this.asInstanceOf[MemberStatusCB], orQuery);
+    def orScopeQuery(orQuery: (MemberStatusCB) => Unit): Unit = {
+        xorSQ(this.asInstanceOf[MemberStatusCB], new OrQuery[MemberStatusCB]{
+            def query(orCB: MemberStatusCB): Unit = { orQuery(orCB); }
+        });
     }
 
     /**
@@ -383,8 +387,10 @@ class BsMemberStatusCB extends AbstractConditionBean {
      * </pre>
      * @param andQuery The query for and-condition. (NotNull)
      */
-    def orScopeQueryAndPart(andQuery: AndQuery[MemberStatusCB]): Unit = {
-        xorSQAP(this.asInstanceOf[MemberStatusCB], andQuery);
+    def orScopeQueryAndPart(andQuery: (MemberStatusCB) => Unit): Unit = {
+        xorSQAP(this.asInstanceOf[MemberStatusCB], new AndQuery[MemberStatusCB] {
+            def query(cb: MemberStatusCB): Unit = { andQuery(cb); }
+        });
     }
 
     // ===================================================================================

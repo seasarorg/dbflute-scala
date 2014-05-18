@@ -365,10 +365,12 @@ class BsMemberServiceCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: SpecifyQuery[MemberServiceCB]): HpColQyOperand[MemberServiceCB] = {
+    def columnQuery(leftSpecifyQuery: (MemberServiceCB) => Unit): HpColQyOperand[MemberServiceCB] = {
         return new HpColQyOperand[MemberServiceCB](new HpColQyHandler[MemberServiceCB]() {
             def handle(rightSp: SpecifyQuery[MemberServiceCB], operand: String): HpCalculator = {
-                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), leftSpecifyQuery, rightSp, operand);
+                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[MemberServiceCB]() {
+                    def specify(cb: MemberServiceCB): Unit = { leftSpecifyQuery(cb); }
+                }, rightSp, operand);
             }
         });
     }
@@ -415,8 +417,10 @@ class BsMemberServiceCB extends AbstractConditionBean {
      * </pre>
      * @param orQuery The query for or-condition. (NotNull)
      */
-    def orScopeQuery(orQuery: OrQuery[MemberServiceCB]): Unit = {
-        xorSQ(this.asInstanceOf[MemberServiceCB], orQuery);
+    def orScopeQuery(orQuery: (MemberServiceCB) => Unit): Unit = {
+        xorSQ(this.asInstanceOf[MemberServiceCB], new OrQuery[MemberServiceCB]{
+            def query(orCB: MemberServiceCB): Unit = { orQuery(orCB); }
+        });
     }
 
     /**
@@ -438,8 +442,10 @@ class BsMemberServiceCB extends AbstractConditionBean {
      * </pre>
      * @param andQuery The query for and-condition. (NotNull)
      */
-    def orScopeQueryAndPart(andQuery: AndQuery[MemberServiceCB]): Unit = {
-        xorSQAP(this.asInstanceOf[MemberServiceCB], andQuery);
+    def orScopeQueryAndPart(andQuery: (MemberServiceCB) => Unit): Unit = {
+        xorSQAP(this.asInstanceOf[MemberServiceCB], new AndQuery[MemberServiceCB] {
+            def query(cb: MemberServiceCB): Unit = { andQuery(cb); }
+        });
     }
 
     // ===================================================================================

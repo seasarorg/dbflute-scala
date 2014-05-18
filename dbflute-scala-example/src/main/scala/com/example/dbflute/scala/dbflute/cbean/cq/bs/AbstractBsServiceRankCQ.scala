@@ -226,10 +226,10 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * </pre>
      * @param subQuery The sub-query of MemberServiceList for 'exists'. (NotNull)
      */
-    def existsMemberServiceList(subQuery: SubQuery[MemberServiceCB]): Unit = {
+    def existsMemberServiceList(subQuery: (MemberServiceCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberServiceCB = new MemberServiceCB(); cb.xsetupForExistsReferrer(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepServiceRankCode_ExistsReferrer_MemberServiceList(cb.query());
         registerExistsReferrer(cb.query(), "SERVICE_RANK_CODE", "SERVICE_RANK_CODE", pp, "memberServiceList");
     }
@@ -248,10 +248,10 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * </pre>
      * @param subQuery The sub-query of ServiceRankCode_NotExistsReferrer_MemberServiceList for 'not exists'. (NotNull)
      */
-    def notExistsMemberServiceList(subQuery: SubQuery[MemberServiceCB]): Unit = {
+    def notExistsMemberServiceList(subQuery: (MemberServiceCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberServiceCB = new MemberServiceCB(); cb.xsetupForExistsReferrer(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepServiceRankCode_NotExistsReferrer_MemberServiceList(cb.query());
         registerNotExistsReferrer(cb.query(), "SERVICE_RANK_CODE", "SERVICE_RANK_CODE", pp, "memberServiceList");
     }
@@ -263,10 +263,10 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceAsOne'.
      * @param subQuery The sub-query of MemberServiceList for 'in-scope'. (NotNull)
      */
-    def inScopeMemberServiceList(subQuery: SubQuery[MemberServiceCB]): Unit = {
+    def inScopeMemberServiceList(subQuery: (MemberServiceCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberServiceCB = new MemberServiceCB(); cb.xsetupForInScopeRelation(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepServiceRankCode_InScopeRelation_MemberServiceList(cb.query());
         registerInScopeRelation(cb.query(), "SERVICE_RANK_CODE", "SERVICE_RANK_CODE", pp, "memberServiceList");
     }
@@ -278,10 +278,10 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceAsOne'.
      * @param subQuery The sub-query of MemberServiceList for 'not in-scope'. (NotNull)
      */
-    def notInScopeMemberServiceList(subQuery: SubQuery[MemberServiceCB]): Unit = {
+    def notInScopeMemberServiceList(subQuery: (MemberServiceCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: MemberServiceCB = new MemberServiceCB(); cb.xsetupForInScopeRelation(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepServiceRankCode_NotInScopeRelation_MemberServiceList(cb.query());
         registerNotInScopeRelation(cb.query(), "SERVICE_RANK_CODE", "SERVICE_RANK_CODE", pp, "memberServiceList");
     }
@@ -829,10 +829,10 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * Prepare for MyselfExists (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfExists(subQuery: SubQuery[ServiceRankCB]): Unit = {
+    def myselfExists(subQuery: (ServiceRankCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: ServiceRankCB = new ServiceRankCB(); cb.xsetupForMyselfExists(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfExists(cb.query());
         registerMyselfExists(cb.query(), pp);
     }
@@ -845,10 +845,10 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * Prepare for MyselfInScope (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfInScope(subQuery: SubQuery[ServiceRankCB]): Unit = {
+    def myselfInScope(subQuery: (ServiceRankCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: ServiceRankCB = new ServiceRankCB(); cb.xsetupForMyselfInScope(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfInScope(cb.query());
         registerMyselfInScope(cb.query(), pp);
     }

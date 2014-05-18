@@ -1021,10 +1021,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * Prepare for MyselfExists (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfExists(subQuery: SubQuery[PurchaseCB]): Unit = {
+    def myselfExists(subQuery: (PurchaseCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForMyselfExists(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfExists(cb.query());
         registerMyselfExists(cb.query(), pp);
     }
@@ -1037,10 +1037,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * Prepare for MyselfInScope (SubQuery).
      * @param subQuery The implementation of sub query. (NotNull)
      */
-    def myselfInScope(subQuery: SubQuery[PurchaseCB]): Unit = {
+    def myselfInScope(subQuery: (PurchaseCB) => Unit): Unit = {
         assertObjectNotNull("subQuery", subQuery);
         val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForMyselfInScope(this);
-        try { lock(); subQuery.query(cb); } finally { unlock(); }
+        try { lock(); subQuery(cb); } finally { unlock(); }
         val pp: String = keepMyselfInScope(cb.query());
         registerMyselfInScope(cb.query(), pp);
     }

@@ -365,10 +365,12 @@ class BsPurchaseCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: SpecifyQuery[PurchaseCB]): HpColQyOperand[PurchaseCB] = {
+    def columnQuery(leftSpecifyQuery: (PurchaseCB) => Unit): HpColQyOperand[PurchaseCB] = {
         return new HpColQyOperand[PurchaseCB](new HpColQyHandler[PurchaseCB]() {
             def handle(rightSp: SpecifyQuery[PurchaseCB], operand: String): HpCalculator = {
-                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), leftSpecifyQuery, rightSp, operand);
+                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[PurchaseCB]() {
+                    def specify(cb: PurchaseCB): Unit = { leftSpecifyQuery(cb); }
+                }, rightSp, operand);
             }
         });
     }
@@ -415,8 +417,10 @@ class BsPurchaseCB extends AbstractConditionBean {
      * </pre>
      * @param orQuery The query for or-condition. (NotNull)
      */
-    def orScopeQuery(orQuery: OrQuery[PurchaseCB]): Unit = {
-        xorSQ(this.asInstanceOf[PurchaseCB], orQuery);
+    def orScopeQuery(orQuery: (PurchaseCB) => Unit): Unit = {
+        xorSQ(this.asInstanceOf[PurchaseCB], new OrQuery[PurchaseCB]{
+            def query(orCB: PurchaseCB): Unit = { orQuery(orCB); }
+        });
     }
 
     /**
@@ -438,8 +442,10 @@ class BsPurchaseCB extends AbstractConditionBean {
      * </pre>
      * @param andQuery The query for and-condition. (NotNull)
      */
-    def orScopeQueryAndPart(andQuery: AndQuery[PurchaseCB]): Unit = {
-        xorSQAP(this.asInstanceOf[PurchaseCB], andQuery);
+    def orScopeQueryAndPart(andQuery: (PurchaseCB) => Unit): Unit = {
+        xorSQAP(this.asInstanceOf[PurchaseCB], new AndQuery[PurchaseCB] {
+            def query(cb: PurchaseCB): Unit = { andQuery(cb); }
+        });
     }
 
     // ===================================================================================

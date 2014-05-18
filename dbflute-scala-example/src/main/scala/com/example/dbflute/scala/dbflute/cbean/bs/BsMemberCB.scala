@@ -362,10 +362,12 @@ class BsMemberCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: SpecifyQuery[MemberCB]): HpColQyOperand[MemberCB] = {
+    def columnQuery(leftSpecifyQuery: (MemberCB) => Unit): HpColQyOperand[MemberCB] = {
         return new HpColQyOperand[MemberCB](new HpColQyHandler[MemberCB]() {
             def handle(rightSp: SpecifyQuery[MemberCB], operand: String): HpCalculator = {
-                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), leftSpecifyQuery, rightSp, operand);
+                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[MemberCB]() {
+                    def specify(cb: MemberCB): Unit = { leftSpecifyQuery(cb); }
+                }, rightSp, operand);
             }
         });
     }
@@ -412,8 +414,10 @@ class BsMemberCB extends AbstractConditionBean {
      * </pre>
      * @param orQuery The query for or-condition. (NotNull)
      */
-    def orScopeQuery(orQuery: OrQuery[MemberCB]): Unit = {
-        xorSQ(this.asInstanceOf[MemberCB], orQuery);
+    def orScopeQuery(orQuery: (MemberCB) => Unit): Unit = {
+        xorSQ(this.asInstanceOf[MemberCB], new OrQuery[MemberCB]{
+            def query(orCB: MemberCB): Unit = { orQuery(orCB); }
+        });
     }
 
     /**
@@ -435,8 +439,10 @@ class BsMemberCB extends AbstractConditionBean {
      * </pre>
      * @param andQuery The query for and-condition. (NotNull)
      */
-    def orScopeQueryAndPart(andQuery: AndQuery[MemberCB]): Unit = {
-        xorSQAP(this.asInstanceOf[MemberCB], andQuery);
+    def orScopeQueryAndPart(andQuery: (MemberCB) => Unit): Unit = {
+        xorSQAP(this.asInstanceOf[MemberCB], new AndQuery[MemberCB] {
+            def query(cb: MemberCB): Unit = { andQuery(cb); }
+        });
     }
 
     // ===================================================================================
