@@ -204,39 +204,46 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     /**
      * Select the entity by the primary-key value.
-     * @param productId The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NullAllowed: if no data, it returns null)
+     * @param productId : PK, ID, NotNull, INTEGER(10). (NotNull)
+     * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValue(productId: Integer): Product = {
-        return doSelectByPKValue(productId, classOf[Product]);
+    def selectByPK(productId: Integer): OptionalEntity[Product] = {
+        return doSelectByPK(productId, classOf[Product]);
     }
 
-    protected def doSelectByPKValue[ENTITY <: Product](productId: Integer, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntity(buildPKCB(productId), entityType);
+    protected def doSelectByPK[ENTITY <: Product](productId: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(productId), entityType));
+    }
+
+    protected def xprepareCBAsPK(productId: Integer): ProductCB = {
+        assertObjectNotNull("productId", productId);
+        val cb: ProductCB = newMyConditionBean();
+        cb.query().setProductId_Equal(productId);;
+        return cb;
     }
 
     /**
-     * Select the entity by the primary-key value with deleted check.
-     * @param productId The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NotNull: if no data, throws exception)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
+     * Select the entity by the unique-key value.
+     * @param productHandleCode (商品ハンドルコード): UQ, NotNull, VARCHAR(100). (NotNull)
+     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValueWithDeletedCheck(productId: Integer): Product = {
-        return doSelectByPKValueWithDeletedCheck(productId, classOf[Product]);
+    def selectByUniqueOf(productHandleCode: String): OptionalEntity[Product] = {
+        return doSelectByUniqueOf(productHandleCode, classOf[Product]);
     }
 
-    protected def doSelectByPKValueWithDeletedCheck[ENTITY <: Product](productId: Integer, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntityWithDeletedCheck(buildPKCB(productId), entityType);
+    protected def doSelectByUniqueOf[ENTITY <: Product](productHandleCode: String, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(productHandleCode), entityType), productHandleCode);
     }
 
-    private def buildPKCB(productId: Integer): ProductCB = {
-        assertObjectNotNull("productId", productId);
-        val cb: ProductCB = newMyConditionBean();
-        cb.query().setProductId_Equal(productId);
+    protected def xprepareCBAsUniqueOf(productHandleCode: String): ProductCB = {
+        assertObjectNotNull("productHandleCode", productHandleCode);
+        val cb: ProductCB = newMyConditionBean(); cb.acceptUniqueOf(productHandleCode);
         return cb;
     }
 
@@ -474,7 +481,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
             def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: Purchase): Integer = { return re.getProductId(); }
             def setlcEt(re: Purchase, le: Product): Unit =
-            { re.setProduct(le); }
+            { re.setProduct(OptionalEntity.of(le)); }
             def getRfPrNm(): String = { return "purchaseList"; }
         });
     }

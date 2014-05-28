@@ -204,39 +204,48 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     /**
      * Select the entity by the primary-key value.
-     * @param purchaseId The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NullAllowed: if no data, it returns null)
+     * @param purchaseId : PK, ID, NotNull, BIGINT(19). (NotNull)
+     * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValue(purchaseId: Long): Purchase = {
-        return doSelectByPKValue(purchaseId, classOf[Purchase]);
+    def selectByPK(purchaseId: Long): OptionalEntity[Purchase] = {
+        return doSelectByPK(purchaseId, classOf[Purchase]);
     }
 
-    protected def doSelectByPKValue[ENTITY <: Purchase](purchaseId: Long, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntity(buildPKCB(purchaseId), entityType);
+    protected def doSelectByPK[ENTITY <: Purchase](purchaseId: Long, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(purchaseId), entityType));
+    }
+
+    protected def xprepareCBAsPK(purchaseId: Long): PurchaseCB = {
+        assertObjectNotNull("purchaseId", purchaseId);
+        val cb: PurchaseCB = newMyConditionBean();
+        cb.query().setPurchaseId_Equal(purchaseId);;
+        return cb;
     }
 
     /**
-     * Select the entity by the primary-key value with deleted check.
-     * @param purchaseId The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NotNull: if no data, throws exception)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
+     * Select the entity by the unique-key value.
+     * @param memberId (会員ID): UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
+     * @param productId (商品ID): +UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT. (NotNull)
+     * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
+     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValueWithDeletedCheck(purchaseId: Long): Purchase = {
-        return doSelectByPKValueWithDeletedCheck(purchaseId, classOf[Purchase]);
+    def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): OptionalEntity[Purchase] = {
+        return doSelectByUniqueOf(memberId, productId, purchaseDatetime, classOf[Purchase]);
     }
 
-    protected def doSelectByPKValueWithDeletedCheck[ENTITY <: Purchase](purchaseId: Long, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntityWithDeletedCheck(buildPKCB(purchaseId), entityType);
+    protected def doSelectByUniqueOf[ENTITY <: Purchase](memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(memberId, productId, purchaseDatetime), entityType), memberId, productId, purchaseDatetime);
     }
 
-    private def buildPKCB(purchaseId: Long): PurchaseCB = {
-        assertObjectNotNull("purchaseId", purchaseId);
-        val cb: PurchaseCB = newMyConditionBean();
-        cb.query().setPurchaseId_Equal(purchaseId);
+    protected def xprepareCBAsUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): PurchaseCB = {
+        assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
+        val cb: PurchaseCB = newMyConditionBean(); cb.acceptUniqueOf(memberId, productId, purchaseDatetime);
         return cb;
     }
 
@@ -402,7 +411,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      */
     def pulloutMember(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Member] = {
         return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[Purchase, Member]() {
-            def getFr(et: Purchase): Member = { return et.getMember(); }
+            def getFr(et: Purchase): Member =
+            { return et.getMember().get(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Member, ls: List[Purchase]): Unit =
             { et.setPurchaseList(toScalaList(ls)); }
@@ -415,7 +425,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      */
     def pulloutProduct(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Product] = {
         return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[Purchase, Product]() {
-            def getFr(et: Purchase): Product = { return et.getProduct(); }
+            def getFr(et: Purchase): Product =
+            { return et.getProduct().get(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Product, ls: List[Purchase]): Unit =
             { et.setPurchaseList(toScalaList(ls)); }

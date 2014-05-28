@@ -19,6 +19,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBFluteConfig;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 import com.example.dbflute.scala.dbflute.cbean.nss._
@@ -79,10 +80,24 @@ class BsMemberCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                 PrimaryKey Handling
     //                                                                 ===================
+    /**
+     * Accept the query condition of primary key as equal.
+     * @param memberId (会員ID): PK, ID, NotNull, INTEGER(10). (NotNull)
+     */
     def acceptPrimaryKey(memberId: Integer): Unit = {
         assertObjectNotNull("memberId", memberId);
         val cb: BsMemberCB = this;
-        cb.query().setMemberId_Equal(memberId);
+        cb.query().setMemberId_Equal(memberId);;
+    }
+
+    /**
+     * Accept the query condition of unique key as equal.
+     * @param memberAccount (会員アカウント): UQ, NotNull, VARCHAR(50). (NotNull)
+     */
+    def acceptUniqueOf(memberAccount: String): Unit = {
+        assertObjectNotNull("memberAccount", memberAccount);
+        val cb: BsMemberCB = this;
+        cb.query().setMemberAccount_Equal(memberAccount);;
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {
@@ -362,8 +377,8 @@ class BsMemberCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: (MemberCB) => Unit): HpColQyOperand[MemberCB] = {
-        return new HpColQyOperand[MemberCB](new HpColQyHandler[MemberCB]() {
+    def columnQuery(leftSpecifyQuery: (MemberCB) => Unit): ScrHpColQyOperand[MemberCB] = {
+        return new ScrHpColQyOperand[MemberCB](new HpColQyHandler[MemberCB]() {
             def handle(rightSp: SpecifyQuery[MemberCB], operand: String): HpCalculator = {
                 return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[MemberCB]() {
                     def specify(cb: MemberCB): Unit = { leftSpecifyQuery(cb); }

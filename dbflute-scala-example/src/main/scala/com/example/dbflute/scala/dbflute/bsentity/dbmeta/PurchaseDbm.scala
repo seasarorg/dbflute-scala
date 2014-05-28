@@ -10,15 +10,16 @@ import java.util.HashMap
 
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.optional.OptionalEntity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta._;
 import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
-import org.seasar.dbflute.dbmeta.info._
-import org.seasar.dbflute.dbmeta.name._
+import org.seasar.dbflute.dbmeta.info._;
+import org.seasar.dbflute.dbmeta.name._;
 import org.seasar.dbflute.jdbc.Classification;
-import com.example.dbflute.scala.dbflute.allcommon._
-import com.example.dbflute.scala.dbflute.exentity._
+import com.example.dbflute.scala.dbflute.allcommon._;
+import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
  * The DB meta of PURCHASE. (Singleton)
@@ -34,6 +35,9 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                    Property Gateway
     //                                                                    ================
+    // -----------------------------------------------------
+    //                                       Column Property
+    //                                       ---------------
     protected val _epgMap: Map[String, PropertyGateway] = newHashMap();
     {
         setupEpg(_epgMap, new EpgPurchaseId(), "purchaseId");
@@ -49,7 +53,6 @@ object PurchaseDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgUpdateUser(), "updateUser");
         setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
-    def findPropertyGateway(propertyName: String): PropertyGateway = { return doFindEpg(_epgMap, propertyName); }
     class EpgPurchaseId extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getPurchaseId(); }
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setPurchaseId(dgctl(vl)); }
@@ -98,7 +101,6 @@ object PurchaseDbm extends AbstractDBMeta {
         def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getVersionNo(); }
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setVersionNo(dgctl(vl)); }
     }
-
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
@@ -106,6 +108,25 @@ object PurchaseDbm extends AbstractDBMeta {
     def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
+    override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
+
+    // -----------------------------------------------------
+    //                                      Foreign Property
+    //                                      ----------------
+    protected val _efpgMap: Map[String, PropertyGateway] = newHashMap();
+    {
+        setupEfpg(_efpgMap, new EfpgMember(), "member");
+        setupEfpg(_efpgMap, new EfpgProduct(), "product");
+    }
+    class EfpgMember extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getMember(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setMember(vl.asInstanceOf[OptionalEntity[Member]]); }
+    }
+    class EfpgProduct extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].getProduct(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].setProduct(vl.asInstanceOf[OptionalEntity[Product]]); }
+    }
+    override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
 
     // ===================================================================================
     //                                                                          Table Info
@@ -123,18 +144,18 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, true, "purchaseId", classOf[Long], true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_875BB32E_35B1_4600_BBB7_27B2C3A4549D", false, null, null, null, null, null);
-    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", true, "memberId", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
-    protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, "商品ID", true, "productId", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, "product", null, null);
-    protected val _columnPurchaseDatetime: ColumnInfo = cci("PURCHASE_DATETIME", "PURCHASE_DATETIME", null, "購入日時", true, "purchaseDatetime", classOf[java.sql.Timestamp], false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
-    protected val _columnPurchaseCount: ColumnInfo = cci("PURCHASE_COUNT", "PURCHASE_COUNT", null, "購入数量", true, "purchaseCount", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
-    protected val _columnPurchasePrice: ColumnInfo = cci("PURCHASE_PRICE", "PURCHASE_PRICE", null, "購入価格", true, "purchasePrice", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
-    protected val _columnPaymentCompleteFlg: ColumnInfo = cci("PAYMENT_COMPLETE_FLG", "PAYMENT_COMPLETE_FLG", null, "支払完了フラグ", true, "paymentCompleteFlg", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, null, null, CDef.DefMeta.Flg);
-    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, true, "registerDatetime", classOf[java.sql.Timestamp], false, false, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
-    protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, true, "registerUser", classOf[String], false, false, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, true, "updateDatetime", classOf[java.sql.Timestamp], false, false, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
-    protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, null, true, "updateUser", classOf[String], false, false, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnVersionNo: ColumnInfo = cci("VERSION_NO", "VERSION_NO", null, null, true, "versionNo", classOf[Long], false, false, "BIGINT", 19, 0, null, false, OptimisticLockType.VERSION_NO, null, null, null, null);
+    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, classOf[Long], "purchaseId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_875BB32E_35B1_4600_BBB7_27B2C3A4549D", false, null, null, null, null, null);
+    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
+    protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, "商品ID", classOf[Integer], "productId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "product", null, null);
+    protected val _columnPurchaseDatetime: ColumnInfo = cci("PURCHASE_DATETIME", "PURCHASE_DATETIME", null, "購入日時", classOf[java.sql.Timestamp], "purchaseDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnPurchaseCount: ColumnInfo = cci("PURCHASE_COUNT", "PURCHASE_COUNT", null, "購入数量", classOf[Integer], "purchaseCount", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
+    protected val _columnPurchasePrice: ColumnInfo = cci("PURCHASE_PRICE", "PURCHASE_PRICE", null, "購入価格", classOf[Integer], "purchasePrice", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
+    protected val _columnPaymentCompleteFlg: ColumnInfo = cci("PAYMENT_COMPLETE_FLG", "PAYMENT_COMPLETE_FLG", null, "支払完了フラグ", classOf[Integer], "paymentCompleteFlg", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, CDef.DefMeta.Flg);
+    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
+    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[java.sql.Timestamp], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, null, classOf[String], "updateUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
+    protected val _columnVersionNo: ColumnInfo = cci("VERSION_NO", "VERSION_NO", null, null, classOf[Long], "versionNo", null, false, false, true, "BIGINT", 19, 0, null, false, OptimisticLockType.VERSION_NO, null, null, null, null);
 
     def columnPurchaseId(): ColumnInfo = { return _columnPurchaseId; }
     def columnMemberId(): ColumnInfo = { return _columnMemberId; }
@@ -181,16 +202,18 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                       Relation Info
     //                                                                       =============
+    // cannot cache because it uses related DB meta instance while booting
+    // (instead, cached by super's collection)
     // -----------------------------------------------------
     //                                      Foreign Property
     //                                      ----------------
     def foreignMember(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberDbm.columnMemberId());
-        return cfi("FK_PURCHASE_MEMBER", "member", this, MemberDbm, mp, 0, null, false, false, false, false, null, null, false, "purchaseList");
+        return cfi("FK_PURCHASE_MEMBER", "member", this, MemberDbm, mp, 0, classOf[org.seasar.dbflute.optional.OptionalEntity[_]], false, false, false, false, null, null, false, "purchaseList");
     }
     def foreignProduct(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnProductId(), ProductDbm.columnProductId());
-        return cfi("FK_PURCHASE_PRODUCT", "product", this, ProductDbm, mp, 1, null, false, false, false, false, null, null, false, "purchaseList");
+        return cfi("FK_PURCHASE_PRODUCT", "product", this, ProductDbm, mp, 1, classOf[org.seasar.dbflute.optional.OptionalEntity[_]], false, false, false, false, null, null, false, "purchaseList");
     }
 
     // -----------------------------------------------------

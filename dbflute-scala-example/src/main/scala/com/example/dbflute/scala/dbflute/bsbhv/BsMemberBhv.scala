@@ -204,39 +204,46 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     /**
      * Select the entity by the primary-key value.
-     * @param memberId The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NullAllowed: if no data, it returns null)
+     * @param memberId (会員ID): PK, ID, NotNull, INTEGER(10). (NotNull)
+     * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValue(memberId: Integer): Member = {
-        return doSelectByPKValue(memberId, classOf[Member]);
+    def selectByPK(memberId: Integer): OptionalEntity[Member] = {
+        return doSelectByPK(memberId, classOf[Member]);
     }
 
-    protected def doSelectByPKValue[ENTITY <: Member](memberId: Integer, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntity(buildPKCB(memberId), entityType);
+    protected def doSelectByPK[ENTITY <: Member](memberId: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(memberId), entityType));
+    }
+
+    protected def xprepareCBAsPK(memberId: Integer): MemberCB = {
+        assertObjectNotNull("memberId", memberId);
+        val cb: MemberCB = newMyConditionBean();
+        cb.query().setMemberId_Equal(memberId);;
+        return cb;
     }
 
     /**
-     * Select the entity by the primary-key value with deleted check.
-     * @param memberId The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NotNull: if no data, throws exception)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
+     * Select the entity by the unique-key value.
+     * @param memberAccount (会員アカウント): UQ, NotNull, VARCHAR(50). (NotNull)
+     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValueWithDeletedCheck(memberId: Integer): Member = {
-        return doSelectByPKValueWithDeletedCheck(memberId, classOf[Member]);
+    def selectByUniqueOf(memberAccount: String): OptionalEntity[Member] = {
+        return doSelectByUniqueOf(memberAccount, classOf[Member]);
     }
 
-    protected def doSelectByPKValueWithDeletedCheck[ENTITY <: Member](memberId: Integer, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntityWithDeletedCheck(buildPKCB(memberId), entityType);
+    protected def doSelectByUniqueOf[ENTITY <: Member](memberAccount: String, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(memberAccount), entityType), memberAccount);
     }
 
-    private def buildPKCB(memberId: Integer): MemberCB = {
-        assertObjectNotNull("memberId", memberId);
-        val cb: MemberCB = newMyConditionBean();
-        cb.query().setMemberId_Equal(memberId);
+    protected def xprepareCBAsUniqueOf(memberAccount: String): MemberCB = {
+        assertObjectNotNull("memberAccount", memberAccount);
+        val cb: MemberCB = newMyConditionBean(); cb.acceptUniqueOf(memberAccount);
         return cb;
     }
 
@@ -474,7 +481,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
             def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: Purchase): Integer = { return re.getMemberId(); }
             def setlcEt(re: Purchase, le: Member): Unit =
-            { re.setMember(le); }
+            { re.setMember(OptionalEntity.of(le)); }
             def getRfPrNm(): String = { return "purchaseList"; }
         });
     }
@@ -489,7 +496,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      */
     def pulloutMemberStatus(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberStatus] = {
         return toScalaList(helpPulloutInternally(memberList.asJava, new InternalPulloutCallback[Member, MemberStatus]() {
-            def getFr(et: Member): MemberStatus = { return et.getMemberStatus(); }
+            def getFr(et: Member): MemberStatus =
+            { return et.getMemberStatus().get(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
             { et.setMemberList(toScalaList(ls)); }
@@ -502,10 +510,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      */
     def pulloutMemberServiceAsOne(memberList: List[Member]): List[MemberService] = {
         return helpPulloutInternally(memberList, new InternalPulloutCallback[Member, MemberService]() {
-            def getFr(et: Member): MemberService = { return et.getMemberServiceAsOne(); }
+            def getFr(et: Member): MemberService =
+            { return et.getMemberServiceAsOne().get(); }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: MemberService, ls: List[Member]): Unit =
-            { if (!ls.isEmpty()) { et.setMember(ls.get(0)); } }
+            { if (!ls.isEmpty()) { et.setMember(OptionalEntity.of(ls.get(0))); } }
         });
     }
 

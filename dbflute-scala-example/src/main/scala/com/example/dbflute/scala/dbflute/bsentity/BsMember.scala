@@ -9,6 +9,8 @@ import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.optional.OptionalEntity;
+import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
@@ -122,6 +124,9 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
+
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
 
@@ -167,6 +172,28 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     def hasPrimaryKeyValue(): Boolean = {
         if (getMemberId() == null) { return false; }
         return true;
+    }
+
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param memberAccount (会員アカウント): UQ, NotNull, VARCHAR(50). (NotNull)
+     */
+    def uniqueBy(memberAccount: String): Unit = {
+        __uniqueDrivenProperties.clear();
+        __uniqueDrivenProperties.addPropertyName("memberAccount");
+        setMemberAccount(memberAccount);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def myuniqueDrivenProperties(): Set[String] = {
+        return __uniqueDrivenProperties.getPropertyNames();
+    }
+
+    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -229,7 +256,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeFormalized(): Boolean = {
+    def isMemberStatusCode_Formalized(): Boolean = {
         val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Formalized) } else { false };
     }
@@ -240,7 +267,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeWithdrawal(): Boolean = {
+    def isMemberStatusCode_Withdrawal(): Boolean = {
         val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Withdrawal) } else { false };
     }
@@ -251,7 +278,7 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeProvisional(): Boolean = {
+    def isMemberStatusCode_Provisional(): Boolean = {
         val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Provisional) } else { false };
     }
@@ -263,40 +290,40 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     //                                                                    Foreign Property
     //                                                                    ================
     /** (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'. */
-    protected var _memberStatus: MemberStatus = null;
+    protected var _memberStatus: OptionalEntity[MemberStatus] = null;
 
     /**
      * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
      * @return The entity of foreign property 'memberStatus'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def getMemberStatus(): MemberStatus = {
-        return _memberStatus;
+    def getMemberStatus(): OptionalEntity[MemberStatus] = {
+        return if (_memberStatus != null) { _memberStatus; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "memberStatus"); }
     }
 
     /**
      * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
      * @param memberStatus The entity of foreign property 'memberStatus'. (NullAllowed)
      */
-    def setMemberStatus(memberStatus: MemberStatus): Unit = {
+    def setMemberStatus(memberStatus: OptionalEntity[MemberStatus]): Unit = {
         _memberStatus = memberStatus;
     }
 
     /** (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'. */
-    protected var _memberServiceAsOne: MemberService = null;
+    protected var _memberServiceAsOne: OptionalEntity[MemberService] = null;
 
     /**
      * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @return the entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (NullAllowed: when e.g. no data, no setupSelect)
      */
-    def getMemberServiceAsOne(): MemberService = {
-        return _memberServiceAsOne;
+    def getMemberServiceAsOne(): OptionalEntity[MemberService] = {
+        return if (_memberServiceAsOne != null) { _memberServiceAsOne; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "memberServiceAsOne"); }
     }
 
     /**
      * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @param memberServiceAsOne The entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (NullAllowed)
      */
-    def setMemberServiceAsOne(memberServiceAsOne: MemberService): Unit = {
+    def setMemberServiceAsOne(memberServiceAsOne: OptionalEntity[MemberService]): Unit = {
         _memberServiceAsOne = memberServiceAsOne;
     }
 
@@ -455,18 +482,21 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     def toStringWithRelation(): String = {
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
-        val l: String = "\n  ";
+        val li: String = "\n  ";
         if (_memberStatus != null)
-        { sb.append(l).append(xbRDS(_memberStatus, "memberStatus")); }
+        { sb.append(li).append(xbRDS(_memberStatus, "memberStatus")); }
         if (_memberServiceAsOne != null)
-        { sb.append(l).append(xbRDS(_memberServiceAsOne, "memberServiceAsOne")); }
+        { sb.append(li).append(xbRDS(_memberServiceAsOne, "memberServiceAsOne")); }
         if (_purchaseList != null) {
-            _purchaseList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
+            _purchaseList.foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "purchaseList")) } });
         }
         return sb.toString();
     }
-    protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
-        return e.buildDisplayString(name, true, true);
+    protected def xbRDS(et: Entity, name: String): String = {
+        return et.buildDisplayString(name, true, true);
+    }
+    protected def xbRDS[ET <: Entity](et: org.seasar.dbflute.optional.OptionalEntity[ET], name: String): String = {
+        return et.get().buildDisplayString(name, true, true);
     }
 
     /**
@@ -482,20 +512,20 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ", ";
-        sb.append(delimiter).append(getMemberId());
-        sb.append(delimiter).append(getMemberName());
-        sb.append(delimiter).append(getMemberAccount());
-        sb.append(delimiter).append(getMemberStatusCode());
-        sb.append(delimiter).append(getFormalizedDatetime());
-        sb.append(delimiter).append(xfUD(getBirthdate()));
-        sb.append(delimiter).append(getRegisterDatetime());
-        sb.append(delimiter).append(getRegisterUser());
-        sb.append(delimiter).append(getUpdateDatetime());
-        sb.append(delimiter).append(getUpdateUser());
-        sb.append(delimiter).append(getVersionNo());
-        if (sb.length() > delimiter.length()) {
-            sb.delete(0, delimiter.length());
+        val dm: String = ", ";
+        sb.append(dm).append(getMemberId());
+        sb.append(dm).append(getMemberName());
+        sb.append(dm).append(getMemberAccount());
+        sb.append(dm).append(getMemberStatusCode());
+        sb.append(dm).append(getFormalizedDatetime());
+        sb.append(dm).append(xfUD(getBirthdate()));
+        sb.append(dm).append(getRegisterDatetime());
+        sb.append(dm).append(getRegisterUser());
+        sb.append(dm).append(getUpdateDatetime());
+        sb.append(dm).append(getUpdateUser());
+        sb.append(dm).append(getVersionNo());
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
@@ -508,13 +538,13 @@ abstract class BsMember extends EntityDefinedCommonColumn with Serializable with
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val c: String = ",  ";
-        if (_memberStatus != null) { sb.append(c).append("memberStatus"); }
-        if (_memberServiceAsOne != null) { sb.append(c).append("memberServiceAsOne"); }
+        val cm: String = ",  ";
+        if (_memberStatus != null) { sb.append(cm).append("memberStatus"); }
+        if (_memberServiceAsOne != null) { sb.append(cm).append("memberServiceAsOne"); }
         if (_purchaseList != null && !_purchaseList.isEmpty)
-        { sb.append(c).append("purchaseList"); }
-        if (sb.length() > c.length()) {
-            sb.delete(0, c.length()).insert(0, "(").append(")");
+        { sb.append(cm).append("purchaseList"); }
+        if (sb.length() > cm.length()) {
+            sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }

@@ -3,6 +3,8 @@ package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 import java.util.Map;
 
 import org.seasar.dbflute.cbean._
+import org.seasar.dbflute.cbean.chelper._
+import org.seasar.dbflute.cbean.coption._
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.exception.IllegalConditionBeanOperationException;
@@ -445,5 +447,7 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     // very internal (for suppressing warn about 'Not Use Import')
     protected def xCB(): String = { return classOf[MemberServiceCB].getName(); }
     protected def xCQ(): String = { return classOf[MemberServiceCQ].getName(); }
+    protected def xCHp(): String = { return classOf[HpCalculator].getName(); }
+    protected def xCOp(): String = { return classOf[ConditionOption].getName(); }
     protected def xMap(): String = { return classOf[Map[_, _]].getName(); }
 }

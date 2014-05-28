@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
@@ -95,6 +96,9 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
+
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
 
@@ -137,6 +141,28 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     def hasPrimaryKeyValue(): Boolean = {
         if (getServiceRankCode() == null) { return false; }
         return true;
+    }
+
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
+     */
+    def uniqueBy(displayOrder: Integer): Unit = {
+        __uniqueDrivenProperties.clear();
+        __uniqueDrivenProperties.addPropertyName("displayOrder");
+        setDisplayOrder(displayOrder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def myuniqueDrivenProperties(): Set[String] = {
+        return __uniqueDrivenProperties.getPropertyNames();
+    }
+
+    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -252,7 +278,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodePlatinum(): Boolean = {
+    def isServiceRankCode_Platinum(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Platinum) } else { false };
     }
@@ -263,7 +289,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodeGold(): Boolean = {
+    def isServiceRankCode_Gold(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Gold) } else { false };
     }
@@ -274,7 +300,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodeSilver(): Boolean = {
+    def isServiceRankCode_Silver(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Silver) } else { false };
     }
@@ -285,7 +311,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodeBronze(): Boolean = {
+    def isServiceRankCode_Bronze(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Bronze) } else { false };
     }
@@ -296,7 +322,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodePlastic(): Boolean = {
+    def isServiceRankCode_Plastic(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Plastic) } else { false };
     }
@@ -307,7 +333,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isNewAcceptableFlgTrue(): Boolean = {
+    def isNewAcceptableFlg_True(): Boolean = {
         val cdef: CDef.Flg = getNewAcceptableFlgAsFlg();
         return if (cdef != null) { cdef.equals(CDef.Flg.True) } else { false };
     }
@@ -318,7 +344,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isNewAcceptableFlgFalse(): Boolean = {
+    def isNewAcceptableFlg_False(): Boolean = {
         val cdef: CDef.Flg = getNewAcceptableFlgAsFlg();
         return if (cdef != null) { cdef.equals(CDef.Flg.False) } else { false };
     }
@@ -478,14 +504,14 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     def toStringWithRelation(): String = {
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
-        val l: String = "\n  ";
+        val li: String = "\n  ";
         if (_memberServiceList != null) {
-            _memberServiceList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "memberServiceList")) } });
+            _memberServiceList.foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberServiceList")) } });
         }
         return sb.toString();
     }
-    protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
-        return e.buildDisplayString(name, true, true);
+    protected def xbRDS(et: Entity, name: String): String = {
+        return et.buildDisplayString(name, true, true);
     }
 
     /**
@@ -501,26 +527,26 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ", ";
-        sb.append(delimiter).append(getServiceRankCode());
-        sb.append(delimiter).append(getServiceRankName());
-        sb.append(delimiter).append(getServicePointIncidence());
-        sb.append(delimiter).append(getNewAcceptableFlg());
-        sb.append(delimiter).append(getDescription());
-        sb.append(delimiter).append(getDisplayOrder());
-        if (sb.length() > delimiter.length()) {
-            sb.delete(0, delimiter.length());
+        val dm: String = ", ";
+        sb.append(dm).append(getServiceRankCode());
+        sb.append(dm).append(getServiceRankName());
+        sb.append(dm).append(getServicePointIncidence());
+        sb.append(dm).append(getNewAcceptableFlg());
+        sb.append(dm).append(getDescription());
+        sb.append(dm).append(getDisplayOrder());
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val c: String = ",  ";
+        val cm: String = ",  ";
         if (_memberServiceList != null && !_memberServiceList.isEmpty)
-        { sb.append(c).append("memberServiceList"); }
-        if (sb.length() > c.length()) {
-            sb.delete(0, c.length()).insert(0, "(").append(")");
+        { sb.append(cm).append("memberServiceList"); }
+        if (sb.length() > cm.length()) {
+            sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }

@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.optional.OptionalEntity;
+import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
@@ -90,13 +92,13 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     /** PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} */
     protected var _purchaseId: Long = null;
 
-    /** (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} */
+    /** (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} */
     protected var _memberId: Integer = null;
 
-    /** (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT} */
+    /** (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} */
     protected var _productId: Integer = null;
 
-    /** (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)} */
+    /** (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} */
     protected var _purchaseDatetime: java.sql.Timestamp = null;
 
     /** (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} */
@@ -126,6 +128,9 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
+
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
 
@@ -171,6 +176,32 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     def hasPrimaryKeyValue(): Boolean = {
         if (getPurchaseId() == null) { return false; }
         return true;
+    }
+
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param memberId (会員ID): UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
+     * @param productId (商品ID): +UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT. (NotNull)
+     * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
+     */
+    def uniqueBy(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Unit = {
+        __uniqueDrivenProperties.clear();
+        __uniqueDrivenProperties.addPropertyName("memberId");
+        __uniqueDrivenProperties.addPropertyName("productId");
+        __uniqueDrivenProperties.addPropertyName("purchaseDatetime");
+        setMemberId(memberId);setProductId(productId);setPurchaseDatetime(purchaseDatetime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def myuniqueDrivenProperties(): Set[String] = {
+        return __uniqueDrivenProperties.getPropertyNames();
+    }
+
+    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -225,7 +256,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isPaymentCompleteFlgTrue(): Boolean = {
+    def isPaymentCompleteFlg_True(): Boolean = {
         val cdef: CDef.Flg = getPaymentCompleteFlgAsFlg();
         return if (cdef != null) { cdef.equals(CDef.Flg.True) } else { false };
     }
@@ -236,7 +267,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isPaymentCompleteFlgFalse(): Boolean = {
+    def isPaymentCompleteFlg_False(): Boolean = {
         val cdef: CDef.Flg = getPaymentCompleteFlgAsFlg();
         return if (cdef != null) { cdef.equals(CDef.Flg.False) } else { false };
     }
@@ -266,40 +297,40 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     //                                                                    Foreign Property
     //                                                                    ================
     /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
-    protected var _member: Member = null;
+    protected var _member: OptionalEntity[Member] = null;
 
     /**
      * (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @return The entity of foreign property 'member'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def getMember(): Member = {
-        return _member;
+    def getMember(): OptionalEntity[Member] = {
+        return if (_member != null) { _member; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "member"); }
     }
 
     /**
      * (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @param member The entity of foreign property 'member'. (NullAllowed)
      */
-    def setMember(member: Member): Unit = {
+    def setMember(member: OptionalEntity[Member]): Unit = {
         _member = member;
     }
 
     /** (商品)PRODUCT by my PRODUCT_ID, named 'product'. */
-    protected var _product: Product = null;
+    protected var _product: OptionalEntity[Product] = null;
 
     /**
      * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
      * @return The entity of foreign property 'product'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def getProduct(): Product = {
-        return _product;
+    def getProduct(): OptionalEntity[Product] = {
+        return if (_product != null) { _product; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "product"); }
     }
 
     /**
      * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
      * @param product The entity of foreign property 'product'. (NullAllowed)
      */
-    def setProduct(product: Product): Unit = {
+    def setProduct(product: OptionalEntity[Product]): Unit = {
         _product = product;
     }
 
@@ -438,15 +469,18 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     def toStringWithRelation(): String = {
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
-        val l: String = "\n  ";
+        val li: String = "\n  ";
         if (_member != null)
-        { sb.append(l).append(xbRDS(_member, "member")); }
+        { sb.append(li).append(xbRDS(_member, "member")); }
         if (_product != null)
-        { sb.append(l).append(xbRDS(_product, "product")); }
+        { sb.append(li).append(xbRDS(_product, "product")); }
         return sb.toString();
     }
-    protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
-        return e.buildDisplayString(name, true, true);
+    protected def xbRDS(et: Entity, name: String): String = {
+        return et.buildDisplayString(name, true, true);
+    }
+    protected def xbRDS[ET <: Entity](et: org.seasar.dbflute.optional.OptionalEntity[ET], name: String): String = {
+        return et.get().buildDisplayString(name, true, true);
     }
 
     /**
@@ -462,32 +496,32 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ", ";
-        sb.append(delimiter).append(getPurchaseId());
-        sb.append(delimiter).append(getMemberId());
-        sb.append(delimiter).append(getProductId());
-        sb.append(delimiter).append(getPurchaseDatetime());
-        sb.append(delimiter).append(getPurchaseCount());
-        sb.append(delimiter).append(getPurchasePrice());
-        sb.append(delimiter).append(getPaymentCompleteFlg());
-        sb.append(delimiter).append(getRegisterDatetime());
-        sb.append(delimiter).append(getRegisterUser());
-        sb.append(delimiter).append(getUpdateDatetime());
-        sb.append(delimiter).append(getUpdateUser());
-        sb.append(delimiter).append(getVersionNo());
-        if (sb.length() > delimiter.length()) {
-            sb.delete(0, delimiter.length());
+        val dm: String = ", ";
+        sb.append(dm).append(getPurchaseId());
+        sb.append(dm).append(getMemberId());
+        sb.append(dm).append(getProductId());
+        sb.append(dm).append(getPurchaseDatetime());
+        sb.append(dm).append(getPurchaseCount());
+        sb.append(dm).append(getPurchasePrice());
+        sb.append(dm).append(getPaymentCompleteFlg());
+        sb.append(dm).append(getRegisterDatetime());
+        sb.append(dm).append(getRegisterUser());
+        sb.append(dm).append(getUpdateDatetime());
+        sb.append(dm).append(getUpdateUser());
+        sb.append(dm).append(getVersionNo());
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val c: String = ",  ";
-        if (_member != null) { sb.append(c).append("member"); }
-        if (_product != null) { sb.append(c).append("product"); }
-        if (sb.length() > c.length()) {
-            sb.delete(0, c.length()).insert(0, "(").append(")");
+        val cm: String = ",  ";
+        if (_member != null) { sb.append(cm).append("member"); }
+        if (_product != null) { sb.append(cm).append("product"); }
+        if (sb.length() > cm.length()) {
+            sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }
@@ -527,7 +561,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     }
 
     /**
-     * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * [get] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
     def getMemberId(): Integer = {
@@ -535,7 +569,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     }
 
     /**
-     * [set] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * [set] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
@@ -544,7 +578,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     }
 
     /**
-     * [get] (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT} <br />
+     * [get] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
      * @return The value of the column 'PRODUCT_ID'. (basically NotNull if selected: for the constraint)
      */
     def getProductId(): Integer = {
@@ -552,7 +586,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     }
 
     /**
-     * [set] (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT} <br />
+     * [set] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
      * @param productId The value of the column 'PRODUCT_ID'. (basically NotNull if update: for the constraint)
      */
     def setProductId(productId: Integer): Unit = {
@@ -561,7 +595,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     }
 
     /**
-     * [get] (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)} <br />
+     * [get] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'PURCHASE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
     def getPurchaseDatetime(): java.sql.Timestamp = {
@@ -569,7 +603,7 @@ abstract class BsPurchase extends EntityDefinedCommonColumn with Serializable wi
     }
 
     /**
-     * [set] (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)} <br />
+     * [set] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
      * @param purchaseDatetime The value of the column 'PURCHASE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setPurchaseDatetime(purchaseDatetime: java.sql.Timestamp): Unit = {

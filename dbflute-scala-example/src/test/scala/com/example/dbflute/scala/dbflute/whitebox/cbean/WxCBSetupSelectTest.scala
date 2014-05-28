@@ -40,7 +40,7 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
     memberList.foreach(member => {
       val status = member.getMemberStatus()
       assertTrueAll(status != null);
-      log(member.getMemberName, status.getMemberStatusName)
+      log(member.getMemberName, status.get.getMemberStatusName)
       assertTrueAll(member.getMemberServiceAsOne() == null);
       assertTrueAll(member.getPurchaseList().isEmpty);
     });
@@ -54,7 +54,7 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
     memberList.foreach(member => {
       val service = member.getMemberServiceAsOne()
       assertTrueAll(service != null);
-      log(member.getMemberName, service.getServicePointCount)
+      log(member.getMemberName, service.get.getServicePointCount)
       assertTrueAll(member.getMemberStatus() == null);
       assertTrueAll(member.getPurchaseList().isEmpty);
     });
@@ -68,9 +68,9 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
     memberList.foreach(member => {
       val service = member.getMemberServiceAsOne()
       assertTrueAll(service != null);
-      val rank = service.getServiceRank
+      val rank = service.get.getServiceRank
       assertTrueAll(rank != null);
-      log(member.getMemberName, service.getServicePointCount, rank.getServiceRankName)
+      log(member.getMemberName, service.get.getServicePointCount, rank.get.getServiceRankName)
       assertTrueAll(member.getMemberStatus() == null);
       assertTrueAll(member.getPurchaseList().isEmpty);
     });

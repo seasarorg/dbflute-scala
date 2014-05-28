@@ -38,6 +38,7 @@ import ${glPackageBaseCommon}.${glDBFluteConfig};
 import ${glPackageBaseCommon}.${glDBMetaInstanceHandler};
 import ${glPackageBaseCommon}.${glImplementedInvokerAssistant};
 import ${glPackageBaseCommon}.${glImplementedSqlClauseCreator};
+import ${glPackageBaseCommon}.ScrHpColQyOperand;
 import ${glPackageCB}._
 import ${glPackageCQ}._
 #if ($table.hasForeignKeyOrReferrerAsOne())
@@ -101,10 +102,26 @@ class ${myClassName} extends AbstractConditionBean {
     //                                                                 PrimaryKey Handling
     //                                                                 ===================
 #if ($table.hasPrimaryKey())
+    /**
+     * Accept the query condition of primary key as equal.
+     * ${table.primaryKeyArgsJavaDocString}
+     */
     def acceptPrimaryKey(${table.primaryKeyArgsString}): Unit = {
         ${table.primaryKeyArgsAssertString}
         val cb: ${myClassName} = this;
         ${table.primaryKeyArgsConditionSetupString}
+    }
+
+#end
+#foreach ($uq in $table.keyableUniqueList)
+    /**
+     * Accept the query condition of unique key as equal.
+     * ${uq.argsJavaDocString}
+     */
+    def acceptUniqueOf${uq.javaNameKeyword}(${uq.argsString}): Unit = {
+        ${uq.argsAssertString}
+        val cb: ${myClassName} = this;
+        ${uq.argsConditionSetupString}
     }
 
 #end
@@ -341,7 +358,7 @@ class ${myClassName} extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-#foreach ($fk in $table.foreignKeys)
+#foreach ($fk in $table.joinableForeignKeyList)
 #set ($tmpPropertyName = "${fk.foreignPropertyName}")
 #set ($tmpPropertyNameInitCap = "${fk.foreignPropertyNameInitCap}")
 #set ($nestSelectSetuppperClassName = "${fk.foreignTableNestSelectSetupperClassName}")
@@ -388,7 +405,7 @@ class ${myClassName} extends AbstractConditionBean {
         return _nss${tmpPropertyNameInitCap};
     }
 #end
-#foreach ($referrer in $table.referrerAsOneList)
+#foreach ($referrer in $table.joinableReferrerAsOneList)
 #set ($tmpPropertyName = "${referrer.referrerPropertyNameAsOne}")
 #set ($tmpPropertyNameInitCap = "${referrer.referrerPropertyNameInitCapAsOne}")
 #set ($nestSelectSetuppperClassName = "${referrer.referrerTableNestSelectSetupperClassName}")
@@ -480,8 +497,8 @@ class ${myClassName} extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: (${myConditionBeanClassName}) => Unit): HpColQyOperand[${myConditionBeanClassName}] = {
-        return new HpColQyOperand[${myConditionBeanClassName}](new HpColQyHandler[${myConditionBeanClassName}]() {
+    def columnQuery(leftSpecifyQuery: (${myConditionBeanClassName}) => Unit): ScrHpColQyOperand[${myConditionBeanClassName}] = {
+        return new ScrHpColQyOperand[${myConditionBeanClassName}](new HpColQyHandler[${myConditionBeanClassName}]() {
             def handle(rightSp: SpecifyQuery[${myConditionBeanClassName}], operand: String): HpCalculator = {
                 return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[${myConditionBeanClassName}]() {
                     def specify(cb: ${myConditionBeanClassName}): Unit = { leftSpecifyQuery(cb); }
@@ -672,7 +689,7 @@ object Hp${myConditionBeanClassName} {
         }
         @Override
         protected def getTableDbName(): String = { return "$table.tableDbName"; }
-#foreach ($fk in $table.foreignKeys)
+#foreach ($fk in $table.joinableForeignKeyList)
 #set ($tmpPropertyName = "${fk.foreignPropertyName}")
 #set ($tmpPropertyNameInitCap = "${fk.foreignPropertyNameInitCap}")
 #set ($tmpCBClassName = "${fk.foreignTableExtendedConditionBeanClassName}")
@@ -731,7 +748,7 @@ object Hp${myConditionBeanClassName} {
             return _${tmpPropertyName};
         }
 #end
-#foreach ($referrer in $table.referrerAsOneList)
+#foreach ($referrer in $table.joinableReferrerAsOneList)
 #set ($tmpPropertyName = "${referrer.referrerPropertyNameAsOne}")
 #set ($tmpPropertyNameInitCap = "${referrer.referrerPropertyNameInitCapAsOne}")
 #set ($tmpCBClassName = "${referrer.referrerTableExtendedConditionBeanClassName}")
@@ -759,7 +776,6 @@ object Hp${myConditionBeanClassName} {
         }
 #end
 #foreach ($referrer in $table.derivedReferrerReferrers)
-#if (!${referrer.isOneToOne()})
 #set ($tmpPropertyName = "${referrer.referrerPropertyName}")
 #set ($tmpPropertyNameInitCap = "${referrer.referrerPropertyNameInitCap}")
 #set ($tmpCBClassName = "${referrer.referrerTableExtendedConditionBeanClassName}")
@@ -785,7 +801,6 @@ object Hp${myConditionBeanClassName} {
                 def setup(fn: String, sq: SubQuery[${tmpCBClassName}], cq: ${tmpLocalCQClassName}, al: String, op: DerivedReferrerOption): Unit = {
                     cq.xsderive${referrer.referrerPropertyNameInitCap}(fn, sq, al, op); } }, _dbmetaProvider);
         }
-#end
 #end
 #if ($table.hasSinglePrimaryKey())
 #if ($table.isAvailableMyselfMyselfDerived())

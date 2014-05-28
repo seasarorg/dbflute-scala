@@ -3,6 +3,8 @@ package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 import java.util.Map;
 
 import org.seasar.dbflute.cbean._
+import org.seasar.dbflute.cbean.chelper._
+import org.seasar.dbflute.cbean.coption._
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.exception.IllegalConditionBeanOperationException;
@@ -95,14 +97,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
 
     /** 
      * Add order-by as ascend. <br />
-     * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
+     * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @return this. (NotNull)
      */
     def addOrderBy_MemberId_Asc(): BsPurchaseCQ = { regOBA("MEMBER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
+     * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @return this. (NotNull)
      */
     def addOrderBy_MemberId_Desc(): BsPurchaseCQ = { regOBD("MEMBER_ID"); return this; }
@@ -116,14 +118,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
 
     /** 
      * Add order-by as ascend. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
+     * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @return this. (NotNull)
      */
     def addOrderBy_ProductId_Asc(): BsPurchaseCQ = { regOBA("PRODUCT_ID"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
+     * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @return this. (NotNull)
      */
     def addOrderBy_ProductId_Desc(): BsPurchaseCQ = { regOBD("PRODUCT_ID"); return this; }
@@ -137,14 +139,14 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
 
     /** 
      * Add order-by as ascend. <br />
-     * (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)}
+     * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
      * @return this. (NotNull)
      */
     def addOrderBy_PurchaseDatetime_Asc(): BsPurchaseCQ = { regOBA("PURCHASE_DATETIME"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)}
+     * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
      * @return this. (NotNull)
      */
     def addOrderBy_PurchaseDatetime_Desc(): BsPurchaseCQ = { regOBD("PURCHASE_DATETIME"); return this; }
@@ -508,5 +510,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     // very internal (for suppressing warn about 'Not Use Import')
     protected def xCB(): String = { return classOf[PurchaseCB].getName(); }
     protected def xCQ(): String = { return classOf[PurchaseCQ].getName(); }
+    protected def xCHp(): String = { return classOf[HpCalculator].getName(); }
+    protected def xCOp(): String = { return classOf[ConditionOption].getName(); }
     protected def xMap(): String = { return classOf[Map[_, _]].getName(); }
 }

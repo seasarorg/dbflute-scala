@@ -19,6 +19,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBFluteConfig;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 
@@ -78,10 +79,24 @@ class BsServiceRankCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                 PrimaryKey Handling
     //                                                                 ===================
+    /**
+     * Accept the query condition of primary key as equal.
+     * @param serviceRankCode (サービスランクコード): PK, NotNull, CHAR(3), classification=ServiceRank. (NotNull)
+     */
     def acceptPrimaryKey(serviceRankCode: String): Unit = {
         assertObjectNotNull("serviceRankCode", serviceRankCode);
         val cb: BsServiceRankCB = this;
-        cb.query().setServiceRankCode_Equal(serviceRankCode);
+        cb.query().setServiceRankCode_Equal(serviceRankCode);;
+    }
+
+    /**
+     * Accept the query condition of unique key as equal.
+     * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
+     */
+    def acceptUniqueOf(displayOrder: Integer): Unit = {
+        assertObjectNotNull("displayOrder", displayOrder);
+        val cb: BsServiceRankCB = this;
+        cb.query().setDisplayOrder_Equal(displayOrder);;
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {
@@ -310,8 +325,8 @@ class BsServiceRankCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: (ServiceRankCB) => Unit): HpColQyOperand[ServiceRankCB] = {
-        return new HpColQyOperand[ServiceRankCB](new HpColQyHandler[ServiceRankCB]() {
+    def columnQuery(leftSpecifyQuery: (ServiceRankCB) => Unit): ScrHpColQyOperand[ServiceRankCB] = {
+        return new ScrHpColQyOperand[ServiceRankCB](new HpColQyHandler[ServiceRankCB]() {
             def handle(rightSp: SpecifyQuery[ServiceRankCB], operand: String): HpCalculator = {
                 return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[ServiceRankCB]() {
                     def specify(cb: ServiceRankCB): Unit = { leftSpecifyQuery(cb); }

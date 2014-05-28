@@ -204,39 +204,46 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     /**
      * Select the entity by the primary-key value.
-     * @param memberStatusCode The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NullAllowed: if no data, it returns null)
+     * @param memberStatusCode (会員ステータスコード): PK, NotNull, CHAR(3), classification=MemberStatus. (NotNull)
+     * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValue(memberStatusCode: String): MemberStatus = {
-        return doSelectByPKValue(memberStatusCode, classOf[MemberStatus]);
+    def selectByPK(memberStatusCode: String): OptionalEntity[MemberStatus] = {
+        return doSelectByPK(memberStatusCode, classOf[MemberStatus]);
     }
 
-    protected def doSelectByPKValue[ENTITY <: MemberStatus](memberStatusCode: String, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntity(buildPKCB(memberStatusCode), entityType);
+    protected def doSelectByPK[ENTITY <: MemberStatus](memberStatusCode: String, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(memberStatusCode), entityType));
+    }
+
+    protected def xprepareCBAsPK(memberStatusCode: String): MemberStatusCB = {
+        assertObjectNotNull("memberStatusCode", memberStatusCode);
+        val cb: MemberStatusCB = newMyConditionBean();
+        cb.query().setMemberStatusCode_Equal(memberStatusCode);;
+        return cb;
     }
 
     /**
-     * Select the entity by the primary-key value with deleted check.
-     * @param memberStatusCode The one of primary key. (NotNull)
-     * @return The entity selected by the PK. (NotNull: if no data, throws exception)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
+     * Select the entity by the unique-key value.
+     * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
+     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
+     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPKValueWithDeletedCheck(memberStatusCode: String): MemberStatus = {
-        return doSelectByPKValueWithDeletedCheck(memberStatusCode, classOf[MemberStatus]);
+    def selectByUniqueOf(displayOrder: Integer): OptionalEntity[MemberStatus] = {
+        return doSelectByUniqueOf(displayOrder, classOf[MemberStatus]);
     }
 
-    protected def doSelectByPKValueWithDeletedCheck[ENTITY <: MemberStatus](memberStatusCode: String, entityType: Class[ENTITY]): ENTITY = {
-        return doSelectEntityWithDeletedCheck(buildPKCB(memberStatusCode), entityType);
+    protected def doSelectByUniqueOf[ENTITY <: MemberStatus](displayOrder: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
+        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), entityType), displayOrder);
     }
 
-    private def buildPKCB(memberStatusCode: String): MemberStatusCB = {
-        assertObjectNotNull("memberStatusCode", memberStatusCode);
-        val cb: MemberStatusCB = newMyConditionBean();
-        cb.query().setMemberStatusCode_Equal(memberStatusCode);
+    protected def xprepareCBAsUniqueOf(displayOrder: Integer): MemberStatusCB = {
+        assertObjectNotNull("displayOrder", displayOrder);
+        val cb: MemberStatusCB = newMyConditionBean(); cb.acceptUniqueOf(displayOrder);
         return cb;
     }
 
@@ -474,7 +481,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
             def selRfLs(cb: MemberCB): List[Member] = { return referrerBhv.selectList(cb).asJava; }
             def getFKVal(re: Member): String = { return re.getMemberStatusCode(); }
             def setlcEt(re: Member, le: MemberStatus): Unit =
-            { re.setMemberStatus(le); }
+            { re.setMemberStatus(OptionalEntity.of(le)); }
             def getRfPrNm(): String = { return "memberList"; }
         });
     }

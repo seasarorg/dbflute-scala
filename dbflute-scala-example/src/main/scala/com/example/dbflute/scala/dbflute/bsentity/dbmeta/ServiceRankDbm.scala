@@ -14,11 +14,11 @@ import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta._;
 import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
 import org.seasar.dbflute.dbmeta.PropertyGateway;
-import org.seasar.dbflute.dbmeta.info._
-import org.seasar.dbflute.dbmeta.name._
+import org.seasar.dbflute.dbmeta.info._;
+import org.seasar.dbflute.dbmeta.name._;
 import org.seasar.dbflute.jdbc.Classification;
-import com.example.dbflute.scala.dbflute.allcommon._
-import com.example.dbflute.scala.dbflute.exentity._
+import com.example.dbflute.scala.dbflute.allcommon._;
+import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
  * The DB meta of SERVICE_RANK. (Singleton)
@@ -34,6 +34,9 @@ object ServiceRankDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                    Property Gateway
     //                                                                    ================
+    // -----------------------------------------------------
+    //                                       Column Property
+    //                                       ---------------
     protected val _epgMap: Map[String, PropertyGateway] = newHashMap();
     {
         setupEpg(_epgMap, new EpgServiceRankCode(), "serviceRankCode");
@@ -43,7 +46,6 @@ object ServiceRankDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgDescription(), "description");
         setupEpg(_epgMap, new EpgDisplayOrder(), "displayOrder");
     }
-    def findPropertyGateway(propertyName: String): PropertyGateway = { return doFindEpg(_epgMap, propertyName); }
     class EpgServiceRankCode extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getServiceRankCode(); }
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setServiceRankCode(vl.asInstanceOf[String]); }
@@ -68,7 +70,6 @@ object ServiceRankDbm extends AbstractDBMeta {
         def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getDisplayOrder(); }
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setDisplayOrder(dgcti(vl)); }
     }
-
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
@@ -76,6 +77,7 @@ object ServiceRankDbm extends AbstractDBMeta {
     def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
+    override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
 
     // ===================================================================================
     //                                                                          Table Info
@@ -93,12 +95,12 @@ object ServiceRankDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnServiceRankCode: ColumnInfo = cci("SERVICE_RANK_CODE", "SERVICE_RANK_CODE", null, "サービスランクコード", true, "serviceRankCode", classOf[String], true, false, "CHAR", 3, 0, null, false, null, null, null, "memberServiceList", CDef.DefMeta.ServiceRank);
-    protected val _columnServiceRankName: ColumnInfo = cci("SERVICE_RANK_NAME", "SERVICE_RANK_NAME", null, "サービスランク名称", true, "serviceRankName", classOf[String], false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
-    protected val _columnServicePointIncidence: ColumnInfo = cci("SERVICE_POINT_INCIDENCE", "SERVICE_POINT_INCIDENCE", null, "サービスポイント発生率", true, "servicePointIncidence", classOf[java.math.BigDecimal], false, false, "DECIMAL", 5, 3, null, false, null, null, null, null, null);
-    protected val _columnNewAcceptableFlg: ColumnInfo = cci("NEW_ACCEPTABLE_FLG", "NEW_ACCEPTABLE_FLG", null, "新規受け入れ可能フラグ", true, "newAcceptableFlg", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, null, null, CDef.DefMeta.Flg);
-    protected val _columnDescription: ColumnInfo = cci("DESCRIPTION", "DESCRIPTION", null, "説明", true, "description", classOf[String], false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
-    protected val _columnDisplayOrder: ColumnInfo = cci("DISPLAY_ORDER", "DISPLAY_ORDER", null, "表示順", true, "displayOrder", classOf[Integer], false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
+    protected val _columnServiceRankCode: ColumnInfo = cci("SERVICE_RANK_CODE", "SERVICE_RANK_CODE", null, "サービスランクコード", classOf[String], "serviceRankCode", null, true, false, true, "CHAR", 3, 0, null, false, null, null, null, "memberServiceList", CDef.DefMeta.ServiceRank);
+    protected val _columnServiceRankName: ColumnInfo = cci("SERVICE_RANK_NAME", "SERVICE_RANK_NAME", null, "サービスランク名称", classOf[String], "serviceRankName", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
+    protected val _columnServicePointIncidence: ColumnInfo = cci("SERVICE_POINT_INCIDENCE", "SERVICE_POINT_INCIDENCE", null, "サービスポイント発生率", classOf[java.math.BigDecimal], "servicePointIncidence", null, false, false, true, "DECIMAL", 5, 3, null, false, null, null, null, null, null);
+    protected val _columnNewAcceptableFlg: ColumnInfo = cci("NEW_ACCEPTABLE_FLG", "NEW_ACCEPTABLE_FLG", null, "新規受け入れ可能フラグ", classOf[Integer], "newAcceptableFlg", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, CDef.DefMeta.Flg);
+    protected val _columnDescription: ColumnInfo = cci("DESCRIPTION", "DESCRIPTION", null, "説明", classOf[String], "description", null, false, false, true, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
+    protected val _columnDisplayOrder: ColumnInfo = cci("DISPLAY_ORDER", "DISPLAY_ORDER", null, "表示順", classOf[Integer], "displayOrder", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
 
     def columnServiceRankCode(): ColumnInfo = { return _columnServiceRankCode; }
     def columnServiceRankName(): ColumnInfo = { return _columnServiceRankName; }
@@ -133,6 +135,8 @@ object ServiceRankDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                       Relation Info
     //                                                                       =============
+    // cannot cache because it uses related DB meta instance while booting
+    // (instead, cached by super's collection)
     // -----------------------------------------------------
     //                                      Foreign Property
     //                                      ----------------

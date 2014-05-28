@@ -19,6 +19,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBFluteConfig;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 import com.example.dbflute.scala.dbflute.cbean.nss._
@@ -79,10 +80,26 @@ class BsPurchaseCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                 PrimaryKey Handling
     //                                                                 ===================
+    /**
+     * Accept the query condition of primary key as equal.
+     * @param purchaseId : PK, ID, NotNull, BIGINT(19). (NotNull)
+     */
     def acceptPrimaryKey(purchaseId: Long): Unit = {
         assertObjectNotNull("purchaseId", purchaseId);
         val cb: BsPurchaseCB = this;
-        cb.query().setPurchaseId_Equal(purchaseId);
+        cb.query().setPurchaseId_Equal(purchaseId);;
+    }
+
+    /**
+     * Accept the query condition of unique key as equal.
+     * @param memberId (会員ID): UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
+     * @param productId (商品ID): +UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT. (NotNull)
+     * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
+     */
+    def acceptUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Unit = {
+        assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
+        val cb: BsPurchaseCB = this;
+        cb.query().setMemberId_Equal(memberId);;cb.query().setProductId_Equal(productId);;cb.query().setPurchaseDatetime_Equal(purchaseDatetime);;
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {
@@ -365,8 +382,8 @@ class BsPurchaseCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: (PurchaseCB) => Unit): HpColQyOperand[PurchaseCB] = {
-        return new HpColQyOperand[PurchaseCB](new HpColQyHandler[PurchaseCB]() {
+    def columnQuery(leftSpecifyQuery: (PurchaseCB) => Unit): ScrHpColQyOperand[PurchaseCB] = {
+        return new ScrHpColQyOperand[PurchaseCB](new HpColQyHandler[PurchaseCB]() {
             def handle(rightSp: SpecifyQuery[PurchaseCB], operand: String): HpCalculator = {
                 return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[PurchaseCB]() {
                     def specify(cb: PurchaseCB): Unit = { leftSpecifyQuery(cb); }
@@ -508,17 +525,17 @@ object HpPurchaseCB {
          */
         def columnPurchaseId(): HpSpecifiedColumn = { return doColumn("PURCHASE_ID"); }
         /**
-         * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
+         * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
          * @return The information object of specified column. (NotNull)
          */
         def columnMemberId(): HpSpecifiedColumn = { return doColumn("MEMBER_ID"); }
         /**
-         * (商品ID)PRODUCT_ID: {UQ+, IX, NotNull, INTEGER(10), FK to PRODUCT}
+         * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
          * @return The information object of specified column. (NotNull)
          */
         def columnProductId(): HpSpecifiedColumn = { return doColumn("PRODUCT_ID"); }
         /**
-         * (購入日時)PURCHASE_DATETIME: {UQ+, IX, NotNull, TIMESTAMP(23, 10)}
+         * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
          * @return The information object of specified column. (NotNull)
          */
         def columnPurchaseDatetime(): HpSpecifiedColumn = { return doColumn("PURCHASE_DATETIME"); }

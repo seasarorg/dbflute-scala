@@ -29,6 +29,10 @@ import org.seasar.dbflute.dbmeta.DBMeta;
 #if (!$table.hasAllCommonColumn() || $table.hasRelation())
 import org.seasar.dbflute.Entity;
 #end
+#if ($table.hasOptionalRelation())
+import ${database.relationOptionalEntityClassName};
+#end
+import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 #if ($table.hasAllCommonColumn())
@@ -119,6 +123,9 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
+
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
 #if ($table.hasAllCommonColumn())
@@ -172,6 +179,32 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
         if (get${col.javaName}() == null) { return false; }
 #end
         return ${table.hasPrimaryKey()};
+    }
+#foreach ($uq in $table.keyableUniqueList)
+
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * ${uq.argsJavaDocString}
+     */
+    def uniqueBy${uq.javaNameKeyword}(${uq.argsString}): Unit = {
+        __uniqueDrivenProperties.clear();
+#foreach ($col in $uq.columnList)
+        __uniqueDrivenProperties.addPropertyName("${col.javaBeansRulePropertyName}");
+#end
+        ${uq.argsSetupString}
+    }
+#end
+
+    /**
+     * {@inheritDoc}
+     */
+    def myuniqueDrivenProperties(): Set[String] = {
+        return __uniqueDrivenProperties.getPropertyNames();
+    }
+
+    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+        return new EntityUniqueDrivenProperties();
     }
 
 #if ($table.hasClassification())
@@ -283,7 +316,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 #if ($classificationElement.isDeprecated())
     @Deprecated
 #end
-    def is${col.javaName}${classificationElement.name}(): Boolean = {
+    def is${col.javaName}_${classificationElement.name}(): Boolean = {
         val cdef: ${glCDef}.${col.classificationName} = get${col.javaName}As${col.classificationName}();
         return if (cdef != null) { cdef.equals(${glCDef}.${col.classificationName}.${classificationElement.name}) } else { false };
     }
@@ -344,7 +377,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
     //                                                                    ================
 #foreach ($fk in $table.foreignKeys)
 #set ($foreignTable = $fk.foreignTable)
-#set ($foreignEntityClassName = "${fk.foreignTableExtendedEntityClassName}")
+#set ($foreignEntityClassName = "${fk.foreignPropertyEntityDefinitionType}")
 #set ($foreignVariableName = "_${fk.foreignPropertyName}")
     /** ${fk.foreignSimpleDisp}. */
     protected var ${foreignVariableName}: ${foreignEntityClassName} = null;
@@ -359,7 +392,11 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
             ${foreignVariableName} = ${fk.relationalNullObjectProviderForeignExp};
         }
 #end
+#if ($fk.isForeignPropertyOptionalEntity())
+        return if (${foreignVariableName} != null) { ${foreignVariableName}; } else { ${database.relationOptionalEntityClassName}.relationEmpty(this, "${fk.foreignJavaBeansRulePropertyName}"); }
+#else
         return ${foreignVariableName};
+#end
     }
 
     /**
@@ -379,7 +416,7 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
 #end
 #foreach ($referrer in $table.referrerAsOneList)
 #set ($referrerTable = $referrer.table)
-#set ($referrerEntityClassName = "${referrer.referrerTableExtendedEntityClassName}")
+#set ($referrerEntityClassName = "${referrer.referrerPropertyEntityDefinitionTypeAsOne}")
 #set ($referrerVariableName = "_${referrer.referrerPropertyNameAsOne}")
     /** ${referrer.referrerSimpleDispAsOne}. */
     protected var ${referrerVariableName}: ${referrerEntityClassName} = null;
@@ -394,7 +431,11 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
             ${referrerVariableName} = ${referrer.relationalNullObjectProviderReferrerExp};
         }
 #end
+#if ($referrer.isReferrerPropertyOptionalEntityAsOne())
+        return if (${referrerVariableName} != null) { ${referrerVariableName}; } else { ${database.relationOptionalEntityClassName}.relationEmpty(this, "${referrer.referrerJavaBeansRulePropertyNameAsOne}"); }
+#else
         return ${referrerVariableName};
+#end
     }
 
     /**
@@ -628,29 +669,34 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
 #if ($table.hasRelation())
-        val l: String = "\n  ";
+        val li: String = "\n  ";
 #foreach ($fk in $table.foreignKeys)
 #set ($foreignVariableName = "_${fk.foreignPropertyName}")
         if (${foreignVariableName} != null)
-        { sb.append(l).append(xbRDS(${foreignVariableName}, "${fk.foreignPropertyName}")); }
+        { sb.append(li).append(xbRDS(${foreignVariableName}, "${fk.foreignPropertyName}")); }
 #end
 #foreach ($referrer in $table.referrerAsOneList)
 #set ($referrerVariableName = "_${referrer.referrerPropertyNameAsOne}")
         if (${referrerVariableName} != null)
-        { sb.append(l).append(xbRDS(${referrerVariableName}, "${referrer.referrerPropertyNameAsOne}")); }
+        { sb.append(li).append(xbRDS(${referrerVariableName}, "${referrer.referrerPropertyNameAsOne}")); }
 #end
 #foreach ($referrer in $table.referrerAsManyList)
 #set ($referrerVariableName = "_${referrer.referrerPropertyName}")
         if (${referrerVariableName} != null) {
-            ${referrerVariableName}.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "${referrer.referrerPropertyName}")) } });
+            ${referrerVariableName}.foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "${referrer.referrerPropertyName}")) } });
         }
 #end
 #end
         return sb.toString();
     }
 #if ($table.hasRelation())
-    protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
-        return e.buildDisplayString(name, true, true);
+    protected def xbRDS(et: Entity, name: String): String = {
+        return et.buildDisplayString(name, true, true);
+    }
+#end
+#if ($table.hasOptionalRelation())
+    protected def xbRDS[ET <: Entity](et: ${database.relationOptionalEntityClassName}[ET], name: String): String = {
+        return et.get().buildDisplayString(name, true, true);
     }
 #end
 
@@ -667,18 +713,18 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ", ";
+        val dm: String = ", ";
 #foreach ($col in $table.columns)
 #if ($col.isJavaNativeUtilDate())
-        sb.append(delimiter).append(xfUD(get${col.javaName}()));
+        sb.append(dm).append(xfUD(get${col.javaName}()));
 #elseif ($col.isJavaNativeByteArray())
-        sb.append(delimiter).append(xfBA(get${col.javaName}()));
+        sb.append(dm).append(xfBA(get${col.javaName}()));
 #else
-        sb.append(delimiter).append(get${col.javaName}());
+        sb.append(dm).append(get${col.javaName}());
 #end
 #end
-        if (sb.length() > delimiter.length()) {
-            sb.delete(0, delimiter.length());
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
@@ -703,22 +749,22 @@ abstract class $myClassName extends ${myEntityInterfaceName} with Serializable w
     protected def buildRelationString(): String = {
 #if ($table.hasRelation())
         val sb: StringBuilder = new StringBuilder();
-        val c: String = ",  ";
+        val cm: String = ",  ";
 #foreach ($fk in $table.foreignKeys)
 #set ($foreignVariableName = "_${fk.foreignPropertyName}")
-        if (${foreignVariableName} != null) { sb.append(c).append("${fk.foreignPropertyName}"); }
+        if (${foreignVariableName} != null) { sb.append(cm).append("${fk.foreignPropertyName}"); }
 #end
 #foreach ($referrer in $table.referrerAsOneList)
 #set ($referrerVariableName = "_${referrer.referrerPropertyNameAsOne}")
-        if (${referrerVariableName} != null) { sb.append(c).append("${referrer.referrerPropertyNameAsOne}"); }
+        if (${referrerVariableName} != null) { sb.append(cm).append("${referrer.referrerPropertyNameAsOne}"); }
 #end
 #foreach ($referrer in $table.referrerAsManyList)
 #set ($referrerVariableName = "_${referrer.referrerPropertyName}")
         if (${referrerVariableName} != null && !${referrerVariableName}.isEmpty)
-        { sb.append(c).append("${referrer.referrerPropertyName}"); }
+        { sb.append(cm).append("${referrer.referrerPropertyName}"); }
 #end
-        if (sb.length() > c.length()) {
-            sb.delete(0, c.length()).insert(0, "(").append(")");
+        if (sb.length() > cm.length()) {
+            sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
 #else

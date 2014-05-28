@@ -19,6 +19,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBFluteConfig;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 
@@ -78,10 +79,24 @@ class BsProductCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                 PrimaryKey Handling
     //                                                                 ===================
+    /**
+     * Accept the query condition of primary key as equal.
+     * @param productId : PK, ID, NotNull, INTEGER(10). (NotNull)
+     */
     def acceptPrimaryKey(productId: Integer): Unit = {
         assertObjectNotNull("productId", productId);
         val cb: BsProductCB = this;
-        cb.query().setProductId_Equal(productId);
+        cb.query().setProductId_Equal(productId);;
+    }
+
+    /**
+     * Accept the query condition of unique key as equal.
+     * @param productHandleCode (商品ハンドルコード): UQ, NotNull, VARCHAR(100). (NotNull)
+     */
+    def acceptUniqueOf(productHandleCode: String): Unit = {
+        assertObjectNotNull("productHandleCode", productHandleCode);
+        val cb: BsProductCB = this;
+        cb.query().setProductHandleCode_Equal(productHandleCode);;
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {
@@ -310,8 +325,8 @@ class BsProductCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: (ProductCB) => Unit): HpColQyOperand[ProductCB] = {
-        return new HpColQyOperand[ProductCB](new HpColQyHandler[ProductCB]() {
+    def columnQuery(leftSpecifyQuery: (ProductCB) => Unit): ScrHpColQyOperand[ProductCB] = {
+        return new ScrHpColQyOperand[ProductCB](new HpColQyHandler[ProductCB]() {
             def handle(rightSp: SpecifyQuery[ProductCB], operand: String): HpCalculator = {
                 return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[ProductCB]() {
                     def specify(cb: ProductCB): Unit = { leftSpecifyQuery(cb); }

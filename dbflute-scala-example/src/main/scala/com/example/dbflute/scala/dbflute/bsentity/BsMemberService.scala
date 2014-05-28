@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.optional.OptionalEntity;
+import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
@@ -111,6 +113,9 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
+
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
 
@@ -156,6 +161,28 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     def hasPrimaryKeyValue(): Boolean = {
         if (getMemberServiceId() == null) { return false; }
         return true;
+    }
+
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param memberId (会員ID): UQ, IX, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
+     */
+    def uniqueBy(memberId: Integer): Unit = {
+        __uniqueDrivenProperties.clear();
+        __uniqueDrivenProperties.addPropertyName("memberId");
+        setMemberId(memberId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def myuniqueDrivenProperties(): Set[String] = {
+        return __uniqueDrivenProperties.getPropertyNames();
+    }
+
+    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -234,7 +261,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodePlatinum(): Boolean = {
+    def isServiceRankCode_Platinum(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Platinum) } else { false };
     }
@@ -245,7 +272,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodeGold(): Boolean = {
+    def isServiceRankCode_Gold(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Gold) } else { false };
     }
@@ -256,7 +283,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodeSilver(): Boolean = {
+    def isServiceRankCode_Silver(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Silver) } else { false };
     }
@@ -267,7 +294,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodeBronze(): Boolean = {
+    def isServiceRankCode_Bronze(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Bronze) } else { false };
     }
@@ -278,7 +305,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCodePlastic(): Boolean = {
+    def isServiceRankCode_Plastic(): Boolean = {
         val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Plastic) } else { false };
     }
@@ -290,40 +317,40 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     //                                                                    Foreign Property
     //                                                                    ================
     /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
-    protected var _member: Member = null;
+    protected var _member: OptionalEntity[Member] = null;
 
     /**
      * (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @return The entity of foreign property 'member'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def getMember(): Member = {
-        return _member;
+    def getMember(): OptionalEntity[Member] = {
+        return if (_member != null) { _member; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "member"); }
     }
 
     /**
      * (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @param member The entity of foreign property 'member'. (NullAllowed)
      */
-    def setMember(member: Member): Unit = {
+    def setMember(member: OptionalEntity[Member]): Unit = {
         _member = member;
     }
 
     /** (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'. */
-    protected var _serviceRank: ServiceRank = null;
+    protected var _serviceRank: OptionalEntity[ServiceRank] = null;
 
     /**
      * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
      * @return The entity of foreign property 'serviceRank'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def getServiceRank(): ServiceRank = {
-        return _serviceRank;
+    def getServiceRank(): OptionalEntity[ServiceRank] = {
+        return if (_serviceRank != null) { _serviceRank; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "serviceRank"); }
     }
 
     /**
      * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
      * @param serviceRank The entity of foreign property 'serviceRank'. (NullAllowed)
      */
-    def setServiceRank(serviceRank: ServiceRank): Unit = {
+    def setServiceRank(serviceRank: OptionalEntity[ServiceRank]): Unit = {
         _serviceRank = serviceRank;
     }
 
@@ -462,15 +489,18 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     def toStringWithRelation(): String = {
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
-        val l: String = "\n  ";
+        val li: String = "\n  ";
         if (_member != null)
-        { sb.append(l).append(xbRDS(_member, "member")); }
+        { sb.append(li).append(xbRDS(_member, "member")); }
         if (_serviceRank != null)
-        { sb.append(l).append(xbRDS(_serviceRank, "serviceRank")); }
+        { sb.append(li).append(xbRDS(_serviceRank, "serviceRank")); }
         return sb.toString();
     }
-    protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
-        return e.buildDisplayString(name, true, true);
+    protected def xbRDS(et: Entity, name: String): String = {
+        return et.buildDisplayString(name, true, true);
+    }
+    protected def xbRDS[ET <: Entity](et: org.seasar.dbflute.optional.OptionalEntity[ET], name: String): String = {
+        return et.get().buildDisplayString(name, true, true);
     }
 
     /**
@@ -486,29 +516,29 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ", ";
-        sb.append(delimiter).append(getMemberServiceId());
-        sb.append(delimiter).append(getMemberId());
-        sb.append(delimiter).append(getServicePointCount());
-        sb.append(delimiter).append(getServiceRankCode());
-        sb.append(delimiter).append(getRegisterDatetime());
-        sb.append(delimiter).append(getRegisterUser());
-        sb.append(delimiter).append(getUpdateDatetime());
-        sb.append(delimiter).append(getUpdateUser());
-        sb.append(delimiter).append(getVersionNo());
-        if (sb.length() > delimiter.length()) {
-            sb.delete(0, delimiter.length());
+        val dm: String = ", ";
+        sb.append(dm).append(getMemberServiceId());
+        sb.append(dm).append(getMemberId());
+        sb.append(dm).append(getServicePointCount());
+        sb.append(dm).append(getServiceRankCode());
+        sb.append(dm).append(getRegisterDatetime());
+        sb.append(dm).append(getRegisterUser());
+        sb.append(dm).append(getUpdateDatetime());
+        sb.append(dm).append(getUpdateUser());
+        sb.append(dm).append(getVersionNo());
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val c: String = ",  ";
-        if (_member != null) { sb.append(c).append("member"); }
-        if (_serviceRank != null) { sb.append(c).append("serviceRank"); }
-        if (sb.length() > c.length()) {
-            sb.delete(0, c.length()).insert(0, "(").append(")");
+        val cm: String = ",  ";
+        if (_member != null) { sb.append(cm).append("member"); }
+        if (_serviceRank != null) { sb.append(cm).append("serviceRank"); }
+        if (sb.length() > cm.length()) {
+            sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }

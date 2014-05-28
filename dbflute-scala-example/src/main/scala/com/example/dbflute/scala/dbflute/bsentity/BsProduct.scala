@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
@@ -120,6 +121,9 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
+
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
 
@@ -165,6 +169,28 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     def hasPrimaryKeyValue(): Boolean = {
         if (getProductId() == null) { return false; }
         return true;
+    }
+
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param productHandleCode (商品ハンドルコード): UQ, NotNull, VARCHAR(100). (NotNull)
+     */
+    def uniqueBy(productHandleCode: String): Unit = {
+        __uniqueDrivenProperties.clear();
+        __uniqueDrivenProperties.addPropertyName("productHandleCode");
+        setProductHandleCode(productHandleCode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def myuniqueDrivenProperties(): Set[String] = {
+        return __uniqueDrivenProperties.getPropertyNames();
+    }
+
+    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -325,14 +351,14 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     def toStringWithRelation(): String = {
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
-        val l: String = "\n  ";
+        val li: String = "\n  ";
         if (_purchaseList != null) {
-            _purchaseList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "purchaseList")) } });
+            _purchaseList.foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "purchaseList")) } });
         }
         return sb.toString();
     }
-    protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
-        return e.buildDisplayString(name, true, true);
+    protected def xbRDS(et: Entity, name: String): String = {
+        return et.buildDisplayString(name, true, true);
     }
 
     /**
@@ -348,31 +374,31 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ", ";
-        sb.append(delimiter).append(getProductId());
-        sb.append(delimiter).append(getProductName());
-        sb.append(delimiter).append(getProductHandleCode());
-        sb.append(delimiter).append(getProductCategoryCode());
-        sb.append(delimiter).append(getProductStatusCode());
-        sb.append(delimiter).append(getRegularPrice());
-        sb.append(delimiter).append(getRegisterDatetime());
-        sb.append(delimiter).append(getRegisterUser());
-        sb.append(delimiter).append(getUpdateDatetime());
-        sb.append(delimiter).append(getUpdateUser());
-        sb.append(delimiter).append(getVersionNo());
-        if (sb.length() > delimiter.length()) {
-            sb.delete(0, delimiter.length());
+        val dm: String = ", ";
+        sb.append(dm).append(getProductId());
+        sb.append(dm).append(getProductName());
+        sb.append(dm).append(getProductHandleCode());
+        sb.append(dm).append(getProductCategoryCode());
+        sb.append(dm).append(getProductStatusCode());
+        sb.append(dm).append(getRegularPrice());
+        sb.append(dm).append(getRegisterDatetime());
+        sb.append(dm).append(getRegisterUser());
+        sb.append(dm).append(getUpdateDatetime());
+        sb.append(dm).append(getUpdateUser());
+        sb.append(dm).append(getVersionNo());
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val c: String = ",  ";
+        val cm: String = ",  ";
         if (_purchaseList != null && !_purchaseList.isEmpty)
-        { sb.append(c).append("purchaseList"); }
-        if (sb.length() > c.length()) {
-            sb.delete(0, c.length()).insert(0, "(").append(")");
+        { sb.append(cm).append("purchaseList"); }
+        if (sb.length() > cm.length()) {
+            sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }

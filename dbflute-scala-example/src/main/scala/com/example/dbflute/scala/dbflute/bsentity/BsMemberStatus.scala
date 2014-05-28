@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
@@ -85,6 +86,9 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     // -----------------------------------------------------
     //                                              Internal
     //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
+
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
 
@@ -127,6 +131,28 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     def hasPrimaryKeyValue(): Boolean = {
         if (getMemberStatusCode() == null) { return false; }
         return true;
+    }
+
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
+     */
+    def uniqueBy(displayOrder: Integer): Unit = {
+        __uniqueDrivenProperties.clear();
+        __uniqueDrivenProperties.addPropertyName("displayOrder");
+        setDisplayOrder(displayOrder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def myuniqueDrivenProperties(): Set[String] = {
+        return __uniqueDrivenProperties.getPropertyNames();
+    }
+
+    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -189,7 +215,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeFormalized(): Boolean = {
+    def isMemberStatusCode_Formalized(): Boolean = {
         val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Formalized) } else { false };
     }
@@ -200,7 +226,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeWithdrawal(): Boolean = {
+    def isMemberStatusCode_Withdrawal(): Boolean = {
         val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Withdrawal) } else { false };
     }
@@ -211,7 +237,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isMemberStatusCodeProvisional(): Boolean = {
+    def isMemberStatusCode_Provisional(): Boolean = {
         val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Provisional) } else { false };
     }
@@ -353,14 +379,14 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     def toStringWithRelation(): String = {
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
-        val l: String = "\n  ";
+        val li: String = "\n  ";
         if (_memberList != null) {
-            _memberList.foreach(e => { if (e != null) { sb.append(l).append(xbRDS(e, "memberList")) } });
+            _memberList.foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberList")) } });
         }
         return sb.toString();
     }
-    protected def xbRDS(e: Entity, name: String): String = { // buildRelationDisplayString()
-        return e.buildDisplayString(name, true, true);
+    protected def xbRDS(et: Entity, name: String): String = {
+        return et.buildDisplayString(name, true, true);
     }
 
     /**
@@ -376,24 +402,24 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     }
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val delimiter: String = ", ";
-        sb.append(delimiter).append(getMemberStatusCode());
-        sb.append(delimiter).append(getMemberStatusName());
-        sb.append(delimiter).append(getDescription());
-        sb.append(delimiter).append(getDisplayOrder());
-        if (sb.length() > delimiter.length()) {
-            sb.delete(0, delimiter.length());
+        val dm: String = ", ";
+        sb.append(dm).append(getMemberStatusCode());
+        sb.append(dm).append(getMemberStatusName());
+        sb.append(dm).append(getDescription());
+        sb.append(dm).append(getDisplayOrder());
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
-        val c: String = ",  ";
+        val cm: String = ",  ";
         if (_memberList != null && !_memberList.isEmpty)
-        { sb.append(c).append("memberList"); }
-        if (sb.length() > c.length()) {
-            sb.delete(0, c.length()).insert(0, "(").append(")");
+        { sb.append(cm).append("memberList"); }
+        if (sb.length() > cm.length()) {
+            sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }
