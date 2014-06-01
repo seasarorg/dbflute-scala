@@ -36,27 +36,20 @@ class PurchaseCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: S
     // ===================================================================================
     //                                                             Override about Register
     //                                                             =======================
-    override protected def reflectRelationOnUnionQuery(bq: ConditionQuery, uq: ConditionQuery): Unit = {
-        val msg: String = "InlineView must not need UNION method: " + bq + " : " + uq;
-        throw new IllegalConditionBeanOperationException(msg);
-    }
+    override protected def reflectRelationOnUnionQuery(bq: ConditionQuery, uq: ConditionQuery): Unit =
+    { throw new IllegalConditionBeanOperationException("InlineView cannot use Union: " + bq + " : " + uq); }
 
-    override protected def setupConditionValueAndRegisterWhereClause(k: ConditionKey, v: Object, cv: ConditionValue, col: String): Unit = {
-        regIQ(k, v, cv, col);
-    }
+    override protected def setupConditionValueAndRegisterWhereClause(k: ConditionKey, v: Object, cv: ConditionValue, col: String): Unit =
+    { regIQ(k, v, cv, col); }
 
-    override protected def setupConditionValueAndRegisterWhereClause(k: ConditionKey, v: Object, cv: ConditionValue, col: String, op: ConditionOption): Unit = {
-        regIQ(k, v, cv, col, op);
-    }
+    override protected def setupConditionValueAndRegisterWhereClause(k: ConditionKey, v: Object, cv: ConditionValue, col: String, op: ConditionOption): Unit =
+    { regIQ(k, v, cv, col, op); }
 
-    override protected def registerWhereClause(wc: String): Unit = {
-        registerInlineWhereClause(wc);
-    }
+    override protected def registerWhereClause(wc: String): Unit =
+    { registerInlineWhereClause(wc); }
 
     override protected def isInScopeRelationSuppressLocalAliasName(): Boolean = {
-        if (_onClause) {
-            throw new IllegalConditionBeanOperationException("InScopeRelation on OnClause is unsupported.");
-        }
+        if (_onClause) { throw new IllegalConditionBeanOperationException("InScopeRelation on OnClause is unsupported."); }
         return true;
     }
 
@@ -89,9 +82,8 @@ class PurchaseCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: S
     def keepMyselfInScope(sq: PurchaseCQ): String =
     { throwIICBOE("MyselfInScope"); return null;}
 
-    protected def throwIICBOE(name: String): Unit = { // throwInlineIllegalConditionBeanOperationException()
-        throw new IllegalConditionBeanOperationException(name + " at InlineView is unsupported.");
-    }
+    protected def throwIICBOE(name: String): Unit =
+    { throw new IllegalConditionBeanOperationException(name + " at InlineView is unsupported."); }
 
     // ===================================================================================
     //                                                                       Very Internal

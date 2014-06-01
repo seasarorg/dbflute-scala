@@ -66,7 +66,6 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     protected var _serviceRankCode: ConditionValue = null;
     def getServiceRankCode(): ConditionValue = {
         if (_serviceRankCode == null) { _serviceRankCode = nCV(); }

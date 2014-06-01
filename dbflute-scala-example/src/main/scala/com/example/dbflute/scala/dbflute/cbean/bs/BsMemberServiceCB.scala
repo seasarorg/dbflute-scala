@@ -290,11 +290,7 @@ class BsMemberServiceCB extends AbstractConditionBean {
         { _nssMember = new MemberNss(query().queryMember()); }
         return _nssMember;
     }
-    protected var _nssServiceRank: ServiceRankNss = null;
-    def getNssServiceRank(): ServiceRankNss = {
-        if (_nssServiceRank == null) { _nssServiceRank = new ServiceRankNss(null); }
-        return _nssServiceRank;
-    }
+
     /**
      * Set up relation columns to select clause. <br />
      * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
@@ -305,17 +301,13 @@ class BsMemberServiceCB extends AbstractConditionBean {
      * MemberService memberService = memberServiceBhv.selectEntityWithDeletedCheck(cb);
      * ... = memberService.<span style="color: #DD4747">getServiceRank()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    def setupSelect_ServiceRank(): ServiceRankNss = {
+    def setupSelect_ServiceRank(): Unit = {
         assertSetupSelectPurpose("serviceRank");
         if (hasSpecifiedColumn()) { // if reverse call
             specify().columnServiceRankCode();
         }
         doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryServiceRank(); } });
-        if (_nssServiceRank == null || !_nssServiceRank.hasConditionQuery())
-        { _nssServiceRank = new ServiceRankNss(query().queryServiceRank()); }
-        return _nssServiceRank;
     }
 
     // [DBFlute-0.7.4]

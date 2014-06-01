@@ -66,7 +66,6 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     protected var _memberServiceId: ConditionValue = null;
     def getMemberServiceId(): ConditionValue = {
         if (_memberServiceId == null) { _memberServiceId = nCV(); }

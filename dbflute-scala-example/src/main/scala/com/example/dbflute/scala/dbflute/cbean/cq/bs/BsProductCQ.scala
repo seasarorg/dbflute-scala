@@ -66,7 +66,6 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     protected var _productId: ConditionValue = null;
     def getProductId(): ConditionValue = {
         if (_productId == null) { _productId = nCV(); }

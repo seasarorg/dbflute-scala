@@ -31,11 +31,8 @@ class MemberServiceNss(query: MemberServiceCQ) {
     /**
      * With nested relation columns to select clause. <br />
      * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
-     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    def withServiceRank(): ServiceRankNss = {
+    def withServiceRank(): Unit = {
         _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryServiceRank(); }});
-        return new ServiceRankNss(_query.queryServiceRank());
     }
-
 }

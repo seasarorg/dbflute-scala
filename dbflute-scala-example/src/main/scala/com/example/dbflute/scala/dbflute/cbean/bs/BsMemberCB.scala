@@ -263,11 +263,6 @@ class BsMemberCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-    protected var _nssMemberStatus: MemberStatusNss = null;
-    def getNssMemberStatus(): MemberStatusNss = {
-        if (_nssMemberStatus == null) { _nssMemberStatus = new MemberStatusNss(null); }
-        return _nssMemberStatus;
-    }
     /**
      * Set up relation columns to select clause. <br />
      * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
@@ -278,17 +273,13 @@ class BsMemberCB extends AbstractConditionBean {
      * Member member = memberBhv.selectEntityWithDeletedCheck(cb);
      * ... = member.<span style="color: #DD4747">getMemberStatus()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    def setupSelect_MemberStatus(): MemberStatusNss = {
+    def setupSelect_MemberStatus(): Unit = {
         assertSetupSelectPurpose("memberStatus");
         if (hasSpecifiedColumn()) { // if reverse call
             specify().columnMemberStatusCode();
         }
         doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryMemberStatus(); } });
-        if (_nssMemberStatus == null || !_nssMemberStatus.hasConditionQuery())
-        { _nssMemberStatus = new MemberStatusNss(query().queryMemberStatus()); }
-        return _nssMemberStatus;
     }
 
     protected var _nssMemberServiceAsOne: MemberServiceNss = null;

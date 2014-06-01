@@ -66,7 +66,6 @@ class BsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alia
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     protected var _memberStatusCode: ConditionValue = null;
     def getMemberStatusCode(): ConditionValue = {
         if (_memberStatusCode == null) { _memberStatusCode = nCV(); }

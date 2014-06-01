@@ -66,7 +66,6 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     protected var _memberId: ConditionValue = null;
     def getMemberId(): ConditionValue = {
         if (_memberId == null) { _memberId = nCV(); }

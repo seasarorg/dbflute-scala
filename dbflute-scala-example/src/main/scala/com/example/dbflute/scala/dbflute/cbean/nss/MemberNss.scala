@@ -22,13 +22,10 @@ class MemberNss(query: MemberCQ) {
     /**
      * With nested relation columns to select clause. <br />
      * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
-     * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
-    def withMemberStatus(): MemberStatusNss = {
+    def withMemberStatus(): Unit = {
         _query.doNss(new NssCall() { def qf(): ConditionQuery = { return _query.queryMemberStatus(); }});
-        return new MemberStatusNss(_query.queryMemberStatus());
     }
-
     /**
      * With nested relation columns to select clause. <br />
      * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.

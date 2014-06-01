@@ -292,11 +292,7 @@ class BsPurchaseCB extends AbstractConditionBean {
         { _nssMember = new MemberNss(query().queryMember()); }
         return _nssMember;
     }
-    protected var _nssProduct: ProductNss = null;
-    def getNssProduct(): ProductNss = {
-        if (_nssProduct == null) { _nssProduct = new ProductNss(null); }
-        return _nssProduct;
-    }
+
     /**
      * Set up relation columns to select clause. <br />
      * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
@@ -307,17 +303,13 @@ class BsPurchaseCB extends AbstractConditionBean {
      * Purchase purchase = purchaseBhv.selectEntityWithDeletedCheck(cb);
      * ... = purchase.<span style="color: #DD4747">getProduct()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
-     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    def setupSelect_Product(): ProductNss = {
+    def setupSelect_Product(): Unit = {
         assertSetupSelectPurpose("product");
         if (hasSpecifiedColumn()) { // if reverse call
             specify().columnProductId();
         }
         doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryProduct(); } });
-        if (_nssProduct == null || !_nssProduct.hasConditionQuery())
-        { _nssProduct = new ProductNss(query().queryProduct()); }
-        return _nssProduct;
     }
 
     // [DBFlute-0.7.4]
