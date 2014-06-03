@@ -39,8 +39,8 @@ map:{
     ; beforeInsertMap = map:{
         ; REGISTER_DATETIME = $$AccessContext$$.getAccessTimestampOnThread()
         ; REGISTER_USER     = $$AccessContext$$.getAccessUserOnThread()
-        ; UPDATE_DATETIME   = entity.getRegisterDatetime()
-        ; UPDATE_USER       = entity.getRegisterUser()
+        ; UPDATE_DATETIME   = entity.registerDatetime()
+        ; UPDATE_USER       = entity.registerUser()
     }
     ; beforeUpdateMap = map:{
         ; UPDATE_DATETIME   = $$AccessContext$$.getAccessTimestampOnThread()

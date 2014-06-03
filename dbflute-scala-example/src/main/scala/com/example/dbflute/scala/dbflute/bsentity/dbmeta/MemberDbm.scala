@@ -10,7 +10,6 @@ import java.util.HashMap
 
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
-import org.seasar.dbflute.optional.OptionalEntity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta._;
 import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
@@ -53,48 +52,48 @@ object MemberDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
     class EpgMemberId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].memberId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].memberId(dgcti(vl)); }
     }
     class EpgMemberName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].memberName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].memberName(vl.asInstanceOf[String]); }
     }
     class EpgMemberAccount extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberAccount(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberAccount(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].memberAccount(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].memberAccount(vl.asInstanceOf[String]); }
     }
     class EpgMemberStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberStatusCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].memberStatusCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].memberStatusCode(vl.asInstanceOf[String]); }
     }
     class EpgFormalizedDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getFormalizedDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setFormalizedDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].formalizedDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].formalizedDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgBirthdate extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getBirthdate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setBirthdate(vl.asInstanceOf[java.util.Date]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].birthdate(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].birthdate(vl.asInstanceOf[java.util.Date]); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].registerDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgRegisterUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getRegisterUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setRegisterUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].registerUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].registerUser(vl.asInstanceOf[String]); }
     }
     class EpgUpdateDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].updateDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgUpdateUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getUpdateUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setUpdateUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].updateUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].updateUser(vl.asInstanceOf[String]); }
     }
     class EpgVersionNo extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getVersionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setVersionNo(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].versionNo(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].versionNo(dgctl(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -113,15 +112,15 @@ object MemberDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, new EfpgMemberStatus(), "memberStatus");
     }
     class EfpgMemberStatus extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberStatus(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberStatus(vl.asInstanceOf[OptionalEntity[MemberStatus]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].memberStatus(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].memberStatus(vl.asInstanceOf[Option[MemberStatus]]); }
     }
     {
         setupEfpg(_efpgMap, new EfpgMemberServiceAsOne(), "memberServiceAsOne");
     }
     class EfpgMemberServiceAsOne extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Member].getMemberServiceAsOne(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].setMemberServiceAsOne(vl.asInstanceOf[OptionalEntity[MemberService]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Member].memberServiceAsOne(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Member].memberServiceAsOne(vl.asInstanceOf[Option[MemberService]]); }
     }
     override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
 
@@ -183,6 +182,14 @@ object MemberDbm extends AbstractDBMeta {
 
     { initializeInformationResource(); }
 
+    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
+
+    override protected def buildPropertySetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
+
     // ===================================================================================
     //                                                                         Unique Info
     //                                                                         ===========
@@ -203,11 +210,11 @@ object MemberDbm extends AbstractDBMeta {
     //                                      ----------------
     def foreignMemberStatus(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberStatusDbm.columnMemberStatusCode());
-        return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, classOf[org.seasar.dbflute.optional.OptionalEntity[_]], false, false, false, false, null, null, false, "memberList");
+        return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, classOf[Option[_]], false, false, false, false, null, null, false, "memberList");
     }
     def foreignMemberServiceAsOne(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberServiceDbm.columnMemberId());
-        return cfi("FK_MEMBER_SERVICE_MEMBER", "memberServiceAsOne", this, MemberServiceDbm, mp, 1, classOf[org.seasar.dbflute.optional.OptionalEntity[_]], true, false, true, false, null, null, false, "member");
+        return cfi("FK_MEMBER_SERVICE_MEMBER", "memberServiceAsOne", this, MemberServiceDbm, mp, 1, classOf[Option[_]], true, false, true, false, null, null, false, "member");
     }
 
     // -----------------------------------------------------

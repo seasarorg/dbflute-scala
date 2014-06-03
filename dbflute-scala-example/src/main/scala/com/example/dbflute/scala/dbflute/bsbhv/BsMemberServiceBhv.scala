@@ -12,7 +12,6 @@ import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
-import org.seasar.dbflute.optional._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -153,7 +152,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: MemberServiceCB): OptionalEntity[MemberService] = {
+    def selectEntity(cb: MemberServiceCB): Option[MemberService] = {
         return doSelectOptionalEntity(cb, classOf[MemberService]);
     }
 
@@ -163,13 +162,13 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
             def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(cb, tp), cb);
+    protected def doSelectOptionalEntity[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(cb, tp));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return selectEntity(downcast(cb)).orElseNull();
+        return selectEntity(downcast(cb)).getOrElse(null);
     }
 
     /**
@@ -210,12 +209,12 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(memberServiceId: Integer): OptionalEntity[MemberService] = {
+    def selectByPK(memberServiceId: Integer): Option[MemberService] = {
         return doSelectByPK(memberServiceId, classOf[MemberService]);
     }
 
-    protected def doSelectByPK[ENTITY <: MemberService](memberServiceId: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(memberServiceId), entityType));
+    protected def doSelectByPK[ENTITY <: MemberService](memberServiceId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsPK(memberServiceId), entityType));
     }
 
     protected def xprepareCBAsPK(memberServiceId: Integer): MemberServiceCB = {
@@ -233,12 +232,12 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberId: Integer): OptionalEntity[MemberService] = {
+    def selectByUniqueOf(memberId: Integer): Option[MemberService] = {
         return doSelectByUniqueOf(memberId, classOf[MemberService]);
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: MemberService](memberId: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(memberId), entityType), memberId);
+    protected def doSelectByUniqueOf[ENTITY <: MemberService](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId), entityType));
     }
 
     protected def xprepareCBAsUniqueOf(memberId: Integer): MemberServiceCB = {
@@ -410,10 +409,10 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     def pulloutMember(memberServiceList: scala.collection.immutable.List[MemberService]): scala.collection.immutable.List[Member] = {
         return toScalaList(helpPulloutInternally(memberServiceList.asJava, new InternalPulloutCallback[MemberService, Member]() {
             def getFr(et: MemberService): Member =
-            { return et.getMember().get(); }
+            { return et.member().get; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Member, ls: List[MemberService]): Unit =
-            { if (!ls.isEmpty()) { et.setMemberServiceAsOne(OptionalEntity.of(ls.get(0))); } }
+            { if (!ls.isEmpty()) { et.memberServiceAsOne(Option.apply(ls.get(0))); } }
         }));
     }
     /**
@@ -424,10 +423,10 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     def pulloutServiceRank(memberServiceList: scala.collection.immutable.List[MemberService]): scala.collection.immutable.List[ServiceRank] = {
         return toScalaList(helpPulloutInternally(memberServiceList.asJava, new InternalPulloutCallback[MemberService, ServiceRank]() {
             def getFr(et: MemberService): ServiceRank =
-            { return et.getServiceRank().get(); }
+            { return et.serviceRank().get; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: ServiceRank, ls: List[MemberService]): Unit =
-            { et.setMemberServiceList(toScalaList(ls)); }
+            { et.memberServiceList(toScalaList(ls)); }
         }));
     }
 
@@ -441,7 +440,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      */
     def extractMemberServiceIdList(memberServiceList: List[MemberService]): List[Integer] = {
         return helpExtractListInternally(memberServiceList, new InternalExtractCallback[MemberService, Integer]() {
-            def getCV(et: MemberService): Integer = { return et.getMemberServiceId(); }
+            def getCV(et: MemberService): Integer = { return et.memberServiceId(); }
         });
     }
 
@@ -452,7 +451,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      */
     def extractMemberIdList(memberServiceList: List[MemberService]): List[Integer] = {
         return helpExtractListInternally(memberServiceList, new InternalExtractCallback[MemberService, Integer]() {
-            def getCV(et: MemberService): Integer = { return et.getMemberId(); }
+            def getCV(et: MemberService): Integer = { return et.memberId(); }
         });
     }
 
@@ -1513,7 +1512,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      */
     @Override
     protected def hasVersionNoValue(et: Entity): Boolean = {
-        return !(downcast(et).getVersionNo() + "").equals("null");// For primitive type
+        return !(downcast(et).versionNo() + "").equals("null");// For primitive type
     }
 
     /**

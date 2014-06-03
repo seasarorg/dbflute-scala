@@ -12,7 +12,6 @@ import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
-import org.seasar.dbflute.optional._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -153,7 +152,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: MemberStatusCB): OptionalEntity[MemberStatus] = {
+    def selectEntity(cb: MemberStatusCB): Option[MemberStatus] = {
         return doSelectOptionalEntity(cb, classOf[MemberStatus]);
     }
 
@@ -163,13 +162,13 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
             def callbackSelectList(lcb: MemberStatusCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: MemberStatus](cb: MemberStatusCB, tp: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(cb, tp), cb);
+    protected def doSelectOptionalEntity[ENTITY <: MemberStatus](cb: MemberStatusCB, tp: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(cb, tp));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return selectEntity(downcast(cb)).orElseNull();
+        return selectEntity(downcast(cb)).getOrElse(null);
     }
 
     /**
@@ -210,12 +209,12 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(memberStatusCode: String): OptionalEntity[MemberStatus] = {
+    def selectByPK(memberStatusCode: String): Option[MemberStatus] = {
         return doSelectByPK(memberStatusCode, classOf[MemberStatus]);
     }
 
-    protected def doSelectByPK[ENTITY <: MemberStatus](memberStatusCode: String, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(memberStatusCode), entityType));
+    protected def doSelectByPK[ENTITY <: MemberStatus](memberStatusCode: String, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsPK(memberStatusCode), entityType));
     }
 
     protected def xprepareCBAsPK(memberStatusCode: String): MemberStatusCB = {
@@ -233,12 +232,12 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(displayOrder: Integer): OptionalEntity[MemberStatus] = {
+    def selectByUniqueOf(displayOrder: Integer): Option[MemberStatus] = {
         return doSelectByUniqueOf(displayOrder, classOf[MemberStatus]);
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: MemberStatus](displayOrder: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), entityType), displayOrder);
+    protected def doSelectByUniqueOf[ENTITY <: MemberStatus](displayOrder: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), entityType));
     }
 
     protected def xprepareCBAsUniqueOf(displayOrder: Integer): MemberStatusCB = {
@@ -470,18 +469,18 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
         val referrerBhv: MemberBhv = xgetBSFLR().select(classOf[MemberBhv]);
         return helpLoadReferrerInternally(memberStatusList.asJava, option, new InternalLoadReferrerCallback[MemberStatus, String, MemberCB, Member]() {
             def getPKVal(et: MemberStatus): String =
-            { return et.getMemberStatusCode(); }
+            { return et.memberStatusCode(); }
             def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
-            { et.setMemberList(toScalaList(ls)); }
+            { et.memberList(toScalaList(ls)); }
             def newMyCB(): MemberCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: MemberCB, ls: List[String]): Unit =
             { cb.query().setMemberStatusCode_InScope(ls); }
             def qyOdFKAsc(cb: MemberCB): Unit = { cb.query().addOrderBy_MemberStatusCode_Asc(); }
             def spFKCol(cb: MemberCB): Unit = { cb.specify().columnMemberStatusCode(); }
             def selRfLs(cb: MemberCB): List[Member] = { return referrerBhv.selectList(cb).asJava; }
-            def getFKVal(re: Member): String = { return re.getMemberStatusCode(); }
+            def getFKVal(re: Member): String = { return re.memberStatusCode(); }
             def setlcEt(re: Member, le: MemberStatus): Unit =
-            { re.setMemberStatus(OptionalEntity.of(le)); }
+            { re.memberStatus(Option.apply(le)); }
             def getRfPrNm(): String = { return "memberList"; }
         });
     }
@@ -500,7 +499,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      */
     def extractMemberStatusCodeList(memberStatusList: List[MemberStatus]): List[String] = {
         return helpExtractListInternally(memberStatusList, new InternalExtractCallback[MemberStatus, String]() {
-            def getCV(et: MemberStatus): String = { return et.getMemberStatusCode(); }
+            def getCV(et: MemberStatus): String = { return et.memberStatusCode(); }
         });
     }
 
@@ -511,7 +510,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      */
     def extractDisplayOrderList(memberStatusList: List[MemberStatus]): List[Integer] = {
         return helpExtractListInternally(memberStatusList, new InternalExtractCallback[MemberStatus, Integer]() {
-            def getCV(et: MemberStatus): Integer = { return et.getDisplayOrder(); }
+            def getCV(et: MemberStatus): Integer = { return et.displayOrder(); }
         });
     }
 

@@ -52,48 +52,48 @@ object ProductDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
     class EpgProductId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getProductId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setProductId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].productId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].productId(dgcti(vl)); }
     }
     class EpgProductName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getProductName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setProductName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].productName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].productName(vl.asInstanceOf[String]); }
     }
     class EpgProductHandleCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getProductHandleCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setProductHandleCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].productHandleCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].productHandleCode(vl.asInstanceOf[String]); }
     }
     class EpgProductCategoryCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getProductCategoryCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setProductCategoryCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].productCategoryCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].productCategoryCode(vl.asInstanceOf[String]); }
     }
     class EpgProductStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getProductStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setProductStatusCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].productStatusCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].productStatusCode(vl.asInstanceOf[String]); }
     }
     class EpgRegularPrice extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getRegularPrice(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setRegularPrice(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].regularPrice(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].regularPrice(dgcti(vl)); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].registerDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgRegisterUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getRegisterUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setRegisterUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].registerUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].registerUser(vl.asInstanceOf[String]); }
     }
     class EpgUpdateDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].updateDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgUpdateUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getUpdateUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setUpdateUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].updateUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].updateUser(vl.asInstanceOf[String]); }
     }
     class EpgVersionNo extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Product].getVersionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].setVersionNo(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[Product].versionNo(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Product].versionNo(dgctl(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -161,6 +161,14 @@ object ProductDbm extends AbstractDBMeta {
     }
 
     { initializeInformationResource(); }
+
+    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
+
+    override protected def buildPropertySetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
 
     // ===================================================================================
     //                                                                         Unique Info

@@ -11,6 +11,7 @@ import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -73,7 +74,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsProduct extends EntityDefinedCommonColumn with Serializable with Cloneable {
+abstract class BsProduct extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                          Definition
@@ -167,7 +168,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (getProductId() == null) { return false; }
+        if (productId() == null) { return false; }
         return true;
     }
 
@@ -179,7 +180,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     def uniqueBy(productHandleCode: String): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("productHandleCode");
-        setProductHandleCode(productHandleCode);
+        this.productHandleCode(productHandleCode);
     }
 
     /**
@@ -206,7 +207,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * (購入)PURCHASE by PRODUCT_ID, named 'purchaseList'.
      * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)
      */
-    def getPurchaseList(): scala.collection.immutable.List[Purchase] = {
+    def purchaseList(): scala.collection.immutable.List[Purchase] = {
         if (_purchaseList == null) { _purchaseList = newReferrerList(); }
         return _purchaseList;
     }
@@ -215,7 +216,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * (購入)PURCHASE by PRODUCT_ID, named 'purchaseList'.
      * @param purchaseList The entity list of referrer property 'purchaseList'. (NullAllowed)
      */
-    def setPurchaseList(purchaseList: scala.collection.immutable.List[Purchase]): Unit = {
+    def purchaseList(purchaseList: scala.collection.immutable.List[Purchase]): Unit = {
         _purchaseList = purchaseList;
     }
 
@@ -306,7 +307,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
             case obj: BsProduct => {
                 val other: BsProduct = obj.asInstanceOf[BsProduct];
                 {
-                     xSV(getProductId(), other.getProductId())
+                     xSV(productId(), other.productId())
                 }
             }
             case _ => false
@@ -323,7 +324,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, getProductId());
+        hs = xCH(hs, productId());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -375,17 +376,17 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val dm: String = ", ";
-        sb.append(dm).append(getProductId());
-        sb.append(dm).append(getProductName());
-        sb.append(dm).append(getProductHandleCode());
-        sb.append(dm).append(getProductCategoryCode());
-        sb.append(dm).append(getProductStatusCode());
-        sb.append(dm).append(getRegularPrice());
-        sb.append(dm).append(getRegisterDatetime());
-        sb.append(dm).append(getRegisterUser());
-        sb.append(dm).append(getUpdateDatetime());
-        sb.append(dm).append(getUpdateUser());
-        sb.append(dm).append(getVersionNo());
+        sb.append(dm).append(productId());
+        sb.append(dm).append(productName());
+        sb.append(dm).append(productHandleCode());
+        sb.append(dm).append(productCategoryCode());
+        sb.append(dm).append(productStatusCode());
+        sb.append(dm).append(regularPrice());
+        sb.append(dm).append(registerDatetime());
+        sb.append(dm).append(registerUser());
+        sb.append(dm).append(updateDatetime());
+        sb.append(dm).append(updateUser());
+        sb.append(dm).append(versionNo());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -424,7 +425,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'PRODUCT_ID'. (basically NotNull if selected: for the constraint)
      */
-    def getProductId(): Integer = {
+    def productId(): Integer = {
         return _productId;
     }
 
@@ -432,7 +433,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @param productId The value of the column 'PRODUCT_ID'. (basically NotNull if update: for the constraint)
      */
-    def setProductId(productId: Integer): Unit = {
+    def productId(productId: Integer): Unit = {
         __modifiedProperties.addPropertyName("productId");
         this._productId = productId;
     }
@@ -441,7 +442,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'PRODUCT_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def getProductName(): String = {
+    def productName(): String = {
         return convertEmptyToNull(_productName);
     }
 
@@ -449,7 +450,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)} <br />
      * @param productName The value of the column 'PRODUCT_NAME'. (basically NotNull if update: for the constraint)
      */
-    def setProductName(productName: String): Unit = {
+    def productName(productName: String): Unit = {
         __modifiedProperties.addPropertyName("productName");
         this._productName = productName;
     }
@@ -458,7 +459,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)} <br />
      * @return The value of the column 'PRODUCT_HANDLE_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def getProductHandleCode(): String = {
+    def productHandleCode(): String = {
         return convertEmptyToNull(_productHandleCode);
     }
 
@@ -466,7 +467,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)} <br />
      * @param productHandleCode The value of the column 'PRODUCT_HANDLE_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setProductHandleCode(productHandleCode: String): Unit = {
+    def productHandleCode(productHandleCode: String): Unit = {
         __modifiedProperties.addPropertyName("productHandleCode");
         this._productHandleCode = productHandleCode;
     }
@@ -475,7 +476,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
      * @return The value of the column 'PRODUCT_CATEGORY_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def getProductCategoryCode(): String = {
+    def productCategoryCode(): String = {
         return convertEmptyToNull(_productCategoryCode);
     }
 
@@ -483,7 +484,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
      * @param productCategoryCode The value of the column 'PRODUCT_CATEGORY_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setProductCategoryCode(productCategoryCode: String): Unit = {
+    def productCategoryCode(productCategoryCode: String): Unit = {
         __modifiedProperties.addPropertyName("productCategoryCode");
         this._productCategoryCode = productCategoryCode;
     }
@@ -492,7 +493,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
      * @return The value of the column 'PRODUCT_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def getProductStatusCode(): String = {
+    def productStatusCode(): String = {
         return convertEmptyToNull(_productStatusCode);
     }
 
@@ -500,7 +501,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
      * @param productStatusCode The value of the column 'PRODUCT_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setProductStatusCode(productStatusCode: String): Unit = {
+    def productStatusCode(productStatusCode: String): Unit = {
         __modifiedProperties.addPropertyName("productStatusCode");
         this._productStatusCode = productStatusCode;
     }
@@ -509,7 +510,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} <br />
      * @return The value of the column 'REGULAR_PRICE'. (basically NotNull if selected: for the constraint)
      */
-    def getRegularPrice(): Integer = {
+    def regularPrice(): Integer = {
         return _regularPrice;
     }
 
@@ -517,7 +518,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} <br />
      * @param regularPrice The value of the column 'REGULAR_PRICE'. (basically NotNull if update: for the constraint)
      */
-    def setRegularPrice(regularPrice: Integer): Unit = {
+    def regularPrice(regularPrice: Integer): Unit = {
         __modifiedProperties.addPropertyName("regularPrice");
         this._regularPrice = regularPrice;
     }
@@ -526,7 +527,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
+    def registerDatetime(): java.sql.Timestamp = {
         return _registerDatetime;
     }
 
@@ -534,7 +535,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def registerDatetime(registerDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         this._registerDatetime = registerDatetime;
     }
@@ -543,7 +544,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterUser(): String = {
+    def registerUser(): String = {
         return convertEmptyToNull(_registerUser);
     }
 
@@ -551,7 +552,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterUser(registerUser: String): Unit = {
+    def registerUser(registerUser: String): Unit = {
         __modifiedProperties.addPropertyName("registerUser");
         this._registerUser = registerUser;
     }
@@ -560,7 +561,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateDatetime(): java.sql.Timestamp = {
+    def updateDatetime(): java.sql.Timestamp = {
         return _updateDatetime;
     }
 
@@ -568,7 +569,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def updateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         this._updateDatetime = updateDatetime;
     }
@@ -577,7 +578,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateUser(): String = {
+    def updateUser(): String = {
         return convertEmptyToNull(_updateUser);
     }
 
@@ -585,7 +586,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateUser(updateUser: String): Unit = {
+    def updateUser(updateUser: String): Unit = {
         __modifiedProperties.addPropertyName("updateUser");
         this._updateUser = updateUser;
     }
@@ -594,7 +595,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
      */
-    def getVersionNo(): Long = {
+    def versionNo(): Long = {
         return _versionNo;
     }
 
@@ -602,7 +603,7 @@ abstract class BsProduct extends EntityDefinedCommonColumn with Serializable wit
      * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
-    def setVersionNo(versionNo: Long): Unit = {
+    def versionNo(versionNo: Long): Unit = {
         __modifiedProperties.addPropertyName("versionNo");
         this._versionNo = versionNo;
     }

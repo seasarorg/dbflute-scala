@@ -11,6 +11,7 @@ import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -59,7 +60,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
+abstract class BsMemberStatus extends Entity with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                          Definition
@@ -129,7 +130,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (getMemberStatusCode() == null) { return false; }
+        if (memberStatusCode() == null) { return false; }
         return true;
     }
 
@@ -141,7 +142,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     def uniqueBy(displayOrder: Integer): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("displayOrder");
-        setDisplayOrder(displayOrder);
+        this.displayOrder(displayOrder);
     }
 
     /**
@@ -165,8 +166,8 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def getMemberStatusCodeAsMemberStatus(): CDef.MemberStatus = {
-        return CDef.MemberStatus.codeOf(getMemberStatusCode());
+    def memberStatusCodeAsMemberStatus(): CDef.MemberStatus = {
+        return CDef.MemberStatus.codeOf(memberStatusCode());
     }
 
     /**
@@ -175,8 +176,8 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * status of member from entry to withdrawal
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
-    def setMemberStatusCodeAsMemberStatus(cdef: CDef.MemberStatus): Unit = {
-        setMemberStatusCode(if (cdef != null) { cdef.code } else { null });
+    def memberStatusCodeAsMemberStatus(cdef: CDef.MemberStatus): Unit = {
+        memberStatusCode(if (cdef != null) { cdef.code } else { null });
     }
 
     // ===================================================================================
@@ -186,24 +187,24 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * Set the value of memberStatusCode as Formalized (FML). <br />
      * Formalized: as formal member, allowed to use all service
      */
-    def setMemberStatusCode_Formalized(): Unit = {
-        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Formalized);
+    def memberStatusCode_Formalized(): Unit = {
+        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Formalized);
     }
 
     /**
      * Set the value of memberStatusCode as Withdrawal (WDL). <br />
      * Withdrawal: withdrawal is fixed, not allowed to use service
      */
-    def setMemberStatusCode_Withdrawal(): Unit = {
-        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Withdrawal);
+    def memberStatusCode_Withdrawal(): Unit = {
+        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Withdrawal);
     }
 
     /**
      * Set the value of memberStatusCode as Provisional (PRV). <br />
      * Provisional: first status after entry, allowed to use only part of service
      */
-    def setMemberStatusCode_Provisional(): Unit = {
-        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Provisional);
+    def memberStatusCode_Provisional(): Unit = {
+        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Provisional);
     }
 
     // ===================================================================================
@@ -216,7 +217,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Formalized(): Boolean = {
-        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
+        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Formalized) } else { false };
     }
 
@@ -227,7 +228,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Withdrawal(): Boolean = {
-        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
+        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Withdrawal) } else { false };
     }
 
@@ -238,7 +239,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Provisional(): Boolean = {
-        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
+        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Provisional) } else { false };
     }
 
@@ -258,7 +259,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
      * @return The entity list of referrer property 'memberList'. (NotNull: even if no loading, returns empty list)
      */
-    def getMemberList(): scala.collection.immutable.List[Member] = {
+    def memberList(): scala.collection.immutable.List[Member] = {
         if (_memberList == null) { _memberList = newReferrerList(); }
         return _memberList;
     }
@@ -267,7 +268,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
      * @param memberList The entity list of referrer property 'memberList'. (NullAllowed)
      */
-    def setMemberList(memberList: scala.collection.immutable.List[Member]): Unit = {
+    def memberList(memberList: scala.collection.immutable.List[Member]): Unit = {
         _memberList = memberList;
     }
 
@@ -334,7 +335,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
             case obj: BsMemberStatus => {
                 val other: BsMemberStatus = obj.asInstanceOf[BsMemberStatus];
                 {
-                     xSV(getMemberStatusCode(), other.getMemberStatusCode())
+                     xSV(memberStatusCode(), other.memberStatusCode())
                 }
             }
             case _ => false
@@ -351,7 +352,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, getMemberStatusCode());
+        hs = xCH(hs, memberStatusCode());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -403,10 +404,10 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val dm: String = ", ";
-        sb.append(dm).append(getMemberStatusCode());
-        sb.append(dm).append(getMemberStatusName());
-        sb.append(dm).append(getDescription());
-        sb.append(dm).append(getDisplayOrder());
+        sb.append(dm).append(memberStatusCode());
+        sb.append(dm).append(memberStatusName());
+        sb.append(dm).append(description());
+        sb.append(dm).append(displayOrder());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -445,7 +446,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [get] (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
      * @return The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def getMemberStatusCode(): String = {
+    def memberStatusCode(): String = {
         return convertEmptyToNull(_memberStatusCode);
     }
 
@@ -453,7 +454,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [set] (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
      * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setMemberStatusCode(memberStatusCode: String): Unit = {
+    def memberStatusCode(memberStatusCode: String): Unit = {
         __modifiedProperties.addPropertyName("memberStatusCode");
         this._memberStatusCode = memberStatusCode;
     }
@@ -462,7 +463,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def getMemberStatusName(): String = {
+    def memberStatusName(): String = {
         return convertEmptyToNull(_memberStatusName);
     }
 
@@ -470,7 +471,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [set] (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} <br />
      * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if update: for the constraint)
      */
-    def setMemberStatusName(memberStatusName: String): Unit = {
+    def memberStatusName(memberStatusName: String): Unit = {
         __modifiedProperties.addPropertyName("memberStatusName");
         this._memberStatusName = memberStatusName;
     }
@@ -479,7 +480,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'DESCRIPTION'. (basically NotNull if selected: for the constraint)
      */
-    def getDescription(): String = {
+    def description(): String = {
         return convertEmptyToNull(_description);
     }
 
@@ -487,7 +488,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [set] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @param description The value of the column 'DESCRIPTION'. (basically NotNull if update: for the constraint)
      */
-    def setDescription(description: String): Unit = {
+    def description(description: String): Unit = {
         __modifiedProperties.addPropertyName("description");
         this._description = description;
     }
@@ -496,7 +497,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'DISPLAY_ORDER'. (basically NotNull if selected: for the constraint)
      */
-    def getDisplayOrder(): Integer = {
+    def displayOrder(): Integer = {
         return _displayOrder;
     }
 
@@ -504,7 +505,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable {
      * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
      */
-    def setDisplayOrder(displayOrder: Integer): Unit = {
+    def displayOrder(displayOrder: Integer): Unit = {
         __modifiedProperties.addPropertyName("displayOrder");
         this._displayOrder = displayOrder;
     }

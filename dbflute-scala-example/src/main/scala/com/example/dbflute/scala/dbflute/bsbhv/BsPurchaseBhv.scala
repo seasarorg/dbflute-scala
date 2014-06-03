@@ -12,7 +12,6 @@ import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
-import org.seasar.dbflute.optional._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -153,7 +152,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: PurchaseCB): OptionalEntity[Purchase] = {
+    def selectEntity(cb: PurchaseCB): Option[Purchase] = {
         return doSelectOptionalEntity(cb, classOf[Purchase]);
     }
 
@@ -163,13 +162,13 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
             def callbackSelectList(lcb: PurchaseCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: Purchase](cb: PurchaseCB, tp: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(cb, tp), cb);
+    protected def doSelectOptionalEntity[ENTITY <: Purchase](cb: PurchaseCB, tp: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(cb, tp));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return selectEntity(downcast(cb)).orElseNull();
+        return selectEntity(downcast(cb)).getOrElse(null);
     }
 
     /**
@@ -210,12 +209,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(purchaseId: Long): OptionalEntity[Purchase] = {
+    def selectByPK(purchaseId: Long): Option[Purchase] = {
         return doSelectByPK(purchaseId, classOf[Purchase]);
     }
 
-    protected def doSelectByPK[ENTITY <: Purchase](purchaseId: Long, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(purchaseId), entityType));
+    protected def doSelectByPK[ENTITY <: Purchase](purchaseId: Long, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsPK(purchaseId), entityType));
     }
 
     protected def xprepareCBAsPK(purchaseId: Long): PurchaseCB = {
@@ -235,12 +234,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): OptionalEntity[Purchase] = {
+    def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Option[Purchase] = {
         return doSelectByUniqueOf(memberId, productId, purchaseDatetime, classOf[Purchase]);
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: Purchase](memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(memberId, productId, purchaseDatetime), entityType), memberId, productId, purchaseDatetime);
+    protected def doSelectByUniqueOf[ENTITY <: Purchase](memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId, productId, purchaseDatetime), entityType));
     }
 
     protected def xprepareCBAsUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): PurchaseCB = {
@@ -412,10 +411,10 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     def pulloutMember(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Member] = {
         return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[Purchase, Member]() {
             def getFr(et: Purchase): Member =
-            { return et.getMember().get(); }
+            { return et.member().get; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Member, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(toScalaList(ls)); }
+            { et.purchaseList(toScalaList(ls)); }
         }));
     }
     /**
@@ -426,10 +425,10 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     def pulloutProduct(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Product] = {
         return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[Purchase, Product]() {
             def getFr(et: Purchase): Product =
-            { return et.getProduct().get(); }
+            { return et.product().get; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: Product, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(toScalaList(ls)); }
+            { et.purchaseList(toScalaList(ls)); }
         }));
     }
 
@@ -443,7 +442,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      */
     def extractPurchaseIdList(purchaseList: List[Purchase]): List[Long] = {
         return helpExtractListInternally(purchaseList, new InternalExtractCallback[Purchase, Long]() {
-            def getCV(et: Purchase): Long = { return et.getPurchaseId(); }
+            def getCV(et: Purchase): Long = { return et.purchaseId(); }
         });
     }
 
@@ -1504,7 +1503,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      */
     @Override
     protected def hasVersionNoValue(et: Entity): Boolean = {
-        return !(downcast(et).getVersionNo() + "").equals("null");// For primitive type
+        return !(downcast(et).versionNo() + "").equals("null");// For primitive type
     }
 
     /**

@@ -181,7 +181,7 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     }
 
     protected def createBeanMetaDataFactory(): TnBeanMetaDataFactory = {
-        val factory: TnBeanMetaDataFactoryExtension = new TnBeanMetaDataFactoryExtension();
+        val factory: ScrBeanMetaDataFactoryExtension = new ScrBeanMetaDataFactoryExtension();
         factory.setDataSource(_dataSource);
         factory.setInternalDebug(DBFluteConfig.isInternalDebug());
         return factory;

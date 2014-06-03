@@ -11,6 +11,7 @@ import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -63,7 +64,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsServiceRank extends Entity with Serializable with Cloneable {
+abstract class BsServiceRank extends Entity with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                          Definition
@@ -139,7 +140,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (getServiceRankCode() == null) { return false; }
+        if (serviceRankCode() == null) { return false; }
         return true;
     }
 
@@ -151,7 +152,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     def uniqueBy(displayOrder: Integer): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("displayOrder");
-        setDisplayOrder(displayOrder);
+        this.displayOrder(displayOrder);
     }
 
     /**
@@ -175,8 +176,8 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def getServiceRankCodeAsServiceRank(): CDef.ServiceRank = {
-        return CDef.ServiceRank.codeOf(getServiceRankCode());
+    def serviceRankCodeAsServiceRank(): CDef.ServiceRank = {
+        return CDef.ServiceRank.codeOf(serviceRankCode());
     }
 
     /**
@@ -185,8 +186,8 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * rank of service member gets
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
-    def setServiceRankCodeAsServiceRank(cdef: CDef.ServiceRank): Unit = {
-        setServiceRankCode(if (cdef != null) { cdef.code } else { null });
+    def serviceRankCodeAsServiceRank(cdef: CDef.ServiceRank): Unit = {
+        serviceRankCode(if (cdef != null) { cdef.code } else { null });
     }
 
     /**
@@ -196,8 +197,8 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def getNewAcceptableFlgAsFlg(): CDef.Flg = {
-        return CDef.Flg.codeOf(getNewAcceptableFlg());
+    def newAcceptableFlgAsFlg(): CDef.Flg = {
+        return CDef.Flg.codeOf(newAcceptableFlg());
     }
 
     /**
@@ -206,8 +207,8 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * general boolean classification for every flg-column
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
-    def setNewAcceptableFlgAsFlg(cdef: CDef.Flg): Unit = {
-        setNewAcceptableFlg(if (cdef != null) { FunCustodial.toNumber(cdef.code, classOf[Integer]) } else { null });
+    def newAcceptableFlgAsFlg(cdef: CDef.Flg): Unit = {
+        newAcceptableFlg(if (cdef != null) { FunCustodial.toNumber(cdef.code, classOf[Integer]) } else { null });
     }
 
     // ===================================================================================
@@ -217,56 +218,56 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * Set the value of serviceRankCode as Platinum (PLT). <br />
      * PLATINUM: platinum rank
      */
-    def setServiceRankCode_Platinum(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Platinum);
+    def serviceRankCode_Platinum(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Platinum);
     }
 
     /**
      * Set the value of serviceRankCode as Gold (GLD). <br />
      * GOLD: gold rank
      */
-    def setServiceRankCode_Gold(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Gold);
+    def serviceRankCode_Gold(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Gold);
     }
 
     /**
      * Set the value of serviceRankCode as Silver (SIL). <br />
      * SILVER: silver rank
      */
-    def setServiceRankCode_Silver(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Silver);
+    def serviceRankCode_Silver(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Silver);
     }
 
     /**
      * Set the value of serviceRankCode as Bronze (BRZ). <br />
      * BRONZE: bronze rank
      */
-    def setServiceRankCode_Bronze(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Bronze);
+    def serviceRankCode_Bronze(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Bronze);
     }
 
     /**
      * Set the value of serviceRankCode as Plastic (PLS). <br />
      * PLASTIC: plastic rank
      */
-    def setServiceRankCode_Plastic(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Plastic);
+    def serviceRankCode_Plastic(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Plastic);
     }
 
     /**
      * Set the value of newAcceptableFlg as True (1). <br />
      * Yes: means valid
      */
-    def setNewAcceptableFlg_True(): Unit = {
-        setNewAcceptableFlgAsFlg(CDef.Flg.True);
+    def newAcceptableFlg_True(): Unit = {
+        newAcceptableFlgAsFlg(CDef.Flg.True);
     }
 
     /**
      * Set the value of newAcceptableFlg as False (0). <br />
      * No: means invalid
      */
-    def setNewAcceptableFlg_False(): Unit = {
-        setNewAcceptableFlgAsFlg(CDef.Flg.False);
+    def newAcceptableFlg_False(): Unit = {
+        newAcceptableFlgAsFlg(CDef.Flg.False);
     }
 
     // ===================================================================================
@@ -279,7 +280,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isServiceRankCode_Platinum(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Platinum) } else { false };
     }
 
@@ -290,7 +291,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isServiceRankCode_Gold(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Gold) } else { false };
     }
 
@@ -301,7 +302,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isServiceRankCode_Silver(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Silver) } else { false };
     }
 
@@ -312,7 +313,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isServiceRankCode_Bronze(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Bronze) } else { false };
     }
 
@@ -323,7 +324,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isServiceRankCode_Plastic(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Plastic) } else { false };
     }
 
@@ -334,7 +335,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isNewAcceptableFlg_True(): Boolean = {
-        val cdef: CDef.Flg = getNewAcceptableFlgAsFlg();
+        val cdef: CDef.Flg = newAcceptableFlgAsFlg();
         return if (cdef != null) { cdef.equals(CDef.Flg.True) } else { false };
     }
 
@@ -345,7 +346,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * @return The determination, true or false.
      */
     def isNewAcceptableFlg_False(): Boolean = {
-        val cdef: CDef.Flg = getNewAcceptableFlgAsFlg();
+        val cdef: CDef.Flg = newAcceptableFlgAsFlg();
         return if (cdef != null) { cdef.equals(CDef.Flg.False) } else { false };
     }
 
@@ -356,8 +357,8 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * Get the value of the column 'newAcceptableFlg' as classification name.
      * @return The string of classification name. (NullAllowed: when the column value is null)
      */
-    def getNewAcceptableFlgName(): String = {
-        val cdef: CDef.Flg = getNewAcceptableFlgAsFlg();
+    def newAcceptableFlgName(): String = {
+        val cdef: CDef.Flg = newAcceptableFlgAsFlg();
         return if (cdef != null) { cdef.name() } else { null };
     }
 
@@ -365,8 +366,8 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * Get the value of the column 'newAcceptableFlg' as classification alias.
      * @return The string of classification alias. (NullAllowed: when the column value is null)
      */
-    def getNewAcceptableFlgAlias(): String = {
-        val cdef: CDef.Flg = getNewAcceptableFlgAsFlg();
+    def newAcceptableFlgAlias(): String = {
+        val cdef: CDef.Flg = newAcceptableFlgAsFlg();
         return if (cdef != null) { cdef.alias } else { null };
     }
 
@@ -383,7 +384,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
      * @return The entity list of referrer property 'memberServiceList'. (NotNull: even if no loading, returns empty list)
      */
-    def getMemberServiceList(): scala.collection.immutable.List[MemberService] = {
+    def memberServiceList(): scala.collection.immutable.List[MemberService] = {
         if (_memberServiceList == null) { _memberServiceList = newReferrerList(); }
         return _memberServiceList;
     }
@@ -392,7 +393,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
      * @param memberServiceList The entity list of referrer property 'memberServiceList'. (NullAllowed)
      */
-    def setMemberServiceList(memberServiceList: scala.collection.immutable.List[MemberService]): Unit = {
+    def memberServiceList(memberServiceList: scala.collection.immutable.List[MemberService]): Unit = {
         _memberServiceList = memberServiceList;
     }
 
@@ -459,7 +460,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
             case obj: BsServiceRank => {
                 val other: BsServiceRank = obj.asInstanceOf[BsServiceRank];
                 {
-                     xSV(getServiceRankCode(), other.getServiceRankCode())
+                     xSV(serviceRankCode(), other.serviceRankCode())
                 }
             }
             case _ => false
@@ -476,7 +477,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, getServiceRankCode());
+        hs = xCH(hs, serviceRankCode());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -528,12 +529,12 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val dm: String = ", ";
-        sb.append(dm).append(getServiceRankCode());
-        sb.append(dm).append(getServiceRankName());
-        sb.append(dm).append(getServicePointIncidence());
-        sb.append(dm).append(getNewAcceptableFlg());
-        sb.append(dm).append(getDescription());
-        sb.append(dm).append(getDisplayOrder());
+        sb.append(dm).append(serviceRankCode());
+        sb.append(dm).append(serviceRankName());
+        sb.append(dm).append(servicePointIncidence());
+        sb.append(dm).append(newAcceptableFlg());
+        sb.append(dm).append(description());
+        sb.append(dm).append(displayOrder());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -572,7 +573,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [get] (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
      * @return The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def getServiceRankCode(): String = {
+    def serviceRankCode(): String = {
         return convertEmptyToNull(_serviceRankCode);
     }
 
@@ -580,7 +581,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [set] (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
      * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setServiceRankCode(serviceRankCode: String): Unit = {
+    def serviceRankCode(serviceRankCode: String): Unit = {
         __modifiedProperties.addPropertyName("serviceRankCode");
         this._serviceRankCode = serviceRankCode;
     }
@@ -589,7 +590,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [get] (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'SERVICE_RANK_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def getServiceRankName(): String = {
+    def serviceRankName(): String = {
         return convertEmptyToNull(_serviceRankName);
     }
 
@@ -597,7 +598,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [set] (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} <br />
      * @param serviceRankName The value of the column 'SERVICE_RANK_NAME'. (basically NotNull if update: for the constraint)
      */
-    def setServiceRankName(serviceRankName: String): Unit = {
+    def serviceRankName(serviceRankName: String): Unit = {
         __modifiedProperties.addPropertyName("serviceRankName");
         this._serviceRankName = serviceRankName;
     }
@@ -606,7 +607,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [get] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
      * @return The value of the column 'SERVICE_POINT_INCIDENCE'. (basically NotNull if selected: for the constraint)
      */
-    def getServicePointIncidence(): java.math.BigDecimal = {
+    def servicePointIncidence(): java.math.BigDecimal = {
         return _servicePointIncidence;
     }
 
@@ -614,7 +615,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [set] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
      * @param servicePointIncidence The value of the column 'SERVICE_POINT_INCIDENCE'. (basically NotNull if update: for the constraint)
      */
-    def setServicePointIncidence(servicePointIncidence: java.math.BigDecimal): Unit = {
+    def servicePointIncidence(servicePointIncidence: java.math.BigDecimal): Unit = {
         __modifiedProperties.addPropertyName("servicePointIncidence");
         this._servicePointIncidence = servicePointIncidence;
     }
@@ -623,7 +624,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [get] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
      * @return The value of the column 'NEW_ACCEPTABLE_FLG'. (basically NotNull if selected: for the constraint)
      */
-    def getNewAcceptableFlg(): Integer = {
+    def newAcceptableFlg(): Integer = {
         return _newAcceptableFlg;
     }
 
@@ -631,7 +632,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [set] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
      * @param newAcceptableFlg The value of the column 'NEW_ACCEPTABLE_FLG'. (basically NotNull if update: for the constraint)
      */
-    def setNewAcceptableFlg(newAcceptableFlg: Integer): Unit = {
+    def newAcceptableFlg(newAcceptableFlg: Integer): Unit = {
         checkImplicitSet("NEW_ACCEPTABLE_FLG", CDef.DefMeta.Flg, newAcceptableFlg);
         __modifiedProperties.addPropertyName("newAcceptableFlg");
         this._newAcceptableFlg = newAcceptableFlg;
@@ -641,7 +642,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'DESCRIPTION'. (basically NotNull if selected: for the constraint)
      */
-    def getDescription(): String = {
+    def description(): String = {
         return convertEmptyToNull(_description);
     }
 
@@ -649,7 +650,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [set] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @param description The value of the column 'DESCRIPTION'. (basically NotNull if update: for the constraint)
      */
-    def setDescription(description: String): Unit = {
+    def description(description: String): Unit = {
         __modifiedProperties.addPropertyName("description");
         this._description = description;
     }
@@ -658,7 +659,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'DISPLAY_ORDER'. (basically NotNull if selected: for the constraint)
      */
-    def getDisplayOrder(): Integer = {
+    def displayOrder(): Integer = {
         return _displayOrder;
     }
 
@@ -666,7 +667,7 @@ abstract class BsServiceRank extends Entity with Serializable with Cloneable {
      * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
      */
-    def setDisplayOrder(displayOrder: Integer): Unit = {
+    def displayOrder(displayOrder: Integer): Unit = {
         __modifiedProperties.addPropertyName("displayOrder");
         this._displayOrder = displayOrder;
     }

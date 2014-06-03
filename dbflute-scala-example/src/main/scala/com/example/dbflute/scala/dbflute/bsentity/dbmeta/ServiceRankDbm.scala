@@ -47,28 +47,28 @@ object ServiceRankDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgDisplayOrder(), "displayOrder");
     }
     class EpgServiceRankCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getServiceRankCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setServiceRankCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].serviceRankCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].serviceRankCode(vl.asInstanceOf[String]); }
     }
     class EpgServiceRankName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getServiceRankName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setServiceRankName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].serviceRankName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].serviceRankName(vl.asInstanceOf[String]); }
     }
     class EpgServicePointIncidence extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getServicePointIncidence(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setServicePointIncidence(dgctb(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].servicePointIncidence(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].servicePointIncidence(dgctb(vl)); }
     }
     class EpgNewAcceptableFlg extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getNewAcceptableFlg(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setNewAcceptableFlg(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].newAcceptableFlg(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].newAcceptableFlg(dgcti(vl)); }
     }
     class EpgDescription extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getDescription(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setDescription(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].description(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].description(vl.asInstanceOf[String]); }
     }
     class EpgDisplayOrder extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].getDisplayOrder(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].setDisplayOrder(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[ServiceRank].displayOrder(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[ServiceRank].displayOrder(dgcti(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -121,6 +121,14 @@ object ServiceRankDbm extends AbstractDBMeta {
     }
 
     { initializeInformationResource(); }
+
+    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
+
+    override protected def buildPropertySetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
 
     // ===================================================================================
     //                                                                         Unique Info

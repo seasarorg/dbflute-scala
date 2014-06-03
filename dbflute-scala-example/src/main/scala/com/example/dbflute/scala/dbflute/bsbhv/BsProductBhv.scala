@@ -12,7 +12,6 @@ import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
-import org.seasar.dbflute.optional._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -153,7 +152,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: ProductCB): OptionalEntity[Product] = {
+    def selectEntity(cb: ProductCB): Option[Product] = {
         return doSelectOptionalEntity(cb, classOf[Product]);
     }
 
@@ -163,13 +162,13 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
             def callbackSelectList(lcb: ProductCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(cb, tp), cb);
+    protected def doSelectOptionalEntity[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(cb, tp));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return selectEntity(downcast(cb)).orElseNull();
+        return selectEntity(downcast(cb)).getOrElse(null);
     }
 
     /**
@@ -210,12 +209,12 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(productId: Integer): OptionalEntity[Product] = {
+    def selectByPK(productId: Integer): Option[Product] = {
         return doSelectByPK(productId, classOf[Product]);
     }
 
-    protected def doSelectByPK[ENTITY <: Product](productId: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(productId), entityType));
+    protected def doSelectByPK[ENTITY <: Product](productId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsPK(productId), entityType));
     }
 
     protected def xprepareCBAsPK(productId: Integer): ProductCB = {
@@ -233,12 +232,12 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(productHandleCode: String): OptionalEntity[Product] = {
+    def selectByUniqueOf(productHandleCode: String): Option[Product] = {
         return doSelectByUniqueOf(productHandleCode, classOf[Product]);
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: Product](productHandleCode: String, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(productHandleCode), entityType), productHandleCode);
+    protected def doSelectByUniqueOf[ENTITY <: Product](productHandleCode: String, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(productHandleCode), entityType));
     }
 
     protected def xprepareCBAsUniqueOf(productHandleCode: String): ProductCB = {
@@ -470,18 +469,18 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
         return helpLoadReferrerInternally(productList.asJava, option, new InternalLoadReferrerCallback[Product, Integer, PurchaseCB, Purchase]() {
             def getPKVal(et: Product): Integer =
-            { return et.getProductId(); }
+            { return et.productId(); }
             def setRfLs(et: Product, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(toScalaList(ls)); }
+            { et.purchaseList(toScalaList(ls)); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setProductId_InScope(ls); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_ProductId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnProductId(); }
             def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb).asJava; }
-            def getFKVal(re: Purchase): Integer = { return re.getProductId(); }
+            def getFKVal(re: Purchase): Integer = { return re.productId(); }
             def setlcEt(re: Purchase, le: Product): Unit =
-            { re.setProduct(OptionalEntity.of(le)); }
+            { re.product(Option.apply(le)); }
             def getRfPrNm(): String = { return "purchaseList"; }
         });
     }
@@ -500,7 +499,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      */
     def extractProductIdList(productList: List[Product]): List[Integer] = {
         return helpExtractListInternally(productList, new InternalExtractCallback[Product, Integer]() {
-            def getCV(et: Product): Integer = { return et.getProductId(); }
+            def getCV(et: Product): Integer = { return et.productId(); }
         });
     }
 
@@ -511,7 +510,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      */
     def extractProductHandleCodeList(productList: List[Product]): List[String] = {
         return helpExtractListInternally(productList, new InternalExtractCallback[Product, String]() {
-            def getCV(et: Product): String = { return et.getProductHandleCode(); }
+            def getCV(et: Product): String = { return et.productHandleCode(); }
         });
     }
 
@@ -1572,7 +1571,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      */
     @Override
     protected def hasVersionNoValue(et: Entity): Boolean = {
-        return !(downcast(et).getVersionNo() + "").equals("null");// For primitive type
+        return !(downcast(et).versionNo() + "").equals("null");// For primitive type
     }
 
     /**

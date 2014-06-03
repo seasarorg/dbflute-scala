@@ -45,20 +45,20 @@ object MemberStatusDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgDisplayOrder(), "displayOrder");
     }
     class EpgMemberStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getMemberStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setMemberStatusCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].memberStatusCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].memberStatusCode(vl.asInstanceOf[String]); }
     }
     class EpgMemberStatusName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getMemberStatusName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setMemberStatusName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].memberStatusName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].memberStatusName(vl.asInstanceOf[String]); }
     }
     class EpgDescription extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getDescription(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setDescription(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].description(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].description(vl.asInstanceOf[String]); }
     }
     class EpgDisplayOrder extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].getDisplayOrder(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].setDisplayOrder(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].displayOrder(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].displayOrder(dgcti(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -105,6 +105,14 @@ object MemberStatusDbm extends AbstractDBMeta {
     }
 
     { initializeInformationResource(); }
+
+    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
+
+    override protected def buildPropertySetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
 
     // ===================================================================================
     //                                                                         Unique Info

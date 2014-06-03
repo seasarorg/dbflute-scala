@@ -12,7 +12,6 @@ import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
-import org.seasar.dbflute.optional._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -153,7 +152,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: MemberCB): OptionalEntity[Member] = {
+    def selectEntity(cb: MemberCB): Option[Member] = {
         return doSelectOptionalEntity(cb, classOf[Member]);
     }
 
@@ -163,13 +162,13 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
             def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: Member](cb: MemberCB, tp: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(cb, tp), cb);
+    protected def doSelectOptionalEntity[ENTITY <: Member](cb: MemberCB, tp: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(cb, tp));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return selectEntity(downcast(cb)).orElseNull();
+        return selectEntity(downcast(cb)).getOrElse(null);
     }
 
     /**
@@ -210,12 +209,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(memberId: Integer): OptionalEntity[Member] = {
+    def selectByPK(memberId: Integer): Option[Member] = {
         return doSelectByPK(memberId, classOf[Member]);
     }
 
-    protected def doSelectByPK[ENTITY <: Member](memberId: Integer, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsPK(memberId), entityType));
+    protected def doSelectByPK[ENTITY <: Member](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsPK(memberId), entityType));
     }
 
     protected def xprepareCBAsPK(memberId: Integer): MemberCB = {
@@ -233,12 +232,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberAccount: String): OptionalEntity[Member] = {
+    def selectByUniqueOf(memberAccount: String): Option[Member] = {
         return doSelectByUniqueOf(memberAccount, classOf[Member]);
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: Member](memberAccount: String, entityType: Class[ENTITY]): OptionalEntity[ENTITY] = {
-        return createOptionalEntity(doSelectEntity(xprepareCBAsUniqueOf(memberAccount), entityType), memberAccount);
+    protected def doSelectByUniqueOf[ENTITY <: Member](memberAccount: String, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberAccount), entityType));
     }
 
     protected def xprepareCBAsUniqueOf(memberAccount: String): MemberCB = {
@@ -470,18 +469,18 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
         return helpLoadReferrerInternally(memberList.asJava, option, new InternalLoadReferrerCallback[Member, Integer, PurchaseCB, Purchase]() {
             def getPKVal(et: Member): Integer =
-            { return et.getMemberId(); }
+            { return et.memberId(); }
             def setRfLs(et: Member, ls: List[Purchase]): Unit =
-            { et.setPurchaseList(toScalaList(ls)); }
+            { et.purchaseList(toScalaList(ls)); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setMemberId_InScope(ls); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_MemberId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnMemberId(); }
             def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb).asJava; }
-            def getFKVal(re: Purchase): Integer = { return re.getMemberId(); }
+            def getFKVal(re: Purchase): Integer = { return re.memberId(); }
             def setlcEt(re: Purchase, le: Member): Unit =
-            { re.setMember(OptionalEntity.of(le)); }
+            { re.member(Option.apply(le)); }
             def getRfPrNm(): String = { return "purchaseList"; }
         });
     }
@@ -497,10 +496,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     def pulloutMemberStatus(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberStatus] = {
         return toScalaList(helpPulloutInternally(memberList.asJava, new InternalPulloutCallback[Member, MemberStatus]() {
             def getFr(et: Member): MemberStatus =
-            { return et.getMemberStatus().get(); }
+            { return et.memberStatus().get; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: MemberStatus, ls: List[Member]): Unit =
-            { et.setMemberList(toScalaList(ls)); }
+            { et.memberList(toScalaList(ls)); }
         }));
     }
     /**
@@ -511,10 +510,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     def pulloutMemberServiceAsOne(memberList: List[Member]): List[MemberService] = {
         return helpPulloutInternally(memberList, new InternalPulloutCallback[Member, MemberService]() {
             def getFr(et: Member): MemberService =
-            { return et.getMemberServiceAsOne().get(); }
+            { return et.memberServiceAsOne().get; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: MemberService, ls: List[Member]): Unit =
-            { if (!ls.isEmpty()) { et.setMember(OptionalEntity.of(ls.get(0))); } }
+            { if (!ls.isEmpty()) { et.member(Option.apply(ls.get(0))); } }
         });
     }
 
@@ -528,7 +527,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      */
     def extractMemberIdList(memberList: List[Member]): List[Integer] = {
         return helpExtractListInternally(memberList, new InternalExtractCallback[Member, Integer]() {
-            def getCV(et: Member): Integer = { return et.getMemberId(); }
+            def getCV(et: Member): Integer = { return et.memberId(); }
         });
     }
 
@@ -539,7 +538,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      */
     def extractMemberAccountList(memberList: List[Member]): List[String] = {
         return helpExtractListInternally(memberList, new InternalExtractCallback[Member, String]() {
-            def getCV(et: Member): String = { return et.getMemberAccount(); }
+            def getCV(et: Member): String = { return et.memberAccount(); }
         });
     }
 
@@ -1600,7 +1599,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      */
     @Override
     protected def hasVersionNoValue(et: Entity): Boolean = {
-        return !(downcast(et).getVersionNo() + "").equals("null");// For primitive type
+        return !(downcast(et).versionNo() + "").equals("null");// For primitive type
     }
 
     /**

@@ -10,7 +10,6 @@ import java.util.HashMap
 
 import org.seasar.dbflute.DBDef;
 import org.seasar.dbflute.Entity;
-import org.seasar.dbflute.optional.OptionalEntity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta._;
 import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
@@ -51,40 +50,40 @@ object MemberServiceDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
     class EpgMemberServiceId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getMemberServiceId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setMemberServiceId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].memberServiceId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].memberServiceId(dgcti(vl)); }
     }
     class EpgMemberId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getMemberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setMemberId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].memberId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].memberId(dgcti(vl)); }
     }
     class EpgServicePointCount extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getServicePointCount(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setServicePointCount(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].servicePointCount(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].servicePointCount(dgcti(vl)); }
     }
     class EpgServiceRankCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getServiceRankCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setServiceRankCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].serviceRankCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].serviceRankCode(vl.asInstanceOf[String]); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].registerDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgRegisterUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getRegisterUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setRegisterUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].registerUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].registerUser(vl.asInstanceOf[String]); }
     }
     class EpgUpdateDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].updateDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgUpdateUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getUpdateUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setUpdateUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].updateUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].updateUser(vl.asInstanceOf[String]); }
     }
     class EpgVersionNo extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getVersionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setVersionNo(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].versionNo(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].versionNo(dgctl(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -104,12 +103,12 @@ object MemberServiceDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, new EfpgServiceRank(), "serviceRank");
     }
     class EfpgMember extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getMember(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setMember(vl.asInstanceOf[OptionalEntity[Member]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].member(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].member(vl.asInstanceOf[Option[Member]]); }
     }
     class EfpgServiceRank extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].getServiceRank(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].setServiceRank(vl.asInstanceOf[OptionalEntity[ServiceRank]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].serviceRank(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].serviceRank(vl.asInstanceOf[Option[ServiceRank]]); }
     }
     override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
 
@@ -165,6 +164,14 @@ object MemberServiceDbm extends AbstractDBMeta {
 
     { initializeInformationResource(); }
 
+    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
+
+    override protected def buildPropertySetterMethodName(propertyName: String): String = {
+        return initUncap(propertyName);
+    }
+
     // ===================================================================================
     //                                                                         Unique Info
     //                                                                         ===========
@@ -185,11 +192,11 @@ object MemberServiceDbm extends AbstractDBMeta {
     //                                      ----------------
     def foreignMember(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberDbm.columnMemberId());
-        return cfi("FK_MEMBER_SERVICE_MEMBER", "member", this, MemberDbm, mp, 0, classOf[org.seasar.dbflute.optional.OptionalEntity[_]], true, false, false, false, null, null, false, "memberServiceAsOne");
+        return cfi("FK_MEMBER_SERVICE_MEMBER", "member", this, MemberDbm, mp, 0, classOf[Option[_]], true, false, false, false, null, null, false, "memberServiceAsOne");
     }
     def foreignServiceRank(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnServiceRankCode(), ServiceRankDbm.columnServiceRankCode());
-        return cfi("FK_MEMBER_SERVICE_SERVICE_RANK_CODE", "serviceRank", this, ServiceRankDbm, mp, 1, classOf[org.seasar.dbflute.optional.OptionalEntity[_]], false, false, false, false, null, null, false, "memberServiceList");
+        return cfi("FK_MEMBER_SERVICE_SERVICE_RANK_CODE", "serviceRank", this, ServiceRankDbm, mp, 1, classOf[Option[_]], false, false, false, false, null, null, false, "memberServiceList");
     }
 
     // -----------------------------------------------------

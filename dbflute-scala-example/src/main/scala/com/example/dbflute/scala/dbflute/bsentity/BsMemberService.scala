@@ -8,10 +8,10 @@ import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
-import org.seasar.dbflute.optional.OptionalEntity;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
@@ -71,7 +71,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMemberService extends EntityDefinedCommonColumn with Serializable with Cloneable {
+abstract class BsMemberService extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                          Definition
@@ -159,7 +159,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (getMemberServiceId() == null) { return false; }
+        if (memberServiceId() == null) { return false; }
         return true;
     }
 
@@ -171,7 +171,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     def uniqueBy(memberId: Integer): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("memberId");
-        setMemberId(memberId);
+        this.memberId(memberId);
     }
 
     /**
@@ -195,8 +195,8 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def getServiceRankCodeAsServiceRank(): CDef.ServiceRank = {
-        return CDef.ServiceRank.codeOf(getServiceRankCode());
+    def serviceRankCodeAsServiceRank(): CDef.ServiceRank = {
+        return CDef.ServiceRank.codeOf(serviceRankCode());
     }
 
     /**
@@ -205,8 +205,8 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * rank of service member gets
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
-    def setServiceRankCodeAsServiceRank(cdef: CDef.ServiceRank): Unit = {
-        setServiceRankCode(if (cdef != null) { cdef.code } else { null });
+    def serviceRankCodeAsServiceRank(cdef: CDef.ServiceRank): Unit = {
+        serviceRankCode(if (cdef != null) { cdef.code } else { null });
     }
 
     // ===================================================================================
@@ -216,40 +216,40 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * Set the value of serviceRankCode as Platinum (PLT). <br />
      * PLATINUM: platinum rank
      */
-    def setServiceRankCode_Platinum(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Platinum);
+    def serviceRankCode_Platinum(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Platinum);
     }
 
     /**
      * Set the value of serviceRankCode as Gold (GLD). <br />
      * GOLD: gold rank
      */
-    def setServiceRankCode_Gold(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Gold);
+    def serviceRankCode_Gold(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Gold);
     }
 
     /**
      * Set the value of serviceRankCode as Silver (SIL). <br />
      * SILVER: silver rank
      */
-    def setServiceRankCode_Silver(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Silver);
+    def serviceRankCode_Silver(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Silver);
     }
 
     /**
      * Set the value of serviceRankCode as Bronze (BRZ). <br />
      * BRONZE: bronze rank
      */
-    def setServiceRankCode_Bronze(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Bronze);
+    def serviceRankCode_Bronze(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Bronze);
     }
 
     /**
      * Set the value of serviceRankCode as Plastic (PLS). <br />
      * PLASTIC: plastic rank
      */
-    def setServiceRankCode_Plastic(): Unit = {
-        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Plastic);
+    def serviceRankCode_Plastic(): Unit = {
+        serviceRankCodeAsServiceRank(CDef.ServiceRank.Plastic);
     }
 
     // ===================================================================================
@@ -262,7 +262,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Platinum(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Platinum) } else { false };
     }
 
@@ -273,7 +273,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Gold(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Gold) } else { false };
     }
 
@@ -284,7 +284,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Silver(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Silver) } else { false };
     }
 
@@ -295,7 +295,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Bronze(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Bronze) } else { false };
     }
 
@@ -306,7 +306,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Plastic(): Boolean = {
-        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
         return if (cdef != null) { cdef.equals(CDef.ServiceRank.Plastic) } else { false };
     }
 
@@ -317,40 +317,40 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     //                                                                    Foreign Property
     //                                                                    ================
     /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
-    protected var _member: OptionalEntity[Member] = null;
+    protected var _member: Option[Member] = null;
 
     /**
      * (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @return The entity of foreign property 'member'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def getMember(): OptionalEntity[Member] = {
-        return if (_member != null) { _member; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "member"); }
+    def member(): Option[Member] = {
+        return if (_member != null) { _member; } else { Option.empty; }
     }
 
     /**
      * (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @param member The entity of foreign property 'member'. (NullAllowed)
      */
-    def setMember(member: OptionalEntity[Member]): Unit = {
+    def member(member: Option[Member]): Unit = {
         _member = member;
     }
 
     /** (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'. */
-    protected var _serviceRank: OptionalEntity[ServiceRank] = null;
+    protected var _serviceRank: Option[ServiceRank] = null;
 
     /**
      * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
      * @return The entity of foreign property 'serviceRank'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def getServiceRank(): OptionalEntity[ServiceRank] = {
-        return if (_serviceRank != null) { _serviceRank; } else { org.seasar.dbflute.optional.OptionalEntity.relationEmpty(this, "serviceRank"); }
+    def serviceRank(): Option[ServiceRank] = {
+        return if (_serviceRank != null) { _serviceRank; } else { Option.empty; }
     }
 
     /**
      * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
      * @param serviceRank The entity of foreign property 'serviceRank'. (NullAllowed)
      */
-    def setServiceRank(serviceRank: OptionalEntity[ServiceRank]): Unit = {
+    def serviceRank(serviceRank: Option[ServiceRank]): Unit = {
         _serviceRank = serviceRank;
     }
 
@@ -444,7 +444,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
             case obj: BsMemberService => {
                 val other: BsMemberService = obj.asInstanceOf[BsMemberService];
                 {
-                     xSV(getMemberServiceId(), other.getMemberServiceId())
+                     xSV(memberServiceId(), other.memberServiceId())
                 }
             }
             case _ => false
@@ -461,7 +461,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, getMemberServiceId());
+        hs = xCH(hs, memberServiceId());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -499,8 +499,8 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     protected def xbRDS(et: Entity, name: String): String = {
         return et.buildDisplayString(name, true, true);
     }
-    protected def xbRDS[ET <: Entity](et: org.seasar.dbflute.optional.OptionalEntity[ET], name: String): String = {
-        return et.get().buildDisplayString(name, true, true);
+    protected def xbRDS[ET <: Entity](et: Option[ET], name: String): String = {
+        return et.get.buildDisplayString(name, true, true);
     }
 
     /**
@@ -517,15 +517,15 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val dm: String = ", ";
-        sb.append(dm).append(getMemberServiceId());
-        sb.append(dm).append(getMemberId());
-        sb.append(dm).append(getServicePointCount());
-        sb.append(dm).append(getServiceRankCode());
-        sb.append(dm).append(getRegisterDatetime());
-        sb.append(dm).append(getRegisterUser());
-        sb.append(dm).append(getUpdateDatetime());
-        sb.append(dm).append(getUpdateUser());
-        sb.append(dm).append(getVersionNo());
+        sb.append(dm).append(memberServiceId());
+        sb.append(dm).append(memberId());
+        sb.append(dm).append(servicePointCount());
+        sb.append(dm).append(serviceRankCode());
+        sb.append(dm).append(registerDatetime());
+        sb.append(dm).append(registerUser());
+        sb.append(dm).append(updateDatetime());
+        sb.append(dm).append(updateUser());
+        sb.append(dm).append(versionNo());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -564,7 +564,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if selected: for the constraint)
      */
-    def getMemberServiceId(): Integer = {
+    def memberServiceId(): Integer = {
         return _memberServiceId;
     }
 
@@ -572,7 +572,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @param memberServiceId The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if update: for the constraint)
      */
-    def setMemberServiceId(memberServiceId: Integer): Unit = {
+    def memberServiceId(memberServiceId: Integer): Unit = {
         __modifiedProperties.addPropertyName("memberServiceId");
         this._memberServiceId = memberServiceId;
     }
@@ -581,7 +581,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
-    def getMemberId(): Integer = {
+    def memberId(): Integer = {
         return _memberId;
     }
 
@@ -589,7 +589,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
-    def setMemberId(memberId: Integer): Unit = {
+    def memberId(memberId: Integer): Unit = {
         __modifiedProperties.addPropertyName("memberId");
         this._memberId = memberId;
     }
@@ -598,7 +598,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if selected: for the constraint)
      */
-    def getServicePointCount(): Integer = {
+    def servicePointCount(): Integer = {
         return _servicePointCount;
     }
 
@@ -606,7 +606,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
      * @param servicePointCount The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if update: for the constraint)
      */
-    def setServicePointCount(servicePointCount: Integer): Unit = {
+    def servicePointCount(servicePointCount: Integer): Unit = {
         __modifiedProperties.addPropertyName("servicePointCount");
         this._servicePointCount = servicePointCount;
     }
@@ -615,7 +615,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
      * @return The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def getServiceRankCode(): String = {
+    def serviceRankCode(): String = {
         return convertEmptyToNull(_serviceRankCode);
     }
 
@@ -623,7 +623,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
      * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setServiceRankCode(serviceRankCode: String): Unit = {
+    def serviceRankCode(serviceRankCode: String): Unit = {
         __modifiedProperties.addPropertyName("serviceRankCode");
         this._serviceRankCode = serviceRankCode;
     }
@@ -632,7 +632,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
+    def registerDatetime(): java.sql.Timestamp = {
         return _registerDatetime;
     }
 
@@ -640,7 +640,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def registerDatetime(registerDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         this._registerDatetime = registerDatetime;
     }
@@ -649,7 +649,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterUser(): String = {
+    def registerUser(): String = {
         return convertEmptyToNull(_registerUser);
     }
 
@@ -657,7 +657,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterUser(registerUser: String): Unit = {
+    def registerUser(registerUser: String): Unit = {
         __modifiedProperties.addPropertyName("registerUser");
         this._registerUser = registerUser;
     }
@@ -666,7 +666,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateDatetime(): java.sql.Timestamp = {
+    def updateDatetime(): java.sql.Timestamp = {
         return _updateDatetime;
     }
 
@@ -674,7 +674,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def updateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         this._updateDatetime = updateDatetime;
     }
@@ -683,7 +683,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateUser(): String = {
+    def updateUser(): String = {
         return convertEmptyToNull(_updateUser);
     }
 
@@ -691,7 +691,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateUser(updateUser: String): Unit = {
+    def updateUser(updateUser: String): Unit = {
         __modifiedProperties.addPropertyName("updateUser");
         this._updateUser = updateUser;
     }
@@ -700,7 +700,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
      */
-    def getVersionNo(): Long = {
+    def versionNo(): Long = {
         return _versionNo;
     }
 
@@ -708,7 +708,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
-    def setVersionNo(versionNo: Long): Unit = {
+    def versionNo(versionNo: Long): Unit = {
         __modifiedProperties.addPropertyName("versionNo");
         this._versionNo = versionNo;
     }
