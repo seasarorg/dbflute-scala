@@ -10,6 +10,6 @@ import com.example.dbflute.scala.dbflute.bsentity.BsServiceRank;
  * </p>
  * @author DBFlute(AutoGenerator)
  */
-class ServiceRank extends BsServiceRank {
+class ServiceRank(mbleEntity: MbleServiceRank) extends BsServiceRank(mbleEntity) {
 
 }

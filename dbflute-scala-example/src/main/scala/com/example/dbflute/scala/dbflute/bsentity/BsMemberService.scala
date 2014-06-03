@@ -71,59 +71,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMemberService extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
-
-    // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-
-    // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} */
-    protected var _memberServiceId: Integer = null;
-
-    /** (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} */
-    protected var _memberId: Integer = null;
-
-    /** (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} */
-    protected var _servicePointCount: Integer = null;
-
-    /** (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} */
-    protected var _serviceRankCode: String = null;
-
-    /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _registerDatetime: java.sql.Timestamp = null;
-
-    /** REGISTER_USER: {NotNull, VARCHAR(200)} */
-    protected var _registerUser: String = null;
-
-    /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _updateDatetime: java.sql.Timestamp = null;
-
-    /** UPDATE_USER: {NotNull, VARCHAR(200)} */
-    protected var _updateUser: String = null;
-
-    /** VERSION_NO: {NotNull, BIGINT(19)} */
-    protected var _versionNo: Long = null;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
-
-    /** Is common column auto set up effective? */
-    protected var __canCommonColumnAutoSetup: Boolean = true;
-
-    /** Is the entity created by DBFlute select process? */
-    protected var __createdBySelect: Boolean = false;
+abstract class BsMemberService(mbleEntity: MbleMemberService) extends Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                          Table Name
@@ -163,28 +111,6 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
         return true;
     }
 
-    /**
-     * To be unique by the unique column. <br />
-     * You can update the entity by the key when entity update (NOT batch update).
-     * @param memberId (会員ID): UQ, IX, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
-     */
-    def uniqueBy(memberId: Integer): Unit = {
-        __uniqueDrivenProperties.clear();
-        __uniqueDrivenProperties.addPropertyName("memberId");
-        this.memberId(memberId);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def myuniqueDrivenProperties(): Set[String] = {
-        return __uniqueDrivenProperties.getPropertyNames();
-    }
-
-    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
-        return new EntityUniqueDrivenProperties();
-    }
-
     // ===================================================================================
     //                                                             Classification Property
     //                                                             =======================
@@ -196,60 +122,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     def serviceRankCodeAsServiceRank(): CDef.ServiceRank = {
-        return CDef.ServiceRank.codeOf(serviceRankCode());
-    }
-
-    /**
-     * Set the value of serviceRankCode as the classification of ServiceRank. <br />
-     * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
-     * rank of service member gets
-     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
-     */
-    def serviceRankCodeAsServiceRank(cdef: CDef.ServiceRank): Unit = {
-        serviceRankCode(if (cdef != null) { cdef.code } else { null });
-    }
-
-    // ===================================================================================
-    //                                                              Classification Setting
-    //                                                              ======================
-    /**
-     * Set the value of serviceRankCode as Platinum (PLT). <br />
-     * PLATINUM: platinum rank
-     */
-    def serviceRankCode_Platinum(): Unit = {
-        serviceRankCodeAsServiceRank(CDef.ServiceRank.Platinum);
-    }
-
-    /**
-     * Set the value of serviceRankCode as Gold (GLD). <br />
-     * GOLD: gold rank
-     */
-    def serviceRankCode_Gold(): Unit = {
-        serviceRankCodeAsServiceRank(CDef.ServiceRank.Gold);
-    }
-
-    /**
-     * Set the value of serviceRankCode as Silver (SIL). <br />
-     * SILVER: silver rank
-     */
-    def serviceRankCode_Silver(): Unit = {
-        serviceRankCodeAsServiceRank(CDef.ServiceRank.Silver);
-    }
-
-    /**
-     * Set the value of serviceRankCode as Bronze (BRZ). <br />
-     * BRONZE: bronze rank
-     */
-    def serviceRankCode_Bronze(): Unit = {
-        serviceRankCodeAsServiceRank(CDef.ServiceRank.Bronze);
-    }
-
-    /**
-     * Set the value of serviceRankCode as Plastic (PLS). <br />
-     * PLASTIC: plastic rank
-     */
-    def serviceRankCode_Plastic(): Unit = {
-        serviceRankCodeAsServiceRank(CDef.ServiceRank.Plastic);
+        return mbleEntity.serviceRankCodeAsServiceRank;
     }
 
     // ===================================================================================
@@ -262,8 +135,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Platinum(): Boolean = {
-        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
-        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Platinum) } else { false };
+        return mbleEntity.isServiceRankCode_Platinum;
     }
 
     /**
@@ -273,8 +145,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Gold(): Boolean = {
-        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
-        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Gold) } else { false };
+        return mbleEntity.isServiceRankCode_Gold;
     }
 
     /**
@@ -284,8 +155,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Silver(): Boolean = {
-        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
-        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Silver) } else { false };
+        return mbleEntity.isServiceRankCode_Silver;
     }
 
     /**
@@ -295,8 +165,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Bronze(): Boolean = {
-        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
-        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Bronze) } else { false };
+        return mbleEntity.isServiceRankCode_Bronze;
     }
 
     /**
@@ -306,8 +175,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The determination, true or false.
      */
     def isServiceRankCode_Plastic(): Boolean = {
-        val cdef: CDef.ServiceRank = serviceRankCodeAsServiceRank();
-        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Plastic) } else { false };
+        return mbleEntity.isServiceRankCode_Plastic;
     }
 
     // ===================================================================================
@@ -316,120 +184,25 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
-    protected var _member: Option[Member] = null;
-
     /**
      * (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @return The entity of foreign property 'member'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def member(): Option[Member] = {
-        return if (_member != null) { _member; } else { Option.empty; }
+    def member(): Option[MbleMember] = {
+        return mbleEntity.member;
     }
-
-    /**
-     * (会員)MEMBER by my MEMBER_ID, named 'member'.
-     * @param member The entity of foreign property 'member'. (NullAllowed)
-     */
-    def member(member: Option[Member]): Unit = {
-        _member = member;
-    }
-
-    /** (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'. */
-    protected var _serviceRank: Option[ServiceRank] = null;
 
     /**
      * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
      * @return The entity of foreign property 'serviceRank'. (NullAllowed: when e.g. null FK column, no setupSelect)
      */
-    def serviceRank(): Option[ServiceRank] = {
-        return if (_serviceRank != null) { _serviceRank; } else { Option.empty; }
-    }
-
-    /**
-     * (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
-     * @param serviceRank The entity of foreign property 'serviceRank'. (NullAllowed)
-     */
-    def serviceRank(serviceRank: Option[ServiceRank]): Unit = {
-        _serviceRank = serviceRank;
+    def serviceRank(): Option[MbleServiceRank] = {
+        return mbleEntity.serviceRank;
     }
 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
-        return scala.collection.immutable.List(); // #pending actually fixed empty list
-    }
-
-    // ===================================================================================
-    //                                                                 Modified Properties
-    //                                                                 ===================
-    /**
-     * {@inheritDoc}
-     */
-    def modifiedProperties(): Set[String] = {
-        return __modifiedProperties.getPropertyNames();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def clearModifiedInfo(): Unit = {
-        __modifiedProperties.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def hasModification(): Boolean = {
-        return !__modifiedProperties.isEmpty();
-    }
-
-    protected def newModifiedProperties(): EntityModifiedProperties = {
-        return new EntityModifiedProperties();
-    }
-
-    // ===================================================================================
-    //                                                                     Birthplace Mark
-    //                                                                     ===============
-    /**
-     * {@inheritDoc}
-     */
-    def markAsSelect(): Unit = {
-        __createdBySelect = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def createdBySelect(): Boolean = {
-        return __createdBySelect;
-    }
-
-    // ===================================================================================
-    //                                                                       Common Column
-    //                                                                       =============
-    /**
-     * {@inheritDoc}
-     */
-    def enableCommonColumnAutoSetup(): Unit = {
-        __canCommonColumnAutoSetup = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def disableCommonColumnAutoSetup(): Unit = {
-        __canCommonColumnAutoSetup = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def canCommonColumnAutoSetup(): Boolean = {
-        return __canCommonColumnAutoSetup;
-    }
-
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
@@ -444,7 +217,7 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
             case obj: BsMemberService => {
                 val other: BsMemberService = obj.asInstanceOf[BsMemberService];
                 {
-                     xSV(memberServiceId(), other.memberServiceId())
+                    mbleEntity.equals(other)
                 }
             }
             case _ => false
@@ -459,20 +232,14 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The hash-code from primary-key or columns.
      */
     override def hashCode(): Int = {
-        var hs: Int = 17;
-        hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, memberServiceId());
-        return hs;
-    }
-    protected def xCH(hs: Int, value: Object): Int = {
-        return FunCustodial.calculateHashcode(hs, value);
+        return mbleEntity.hashCode;
     }
 
     /**
      * {@inheritDoc}
      */
     def instanceHash(): Int = {
-        return super.hashCode();
+        return mbleEntity.instanceHash;
     }
 
     /**
@@ -480,76 +247,16 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The display string of all columns and relation existences. (NotNull)
      */
     override def toString(): String = {
-        return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def toStringWithRelation(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        sb.append(toString());
-        val li: String = "\n  ";
-        if (_member != null)
-        { sb.append(li).append(xbRDS(_member, "member")); }
-        if (_serviceRank != null)
-        { sb.append(li).append(xbRDS(_serviceRank, "serviceRank")); }
-        return sb.toString();
-    }
-    protected def xbRDS(et: Entity, name: String): String = {
-        return et.buildDisplayString(name, true, true);
-    }
-    protected def xbRDS[ET <: Entity](et: Option[ET], name: String): String = {
-        return et.get.buildDisplayString(name, true, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def buildDisplayString(name: String, column: Boolean, relation: Boolean): String = {
-        val sb: StringBuilder = new StringBuilder();
-        if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
-        if (column) { sb.append(buildColumnString()); }
-        if (relation) { sb.append(buildRelationString()); }
-        sb.append("@").append(Integer.toHexString(hashCode()));
-        return sb.toString();
-    }
-    protected def buildColumnString(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        val dm: String = ", ";
-        sb.append(dm).append(memberServiceId());
-        sb.append(dm).append(memberId());
-        sb.append(dm).append(servicePointCount());
-        sb.append(dm).append(serviceRankCode());
-        sb.append(dm).append(registerDatetime());
-        sb.append(dm).append(registerUser());
-        sb.append(dm).append(updateDatetime());
-        sb.append(dm).append(updateUser());
-        sb.append(dm).append(versionNo());
-        if (sb.length() > dm.length()) {
-            sb.delete(0, dm.length());
-        }
-        sb.insert(0, "{").append("}");
-        return sb.toString();
-    }
-    protected def buildRelationString(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        val cm: String = ",  ";
-        if (_member != null) { sb.append(cm).append("member"); }
-        if (_serviceRank != null) { sb.append(cm).append("serviceRank"); }
-        if (sb.length() > cm.length()) {
-            sb.delete(0, cm.length()).insert(0, "(").append(")");
-        }
-        return sb.toString();
+        return mbleEntity.buildDisplayString(FunCustodial.toClassTitle(this), true, true);
     }
 
     /**
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    override def clone(): MemberService = {
+    override def clone(): MbleMemberService = {
         try {
-            return super.clone().asInstanceOf[MemberService];
+            return super.clone().asInstanceOf[MbleMemberService];
         } catch {
             case e: CloneNotSupportedException => {
                 throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
@@ -565,155 +272,86 @@ abstract class BsMemberService extends EntityDefinedCommonColumn with Serializab
      * @return The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if selected: for the constraint)
      */
     def memberServiceId(): Integer = {
-        return _memberServiceId;
+        return mbleEntity.memberServiceId;
     }
-
-    /**
-     * [set] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
-     * @param memberServiceId The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if update: for the constraint)
-     */
-    def memberServiceId(memberServiceId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberServiceId");
-        this._memberServiceId = memberServiceId;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
     def memberId(): Integer = {
-        return _memberId;
+        return mbleEntity.memberId;
     }
-
-    /**
-     * [set] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
-     * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
-     */
-    def memberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
-        this._memberId = memberId;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if selected: for the constraint)
      */
     def servicePointCount(): Integer = {
-        return _servicePointCount;
+        return mbleEntity.servicePointCount;
     }
-
-    /**
-     * [set] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
-     * @param servicePointCount The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if update: for the constraint)
-     */
-    def servicePointCount(servicePointCount: Integer): Unit = {
-        __modifiedProperties.addPropertyName("servicePointCount");
-        this._servicePointCount = servicePointCount;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
      * @return The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if selected: for the constraint)
      */
     def serviceRankCode(): String = {
-        return convertEmptyToNull(_serviceRankCode);
+        return mbleEntity.serviceRankCode;
     }
-
-    /**
-     * [set] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
-     * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
-     */
-    def serviceRankCode(serviceRankCode: String): Unit = {
-        __modifiedProperties.addPropertyName("serviceRankCode");
-        this._serviceRankCode = serviceRankCode;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
     def registerDatetime(): java.sql.Timestamp = {
-        return _registerDatetime;
+        return mbleEntity.registerDatetime;
     }
-
-    /**
-     * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
-     * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
-     */
-    def registerDatetime(registerDatetime: java.sql.Timestamp): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
-        this._registerDatetime = registerDatetime;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
      */
     def registerUser(): String = {
-        return convertEmptyToNull(_registerUser);
+        return mbleEntity.registerUser;
     }
-
-    /**
-     * [set] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
-     * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
-     */
-    def registerUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
-        this._registerUser = registerUser;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
     def updateDatetime(): java.sql.Timestamp = {
-        return _updateDatetime;
+        return mbleEntity.updateDatetime;
     }
-
-    /**
-     * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
-     * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
-     */
-    def updateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
-        this._updateDatetime = updateDatetime;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
      */
     def updateUser(): String = {
-        return convertEmptyToNull(_updateUser);
+        return mbleEntity.updateUser;
     }
-
-    /**
-     * [set] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
-     * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
-     */
-    def updateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
-        this._updateUser = updateUser;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
      */
     def versionNo(): Long = {
-        return _versionNo;
-    }
-
-    /**
-     * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
-     * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
-     */
-    def versionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
-        this._versionNo = versionNo;
-    }
-
-    protected def convertEmptyToNull(value: String): String = {
-        return FunCustodial.convertEmptyToNull(value);
+        return mbleEntity.versionNo;
     }
 }

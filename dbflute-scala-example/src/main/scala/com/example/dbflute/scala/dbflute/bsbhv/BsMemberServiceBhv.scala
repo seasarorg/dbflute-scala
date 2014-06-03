@@ -80,7 +80,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     def newConditionBean(): ConditionBean = { return newMyConditionBean(); }
 
     /** @return The instance of new entity as my table type. (NotNull) */
-    def newMyEntity(): MemberService = { return new MemberService(); }
+    def newMyEntity(): MbleMemberService = { return new MbleMemberService(); }
 
     /** @return The instance of new condition-bean as my table type. (NotNull) */
     def newMyConditionBean(): MemberServiceCB = { return new MemberServiceCB(); }
@@ -96,7 +96,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * int count = memberServiceBhv.<span style="color: #DD4747">selectCount</span>(cb);
      * </pre>
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
     def selectCount(cb: MemberServiceCB): Integer = {
@@ -128,41 +128,41 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * <pre>
      * MemberServiceCB cb = new MemberServiceCB();
      * cb.query().setFoo...(value);
-     * OptionalEntity&lt;MemberService&gt; entity = memberServiceBhv.<span style="color: #DD4747">selectEntity</span>(cb);
+     * OptionalEntity&lt;MbleMemberService&gt; entity = memberServiceBhv.<span style="color: #DD4747">selectEntity</span>(cb);
      *
      * <span style="color: #3F7E5E">// if the data always exists as your business rule</span>
      * entity.<span style="color: #DD4747">required</span>(memberService -&gt; {
      *     ...
      * });
-     * MemberService memberService = entity.entity.<span style="color: #DD4747">get()</span>;
+     * MbleMemberService memberService = entity.entity.<span style="color: #DD4747">get()</span>;
      *
      * <span style="color: #3F7E5E">// if it might be no data, ifPresent(), isPresent(), ...</span>
      * entity.<span style="color: #DD4747">ifPresent</span>(memberService -&gt; {
      *     ...
      * });
      * if (entity.entity.<span style="color: #DD4747">isPresent()</span>) {
-     *     MemberService memberService = entity.entity.<span style="color: #DD4747">get()</span>;
+     *     MbleMemberService memberService = entity.entity.<span style="color: #DD4747">get()</span>;
      * } else {
      *     ...
      * }
      * </pre>
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: MemberServiceCB): Option[MemberService] = {
-        return doSelectOptionalEntity(cb, classOf[MemberService]);
+    def selectEntity(cb: MemberServiceCB): Option[MbleMemberService] = {
+        return doSelectOptionalEntity(cb, classOf[MbleMemberService]);
     }
 
-    protected def doSelectEntity[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntity[ENTITY <: MbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, MemberServiceCB]() {
             def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: MbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp));
     }
 
@@ -177,20 +177,20 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * <pre>
      * MemberServiceCB cb = new MemberServiceCB();
      * cb.query().setFoo...(value);
-     * MemberService memberService = memberServiceBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
+     * MbleMemberService memberService = memberServiceBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
      * ... = memberService.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (point is not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cb: MemberServiceCB): MemberService = {
-        return doSelectEntityWithDeletedCheck(cb, classOf[MemberService]);
+    def selectEntityWithDeletedCheck(cb: MemberServiceCB): MbleMemberService = {
+        return doSelectEntityWithDeletedCheck(cb, classOf[MbleMemberService]);
     }
 
-    protected def doSelectEntityWithDeletedCheck[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntityWithDeletedCheck[ENTITY <: MbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, MemberServiceCB]() {
             def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
@@ -209,11 +209,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(memberServiceId: Integer): Option[MemberService] = {
-        return doSelectByPK(memberServiceId, classOf[MemberService]);
+    def selectByPK(memberServiceId: Integer): Option[MbleMemberService] = {
+        return doSelectByPK(memberServiceId, classOf[MbleMemberService]);
     }
 
-    protected def doSelectByPK[ENTITY <: MemberService](memberServiceId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByPK[ENTITY <: MbleMemberService](memberServiceId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsPK(memberServiceId), entityType));
     }
 
@@ -232,11 +232,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberId: Integer): Option[MemberService] = {
-        return doSelectByUniqueOf(memberId, classOf[MemberService]);
+    def selectByUniqueOf(memberId: Integer): Option[MbleMemberService] = {
+        return doSelectByUniqueOf(memberId, classOf[MbleMemberService]);
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: MemberService](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: MbleMemberService](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId), entityType));
     }
 
@@ -255,21 +255,21 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * MemberServiceCB cb = new MemberServiceCB();
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
-     * ListResultBean&lt;MemberService&gt; memberServiceList = memberServiceBhv.<span style="color: #DD4747">selectList</span>(cb);
-     * for (MemberService memberService : memberServiceList) {
+     * ListResultBean&lt;MbleMemberService&gt; memberServiceList = memberServiceBhv.<span style="color: #DD4747">selectList</span>(cb);
+     * for (MbleMemberService memberService : memberServiceList) {
      *     ... = memberService.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: MemberServiceCB): scala.collection.immutable.List[MemberService] = {
-        val javaList = doSelectList(cb, classOf[MemberService]);
+    def selectList(cb: MemberServiceCB): scala.collection.immutable.List[MbleMemberService] = {
+        val javaList = doSelectList(cb, classOf[MbleMemberService]);
         return toScalaList(javaList);
     }
 
-    protected def doSelectList[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
+    protected def doSelectList[ENTITY <: MbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         return helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, MemberServiceCB]() {
@@ -278,7 +278,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[MemberService]); // use do method for ListResultBean
+        return doSelectList(downcast(cb), classOf[MbleMemberService]); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -292,25 +292,25 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
      * cb.<span style="color: #DD4747">paging</span>(20, 3); <span style="color: #3F7E5E">// 20 records per a page and current page number is 3</span>
-     * PagingResultBean&lt;MemberService&gt; page = memberServiceBhv.<span style="color: #DD4747">selectPage</span>(cb);
+     * PagingResultBean&lt;MbleMemberService&gt; page = memberServiceBhv.<span style="color: #DD4747">selectPage</span>(cb);
      * int allRecordCount = page.getAllRecordCount();
      * int allPageCount = page.getAllPageCount();
      * boolean isExistPrePage = page.isExistPrePage();
      * boolean isExistNextPage = page.isExistNextPage();
      * ...
-     * for (MemberService memberService : page) {
+     * for (MbleMemberService memberService : page) {
      *     ... = memberService.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cb: MemberServiceCB): PagingResultBean[MemberService] = {
-        return doSelectPage(cb, classOf[MemberService]);
+    def selectPage(cb: MemberServiceCB): PagingResultBean[MbleMemberService] = {
+        return doSelectPage(cb, classOf[MbleMemberService]);
     }
 
-    protected def doSelectPage[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
+    protected def doSelectPage[ENTITY <: MbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, MemberServiceCB]() {
             def callbackSelectCount(cb: MemberServiceCB): Int = { return doSelectCountPlainly(cb); }
@@ -331,20 +331,20 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * <pre>
      * MemberServiceCB cb = new MemberServiceCB();
      * cb.query().setFoo...(value);
-     * memberServiceBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;MemberService&gt;() {
-     *     public void handle(MemberService entity) {
+     * memberServiceBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;MbleMemberService&gt;() {
+     *     public void handle(MbleMemberService entity) {
      *         ... = entity.getFoo...();
      *     }
      * });
      * </pre>
-     * @param cb The condition-bean of MemberService. (NotNull)
-     * @param entityRowHandler The handler of entity row of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
+     * @param entityRowHandler The handler of entity row of MbleMemberService. (NotNull)
      */
-    def selectCursor(cb: MemberServiceCB, entityRowHandler: EntityRowHandler[MemberService]): Unit = {
-        doSelectCursor(cb, entityRowHandler, classOf[MemberService]);
+    def selectCursor(cb: MemberServiceCB, entityRowHandler: EntityRowHandler[MbleMemberService]): Unit = {
+        doSelectCursor(cb, entityRowHandler, classOf[MbleMemberService]);
     }
 
-    protected def doSelectCursor[ENTITY <: MemberService](cb: MemberServiceCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
+    protected def doSelectCursor[ENTITY <: MbleMemberService](cb: MemberServiceCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
         assertCBStateValid(cb); assertObjectNotNull("entityRowHandler", handler); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, MemberServiceCB]() {
@@ -402,30 +402,30 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     //                                                                   Pull out Relation
     //                                                                   =================
     /**
-     * Pull out the list of foreign table 'Member'.
+     * Pull out the list of foreign table 'MbleMember'.
      * @param memberServiceList The list of memberService. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMember(memberServiceList: scala.collection.immutable.List[MemberService]): scala.collection.immutable.List[Member] = {
-        return toScalaList(helpPulloutInternally(memberServiceList.asJava, new InternalPulloutCallback[MemberService, Member]() {
-            def getFr(et: MemberService): Member =
+    def pulloutMember(memberServiceList: scala.collection.immutable.List[MbleMemberService]): scala.collection.immutable.List[MbleMember] = {
+        return toScalaList(helpPulloutInternally(memberServiceList.asJava, new InternalPulloutCallback[MbleMemberService, MbleMember]() {
+            def getFr(et: MbleMemberService): MbleMember =
             { return et.member().get; }
             def hasRf(): Boolean = { return true; }
-            def setRfLs(et: Member, ls: List[MemberService]): Unit =
+            def setRfLs(et: MbleMember, ls: List[MbleMemberService]): Unit =
             { if (!ls.isEmpty()) { et.memberServiceAsOne(Option.apply(ls.get(0))); } }
         }));
     }
     /**
-     * Pull out the list of foreign table 'ServiceRank'.
+     * Pull out the list of foreign table 'MbleServiceRank'.
      * @param memberServiceList The list of memberService. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutServiceRank(memberServiceList: scala.collection.immutable.List[MemberService]): scala.collection.immutable.List[ServiceRank] = {
-        return toScalaList(helpPulloutInternally(memberServiceList.asJava, new InternalPulloutCallback[MemberService, ServiceRank]() {
-            def getFr(et: MemberService): ServiceRank =
+    def pulloutServiceRank(memberServiceList: scala.collection.immutable.List[MbleMemberService]): scala.collection.immutable.List[MbleServiceRank] = {
+        return toScalaList(helpPulloutInternally(memberServiceList.asJava, new InternalPulloutCallback[MbleMemberService, MbleServiceRank]() {
+            def getFr(et: MbleMemberService): MbleServiceRank =
             { return et.serviceRank().get; }
             def hasRf(): Boolean = { return true; }
-            def setRfLs(et: ServiceRank, ls: List[MemberService]): Unit =
+            def setRfLs(et: MbleServiceRank, ls: List[MbleMemberService]): Unit =
             { et.memberServiceList(toScalaList(ls)); }
         }));
     }
@@ -438,9 +438,9 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param memberServiceList The list of memberService. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberServiceIdList(memberServiceList: List[MemberService]): List[Integer] = {
-        return helpExtractListInternally(memberServiceList, new InternalExtractCallback[MemberService, Integer]() {
-            def getCV(et: MemberService): Integer = { return et.memberServiceId(); }
+    def extractMemberServiceIdList(memberServiceList: List[MbleMemberService]): List[Integer] = {
+        return helpExtractListInternally(memberServiceList, new InternalExtractCallback[MbleMemberService, Integer]() {
+            def getCV(et: MbleMemberService): Integer = { return et.memberServiceId(); }
         });
     }
 
@@ -449,9 +449,9 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param memberServiceList The list of memberService. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberIdList(memberServiceList: List[MemberService]): List[Integer] = {
-        return helpExtractListInternally(memberServiceList, new InternalExtractCallback[MemberService, Integer]() {
-            def getCV(et: MemberService): Integer = { return et.memberId(); }
+    def extractMemberIdList(memberServiceList: List[MbleMemberService]): List[Integer] = {
+        return helpExtractListInternally(memberServiceList, new InternalExtractCallback[MbleMemberService, Integer]() {
+            def getCV(et: MbleMemberService): Integer = { return et.memberId(); }
         });
     }
 
@@ -461,7 +461,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     /**
      * Insert the entity modified-only. (DefaultConstraintsEnabled)
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
      * memberService.setFoo...(value);
      * memberService.setBar...(value);
@@ -475,11 +475,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param memberService The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(memberService: MemberService): Unit = {
+    def insert(memberService: MbleMemberService): Unit = {
         doInsert(memberService, null);
     }
 
-    protected def doInsert(memberService: MemberService, op: InsertOption[MemberServiceCB]): Unit = {
+    protected def doInsert(memberService: MbleMemberService, op: InsertOption[MemberServiceCB]): Unit = {
         assertObjectNotNull("memberService", memberService);
         prepareInsertOption(op);
         delegateInsert(memberService, op);
@@ -502,7 +502,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     /**
      * Update the entity modified-only. (ZeroUpdateException, ExclusiveControl)
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * memberService.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * memberService.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
@@ -521,15 +521,15 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(memberService: MemberService): Unit = {
+    def update(memberService: MbleMemberService): Unit = {
         doUpdate(memberService, null);
     }
 
-    protected def doUpdate(memberService: MemberService, op: UpdateOption[MemberServiceCB]): Unit = {
+    protected def doUpdate(memberService: MbleMemberService, op: UpdateOption[MemberServiceCB]): Unit = {
         assertObjectNotNull("memberService", memberService);
         prepareUpdateOption(op);
-        helpUpdateInternally(memberService, new InternalUpdateCallback[MemberService]() {
-            def callbackDelegateUpdate(et: MemberService): Int = { return delegateUpdate(et, op); } });
+        helpUpdateInternally(memberService, new InternalUpdateCallback[MbleMemberService]() {
+            def callbackDelegateUpdate(et: MbleMemberService): Int = { return delegateUpdate(et, op); } });
     }
 
     protected def prepareUpdateOption(op: UpdateOption[MemberServiceCB]): Unit = {
@@ -564,7 +564,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     /**
      * Update the entity non-strictly modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * memberService.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * memberService.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
@@ -580,15 +580,15 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(memberService: MemberService): Unit = {
+    def updateNonstrict(memberService: MbleMemberService): Unit = {
         doUpdateNonstrict(memberService, null);
     }
 
-    protected def doUpdateNonstrict(memberService: MemberService, op: UpdateOption[MemberServiceCB]): Unit = {
+    protected def doUpdateNonstrict(memberService: MbleMemberService, op: UpdateOption[MemberServiceCB]): Unit = {
         assertObjectNotNull("memberService", memberService);
         prepareUpdateOption(op);
-        helpUpdateNonstrictInternally(memberService, new InternalUpdateNonstrictCallback[MemberService]() {
-            def callbackDelegateUpdateNonstrict(et: MemberService): Int = { return delegateUpdateNonstrict(et, op); } });
+        helpUpdateNonstrictInternally(memberService, new InternalUpdateNonstrictCallback[MbleMemberService]() {
+            def callbackDelegateUpdateNonstrict(et: MbleMemberService): Int = { return delegateUpdateNonstrict(et, op); } });
     }
 
     @Override
@@ -606,14 +606,14 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(memberService: MemberService): Unit = {
+    def insertOrUpdate(memberService: MbleMemberService): Unit = {
         doInesrtOrUpdate(memberService, null, null);
     }
 
-    protected def doInesrtOrUpdate(memberService: MemberService, iop: InsertOption[MemberServiceCB], uop: UpdateOption[MemberServiceCB]): Unit = {
-        helpInsertOrUpdateInternally(memberService, new InternalInsertOrUpdateCallback[MemberService, MemberServiceCB]() {
-            def callbackInsert(et: MemberService): Unit = { doInsert(et, iop); }
-            def callbackUpdate(et: MemberService): Unit = { doUpdate(et, uop); }
+    protected def doInesrtOrUpdate(memberService: MbleMemberService, iop: InsertOption[MemberServiceCB], uop: UpdateOption[MemberServiceCB]): Unit = {
+        helpInsertOrUpdateInternally(memberService, new InternalInsertOrUpdateCallback[MbleMemberService, MemberServiceCB]() {
+            def callbackInsert(et: MbleMemberService): Unit = { doInsert(et, iop); }
+            def callbackUpdate(et: MbleMemberService): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): MemberServiceCB = { return newMyConditionBean(); }
             def callbackSelectCount(cb: MemberServiceCB): Int = { return selectCount(cb); }
         });
@@ -638,14 +638,14 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(memberService: MemberService): Unit = {
+    def insertOrUpdateNonstrict(memberService: MbleMemberService): Unit = {
         doInesrtOrUpdateNonstrict(memberService, null, null);
     }
 
-    protected def doInesrtOrUpdateNonstrict(memberService: MemberService, iop: InsertOption[MemberServiceCB], uop: UpdateOption[MemberServiceCB]): Unit = {
-        helpInsertOrUpdateInternally(memberService, new InternalInsertOrUpdateNonstrictCallback[MemberService]() {
-            def callbackInsert(et: MemberService): Unit = { doInsert(et, iop); }
-            def callbackUpdateNonstrict(et: MemberService): Unit = { doUpdateNonstrict(et, uop); }
+    protected def doInesrtOrUpdateNonstrict(memberService: MbleMemberService, iop: InsertOption[MemberServiceCB], uop: UpdateOption[MemberServiceCB]): Unit = {
+        helpInsertOrUpdateInternally(memberService, new InternalInsertOrUpdateNonstrictCallback[MbleMemberService]() {
+            def callbackInsert(et: MbleMemberService): Unit = { doInsert(et, iop); }
+            def callbackUpdateNonstrict(et: MbleMemberService): Unit = { doUpdateNonstrict(et, uop); }
         });
     }
 
@@ -662,7 +662,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     /**
      * Delete the entity. (ZeroUpdateException, ExclusiveControl)
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * memberService.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
      * memberService.<span style="color: #DD4747">setVersionNo</span>(value);
@@ -676,15 +676,15 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(memberService: MemberService): Unit = {
+    def delete(memberService: MbleMemberService): Unit = {
         doDelete(memberService, null);
     }
 
-    protected def doDelete(memberService: MemberService, op: DeleteOption[MemberServiceCB]): Unit = {
+    protected def doDelete(memberService: MbleMemberService, op: DeleteOption[MemberServiceCB]): Unit = {
         assertObjectNotNull("memberService", memberService);
         prepareDeleteOption(op);
-        helpDeleteInternally(memberService, new InternalDeleteCallback[MemberService]() {
-            def callbackDelegateDelete(et: MemberService): Int = { return delegateDelete(et, op); } });
+        helpDeleteInternally(memberService, new InternalDeleteCallback[MbleMemberService]() {
+            def callbackDelegateDelete(et: MbleMemberService): Int = { return delegateDelete(et, op); } });
     }
 
     protected def prepareDeleteOption(op: DeleteOption[MemberServiceCB]): Unit = {
@@ -701,7 +701,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     /**
      * Delete the entity non-strictly. {ZeroUpdateException, NonExclusiveControl}
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * memberService.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
@@ -712,21 +712,21 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrict(memberService: MemberService): Unit = {
+    def deleteNonstrict(memberService: MbleMemberService): Unit = {
         doDeleteNonstrict(memberService, null);
     }
 
-    protected def doDeleteNonstrict(memberService: MemberService, op: DeleteOption[MemberServiceCB]): Unit = {
+    protected def doDeleteNonstrict(memberService: MbleMemberService, op: DeleteOption[MemberServiceCB]): Unit = {
         assertObjectNotNull("memberService", memberService);
         prepareDeleteOption(op);
-        helpDeleteNonstrictInternally(memberService, new InternalDeleteNonstrictCallback[MemberService]() {
-            def callbackDelegateDeleteNonstrict(et: MemberService): Int = { return delegateDeleteNonstrict(et, op); } });
+        helpDeleteNonstrictInternally(memberService, new InternalDeleteNonstrictCallback[MbleMemberService]() {
+            def callbackDelegateDeleteNonstrict(et: MbleMemberService): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     /**
      * Delete the entity non-strictly ignoring deleted. {ZeroUpdateException, NonExclusiveControl}
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * memberService.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
@@ -737,15 +737,15 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param memberService The entity of delete target. (NotNull, PrimaryKeyNotNull)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrictIgnoreDeleted(memberService: MemberService): Unit = {
+    def deleteNonstrictIgnoreDeleted(memberService: MbleMemberService): Unit = {
         doDeleteNonstrictIgnoreDeleted(memberService, null);
     }
 
-    protected def doDeleteNonstrictIgnoreDeleted(memberService: MemberService, op: DeleteOption[MemberServiceCB]): Unit = {
+    protected def doDeleteNonstrictIgnoreDeleted(memberService: MbleMemberService, op: DeleteOption[MemberServiceCB]): Unit = {
         assertObjectNotNull("memberService", memberService);
         prepareDeleteOption(op);
-        helpDeleteNonstrictIgnoreDeletedInternally(memberService, new InternalDeleteNonstrictIgnoreDeletedCallback[MemberService]() {
-            def callbackDelegateDeleteNonstrict(et: MemberService): Int = { return delegateDeleteNonstrict(et, op); } });
+        helpDeleteNonstrictIgnoreDeletedInternally(memberService, new InternalDeleteNonstrictIgnoreDeletedCallback[MbleMemberService]() {
+            def callbackDelegateDeleteNonstrict(et: MbleMemberService): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     @Override
@@ -763,7 +763,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * <p><span style="color: #DD4747; font-size: 120%">The columns of least common multiple are registered like this:</span></p>
      * <pre>
      * for (... : ...) {
-     *     MemberService memberService = new MemberService();
+     *     MbleMemberService memberService = new MbleMemberService();
      *     memberService.setFooName("foo");
      *     if (...) {
      *         memberService.setFooPrice(123);
@@ -781,18 +781,18 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param memberServiceList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(memberServiceList: scala.collection.immutable.List[MemberService]): Array[Int] = {
+    def batchInsert(memberServiceList: scala.collection.immutable.List[MbleMemberService]): Array[Int] = {
         val op: InsertOption[MemberServiceCB] = createInsertUpdateOption();
         return doBatchInsert(memberServiceList.asJava, op);
     }
 
-    protected def doBatchInsert(memberServiceList: List[MemberService], op: InsertOption[MemberServiceCB]): Array[Int] = {
+    protected def doBatchInsert(memberServiceList: List[MbleMemberService], op: InsertOption[MemberServiceCB]): Array[Int] = {
         assertObjectNotNull("memberServiceList", memberServiceList);
         prepareBatchInsertOption(memberServiceList, op);
         return delegateBatchInsert(memberServiceList, op);
     }
 
-    protected def prepareBatchInsertOption(memberServiceList: List[MemberService], op: InsertOption[MemberServiceCB]): Unit = {
+    protected def prepareBatchInsertOption(memberServiceList: List[MbleMemberService], op: InsertOption[MemberServiceCB]): Unit = {
         op.xallowInsertColumnModifiedPropertiesFragmented();
         op.xacceptInsertColumnModifiedPropertiesIfNeeds(memberServiceList);
         prepareInsertOption(op);
@@ -810,7 +810,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * <span style="color: #DD4747; font-size: 120%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     MemberService memberService = new MemberService();
+     *     MbleMemberService memberService = new MbleMemberService();
      *     memberService.setFooName("foo");
      *     if (...) {
      *         memberService.setFooPrice(123);
@@ -828,18 +828,18 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(memberServiceList: scala.collection.immutable.List[MemberService]): Array[Int] = {
+    def batchUpdate(memberServiceList: scala.collection.immutable.List[MbleMemberService]): Array[Int] = {
         val op: UpdateOption[MemberServiceCB] = createPlainUpdateOption();
         return doBatchUpdate(memberServiceList.asJava, op);
     }
 
-    protected def doBatchUpdate(memberServiceList: List[MemberService], op: UpdateOption[MemberServiceCB]): Array[Int] = {
+    protected def doBatchUpdate(memberServiceList: List[MbleMemberService], op: UpdateOption[MemberServiceCB]): Array[Int] = {
         assertObjectNotNull("memberServiceList", memberServiceList);
         prepareBatchUpdateOption(memberServiceList, op);
         return delegateBatchUpdate(memberServiceList, op);
     }
 
-    protected def prepareBatchUpdateOption(memberServiceList: List[MemberService], op: UpdateOption[MemberServiceCB]): Unit = {
+    protected def prepareBatchUpdateOption(memberServiceList: List[MbleMemberService], op: UpdateOption[MemberServiceCB]): Unit = {
         op.xacceptUpdateColumnModifiedPropertiesIfNeeds(memberServiceList);
         prepareUpdateOption(op);
     }
@@ -878,7 +878,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(memberServiceList: scala.collection.immutable.List[MemberService], updateColumnSpec: SpecifyQuery[MemberServiceCB]): Array[Int] = {
+    def batchUpdate(memberServiceList: scala.collection.immutable.List[MbleMemberService], updateColumnSpec: SpecifyQuery[MemberServiceCB]): Array[Int] = {
         return doBatchUpdate(memberServiceList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
@@ -888,7 +888,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * <span style="color: #DD4747; font-size: 140%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     MemberService memberService = new MemberService();
+     *     MbleMemberService memberService = new MbleMemberService();
      *     memberService.setFooName("foo");
      *     if (...) {
      *         memberService.setFooPrice(123);
@@ -906,12 +906,12 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(memberServiceList: scala.collection.immutable.List[MemberService]): Array[Int] = {
+    def batchUpdateNonstrict(memberServiceList: scala.collection.immutable.List[MbleMemberService]): Array[Int] = {
         val option: UpdateOption[MemberServiceCB] = createPlainUpdateOption();
         return doBatchUpdateNonstrict(memberServiceList.asJava, option);
     }
 
-    protected def doBatchUpdateNonstrict(memberServiceList: List[MemberService], op: UpdateOption[MemberServiceCB]): Array[Int] = {
+    protected def doBatchUpdateNonstrict(memberServiceList: List[MbleMemberService], op: UpdateOption[MemberServiceCB]): Array[Int] = {
         assertObjectNotNull("memberServiceList", memberServiceList);
         prepareBatchUpdateOption(memberServiceList, op);
         return delegateBatchUpdateNonstrict(memberServiceList, op);
@@ -944,7 +944,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(memberServiceList: scala.collection.immutable.List[MemberService], updateColumnSpec: SpecifyQuery[MemberServiceCB]): Array[Int] = {
+    def batchUpdateNonstrict(memberServiceList: scala.collection.immutable.List[MbleMemberService], updateColumnSpec: SpecifyQuery[MemberServiceCB]): Array[Int] = {
         return doBatchUpdateNonstrict(memberServiceList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
@@ -961,11 +961,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(memberServiceList: scala.collection.immutable.List[MemberService]): Array[Int] = {
+    def batchDelete(memberServiceList: scala.collection.immutable.List[MbleMemberService]): Array[Int] = {
         return doBatchDelete(memberServiceList.asJava, null);
     }
 
-    protected def doBatchDelete(memberServiceList: List[MemberService], op: DeleteOption[MemberServiceCB]): Array[Int] = {
+    protected def doBatchDelete(memberServiceList: List[MbleMemberService], op: DeleteOption[MemberServiceCB]): Array[Int] = {
         assertObjectNotNull("memberServiceList", memberServiceList);
         prepareDeleteOption(op);
         return delegateBatchDelete(memberServiceList, op);
@@ -984,11 +984,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(memberServiceList: scala.collection.immutable.List[MemberService]): Array[Int] = {
+    def batchDeleteNonstrict(memberServiceList: scala.collection.immutable.List[MbleMemberService]): Array[Int] = {
         return doBatchDeleteNonstrict(memberServiceList.asJava, null);
     }
 
-    protected def doBatchDeleteNonstrict(memberServiceList: List[MemberService], op: DeleteOption[MemberServiceCB]): Array[Int] = {
+    protected def doBatchDeleteNonstrict(memberServiceList: List[MbleMemberService], op: DeleteOption[MemberServiceCB]): Array[Int] = {
         assertObjectNotNull("memberServiceList", memberServiceList);
         prepareDeleteOption(op);
         return delegateBatchDeleteNonstrict(memberServiceList, op);
@@ -1006,7 +1006,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     /**
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
-     * memberServiceBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;MemberService, MemberServiceCB&gt;() {
+     * memberServiceBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;MbleMemberService, MemberServiceCB&gt;() {
      *     public ConditionBean setup(memberService entity, MemberServiceCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
@@ -1029,14 +1029,14 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param setupper The setup-per of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[MemberService, MemberServiceCB]): Integer = {
+    def queryInsert(setupper: QueryInsertSetupper[MbleMemberService, MemberServiceCB]): Integer = {
         return doQueryInsert(setupper, null);
     }
 
-    protected def doQueryInsert(sp: QueryInsertSetupper[MemberService, MemberServiceCB], op: InsertOption[MemberServiceCB]): Integer = {
+    protected def doQueryInsert(sp: QueryInsertSetupper[MbleMemberService, MemberServiceCB], op: InsertOption[MemberServiceCB]): Integer = {
         assertObjectNotNull("setupper", sp);
         prepareInsertOption(op);
-        val e: MemberService = new MemberService();
+        val e: MbleMemberService = new MbleMemberService();
         val cb: MemberServiceCB = createCBForQueryInsert();
         return delegateQueryInsert(e, cb, sp.setup(e, cb), op);
     }
@@ -1056,7 +1056,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
      * <span style="color: #3F7E5E">//memberService.setPK...(value);</span>
      * memberService.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
@@ -1071,15 +1071,15 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * memberServiceBhv.<span style="color: #DD4747">queryUpdate</span>(memberService, cb);
      * </pre>
      * @param memberService The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition.
      */
-    def queryUpdate(memberService: MemberService, cb: MemberServiceCB): Integer = {
+    def queryUpdate(memberService: MbleMemberService, cb: MemberServiceCB): Integer = {
         return doQueryUpdate(memberService, cb, null);
     }
 
-    protected def doQueryUpdate(memberService: MemberService, cb: MemberServiceCB, op: UpdateOption[MemberServiceCB]): Integer = {
+    protected def doQueryUpdate(memberService: MbleMemberService, cb: MemberServiceCB, op: UpdateOption[MemberServiceCB]): Integer = {
         assertObjectNotNull("memberService", memberService); assertCBStateValid(cb);
         prepareUpdateOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(memberService, cb, op) } else { 0 };
@@ -1098,7 +1098,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * memberServiceBhv.<span style="color: #DD4747">queryDelete</span>(memberService, cb);
      * </pre>
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition.
      */
@@ -1129,7 +1129,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br />
      * Other specifications are same as insert(entity).
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
      * memberService.setFoo...(value);
      * memberService.setBar...(value);
@@ -1143,7 +1143,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsert(memberService: MemberService, option: InsertOption[MemberServiceCB]): Unit = {
+    def varyingInsert(memberService: MbleMemberService, option: InsertOption[MemberServiceCB]): Unit = {
         assertInsertOptionNotNull(option);
         doInsert(memberService, option);
     }
@@ -1153,7 +1153,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br />
      * Other specifications are same as update(entity).
      * <pre>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * memberService.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * memberService.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
@@ -1177,7 +1177,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingUpdate(memberService: MemberService, option: UpdateOption[MemberServiceCB]): Unit = {
+    def varyingUpdate(memberService: MbleMemberService, option: UpdateOption[MemberServiceCB]): Unit = {
         assertUpdateOptionNotNull(option);
         doUpdate(memberService, option);
     }
@@ -1188,7 +1188,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * Other specifications are same as updateNonstrict(entity).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * memberService.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * memberService.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
@@ -1208,7 +1208,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingUpdateNonstrict(memberService: MemberService, option: UpdateOption[MemberServiceCB]): Unit = {
+    def varyingUpdateNonstrict(memberService: MbleMemberService, option: UpdateOption[MemberServiceCB]): Unit = {
         assertUpdateOptionNotNull(option);
         doUpdateNonstrict(memberService, option);
     }
@@ -1223,7 +1223,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsertOrUpdate(memberService: MemberService, insertOption: InsertOption[MemberServiceCB], updateOption: UpdateOption[MemberServiceCB]): Unit = {
+    def varyingInsertOrUpdate(memberService: MbleMemberService, insertOption: InsertOption[MemberServiceCB], updateOption: UpdateOption[MemberServiceCB]): Unit = {
         assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
         doInesrtOrUpdate(memberService, insertOption, updateOption);
     }
@@ -1238,7 +1238,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsertOrUpdateNonstrict(memberService: MemberService, insertOption: InsertOption[MemberServiceCB], updateOption: UpdateOption[MemberServiceCB]): Unit = {
+    def varyingInsertOrUpdateNonstrict(memberService: MbleMemberService, insertOption: InsertOption[MemberServiceCB], updateOption: UpdateOption[MemberServiceCB]): Unit = {
         assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
         doInesrtOrUpdateNonstrict(memberService, insertOption, updateOption);
     }
@@ -1252,7 +1252,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def varyingDelete(memberService: MemberService, option: DeleteOption[MemberServiceCB]): Unit = {
+    def varyingDelete(memberService: MbleMemberService, option: DeleteOption[MemberServiceCB]): Unit = {
         assertDeleteOptionNotNull(option);
         doDelete(memberService, option);
     }
@@ -1266,7 +1266,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def varyingDeleteNonstrict(memberService: MemberService, option: DeleteOption[MemberServiceCB]): Unit = {
+    def varyingDeleteNonstrict(memberService: MbleMemberService, option: DeleteOption[MemberServiceCB]): Unit = {
         assertDeleteOptionNotNull(option);
         doDeleteNonstrict(memberService, option);
     }
@@ -1283,7 +1283,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(memberServiceList: scala.collection.immutable.List[MemberService], option: InsertOption[MemberServiceCB]): Array[Int] = {
+    def varyingBatchInsert(memberServiceList: scala.collection.immutable.List[MbleMemberService], option: InsertOption[MemberServiceCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
         return doBatchInsert(memberServiceList.asJava, option);
     }
@@ -1297,7 +1297,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(memberServiceList: scala.collection.immutable.List[MemberService], option: UpdateOption[MemberServiceCB]): Array[Int] = {
+    def varyingBatchUpdate(memberServiceList: scala.collection.immutable.List[MbleMemberService], option: UpdateOption[MemberServiceCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdate(memberServiceList.asJava, option);
     }
@@ -1311,7 +1311,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdateNonstrict(memberServiceList: scala.collection.immutable.List[MemberService], option: UpdateOption[MemberServiceCB]): Array[Int] = {
+    def varyingBatchUpdateNonstrict(memberServiceList: scala.collection.immutable.List[MbleMemberService], option: UpdateOption[MemberServiceCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdateNonstrict(memberServiceList.asJava, option);
     }
@@ -1324,7 +1324,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(memberServiceList: scala.collection.immutable.List[MemberService], option: DeleteOption[MemberServiceCB]): Array[Int] = {
+    def varyingBatchDelete(memberServiceList: scala.collection.immutable.List[MbleMemberService], option: DeleteOption[MemberServiceCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDelete(memberServiceList.asJava, option);
     }
@@ -1337,7 +1337,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDeleteNonstrict(memberServiceList: scala.collection.immutable.List[MemberService], option: DeleteOption[MemberServiceCB]): Array[Int] = {
+    def varyingBatchDeleteNonstrict(memberServiceList: scala.collection.immutable.List[MbleMemberService], option: DeleteOption[MemberServiceCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDeleteNonstrict(memberServiceList.asJava, option);
     }
@@ -1353,7 +1353,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The inserted count.
      */
-    def varyingQueryInsert(setupper: QueryInsertSetupper[MemberService, MemberServiceCB], option: InsertOption[MemberServiceCB]): Integer = {
+    def varyingQueryInsert(setupper: QueryInsertSetupper[MbleMemberService, MemberServiceCB], option: InsertOption[MemberServiceCB]): Integer = {
         assertInsertOptionNotNull(option);
         return doQueryInsert(setupper, option);
     }
@@ -1365,7 +1365,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * Other specifications are same as queryUpdate(entity, cb).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * MemberService memberService = new MemberService();
+     * MbleMemberService memberService = new MbleMemberService();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
      * <span style="color: #3F7E5E">//memberService.setPK...(value);</span>
      * memberService.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
@@ -1383,12 +1383,12 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * memberServiceBhv.<span style="color: #DD4747">varyingQueryUpdate</span>(memberService, cb, option);
      * </pre>
      * @param memberService The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @param option The option of update for varying requests. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition (if not allowed).
      */
-    def varyingQueryUpdate(memberService: MemberService, cb: MemberServiceCB, option: UpdateOption[MemberServiceCB]): Integer = {
+    def varyingQueryUpdate(memberService: MbleMemberService, cb: MemberServiceCB, option: UpdateOption[MemberServiceCB]): Integer = {
         assertUpdateOptionNotNull(option);
         return doQueryUpdate(memberService, cb, option);
     }
@@ -1397,7 +1397,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * Delete the several entities by query with varying requests non-strictly. <br />
      * For example, allowNonQueryDelete(). <br />
      * Other specifications are same as batchUpdateNonstrict(entityList).
-     * @param cb The condition-bean of MemberService. (NotNull)
+     * @param cb The condition-bean of MbleMemberService. (NotNull)
      * @param option The option of delete for varying requests. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition (if not allowed).
@@ -1454,50 +1454,50 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     //                                                ------
     protected def delegateSelectCountUniquely(cb: MemberServiceCB): Integer = { return invoke(createSelectCountCBCommand(cb, true)); }
     protected def delegateSelectCountPlainly(cb: MemberServiceCB): Integer = { return invoke(createSelectCountCBCommand(cb, false)); }
-    protected def delegateSelectCursor[ENTITY <: MemberService](cb: MemberServiceCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
+    protected def delegateSelectCursor[ENTITY <: MbleMemberService](cb: MemberServiceCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
     { invoke(createSelectCursorCBCommand(cb, rh, tp)); }
-    protected def delegateSelectList[ENTITY <: MemberService](cb: MemberServiceCB, tp: Class[ENTITY]): List[ENTITY] =
+    protected def delegateSelectList[ENTITY <: MbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): List[ENTITY] =
     { return invoke(createSelectListCBCommand(cb, tp)); }
 
     // -----------------------------------------------------
     //                                                Update
     //                                                ------
-    protected def delegateInsert(et: MemberService, op: InsertOption[MemberServiceCB]): Integer =
+    protected def delegateInsert(et: MbleMemberService, op: InsertOption[MemberServiceCB]): Integer =
     { if (!processBeforeInsert(et, op)) { return 0; }
       return invoke(createInsertEntityCommand(et, op)); }
-    protected def delegateUpdate(et: MemberService, op: UpdateOption[MemberServiceCB]): Integer =
+    protected def delegateUpdate(et: MbleMemberService, op: UpdateOption[MemberServiceCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return invoke(createUpdateEntityCommand(et, op)); }
-    protected def delegateUpdateNonstrict(et: MemberService, op: UpdateOption[MemberServiceCB]): Integer =
+    protected def delegateUpdateNonstrict(et: MbleMemberService, op: UpdateOption[MemberServiceCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return invoke(createUpdateNonstrictEntityCommand(et, op)); }
-    protected def delegateDelete(et: MemberService, op: DeleteOption[MemberServiceCB]): Integer =
+    protected def delegateDelete(et: MbleMemberService, op: DeleteOption[MemberServiceCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteEntityCommand(et, op)); }
-    protected def delegateDeleteNonstrict(et: MemberService, op: DeleteOption[MemberServiceCB]): Integer =
+    protected def delegateDeleteNonstrict(et: MbleMemberService, op: DeleteOption[MemberServiceCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteNonstrictEntityCommand(et, op)); }
 
-    protected def delegateBatchInsert(ls: List[MemberService], op: InsertOption[MemberServiceCB]): Array[Int] =
+    protected def delegateBatchInsert(ls: List[MbleMemberService], op: InsertOption[MemberServiceCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchInsertCommand(processBatchInternally(ls, op), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdate(ls: List[MemberService], op: UpdateOption[MemberServiceCB]): Array[Int] =
+    protected def delegateBatchUpdate(ls: List[MbleMemberService], op: UpdateOption[MemberServiceCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchUpdateCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdateNonstrict(ls: List[MemberService], op: UpdateOption[MemberServiceCB]): Array[Int] =
+    protected def delegateBatchUpdateNonstrict(ls: List[MbleMemberService], op: UpdateOption[MemberServiceCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchUpdateNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDelete(ls: List[MemberService], op: DeleteOption[MemberServiceCB]): Array[Int] =
+    protected def delegateBatchDelete(ls: List[MbleMemberService], op: DeleteOption[MemberServiceCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDeleteNonstrict(ls: List[MemberService], op: DeleteOption[MemberServiceCB]): Array[Int] =
+    protected def delegateBatchDeleteNonstrict(ls: List[MbleMemberService], op: DeleteOption[MemberServiceCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
 
-    protected def delegateQueryInsert(et: MemberService, inCB: MemberServiceCB, resCB: ConditionBean, op: InsertOption[MemberServiceCB]): Integer =
+    protected def delegateQueryInsert(et: MbleMemberService, inCB: MemberServiceCB, resCB: ConditionBean, op: InsertOption[MemberServiceCB]): Integer =
     { if (!processBeforeQueryInsert(et, inCB, resCB, op)) { return 0; }
       return invoke(createQueryInsertCBCommand(et, inCB, resCB, op));  }
-    protected def delegateQueryUpdate(et: MemberService, cb: MemberServiceCB, op: UpdateOption[MemberServiceCB]): Integer =
+    protected def delegateQueryUpdate(et: MbleMemberService, cb: MemberServiceCB, op: UpdateOption[MemberServiceCB]): Integer =
     { if (!processBeforeQueryUpdate(et, cb, op)) { return 0; }
       return invoke(createQueryUpdateCBCommand(et, cb, op));  }
     protected def delegateQueryDelete(cb: MemberServiceCB, op: DeleteOption[MemberServiceCB]): Integer =
@@ -1526,16 +1526,16 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                     Downcast Helper
     //                                                                     ===============
-    protected def downcast(et: Entity): MemberService = {
-        return helpEntityDowncastInternally(et, classOf[MemberService]);
+    protected def downcast(et: Entity): MbleMemberService = {
+        return helpEntityDowncastInternally(et, classOf[MbleMemberService]);
     }
 
     protected def downcast(cb: ConditionBean): MemberServiceCB = {
         return helpConditionBeanDowncastInternally(cb, classOf[MemberServiceCB]);
     }
 
-    protected def downcast(ls: List[_ <: Entity]): List[MemberService] = {
-        return ls.asInstanceOf[List[MemberService]];
+    protected def downcast(ls: List[_ <: Entity]): List[MbleMemberService] = {
+        return ls.asInstanceOf[List[MbleMemberService]];
     }
 
     protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[MemberServiceCB] = {
@@ -1550,8 +1550,8 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
         return op.asInstanceOf[DeleteOption[MemberServiceCB]];
     }
 
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[MemberService, MemberServiceCB] = {
-        return sp.asInstanceOf[QueryInsertSetupper[MemberService, MemberServiceCB]];
+    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[MbleMemberService, MemberServiceCB] = {
+        return sp.asInstanceOf[QueryInsertSetupper[MbleMemberService, MemberServiceCB]];
     }
 
     // ===================================================================================

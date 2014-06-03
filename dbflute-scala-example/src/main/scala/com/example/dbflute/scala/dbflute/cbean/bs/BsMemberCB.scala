@@ -270,7 +270,7 @@ class BsMemberCB extends AbstractConditionBean {
      * MemberCB cb = new MemberCB();
      * cb.<span style="color: #DD4747">setupSelect_MemberStatus()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
-     * Member member = memberBhv.selectEntityWithDeletedCheck(cb);
+     * MbleMember member = memberBhv.selectEntityWithDeletedCheck(cb);
      * ... = member.<span style="color: #DD4747">getMemberStatus()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      */
@@ -294,7 +294,7 @@ class BsMemberCB extends AbstractConditionBean {
      * MemberCB cb = new MemberCB();
      * cb.<span style="color: #DD4747">setupSelect_MemberServiceAsOne()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
-     * Member member = memberBhv.selectEntityWithDeletedCheck(cb);
+     * MbleMember member = memberBhv.selectEntityWithDeletedCheck(cb);
      * ... = member.<span style="color: #DD4747">getMemberServiceAsOne()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
@@ -624,7 +624,7 @@ object HpMemberCB {
          *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
          *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
          *     }
-         * }, Purchase.<span style="color: #DD4747">ALIAS_foo...</span>);
+         * }, MblePurchase.<span style="color: #DD4747">ALIAS_foo...</span>);
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */

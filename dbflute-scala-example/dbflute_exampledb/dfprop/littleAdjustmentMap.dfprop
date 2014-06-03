@@ -38,6 +38,8 @@ map:{
     ; isCompatibleBeforeJava8 = false
     ; basicOptionalEntityClass = Option
     ; relationOptionalEntityClass = Option
+    ; entityMutablePrefix = Mble
+    ; isMakeImmutableEntity = true
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # o isAvailableAddingSchemaToTableSqlName: (NotRequired - Default false)

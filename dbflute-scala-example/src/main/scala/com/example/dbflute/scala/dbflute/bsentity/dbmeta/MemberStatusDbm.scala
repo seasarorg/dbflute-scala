@@ -45,20 +45,20 @@ object MemberStatusDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgDisplayOrder(), "displayOrder");
     }
     class EpgMemberStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].memberStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].memberStatusCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].memberStatusCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].memberStatusCode(vl.asInstanceOf[String]); }
     }
     class EpgMemberStatusName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].memberStatusName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].memberStatusName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].memberStatusName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].memberStatusName(vl.asInstanceOf[String]); }
     }
     class EpgDescription extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].description(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].description(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].description(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].description(vl.asInstanceOf[String]); }
     }
     class EpgDisplayOrder extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberStatus].displayOrder(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberStatus].displayOrder(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].displayOrder(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].displayOrder(dgcti(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -152,28 +152,28 @@ object MemberStatusDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MemberStatus"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MbleMemberStatus"; }
     def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.MemberStatusCB"; }
     def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.MemberStatusBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[MemberStatus] = { return classOf[MemberStatus]; }
+    def getEntityType(): Class[MbleMemberStatus] = { return classOf[MbleMemberStatus]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): MemberStatus = { return new MemberStatus(); }
+    def newMyEntity(): MbleMemberStatus = { return new MbleMemberStatus(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[MemberStatus], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[MbleMemberStatus], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[MemberStatus], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[MbleMemberStatus], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }

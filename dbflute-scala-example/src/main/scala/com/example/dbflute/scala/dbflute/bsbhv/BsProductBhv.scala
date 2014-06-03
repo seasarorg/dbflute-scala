@@ -80,7 +80,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     def newConditionBean(): ConditionBean = { return newMyConditionBean(); }
 
     /** @return The instance of new entity as my table type. (NotNull) */
-    def newMyEntity(): Product = { return new Product(); }
+    def newMyEntity(): MbleProduct = { return new MbleProduct(); }
 
     /** @return The instance of new condition-bean as my table type. (NotNull) */
     def newMyConditionBean(): ProductCB = { return new ProductCB(); }
@@ -96,7 +96,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * int count = productBhv.<span style="color: #DD4747">selectCount</span>(cb);
      * </pre>
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
     def selectCount(cb: ProductCB): Integer = {
@@ -128,41 +128,41 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <pre>
      * ProductCB cb = new ProductCB();
      * cb.query().setFoo...(value);
-     * OptionalEntity&lt;Product&gt; entity = productBhv.<span style="color: #DD4747">selectEntity</span>(cb);
+     * OptionalEntity&lt;MbleProduct&gt; entity = productBhv.<span style="color: #DD4747">selectEntity</span>(cb);
      *
      * <span style="color: #3F7E5E">// if the data always exists as your business rule</span>
      * entity.<span style="color: #DD4747">required</span>(product -&gt; {
      *     ...
      * });
-     * Product product = entity.entity.<span style="color: #DD4747">get()</span>;
+     * MbleProduct product = entity.entity.<span style="color: #DD4747">get()</span>;
      *
      * <span style="color: #3F7E5E">// if it might be no data, ifPresent(), isPresent(), ...</span>
      * entity.<span style="color: #DD4747">ifPresent</span>(product -&gt; {
      *     ...
      * });
      * if (entity.entity.<span style="color: #DD4747">isPresent()</span>) {
-     *     Product product = entity.entity.<span style="color: #DD4747">get()</span>;
+     *     MbleProduct product = entity.entity.<span style="color: #DD4747">get()</span>;
      * } else {
      *     ...
      * }
      * </pre>
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: ProductCB): Option[Product] = {
-        return doSelectOptionalEntity(cb, classOf[Product]);
+    def selectEntity(cb: ProductCB): Option[MbleProduct] = {
+        return doSelectOptionalEntity(cb, classOf[MbleProduct]);
     }
 
-    protected def doSelectEntity[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntity[ENTITY <: MbleProduct](cb: ProductCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, ProductCB]() {
             def callbackSelectList(lcb: ProductCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: MbleProduct](cb: ProductCB, tp: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp));
     }
 
@@ -177,20 +177,20 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <pre>
      * ProductCB cb = new ProductCB();
      * cb.query().setFoo...(value);
-     * Product product = productBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
+     * MbleProduct product = productBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
      * ... = product.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (point is not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cb: ProductCB): Product = {
-        return doSelectEntityWithDeletedCheck(cb, classOf[Product]);
+    def selectEntityWithDeletedCheck(cb: ProductCB): MbleProduct = {
+        return doSelectEntityWithDeletedCheck(cb, classOf[MbleProduct]);
     }
 
-    protected def doSelectEntityWithDeletedCheck[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntityWithDeletedCheck[ENTITY <: MbleProduct](cb: ProductCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, ProductCB]() {
             def callbackSelectList(lcb: ProductCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
@@ -209,11 +209,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(productId: Integer): Option[Product] = {
-        return doSelectByPK(productId, classOf[Product]);
+    def selectByPK(productId: Integer): Option[MbleProduct] = {
+        return doSelectByPK(productId, classOf[MbleProduct]);
     }
 
-    protected def doSelectByPK[ENTITY <: Product](productId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByPK[ENTITY <: MbleProduct](productId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsPK(productId), entityType));
     }
 
@@ -232,11 +232,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(productHandleCode: String): Option[Product] = {
-        return doSelectByUniqueOf(productHandleCode, classOf[Product]);
+    def selectByUniqueOf(productHandleCode: String): Option[MbleProduct] = {
+        return doSelectByUniqueOf(productHandleCode, classOf[MbleProduct]);
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: Product](productHandleCode: String, entityType: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: MbleProduct](productHandleCode: String, entityType: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(productHandleCode), entityType));
     }
 
@@ -255,21 +255,21 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * ProductCB cb = new ProductCB();
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
-     * ListResultBean&lt;Product&gt; productList = productBhv.<span style="color: #DD4747">selectList</span>(cb);
-     * for (Product product : productList) {
+     * ListResultBean&lt;MbleProduct&gt; productList = productBhv.<span style="color: #DD4747">selectList</span>(cb);
+     * for (MbleProduct product : productList) {
      *     ... = product.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: ProductCB): scala.collection.immutable.List[Product] = {
-        val javaList = doSelectList(cb, classOf[Product]);
+    def selectList(cb: ProductCB): scala.collection.immutable.List[MbleProduct] = {
+        val javaList = doSelectList(cb, classOf[MbleProduct]);
         return toScalaList(javaList);
     }
 
-    protected def doSelectList[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
+    protected def doSelectList[ENTITY <: MbleProduct](cb: ProductCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         return helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, ProductCB]() {
@@ -278,7 +278,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[Product]); // use do method for ListResultBean
+        return doSelectList(downcast(cb), classOf[MbleProduct]); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -292,25 +292,25 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
      * cb.<span style="color: #DD4747">paging</span>(20, 3); <span style="color: #3F7E5E">// 20 records per a page and current page number is 3</span>
-     * PagingResultBean&lt;Product&gt; page = productBhv.<span style="color: #DD4747">selectPage</span>(cb);
+     * PagingResultBean&lt;MbleProduct&gt; page = productBhv.<span style="color: #DD4747">selectPage</span>(cb);
      * int allRecordCount = page.getAllRecordCount();
      * int allPageCount = page.getAllPageCount();
      * boolean isExistPrePage = page.isExistPrePage();
      * boolean isExistNextPage = page.isExistNextPage();
      * ...
-     * for (Product product : page) {
+     * for (MbleProduct product : page) {
      *     ... = product.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cb: ProductCB): PagingResultBean[Product] = {
-        return doSelectPage(cb, classOf[Product]);
+    def selectPage(cb: ProductCB): PagingResultBean[MbleProduct] = {
+        return doSelectPage(cb, classOf[MbleProduct]);
     }
 
-    protected def doSelectPage[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
+    protected def doSelectPage[ENTITY <: MbleProduct](cb: ProductCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, ProductCB]() {
             def callbackSelectCount(cb: ProductCB): Int = { return doSelectCountPlainly(cb); }
@@ -331,20 +331,20 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <pre>
      * ProductCB cb = new ProductCB();
      * cb.query().setFoo...(value);
-     * productBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;Product&gt;() {
-     *     public void handle(Product entity) {
+     * productBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;MbleProduct&gt;() {
+     *     public void handle(MbleProduct entity) {
      *         ... = entity.getFoo...();
      *     }
      * });
      * </pre>
-     * @param cb The condition-bean of Product. (NotNull)
-     * @param entityRowHandler The handler of entity row of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
+     * @param entityRowHandler The handler of entity row of MbleProduct. (NotNull)
      */
-    def selectCursor(cb: ProductCB, entityRowHandler: EntityRowHandler[Product]): Unit = {
-        doSelectCursor(cb, entityRowHandler, classOf[Product]);
+    def selectCursor(cb: ProductCB, entityRowHandler: EntityRowHandler[MbleProduct]): Unit = {
+        doSelectCursor(cb, entityRowHandler, classOf[MbleProduct]);
     }
 
-    protected def doSelectCursor[ENTITY <: Product](cb: ProductCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
+    protected def doSelectCursor[ENTITY <: MbleProduct](cb: ProductCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
         assertCBStateValid(cb); assertObjectNotNull("entityRowHandler", handler); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, ProductCB]() {
@@ -415,7 +415,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
      * <span style="color: #3F7E5E">//    ...</span>
      * <span style="color: #3F7E5E">//});</span>
-     * for (Product product : productList) {
+     * for (MbleProduct product : productList) {
      *     ... = product.<span style="color: #DD4747">getPurchaseList()</span>;
      * }
      * </pre>
@@ -429,9 +429,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(productList: scala.collection.immutable.List[Product], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
+    def loadPurchaseList(productList: scala.collection.immutable.List[MbleProduct], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[MblePurchase] = {
         xassLRArg(productList.asJava, setupper); // #pending easy convert for now
-        return doLoadPurchaseList(productList, new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
+        return doLoadPurchaseList(productList, new LoadReferrerOption[PurchaseCB, MblePurchase]().xinit(setupper));
     }
 
     /**
@@ -460,26 +460,26 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(product: Product, setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[Purchase] = {
+    def loadPurchaseList(product: MbleProduct, setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[MblePurchase] = {
         xassLRArg(product, setupper);
-        return doLoadPurchaseList(scala.collection.immutable.List.apply(product), new LoadReferrerOption[PurchaseCB, Purchase]().xinit(setupper));
+        return doLoadPurchaseList(scala.collection.immutable.List.apply(product), new LoadReferrerOption[PurchaseCB, MblePurchase]().xinit(setupper));
     }
 
-    protected def doLoadPurchaseList(productList: scala.collection.immutable.List[Product], option: LoadReferrerOption[PurchaseCB, Purchase]): NestedReferrerLoader[Purchase] = {
+    protected def doLoadPurchaseList(productList: scala.collection.immutable.List[MbleProduct], option: LoadReferrerOption[PurchaseCB, MblePurchase]): NestedReferrerLoader[MblePurchase] = {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
-        return helpLoadReferrerInternally(productList.asJava, option, new InternalLoadReferrerCallback[Product, Integer, PurchaseCB, Purchase]() {
-            def getPKVal(et: Product): Integer =
+        return helpLoadReferrerInternally(productList.asJava, option, new InternalLoadReferrerCallback[MbleProduct, Integer, PurchaseCB, MblePurchase]() {
+            def getPKVal(et: MbleProduct): Integer =
             { return et.productId(); }
-            def setRfLs(et: Product, ls: List[Purchase]): Unit =
+            def setRfLs(et: MbleProduct, ls: List[MblePurchase]): Unit =
             { et.purchaseList(toScalaList(ls)); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setProductId_InScope(ls); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_ProductId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnProductId(); }
-            def selRfLs(cb: PurchaseCB): List[Purchase] = { return referrerBhv.selectList(cb).asJava; }
-            def getFKVal(re: Purchase): Integer = { return re.productId(); }
-            def setlcEt(re: Purchase, le: Product): Unit =
+            def selRfLs(cb: PurchaseCB): List[MblePurchase] = { return referrerBhv.selectList(cb).asJava; }
+            def getFKVal(re: MblePurchase): Integer = { return re.productId(); }
+            def setlcEt(re: MblePurchase, le: MbleProduct): Unit =
             { re.product(Option.apply(le)); }
             def getRfPrNm(): String = { return "purchaseList"; }
         });
@@ -497,9 +497,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractProductIdList(productList: List[Product]): List[Integer] = {
-        return helpExtractListInternally(productList, new InternalExtractCallback[Product, Integer]() {
-            def getCV(et: Product): Integer = { return et.productId(); }
+    def extractProductIdList(productList: List[MbleProduct]): List[Integer] = {
+        return helpExtractListInternally(productList, new InternalExtractCallback[MbleProduct, Integer]() {
+            def getCV(et: MbleProduct): Integer = { return et.productId(); }
         });
     }
 
@@ -508,9 +508,9 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractProductHandleCodeList(productList: List[Product]): List[String] = {
-        return helpExtractListInternally(productList, new InternalExtractCallback[Product, String]() {
-            def getCV(et: Product): String = { return et.productHandleCode(); }
+    def extractProductHandleCodeList(productList: List[MbleProduct]): List[String] = {
+        return helpExtractListInternally(productList, new InternalExtractCallback[MbleProduct, String]() {
+            def getCV(et: MbleProduct): String = { return et.productHandleCode(); }
         });
     }
 
@@ -520,7 +520,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     /**
      * Insert the entity modified-only. (DefaultConstraintsEnabled)
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
      * product.setFoo...(value);
      * product.setBar...(value);
@@ -534,11 +534,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param product The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(product: Product): Unit = {
+    def insert(product: MbleProduct): Unit = {
         doInsert(product, null);
     }
 
-    protected def doInsert(product: Product, op: InsertOption[ProductCB]): Unit = {
+    protected def doInsert(product: MbleProduct, op: InsertOption[ProductCB]): Unit = {
         assertObjectNotNull("product", product);
         prepareInsertOption(op);
         delegateInsert(product, op);
@@ -561,7 +561,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     /**
      * Update the entity modified-only. (ZeroUpdateException, ExclusiveControl)
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * product.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * product.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
@@ -580,15 +580,15 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(product: Product): Unit = {
+    def update(product: MbleProduct): Unit = {
         doUpdate(product, null);
     }
 
-    protected def doUpdate(product: Product, op: UpdateOption[ProductCB]): Unit = {
+    protected def doUpdate(product: MbleProduct, op: UpdateOption[ProductCB]): Unit = {
         assertObjectNotNull("product", product);
         prepareUpdateOption(op);
-        helpUpdateInternally(product, new InternalUpdateCallback[Product]() {
-            def callbackDelegateUpdate(et: Product): Int = { return delegateUpdate(et, op); } });
+        helpUpdateInternally(product, new InternalUpdateCallback[MbleProduct]() {
+            def callbackDelegateUpdate(et: MbleProduct): Int = { return delegateUpdate(et, op); } });
     }
 
     protected def prepareUpdateOption(op: UpdateOption[ProductCB]): Unit = {
@@ -623,7 +623,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     /**
      * Update the entity non-strictly modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * product.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * product.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
@@ -639,15 +639,15 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(product: Product): Unit = {
+    def updateNonstrict(product: MbleProduct): Unit = {
         doUpdateNonstrict(product, null);
     }
 
-    protected def doUpdateNonstrict(product: Product, op: UpdateOption[ProductCB]): Unit = {
+    protected def doUpdateNonstrict(product: MbleProduct, op: UpdateOption[ProductCB]): Unit = {
         assertObjectNotNull("product", product);
         prepareUpdateOption(op);
-        helpUpdateNonstrictInternally(product, new InternalUpdateNonstrictCallback[Product]() {
-            def callbackDelegateUpdateNonstrict(et: Product): Int = { return delegateUpdateNonstrict(et, op); } });
+        helpUpdateNonstrictInternally(product, new InternalUpdateNonstrictCallback[MbleProduct]() {
+            def callbackDelegateUpdateNonstrict(et: MbleProduct): Int = { return delegateUpdateNonstrict(et, op); } });
     }
 
     @Override
@@ -665,14 +665,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(product: Product): Unit = {
+    def insertOrUpdate(product: MbleProduct): Unit = {
         doInesrtOrUpdate(product, null, null);
     }
 
-    protected def doInesrtOrUpdate(product: Product, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
-        helpInsertOrUpdateInternally(product, new InternalInsertOrUpdateCallback[Product, ProductCB]() {
-            def callbackInsert(et: Product): Unit = { doInsert(et, iop); }
-            def callbackUpdate(et: Product): Unit = { doUpdate(et, uop); }
+    protected def doInesrtOrUpdate(product: MbleProduct, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
+        helpInsertOrUpdateInternally(product, new InternalInsertOrUpdateCallback[MbleProduct, ProductCB]() {
+            def callbackInsert(et: MbleProduct): Unit = { doInsert(et, iop); }
+            def callbackUpdate(et: MbleProduct): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): ProductCB = { return newMyConditionBean(); }
             def callbackSelectCount(cb: ProductCB): Int = { return selectCount(cb); }
         });
@@ -697,14 +697,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(product: Product): Unit = {
+    def insertOrUpdateNonstrict(product: MbleProduct): Unit = {
         doInesrtOrUpdateNonstrict(product, null, null);
     }
 
-    protected def doInesrtOrUpdateNonstrict(product: Product, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
-        helpInsertOrUpdateInternally(product, new InternalInsertOrUpdateNonstrictCallback[Product]() {
-            def callbackInsert(et: Product): Unit = { doInsert(et, iop); }
-            def callbackUpdateNonstrict(et: Product): Unit = { doUpdateNonstrict(et, uop); }
+    protected def doInesrtOrUpdateNonstrict(product: MbleProduct, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
+        helpInsertOrUpdateInternally(product, new InternalInsertOrUpdateNonstrictCallback[MbleProduct]() {
+            def callbackInsert(et: MbleProduct): Unit = { doInsert(et, iop); }
+            def callbackUpdateNonstrict(et: MbleProduct): Unit = { doUpdateNonstrict(et, uop); }
         });
     }
 
@@ -721,7 +721,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     /**
      * Delete the entity. (ZeroUpdateException, ExclusiveControl)
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * product.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
      * product.<span style="color: #DD4747">setVersionNo</span>(value);
@@ -735,15 +735,15 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(product: Product): Unit = {
+    def delete(product: MbleProduct): Unit = {
         doDelete(product, null);
     }
 
-    protected def doDelete(product: Product, op: DeleteOption[ProductCB]): Unit = {
+    protected def doDelete(product: MbleProduct, op: DeleteOption[ProductCB]): Unit = {
         assertObjectNotNull("product", product);
         prepareDeleteOption(op);
-        helpDeleteInternally(product, new InternalDeleteCallback[Product]() {
-            def callbackDelegateDelete(et: Product): Int = { return delegateDelete(et, op); } });
+        helpDeleteInternally(product, new InternalDeleteCallback[MbleProduct]() {
+            def callbackDelegateDelete(et: MbleProduct): Int = { return delegateDelete(et, op); } });
     }
 
     protected def prepareDeleteOption(op: DeleteOption[ProductCB]): Unit = {
@@ -760,7 +760,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     /**
      * Delete the entity non-strictly. {ZeroUpdateException, NonExclusiveControl}
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * product.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
@@ -771,21 +771,21 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrict(product: Product): Unit = {
+    def deleteNonstrict(product: MbleProduct): Unit = {
         doDeleteNonstrict(product, null);
     }
 
-    protected def doDeleteNonstrict(product: Product, op: DeleteOption[ProductCB]): Unit = {
+    protected def doDeleteNonstrict(product: MbleProduct, op: DeleteOption[ProductCB]): Unit = {
         assertObjectNotNull("product", product);
         prepareDeleteOption(op);
-        helpDeleteNonstrictInternally(product, new InternalDeleteNonstrictCallback[Product]() {
-            def callbackDelegateDeleteNonstrict(et: Product): Int = { return delegateDeleteNonstrict(et, op); } });
+        helpDeleteNonstrictInternally(product, new InternalDeleteNonstrictCallback[MbleProduct]() {
+            def callbackDelegateDeleteNonstrict(et: MbleProduct): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     /**
      * Delete the entity non-strictly ignoring deleted. {ZeroUpdateException, NonExclusiveControl}
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * product.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
@@ -796,15 +796,15 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param product The entity of delete target. (NotNull, PrimaryKeyNotNull)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrictIgnoreDeleted(product: Product): Unit = {
+    def deleteNonstrictIgnoreDeleted(product: MbleProduct): Unit = {
         doDeleteNonstrictIgnoreDeleted(product, null);
     }
 
-    protected def doDeleteNonstrictIgnoreDeleted(product: Product, op: DeleteOption[ProductCB]): Unit = {
+    protected def doDeleteNonstrictIgnoreDeleted(product: MbleProduct, op: DeleteOption[ProductCB]): Unit = {
         assertObjectNotNull("product", product);
         prepareDeleteOption(op);
-        helpDeleteNonstrictIgnoreDeletedInternally(product, new InternalDeleteNonstrictIgnoreDeletedCallback[Product]() {
-            def callbackDelegateDeleteNonstrict(et: Product): Int = { return delegateDeleteNonstrict(et, op); } });
+        helpDeleteNonstrictIgnoreDeletedInternally(product, new InternalDeleteNonstrictIgnoreDeletedCallback[MbleProduct]() {
+            def callbackDelegateDeleteNonstrict(et: MbleProduct): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     @Override
@@ -822,7 +822,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <p><span style="color: #DD4747; font-size: 120%">The columns of least common multiple are registered like this:</span></p>
      * <pre>
      * for (... : ...) {
-     *     Product product = new Product();
+     *     MbleProduct product = new MbleProduct();
      *     product.setFooName("foo");
      *     if (...) {
      *         product.setFooPrice(123);
@@ -840,18 +840,18 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(productList: scala.collection.immutable.List[Product]): Array[Int] = {
+    def batchInsert(productList: scala.collection.immutable.List[MbleProduct]): Array[Int] = {
         val op: InsertOption[ProductCB] = createInsertUpdateOption();
         return doBatchInsert(productList.asJava, op);
     }
 
-    protected def doBatchInsert(productList: List[Product], op: InsertOption[ProductCB]): Array[Int] = {
+    protected def doBatchInsert(productList: List[MbleProduct], op: InsertOption[ProductCB]): Array[Int] = {
         assertObjectNotNull("productList", productList);
         prepareBatchInsertOption(productList, op);
         return delegateBatchInsert(productList, op);
     }
 
-    protected def prepareBatchInsertOption(productList: List[Product], op: InsertOption[ProductCB]): Unit = {
+    protected def prepareBatchInsertOption(productList: List[MbleProduct], op: InsertOption[ProductCB]): Unit = {
         op.xallowInsertColumnModifiedPropertiesFragmented();
         op.xacceptInsertColumnModifiedPropertiesIfNeeds(productList);
         prepareInsertOption(op);
@@ -869,7 +869,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <span style="color: #DD4747; font-size: 120%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     Product product = new Product();
+     *     MbleProduct product = new MbleProduct();
      *     product.setFooName("foo");
      *     if (...) {
      *         product.setFooPrice(123);
@@ -887,18 +887,18 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(productList: scala.collection.immutable.List[Product]): Array[Int] = {
+    def batchUpdate(productList: scala.collection.immutable.List[MbleProduct]): Array[Int] = {
         val op: UpdateOption[ProductCB] = createPlainUpdateOption();
         return doBatchUpdate(productList.asJava, op);
     }
 
-    protected def doBatchUpdate(productList: List[Product], op: UpdateOption[ProductCB]): Array[Int] = {
+    protected def doBatchUpdate(productList: List[MbleProduct], op: UpdateOption[ProductCB]): Array[Int] = {
         assertObjectNotNull("productList", productList);
         prepareBatchUpdateOption(productList, op);
         return delegateBatchUpdate(productList, op);
     }
 
-    protected def prepareBatchUpdateOption(productList: List[Product], op: UpdateOption[ProductCB]): Unit = {
+    protected def prepareBatchUpdateOption(productList: List[MbleProduct], op: UpdateOption[ProductCB]): Unit = {
         op.xacceptUpdateColumnModifiedPropertiesIfNeeds(productList);
         prepareUpdateOption(op);
     }
@@ -937,7 +937,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(productList: scala.collection.immutable.List[Product], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
+    def batchUpdate(productList: scala.collection.immutable.List[MbleProduct], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
         return doBatchUpdate(productList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
@@ -947,7 +947,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <span style="color: #DD4747; font-size: 140%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     Product product = new Product();
+     *     MbleProduct product = new MbleProduct();
      *     product.setFooName("foo");
      *     if (...) {
      *         product.setFooPrice(123);
@@ -965,12 +965,12 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(productList: scala.collection.immutable.List[Product]): Array[Int] = {
+    def batchUpdateNonstrict(productList: scala.collection.immutable.List[MbleProduct]): Array[Int] = {
         val option: UpdateOption[ProductCB] = createPlainUpdateOption();
         return doBatchUpdateNonstrict(productList.asJava, option);
     }
 
-    protected def doBatchUpdateNonstrict(productList: List[Product], op: UpdateOption[ProductCB]): Array[Int] = {
+    protected def doBatchUpdateNonstrict(productList: List[MbleProduct], op: UpdateOption[ProductCB]): Array[Int] = {
         assertObjectNotNull("productList", productList);
         prepareBatchUpdateOption(productList, op);
         return delegateBatchUpdateNonstrict(productList, op);
@@ -1003,7 +1003,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(productList: scala.collection.immutable.List[Product], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
+    def batchUpdateNonstrict(productList: scala.collection.immutable.List[MbleProduct], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
         return doBatchUpdateNonstrict(productList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
@@ -1020,11 +1020,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(productList: scala.collection.immutable.List[Product]): Array[Int] = {
+    def batchDelete(productList: scala.collection.immutable.List[MbleProduct]): Array[Int] = {
         return doBatchDelete(productList.asJava, null);
     }
 
-    protected def doBatchDelete(productList: List[Product], op: DeleteOption[ProductCB]): Array[Int] = {
+    protected def doBatchDelete(productList: List[MbleProduct], op: DeleteOption[ProductCB]): Array[Int] = {
         assertObjectNotNull("productList", productList);
         prepareDeleteOption(op);
         return delegateBatchDelete(productList, op);
@@ -1043,11 +1043,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(productList: scala.collection.immutable.List[Product]): Array[Int] = {
+    def batchDeleteNonstrict(productList: scala.collection.immutable.List[MbleProduct]): Array[Int] = {
         return doBatchDeleteNonstrict(productList.asJava, null);
     }
 
-    protected def doBatchDeleteNonstrict(productList: List[Product], op: DeleteOption[ProductCB]): Array[Int] = {
+    protected def doBatchDeleteNonstrict(productList: List[MbleProduct], op: DeleteOption[ProductCB]): Array[Int] = {
         assertObjectNotNull("productList", productList);
         prepareDeleteOption(op);
         return delegateBatchDeleteNonstrict(productList, op);
@@ -1065,7 +1065,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     /**
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
-     * productBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;Product, ProductCB&gt;() {
+     * productBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;MbleProduct, ProductCB&gt;() {
      *     public ConditionBean setup(product entity, ProductCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
@@ -1088,14 +1088,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The setup-per of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[Product, ProductCB]): Integer = {
+    def queryInsert(setupper: QueryInsertSetupper[MbleProduct, ProductCB]): Integer = {
         return doQueryInsert(setupper, null);
     }
 
-    protected def doQueryInsert(sp: QueryInsertSetupper[Product, ProductCB], op: InsertOption[ProductCB]): Integer = {
+    protected def doQueryInsert(sp: QueryInsertSetupper[MbleProduct, ProductCB], op: InsertOption[ProductCB]): Integer = {
         assertObjectNotNull("setupper", sp);
         prepareInsertOption(op);
-        val e: Product = new Product();
+        val e: MbleProduct = new MbleProduct();
         val cb: ProductCB = createCBForQueryInsert();
         return delegateQueryInsert(e, cb, sp.setup(e, cb), op);
     }
@@ -1115,7 +1115,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
      * <span style="color: #3F7E5E">//product.setPK...(value);</span>
      * product.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
@@ -1130,15 +1130,15 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * productBhv.<span style="color: #DD4747">queryUpdate</span>(product, cb);
      * </pre>
      * @param product The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition.
      */
-    def queryUpdate(product: Product, cb: ProductCB): Integer = {
+    def queryUpdate(product: MbleProduct, cb: ProductCB): Integer = {
         return doQueryUpdate(product, cb, null);
     }
 
-    protected def doQueryUpdate(product: Product, cb: ProductCB, op: UpdateOption[ProductCB]): Integer = {
+    protected def doQueryUpdate(product: MbleProduct, cb: ProductCB, op: UpdateOption[ProductCB]): Integer = {
         assertObjectNotNull("product", product); assertCBStateValid(cb);
         prepareUpdateOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(product, cb, op) } else { 0 };
@@ -1157,7 +1157,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * productBhv.<span style="color: #DD4747">queryDelete</span>(product, cb);
      * </pre>
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition.
      */
@@ -1188,7 +1188,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br />
      * Other specifications are same as insert(entity).
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
      * product.setFoo...(value);
      * product.setBar...(value);
@@ -1202,7 +1202,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsert(product: Product, option: InsertOption[ProductCB]): Unit = {
+    def varyingInsert(product: MbleProduct, option: InsertOption[ProductCB]): Unit = {
         assertInsertOptionNotNull(option);
         doInsert(product, option);
     }
@@ -1212,7 +1212,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br />
      * Other specifications are same as update(entity).
      * <pre>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * product.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * product.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
@@ -1236,7 +1236,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingUpdate(product: Product, option: UpdateOption[ProductCB]): Unit = {
+    def varyingUpdate(product: MbleProduct, option: UpdateOption[ProductCB]): Unit = {
         assertUpdateOptionNotNull(option);
         doUpdate(product, option);
     }
@@ -1247,7 +1247,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * Other specifications are same as updateNonstrict(entity).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * product.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * product.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
@@ -1267,7 +1267,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingUpdateNonstrict(product: Product, option: UpdateOption[ProductCB]): Unit = {
+    def varyingUpdateNonstrict(product: MbleProduct, option: UpdateOption[ProductCB]): Unit = {
         assertUpdateOptionNotNull(option);
         doUpdateNonstrict(product, option);
     }
@@ -1282,7 +1282,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsertOrUpdate(product: Product, insertOption: InsertOption[ProductCB], updateOption: UpdateOption[ProductCB]): Unit = {
+    def varyingInsertOrUpdate(product: MbleProduct, insertOption: InsertOption[ProductCB], updateOption: UpdateOption[ProductCB]): Unit = {
         assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
         doInesrtOrUpdate(product, insertOption, updateOption);
     }
@@ -1297,7 +1297,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsertOrUpdateNonstrict(product: Product, insertOption: InsertOption[ProductCB], updateOption: UpdateOption[ProductCB]): Unit = {
+    def varyingInsertOrUpdateNonstrict(product: MbleProduct, insertOption: InsertOption[ProductCB], updateOption: UpdateOption[ProductCB]): Unit = {
         assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
         doInesrtOrUpdateNonstrict(product, insertOption, updateOption);
     }
@@ -1311,7 +1311,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def varyingDelete(product: Product, option: DeleteOption[ProductCB]): Unit = {
+    def varyingDelete(product: MbleProduct, option: DeleteOption[ProductCB]): Unit = {
         assertDeleteOptionNotNull(option);
         doDelete(product, option);
     }
@@ -1325,7 +1325,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def varyingDeleteNonstrict(product: Product, option: DeleteOption[ProductCB]): Unit = {
+    def varyingDeleteNonstrict(product: MbleProduct, option: DeleteOption[ProductCB]): Unit = {
         assertDeleteOptionNotNull(option);
         doDeleteNonstrict(product, option);
     }
@@ -1342,7 +1342,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(productList: scala.collection.immutable.List[Product], option: InsertOption[ProductCB]): Array[Int] = {
+    def varyingBatchInsert(productList: scala.collection.immutable.List[MbleProduct], option: InsertOption[ProductCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
         return doBatchInsert(productList.asJava, option);
     }
@@ -1356,7 +1356,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(productList: scala.collection.immutable.List[Product], option: UpdateOption[ProductCB]): Array[Int] = {
+    def varyingBatchUpdate(productList: scala.collection.immutable.List[MbleProduct], option: UpdateOption[ProductCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdate(productList.asJava, option);
     }
@@ -1370,7 +1370,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdateNonstrict(productList: scala.collection.immutable.List[Product], option: UpdateOption[ProductCB]): Array[Int] = {
+    def varyingBatchUpdateNonstrict(productList: scala.collection.immutable.List[MbleProduct], option: UpdateOption[ProductCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdateNonstrict(productList.asJava, option);
     }
@@ -1383,7 +1383,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(productList: scala.collection.immutable.List[Product], option: DeleteOption[ProductCB]): Array[Int] = {
+    def varyingBatchDelete(productList: scala.collection.immutable.List[MbleProduct], option: DeleteOption[ProductCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDelete(productList.asJava, option);
     }
@@ -1396,7 +1396,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDeleteNonstrict(productList: scala.collection.immutable.List[Product], option: DeleteOption[ProductCB]): Array[Int] = {
+    def varyingBatchDeleteNonstrict(productList: scala.collection.immutable.List[MbleProduct], option: DeleteOption[ProductCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDeleteNonstrict(productList.asJava, option);
     }
@@ -1412,7 +1412,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The inserted count.
      */
-    def varyingQueryInsert(setupper: QueryInsertSetupper[Product, ProductCB], option: InsertOption[ProductCB]): Integer = {
+    def varyingQueryInsert(setupper: QueryInsertSetupper[MbleProduct, ProductCB], option: InsertOption[ProductCB]): Integer = {
         assertInsertOptionNotNull(option);
         return doQueryInsert(setupper, option);
     }
@@ -1424,7 +1424,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * Other specifications are same as queryUpdate(entity, cb).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * Product product = new Product();
+     * MbleProduct product = new MbleProduct();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
      * <span style="color: #3F7E5E">//product.setPK...(value);</span>
      * product.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
@@ -1442,12 +1442,12 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * productBhv.<span style="color: #DD4747">varyingQueryUpdate</span>(product, cb, option);
      * </pre>
      * @param product The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @param option The option of update for varying requests. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition (if not allowed).
      */
-    def varyingQueryUpdate(product: Product, cb: ProductCB, option: UpdateOption[ProductCB]): Integer = {
+    def varyingQueryUpdate(product: MbleProduct, cb: ProductCB, option: UpdateOption[ProductCB]): Integer = {
         assertUpdateOptionNotNull(option);
         return doQueryUpdate(product, cb, option);
     }
@@ -1456,7 +1456,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * Delete the several entities by query with varying requests non-strictly. <br />
      * For example, allowNonQueryDelete(). <br />
      * Other specifications are same as batchUpdateNonstrict(entityList).
-     * @param cb The condition-bean of Product. (NotNull)
+     * @param cb The condition-bean of MbleProduct. (NotNull)
      * @param option The option of delete for varying requests. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition (if not allowed).
@@ -1513,50 +1513,50 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     //                                                ------
     protected def delegateSelectCountUniquely(cb: ProductCB): Integer = { return invoke(createSelectCountCBCommand(cb, true)); }
     protected def delegateSelectCountPlainly(cb: ProductCB): Integer = { return invoke(createSelectCountCBCommand(cb, false)); }
-    protected def delegateSelectCursor[ENTITY <: Product](cb: ProductCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
+    protected def delegateSelectCursor[ENTITY <: MbleProduct](cb: ProductCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
     { invoke(createSelectCursorCBCommand(cb, rh, tp)); }
-    protected def delegateSelectList[ENTITY <: Product](cb: ProductCB, tp: Class[ENTITY]): List[ENTITY] =
+    protected def delegateSelectList[ENTITY <: MbleProduct](cb: ProductCB, tp: Class[ENTITY]): List[ENTITY] =
     { return invoke(createSelectListCBCommand(cb, tp)); }
 
     // -----------------------------------------------------
     //                                                Update
     //                                                ------
-    protected def delegateInsert(et: Product, op: InsertOption[ProductCB]): Integer =
+    protected def delegateInsert(et: MbleProduct, op: InsertOption[ProductCB]): Integer =
     { if (!processBeforeInsert(et, op)) { return 0; }
       return invoke(createInsertEntityCommand(et, op)); }
-    protected def delegateUpdate(et: Product, op: UpdateOption[ProductCB]): Integer =
+    protected def delegateUpdate(et: MbleProduct, op: UpdateOption[ProductCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return invoke(createUpdateEntityCommand(et, op)); }
-    protected def delegateUpdateNonstrict(et: Product, op: UpdateOption[ProductCB]): Integer =
+    protected def delegateUpdateNonstrict(et: MbleProduct, op: UpdateOption[ProductCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return invoke(createUpdateNonstrictEntityCommand(et, op)); }
-    protected def delegateDelete(et: Product, op: DeleteOption[ProductCB]): Integer =
+    protected def delegateDelete(et: MbleProduct, op: DeleteOption[ProductCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteEntityCommand(et, op)); }
-    protected def delegateDeleteNonstrict(et: Product, op: DeleteOption[ProductCB]): Integer =
+    protected def delegateDeleteNonstrict(et: MbleProduct, op: DeleteOption[ProductCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteNonstrictEntityCommand(et, op)); }
 
-    protected def delegateBatchInsert(ls: List[Product], op: InsertOption[ProductCB]): Array[Int] =
+    protected def delegateBatchInsert(ls: List[MbleProduct], op: InsertOption[ProductCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchInsertCommand(processBatchInternally(ls, op), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdate(ls: List[Product], op: UpdateOption[ProductCB]): Array[Int] =
+    protected def delegateBatchUpdate(ls: List[MbleProduct], op: UpdateOption[ProductCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchUpdateCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdateNonstrict(ls: List[Product], op: UpdateOption[ProductCB]): Array[Int] =
+    protected def delegateBatchUpdateNonstrict(ls: List[MbleProduct], op: UpdateOption[ProductCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchUpdateNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDelete(ls: List[Product], op: DeleteOption[ProductCB]): Array[Int] =
+    protected def delegateBatchDelete(ls: List[MbleProduct], op: DeleteOption[ProductCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDeleteNonstrict(ls: List[Product], op: DeleteOption[ProductCB]): Array[Int] =
+    protected def delegateBatchDeleteNonstrict(ls: List[MbleProduct], op: DeleteOption[ProductCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
 
-    protected def delegateQueryInsert(et: Product, inCB: ProductCB, resCB: ConditionBean, op: InsertOption[ProductCB]): Integer =
+    protected def delegateQueryInsert(et: MbleProduct, inCB: ProductCB, resCB: ConditionBean, op: InsertOption[ProductCB]): Integer =
     { if (!processBeforeQueryInsert(et, inCB, resCB, op)) { return 0; }
       return invoke(createQueryInsertCBCommand(et, inCB, resCB, op));  }
-    protected def delegateQueryUpdate(et: Product, cb: ProductCB, op: UpdateOption[ProductCB]): Integer =
+    protected def delegateQueryUpdate(et: MbleProduct, cb: ProductCB, op: UpdateOption[ProductCB]): Integer =
     { if (!processBeforeQueryUpdate(et, cb, op)) { return 0; }
       return invoke(createQueryUpdateCBCommand(et, cb, op));  }
     protected def delegateQueryDelete(cb: ProductCB, op: DeleteOption[ProductCB]): Integer =
@@ -1585,16 +1585,16 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                     Downcast Helper
     //                                                                     ===============
-    protected def downcast(et: Entity): Product = {
-        return helpEntityDowncastInternally(et, classOf[Product]);
+    protected def downcast(et: Entity): MbleProduct = {
+        return helpEntityDowncastInternally(et, classOf[MbleProduct]);
     }
 
     protected def downcast(cb: ConditionBean): ProductCB = {
         return helpConditionBeanDowncastInternally(cb, classOf[ProductCB]);
     }
 
-    protected def downcast(ls: List[_ <: Entity]): List[Product] = {
-        return ls.asInstanceOf[List[Product]];
+    protected def downcast(ls: List[_ <: Entity]): List[MbleProduct] = {
+        return ls.asInstanceOf[List[MbleProduct]];
     }
 
     protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[ProductCB] = {
@@ -1609,8 +1609,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
         return op.asInstanceOf[DeleteOption[ProductCB]];
     }
 
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[Product, ProductCB] = {
-        return sp.asInstanceOf[QueryInsertSetupper[Product, ProductCB]];
+    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[MbleProduct, ProductCB] = {
+        return sp.asInstanceOf[QueryInsertSetupper[MbleProduct, ProductCB]];
     }
 
     // ===================================================================================

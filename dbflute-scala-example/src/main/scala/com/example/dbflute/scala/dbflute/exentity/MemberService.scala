@@ -10,6 +10,6 @@ import com.example.dbflute.scala.dbflute.bsentity.BsMemberService;
  * </p>
  * @author DBFlute(AutoGenerator)
  */
-class MemberService extends BsMemberService {
+class MemberService(mbleEntity: MbleMemberService) extends BsMemberService(mbleEntity) {
 
 }

@@ -50,40 +50,40 @@ object MemberServiceDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
     class EpgMemberServiceId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].memberServiceId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].memberServiceId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].memberServiceId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].memberServiceId(dgcti(vl)); }
     }
     class EpgMemberId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].memberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].memberId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].memberId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].memberId(dgcti(vl)); }
     }
     class EpgServicePointCount extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].servicePointCount(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].servicePointCount(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].servicePointCount(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].servicePointCount(dgcti(vl)); }
     }
     class EpgServiceRankCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].serviceRankCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].serviceRankCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].serviceRankCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].serviceRankCode(vl.asInstanceOf[String]); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].registerDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].registerDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgRegisterUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].registerUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].registerUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].registerUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].registerUser(vl.asInstanceOf[String]); }
     }
     class EpgUpdateDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].updateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].updateDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgUpdateUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].updateUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].updateUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].updateUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].updateUser(vl.asInstanceOf[String]); }
     }
     class EpgVersionNo extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].versionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].versionNo(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].versionNo(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].versionNo(dgctl(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -103,12 +103,12 @@ object MemberServiceDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, new EfpgServiceRank(), "serviceRank");
     }
     class EfpgMember extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].member(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].member(vl.asInstanceOf[Option[Member]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].member(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].member(vl.asInstanceOf[Option[MbleMember]]); }
     }
     class EfpgServiceRank extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MemberService].serviceRank(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MemberService].serviceRank(vl.asInstanceOf[Option[ServiceRank]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberService].serviceRank(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberService].serviceRank(vl.asInstanceOf[Option[MbleServiceRank]]); }
     }
     override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
 
@@ -224,28 +224,28 @@ object MemberServiceDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MemberService"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MbleMemberService"; }
     def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.MemberServiceCB"; }
     def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.MemberServiceBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[MemberService] = { return classOf[MemberService]; }
+    def getEntityType(): Class[MbleMemberService] = { return classOf[MbleMemberService]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): MemberService = { return new MemberService(); }
+    def newMyEntity(): MbleMemberService = { return new MbleMemberService(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[MemberService], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[MbleMemberService], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[MemberService], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[MbleMemberService], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }

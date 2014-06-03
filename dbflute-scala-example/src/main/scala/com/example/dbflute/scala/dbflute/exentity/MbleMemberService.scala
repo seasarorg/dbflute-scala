@@ -1,15 +1,15 @@
 package com.example.dbflute.scala.dbflute.exentity;
 
-import com.example.dbflute.scala.dbflute.bsentity.BsProduct;
+import com.example.dbflute.scala.dbflute.bsentity.BsMbleMemberService;
 
 /**
- * The entity of PRODUCT.
+ * The entity of MEMBER_SERVICE.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.
  * </p>
  * @author DBFlute(AutoGenerator)
  */
-class Product(mbleEntity: MbleProduct) extends BsProduct(mbleEntity) {
+class MbleMemberService extends BsMbleMemberService {
 
 }

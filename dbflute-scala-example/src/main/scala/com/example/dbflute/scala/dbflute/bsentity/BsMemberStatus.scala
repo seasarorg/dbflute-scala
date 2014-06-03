@@ -60,41 +60,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMemberStatus extends Entity with Serializable with Cloneable with DfCoupleProperties {
-
-    // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-
-    // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} */
-    protected var _memberStatusCode: String = null;
-
-    /** (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} */
-    protected var _memberStatusName: String = null;
-
-    /** (説明)DESCRIPTION: {NotNull, VARCHAR(200)} */
-    protected var _description: String = null;
-
-    /** (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} */
-    protected var _displayOrder: Integer = null;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
-
-    /** Is the entity created by DBFlute select process? */
-    protected var __createdBySelect: Boolean = false;
+abstract class BsMemberStatus(mbleEntity: MbleMemberStatus) extends Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                          Table Name
@@ -134,28 +100,6 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
         return true;
     }
 
-    /**
-     * To be unique by the unique column. <br />
-     * You can update the entity by the key when entity update (NOT batch update).
-     * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
-     */
-    def uniqueBy(displayOrder: Integer): Unit = {
-        __uniqueDrivenProperties.clear();
-        __uniqueDrivenProperties.addPropertyName("displayOrder");
-        this.displayOrder(displayOrder);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def myuniqueDrivenProperties(): Set[String] = {
-        return __uniqueDrivenProperties.getPropertyNames();
-    }
-
-    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
-        return new EntityUniqueDrivenProperties();
-    }
-
     // ===================================================================================
     //                                                             Classification Property
     //                                                             =======================
@@ -167,44 +111,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     def memberStatusCodeAsMemberStatus(): CDef.MemberStatus = {
-        return CDef.MemberStatus.codeOf(memberStatusCode());
-    }
-
-    /**
-     * Set the value of memberStatusCode as the classification of MemberStatus. <br />
-     * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
-     * status of member from entry to withdrawal
-     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
-     */
-    def memberStatusCodeAsMemberStatus(cdef: CDef.MemberStatus): Unit = {
-        memberStatusCode(if (cdef != null) { cdef.code } else { null });
-    }
-
-    // ===================================================================================
-    //                                                              Classification Setting
-    //                                                              ======================
-    /**
-     * Set the value of memberStatusCode as Formalized (FML). <br />
-     * Formalized: as formal member, allowed to use all service
-     */
-    def memberStatusCode_Formalized(): Unit = {
-        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Formalized);
-    }
-
-    /**
-     * Set the value of memberStatusCode as Withdrawal (WDL). <br />
-     * Withdrawal: withdrawal is fixed, not allowed to use service
-     */
-    def memberStatusCode_Withdrawal(): Unit = {
-        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Withdrawal);
-    }
-
-    /**
-     * Set the value of memberStatusCode as Provisional (PRV). <br />
-     * Provisional: first status after entry, allowed to use only part of service
-     */
-    def memberStatusCode_Provisional(): Unit = {
-        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Provisional);
+        return mbleEntity.memberStatusCodeAsMemberStatus;
     }
 
     // ===================================================================================
@@ -217,8 +124,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Formalized(): Boolean = {
-        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
-        return if (cdef != null) { cdef.equals(CDef.MemberStatus.Formalized) } else { false };
+        return mbleEntity.isMemberStatusCode_Formalized;
     }
 
     /**
@@ -228,8 +134,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Withdrawal(): Boolean = {
-        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
-        return if (cdef != null) { cdef.equals(CDef.MemberStatus.Withdrawal) } else { false };
+        return mbleEntity.isMemberStatusCode_Withdrawal;
     }
 
     /**
@@ -239,8 +144,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Provisional(): Boolean = {
-        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
-        return if (cdef != null) { cdef.equals(CDef.MemberStatus.Provisional) } else { false };
+        return mbleEntity.isMemberStatusCode_Provisional;
     }
 
     // ===================================================================================
@@ -252,73 +156,12 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'. */
-    protected var _memberList: scala.collection.immutable.List[Member] = null;
-
     /**
      * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
      * @return The entity list of referrer property 'memberList'. (NotNull: even if no loading, returns empty list)
      */
-    def memberList(): scala.collection.immutable.List[Member] = {
-        if (_memberList == null) { _memberList = newReferrerList(); }
-        return _memberList;
-    }
-
-    /**
-     * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
-     * @param memberList The entity list of referrer property 'memberList'. (NullAllowed)
-     */
-    def memberList(memberList: scala.collection.immutable.List[Member]): Unit = {
-        _memberList = memberList;
-    }
-
-    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
-        return scala.collection.immutable.List(); // #pending actually fixed empty list
-    }
-
-    // ===================================================================================
-    //                                                                 Modified Properties
-    //                                                                 ===================
-    /**
-     * {@inheritDoc}
-     */
-    def modifiedProperties(): Set[String] = {
-        return __modifiedProperties.getPropertyNames();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def clearModifiedInfo(): Unit = {
-        __modifiedProperties.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def hasModification(): Boolean = {
-        return !__modifiedProperties.isEmpty();
-    }
-
-    protected def newModifiedProperties(): EntityModifiedProperties = {
-        return new EntityModifiedProperties();
-    }
-
-    // ===================================================================================
-    //                                                                     Birthplace Mark
-    //                                                                     ===============
-    /**
-     * {@inheritDoc}
-     */
-    def markAsSelect(): Unit = {
-        __createdBySelect = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def createdBySelect(): Boolean = {
-        return __createdBySelect;
+    def memberList(): scala.collection.immutable.List[MbleMember] = {
+        return mbleEntity.memberList;
     }
 
     // ===================================================================================
@@ -335,7 +178,7 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
             case obj: BsMemberStatus => {
                 val other: BsMemberStatus = obj.asInstanceOf[BsMemberStatus];
                 {
-                     xSV(memberStatusCode(), other.memberStatusCode())
+                    mbleEntity.equals(other)
                 }
             }
             case _ => false
@@ -350,20 +193,14 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
      * @return The hash-code from primary-key or columns.
      */
     override def hashCode(): Int = {
-        var hs: Int = 17;
-        hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, memberStatusCode());
-        return hs;
-    }
-    protected def xCH(hs: Int, value: Object): Int = {
-        return FunCustodial.calculateHashcode(hs, value);
+        return mbleEntity.hashCode;
     }
 
     /**
      * {@inheritDoc}
      */
     def instanceHash(): Int = {
-        return super.hashCode();
+        return mbleEntity.instanceHash;
     }
 
     /**
@@ -371,67 +208,16 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
      * @return The display string of all columns and relation existences. (NotNull)
      */
     override def toString(): String = {
-        return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def toStringWithRelation(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        sb.append(toString());
-        val li: String = "\n  ";
-        if (_memberList != null) {
-            _memberList.foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberList")) } });
-        }
-        return sb.toString();
-    }
-    protected def xbRDS(et: Entity, name: String): String = {
-        return et.buildDisplayString(name, true, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def buildDisplayString(name: String, column: Boolean, relation: Boolean): String = {
-        val sb: StringBuilder = new StringBuilder();
-        if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
-        if (column) { sb.append(buildColumnString()); }
-        if (relation) { sb.append(buildRelationString()); }
-        sb.append("@").append(Integer.toHexString(hashCode()));
-        return sb.toString();
-    }
-    protected def buildColumnString(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        val dm: String = ", ";
-        sb.append(dm).append(memberStatusCode());
-        sb.append(dm).append(memberStatusName());
-        sb.append(dm).append(description());
-        sb.append(dm).append(displayOrder());
-        if (sb.length() > dm.length()) {
-            sb.delete(0, dm.length());
-        }
-        sb.insert(0, "{").append("}");
-        return sb.toString();
-    }
-    protected def buildRelationString(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        val cm: String = ",  ";
-        if (_memberList != null && !_memberList.isEmpty)
-        { sb.append(cm).append("memberList"); }
-        if (sb.length() > cm.length()) {
-            sb.delete(0, cm.length()).insert(0, "(").append(")");
-        }
-        return sb.toString();
+        return mbleEntity.buildDisplayString(FunCustodial.toClassTitle(this), true, true);
     }
 
     /**
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    override def clone(): MemberStatus = {
+    override def clone(): MbleMemberStatus = {
         try {
-            return super.clone().asInstanceOf[MemberStatus];
+            return super.clone().asInstanceOf[MbleMemberStatus];
         } catch {
             case e: CloneNotSupportedException => {
                 throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
@@ -447,70 +233,36 @@ abstract class BsMemberStatus extends Entity with Serializable with Cloneable wi
      * @return The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
     def memberStatusCode(): String = {
-        return convertEmptyToNull(_memberStatusCode);
+        return mbleEntity.memberStatusCode;
     }
-
-    /**
-     * [set] (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
-     * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
-     */
-    def memberStatusCode(memberStatusCode: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusCode");
-        this._memberStatusCode = memberStatusCode;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if selected: for the constraint)
      */
     def memberStatusName(): String = {
-        return convertEmptyToNull(_memberStatusName);
+        return mbleEntity.memberStatusName;
     }
-
-    /**
-     * [set] (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} <br />
-     * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if update: for the constraint)
-     */
-    def memberStatusName(memberStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusName");
-        this._memberStatusName = memberStatusName;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'DESCRIPTION'. (basically NotNull if selected: for the constraint)
      */
     def description(): String = {
-        return convertEmptyToNull(_description);
+        return mbleEntity.description;
     }
-
-    /**
-     * [set] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
-     * @param description The value of the column 'DESCRIPTION'. (basically NotNull if update: for the constraint)
-     */
-    def description(description: String): Unit = {
-        __modifiedProperties.addPropertyName("description");
-        this._description = description;
-    }
-
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
     /**
      * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'DISPLAY_ORDER'. (basically NotNull if selected: for the constraint)
      */
     def displayOrder(): Integer = {
-        return _displayOrder;
-    }
-
-    /**
-     * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
-     * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
-     */
-    def displayOrder(displayOrder: Integer): Unit = {
-        __modifiedProperties.addPropertyName("displayOrder");
-        this._displayOrder = displayOrder;
-    }
-
-    protected def convertEmptyToNull(value: String): String = {
-        return FunCustodial.convertEmptyToNull(value);
+        return mbleEntity.displayOrder;
     }
 }

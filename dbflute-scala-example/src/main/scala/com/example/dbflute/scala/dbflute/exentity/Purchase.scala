@@ -10,6 +10,6 @@ import com.example.dbflute.scala.dbflute.bsentity.BsPurchase;
  * </p>
  * @author DBFlute(AutoGenerator)
  */
-class Purchase extends BsPurchase {
+class Purchase(mbleEntity: MblePurchase) extends BsPurchase(mbleEntity) {
 
 }

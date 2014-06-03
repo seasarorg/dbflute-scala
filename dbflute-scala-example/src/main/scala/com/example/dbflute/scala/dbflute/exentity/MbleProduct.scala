@@ -1,6 +1,6 @@
 package com.example.dbflute.scala.dbflute.exentity;
 
-import com.example.dbflute.scala.dbflute.bsentity.BsProduct;
+import com.example.dbflute.scala.dbflute.bsentity.BsMbleProduct;
 
 /**
  * The entity of PRODUCT.
@@ -10,6 +10,6 @@ import com.example.dbflute.scala.dbflute.bsentity.BsProduct;
  * </p>
  * @author DBFlute(AutoGenerator)
  */
-class Product(mbleEntity: MbleProduct) extends BsProduct(mbleEntity) {
+class MbleProduct extends BsMbleProduct {
 
 }

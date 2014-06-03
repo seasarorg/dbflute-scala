@@ -53,52 +53,52 @@ object PurchaseDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
     class EpgPurchaseId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].purchaseId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].purchaseId(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].purchaseId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].purchaseId(dgctl(vl)); }
     }
     class EpgMemberId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].memberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].memberId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].memberId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].memberId(dgcti(vl)); }
     }
     class EpgProductId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].productId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].productId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].productId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].productId(dgcti(vl)); }
     }
     class EpgPurchaseDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].purchaseDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].purchaseDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].purchaseDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].purchaseDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgPurchaseCount extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].purchaseCount(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].purchaseCount(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].purchaseCount(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].purchaseCount(dgcti(vl)); }
     }
     class EpgPurchasePrice extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].purchasePrice(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].purchasePrice(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].purchasePrice(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].purchasePrice(dgcti(vl)); }
     }
     class EpgPaymentCompleteFlg extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].paymentCompleteFlg(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].paymentCompleteFlg(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].paymentCompleteFlg(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].paymentCompleteFlg(dgcti(vl)); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].registerDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].registerDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgRegisterUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].registerUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].registerUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].registerUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].registerUser(vl.asInstanceOf[String]); }
     }
     class EpgUpdateDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].updateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].updateDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgUpdateUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].updateUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].updateUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].updateUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].updateUser(vl.asInstanceOf[String]); }
     }
     class EpgVersionNo extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].versionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].versionNo(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].versionNo(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].versionNo(dgctl(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -118,12 +118,12 @@ object PurchaseDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, new EfpgProduct(), "product");
     }
     class EfpgMember extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].member(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].member(vl.asInstanceOf[Option[Member]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].member(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].member(vl.asInstanceOf[Option[MbleMember]]); }
     }
     class EfpgProduct extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[Purchase].product(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[Purchase].product(vl.asInstanceOf[Option[Product]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[MblePurchase].product(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MblePurchase].product(vl.asInstanceOf[Option[MbleProduct]]); }
     }
     override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
 
@@ -248,28 +248,28 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.Purchase"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MblePurchase"; }
     def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.PurchaseCB"; }
     def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.PurchaseBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[Purchase] = { return classOf[Purchase]; }
+    def getEntityType(): Class[MblePurchase] = { return classOf[MblePurchase]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): Purchase = { return new Purchase(); }
+    def newMyEntity(): MblePurchase = { return new MblePurchase(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[Purchase], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[MblePurchase], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[Purchase], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[MblePurchase], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }
