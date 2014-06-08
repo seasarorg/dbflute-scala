@@ -654,7 +654,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlg The value of paymentCompleteFlg as equal. (NullAllowed: if null, no condition)
      */
-     def setPaymentCompleteFlg_Equal(paymentCompleteFlg: Integer): Unit = {
+    protected def setPaymentCompleteFlg_Equal(paymentCompleteFlg: Integer): Unit = {
         doSetPaymentCompleteFlg_Equal(paymentCompleteFlg);
     }
 
@@ -693,7 +693,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlg The value of paymentCompleteFlg as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPaymentCompleteFlg_NotEqual(paymentCompleteFlg: Integer): Unit = {
+    protected def setPaymentCompleteFlg_NotEqual(paymentCompleteFlg: Integer): Unit = {
         doSetPaymentCompleteFlg_NotEqual(paymentCompleteFlg);
     }
 

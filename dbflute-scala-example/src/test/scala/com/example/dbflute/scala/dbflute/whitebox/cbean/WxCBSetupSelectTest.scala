@@ -7,6 +7,7 @@ import javax.sql.DataSource
 import com.google.inject.Module
 import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
 import junit.framework.AssertionFailedError
+import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
 
 /**
  * @author jflute
@@ -18,6 +19,11 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
 
   def prepareDBFluteModule(dataSource: DataSource): Module = {
     return new DBFluteModule(dataSource);
+  }
+
+  override def setUp(): Unit = {
+    super.setUp();
+    DBFlutist.play(_xcurrentActiveInjector);
   }
 
   def test_setupSelect_none() {
@@ -32,9 +38,9 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
     	  log("bbb");
       }
       assertTrueAll(member.memberName.startsWith("S"));
-      assertTrueAll(member.memberStatus().isEmpty);
-      assertTrueAll(member.memberServiceAsOne().isEmpty);
-      assertTrueAll(member.purchaseList().isEmpty);
+      assertTrueAll(member.memberStatus.isEmpty);
+      assertTrueAll(member.memberServiceAsOne.isEmpty);
+      assertTrueAll(member.purchaseList.isEmpty);
     });
   }
 
@@ -44,11 +50,11 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
     cb.query().setMemberName_PrefixSearch("S");
     val memberList = memberBhv.selectList(cb);
     memberList.foreach(member => {
-      val status = member.memberStatus()
+      val status = member.memberStatus
       assertTrueAll(status != null);
       log(member.memberName, status.get.memberStatusName)
-      assertTrueAll(member.memberServiceAsOne().isEmpty);
-      assertTrueAll(member.purchaseList().isEmpty);
+      assertTrueAll(member.memberServiceAsOne.isEmpty);
+      assertTrueAll(member.purchaseList.isEmpty);
     });
   }
 
@@ -58,11 +64,11 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
     cb.query().setMemberName_PrefixSearch("S");
     val memberList = memberBhv.selectList(cb);
     memberList.foreach(member => {
-      val service = member.memberServiceAsOne()
+      val service = member.memberServiceAsOne
       assertTrueAll(service != null);
-      log(member.memberName, service.get.servicePointCount)
-      assertTrueAll(member.memberStatus().isEmpty);
-      assertTrueAll(member.purchaseList().isEmpty);
+      log(member.memberName, service.get.servicePointCount.toString)
+      assertTrueAll(member.memberStatus.isEmpty);
+      assertTrueAll(member.purchaseList.isEmpty);
     });
   }
 
@@ -72,13 +78,13 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
     cb.query().setMemberName_PrefixSearch("S");
     val memberList = memberBhv.selectList(cb);
     memberList.foreach(member => {
-      val service = member.memberServiceAsOne()
+      val service = member.memberServiceAsOne
       assertTrueAll(service != null);
       val rank = service.get.serviceRank
       assertTrueAll(rank != null);
-      log(member.memberName, service.get.servicePointCount, rank.get.serviceRankName)
-      assertTrueAll(member.memberStatus().isEmpty);
-      assertTrueAll(member.purchaseList().isEmpty);
+      log(member.memberName, service.get.servicePointCount.toString, rank.get.serviceRankName)
+      assertTrueAll(member.memberStatus.isEmpty);
+      assertTrueAll(member.purchaseList.isEmpty);
     });
   }
 }

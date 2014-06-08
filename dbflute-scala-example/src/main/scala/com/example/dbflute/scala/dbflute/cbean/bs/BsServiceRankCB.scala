@@ -15,6 +15,7 @@ import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.cbean.sqlclause.SqlClauseCreator;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
 import org.seasar.dbflute.twowaysql.factory.SqlAnalyzerFactory;
+import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.allcommon.DBFluteConfig;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -83,10 +84,10 @@ class BsServiceRankCB extends AbstractConditionBean {
      * Accept the query condition of primary key as equal.
      * @param serviceRankCode (サービスランクコード): PK, NotNull, CHAR(3), classification=ServiceRank. (NotNull)
      */
-    def acceptPrimaryKey(serviceRankCode: String): Unit = {
+    def acceptPrimaryKey(serviceRankCode: CDef.ServiceRank): Unit = {
         assertObjectNotNull("serviceRankCode", serviceRankCode);
         val cb: BsServiceRankCB = this;
-        cb.query().setServiceRankCode_Equal(serviceRankCode);;
+        cb.query().setServiceRankCode_Equal_AsServiceRank(serviceRankCode);
     }
 
     /**
@@ -507,7 +508,7 @@ object HpServiceRankCB {
          *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
          *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
          *     }
-         * }, MbleMemberService.<span style="color: #DD4747">ALIAS_foo...</span>);
+         * }, DbleMemberService.<span style="color: #DD4747">ALIAS_foo...</span>);
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */

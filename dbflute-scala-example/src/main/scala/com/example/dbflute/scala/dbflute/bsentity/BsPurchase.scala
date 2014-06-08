@@ -1,24 +1,19 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
-import scala.collection.JavaConverters._
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
 
-import java.lang.Long;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.Entity;
-import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
-import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
-import org.seasar.dbflute.helper.beans.DfCoupleProperties;
-import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
- * The entity of (購入)PURCHASE as TABLE. <br />
+ * The immutable entity of (購入)PURCHASE as TABLE. <br />
  * <pre>
  * [primary-key]
  *     PURCHASE_ID
@@ -47,75 +42,122 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * [referrer property]
  *     
  * 
- * [get/set template]
+ * [get template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Long purchaseId = entity.getPurchaseId();
- * Integer memberId = entity.getMemberId();
- * Integer productId = entity.getProductId();
- * java.sql.Timestamp purchaseDatetime = entity.getPurchaseDatetime();
- * Integer purchaseCount = entity.getPurchaseCount();
- * Integer purchasePrice = entity.getPurchasePrice();
- * Integer paymentCompleteFlg = entity.getPaymentCompleteFlg();
- * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
- * String registerUser = entity.getRegisterUser();
- * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
- * String updateUser = entity.getUpdateUser();
- * Long versionNo = entity.getVersionNo();
- * entity.setPurchaseId(purchaseId);
- * entity.setMemberId(memberId);
- * entity.setProductId(productId);
- * entity.setPurchaseDatetime(purchaseDatetime);
- * entity.setPurchaseCount(purchaseCount);
- * entity.setPurchasePrice(purchasePrice);
- * entity.setPaymentCompleteFlg(paymentCompleteFlg);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterUser(registerUser);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateUser(updateUser);
- * entity.setVersionNo(versionNo);
+ * val purchaseId: Long = entity.purchaseId
+ * val memberId: Int = entity.memberId
+ * val productId: Int = entity.productId
+ * val purchaseDatetime: java.sql.Timestamp = entity.purchaseDatetime
+ * val purchaseCount: Int = entity.purchaseCount
+ * val purchasePrice: Int = entity.purchasePrice
+ * val paymentCompleteFlg: CDef.Flg = entity.paymentCompleteFlg
+ * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val registerUser: String = entity.registerUser
+ * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateUser: String = entity.updateUser
+ * val versionNo: Long = entity.versionNo
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsPurchase(mbleEntity: MblePurchase) extends Serializable with Cloneable {
+abstract class BsPurchase(dble: DblePurchase) extends Serializable {
 
     // ===================================================================================
-    //                                                                          Table Name
-    //                                                                          ==========
-    /**
-     * {@inheritDoc}
-     */
-    def getTableDbName(): String = {
-        return "PURCHASE";
-    }
+    //                                                                           Attribute
+    //                                                                           =========
+    // -----------------------------------------------------
+    //                                                Column
+    //                                                ------
+    /** PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} */
+    protected val _purchaseId: Long = dble.getPurchaseId;
 
-    /**
-     * {@inheritDoc}
-     */
-    def getTablePropertyName(): String = { // according to Java Beans rule
-        return "purchase";
+    /** (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} */
+    protected val _memberId: Int = dble.getMemberId;
+
+    /** (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} */
+    protected val _productId: Int = dble.getProductId;
+
+    /** (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} */
+    protected val _purchaseDatetime: java.sql.Timestamp = dble.getPurchaseDatetime;
+
+    /** (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} */
+    protected val _purchaseCount: Int = dble.getPurchaseCount;
+
+    /** (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} */
+    protected val _purchasePrice: Int = dble.getPurchasePrice;
+
+    /** (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} */
+    protected val _paymentCompleteFlg: CDef.Flg = dble.getPaymentCompleteFlgAsFlg;
+
+    /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
+    protected val _registerDatetime: java.sql.Timestamp = dble.getRegisterDatetime;
+
+    /** REGISTER_USER: {NotNull, VARCHAR(200)} */
+    protected val _registerUser: String = dble.getRegisterUser;
+
+    /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
+    protected val _updateDatetime: java.sql.Timestamp = dble.getUpdateDatetime;
+
+    /** UPDATE_USER: {NotNull, VARCHAR(200)} */
+    protected val _updateUser: String = dble.getUpdateUser;
+
+    /** VERSION_NO: {NotNull, BIGINT(19)} */
+    protected val _versionNo: Long = dble.getVersionNo;
+
+    // -----------------------------------------------------
+    //                                              Internal
+    //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
+
+    /** The modified properties for this entity. (NotNull) */
+    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
+
+    // ===================================================================================
+    //                                                                           Case Like
+    //                                                                           =========
+    def copy(
+         purchaseId: Long = _purchaseId
+        , memberId: Int = _memberId
+        , productId: Int = _productId
+        , purchaseDatetime: java.sql.Timestamp = _purchaseDatetime
+        , purchaseCount: Int = _purchaseCount
+        , purchasePrice: Int = _purchasePrice
+        , paymentCompleteFlg: CDef.Flg = _paymentCompleteFlg
+        , registerDatetime: java.sql.Timestamp = _registerDatetime
+        , registerUser: String = _registerUser
+        , updateDatetime: java.sql.Timestamp = _updateDatetime
+        , updateUser: String = _updateUser
+        , versionNo: Long = _versionNo
+    ): Purchase = {
+        val newDble = new DblePurchase();
+        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
+        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
+        if (!purchaseId.equals(_purchaseId)) { newDble.setPurchaseId(_purchaseId); }
+        if (!memberId.equals(_memberId)) { newDble.setMemberId(_memberId); }
+        if (!productId.equals(_productId)) { newDble.setProductId(_productId); }
+        if (!purchaseDatetime.equals(_purchaseDatetime)) { newDble.setPurchaseDatetime(_purchaseDatetime); }
+        if (!purchaseCount.equals(_purchaseCount)) { newDble.setPurchaseCount(_purchaseCount); }
+        if (!purchasePrice.equals(_purchasePrice)) { newDble.setPurchasePrice(_purchasePrice); }
+        if (!paymentCompleteFlg.equals(_paymentCompleteFlg)) { newDble.setPaymentCompleteFlgAsFlg(_paymentCompleteFlg); }
+        if (!registerDatetime.equals(_registerDatetime)) { newDble.setRegisterDatetime(_registerDatetime); }
+        if (!registerUser.equals(_registerUser)) { newDble.setRegisterUser(_registerUser); }
+        if (!updateDatetime.equals(_updateDatetime)) { newDble.setUpdateDatetime(_updateDatetime); }
+        if (!updateUser.equals(_updateUser)) { newDble.setUpdateUser(_updateUser); }
+        if (!versionNo.equals(_versionNo)) { newDble.setVersionNo(_versionNo); }
+        return new Purchase(newDble);
     }
 
     // ===================================================================================
-    //                                                                              DBMeta
-    //                                                                              ======
-    /**
-     * {@inheritDoc}
-     */
-    def getDBMeta(): DBMeta = {
-        return DBMetaInstanceHandler.findDBMeta(getTableDbName());
-    }
-
-    // ===================================================================================
-    //                                                                         Primary Key
+    //                                                                         Entity Meta
     //                                                                         ===========
-    /**
-     * {@inheritDoc}
-     */
-    def hasPrimaryKeyValue(): Boolean = {
-        if (purchaseId() == null) { return false; }
-        return true;
-    }
+    def getTableDbName(): String = { dble.getTableDbName }
+    def getDBMeta(): DBMeta = { dble.getDBMeta }
+    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
+    def getModifiedProperties(): Set[String] = { __modifiedProperties }
 
     // ===================================================================================
     //                                                             Classification Property
@@ -127,9 +169,7 @@ abstract class BsPurchase(mbleEntity: MblePurchase) extends Serializable with Cl
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def paymentCompleteFlgAsFlg(): CDef.Flg = {
-        return mbleEntity.paymentCompleteFlgAsFlg;
-    }
+    def paymentCompleteFlgAsFlg: CDef.Flg = { dble.getPaymentCompleteFlgAsFlg }
 
     // ===================================================================================
     //                                                        Classification Determination
@@ -140,9 +180,7 @@ abstract class BsPurchase(mbleEntity: MblePurchase) extends Serializable with Cl
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isPaymentCompleteFlg_True(): Boolean = {
-        return mbleEntity.isPaymentCompleteFlg_True;
-    }
+    def isPaymentCompleteFlg_True: Boolean = { dble.isPaymentCompleteFlg_True }
 
     /**
      * Is the value of paymentCompleteFlg False? <br />
@@ -150,9 +188,7 @@ abstract class BsPurchase(mbleEntity: MblePurchase) extends Serializable with Cl
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isPaymentCompleteFlg_False(): Boolean = {
-        return mbleEntity.isPaymentCompleteFlg_False;
-    }
+    def isPaymentCompleteFlg_False: Boolean = { dble.isPaymentCompleteFlg_False }
 
     // ===================================================================================
     //                                                           Classification Name/Alias
@@ -161,36 +197,34 @@ abstract class BsPurchase(mbleEntity: MblePurchase) extends Serializable with Cl
      * Get the value of the column 'paymentCompleteFlg' as classification name.
      * @return The string of classification name. (NullAllowed: when the column value is null)
      */
-    def paymentCompleteFlgName(): String = {
-        return mbleEntity.paymentCompleteFlgName;
-    }
+    def paymentCompleteFlgName: String = { dble.getPaymentCompleteFlgName }
 
     /**
      * Get the value of the column 'paymentCompleteFlg' as classification alias.
      * @return The string of classification alias. (NullAllowed: when the column value is null)
      */
-    def paymentCompleteFlgAlias(): String = {
-        return mbleEntity.paymentCompleteFlgAlias;
-    }
+    def paymentCompleteFlgAlias: String = { dble.getPaymentCompleteFlgAlias }
 
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /**
-     * (会員)MEMBER by my MEMBER_ID, named 'member'.
-     * @return The entity of foreign property 'member'. (NullAllowed: when e.g. null FK column, no setupSelect)
-     */
-    def member(): Option[MbleMember] = {
-        return mbleEntity.member;
-    }
+    /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
+    protected val _member: Option[Member] = dble.toImmutableMember
 
     /**
-     * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
-     * @return The entity of foreign property 'product'. (NullAllowed: when e.g. null FK column, no setupSelect)
+     * [get] (会員)MEMBER by my MEMBER_ID, named 'member'.
+     * @return The entity of foreign property 'member'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def product(): Option[MbleProduct] = {
-        return mbleEntity.product;
-    }
+    def member: Option[Member] = { _member }
+
+    /** (商品)PRODUCT by my PRODUCT_ID, named 'product'. */
+    protected val _product: Option[Product] = dble.toImmutableProduct
+
+    /**
+     * [get] (商品)PRODUCT by my PRODUCT_ID, named 'product'.
+     * @return The entity of foreign property 'product'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    def product: Option[Product] = { _product }
 
     // ===================================================================================
     //                                                                   Referrer Property
@@ -209,52 +243,223 @@ abstract class BsPurchase(mbleEntity: MblePurchase) extends Serializable with Cl
             case obj: BsPurchase => {
                 val other: BsPurchase = obj.asInstanceOf[BsPurchase];
                 {
-                    mbleEntity.equals(other)
+                     xSV(purchaseId, other.purchaseId)
                 }
             }
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): Boolean = {
-        return FunCustodial.isSameValue(v1, v2);
-    }
+    protected def xSV(v1: Int, v2: Int): Boolean = { return v1 == v2; }
+    protected def xSV(v1: Long, v2: Long): Boolean = { return v1 == v2; }
+    protected def xSV(v1: Object, v2: Object): Boolean = { return FunCustodial.isSameValue(v1, v2) }
 
     /**
      * Calculate the hash-code from primary-keys or columns.
      * @return The hash-code from primary-key or columns.
      */
-    override def hashCode(): Int = {
-        return mbleEntity.hashCode;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def instanceHash(): Int = {
-        return mbleEntity.instanceHash;
-    }
+    override def hashCode(): Int = { return dble.hashCode; }
+    def instanceHash(): Int = { return dble.instanceHash; }
 
     /**
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = {
-        return mbleEntity.buildDisplayString(FunCustodial.toClassTitle(this), true, true);
-    }
+    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    /**
+     * [get] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
+     * @return The value of the column 'PURCHASE_ID'. (NotNull but EmptyAllowed if null in database)
+     */
+    def purchaseId: Long = { return _purchaseId; }
 
     /**
-     * Clone entity instance using super.clone(). (shallow copy) 
-     * @return The cloned instance of this entity. (NotNull)
+     * [get] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * @return The value of the column 'MEMBER_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    override def clone(): MblePurchase = {
-        try {
-            return super.clone().asInstanceOf[MblePurchase];
-        } catch {
-            case e: CloneNotSupportedException => {
-                throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
-            }
-        }
-    }
+    def memberId: Int = { return _memberId; }
+
+    /**
+     * [get] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
+     * @return The value of the column 'PRODUCT_ID'. (NotNull but EmptyAllowed if null in database)
+     */
+    def productId: Int = { return _productId; }
+
+    /**
+     * [get] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
+     * @return The value of the column 'PURCHASE_DATETIME'. (NotNull but EmptyAllowed if null in database)
+     */
+    def purchaseDatetime: java.sql.Timestamp = { return _purchaseDatetime; }
+
+    /**
+     * [get] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'PURCHASE_COUNT'. (NotNull but EmptyAllowed if null in database)
+     */
+    def purchaseCount: Int = { return _purchaseCount; }
+
+    /**
+     * [get] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'PURCHASE_PRICE'. (NotNull but EmptyAllowed if null in database)
+     */
+    def purchasePrice: Int = { return _purchasePrice; }
+
+    /**
+     * [get] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * @return The value of the column 'PAYMENT_COMPLETE_FLG'. (NotNull but EmptyAllowed if null in database)
+     */
+    def paymentCompleteFlg: CDef.Flg = { return _paymentCompleteFlg; }
+
+    /**
+     * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
+     */
+    def registerDatetime: java.sql.Timestamp = { return _registerDatetime; }
+
+    /**
+     * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
+     * @return The value of the column 'REGISTER_USER'. (NotNull but EmptyAllowed if null in database)
+     */
+    def registerUser: String = { return _registerUser; }
+
+    /**
+     * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
+     */
+    def updateDatetime: java.sql.Timestamp = { return _updateDatetime; }
+
+    /**
+     * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
+     * @return The value of the column 'UPDATE_USER'. (NotNull but EmptyAllowed if null in database)
+     */
+    def updateUser: String = { return _updateUser; }
+
+    /**
+     * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
+     * @return The value of the column 'VERSION_NO'. (NotNull but EmptyAllowed if null in database)
+     */
+    def versionNo: Long = { return _versionNo; }
+}
+
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                  Immutable                                           _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                        Mutable                       _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                              Border                                  _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+
+/**
+ * The mutable entity of (購入)PURCHASE as TABLE. <br />
+ * [get/set template]
+ * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * val purchaseId: Long = entity.purchaseId
+ * val memberId: Int = entity.memberId
+ * val productId: Int = entity.productId
+ * val purchaseDatetime: java.sql.Timestamp = entity.purchaseDatetime
+ * val purchaseCount: Int = entity.purchaseCount
+ * val purchasePrice: Int = entity.purchasePrice
+ * val paymentCompleteFlg: CDef.Flg = entity.paymentCompleteFlg
+ * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val registerUser: String = entity.registerUser
+ * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateUser: String = entity.updateUser
+ * val versionNo: Long = entity.versionNo
+ * entity.purchaseId = purchaseId
+ * entity.memberId = memberId
+ * entity.productId = productId
+ * entity.purchaseDatetime = purchaseDatetime
+ * entity.purchaseCount = purchaseCount
+ * entity.purchasePrice = purchasePrice
+ * entity.paymentCompleteFlg = paymentCompleteFlg
+ * entity.registerDatetime = registerDatetime
+ * entity.registerUser = registerUser
+ * entity.updateDatetime = updateDatetime
+ * entity.updateUser = updateUser
+ * entity.versionNo = versionNo
+ * = = = = = = = = = =/
+ * @author DBFlute(AutoGenerator)
+ */
+abstract class BsMblePurchase {
+
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    val dble: DblePurchase = new DblePurchase();
+
+    // ===================================================================================
+    //                                                                      DB-able Entity
+    //                                                                      ==============
+    def toDBableEntity(): DblePurchase = { dble }
+
+    // ===================================================================================
+    //                                                                          Unique Key
+    //                                                                          ==========
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param memberId (会員ID): UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
+     * @param productId (商品ID): +UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT. (NotNull)
+     * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
+     */
+    def uniqueBy(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Unit = { dble.setMemberId(memberId);dble.setProductId(productId);dble.setPurchaseDatetime(purchaseDatetime); }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of paymentCompleteFlg as the classification of Flg. <br />
+     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * general boolean classification for every flg-column
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    def paymentCompleteFlgAsFlg: CDef.Flg = { dble.getPaymentCompleteFlgAsFlg }
+
+    /**
+     * Set the value of paymentCompleteFlg as the classification of Flg. <br />
+     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * general boolean classification for every flg-column
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    def paymentCompleteFlgAsFlg_=(cdef: CDef.Flg): Unit = { dble.setPaymentCompleteFlgAsFlg(cdef) }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of paymentCompleteFlg as True (1). <br />
+     * Yes: means valid
+     */
+    def paymentCompleteFlg_True: Unit = { dble.setPaymentCompleteFlg_True }
+
+    /**
+     * Set the value of paymentCompleteFlg as False (0). <br />
+     * No: means invalid
+     */
+    def paymentCompleteFlg_False: Unit = { dble.setPaymentCompleteFlg_False }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of paymentCompleteFlg True? <br />
+     * Yes: means valid
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isPaymentCompleteFlg_True: Boolean = { dble.isPaymentCompleteFlg_True }
+
+    /**
+     * Is the value of paymentCompleteFlg False? <br />
+     * No: means invalid
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isPaymentCompleteFlg_False: Boolean = { dble.isPaymentCompleteFlg_False }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -263,117 +468,143 @@ abstract class BsPurchase(mbleEntity: MblePurchase) extends Serializable with Cl
      * [get] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
      * @return The value of the column 'PURCHASE_ID'. (basically NotNull if selected: for the constraint)
      */
-    def purchaseId(): Long = {
-        return mbleEntity.purchaseId;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def purchaseId: Long = { dble.getPurchaseId }
+
+    /**
+     * [set] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
+     * @param purchaseId The value of the column 'PURCHASE_ID'. (NullAllowed: null update allowed for no constraint)
+     */
+    def purchaseId_=(purchaseId: Long) = { dble.setPurchaseId(purchaseId) }
+
     /**
      * [get] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
-    def memberId(): Integer = {
-        return mbleEntity.memberId;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def memberId: Int = { dble.getMemberId }
+
+    /**
+     * [set] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
+     */
+    def memberId_=(memberId: Int) = { dble.setMemberId(memberId) }
+
     /**
      * [get] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
      * @return The value of the column 'PRODUCT_ID'. (basically NotNull if selected: for the constraint)
      */
-    def productId(): Integer = {
-        return mbleEntity.productId;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def productId: Int = { dble.getProductId }
+
+    /**
+     * [set] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
+     * @param productId The value of the column 'PRODUCT_ID'. (NullAllowed: null update allowed for no constraint)
+     */
+    def productId_=(productId: Int) = { dble.setProductId(productId) }
+
     /**
      * [get] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'PURCHASE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def purchaseDatetime(): java.sql.Timestamp = {
-        return mbleEntity.purchaseDatetime;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def purchaseDatetime: java.sql.Timestamp = { dble.getPurchaseDatetime }
+
+    /**
+     * [set] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
+     * @param purchaseDatetime The value of the column 'PURCHASE_DATETIME'. (NullAllowed: null update allowed for no constraint)
+     */
+    def purchaseDatetime_=(purchaseDatetime: java.sql.Timestamp) = { dble.setPurchaseDatetime(purchaseDatetime) }
+
     /**
      * [get] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
      * @return The value of the column 'PURCHASE_COUNT'. (basically NotNull if selected: for the constraint)
      */
-    def purchaseCount(): Integer = {
-        return mbleEntity.purchaseCount;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def purchaseCount: Int = { dble.getPurchaseCount }
+
+    /**
+     * [set] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
+     * @param purchaseCount The value of the column 'PURCHASE_COUNT'. (NullAllowed: null update allowed for no constraint)
+     */
+    def purchaseCount_=(purchaseCount: Int) = { dble.setPurchaseCount(purchaseCount) }
+
     /**
      * [get] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'PURCHASE_PRICE'. (basically NotNull if selected: for the constraint)
      */
-    def purchasePrice(): Integer = {
-        return mbleEntity.purchasePrice;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def purchasePrice: Int = { dble.getPurchasePrice }
+
+    /**
+     * [set] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
+     * @param purchasePrice The value of the column 'PURCHASE_PRICE'. (NullAllowed: null update allowed for no constraint)
+     */
+    def purchasePrice_=(purchasePrice: Int) = { dble.setPurchasePrice(purchasePrice) }
+
     /**
      * [get] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
      * @return The value of the column 'PAYMENT_COMPLETE_FLG'. (basically NotNull if selected: for the constraint)
      */
-    def paymentCompleteFlg(): Integer = {
-        return mbleEntity.paymentCompleteFlg;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def paymentCompleteFlg: CDef.Flg = { dble.getPaymentCompleteFlgAsFlg }
+
+    /**
+     * [set] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * @param paymentCompleteFlg The value of the column 'PAYMENT_COMPLETE_FLG'. (NullAllowed: null update allowed for no constraint)
+     */
+    protected def paymentCompleteFlg_=(paymentCompleteFlg: CDef.Flg) = { dble.setPaymentCompleteFlgAsFlg(paymentCompleteFlg) }
+
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def registerDatetime(): java.sql.Timestamp = {
-        return mbleEntity.registerDatetime;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+
+    /**
+     * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (NullAllowed: null update allowed for no constraint)
+     */
+    def registerDatetime_=(registerDatetime: java.sql.Timestamp) = { dble.setRegisterDatetime(registerDatetime) }
+
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
      */
-    def registerUser(): String = {
-        return mbleEntity.registerUser;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def registerUser: String = { dble.getRegisterUser }
+
+    /**
+     * [set] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
+     * @param registerUser The value of the column 'REGISTER_USER'. (NullAllowed: null update allowed for no constraint)
+     */
+    def registerUser_=(registerUser: String) = { dble.setRegisterUser(registerUser) }
+
     /**
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def updateDatetime(): java.sql.Timestamp = {
-        return mbleEntity.updateDatetime;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+
+    /**
+     * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
+     * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (NullAllowed: null update allowed for no constraint)
+     */
+    def updateDatetime_=(updateDatetime: java.sql.Timestamp) = { dble.setUpdateDatetime(updateDatetime) }
+
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
      */
-    def updateUser(): String = {
-        return mbleEntity.updateUser;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def updateUser: String = { dble.getUpdateUser }
+
+    /**
+     * [set] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
+     * @param updateUser The value of the column 'UPDATE_USER'. (NullAllowed: null update allowed for no constraint)
+     */
+    def updateUser_=(updateUser: String) = { dble.setUpdateUser(updateUser) }
+
     /**
      * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
      */
-    def versionNo(): Long = {
-        return mbleEntity.versionNo;
-    }
+    def versionNo: Long = { dble.getVersionNo }
+
+    /**
+     * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
+     * @param versionNo The value of the column 'VERSION_NO'. (NullAllowed: null update allowed for no constraint)
+     */
+    def versionNo_=(versionNo: Long) = { dble.setVersionNo(versionNo) }
 }

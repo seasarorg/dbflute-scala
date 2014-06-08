@@ -1,6 +1,6 @@
 package com.example.dbflute.scala.dbflute.exentity;
 
-import com.example.dbflute.scala.dbflute.bsentity.BsMbleMemberService;
+import com.example.dbflute.scala.dbflute.bsentity.BsDbleMemberService;
 
 /**
  * The entity of MEMBER_SERVICE.
@@ -10,6 +10,5 @@ import com.example.dbflute.scala.dbflute.bsentity.BsMbleMemberService;
  * </p>
  * @author DBFlute(AutoGenerator)
  */
-class MbleMemberService extends BsMbleMemberService {
-
+class DbleMemberService extends BsDbleMemberService {
 }

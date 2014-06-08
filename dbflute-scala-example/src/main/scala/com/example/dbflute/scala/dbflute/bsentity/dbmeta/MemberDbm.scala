@@ -52,48 +52,52 @@ object MemberDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
     class EpgMemberId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].memberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].memberId(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberId(dgcti(vl)); }
     }
     class EpgMemberName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].memberName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].memberName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberName(vl.asInstanceOf[String]); }
     }
     class EpgMemberAccount extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].memberAccount(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].memberAccount(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberAccount(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberAccount(vl.asInstanceOf[String]); }
     }
     class EpgMemberStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].memberStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].memberStatusCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberStatusCode(); }
+        def write(et: Entity, vl: Object): Unit = {
+            val col: ColumnInfo = columnMemberStatusCode();
+            dgccls(col, vl);
+            et.asInstanceOf[DbleMember].setMemberStatusCodeAsMemberStatus(dggcls(col, vl).asInstanceOf[CDef.MemberStatus]);
+        }
     }
     class EpgFormalizedDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].formalizedDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].formalizedDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getFormalizedDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setFormalizedDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgBirthdate extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].birthdate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].birthdate(vl.asInstanceOf[java.util.Date]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getBirthdate(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setBirthdate(vl.asInstanceOf[java.util.Date]); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].registerDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].registerDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getRegisterDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgRegisterUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].registerUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].registerUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getRegisterUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setRegisterUser(vl.asInstanceOf[String]); }
     }
     class EpgUpdateDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].updateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].updateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getUpdateDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgUpdateUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].updateUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].updateUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getUpdateUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setUpdateUser(vl.asInstanceOf[String]); }
     }
     class EpgVersionNo extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].versionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].versionNo(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getVersionNo(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setVersionNo(dgctl(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -112,15 +116,15 @@ object MemberDbm extends AbstractDBMeta {
         setupEfpg(_efpgMap, new EfpgMemberStatus(), "memberStatus");
     }
     class EfpgMemberStatus extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].memberStatus(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].memberStatus(vl.asInstanceOf[Option[MbleMemberStatus]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberStatus(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberStatus(vl.asInstanceOf[Option[DbleMemberStatus]]); }
     }
     {
         setupEfpg(_efpgMap, new EfpgMemberServiceAsOne(), "memberServiceAsOne");
     }
     class EfpgMemberServiceAsOne extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMember].memberServiceAsOne(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMember].memberServiceAsOne(vl.asInstanceOf[Option[MbleMemberService]]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberServiceAsOne(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberServiceAsOne(vl.asInstanceOf[Option[DbleMemberService]]); }
     }
     override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
 
@@ -182,14 +186,6 @@ object MemberDbm extends AbstractDBMeta {
 
     { initializeInformationResource(); }
 
-    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
-        return initUncap(propertyName);
-    }
-
-    override protected def buildPropertySetterMethodName(propertyName: String): String = {
-        return initUncap(propertyName);
-    }
-
     // ===================================================================================
     //                                                                         Unique Info
     //                                                                         ===========
@@ -225,10 +221,6 @@ object MemberDbm extends AbstractDBMeta {
         return cri("FK_PURCHASE_MEMBER", "purchaseList", this, PurchaseDbm, mp, false, "member");
     }
 
-    override def getReferrerPropertyListType(): Class[_] = {
-        return classOf[scala.collection.immutable.List[_]];
-    }
-
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
@@ -246,28 +238,28 @@ object MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MbleMember"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.DbleMember"; }
     def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.MemberCB"; }
     def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.MemberBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[MbleMember] = { return classOf[MbleMember]; }
+    def getEntityType(): Class[DbleMember] = { return classOf[DbleMember]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): MbleMember = { return new MbleMember(); }
+    def newMyEntity(): DbleMember = { return new DbleMember(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[MbleMember], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[DbleMember], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[MbleMember], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[DbleMember], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }

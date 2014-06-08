@@ -80,7 +80,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     def newConditionBean(): ConditionBean = { return newMyConditionBean(); }
 
     /** @return The instance of new entity as my table type. (NotNull) */
-    def newMyEntity(): MblePurchase = { return new MblePurchase(); }
+    def newMyEntity(): DblePurchase = { return new DblePurchase(); }
 
     /** @return The instance of new condition-bean as my table type. (NotNull) */
     def newMyConditionBean(): PurchaseCB = { return new PurchaseCB(); }
@@ -96,11 +96,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * int count = purchaseBhv.<span style="color: #DD4747">selectCount</span>(cb);
      * </pre>
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    def selectCount(cb: PurchaseCB): Integer = {
-        return doSelectCountUniquely(cb);
+    def selectCount(cb: PurchaseCB): Int = {
+        return Integer2int(doSelectCountUniquely(cb));
     }
 
     protected def doSelectCountUniquely(cb: PurchaseCB): Integer = { // called by selectCount(cb)
@@ -128,47 +128,47 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * <pre>
      * PurchaseCB cb = new PurchaseCB();
      * cb.query().setFoo...(value);
-     * OptionalEntity&lt;MblePurchase&gt; entity = purchaseBhv.<span style="color: #DD4747">selectEntity</span>(cb);
+     * OptionalEntity&lt;DblePurchase&gt; entity = purchaseBhv.<span style="color: #DD4747">selectEntity</span>(cb);
      *
      * <span style="color: #3F7E5E">// if the data always exists as your business rule</span>
      * entity.<span style="color: #DD4747">required</span>(purchase -&gt; {
      *     ...
      * });
-     * MblePurchase purchase = entity.entity.<span style="color: #DD4747">get()</span>;
+     * DblePurchase purchase = entity.entity.<span style="color: #DD4747">get()</span>;
      *
      * <span style="color: #3F7E5E">// if it might be no data, ifPresent(), isPresent(), ...</span>
      * entity.<span style="color: #DD4747">ifPresent</span>(purchase -&gt; {
      *     ...
      * });
      * if (entity.entity.<span style="color: #DD4747">isPresent()</span>) {
-     *     MblePurchase purchase = entity.entity.<span style="color: #DD4747">get()</span>;
+     *     DblePurchase purchase = entity.entity.<span style="color: #DD4747">get()</span>;
      * } else {
      *     ...
      * }
      * </pre>
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: PurchaseCB): Option[MblePurchase] = {
-        return doSelectOptionalEntity(cb, classOf[MblePurchase]);
+    def selectEntity(cb: PurchaseCB): Option[Purchase] = {
+        return doSelectOptionalEntity(cb, classOf[DblePurchase]).map(f => new Purchase(f));
     }
 
-    protected def doSelectEntity[ENTITY <: MblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, PurchaseCB]() {
             def callbackSelectList(lcb: PurchaseCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: MblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return selectEntity(downcast(cb)).getOrElse(null);
+        return doSelectEntity(downcast(cb), classOf[DblePurchase]);
     }
 
     /**
@@ -177,20 +177,20 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * <pre>
      * PurchaseCB cb = new PurchaseCB();
      * cb.query().setFoo...(value);
-     * MblePurchase purchase = purchaseBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
+     * DblePurchase purchase = purchaseBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
      * ... = purchase.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (point is not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cb: PurchaseCB): MblePurchase = {
-        return doSelectEntityWithDeletedCheck(cb, classOf[MblePurchase]);
+    def selectEntityWithDeletedCheck(cb: PurchaseCB): Purchase = {
+        return new Purchase(doSelectEntityWithDeletedCheck(cb, classOf[DblePurchase]));
     }
 
-    protected def doSelectEntityWithDeletedCheck[ENTITY <: MblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntityWithDeletedCheck[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, PurchaseCB]() {
             def callbackSelectList(lcb: PurchaseCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
@@ -198,7 +198,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return selectEntityWithDeletedCheck(downcast(cb));
+        return doSelectEntityWithDeletedCheck(downcast(cb), classOf[DblePurchase]);
     }
 
     /**
@@ -209,11 +209,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(purchaseId: Long): Option[MblePurchase] = {
-        return doSelectByPK(purchaseId, classOf[MblePurchase]);
+    def selectByPK(purchaseId: Long): Option[Purchase] = {
+        return doSelectByPK(purchaseId, classOf[DblePurchase]).map(f => new Purchase(f));
     }
 
-    protected def doSelectByPK[ENTITY <: MblePurchase](purchaseId: Long, entityType: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByPK[ENTITY <: DblePurchase](purchaseId: Long, entityType: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsPK(purchaseId), entityType));
     }
 
@@ -234,11 +234,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Option[MblePurchase] = {
-        return doSelectByUniqueOf(memberId, productId, purchaseDatetime, classOf[MblePurchase]);
+    def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Option[Purchase] = {
+        return doSelectByUniqueOf(memberId, productId, purchaseDatetime, classOf[DblePurchase]).map(f => new Purchase(f));
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: MblePurchase](memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp, entityType: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DblePurchase](memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp, entityType: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId, productId, purchaseDatetime), entityType));
     }
 
@@ -257,21 +257,21 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * PurchaseCB cb = new PurchaseCB();
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
-     * ListResultBean&lt;MblePurchase&gt; purchaseList = purchaseBhv.<span style="color: #DD4747">selectList</span>(cb);
-     * for (MblePurchase purchase : purchaseList) {
-     *     ... = purchase.get...();
+     * List&lt;${Purchase}&gt; purchaseList = purchaseBhv.<span style="color: #DD4747">selectList</span>(cb);
+     * purchaseList.foreach(purchase =>
+     *     ... = purchase...;
      * }
      * </pre>
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: PurchaseCB): scala.collection.immutable.List[MblePurchase] = {
-        val javaList = doSelectList(cb, classOf[MblePurchase]);
-        return toScalaList(javaList);
+    def selectList(cb: PurchaseCB): scala.collection.immutable.List[Purchase] = {
+        val dbleList = doSelectList(cb, classOf[DblePurchase]);
+        return toImmutableEntityList(dbleList);
     }
 
-    protected def doSelectList[ENTITY <: MblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
+    protected def doSelectList[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         return helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, PurchaseCB]() {
@@ -280,7 +280,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[MblePurchase]); // use do method for ListResultBean
+        return doSelectList(downcast(cb), classOf[DblePurchase]); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -294,25 +294,25 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
      * cb.<span style="color: #DD4747">paging</span>(20, 3); <span style="color: #3F7E5E">// 20 records per a page and current page number is 3</span>
-     * PagingResultBean&lt;MblePurchase&gt; page = purchaseBhv.<span style="color: #DD4747">selectPage</span>(cb);
+     * PagingResultBean&lt;DblePurchase&gt; page = purchaseBhv.<span style="color: #DD4747">selectPage</span>(cb);
      * int allRecordCount = page.getAllRecordCount();
      * int allPageCount = page.getAllPageCount();
      * boolean isExistPrePage = page.isExistPrePage();
      * boolean isExistNextPage = page.isExistNextPage();
      * ...
-     * for (MblePurchase purchase : page) {
+     * for (DblePurchase purchase : page) {
      *     ... = purchase.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cb: PurchaseCB): PagingResultBean[MblePurchase] = {
-        return doSelectPage(cb, classOf[MblePurchase]);
+    def selectPage(cb: PurchaseCB): PagingResultBean[DblePurchase] = {
+        return doSelectPage(cb, classOf[DblePurchase]);
     }
 
-    protected def doSelectPage[ENTITY <: MblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
+    protected def doSelectPage[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, PurchaseCB]() {
             def callbackSelectCount(cb: PurchaseCB): Int = { return doSelectCountPlainly(cb); }
@@ -333,20 +333,20 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * <pre>
      * PurchaseCB cb = new PurchaseCB();
      * cb.query().setFoo...(value);
-     * purchaseBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;MblePurchase&gt;() {
-     *     public void handle(MblePurchase entity) {
+     * purchaseBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;DblePurchase&gt;() {
+     *     public void handle(DblePurchase entity) {
      *         ... = entity.getFoo...();
      *     }
      * });
      * </pre>
-     * @param cb The condition-bean of MblePurchase. (NotNull)
-     * @param entityRowHandler The handler of entity row of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
+     * @param entityRowHandler The handler of entity row of DblePurchase. (NotNull)
      */
-    def selectCursor(cb: PurchaseCB, entityRowHandler: EntityRowHandler[MblePurchase]): Unit = {
-        doSelectCursor(cb, entityRowHandler, classOf[MblePurchase]);
+    def selectCursor(cb: PurchaseCB, entityRowHandler: EntityRowHandler[DblePurchase]): Unit = {
+        doSelectCursor(cb, entityRowHandler, classOf[DblePurchase]);
     }
 
-    protected def doSelectCursor[ENTITY <: MblePurchase](cb: PurchaseCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
+    protected def doSelectCursor[ENTITY <: DblePurchase](cb: PurchaseCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
         assertCBStateValid(cb); assertObjectNotNull("entityRowHandler", handler); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, PurchaseCB]() {
@@ -404,31 +404,31 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     //                                                                   Pull out Relation
     //                                                                   =================
     /**
-     * Pull out the list of foreign table 'MbleMember'.
+     * Pull out the list of foreign table 'DbleMember'.
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMember(purchaseList: scala.collection.immutable.List[MblePurchase]): scala.collection.immutable.List[MbleMember] = {
-        return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[MblePurchase, MbleMember]() {
-            def getFr(et: MblePurchase): MbleMember =
-            { return et.member().get; }
+    def pulloutMember(purchaseList: scala.collection.immutable.List[DblePurchase]): scala.collection.immutable.List[DbleMember] = {
+        return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[DblePurchase, DbleMember]() {
+            def getFr(et: DblePurchase): DbleMember =
+            { return et.getMember().get; }
             def hasRf(): Boolean = { return true; }
-            def setRfLs(et: MbleMember, ls: List[MblePurchase]): Unit =
-            { et.purchaseList(toScalaList(ls)); }
+            def setRfLs(et: DbleMember, ls: List[DblePurchase]): Unit =
+            { et.setPurchaseList(ls); }
         }));
     }
     /**
-     * Pull out the list of foreign table 'MbleProduct'.
+     * Pull out the list of foreign table 'DbleProduct'.
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutProduct(purchaseList: scala.collection.immutable.List[MblePurchase]): scala.collection.immutable.List[MbleProduct] = {
-        return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[MblePurchase, MbleProduct]() {
-            def getFr(et: MblePurchase): MbleProduct =
-            { return et.product().get; }
+    def pulloutProduct(purchaseList: scala.collection.immutable.List[DblePurchase]): scala.collection.immutable.List[DbleProduct] = {
+        return toScalaList(helpPulloutInternally(purchaseList.asJava, new InternalPulloutCallback[DblePurchase, DbleProduct]() {
+            def getFr(et: DblePurchase): DbleProduct =
+            { return et.getProduct().get; }
             def hasRf(): Boolean = { return true; }
-            def setRfLs(et: MbleProduct, ls: List[MblePurchase]): Unit =
-            { et.purchaseList(toScalaList(ls)); }
+            def setRfLs(et: DbleProduct, ls: List[DblePurchase]): Unit =
+            { et.setPurchaseList(ls); }
         }));
     }
 
@@ -440,9 +440,9 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractPurchaseIdList(purchaseList: List[MblePurchase]): List[Long] = {
-        return helpExtractListInternally(purchaseList, new InternalExtractCallback[MblePurchase, Long]() {
-            def getCV(et: MblePurchase): Long = { return et.purchaseId(); }
+    def extractPurchaseIdList(purchaseList: List[DblePurchase]): List[Long] = {
+        return helpExtractListInternally(purchaseList, new InternalExtractCallback[DblePurchase, Long]() {
+            def getCV(et: DblePurchase): Long = { return et.getPurchaseId(); }
         });
     }
 
@@ -452,7 +452,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     /**
      * Insert the entity modified-only. (DefaultConstraintsEnabled)
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
      * purchase.setFoo...(value);
      * purchase.setBar...(value);
@@ -466,11 +466,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchase The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(purchase: MblePurchase): Unit = {
+    def insert(purchase: DblePurchase): Unit = {
         doInsert(purchase, null);
     }
 
-    protected def doInsert(purchase: MblePurchase, op: InsertOption[PurchaseCB]): Unit = {
+    protected def doInsert(purchase: DblePurchase, op: InsertOption[PurchaseCB]): Unit = {
         assertObjectNotNull("purchase", purchase);
         prepareInsertOption(op);
         delegateInsert(purchase, op);
@@ -493,7 +493,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     /**
      * Update the entity modified-only. (ZeroUpdateException, ExclusiveControl)
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * purchase.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * purchase.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
@@ -512,15 +512,17 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(purchase: MblePurchase): Unit = {
-        doUpdate(purchase, null);
+    def update(setting: (MblePurchase) => Unit): Unit = {
+        val mble = new MblePurchase();
+        setting(mble);
+        doUpdate(mble.toDBableEntity, null);
     }
 
-    protected def doUpdate(purchase: MblePurchase, op: UpdateOption[PurchaseCB]): Unit = {
+    protected def doUpdate(purchase: DblePurchase, op: UpdateOption[PurchaseCB]): Unit = {
         assertObjectNotNull("purchase", purchase);
         prepareUpdateOption(op);
-        helpUpdateInternally(purchase, new InternalUpdateCallback[MblePurchase]() {
-            def callbackDelegateUpdate(et: MblePurchase): Int = { return delegateUpdate(et, op); } });
+        helpUpdateInternally(purchase, new InternalUpdateCallback[DblePurchase]() {
+            def callbackDelegateUpdate(et: DblePurchase): Int = { return delegateUpdate(et, op); } });
     }
 
     protected def prepareUpdateOption(op: UpdateOption[PurchaseCB]): Unit = {
@@ -548,14 +550,14 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { update(downcast(et)); }
+        if (op == null) { doUpdate(downcast(et), null); }
         else { varyingUpdate(downcast(et), downcast(op)); }
     }
 
     /**
      * Update the entity non-strictly modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * purchase.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * purchase.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
@@ -571,15 +573,15 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(purchase: MblePurchase): Unit = {
+    def updateNonstrict(purchase: DblePurchase): Unit = {
         doUpdateNonstrict(purchase, null);
     }
 
-    protected def doUpdateNonstrict(purchase: MblePurchase, op: UpdateOption[PurchaseCB]): Unit = {
+    protected def doUpdateNonstrict(purchase: DblePurchase, op: UpdateOption[PurchaseCB]): Unit = {
         assertObjectNotNull("purchase", purchase);
         prepareUpdateOption(op);
-        helpUpdateNonstrictInternally(purchase, new InternalUpdateNonstrictCallback[MblePurchase]() {
-            def callbackDelegateUpdateNonstrict(et: MblePurchase): Int = { return delegateUpdateNonstrict(et, op); } });
+        helpUpdateNonstrictInternally(purchase, new InternalUpdateNonstrictCallback[DblePurchase]() {
+            def callbackDelegateUpdateNonstrict(et: DblePurchase): Int = { return delegateUpdateNonstrict(et, op); } });
     }
 
     @Override
@@ -597,14 +599,14 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(purchase: MblePurchase): Unit = {
+    def insertOrUpdate(purchase: DblePurchase): Unit = {
         doInesrtOrUpdate(purchase, null, null);
     }
 
-    protected def doInesrtOrUpdate(purchase: MblePurchase, iop: InsertOption[PurchaseCB], uop: UpdateOption[PurchaseCB]): Unit = {
-        helpInsertOrUpdateInternally(purchase, new InternalInsertOrUpdateCallback[MblePurchase, PurchaseCB]() {
-            def callbackInsert(et: MblePurchase): Unit = { doInsert(et, iop); }
-            def callbackUpdate(et: MblePurchase): Unit = { doUpdate(et, uop); }
+    protected def doInesrtOrUpdate(purchase: DblePurchase, iop: InsertOption[PurchaseCB], uop: UpdateOption[PurchaseCB]): Unit = {
+        helpInsertOrUpdateInternally(purchase, new InternalInsertOrUpdateCallback[DblePurchase, PurchaseCB]() {
+            def callbackInsert(et: DblePurchase): Unit = { doInsert(et, iop); }
+            def callbackUpdate(et: DblePurchase): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): PurchaseCB = { return newMyConditionBean(); }
             def callbackSelectCount(cb: PurchaseCB): Int = { return selectCount(cb); }
         });
@@ -629,14 +631,14 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(purchase: MblePurchase): Unit = {
+    def insertOrUpdateNonstrict(purchase: DblePurchase): Unit = {
         doInesrtOrUpdateNonstrict(purchase, null, null);
     }
 
-    protected def doInesrtOrUpdateNonstrict(purchase: MblePurchase, iop: InsertOption[PurchaseCB], uop: UpdateOption[PurchaseCB]): Unit = {
-        helpInsertOrUpdateInternally(purchase, new InternalInsertOrUpdateNonstrictCallback[MblePurchase]() {
-            def callbackInsert(et: MblePurchase): Unit = { doInsert(et, iop); }
-            def callbackUpdateNonstrict(et: MblePurchase): Unit = { doUpdateNonstrict(et, uop); }
+    protected def doInesrtOrUpdateNonstrict(purchase: DblePurchase, iop: InsertOption[PurchaseCB], uop: UpdateOption[PurchaseCB]): Unit = {
+        helpInsertOrUpdateInternally(purchase, new InternalInsertOrUpdateNonstrictCallback[DblePurchase]() {
+            def callbackInsert(et: DblePurchase): Unit = { doInsert(et, iop); }
+            def callbackUpdateNonstrict(et: DblePurchase): Unit = { doUpdateNonstrict(et, uop); }
         });
     }
 
@@ -653,7 +655,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     /**
      * Delete the entity. (ZeroUpdateException, ExclusiveControl)
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * purchase.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
      * purchase.<span style="color: #DD4747">setVersionNo</span>(value);
@@ -667,15 +669,15 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(purchase: MblePurchase): Unit = {
+    def delete(purchase: DblePurchase): Unit = {
         doDelete(purchase, null);
     }
 
-    protected def doDelete(purchase: MblePurchase, op: DeleteOption[PurchaseCB]): Unit = {
+    protected def doDelete(purchase: DblePurchase, op: DeleteOption[PurchaseCB]): Unit = {
         assertObjectNotNull("purchase", purchase);
         prepareDeleteOption(op);
-        helpDeleteInternally(purchase, new InternalDeleteCallback[MblePurchase]() {
-            def callbackDelegateDelete(et: MblePurchase): Int = { return delegateDelete(et, op); } });
+        helpDeleteInternally(purchase, new InternalDeleteCallback[DblePurchase]() {
+            def callbackDelegateDelete(et: DblePurchase): Int = { return delegateDelete(et, op); } });
     }
 
     protected def prepareDeleteOption(op: DeleteOption[PurchaseCB]): Unit = {
@@ -692,7 +694,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     /**
      * Delete the entity non-strictly. {ZeroUpdateException, NonExclusiveControl}
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * purchase.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
@@ -703,21 +705,21 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrict(purchase: MblePurchase): Unit = {
+    def deleteNonstrict(purchase: DblePurchase): Unit = {
         doDeleteNonstrict(purchase, null);
     }
 
-    protected def doDeleteNonstrict(purchase: MblePurchase, op: DeleteOption[PurchaseCB]): Unit = {
+    protected def doDeleteNonstrict(purchase: DblePurchase, op: DeleteOption[PurchaseCB]): Unit = {
         assertObjectNotNull("purchase", purchase);
         prepareDeleteOption(op);
-        helpDeleteNonstrictInternally(purchase, new InternalDeleteNonstrictCallback[MblePurchase]() {
-            def callbackDelegateDeleteNonstrict(et: MblePurchase): Int = { return delegateDeleteNonstrict(et, op); } });
+        helpDeleteNonstrictInternally(purchase, new InternalDeleteNonstrictCallback[DblePurchase]() {
+            def callbackDelegateDeleteNonstrict(et: DblePurchase): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     /**
      * Delete the entity non-strictly ignoring deleted. {ZeroUpdateException, NonExclusiveControl}
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * purchase.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
@@ -728,15 +730,15 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchase The entity of delete target. (NotNull, PrimaryKeyNotNull)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrictIgnoreDeleted(purchase: MblePurchase): Unit = {
+    def deleteNonstrictIgnoreDeleted(purchase: DblePurchase): Unit = {
         doDeleteNonstrictIgnoreDeleted(purchase, null);
     }
 
-    protected def doDeleteNonstrictIgnoreDeleted(purchase: MblePurchase, op: DeleteOption[PurchaseCB]): Unit = {
+    protected def doDeleteNonstrictIgnoreDeleted(purchase: DblePurchase, op: DeleteOption[PurchaseCB]): Unit = {
         assertObjectNotNull("purchase", purchase);
         prepareDeleteOption(op);
-        helpDeleteNonstrictIgnoreDeletedInternally(purchase, new InternalDeleteNonstrictIgnoreDeletedCallback[MblePurchase]() {
-            def callbackDelegateDeleteNonstrict(et: MblePurchase): Int = { return delegateDeleteNonstrict(et, op); } });
+        helpDeleteNonstrictIgnoreDeletedInternally(purchase, new InternalDeleteNonstrictIgnoreDeletedCallback[DblePurchase]() {
+            def callbackDelegateDeleteNonstrict(et: DblePurchase): Int = { return delegateDeleteNonstrict(et, op); } });
     }
 
     @Override
@@ -754,7 +756,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * <p><span style="color: #DD4747; font-size: 120%">The columns of least common multiple are registered like this:</span></p>
      * <pre>
      * for (... : ...) {
-     *     MblePurchase purchase = new MblePurchase();
+     *     DblePurchase purchase = new DblePurchase();
      *     purchase.setFooName("foo");
      *     if (...) {
      *         purchase.setFooPrice(123);
@@ -772,18 +774,18 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(purchaseList: scala.collection.immutable.List[MblePurchase]): Array[Int] = {
+    def batchInsert(purchaseList: scala.collection.immutable.List[DblePurchase]): Array[Int] = {
         val op: InsertOption[PurchaseCB] = createInsertUpdateOption();
         return doBatchInsert(purchaseList.asJava, op);
     }
 
-    protected def doBatchInsert(purchaseList: List[MblePurchase], op: InsertOption[PurchaseCB]): Array[Int] = {
+    protected def doBatchInsert(purchaseList: List[DblePurchase], op: InsertOption[PurchaseCB]): Array[Int] = {
         assertObjectNotNull("purchaseList", purchaseList);
         prepareBatchInsertOption(purchaseList, op);
         return delegateBatchInsert(purchaseList, op);
     }
 
-    protected def prepareBatchInsertOption(purchaseList: List[MblePurchase], op: InsertOption[PurchaseCB]): Unit = {
+    protected def prepareBatchInsertOption(purchaseList: List[DblePurchase], op: InsertOption[PurchaseCB]): Unit = {
         op.xallowInsertColumnModifiedPropertiesFragmented();
         op.xacceptInsertColumnModifiedPropertiesIfNeeds(purchaseList);
         prepareInsertOption(op);
@@ -801,7 +803,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * <span style="color: #DD4747; font-size: 120%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     MblePurchase purchase = new MblePurchase();
+     *     DblePurchase purchase = new DblePurchase();
      *     purchase.setFooName("foo");
      *     if (...) {
      *         purchase.setFooPrice(123);
@@ -819,18 +821,18 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(purchaseList: scala.collection.immutable.List[MblePurchase]): Array[Int] = {
+    def batchUpdate(purchaseList: scala.collection.immutable.List[DblePurchase]): Array[Int] = {
         val op: UpdateOption[PurchaseCB] = createPlainUpdateOption();
         return doBatchUpdate(purchaseList.asJava, op);
     }
 
-    protected def doBatchUpdate(purchaseList: List[MblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] = {
+    protected def doBatchUpdate(purchaseList: List[DblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] = {
         assertObjectNotNull("purchaseList", purchaseList);
         prepareBatchUpdateOption(purchaseList, op);
         return delegateBatchUpdate(purchaseList, op);
     }
 
-    protected def prepareBatchUpdateOption(purchaseList: List[MblePurchase], op: UpdateOption[PurchaseCB]): Unit = {
+    protected def prepareBatchUpdateOption(purchaseList: List[DblePurchase], op: UpdateOption[PurchaseCB]): Unit = {
         op.xacceptUpdateColumnModifiedPropertiesIfNeeds(purchaseList);
         prepareUpdateOption(op);
     }
@@ -869,7 +871,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(purchaseList: scala.collection.immutable.List[MblePurchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
+    def batchUpdate(purchaseList: scala.collection.immutable.List[DblePurchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
         return doBatchUpdate(purchaseList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
@@ -879,7 +881,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * <span style="color: #DD4747; font-size: 140%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     MblePurchase purchase = new MblePurchase();
+     *     DblePurchase purchase = new DblePurchase();
      *     purchase.setFooName("foo");
      *     if (...) {
      *         purchase.setFooPrice(123);
@@ -897,12 +899,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(purchaseList: scala.collection.immutable.List[MblePurchase]): Array[Int] = {
+    def batchUpdateNonstrict(purchaseList: scala.collection.immutable.List[DblePurchase]): Array[Int] = {
         val option: UpdateOption[PurchaseCB] = createPlainUpdateOption();
         return doBatchUpdateNonstrict(purchaseList.asJava, option);
     }
 
-    protected def doBatchUpdateNonstrict(purchaseList: List[MblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] = {
+    protected def doBatchUpdateNonstrict(purchaseList: List[DblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] = {
         assertObjectNotNull("purchaseList", purchaseList);
         prepareBatchUpdateOption(purchaseList, op);
         return delegateBatchUpdateNonstrict(purchaseList, op);
@@ -935,7 +937,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(purchaseList: scala.collection.immutable.List[MblePurchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
+    def batchUpdateNonstrict(purchaseList: scala.collection.immutable.List[DblePurchase], updateColumnSpec: SpecifyQuery[PurchaseCB]): Array[Int] = {
         return doBatchUpdateNonstrict(purchaseList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
@@ -952,11 +954,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(purchaseList: scala.collection.immutable.List[MblePurchase]): Array[Int] = {
+    def batchDelete(purchaseList: scala.collection.immutable.List[DblePurchase]): Array[Int] = {
         return doBatchDelete(purchaseList.asJava, null);
     }
 
-    protected def doBatchDelete(purchaseList: List[MblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] = {
+    protected def doBatchDelete(purchaseList: List[DblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] = {
         assertObjectNotNull("purchaseList", purchaseList);
         prepareDeleteOption(op);
         return delegateBatchDelete(purchaseList, op);
@@ -975,11 +977,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(purchaseList: scala.collection.immutable.List[MblePurchase]): Array[Int] = {
+    def batchDeleteNonstrict(purchaseList: scala.collection.immutable.List[DblePurchase]): Array[Int] = {
         return doBatchDeleteNonstrict(purchaseList.asJava, null);
     }
 
-    protected def doBatchDeleteNonstrict(purchaseList: List[MblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] = {
+    protected def doBatchDeleteNonstrict(purchaseList: List[DblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] = {
         assertObjectNotNull("purchaseList", purchaseList);
         prepareDeleteOption(op);
         return delegateBatchDeleteNonstrict(purchaseList, op);
@@ -997,7 +999,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     /**
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
-     * purchaseBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;MblePurchase, PurchaseCB&gt;() {
+     * purchaseBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;DblePurchase, PurchaseCB&gt;() {
      *     public ConditionBean setup(purchase entity, PurchaseCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
@@ -1020,14 +1022,14 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param setupper The setup-per of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[MblePurchase, PurchaseCB]): Integer = {
-        return doQueryInsert(setupper, null);
+    def queryInsert(setupper: QueryInsertSetupper[DblePurchase, PurchaseCB]): Int = {
+        return Integer2int(doQueryInsert(setupper, null));
     }
 
-    protected def doQueryInsert(sp: QueryInsertSetupper[MblePurchase, PurchaseCB], op: InsertOption[PurchaseCB]): Integer = {
+    protected def doQueryInsert(sp: QueryInsertSetupper[DblePurchase, PurchaseCB], op: InsertOption[PurchaseCB]): Integer = {
         assertObjectNotNull("setupper", sp);
         prepareInsertOption(op);
-        val e: MblePurchase = new MblePurchase();
+        val e: DblePurchase = new DblePurchase();
         val cb: PurchaseCB = createCBForQueryInsert();
         return delegateQueryInsert(e, cb, sp.setup(e, cb), op);
     }
@@ -1047,7 +1049,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
      * <span style="color: #3F7E5E">//purchase.setPK...(value);</span>
      * purchase.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
@@ -1062,15 +1064,15 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * purchaseBhv.<span style="color: #DD4747">queryUpdate</span>(purchase, cb);
      * </pre>
      * @param purchase The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition.
      */
-    def queryUpdate(purchase: MblePurchase, cb: PurchaseCB): Integer = {
-        return doQueryUpdate(purchase, cb, null);
+    def queryUpdate(purchase: DblePurchase, cb: PurchaseCB): Int = {
+        return Integer2int(doQueryUpdate(purchase, cb, null));
     }
 
-    protected def doQueryUpdate(purchase: MblePurchase, cb: PurchaseCB, op: UpdateOption[PurchaseCB]): Integer = {
+    protected def doQueryUpdate(purchase: DblePurchase, cb: PurchaseCB, op: UpdateOption[PurchaseCB]): Integer = {
         assertObjectNotNull("purchase", purchase); assertCBStateValid(cb);
         prepareUpdateOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(purchase, cb, op) } else { 0 };
@@ -1089,12 +1091,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * purchaseBhv.<span style="color: #DD4747">queryDelete</span>(purchase, cb);
      * </pre>
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition.
      */
-    def queryDelete(cb: PurchaseCB): Integer = {
-        return doQueryDelete(cb, null);
+    def queryDelete(cb: PurchaseCB): Int = {
+        return Integer2int(doQueryDelete(cb, null));
     }
 
     protected def doQueryDelete(cb: PurchaseCB, op: DeleteOption[PurchaseCB]): Integer = {
@@ -1120,7 +1122,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br />
      * Other specifications are same as insert(entity).
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
      * purchase.setFoo...(value);
      * purchase.setBar...(value);
@@ -1134,7 +1136,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsert(purchase: MblePurchase, option: InsertOption[PurchaseCB]): Unit = {
+    def varyingInsert(purchase: DblePurchase, option: InsertOption[PurchaseCB]): Unit = {
         assertInsertOptionNotNull(option);
         doInsert(purchase, option);
     }
@@ -1144,7 +1146,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br />
      * Other specifications are same as update(entity).
      * <pre>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * purchase.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * purchase.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
@@ -1168,7 +1170,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingUpdate(purchase: MblePurchase, option: UpdateOption[PurchaseCB]): Unit = {
+    def varyingUpdate(purchase: DblePurchase, option: UpdateOption[PurchaseCB]): Unit = {
         assertUpdateOptionNotNull(option);
         doUpdate(purchase, option);
     }
@@ -1179,7 +1181,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * Other specifications are same as updateNonstrict(entity).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * purchase.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * purchase.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
@@ -1199,7 +1201,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingUpdateNonstrict(purchase: MblePurchase, option: UpdateOption[PurchaseCB]): Unit = {
+    def varyingUpdateNonstrict(purchase: DblePurchase, option: UpdateOption[PurchaseCB]): Unit = {
         assertUpdateOptionNotNull(option);
         doUpdateNonstrict(purchase, option);
     }
@@ -1214,7 +1216,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsertOrUpdate(purchase: MblePurchase, insertOption: InsertOption[PurchaseCB], updateOption: UpdateOption[PurchaseCB]): Unit = {
+    def varyingInsertOrUpdate(purchase: DblePurchase, insertOption: InsertOption[PurchaseCB], updateOption: UpdateOption[PurchaseCB]): Unit = {
         assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
         doInesrtOrUpdate(purchase, insertOption, updateOption);
     }
@@ -1229,7 +1231,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsertOrUpdateNonstrict(purchase: MblePurchase, insertOption: InsertOption[PurchaseCB], updateOption: UpdateOption[PurchaseCB]): Unit = {
+    def varyingInsertOrUpdateNonstrict(purchase: DblePurchase, insertOption: InsertOption[PurchaseCB], updateOption: UpdateOption[PurchaseCB]): Unit = {
         assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
         doInesrtOrUpdateNonstrict(purchase, insertOption, updateOption);
     }
@@ -1243,7 +1245,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def varyingDelete(purchase: MblePurchase, option: DeleteOption[PurchaseCB]): Unit = {
+    def varyingDelete(purchase: DblePurchase, option: DeleteOption[PurchaseCB]): Unit = {
         assertDeleteOptionNotNull(option);
         doDelete(purchase, option);
     }
@@ -1257,7 +1259,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def varyingDeleteNonstrict(purchase: MblePurchase, option: DeleteOption[PurchaseCB]): Unit = {
+    def varyingDeleteNonstrict(purchase: DblePurchase, option: DeleteOption[PurchaseCB]): Unit = {
         assertDeleteOptionNotNull(option);
         doDeleteNonstrict(purchase, option);
     }
@@ -1274,7 +1276,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(purchaseList: scala.collection.immutable.List[MblePurchase], option: InsertOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchInsert(purchaseList: scala.collection.immutable.List[DblePurchase], option: InsertOption[PurchaseCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
         return doBatchInsert(purchaseList.asJava, option);
     }
@@ -1288,7 +1290,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(purchaseList: scala.collection.immutable.List[MblePurchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchUpdate(purchaseList: scala.collection.immutable.List[DblePurchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdate(purchaseList.asJava, option);
     }
@@ -1302,7 +1304,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdateNonstrict(purchaseList: scala.collection.immutable.List[MblePurchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchUpdateNonstrict(purchaseList: scala.collection.immutable.List[DblePurchase], option: UpdateOption[PurchaseCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
         return doBatchUpdateNonstrict(purchaseList.asJava, option);
     }
@@ -1315,7 +1317,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(purchaseList: scala.collection.immutable.List[MblePurchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchDelete(purchaseList: scala.collection.immutable.List[DblePurchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDelete(purchaseList.asJava, option);
     }
@@ -1328,7 +1330,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDeleteNonstrict(purchaseList: scala.collection.immutable.List[MblePurchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
+    def varyingBatchDeleteNonstrict(purchaseList: scala.collection.immutable.List[DblePurchase], option: DeleteOption[PurchaseCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
         return doBatchDeleteNonstrict(purchaseList.asJava, option);
     }
@@ -1344,7 +1346,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The inserted count.
      */
-    def varyingQueryInsert(setupper: QueryInsertSetupper[MblePurchase, PurchaseCB], option: InsertOption[PurchaseCB]): Integer = {
+    def varyingQueryInsert(setupper: QueryInsertSetupper[DblePurchase, PurchaseCB], option: InsertOption[PurchaseCB]): Integer = {
         assertInsertOptionNotNull(option);
         return doQueryInsert(setupper, option);
     }
@@ -1356,7 +1358,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * Other specifications are same as queryUpdate(entity, cb).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * MblePurchase purchase = new MblePurchase();
+     * DblePurchase purchase = new DblePurchase();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
      * <span style="color: #3F7E5E">//purchase.setPK...(value);</span>
      * purchase.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
@@ -1374,12 +1376,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * purchaseBhv.<span style="color: #DD4747">varyingQueryUpdate</span>(purchase, cb, option);
      * </pre>
      * @param purchase The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @param option The option of update for varying requests. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition (if not allowed).
      */
-    def varyingQueryUpdate(purchase: MblePurchase, cb: PurchaseCB, option: UpdateOption[PurchaseCB]): Integer = {
+    def varyingQueryUpdate(purchase: DblePurchase, cb: PurchaseCB, option: UpdateOption[PurchaseCB]): Integer = {
         assertUpdateOptionNotNull(option);
         return doQueryUpdate(purchase, cb, option);
     }
@@ -1388,7 +1390,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * Delete the several entities by query with varying requests non-strictly. <br />
      * For example, allowNonQueryDelete(). <br />
      * Other specifications are same as batchUpdateNonstrict(entityList).
-     * @param cb The condition-bean of MblePurchase. (NotNull)
+     * @param cb The condition-bean of DblePurchase. (NotNull)
      * @param option The option of delete for varying requests. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition (if not allowed).
@@ -1445,50 +1447,50 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     //                                                ------
     protected def delegateSelectCountUniquely(cb: PurchaseCB): Integer = { return invoke(createSelectCountCBCommand(cb, true)); }
     protected def delegateSelectCountPlainly(cb: PurchaseCB): Integer = { return invoke(createSelectCountCBCommand(cb, false)); }
-    protected def delegateSelectCursor[ENTITY <: MblePurchase](cb: PurchaseCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
+    protected def delegateSelectCursor[ENTITY <: DblePurchase](cb: PurchaseCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
     { invoke(createSelectCursorCBCommand(cb, rh, tp)); }
-    protected def delegateSelectList[ENTITY <: MblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): List[ENTITY] =
+    protected def delegateSelectList[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): List[ENTITY] =
     { return invoke(createSelectListCBCommand(cb, tp)); }
 
     // -----------------------------------------------------
     //                                                Update
     //                                                ------
-    protected def delegateInsert(et: MblePurchase, op: InsertOption[PurchaseCB]): Integer =
+    protected def delegateInsert(et: DblePurchase, op: InsertOption[PurchaseCB]): Integer =
     { if (!processBeforeInsert(et, op)) { return 0; }
       return invoke(createInsertEntityCommand(et, op)); }
-    protected def delegateUpdate(et: MblePurchase, op: UpdateOption[PurchaseCB]): Integer =
+    protected def delegateUpdate(et: DblePurchase, op: UpdateOption[PurchaseCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return invoke(createUpdateEntityCommand(et, op)); }
-    protected def delegateUpdateNonstrict(et: MblePurchase, op: UpdateOption[PurchaseCB]): Integer =
+    protected def delegateUpdateNonstrict(et: DblePurchase, op: UpdateOption[PurchaseCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return invoke(createUpdateNonstrictEntityCommand(et, op)); }
-    protected def delegateDelete(et: MblePurchase, op: DeleteOption[PurchaseCB]): Integer =
+    protected def delegateDelete(et: DblePurchase, op: DeleteOption[PurchaseCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteEntityCommand(et, op)); }
-    protected def delegateDeleteNonstrict(et: MblePurchase, op: DeleteOption[PurchaseCB]): Integer =
+    protected def delegateDeleteNonstrict(et: DblePurchase, op: DeleteOption[PurchaseCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteNonstrictEntityCommand(et, op)); }
 
-    protected def delegateBatchInsert(ls: List[MblePurchase], op: InsertOption[PurchaseCB]): Array[Int] =
+    protected def delegateBatchInsert(ls: List[DblePurchase], op: InsertOption[PurchaseCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchInsertCommand(processBatchInternally(ls, op), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdate(ls: List[MblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] =
+    protected def delegateBatchUpdate(ls: List[DblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchUpdateCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdateNonstrict(ls: List[MblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] =
+    protected def delegateBatchUpdateNonstrict(ls: List[DblePurchase], op: UpdateOption[PurchaseCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchUpdateNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDelete(ls: List[MblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] =
+    protected def delegateBatchDelete(ls: List[DblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDeleteNonstrict(ls: List[MblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] =
+    protected def delegateBatchDeleteNonstrict(ls: List[DblePurchase], op: DeleteOption[PurchaseCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
 
-    protected def delegateQueryInsert(et: MblePurchase, inCB: PurchaseCB, resCB: ConditionBean, op: InsertOption[PurchaseCB]): Integer =
+    protected def delegateQueryInsert(et: DblePurchase, inCB: PurchaseCB, resCB: ConditionBean, op: InsertOption[PurchaseCB]): Integer =
     { if (!processBeforeQueryInsert(et, inCB, resCB, op)) { return 0; }
       return invoke(createQueryInsertCBCommand(et, inCB, resCB, op));  }
-    protected def delegateQueryUpdate(et: MblePurchase, cb: PurchaseCB, op: UpdateOption[PurchaseCB]): Integer =
+    protected def delegateQueryUpdate(et: DblePurchase, cb: PurchaseCB, op: UpdateOption[PurchaseCB]): Integer =
     { if (!processBeforeQueryUpdate(et, cb, op)) { return 0; }
       return invoke(createQueryUpdateCBCommand(et, cb, op));  }
     protected def delegateQueryDelete(cb: PurchaseCB, op: DeleteOption[PurchaseCB]): Integer =
@@ -1503,7 +1505,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      */
     @Override
     protected def hasVersionNoValue(et: Entity): Boolean = {
-        return !(downcast(et).versionNo() + "").equals("null");// For primitive type
+        return downcast(et).getVersionNo() != null;
     }
 
     /**
@@ -1517,16 +1519,16 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                     Downcast Helper
     //                                                                     ===============
-    protected def downcast(et: Entity): MblePurchase = {
-        return helpEntityDowncastInternally(et, classOf[MblePurchase]);
+    protected def downcast(et: Entity): DblePurchase = {
+        return helpEntityDowncastInternally(et, classOf[DblePurchase]);
     }
 
     protected def downcast(cb: ConditionBean): PurchaseCB = {
         return helpConditionBeanDowncastInternally(cb, classOf[PurchaseCB]);
     }
 
-    protected def downcast(ls: List[_ <: Entity]): List[MblePurchase] = {
-        return ls.asInstanceOf[List[MblePurchase]];
+    protected def downcast(ls: List[_ <: Entity]): List[DblePurchase] = {
+        return ls.asInstanceOf[List[DblePurchase]];
     }
 
     protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[PurchaseCB] = {
@@ -1541,15 +1543,23 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
         return op.asInstanceOf[DeleteOption[PurchaseCB]];
     }
 
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[MblePurchase, PurchaseCB] = {
-        return sp.asInstanceOf[QueryInsertSetupper[MblePurchase, PurchaseCB]];
+    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DblePurchase, PurchaseCB] = {
+        return sp.asInstanceOf[QueryInsertSetupper[DblePurchase, PurchaseCB]];
     }
 
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-         // #pending easy convert for now
+        if (javaList == null) { scala.collection.immutable.List() }
         return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    }
+
+    def toImmutableEntityList(dbleList: Collection[DblePurchase]): scala.collection.immutable.List[Purchase] = {
+        return toScalaList(dbleList).map(new Purchase(_))
+    }
+
+    def toDBableEntityList(immuList: scala.collection.immutable.List[Purchase]): List[DblePurchase] = {
+        return immuList.map(new DblePurchase().acceptImmutableEntity(_)).asJava
     }
 }

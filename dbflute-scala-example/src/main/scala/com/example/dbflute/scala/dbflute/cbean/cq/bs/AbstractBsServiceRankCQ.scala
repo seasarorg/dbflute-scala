@@ -46,7 +46,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank}
      * @param serviceRankCode The value of serviceRankCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setServiceRankCode_Equal(serviceRankCode: String): Unit = {
+    protected def setServiceRankCode_Equal(serviceRankCode: String): Unit = {
         doSetServiceRankCode_Equal(fRES(serviceRankCode));
     }
 
@@ -109,7 +109,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank}
      * @param serviceRankCode The value of serviceRankCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setServiceRankCode_NotEqual(serviceRankCode: String): Unit = {
+    protected def setServiceRankCode_NotEqual(serviceRankCode: String): Unit = {
         doSetServiceRankCode_NotEqual(fRES(serviceRankCode));
     }
 
@@ -502,7 +502,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlg The value of newAcceptableFlg as equal. (NullAllowed: if null, no condition)
      */
-     def setNewAcceptableFlg_Equal(newAcceptableFlg: Integer): Unit = {
+    protected def setNewAcceptableFlg_Equal(newAcceptableFlg: Integer): Unit = {
         doSetNewAcceptableFlg_Equal(newAcceptableFlg);
     }
 
@@ -541,7 +541,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlg The value of newAcceptableFlg as notEqual. (NullAllowed: if null, no condition)
      */
-     def setNewAcceptableFlg_NotEqual(newAcceptableFlg: Integer): Unit = {
+    protected def setNewAcceptableFlg_NotEqual(newAcceptableFlg: Integer): Unit = {
         doSetNewAcceptableFlg_NotEqual(newAcceptableFlg);
     }
 

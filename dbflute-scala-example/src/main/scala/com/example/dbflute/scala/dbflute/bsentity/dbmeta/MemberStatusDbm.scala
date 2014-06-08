@@ -45,20 +45,24 @@ object MemberStatusDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgDisplayOrder(), "displayOrder");
     }
     class EpgMemberStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].memberStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].memberStatusCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberStatus].getMemberStatusCode(); }
+        def write(et: Entity, vl: Object): Unit = {
+            val col: ColumnInfo = columnMemberStatusCode();
+            dgccls(col, vl);
+            et.asInstanceOf[DbleMemberStatus].setMemberStatusCodeAsMemberStatus(dggcls(col, vl).asInstanceOf[CDef.MemberStatus]);
+        }
     }
     class EpgMemberStatusName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].memberStatusName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].memberStatusName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberStatus].getMemberStatusName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberStatus].setMemberStatusName(vl.asInstanceOf[String]); }
     }
     class EpgDescription extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].description(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].description(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberStatus].getDescription(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberStatus].setDescription(vl.asInstanceOf[String]); }
     }
     class EpgDisplayOrder extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleMemberStatus].displayOrder(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleMemberStatus].displayOrder(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberStatus].getDisplayOrder(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberStatus].setDisplayOrder(dgcti(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -106,14 +110,6 @@ object MemberStatusDbm extends AbstractDBMeta {
 
     { initializeInformationResource(); }
 
-    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
-        return initUncap(propertyName);
-    }
-
-    override protected def buildPropertySetterMethodName(propertyName: String): String = {
-        return initUncap(propertyName);
-    }
-
     // ===================================================================================
     //                                                                         Unique Info
     //                                                                         ===========
@@ -141,10 +137,6 @@ object MemberStatusDbm extends AbstractDBMeta {
         return cri("FK_MEMBER_MEMBER_STATUS", "memberList", this, MemberDbm, mp, false, "memberStatus");
     }
 
-    override def getReferrerPropertyListType(): Class[_] = {
-        return classOf[scala.collection.immutable.List[_]];
-    }
-
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
@@ -152,28 +144,28 @@ object MemberStatusDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MbleMemberStatus"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.DbleMemberStatus"; }
     def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.MemberStatusCB"; }
     def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.MemberStatusBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[MbleMemberStatus] = { return classOf[MbleMemberStatus]; }
+    def getEntityType(): Class[DbleMemberStatus] = { return classOf[DbleMemberStatus]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): MbleMemberStatus = { return new MbleMemberStatus(); }
+    def newMyEntity(): DbleMemberStatus = { return new DbleMemberStatus(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[MbleMemberStatus], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[DbleMemberStatus], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[MbleMemberStatus], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[DbleMemberStatus], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }

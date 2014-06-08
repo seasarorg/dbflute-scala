@@ -12,49 +12,49 @@ trait EntityDefinedCommonColumn extends Entity {
      * Get the value of registerDatetime.
      * @return The instance of the property type. (NullAllowed)
      */
-    def registerDatetime(): java.sql.Timestamp;
+    def getRegisterDatetime(): java.sql.Timestamp;
 
     /**
      * Set the value of registerDatetime.
      * @param registerDatetime The instance of the property type. (NullAllowed)
      */
-    def registerDatetime(registerDatetime: java.sql.Timestamp): Unit;
+    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit;
 
     /**
      * Get the value of registerUser.
      * @return The instance of the property type. (NullAllowed)
      */
-    def registerUser(): String;
+    def getRegisterUser(): String;
 
     /**
      * Set the value of registerUser.
      * @param registerUser The instance of the property type. (NullAllowed)
      */
-    def registerUser(registerUser: String): Unit;
+    def setRegisterUser(registerUser: String): Unit;
 
     /**
      * Get the value of updateDatetime.
      * @return The instance of the property type. (NullAllowed)
      */
-    def updateDatetime(): java.sql.Timestamp;
+    def getUpdateDatetime(): java.sql.Timestamp;
 
     /**
      * Set the value of updateDatetime.
      * @param updateDatetime The instance of the property type. (NullAllowed)
      */
-    def updateDatetime(updateDatetime: java.sql.Timestamp): Unit;
+    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit;
 
     /**
      * Get the value of updateUser.
      * @return The instance of the property type. (NullAllowed)
      */
-    def updateUser(): String;
+    def getUpdateUser(): String;
 
     /**
      * Set the value of updateUser.
      * @param updateUser The instance of the property type. (NullAllowed)
      */
-    def updateUser(updateUser: String): Unit;
+    def setUpdateUser(updateUser: String): Unit;
 
     /**
 	 * Enable common column auto set up. <br />

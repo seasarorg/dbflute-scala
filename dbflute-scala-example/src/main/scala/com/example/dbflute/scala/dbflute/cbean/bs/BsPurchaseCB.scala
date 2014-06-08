@@ -277,7 +277,7 @@ class BsPurchaseCB extends AbstractConditionBean {
      * PurchaseCB cb = new PurchaseCB();
      * cb.<span style="color: #DD4747">setupSelect_Member()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
-     * MblePurchase purchase = purchaseBhv.selectEntityWithDeletedCheck(cb);
+     * DblePurchase purchase = purchaseBhv.selectEntityWithDeletedCheck(cb);
      * ... = purchase.<span style="color: #DD4747">getMember()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
@@ -300,7 +300,7 @@ class BsPurchaseCB extends AbstractConditionBean {
      * PurchaseCB cb = new PurchaseCB();
      * cb.<span style="color: #DD4747">setupSelect_Product()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
-     * MblePurchase purchase = purchaseBhv.selectEntityWithDeletedCheck(cb);
+     * DblePurchase purchase = purchaseBhv.selectEntityWithDeletedCheck(cb);
      * ... = purchase.<span style="color: #DD4747">getProduct()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      */

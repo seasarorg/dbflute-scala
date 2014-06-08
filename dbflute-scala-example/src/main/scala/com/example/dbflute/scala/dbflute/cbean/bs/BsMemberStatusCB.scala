@@ -15,6 +15,7 @@ import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.cbean.sqlclause.SqlClauseCreator;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
 import org.seasar.dbflute.twowaysql.factory.SqlAnalyzerFactory;
+import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.allcommon.DBFluteConfig;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
@@ -83,10 +84,10 @@ class BsMemberStatusCB extends AbstractConditionBean {
      * Accept the query condition of primary key as equal.
      * @param memberStatusCode (会員ステータスコード): PK, NotNull, CHAR(3), classification=MemberStatus. (NotNull)
      */
-    def acceptPrimaryKey(memberStatusCode: String): Unit = {
+    def acceptPrimaryKey(memberStatusCode: CDef.MemberStatus): Unit = {
         assertObjectNotNull("memberStatusCode", memberStatusCode);
         val cb: BsMemberStatusCB = this;
-        cb.query().setMemberStatusCode_Equal(memberStatusCode);;
+        cb.query().setMemberStatusCode_Equal_AsMemberStatus(memberStatusCode);
     }
 
     /**
@@ -497,7 +498,7 @@ object HpMemberStatusCB {
          *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
          *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
          *     }
-         * }, MbleMember.<span style="color: #DD4747">ALIAS_foo...</span>);
+         * }, DbleMember.<span style="color: #DD4747">ALIAS_foo...</span>);
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */

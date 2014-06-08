@@ -4,7 +4,7 @@ import scala.collection.JavaConverters._
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +34,7 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
     //                                                                           Attribute
     //                                                                           =========
     /** The cache of behavior. */
-    protected var _behaviorCache: Map[Class[_ <: BehaviorReadable], BehaviorReadable] = new HashMap();
+    protected var _behaviorCache: Map[Class[_ <: BehaviorReadable], BehaviorReadable] = new ConcurrentHashMap();
 
     /** The container of Guice. */
     protected var _container: Injector = null;

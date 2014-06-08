@@ -39,18 +39,14 @@ class ImplementedCommonColumnAutoSetupper extends CommonColumnAutoSetupper {
     }
 
     protected def doHandleCommonColumnOfInsertIfNeeds(entity: EntityDefinedCommonColumn): Unit = {
-
         val registerDatetime: java.sql.Timestamp = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
-        entity.registerDatetime(registerDatetime);
-
+        entity.setRegisterDatetime(registerDatetime);
         val registerUser: String = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
-        entity.registerUser(registerUser);
-
-        val updateDatetime: java.sql.Timestamp = entity.registerDatetime();
-        entity.updateDatetime(updateDatetime);
-
-        val updateUser: String = entity.registerUser();
-        entity.updateUser(updateUser);
+        entity.setRegisterUser(registerUser);
+        val updateDatetime: java.sql.Timestamp = entity.getRegisterDatetime();
+        entity.setUpdateDatetime(updateDatetime);
+        val updateUser: String = entity.getRegisterUser();
+        entity.setUpdateUser(updateUser);
     }
 
     /**
@@ -68,12 +64,10 @@ class ImplementedCommonColumnAutoSetupper extends CommonColumnAutoSetupper {
     }
 
     protected def doHandleCommonColumnOfUpdateIfNeeds(entity: EntityDefinedCommonColumn): Unit = {
-
         val updateDatetime: java.sql.Timestamp = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
-        entity.updateDatetime(updateDatetime);
-
+        entity.setUpdateDatetime(updateDatetime);
         val updateUser: String = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
-        entity.updateUser(updateUser);
+        entity.setUpdateUser(updateUser);
     }
 
     // =====================================================================================

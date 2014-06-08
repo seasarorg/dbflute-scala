@@ -34,13 +34,6 @@
 # *The line that starts with '#' means comment-out.
 #
 map:{
-    # TODO jflute should be embedded
-    ; isCompatibleBeforeJava8 = false
-    ; basicOptionalEntityClass = Option
-    ; relationOptionalEntityClass = Option
-    ; entityMutablePrefix = Mble
-    ; isMakeImmutableEntity = true
-
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # o isAvailableAddingSchemaToTableSqlName: (NotRequired - Default false)
     #   [true]
@@ -110,7 +103,7 @@ map:{
     #   [false]
     #     Non.
     #
-    #; isCheckSelectedClassification = false
+    ; isCheckSelectedClassification = true
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -123,7 +116,7 @@ map:{
     #   [false]
     #     Non.
     #
-    #; isForceClassificationSetting = false
+    ; isForceClassificationSetting = true
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -336,14 +329,5 @@ map:{
     #
     ; cursorSelectFetchSize = 17
     # - - - - - - - - - -/
-
-    # the test of suppressing behavior for table classification
-    ; isSuppressTableClassificationDBAccessClass = true
-
-    # the test of suppressing to-one ExistsReferrer
-    ; isMakeConditionQueryExistsReferrerToOne = false
-
-    # the test of suppressing to-one InScopeRelation
-    ; isMakeConditionQueryInScopeRelationToOne = false
 }
 # ----------------/

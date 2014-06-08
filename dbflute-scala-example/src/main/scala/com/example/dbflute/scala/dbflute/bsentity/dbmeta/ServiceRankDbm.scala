@@ -47,28 +47,36 @@ object ServiceRankDbm extends AbstractDBMeta {
         setupEpg(_epgMap, new EpgDisplayOrder(), "displayOrder");
     }
     class EpgServiceRankCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleServiceRank].serviceRankCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleServiceRank].serviceRankCode(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleServiceRank].getServiceRankCode(); }
+        def write(et: Entity, vl: Object): Unit = {
+            val col: ColumnInfo = columnServiceRankCode();
+            dgccls(col, vl);
+            et.asInstanceOf[DbleServiceRank].setServiceRankCodeAsServiceRank(dggcls(col, vl).asInstanceOf[CDef.ServiceRank]);
+        }
     }
     class EpgServiceRankName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleServiceRank].serviceRankName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleServiceRank].serviceRankName(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleServiceRank].getServiceRankName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleServiceRank].setServiceRankName(vl.asInstanceOf[String]); }
     }
     class EpgServicePointIncidence extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleServiceRank].servicePointIncidence(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleServiceRank].servicePointIncidence(dgctb(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleServiceRank].getServicePointIncidence(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleServiceRank].setServicePointIncidence(dgctb(vl)); }
     }
     class EpgNewAcceptableFlg extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleServiceRank].newAcceptableFlg(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleServiceRank].newAcceptableFlg(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleServiceRank].getNewAcceptableFlg(); }
+        def write(et: Entity, vl: Object): Unit = {
+            val col: ColumnInfo = columnNewAcceptableFlg();
+            dgccls(col, vl);
+            et.asInstanceOf[DbleServiceRank].setNewAcceptableFlgAsFlg(dggcls(col, vl).asInstanceOf[CDef.Flg]);
+        }
     }
     class EpgDescription extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleServiceRank].description(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleServiceRank].description(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleServiceRank].getDescription(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleServiceRank].setDescription(vl.asInstanceOf[String]); }
     }
     class EpgDisplayOrder extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[MbleServiceRank].displayOrder(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[MbleServiceRank].displayOrder(dgcti(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleServiceRank].getDisplayOrder(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleServiceRank].setDisplayOrder(dgcti(vl)); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -122,14 +130,6 @@ object ServiceRankDbm extends AbstractDBMeta {
 
     { initializeInformationResource(); }
 
-    override protected def buildPropertyGetterMethodName(propertyName: String): String = {
-        return initUncap(propertyName);
-    }
-
-    override protected def buildPropertySetterMethodName(propertyName: String): String = {
-        return initUncap(propertyName);
-    }
-
     // ===================================================================================
     //                                                                         Unique Info
     //                                                                         ===========
@@ -157,10 +157,6 @@ object ServiceRankDbm extends AbstractDBMeta {
         return cri("FK_MEMBER_SERVICE_SERVICE_RANK_CODE", "memberServiceList", this, MemberServiceDbm, mp, false, "serviceRank");
     }
 
-    override def getReferrerPropertyListType(): Class[_] = {
-        return classOf[scala.collection.immutable.List[_]];
-    }
-
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
@@ -168,28 +164,28 @@ object ServiceRankDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.MbleServiceRank"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.DbleServiceRank"; }
     def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.ServiceRankCB"; }
     def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.ServiceRankBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[MbleServiceRank] = { return classOf[MbleServiceRank]; }
+    def getEntityType(): Class[DbleServiceRank] = { return classOf[DbleServiceRank]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): MbleServiceRank = { return new MbleServiceRank(); }
+    def newMyEntity(): DbleServiceRank = { return new DbleServiceRank(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[MbleServiceRank], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[DbleServiceRank], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[MbleServiceRank], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[DbleServiceRank], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }

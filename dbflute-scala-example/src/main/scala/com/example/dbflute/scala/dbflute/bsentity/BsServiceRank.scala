@@ -1,23 +1,19 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
-import scala.collection.JavaConverters._
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
 
-import java.lang.Long;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.Entity;
-import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
-import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
-import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
- * The entity of (サービスランク)SERVICE_RANK as TABLE. <br />
+ * The immutable entity of (サービスランク)SERVICE_RANK as TABLE. <br />
  * <pre>
  * [primary-key]
  *     SERVICE_RANK_CODE
@@ -46,63 +42,86 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * [referrer property]
  *     memberServiceList
  * 
- * [get/set template]
+ * [get template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * String serviceRankCode = entity.getServiceRankCode();
- * String serviceRankName = entity.getServiceRankName();
- * java.math.BigDecimal servicePointIncidence = entity.getServicePointIncidence();
- * Integer newAcceptableFlg = entity.getNewAcceptableFlg();
- * String description = entity.getDescription();
- * Integer displayOrder = entity.getDisplayOrder();
- * entity.setServiceRankCode(serviceRankCode);
- * entity.setServiceRankName(serviceRankName);
- * entity.setServicePointIncidence(servicePointIncidence);
- * entity.setNewAcceptableFlg(newAcceptableFlg);
- * entity.setDescription(description);
- * entity.setDisplayOrder(displayOrder);
+ * val serviceRankCode: CDef.ServiceRank = entity.serviceRankCode
+ * val serviceRankName: String = entity.serviceRankName
+ * val servicePointIncidence: java.math.BigDecimal = entity.servicePointIncidence
+ * val newAcceptableFlg: CDef.Flg = entity.newAcceptableFlg
+ * val description: String = entity.description
+ * val displayOrder: Int = entity.displayOrder
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable with Cloneable {
+abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
 
     // ===================================================================================
-    //                                                                          Table Name
-    //                                                                          ==========
-    /**
-     * {@inheritDoc}
-     */
-    def getTableDbName(): String = {
-        return "SERVICE_RANK";
-    }
+    //                                                                           Attribute
+    //                                                                           =========
+    // -----------------------------------------------------
+    //                                                Column
+    //                                                ------
+    /** (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} */
+    protected val _serviceRankCode: CDef.ServiceRank = dble.getServiceRankCodeAsServiceRank;
 
-    /**
-     * {@inheritDoc}
-     */
-    def getTablePropertyName(): String = { // according to Java Beans rule
-        return "serviceRank";
+    /** (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} */
+    protected val _serviceRankName: String = dble.getServiceRankName;
+
+    /** (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} */
+    protected val _servicePointIncidence: java.math.BigDecimal = dble.getServicePointIncidence;
+
+    /** (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} */
+    protected val _newAcceptableFlg: CDef.Flg = dble.getNewAcceptableFlgAsFlg;
+
+    /** (説明)DESCRIPTION: {NotNull, VARCHAR(200)} */
+    protected val _description: String = dble.getDescription;
+
+    /** (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} */
+    protected val _displayOrder: Int = dble.getDisplayOrder;
+
+    // -----------------------------------------------------
+    //                                              Internal
+    //                                              --------
+    /** The unique-driven properties for this entity. (NotNull) */
+    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
+
+    /** The modified properties for this entity. (NotNull) */
+    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
+
+    // ===================================================================================
+    //                                                                           Case Like
+    //                                                                           =========
+    def copy(
+         serviceRankCode: CDef.ServiceRank = _serviceRankCode
+        , serviceRankName: String = _serviceRankName
+        , servicePointIncidence: java.math.BigDecimal = _servicePointIncidence
+        , newAcceptableFlg: CDef.Flg = _newAcceptableFlg
+        , description: String = _description
+        , displayOrder: Int = _displayOrder
+    ): ServiceRank = {
+        val newDble = new DbleServiceRank();
+        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
+        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
+        if (!serviceRankCode.equals(_serviceRankCode)) { newDble.setServiceRankCodeAsServiceRank(_serviceRankCode); }
+        if (!serviceRankName.equals(_serviceRankName)) { newDble.setServiceRankName(_serviceRankName); }
+        if (!servicePointIncidence.equals(_servicePointIncidence)) { newDble.setServicePointIncidence(_servicePointIncidence); }
+        if (!newAcceptableFlg.equals(_newAcceptableFlg)) { newDble.setNewAcceptableFlgAsFlg(_newAcceptableFlg); }
+        if (!description.equals(_description)) { newDble.setDescription(_description); }
+        if (!displayOrder.equals(_displayOrder)) { newDble.setDisplayOrder(_displayOrder); }
+        return new ServiceRank(newDble);
     }
 
     // ===================================================================================
-    //                                                                              DBMeta
-    //                                                                              ======
-    /**
-     * {@inheritDoc}
-     */
-    def getDBMeta(): DBMeta = {
-        return DBMetaInstanceHandler.findDBMeta(getTableDbName());
-    }
-
-    // ===================================================================================
-    //                                                                         Primary Key
+    //                                                                         Entity Meta
     //                                                                         ===========
-    /**
-     * {@inheritDoc}
-     */
-    def hasPrimaryKeyValue(): Boolean = {
-        if (serviceRankCode() == null) { return false; }
-        return true;
-    }
+    def getTableDbName(): String = { dble.getTableDbName }
+    def getDBMeta(): DBMeta = { dble.getDBMeta }
+    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
+    def getModifiedProperties(): Set[String] = { __modifiedProperties }
 
     // ===================================================================================
     //                                                             Classification Property
@@ -114,9 +133,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def serviceRankCodeAsServiceRank(): CDef.ServiceRank = {
-        return mbleEntity.serviceRankCodeAsServiceRank;
-    }
+    def serviceRankCodeAsServiceRank: CDef.ServiceRank = { dble.getServiceRankCodeAsServiceRank }
 
     /**
      * Get the value of newAcceptableFlg as the classification of Flg. <br />
@@ -125,9 +142,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def newAcceptableFlgAsFlg(): CDef.Flg = {
-        return mbleEntity.newAcceptableFlgAsFlg;
-    }
+    def newAcceptableFlgAsFlg: CDef.Flg = { dble.getNewAcceptableFlgAsFlg }
 
     // ===================================================================================
     //                                                        Classification Determination
@@ -138,9 +153,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCode_Platinum(): Boolean = {
-        return mbleEntity.isServiceRankCode_Platinum;
-    }
+    def isServiceRankCode_Platinum: Boolean = { dble.isServiceRankCode_Platinum }
 
     /**
      * Is the value of serviceRankCode Gold? <br />
@@ -148,9 +161,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCode_Gold(): Boolean = {
-        return mbleEntity.isServiceRankCode_Gold;
-    }
+    def isServiceRankCode_Gold: Boolean = { dble.isServiceRankCode_Gold }
 
     /**
      * Is the value of serviceRankCode Silver? <br />
@@ -158,9 +169,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCode_Silver(): Boolean = {
-        return mbleEntity.isServiceRankCode_Silver;
-    }
+    def isServiceRankCode_Silver: Boolean = { dble.isServiceRankCode_Silver }
 
     /**
      * Is the value of serviceRankCode Bronze? <br />
@@ -168,9 +177,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCode_Bronze(): Boolean = {
-        return mbleEntity.isServiceRankCode_Bronze;
-    }
+    def isServiceRankCode_Bronze: Boolean = { dble.isServiceRankCode_Bronze }
 
     /**
      * Is the value of serviceRankCode Plastic? <br />
@@ -178,9 +185,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isServiceRankCode_Plastic(): Boolean = {
-        return mbleEntity.isServiceRankCode_Plastic;
-    }
+    def isServiceRankCode_Plastic: Boolean = { dble.isServiceRankCode_Plastic }
 
     /**
      * Is the value of newAcceptableFlg True? <br />
@@ -188,9 +193,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isNewAcceptableFlg_True(): Boolean = {
-        return mbleEntity.isNewAcceptableFlg_True;
-    }
+    def isNewAcceptableFlg_True: Boolean = { dble.isNewAcceptableFlg_True }
 
     /**
      * Is the value of newAcceptableFlg False? <br />
@@ -198,9 +201,7 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isNewAcceptableFlg_False(): Boolean = {
-        return mbleEntity.isNewAcceptableFlg_False;
-    }
+    def isNewAcceptableFlg_False: Boolean = { dble.isNewAcceptableFlg_False }
 
     // ===================================================================================
     //                                                           Classification Name/Alias
@@ -209,17 +210,13 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * Get the value of the column 'newAcceptableFlg' as classification name.
      * @return The string of classification name. (NullAllowed: when the column value is null)
      */
-    def newAcceptableFlgName(): String = {
-        return mbleEntity.newAcceptableFlgName;
-    }
+    def newAcceptableFlgName: String = { dble.getNewAcceptableFlgName }
 
     /**
      * Get the value of the column 'newAcceptableFlg' as classification alias.
      * @return The string of classification alias. (NullAllowed: when the column value is null)
      */
-    def newAcceptableFlgAlias(): String = {
-        return mbleEntity.newAcceptableFlgAlias;
-    }
+    def newAcceptableFlgAlias: String = { dble.getNewAcceptableFlgAlias }
 
     // ===================================================================================
     //                                                                    Foreign Property
@@ -227,13 +224,14 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'. */
+    protected var _memberServiceList: List[MemberService] = dble.toImmutableMemberServiceList
+
     /**
-     * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
+     * [get] (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
      * @return The entity list of referrer property 'memberServiceList'. (NotNull: even if no loading, returns empty list)
      */
-    def memberServiceList(): scala.collection.immutable.List[MbleMemberService] = {
-        return mbleEntity.memberServiceList;
-    }
+    def memberServiceList: List[MemberService] = { return _memberServiceList; }
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -249,52 +247,260 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
             case obj: BsServiceRank => {
                 val other: BsServiceRank = obj.asInstanceOf[BsServiceRank];
                 {
-                    mbleEntity.equals(other)
+                     xSV(serviceRankCode, other.serviceRankCode)
                 }
             }
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): Boolean = {
-        return FunCustodial.isSameValue(v1, v2);
-    }
+    protected def xSV(v1: Int, v2: Int): Boolean = { return v1 == v2; }
+    protected def xSV(v1: Long, v2: Long): Boolean = { return v1 == v2; }
+    protected def xSV(v1: Object, v2: Object): Boolean = { return FunCustodial.isSameValue(v1, v2) }
 
     /**
      * Calculate the hash-code from primary-keys or columns.
      * @return The hash-code from primary-key or columns.
      */
-    override def hashCode(): Int = {
-        return mbleEntity.hashCode;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def instanceHash(): Int = {
-        return mbleEntity.instanceHash;
-    }
+    override def hashCode(): Int = { return dble.hashCode; }
+    def instanceHash(): Int = { return dble.instanceHash; }
 
     /**
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = {
-        return mbleEntity.buildDisplayString(FunCustodial.toClassTitle(this), true, true);
-    }
+    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    /**
+     * [get] (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
+     * @return The value of the column 'SERVICE_RANK_CODE'. (NotNull but EmptyAllowed if null in database)
+     */
+    def serviceRankCode: CDef.ServiceRank = { return _serviceRankCode; }
 
     /**
-     * Clone entity instance using super.clone(). (shallow copy) 
-     * @return The cloned instance of this entity. (NotNull)
+     * [get] (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} <br />
+     * @return The value of the column 'SERVICE_RANK_NAME'. (NotNull but EmptyAllowed if null in database)
      */
-    override def clone(): MbleServiceRank = {
-        try {
-            return super.clone().asInstanceOf[MbleServiceRank];
-        } catch {
-            case e: CloneNotSupportedException => {
-                throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
-            }
-        }
-    }
+    def serviceRankName: String = { return _serviceRankName; }
+
+    /**
+     * [get] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
+     * @return The value of the column 'SERVICE_POINT_INCIDENCE'. (NotNull but EmptyAllowed if null in database)
+     */
+    def servicePointIncidence: java.math.BigDecimal = { return _servicePointIncidence; }
+
+    /**
+     * [get] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * @return The value of the column 'NEW_ACCEPTABLE_FLG'. (NotNull but EmptyAllowed if null in database)
+     */
+    def newAcceptableFlg: CDef.Flg = { return _newAcceptableFlg; }
+
+    /**
+     * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
+     * @return The value of the column 'DESCRIPTION'. (NotNull but EmptyAllowed if null in database)
+     */
+    def description: String = { return _description; }
+
+    /**
+     * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'DISPLAY_ORDER'. (NotNull but EmptyAllowed if null in database)
+     */
+    def displayOrder: Int = { return _displayOrder; }
+}
+
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                  Immutable                                           _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                        Mutable                       _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                              Border                                  _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+
+/**
+ * The mutable entity of (サービスランク)SERVICE_RANK as TABLE. <br />
+ * [get/set template]
+ * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * val serviceRankCode: CDef.ServiceRank = entity.serviceRankCode
+ * val serviceRankName: String = entity.serviceRankName
+ * val servicePointIncidence: java.math.BigDecimal = entity.servicePointIncidence
+ * val newAcceptableFlg: CDef.Flg = entity.newAcceptableFlg
+ * val description: String = entity.description
+ * val displayOrder: Int = entity.displayOrder
+ * entity.serviceRankCode = serviceRankCode
+ * entity.serviceRankName = serviceRankName
+ * entity.servicePointIncidence = servicePointIncidence
+ * entity.newAcceptableFlg = newAcceptableFlg
+ * entity.description = description
+ * entity.displayOrder = displayOrder
+ * = = = = = = = = = =/
+ * @author DBFlute(AutoGenerator)
+ */
+abstract class BsMbleServiceRank {
+
+    // ===================================================================================
+    //                                                                           Attribute
+    //                                                                           =========
+    val dble: DbleServiceRank = new DbleServiceRank();
+
+    // ===================================================================================
+    //                                                                      DB-able Entity
+    //                                                                      ==============
+    def toDBableEntity(): DbleServiceRank = { dble }
+
+    // ===================================================================================
+    //                                                                          Unique Key
+    //                                                                          ==========
+    /**
+     * To be unique by the unique column. <br />
+     * You can update the entity by the key when entity update (NOT batch update).
+     * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
+     */
+    def uniqueBy(displayOrder: Integer): Unit = { dble.setDisplayOrder(displayOrder); }
+
+    // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of serviceRankCode as the classification of ServiceRank. <br />
+     * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
+     * rank of service member gets
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    def serviceRankCodeAsServiceRank: CDef.ServiceRank = { dble.getServiceRankCodeAsServiceRank }
+
+    /**
+     * Set the value of serviceRankCode as the classification of ServiceRank. <br />
+     * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
+     * rank of service member gets
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    def serviceRankCodeAsServiceRank_=(cdef: CDef.ServiceRank): Unit = { dble.setServiceRankCodeAsServiceRank(cdef) }
+
+    /**
+     * Get the value of newAcceptableFlg as the classification of Flg. <br />
+     * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * general boolean classification for every flg-column
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    def newAcceptableFlgAsFlg: CDef.Flg = { dble.getNewAcceptableFlgAsFlg }
+
+    /**
+     * Set the value of newAcceptableFlg as the classification of Flg. <br />
+     * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * general boolean classification for every flg-column
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    def newAcceptableFlgAsFlg_=(cdef: CDef.Flg): Unit = { dble.setNewAcceptableFlgAsFlg(cdef) }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of serviceRankCode as Platinum (PLT). <br />
+     * PLATINUM: platinum rank
+     */
+    def serviceRankCode_Platinum: Unit = { dble.setServiceRankCode_Platinum }
+
+    /**
+     * Set the value of serviceRankCode as Gold (GLD). <br />
+     * GOLD: gold rank
+     */
+    def serviceRankCode_Gold: Unit = { dble.setServiceRankCode_Gold }
+
+    /**
+     * Set the value of serviceRankCode as Silver (SIL). <br />
+     * SILVER: silver rank
+     */
+    def serviceRankCode_Silver: Unit = { dble.setServiceRankCode_Silver }
+
+    /**
+     * Set the value of serviceRankCode as Bronze (BRZ). <br />
+     * BRONZE: bronze rank
+     */
+    def serviceRankCode_Bronze: Unit = { dble.setServiceRankCode_Bronze }
+
+    /**
+     * Set the value of serviceRankCode as Plastic (PLS). <br />
+     * PLASTIC: plastic rank
+     */
+    def serviceRankCode_Plastic: Unit = { dble.setServiceRankCode_Plastic }
+
+    /**
+     * Set the value of newAcceptableFlg as True (1). <br />
+     * Yes: means valid
+     */
+    def newAcceptableFlg_True: Unit = { dble.setNewAcceptableFlg_True }
+
+    /**
+     * Set the value of newAcceptableFlg as False (0). <br />
+     * No: means invalid
+     */
+    def newAcceptableFlg_False: Unit = { dble.setNewAcceptableFlg_False }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of serviceRankCode Platinum? <br />
+     * PLATINUM: platinum rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCode_Platinum: Boolean = { dble.isServiceRankCode_Platinum }
+
+    /**
+     * Is the value of serviceRankCode Gold? <br />
+     * GOLD: gold rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCode_Gold: Boolean = { dble.isServiceRankCode_Gold }
+
+    /**
+     * Is the value of serviceRankCode Silver? <br />
+     * SILVER: silver rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCode_Silver: Boolean = { dble.isServiceRankCode_Silver }
+
+    /**
+     * Is the value of serviceRankCode Bronze? <br />
+     * BRONZE: bronze rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCode_Bronze: Boolean = { dble.isServiceRankCode_Bronze }
+
+    /**
+     * Is the value of serviceRankCode Plastic? <br />
+     * PLASTIC: plastic rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCode_Plastic: Boolean = { dble.isServiceRankCode_Plastic }
+
+    /**
+     * Is the value of newAcceptableFlg True? <br />
+     * Yes: means valid
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isNewAcceptableFlg_True: Boolean = { dble.isNewAcceptableFlg_True }
+
+    /**
+     * Is the value of newAcceptableFlg False? <br />
+     * No: means invalid
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isNewAcceptableFlg_False: Boolean = { dble.isNewAcceptableFlg_False }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -303,57 +509,71 @@ abstract class BsServiceRank(mbleEntity: MbleServiceRank) extends Serializable w
      * [get] (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
      * @return The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def serviceRankCode(): String = {
-        return mbleEntity.serviceRankCode;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def serviceRankCode: CDef.ServiceRank = { dble.getServiceRankCodeAsServiceRank }
+
+    /**
+     * [set] (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
+     * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    protected def serviceRankCode_=(serviceRankCode: CDef.ServiceRank) = { dble.setServiceRankCodeAsServiceRank(serviceRankCode) }
+
     /**
      * [get] (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'SERVICE_RANK_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def serviceRankName(): String = {
-        return mbleEntity.serviceRankName;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def serviceRankName: String = { dble.getServiceRankName }
+
+    /**
+     * [set] (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} <br />
+     * @param serviceRankName The value of the column 'SERVICE_RANK_NAME'. (NullAllowed: null update allowed for no constraint)
+     */
+    def serviceRankName_=(serviceRankName: String) = { dble.setServiceRankName(serviceRankName) }
+
     /**
      * [get] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
      * @return The value of the column 'SERVICE_POINT_INCIDENCE'. (basically NotNull if selected: for the constraint)
      */
-    def servicePointIncidence(): java.math.BigDecimal = {
-        return mbleEntity.servicePointIncidence;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def servicePointIncidence: java.math.BigDecimal = { dble.getServicePointIncidence }
+
+    /**
+     * [set] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
+     * @param servicePointIncidence The value of the column 'SERVICE_POINT_INCIDENCE'. (NullAllowed: null update allowed for no constraint)
+     */
+    def servicePointIncidence_=(servicePointIncidence: java.math.BigDecimal) = { dble.setServicePointIncidence(servicePointIncidence) }
+
     /**
      * [get] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
      * @return The value of the column 'NEW_ACCEPTABLE_FLG'. (basically NotNull if selected: for the constraint)
      */
-    def newAcceptableFlg(): Integer = {
-        return mbleEntity.newAcceptableFlg;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def newAcceptableFlg: CDef.Flg = { dble.getNewAcceptableFlgAsFlg }
+
+    /**
+     * [set] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
+     * @param newAcceptableFlg The value of the column 'NEW_ACCEPTABLE_FLG'. (NullAllowed: null update allowed for no constraint)
+     */
+    protected def newAcceptableFlg_=(newAcceptableFlg: CDef.Flg) = { dble.setNewAcceptableFlgAsFlg(newAcceptableFlg) }
+
     /**
      * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'DESCRIPTION'. (basically NotNull if selected: for the constraint)
      */
-    def description(): String = {
-        return mbleEntity.description;
-    }
-    // ===================================================================================
-    //                                                                            Accessor
-    //                                                                            ========
+    def description: String = { dble.getDescription }
+
+    /**
+     * [set] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
+     * @param description The value of the column 'DESCRIPTION'. (NullAllowed: null update allowed for no constraint)
+     */
+    def description_=(description: String) = { dble.setDescription(description) }
+
     /**
      * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'DISPLAY_ORDER'. (basically NotNull if selected: for the constraint)
      */
-    def displayOrder(): Integer = {
-        return mbleEntity.displayOrder;
-    }
+    def displayOrder: Int = { dble.getDisplayOrder }
+
+    /**
+     * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
+     * @param displayOrder The value of the column 'DISPLAY_ORDER'. (NullAllowed: null update allowed for no constraint)
+     */
+    def displayOrder_=(displayOrder: Int) = { dble.setDisplayOrder(displayOrder) }
 }

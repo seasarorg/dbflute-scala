@@ -1,9 +1,12 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
-import scala.collection.JavaConverters._
+import scala.collection.JavaConverters._;
 
 import java.lang.Long;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.Date;
 
@@ -76,11 +79,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
-
-    // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
+abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -137,6 +136,35 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
     protected var __createdBySelect: Boolean = false;
 
     // ===================================================================================
+    //                                                                           Immutable
+    //                                                                           =========
+    /**
+     * Accept immutable entity to initialize this.
+     * @return this. (NotNull)
+     */
+    def acceptImmutableEntity(immu: Member): DbleMember = {
+        setMemberId(immu.memberId);
+        setMemberName(immu.memberName);
+        setMemberAccount(immu.memberAccount);
+        setMemberStatusCodeAsMemberStatus(immu.memberStatusCode);
+        setFormalizedDatetime(immu.formalizedDatetime.orNull);
+        setBirthdate(immu.birthdate.orNull);
+        setRegisterDatetime(immu.registerDatetime);
+        setRegisterUser(immu.registerUser);
+        setUpdateDatetime(immu.updateDatetime);
+        setUpdateUser(immu.updateUser);
+        setVersionNo(immu.versionNo);
+        setMemberStatus(immu.memberStatus.map(new DbleMemberStatus().acceptImmutableEntity(_)))
+        setMemberServiceAsOne(immu.memberServiceAsOne.map(new DbleMemberService().acceptImmutableEntity(_)))
+        setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutableEntity(_)).asJava)
+        __uniqueDrivenProperties.clear();
+        immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
+        __modifiedProperties.clear();
+        immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
+        return this.asInstanceOf[DbleMember];
+    }
+
+    // ===================================================================================
     //                                                                          Table Name
     //                                                                          ==========
     /**
@@ -170,7 +198,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (memberId() == null) { return false; }
+        if (getMemberId() == null) { return false; }
         return true;
     }
 
@@ -182,7 +210,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
     def uniqueBy(memberAccount: String): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("memberAccount");
-        this.memberAccount(memberAccount);
+        setMemberAccount(memberAccount);
     }
 
     /**
@@ -192,7 +220,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
         return __uniqueDrivenProperties.getPropertyNames();
     }
 
-    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+    protected def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
         return new EntityUniqueDrivenProperties();
     }
 
@@ -206,8 +234,8 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def memberStatusCodeAsMemberStatus(): CDef.MemberStatus = {
-        return CDef.MemberStatus.codeOf(memberStatusCode());
+    def getMemberStatusCodeAsMemberStatus(): CDef.MemberStatus = {
+        return CDef.MemberStatus.codeOf(getMemberStatusCode());
     }
 
     /**
@@ -216,8 +244,8 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * status of member from entry to withdrawal
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
-    def memberStatusCodeAsMemberStatus(cdef: CDef.MemberStatus): Unit = {
-        memberStatusCode(if (cdef != null) { cdef.code } else { null });
+    def setMemberStatusCodeAsMemberStatus(cdef: CDef.MemberStatus): Unit = {
+        setMemberStatusCode(if (cdef != null) { cdef.code } else { null });
     }
 
     // ===================================================================================
@@ -227,24 +255,24 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * Set the value of memberStatusCode as Formalized (FML). <br />
      * Formalized: as formal member, allowed to use all service
      */
-    def memberStatusCode_Formalized(): Unit = {
-        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Formalized);
+    def setMemberStatusCode_Formalized(): Unit = {
+        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Formalized);
     }
 
     /**
      * Set the value of memberStatusCode as Withdrawal (WDL). <br />
      * Withdrawal: withdrawal is fixed, not allowed to use service
      */
-    def memberStatusCode_Withdrawal(): Unit = {
-        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Withdrawal);
+    def setMemberStatusCode_Withdrawal(): Unit = {
+        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Withdrawal);
     }
 
     /**
      * Set the value of memberStatusCode as Provisional (PRV). <br />
      * Provisional: first status after entry, allowed to use only part of service
      */
-    def memberStatusCode_Provisional(): Unit = {
-        memberStatusCodeAsMemberStatus(CDef.MemberStatus.Provisional);
+    def setMemberStatusCode_Provisional(): Unit = {
+        setMemberStatusCodeAsMemberStatus(CDef.MemberStatus.Provisional);
     }
 
     // ===================================================================================
@@ -257,7 +285,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Formalized(): Boolean = {
-        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
+        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Formalized) } else { false };
     }
 
@@ -268,7 +296,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Withdrawal(): Boolean = {
-        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
+        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Withdrawal) } else { false };
     }
 
@@ -279,79 +307,100 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * @return The determination, true or false.
      */
     def isMemberStatusCode_Provisional(): Boolean = {
-        val cdef: CDef.MemberStatus = memberStatusCodeAsMemberStatus();
+        val cdef: CDef.MemberStatus = getMemberStatusCodeAsMemberStatus();
         return if (cdef != null) { cdef.equals(CDef.MemberStatus.Provisional) } else { false };
     }
 
     // ===================================================================================
-    //                                                           Classification Name/Alias
-    //                                                           =========================
-    // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
     /** (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'. */
-    protected var _memberStatus: Option[MbleMemberStatus] = null;
+    protected var _memberStatus: Option[DbleMemberStatus] = null;
 
     /**
-     * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
-     * @return The entity of foreign property 'memberStatus'. (NullAllowed: when e.g. null FK column, no setupSelect)
+     * [get] (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
+     * @return The entity of foreign property 'memberStatus'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def memberStatus(): Option[MbleMemberStatus] = {
+    def getMemberStatus(): Option[DbleMemberStatus] = {
         return if (_memberStatus != null) { _memberStatus; } else { Option.empty; }
     }
 
     /**
-     * (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
-     * @param memberStatus The entity of foreign property 'memberStatus'. (NullAllowed)
+     * [set] (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
+     * @param memberStatus The entity of foreign property 'memberStatus'. (EmptyAllowed)
      */
-    def memberStatus(memberStatus: Option[MbleMemberStatus]): Unit = {
+    def setMemberStatus(memberStatus: Option[DbleMemberStatus]): Unit = {
         _memberStatus = memberStatus;
     }
 
+    /**
+     * [convert] (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
+     * @return The new-created immutable entity of foreign property 'memberStatus'. (NotNull)
+     */
+    def toImmutableMemberStatus(): Option[MemberStatus] = {
+        return getMemberStatus().map(_.toImmutable());
+    }
+
     /** (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'. */
-    protected var _memberServiceAsOne: Option[MbleMemberService] = null;
+    protected var _memberServiceAsOne: Option[DbleMemberService] = null;
 
     /**
-     * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
-     * @return the entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (NullAllowed: when e.g. no data, no setupSelect)
+     * [get] (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
+     * @return the entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (EmptyAllowed: when e.g. no data, no setupSelect)
      */
-    def memberServiceAsOne(): Option[MbleMemberService] = {
+    def getMemberServiceAsOne(): Option[DbleMemberService] = {
         return if (_memberServiceAsOne != null) { _memberServiceAsOne; } else { Option.empty; }
     }
 
     /**
-     * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
-     * @param memberServiceAsOne The entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (NullAllowed)
+     * [set] (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
+     * @param memberServiceAsOne The entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (EmptyAllowed)
      */
-    def memberServiceAsOne(memberServiceAsOne: Option[MbleMemberService]): Unit = {
+    def setMemberServiceAsOne(memberServiceAsOne: Option[DbleMemberService]): Unit = {
         _memberServiceAsOne = memberServiceAsOne;
+    }
+
+    /**
+     * [convert] (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
+     * @return The new-created immutable entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (NotNull)
+     */
+    def toImmutableMemberServiceAsOne(): Option[MemberService] = {
+        return getMemberServiceAsOne().map(_.toImmutable());
     }
 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
     /** (購入)PURCHASE by MEMBER_ID, named 'purchaseList'. */
-    protected var _purchaseList: scala.collection.immutable.List[MblePurchase] = null;
+    protected var _purchaseList: List[DblePurchase] = null;
 
     /**
-     * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
+     * [get] (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)
      */
-    def purchaseList(): scala.collection.immutable.List[MblePurchase] = {
+    def getPurchaseList(): List[DblePurchase] = {
         if (_purchaseList == null) { _purchaseList = newReferrerList(); }
         return _purchaseList;
     }
 
     /**
-     * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
+     * [set] (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * @param purchaseList The entity list of referrer property 'purchaseList'. (NullAllowed)
      */
-    def purchaseList(purchaseList: scala.collection.immutable.List[MblePurchase]): Unit = {
+    def setPurchaseList(purchaseList: List[DblePurchase]): Unit = {
         _purchaseList = purchaseList;
     }
 
-    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
-        return scala.collection.immutable.List(); // #pending actually fixed empty list
+    /**
+     * [convert] (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
+     * @return The new-created immutable list of immutable entity of the referrer property 'purchaseList'. (NotNull)
+     */
+    def toImmutablePurchaseList(): scala.collection.immutable.List[Purchase] = {
+        return toScalaList(_purchaseList).map(_.toImmutable());
+    }
+
+    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
+        return new ArrayList[ELEMENT]();
     }
 
     // ===================================================================================
@@ -427,7 +476,15 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
     //                                                                    Immutable Entity
     //                                                                    ================
     def toImmutable(): Member = {
-        return new Member(this.asInstanceOf[MbleMember]);
+        return new Member(this.asInstanceOf[DbleMember]);
+    }
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { return scala.collection.immutable.List(); }
+        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 
     // ===================================================================================
@@ -441,10 +498,10 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      */
     override def equals(obj: Any) = {
         obj match {
-            case obj: BsMbleMember => {
-                val other: BsMbleMember = obj.asInstanceOf[BsMbleMember];
+            case obj: BsDbleMember => {
+                val other: BsDbleMember = obj.asInstanceOf[BsDbleMember];
                 {
-                     xSV(memberId(), other.memberId())
+                     xSV(getMemberId(), other.getMemberId())
                 }
             }
             case _ => false
@@ -461,7 +518,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, memberId());
+        hs = xCH(hs, getMemberId());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -494,9 +551,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
         { sb.append(li).append(xbRDS(_memberStatus, "memberStatus")); }
         if (_memberServiceAsOne != null)
         { sb.append(li).append(xbRDS(_memberServiceAsOne, "memberServiceAsOne")); }
-        if (_purchaseList != null) {
-            _purchaseList.foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "purchaseList")) } });
-        }
+        toScalaList(_purchaseList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "purchaseList")) } });
         return sb.toString();
     }
     protected def xbRDS(et: Entity, name: String): String = {
@@ -520,17 +575,17 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val dm: String = ", ";
-        sb.append(dm).append(memberId());
-        sb.append(dm).append(memberName());
-        sb.append(dm).append(memberAccount());
-        sb.append(dm).append(memberStatusCode());
-        sb.append(dm).append(formalizedDatetime());
-        sb.append(dm).append(xfUD(birthdate()));
-        sb.append(dm).append(registerDatetime());
-        sb.append(dm).append(registerUser());
-        sb.append(dm).append(updateDatetime());
-        sb.append(dm).append(updateUser());
-        sb.append(dm).append(versionNo());
+        sb.append(dm).append(getMemberId());
+        sb.append(dm).append(getMemberName());
+        sb.append(dm).append(getMemberAccount());
+        sb.append(dm).append(getMemberStatusCode());
+        sb.append(dm).append(getFormalizedDatetime());
+        sb.append(dm).append(xfUD(getBirthdate()));
+        sb.append(dm).append(getRegisterDatetime());
+        sb.append(dm).append(getRegisterUser());
+        sb.append(dm).append(getUpdateDatetime());
+        sb.append(dm).append(getUpdateUser());
+        sb.append(dm).append(getVersionNo());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -560,9 +615,9 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    override def clone(): MbleMember = {
+    override def clone(): DbleMember = {
         try {
-            return super.clone().asInstanceOf[MbleMember];
+            return super.clone().asInstanceOf[DbleMember];
         } catch {
             case e: CloneNotSupportedException => {
                 throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
@@ -577,7 +632,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
-    def memberId(): Integer = {
+    def getMemberId(): Integer = {
         return _memberId;
     }
 
@@ -585,7 +640,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
-    def memberId(memberId: Integer): Unit = {
+    def setMemberId(memberId: Integer): Unit = {
         __modifiedProperties.addPropertyName("memberId");
         this._memberId = memberId;
     }
@@ -594,7 +649,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'MEMBER_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def memberName(): String = {
+    def getMemberName(): String = {
         return convertEmptyToNull(_memberName);
     }
 
@@ -602,7 +657,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
      * @param memberName The value of the column 'MEMBER_NAME'. (basically NotNull if update: for the constraint)
      */
-    def memberName(memberName: String): Unit = {
+    def setMemberName(memberName: String): Unit = {
         __modifiedProperties.addPropertyName("memberName");
         this._memberName = memberName;
     }
@@ -611,7 +666,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'MEMBER_ACCOUNT'. (basically NotNull if selected: for the constraint)
      */
-    def memberAccount(): String = {
+    def getMemberAccount(): String = {
         return convertEmptyToNull(_memberAccount);
     }
 
@@ -619,7 +674,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
      * @param memberAccount The value of the column 'MEMBER_ACCOUNT'. (basically NotNull if update: for the constraint)
      */
-    def memberAccount(memberAccount: String): Unit = {
+    def setMemberAccount(memberAccount: String): Unit = {
         __modifiedProperties.addPropertyName("memberAccount");
         this._memberAccount = memberAccount;
     }
@@ -628,7 +683,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
      * @return The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def memberStatusCode(): String = {
+    def getMemberStatusCode(): String = {
         return convertEmptyToNull(_memberStatusCode);
     }
 
@@ -636,7 +691,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
      * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
-    def memberStatusCode(memberStatusCode: String): Unit = {
+    protected def setMemberStatusCode(memberStatusCode: String): Unit = {
         __modifiedProperties.addPropertyName("memberStatusCode");
         this._memberStatusCode = memberStatusCode;
     }
@@ -645,7 +700,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FORMALIZED_DATETIME'. (NullAllowed even if selected: for no constraint)
      */
-    def formalizedDatetime(): java.sql.Timestamp = {
+    def getFormalizedDatetime(): java.sql.Timestamp = {
         return _formalizedDatetime;
     }
 
@@ -653,7 +708,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def formalizedDatetime(formalizedDatetime: java.sql.Timestamp): Unit = {
+    def setFormalizedDatetime(formalizedDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("formalizedDatetime");
         this._formalizedDatetime = formalizedDatetime;
     }
@@ -662,7 +717,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @return The value of the column 'BIRTHDATE'. (NullAllowed even if selected: for no constraint)
      */
-    def birthdate(): java.util.Date = {
+    def getBirthdate(): java.util.Date = {
         return _birthdate;
     }
 
@@ -670,7 +725,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def birthdate(birthdate: java.util.Date): Unit = {
+    def setBirthdate(birthdate: java.util.Date): Unit = {
         __modifiedProperties.addPropertyName("birthdate");
         this._birthdate = birthdate;
     }
@@ -679,7 +734,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def registerDatetime(): java.sql.Timestamp = {
+    def getRegisterDatetime(): java.sql.Timestamp = {
         return _registerDatetime;
     }
 
@@ -687,7 +742,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def registerDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         this._registerDatetime = registerDatetime;
     }
@@ -696,7 +751,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
      */
-    def registerUser(): String = {
+    def getRegisterUser(): String = {
         return convertEmptyToNull(_registerUser);
     }
 
@@ -704,7 +759,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
-    def registerUser(registerUser: String): Unit = {
+    def setRegisterUser(registerUser: String): Unit = {
         __modifiedProperties.addPropertyName("registerUser");
         this._registerUser = registerUser;
     }
@@ -713,7 +768,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def updateDatetime(): java.sql.Timestamp = {
+    def getUpdateDatetime(): java.sql.Timestamp = {
         return _updateDatetime;
     }
 
@@ -721,7 +776,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def updateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         this._updateDatetime = updateDatetime;
     }
@@ -730,7 +785,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
      */
-    def updateUser(): String = {
+    def getUpdateUser(): String = {
         return convertEmptyToNull(_updateUser);
     }
 
@@ -738,7 +793,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
-    def updateUser(updateUser: String): Unit = {
+    def setUpdateUser(updateUser: String): Unit = {
         __modifiedProperties.addPropertyName("updateUser");
         this._updateUser = updateUser;
     }
@@ -747,7 +802,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [get] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
      */
-    def versionNo(): Long = {
+    def getVersionNo(): Long = {
         return _versionNo;
     }
 
@@ -755,7 +810,7 @@ abstract class BsMbleMember extends EntityDefinedCommonColumn with Serializable 
      * [set] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
-    def versionNo(versionNo: Long): Unit = {
+    def setVersionNo(versionNo: Long): Unit = {
         __modifiedProperties.addPropertyName("versionNo");
         this._versionNo = versionNo;
     }

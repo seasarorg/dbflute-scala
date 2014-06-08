@@ -1,9 +1,12 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
-import scala.collection.JavaConverters._
+import scala.collection.JavaConverters._;
 
 import java.lang.Long;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -18,56 +21,50 @@ import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
- * The entity of (購入)PURCHASE as TABLE. <br />
+ * The entity of (会員サービス)MEMBER_SERVICE as TABLE. <br />
  * <pre>
  * [primary-key]
- *     PURCHASE_ID
+ *     MEMBER_SERVICE_ID
  * 
  * [column]
- *     PURCHASE_ID, MEMBER_ID, PRODUCT_ID, PURCHASE_DATETIME, PURCHASE_COUNT, PURCHASE_PRICE, PAYMENT_COMPLETE_FLG, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER, VERSION_NO
+ *     MEMBER_SERVICE_ID, MEMBER_ID, SERVICE_POINT_COUNT, SERVICE_RANK_CODE, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER, VERSION_NO
  * 
  * [sequence]
  *     
  * 
  * [identity]
- *     PURCHASE_ID
+ *     MEMBER_SERVICE_ID
  * 
  * [version-no]
  *     VERSION_NO
  * 
  * [foreign table]
- *     MEMBER, PRODUCT
+ *     MEMBER, SERVICE_RANK
  * 
  * [referrer table]
  *     
  * 
  * [foreign property]
- *     member, product
+ *     member, serviceRank
  * 
  * [referrer property]
  *     
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Long purchaseId = entity.getPurchaseId();
+ * Integer memberServiceId = entity.getMemberServiceId();
  * Integer memberId = entity.getMemberId();
- * Integer productId = entity.getProductId();
- * java.sql.Timestamp purchaseDatetime = entity.getPurchaseDatetime();
- * Integer purchaseCount = entity.getPurchaseCount();
- * Integer purchasePrice = entity.getPurchasePrice();
- * Integer paymentCompleteFlg = entity.getPaymentCompleteFlg();
+ * Integer servicePointCount = entity.getServicePointCount();
+ * String serviceRankCode = entity.getServiceRankCode();
  * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
  * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * Long versionNo = entity.getVersionNo();
- * entity.setPurchaseId(purchaseId);
+ * entity.setMemberServiceId(memberServiceId);
  * entity.setMemberId(memberId);
- * entity.setProductId(productId);
- * entity.setPurchaseDatetime(purchaseDatetime);
- * entity.setPurchaseCount(purchaseCount);
- * entity.setPurchasePrice(purchasePrice);
- * entity.setPaymentCompleteFlg(paymentCompleteFlg);
+ * entity.setServicePointCount(servicePointCount);
+ * entity.setServiceRankCode(serviceRankCode);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterUser(registerUser);
  * entity.setUpdateDatetime(updateDatetime);
@@ -77,11 +74,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
-
-    // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
+abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -89,26 +82,17 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
     // -----------------------------------------------------
     //                                                Column
     //                                                ------
-    /** PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} */
-    protected var _purchaseId: Long = null;
+    /** (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} */
+    protected var _memberServiceId: Integer = null;
 
-    /** (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} */
+    /** (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} */
     protected var _memberId: Integer = null;
 
-    /** (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} */
-    protected var _productId: Integer = null;
+    /** (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} */
+    protected var _servicePointCount: Integer = null;
 
-    /** (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} */
-    protected var _purchaseDatetime: java.sql.Timestamp = null;
-
-    /** (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} */
-    protected var _purchaseCount: Integer = null;
-
-    /** (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} */
-    protected var _purchasePrice: Integer = null;
-
-    /** (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} */
-    protected var _paymentCompleteFlg: Integer = null;
+    /** (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} */
+    protected var _serviceRankCode: String = null;
 
     /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
     protected var _registerDatetime: java.sql.Timestamp = null;
@@ -141,20 +125,46 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
     protected var __createdBySelect: Boolean = false;
 
     // ===================================================================================
+    //                                                                           Immutable
+    //                                                                           =========
+    /**
+     * Accept immutable entity to initialize this.
+     * @return this. (NotNull)
+     */
+    def acceptImmutableEntity(immu: MemberService): DbleMemberService = {
+        setMemberServiceId(immu.memberServiceId);
+        setMemberId(immu.memberId);
+        setServicePointCount(immu.servicePointCount);
+        setServiceRankCodeAsServiceRank(immu.serviceRankCode);
+        setRegisterDatetime(immu.registerDatetime);
+        setRegisterUser(immu.registerUser);
+        setUpdateDatetime(immu.updateDatetime);
+        setUpdateUser(immu.updateUser);
+        setVersionNo(immu.versionNo);
+        setMember(immu.member.map(new DbleMember().acceptImmutableEntity(_)))
+        setServiceRank(immu.serviceRank.map(new DbleServiceRank().acceptImmutableEntity(_)))
+        __uniqueDrivenProperties.clear();
+        immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
+        __modifiedProperties.clear();
+        immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
+        return this.asInstanceOf[DbleMemberService];
+    }
+
+    // ===================================================================================
     //                                                                          Table Name
     //                                                                          ==========
     /**
      * {@inheritDoc}
      */
     def getTableDbName(): String = {
-        return "PURCHASE";
+        return "MEMBER_SERVICE";
     }
 
     /**
      * {@inheritDoc}
      */
     def getTablePropertyName(): String = { // according to Java Beans rule
-        return "purchase";
+        return "memberService";
     }
 
     // ===================================================================================
@@ -174,23 +184,19 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): Boolean = {
-        if (purchaseId() == null) { return false; }
+        if (getMemberServiceId() == null) { return false; }
         return true;
     }
 
     /**
      * To be unique by the unique column. <br />
      * You can update the entity by the key when entity update (NOT batch update).
-     * @param memberId (会員ID): UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
-     * @param productId (商品ID): +UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT. (NotNull)
-     * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
+     * @param memberId (会員ID): UQ, IX, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
      */
-    def uniqueBy(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Unit = {
+    def uniqueBy(memberId: Integer): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("memberId");
-        __uniqueDrivenProperties.addPropertyName("productId");
-        __uniqueDrivenProperties.addPropertyName("purchaseDatetime");
-        this.memberId(memberId);this.productId(productId);this.purchaseDatetime(purchaseDatetime);
+        setMemberId(memberId);
     }
 
     /**
@@ -200,7 +206,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
         return __uniqueDrivenProperties.getPropertyNames();
     }
 
-    def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
+    protected def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
         return new EntityUniqueDrivenProperties();
     }
 
@@ -208,137 +214,189 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
     //                                                             Classification Property
     //                                                             =======================
     /**
-     * Get the value of paymentCompleteFlg as the classification of Flg. <br />
-     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
-     * general boolean classification for every flg-column
+     * Get the value of serviceRankCode as the classification of ServiceRank. <br />
+     * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * rank of service member gets
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
-    def paymentCompleteFlgAsFlg(): CDef.Flg = {
-        return CDef.Flg.codeOf(paymentCompleteFlg());
+    def getServiceRankCodeAsServiceRank(): CDef.ServiceRank = {
+        return CDef.ServiceRank.codeOf(getServiceRankCode());
     }
 
     /**
-     * Set the value of paymentCompleteFlg as the classification of Flg. <br />
-     * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
-     * general boolean classification for every flg-column
+     * Set the value of serviceRankCode as the classification of ServiceRank. <br />
+     * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * rank of service member gets
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
-    def paymentCompleteFlgAsFlg(cdef: CDef.Flg): Unit = {
-        paymentCompleteFlg(if (cdef != null) { FunCustodial.toNumber(cdef.code, classOf[Integer]) } else { null });
+    def setServiceRankCodeAsServiceRank(cdef: CDef.ServiceRank): Unit = {
+        setServiceRankCode(if (cdef != null) { cdef.code } else { null });
     }
 
     // ===================================================================================
     //                                                              Classification Setting
     //                                                              ======================
     /**
-     * Set the value of paymentCompleteFlg as True (1). <br />
-     * Yes: means valid
+     * Set the value of serviceRankCode as Platinum (PLT). <br />
+     * PLATINUM: platinum rank
      */
-    def paymentCompleteFlg_True(): Unit = {
-        paymentCompleteFlgAsFlg(CDef.Flg.True);
+    def setServiceRankCode_Platinum(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Platinum);
     }
 
     /**
-     * Set the value of paymentCompleteFlg as False (0). <br />
-     * No: means invalid
+     * Set the value of serviceRankCode as Gold (GLD). <br />
+     * GOLD: gold rank
      */
-    def paymentCompleteFlg_False(): Unit = {
-        paymentCompleteFlgAsFlg(CDef.Flg.False);
+    def setServiceRankCode_Gold(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Gold);
+    }
+
+    /**
+     * Set the value of serviceRankCode as Silver (SIL). <br />
+     * SILVER: silver rank
+     */
+    def setServiceRankCode_Silver(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Silver);
+    }
+
+    /**
+     * Set the value of serviceRankCode as Bronze (BRZ). <br />
+     * BRONZE: bronze rank
+     */
+    def setServiceRankCode_Bronze(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Bronze);
+    }
+
+    /**
+     * Set the value of serviceRankCode as Plastic (PLS). <br />
+     * PLASTIC: plastic rank
+     */
+    def setServiceRankCode_Plastic(): Unit = {
+        setServiceRankCodeAsServiceRank(CDef.ServiceRank.Plastic);
     }
 
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
     /**
-     * Is the value of paymentCompleteFlg True? <br />
-     * Yes: means valid
+     * Is the value of serviceRankCode Platinum? <br />
+     * PLATINUM: platinum rank
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isPaymentCompleteFlg_True(): Boolean = {
-        val cdef: CDef.Flg = paymentCompleteFlgAsFlg();
-        return if (cdef != null) { cdef.equals(CDef.Flg.True) } else { false };
+    def isServiceRankCode_Platinum(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Platinum) } else { false };
     }
 
     /**
-     * Is the value of paymentCompleteFlg False? <br />
-     * No: means invalid
+     * Is the value of serviceRankCode Gold? <br />
+     * GOLD: gold rank
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isPaymentCompleteFlg_False(): Boolean = {
-        val cdef: CDef.Flg = paymentCompleteFlgAsFlg();
-        return if (cdef != null) { cdef.equals(CDef.Flg.False) } else { false };
-    }
-
-    // ===================================================================================
-    //                                                           Classification Name/Alias
-    //                                                           =========================
-    /**
-     * Get the value of the column 'paymentCompleteFlg' as classification name.
-     * @return The string of classification name. (NullAllowed: when the column value is null)
-     */
-    def paymentCompleteFlgName(): String = {
-        val cdef: CDef.Flg = paymentCompleteFlgAsFlg();
-        return if (cdef != null) { cdef.name() } else { null };
+    def isServiceRankCode_Gold(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Gold) } else { false };
     }
 
     /**
-     * Get the value of the column 'paymentCompleteFlg' as classification alias.
-     * @return The string of classification alias. (NullAllowed: when the column value is null)
+     * Is the value of serviceRankCode Silver? <br />
+     * SILVER: silver rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
      */
-    def paymentCompleteFlgAlias(): String = {
-        val cdef: CDef.Flg = paymentCompleteFlgAsFlg();
-        return if (cdef != null) { cdef.alias } else { null };
+    def isServiceRankCode_Silver(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Silver) } else { false };
+    }
+
+    /**
+     * Is the value of serviceRankCode Bronze? <br />
+     * BRONZE: bronze rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCode_Bronze(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Bronze) } else { false };
+    }
+
+    /**
+     * Is the value of serviceRankCode Plastic? <br />
+     * PLASTIC: plastic rank
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isServiceRankCode_Plastic(): Boolean = {
+        val cdef: CDef.ServiceRank = getServiceRankCodeAsServiceRank();
+        return if (cdef != null) { cdef.equals(CDef.ServiceRank.Plastic) } else { false };
     }
 
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
     /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
-    protected var _member: Option[MbleMember] = null;
+    protected var _member: Option[DbleMember] = null;
 
     /**
-     * (会員)MEMBER by my MEMBER_ID, named 'member'.
-     * @return The entity of foreign property 'member'. (NullAllowed: when e.g. null FK column, no setupSelect)
+     * [get] (会員)MEMBER by my MEMBER_ID, named 'member'.
+     * @return The entity of foreign property 'member'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def member(): Option[MbleMember] = {
+    def getMember(): Option[DbleMember] = {
         return if (_member != null) { _member; } else { Option.empty; }
     }
 
     /**
-     * (会員)MEMBER by my MEMBER_ID, named 'member'.
-     * @param member The entity of foreign property 'member'. (NullAllowed)
+     * [set] (会員)MEMBER by my MEMBER_ID, named 'member'.
+     * @param member The entity of foreign property 'member'. (EmptyAllowed)
      */
-    def member(member: Option[MbleMember]): Unit = {
+    def setMember(member: Option[DbleMember]): Unit = {
         _member = member;
     }
 
-    /** (商品)PRODUCT by my PRODUCT_ID, named 'product'. */
-    protected var _product: Option[MbleProduct] = null;
+    /**
+     * [convert] (会員)MEMBER by my MEMBER_ID, named 'member'.
+     * @return The new-created immutable entity of foreign property 'member'. (NotNull)
+     */
+    def toImmutableMember(): Option[Member] = {
+        return getMember().map(_.toImmutable());
+    }
+
+    /** (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'. */
+    protected var _serviceRank: Option[DbleServiceRank] = null;
 
     /**
-     * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
-     * @return The entity of foreign property 'product'. (NullAllowed: when e.g. null FK column, no setupSelect)
+     * [get] (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
+     * @return The entity of foreign property 'serviceRank'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def product(): Option[MbleProduct] = {
-        return if (_product != null) { _product; } else { Option.empty; }
+    def getServiceRank(): Option[DbleServiceRank] = {
+        return if (_serviceRank != null) { _serviceRank; } else { Option.empty; }
     }
 
     /**
-     * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
-     * @param product The entity of foreign property 'product'. (NullAllowed)
+     * [set] (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
+     * @param serviceRank The entity of foreign property 'serviceRank'. (EmptyAllowed)
      */
-    def product(product: Option[MbleProduct]): Unit = {
-        _product = product;
+    def setServiceRank(serviceRank: Option[DbleServiceRank]): Unit = {
+        _serviceRank = serviceRank;
+    }
+
+    /**
+     * [convert] (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
+     * @return The new-created immutable entity of foreign property 'serviceRank'. (NotNull)
+     */
+    def toImmutableServiceRank(): Option[ServiceRank] = {
+        return getServiceRank().map(_.toImmutable());
     }
 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    protected def newReferrerList[ELEMENT](): scala.collection.immutable.List[ELEMENT] = {
-        return scala.collection.immutable.List(); // #pending actually fixed empty list
+    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
+        return new ArrayList[ELEMENT]();
     }
 
     // ===================================================================================
@@ -413,8 +471,16 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
     // ===================================================================================
     //                                                                    Immutable Entity
     //                                                                    ================
-    def toImmutable(): Purchase = {
-        return new Purchase(this.asInstanceOf[MblePurchase]);
+    def toImmutable(): MemberService = {
+        return new MemberService(this.asInstanceOf[DbleMemberService]);
+    }
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { return scala.collection.immutable.List(); }
+        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 
     // ===================================================================================
@@ -428,10 +494,10 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      */
     override def equals(obj: Any) = {
         obj match {
-            case obj: BsMblePurchase => {
-                val other: BsMblePurchase = obj.asInstanceOf[BsMblePurchase];
+            case obj: BsDbleMemberService => {
+                val other: BsDbleMemberService = obj.asInstanceOf[BsDbleMemberService];
                 {
-                     xSV(purchaseId(), other.purchaseId())
+                     xSV(getMemberServiceId(), other.getMemberServiceId())
                 }
             }
             case _ => false
@@ -448,7 +514,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, purchaseId());
+        hs = xCH(hs, getMemberServiceId());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -479,8 +545,8 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
         val li: String = "\n  ";
         if (_member != null)
         { sb.append(li).append(xbRDS(_member, "member")); }
-        if (_product != null)
-        { sb.append(li).append(xbRDS(_product, "product")); }
+        if (_serviceRank != null)
+        { sb.append(li).append(xbRDS(_serviceRank, "serviceRank")); }
         return sb.toString();
     }
     protected def xbRDS(et: Entity, name: String): String = {
@@ -504,18 +570,15 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val dm: String = ", ";
-        sb.append(dm).append(purchaseId());
-        sb.append(dm).append(memberId());
-        sb.append(dm).append(productId());
-        sb.append(dm).append(purchaseDatetime());
-        sb.append(dm).append(purchaseCount());
-        sb.append(dm).append(purchasePrice());
-        sb.append(dm).append(paymentCompleteFlg());
-        sb.append(dm).append(registerDatetime());
-        sb.append(dm).append(registerUser());
-        sb.append(dm).append(updateDatetime());
-        sb.append(dm).append(updateUser());
-        sb.append(dm).append(versionNo());
+        sb.append(dm).append(getMemberServiceId());
+        sb.append(dm).append(getMemberId());
+        sb.append(dm).append(getServicePointCount());
+        sb.append(dm).append(getServiceRankCode());
+        sb.append(dm).append(getRegisterDatetime());
+        sb.append(dm).append(getRegisterUser());
+        sb.append(dm).append(getUpdateDatetime());
+        sb.append(dm).append(getUpdateUser());
+        sb.append(dm).append(getVersionNo());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -526,7 +589,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
         val sb: StringBuilder = new StringBuilder();
         val cm: String = ",  ";
         if (_member != null) { sb.append(cm).append("member"); }
-        if (_product != null) { sb.append(cm).append("product"); }
+        if (_serviceRank != null) { sb.append(cm).append("serviceRank"); }
         if (sb.length() > cm.length()) {
             sb.delete(0, cm.length()).insert(0, "(").append(")");
         }
@@ -537,9 +600,9 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * Clone entity instance using super.clone(). (shallow copy) 
      * @return The cloned instance of this entity. (NotNull)
      */
-    override def clone(): MblePurchase = {
+    override def clone(): DbleMemberService = {
         try {
-            return super.clone().asInstanceOf[MblePurchase];
+            return super.clone().asInstanceOf[DbleMemberService];
         } catch {
             case e: CloneNotSupportedException => {
                 throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
@@ -551,130 +614,78 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
-     * @return The value of the column 'PURCHASE_ID'. (basically NotNull if selected: for the constraint)
+     * [get] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if selected: for the constraint)
      */
-    def purchaseId(): Long = {
-        return _purchaseId;
+    def getMemberServiceId(): Integer = {
+        return _memberServiceId;
     }
 
     /**
-     * [set] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
-     * @param purchaseId The value of the column 'PURCHASE_ID'. (basically NotNull if update: for the constraint)
+     * [set] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
+     * @param memberServiceId The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if update: for the constraint)
      */
-    def purchaseId(purchaseId: Long): Unit = {
-        __modifiedProperties.addPropertyName("purchaseId");
-        this._purchaseId = purchaseId;
+    def setMemberServiceId(memberServiceId: Integer): Unit = {
+        __modifiedProperties.addPropertyName("memberServiceId");
+        this._memberServiceId = memberServiceId;
     }
 
     /**
-     * [get] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
      */
-    def memberId(): Integer = {
+    def getMemberId(): Integer = {
         return _memberId;
     }
 
     /**
-     * [set] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
+     * [set] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
-    def memberId(memberId: Integer): Unit = {
+    def setMemberId(memberId: Integer): Unit = {
         __modifiedProperties.addPropertyName("memberId");
         this._memberId = memberId;
     }
 
     /**
-     * [get] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
-     * @return The value of the column 'PRODUCT_ID'. (basically NotNull if selected: for the constraint)
+     * [get] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
+     * @return The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if selected: for the constraint)
      */
-    def productId(): Integer = {
-        return _productId;
+    def getServicePointCount(): Integer = {
+        return _servicePointCount;
     }
 
     /**
-     * [set] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
-     * @param productId The value of the column 'PRODUCT_ID'. (basically NotNull if update: for the constraint)
+     * [set] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
+     * @param servicePointCount The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if update: for the constraint)
      */
-    def productId(productId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("productId");
-        this._productId = productId;
+    def setServicePointCount(servicePointCount: Integer): Unit = {
+        __modifiedProperties.addPropertyName("servicePointCount");
+        this._servicePointCount = servicePointCount;
     }
 
     /**
-     * [get] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
-     * @return The value of the column 'PURCHASE_DATETIME'. (basically NotNull if selected: for the constraint)
+     * [get] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * @return The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def purchaseDatetime(): java.sql.Timestamp = {
-        return _purchaseDatetime;
+    def getServiceRankCode(): String = {
+        return convertEmptyToNull(_serviceRankCode);
     }
 
     /**
-     * [set] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
-     * @param purchaseDatetime The value of the column 'PURCHASE_DATETIME'. (basically NotNull if update: for the constraint)
+     * [set] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
+     * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
      */
-    def purchaseDatetime(purchaseDatetime: java.sql.Timestamp): Unit = {
-        __modifiedProperties.addPropertyName("purchaseDatetime");
-        this._purchaseDatetime = purchaseDatetime;
-    }
-
-    /**
-     * [get] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
-     * @return The value of the column 'PURCHASE_COUNT'. (basically NotNull if selected: for the constraint)
-     */
-    def purchaseCount(): Integer = {
-        return _purchaseCount;
-    }
-
-    /**
-     * [set] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
-     * @param purchaseCount The value of the column 'PURCHASE_COUNT'. (basically NotNull if update: for the constraint)
-     */
-    def purchaseCount(purchaseCount: Integer): Unit = {
-        __modifiedProperties.addPropertyName("purchaseCount");
-        this._purchaseCount = purchaseCount;
-    }
-
-    /**
-     * [get] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
-     * @return The value of the column 'PURCHASE_PRICE'. (basically NotNull if selected: for the constraint)
-     */
-    def purchasePrice(): Integer = {
-        return _purchasePrice;
-    }
-
-    /**
-     * [set] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
-     * @param purchasePrice The value of the column 'PURCHASE_PRICE'. (basically NotNull if update: for the constraint)
-     */
-    def purchasePrice(purchasePrice: Integer): Unit = {
-        __modifiedProperties.addPropertyName("purchasePrice");
-        this._purchasePrice = purchasePrice;
-    }
-
-    /**
-     * [get] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
-     * @return The value of the column 'PAYMENT_COMPLETE_FLG'. (basically NotNull if selected: for the constraint)
-     */
-    def paymentCompleteFlg(): Integer = {
-        return _paymentCompleteFlg;
-    }
-
-    /**
-     * [set] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
-     * @param paymentCompleteFlg The value of the column 'PAYMENT_COMPLETE_FLG'. (basically NotNull if update: for the constraint)
-     */
-    def paymentCompleteFlg(paymentCompleteFlg: Integer): Unit = {
-        checkImplicitSet("PAYMENT_COMPLETE_FLG", CDef.DefMeta.Flg, paymentCompleteFlg);
-        __modifiedProperties.addPropertyName("paymentCompleteFlg");
-        this._paymentCompleteFlg = paymentCompleteFlg;
+    protected def setServiceRankCode(serviceRankCode: String): Unit = {
+        __modifiedProperties.addPropertyName("serviceRankCode");
+        this._serviceRankCode = serviceRankCode;
     }
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def registerDatetime(): java.sql.Timestamp = {
+    def getRegisterDatetime(): java.sql.Timestamp = {
         return _registerDatetime;
     }
 
@@ -682,7 +693,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def registerDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         this._registerDatetime = registerDatetime;
     }
@@ -691,7 +702,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (basically NotNull if selected: for the constraint)
      */
-    def registerUser(): String = {
+    def getRegisterUser(): String = {
         return convertEmptyToNull(_registerUser);
     }
 
@@ -699,7 +710,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [set] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
-    def registerUser(registerUser: String): Unit = {
+    def setRegisterUser(registerUser: String): Unit = {
         __modifiedProperties.addPropertyName("registerUser");
         this._registerUser = registerUser;
     }
@@ -708,7 +719,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def updateDatetime(): java.sql.Timestamp = {
+    def getUpdateDatetime(): java.sql.Timestamp = {
         return _updateDatetime;
     }
 
@@ -716,7 +727,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def updateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         this._updateDatetime = updateDatetime;
     }
@@ -725,7 +736,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (basically NotNull if selected: for the constraint)
      */
-    def updateUser(): String = {
+    def getUpdateUser(): String = {
         return convertEmptyToNull(_updateUser);
     }
 
@@ -733,7 +744,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [set] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
-    def updateUser(updateUser: String): Unit = {
+    def setUpdateUser(updateUser: String): Unit = {
         __modifiedProperties.addPropertyName("updateUser");
         this._updateUser = updateUser;
     }
@@ -742,7 +753,7 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (basically NotNull if selected: for the constraint)
      */
-    def versionNo(): Long = {
+    def getVersionNo(): Long = {
         return _versionNo;
     }
 
@@ -750,16 +761,12 @@ abstract class BsMblePurchase extends EntityDefinedCommonColumn with Serializabl
      * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
-    def versionNo(versionNo: Long): Unit = {
+    def setVersionNo(versionNo: Long): Unit = {
         __modifiedProperties.addPropertyName("versionNo");
         this._versionNo = versionNo;
     }
 
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
-    }
-
-    protected def checkImplicitSet(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
-        FunCustodial.checkImplicitSet(this, columnDbName, meta, value);
     }
 }

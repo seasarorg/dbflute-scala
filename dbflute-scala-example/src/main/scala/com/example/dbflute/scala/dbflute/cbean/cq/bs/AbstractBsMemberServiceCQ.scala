@@ -370,7 +370,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank}
      * @param serviceRankCode The value of serviceRankCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setServiceRankCode_Equal(serviceRankCode: String): Unit = {
+    protected def setServiceRankCode_Equal(serviceRankCode: String): Unit = {
         doSetServiceRankCode_Equal(fRES(serviceRankCode));
     }
 
@@ -433,7 +433,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank}
      * @param serviceRankCode The value of serviceRankCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setServiceRankCode_NotEqual(serviceRankCode: String): Unit = {
+    protected def setServiceRankCode_NotEqual(serviceRankCode: String): Unit = {
         doSetServiceRankCode_NotEqual(fRES(serviceRankCode));
     }
 

@@ -275,7 +275,7 @@ class BsMemberServiceCB extends AbstractConditionBean {
      * MemberServiceCB cb = new MemberServiceCB();
      * cb.<span style="color: #DD4747">setupSelect_Member()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
-     * MbleMemberService memberService = memberServiceBhv.selectEntityWithDeletedCheck(cb);
+     * DbleMemberService memberService = memberServiceBhv.selectEntityWithDeletedCheck(cb);
      * ... = memberService.<span style="color: #DD4747">getMember()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
@@ -298,7 +298,7 @@ class BsMemberServiceCB extends AbstractConditionBean {
      * MemberServiceCB cb = new MemberServiceCB();
      * cb.<span style="color: #DD4747">setupSelect_ServiceRank()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
-     * MbleMemberService memberService = memberServiceBhv.selectEntityWithDeletedCheck(cb);
+     * DbleMemberService memberService = memberServiceBhv.selectEntityWithDeletedCheck(cb);
      * ... = memberService.<span style="color: #DD4747">getServiceRank()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      */

@@ -1,15 +1,14 @@
 package com.example.dbflute.scala.dbflute.exentity;
 
-import com.example.dbflute.scala.dbflute.bsentity.BsMbleServiceRank;
+import com.example.dbflute.scala.dbflute.bsentity.BsDbleMemberStatus;
 
 /**
- * The entity of SERVICE_RANK.
+ * The entity of MEMBER_STATUS.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.
  * </p>
  * @author DBFlute(AutoGenerator)
  */
-class MbleServiceRank extends BsMbleServiceRank {
-
+class DbleMemberStatus extends BsDbleMemberStatus {
 }

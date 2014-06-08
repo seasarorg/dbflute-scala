@@ -413,7 +413,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCode The value of memberStatusCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberStatusCode_Equal(memberStatusCode: String): Unit = {
+    protected def setMemberStatusCode_Equal(memberStatusCode: String): Unit = {
         doSetMemberStatusCode_Equal(fRES(memberStatusCode));
     }
 
@@ -460,7 +460,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCode The value of memberStatusCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberStatusCode_NotEqual(memberStatusCode: String): Unit = {
+    protected def setMemberStatusCode_NotEqual(memberStatusCode: String): Unit = {
         doSetMemberStatusCode_NotEqual(fRES(memberStatusCode));
     }
 
