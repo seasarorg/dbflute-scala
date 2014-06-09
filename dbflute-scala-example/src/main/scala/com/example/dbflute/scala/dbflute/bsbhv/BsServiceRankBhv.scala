@@ -12,6 +12,7 @@ import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
+import org.seasar.dbflute.util._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
@@ -151,33 +152,38 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param cbCall The callback for condition-bean of DbleServiceRank. (NotNull)
+     * @param cbCall The callback for condition-bean of ServiceRank. (NotNull)
+     * @param loaderCall The callback for referrer loader of ServiceRank. (NoArgAllowed: then no loading)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cbCall: (ServiceRankCB) => Unit): Option[ServiceRank] = {
-        return facadeSelectEntity(callbackCB(cbCall));
+    def selectEntity(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): Option[ServiceRank] = {
+        return facadeSelectEntity(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def facadeSelectEntity(cb: ServiceRankCB): Option[ServiceRank] = {
-        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new ServiceRank(f));
+    protected def facadeSelectEntity(cb: ServiceRankCB)(loaderCall: (LoaderOfServiceRank) => Unit = null): Option[ServiceRank] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall).map(f => new ServiceRank(f));
     }
 
-    protected def doSelectEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, ServiceRankCB]() {
-            def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
+        val dble = helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, ServiceRankCB]() {
+            def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
+        if (dble != null) {
+            doCallbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleServiceRank]), loaderCall);
+        }
+        return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(cb, tp));
+    protected def doSelectOptionalEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return doSelectEntity(downcast(cb), typeOfSelectedEntity());
+        return doSelectEntity(downcast(cb), typeOfSelectedEntity())();
     }
 
     /**
@@ -189,29 +195,32 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * DbleServiceRank serviceRank = serviceRankBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
      * ... = serviceRank.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cbCall The callback for condition-bean of ServiceRank. (NotNull)
+     * @param loaderCall The callback for referrer loader of ServiceRank. (NoArgAllowed: then no loading)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (point is not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cbCall: (ServiceRankCB) => Unit): ServiceRank = {
-        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall));
+    def selectEntityWithDeletedCheck(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): ServiceRank = {
+        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def facadeSelectEntityWithDeletedCheck(cb: ServiceRankCB): ServiceRank = {
-        return new ServiceRank(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
+    protected def facadeSelectEntityWithDeletedCheck(cb: ServiceRankCB)(loaderCall: (LoaderOfServiceRank) => Unit = null): ServiceRank = {
+        return new ServiceRank(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity())(loaderCall));
     }
 
-    protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, ServiceRankCB]() {
-            def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
+        val dble = helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, ServiceRankCB]() {
+            def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
+        doCallbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleServiceRank]), loaderCall);
+        return dble;
     }
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity());
+        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity())();
     }
 
     /**
@@ -231,7 +240,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 
     protected def doSelectByPK[ENTITY <: DbleServiceRank](serviceRankCode: CDef.ServiceRank, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsPK(serviceRankCode), entityType));
+        return Option.apply(doSelectEntity(xprepareCBAsPK(serviceRankCode), entityType)());
     }
 
     protected def xprepareCBAsPK(serviceRankCode: CDef.ServiceRank): ServiceRankCB = {
@@ -258,7 +267,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 
     protected def doSelectByUniqueOf[ENTITY <: DbleServiceRank](displayOrder: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), entityType));
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), entityType)());
     }
 
     protected def xprepareCBAsUniqueOf(displayOrder: Integer): ServiceRankCB = {
@@ -281,29 +290,31 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      *     ... = serviceRank...;
      * }
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cbCall The callback for condition-bean of ServiceRank. (NotNull)
+     * @param loaderCall The callback for referrer loader of ServiceRank. (NoArgAllowed: then no loading)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (ServiceRankCB) => Unit): scala.collection.immutable.List[ServiceRank] = {
-        return facadeSelectList(callbackCB(cbCall));
+    def selectList(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): scala.collection.immutable.List[ServiceRank] = {
+        return facadeSelectList(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def facadeSelectList(cb: ServiceRankCB): scala.collection.immutable.List[ServiceRank] = {
-        val dbleList = doSelectList(cb, typeOfSelectedEntity());
-        return toImmutableEntityList(dbleList);
+    protected def facadeSelectList(cb: ServiceRankCB)(loaderCall: (LoaderOfServiceRank) => Unit = null): scala.collection.immutable.List[ServiceRank] = {
+        return toImmutableEntityList(doSelectList(cb, typeOfSelectedEntity())(loaderCall));
     }
 
-    protected def doSelectList[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
+    protected def doSelectList[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): ListResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
-        return helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, ServiceRankCB]() {
+        val dbleList = helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, ServiceRankCB]() {
             def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return delegateSelectList(lcb, ltp); } });
+        doCallbackLoader(dbleList.asInstanceOf[List[DbleServiceRank]], loaderCall);
+        return dbleList;
     }
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), typeOfSelectedEntity()); // use do method for ListResultBean
+        return doSelectList(downcast(cb), typeOfSelectedEntity())();
     }
 
     // ===================================================================================
@@ -327,25 +338,30 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      *     ... = serviceRank.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cbCall The callback for condition-bean of ServiceRank. (NotNull)
+     * @param loaderCall The callback for referrer loader of ServiceRank. (NoArgAllowed: then no loading)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (ServiceRankCB) => Unit): PagingResultBean[DbleServiceRank] = {
-        return doSelectPage(callbackCB(cbCall), typeOfSelectedEntity());
+    def selectPage(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): PagingResultBean[DbleServiceRank] = {
+        return facadeSelectPage(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
+    def facadeSelectPage(cb: ServiceRankCB)(loaderCall: (LoaderOfServiceRank) => Unit = null): PagingResultBean[DbleServiceRank] = {
+        return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
+    }
+
+    protected def doSelectPage[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): PagingResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, ServiceRankCB]() {
             def callbackSelectCount(cb: ServiceRankCB): Int = { return doSelectCountPlainly(cb); }
-            def callbackSelectList(cb: ServiceRankCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
+            def callbackSelectList(cb: ServiceRankCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp)(loaderCall); }
         });
     }
 
     @Override
     protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return doSelectPage(downcast(cb), typeOfSelectedEntity());
+        return doSelectPage(downcast(cb), typeOfSelectedEntity())();
     }
 
     // ===================================================================================
@@ -365,14 +381,14 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleServiceRank. (NotNull)
      * @param entityRowHandler The handler of entity row of DbleServiceRank. (NotNull)
      */
-    def selectCursor(cbCall: (ServiceRankCB) => Unit)(entityRowHandler: (DbleServiceRank) => Unit): Unit = {
-        facadeSelectCursor(callbackCB(cbCall))(entityRowHandler);
+    def selectCursor(cbCall: (ServiceRankCB) => Unit)(rowCall: (ServiceRank) => Unit): Unit = {
+        facadeSelectCursor(callbackCB(cbCall))(rowCall);
     }
 
-    protected def facadeSelectCursor(cb: ServiceRankCB)(entityRowHandler: (DbleServiceRank) => Unit): Unit = {
+    protected def facadeSelectCursor(cb: ServiceRankCB)(rowCall: (ServiceRank) => Unit): Unit = {
         doSelectCursor(cb, new EntityRowHandler[DbleServiceRank]() {
             def handle(entity: DbleServiceRank): Unit = {
-                entityRowHandler(entity)
+                rowCall(new ServiceRank(entity))
             }
         }, typeOfSelectedEntity());
     }
@@ -382,7 +398,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, ServiceRankCB]() {
             def callbackSelectCursor(cb: ServiceRankCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = { delegateSelectCursor(cb, handler, tp); }
-            def callbackSelectList(cb: ServiceRankCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
+            def callbackSelectList(cb: ServiceRankCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp)(); }
         });
     }
 
@@ -463,6 +479,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
     def loadMemberServiceList(serviceRankList: List[DbleServiceRank], setupCall: (MemberServiceCB) => Unit): NestedReferrerLoader[DbleMemberService] = {
+        assertObjectNotNull("serviceRankList", serviceRankList); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[MemberServiceCB]() { def setup(referrerCB: MemberServiceCB): Unit = { setupCall(referrerCB); } }
         return doLoadMemberServiceList(serviceRankList, new LoadReferrerOption[MemberServiceCB, DbleMemberService]().xinit(setupper));
     }
@@ -494,6 +511,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
     def loadMemberServiceList(serviceRank: DbleServiceRank, setupCall: (MemberServiceCB) => Unit): NestedReferrerLoader[DbleMemberService] = {
+        assertObjectNotNull("serviceRank", serviceRank); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[MemberServiceCB]() { def setup(referrerCB: MemberServiceCB): Unit = { setupCall(referrerCB); } }
         return doLoadMemberServiceList(xnewLRLs(serviceRank), new LoadReferrerOption[MemberServiceCB, DbleMemberService]().xinit(setupper));
     }
@@ -1339,16 +1357,25 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                         Type Helper
-    //                                                                         ===========
+    //                                                                       Assist Helper
+    //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleServiceRank] = {
         return classOf[DbleServiceRank];
     }
 
     protected def callbackCB(cbCall: (ServiceRankCB) => Unit): ServiceRankCB = {
+        assertObjectNotNull("cbCall", cbCall);
         val cb = new ServiceRankCB();
         cbCall(cb);
         return cb;
+    }
+
+    protected def doCallbackLoader(dbleList: List[DbleServiceRank], loaderCall: (LoaderOfServiceRank) => Unit = null): Unit = {
+        if (loaderCall != null) {
+            val loader = new LoaderOfServiceRank();
+            loader.selectedList = dbleList.asInstanceOf[List[DbleServiceRank]];
+            loaderCall(loader);
+        }
     }
 
     protected def downcast(et: Entity): DbleServiceRank = {
@@ -1396,19 +1423,38 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 }
 
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                  Behavior                                            _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                        Loader                        _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                              Border                                  _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+
 /**
  * @author jflute
  */
-class BsLoaderOfServiceRank(serviceRankList: List[DbleServiceRank]) {
+class BsLoaderOfServiceRank {
 
+    protected var _selectedList: List[DbleServiceRank] = null;
+    def selectedList: List[DbleServiceRank] = {
+        return _selectedList;
+    }
+    def selectedList_=(ls: List[DbleServiceRank]): Unit = {
+        _selectedList = ls;
+    }
+
+    var _referrerMemberServiceListList: List[DbleMemberService] = null;
     def loadMemberServiceList(setupCall: (MemberServiceCB) => Unit): ScrNestedReferrerLoader[LoaderOfMemberService] = {
-        DBFlutist.serviceRankBhv.loadMemberServiceList(serviceRankList, setupCall)
-            .withNestedReferrer(new ReferrerListHandler[DbleMemberService]() {
-                def handle(referrerList: List[DbleMemberService]): Unit = {
-                }
-            }
-        );
-        // #pending
-        return new ScrNestedReferrerLoader[LoaderOfMemberService](() => new LoaderOfMemberService(null));
+        DBFlutist.serviceRankBhv.loadMemberServiceList(_selectedList, setupCall).withNestedReferrer(new ReferrerListHandler[DbleMemberService]() {
+            def handle(referrerList: List[DbleMemberService]): Unit = { _referrerMemberServiceListList = referrerList; }
+        });
+        return new ScrNestedReferrerLoader[LoaderOfMemberService](() => {
+            val nestedLoader = new LoaderOfMemberService();
+            nestedLoader.selectedList = _referrerMemberServiceListList;
+            nestedLoader;
+        });
     }
 }

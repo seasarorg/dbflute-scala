@@ -12,6 +12,7 @@ import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
+import org.seasar.dbflute.util._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
@@ -151,33 +152,38 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param cbCall The callback for condition-bean of DbleMemberService. (NotNull)
+     * @param cbCall The callback for condition-bean of MemberService. (NotNull)
+     * @param loaderCall The callback for referrer loader of MemberService. (NoArgAllowed: then no loading)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cbCall: (MemberServiceCB) => Unit): Option[MemberService] = {
-        return facadeSelectEntity(callbackCB(cbCall));
+    def selectEntity(cbCall: (MemberServiceCB) => Unit)(implicit loaderCall: (LoaderOfMemberService) => Unit = null): Option[MemberService] = {
+        return facadeSelectEntity(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def facadeSelectEntity(cb: MemberServiceCB): Option[MemberService] = {
-        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new MemberService(f));
+    protected def facadeSelectEntity(cb: MemberServiceCB)(loaderCall: (LoaderOfMemberService) => Unit = null): Option[MemberService] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall).map(f => new MemberService(f));
     }
 
-    protected def doSelectEntity[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberService) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, MemberServiceCB]() {
-            def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
+        val dble = helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, MemberServiceCB]() {
+            def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
+        if (dble != null) {
+            doCallbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMemberService]), loaderCall);
+        }
+        return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(cb, tp));
+    protected def doSelectOptionalEntity[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberService) => Unit = null): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return doSelectEntity(downcast(cb), typeOfSelectedEntity());
+        return doSelectEntity(downcast(cb), typeOfSelectedEntity())();
     }
 
     /**
@@ -189,29 +195,32 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * DbleMemberService memberService = memberServiceBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
      * ... = memberService.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cb The condition-bean of DbleMemberService. (NotNull)
+     * @param cbCall The callback for condition-bean of MemberService. (NotNull)
+     * @param loaderCall The callback for referrer loader of MemberService. (NoArgAllowed: then no loading)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (point is not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cbCall: (MemberServiceCB) => Unit): MemberService = {
-        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall));
+    def selectEntityWithDeletedCheck(cbCall: (MemberServiceCB) => Unit)(implicit loaderCall: (LoaderOfMemberService) => Unit = null): MemberService = {
+        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def facadeSelectEntityWithDeletedCheck(cb: MemberServiceCB): MemberService = {
-        return new MemberService(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
+    protected def facadeSelectEntityWithDeletedCheck(cb: MemberServiceCB)(loaderCall: (LoaderOfMemberService) => Unit = null): MemberService = {
+        return new MemberService(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity())(loaderCall));
     }
 
-    protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberService) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, MemberServiceCB]() {
-            def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
+        val dble = helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, MemberServiceCB]() {
+            def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
+        doCallbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMemberService]), loaderCall);
+        return dble;
     }
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity());
+        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity())();
     }
 
     /**
@@ -231,7 +240,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     }
 
     protected def doSelectByPK[ENTITY <: DbleMemberService](memberServiceId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsPK(memberServiceId), entityType));
+        return Option.apply(doSelectEntity(xprepareCBAsPK(memberServiceId), entityType)());
     }
 
     protected def xprepareCBAsPK(memberServiceId: Integer): MemberServiceCB = {
@@ -258,7 +267,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     }
 
     protected def doSelectByUniqueOf[ENTITY <: DbleMemberService](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId), entityType));
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId), entityType)());
     }
 
     protected def xprepareCBAsUniqueOf(memberId: Integer): MemberServiceCB = {
@@ -281,29 +290,31 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      *     ... = memberService...;
      * }
      * </pre>
-     * @param cb The condition-bean of DbleMemberService. (NotNull)
+     * @param cbCall The callback for condition-bean of MemberService. (NotNull)
+     * @param loaderCall The callback for referrer loader of MemberService. (NoArgAllowed: then no loading)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (MemberServiceCB) => Unit): scala.collection.immutable.List[MemberService] = {
-        return facadeSelectList(callbackCB(cbCall));
+    def selectList(cbCall: (MemberServiceCB) => Unit)(implicit loaderCall: (LoaderOfMemberService) => Unit = null): scala.collection.immutable.List[MemberService] = {
+        return facadeSelectList(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def facadeSelectList(cb: MemberServiceCB): scala.collection.immutable.List[MemberService] = {
-        val dbleList = doSelectList(cb, typeOfSelectedEntity());
-        return toImmutableEntityList(dbleList);
+    protected def facadeSelectList(cb: MemberServiceCB)(loaderCall: (LoaderOfMemberService) => Unit = null): scala.collection.immutable.List[MemberService] = {
+        return toImmutableEntityList(doSelectList(cb, typeOfSelectedEntity())(loaderCall));
     }
 
-    protected def doSelectList[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
+    protected def doSelectList[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberService) => Unit = null): ListResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
-        return helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, MemberServiceCB]() {
+        val dbleList = helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, MemberServiceCB]() {
             def callbackSelectList(lcb: MemberServiceCB, ltp: Class[ENTITY]): List[ENTITY] = { return delegateSelectList(lcb, ltp); } });
+        doCallbackLoader(dbleList.asInstanceOf[List[DbleMemberService]], loaderCall);
+        return dbleList;
     }
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), typeOfSelectedEntity()); // use do method for ListResultBean
+        return doSelectList(downcast(cb), typeOfSelectedEntity())();
     }
 
     // ===================================================================================
@@ -327,25 +338,30 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      *     ... = memberService.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of DbleMemberService. (NotNull)
+     * @param cbCall The callback for condition-bean of MemberService. (NotNull)
+     * @param loaderCall The callback for referrer loader of MemberService. (NoArgAllowed: then no loading)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (MemberServiceCB) => Unit): PagingResultBean[DbleMemberService] = {
-        return doSelectPage(callbackCB(cbCall), typeOfSelectedEntity());
+    def selectPage(cbCall: (MemberServiceCB) => Unit)(implicit loaderCall: (LoaderOfMemberService) => Unit = null): PagingResultBean[DbleMemberService] = {
+        return facadeSelectPage(callbackCB(cbCall))(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
+    def facadeSelectPage(cb: MemberServiceCB)(loaderCall: (LoaderOfMemberService) => Unit = null): PagingResultBean[DbleMemberService] = {
+        return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
+    }
+
+    protected def doSelectPage[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberService) => Unit = null): PagingResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, MemberServiceCB]() {
             def callbackSelectCount(cb: MemberServiceCB): Int = { return doSelectCountPlainly(cb); }
-            def callbackSelectList(cb: MemberServiceCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
+            def callbackSelectList(cb: MemberServiceCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp)(loaderCall); }
         });
     }
 
     @Override
     protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return doSelectPage(downcast(cb), typeOfSelectedEntity());
+        return doSelectPage(downcast(cb), typeOfSelectedEntity())();
     }
 
     // ===================================================================================
@@ -365,14 +381,14 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleMemberService. (NotNull)
      * @param entityRowHandler The handler of entity row of DbleMemberService. (NotNull)
      */
-    def selectCursor(cbCall: (MemberServiceCB) => Unit)(entityRowHandler: (DbleMemberService) => Unit): Unit = {
-        facadeSelectCursor(callbackCB(cbCall))(entityRowHandler);
+    def selectCursor(cbCall: (MemberServiceCB) => Unit)(rowCall: (MemberService) => Unit): Unit = {
+        facadeSelectCursor(callbackCB(cbCall))(rowCall);
     }
 
-    protected def facadeSelectCursor(cb: MemberServiceCB)(entityRowHandler: (DbleMemberService) => Unit): Unit = {
+    protected def facadeSelectCursor(cb: MemberServiceCB)(rowCall: (MemberService) => Unit): Unit = {
         doSelectCursor(cb, new EntityRowHandler[DbleMemberService]() {
             def handle(entity: DbleMemberService): Unit = {
-                entityRowHandler(entity)
+                rowCall(new MemberService(entity))
             }
         }, typeOfSelectedEntity());
     }
@@ -382,7 +398,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, MemberServiceCB]() {
             def callbackSelectCursor(cb: MemberServiceCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = { delegateSelectCursor(cb, handler, tp); }
-            def callbackSelectList(cb: MemberServiceCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
+            def callbackSelectList(cb: MemberServiceCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp)(); }
         });
     }
 
@@ -1559,16 +1575,25 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                         Type Helper
-    //                                                                         ===========
+    //                                                                       Assist Helper
+    //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleMemberService] = {
         return classOf[DbleMemberService];
     }
 
     protected def callbackCB(cbCall: (MemberServiceCB) => Unit): MemberServiceCB = {
+        assertObjectNotNull("cbCall", cbCall);
         val cb = new MemberServiceCB();
         cbCall(cb);
         return cb;
+    }
+
+    protected def doCallbackLoader(dbleList: List[DbleMemberService], loaderCall: (LoaderOfMemberService) => Unit = null): Unit = {
+        if (loaderCall != null) {
+            val loader = new LoaderOfMemberService();
+            loader.selectedList = dbleList.asInstanceOf[List[DbleMemberService]];
+            loaderCall(loader);
+        }
     }
 
     protected def downcast(et: Entity): DbleMemberService = {
@@ -1616,8 +1641,26 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     }
 }
 
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                  Behavior                                            _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                        Loader                        _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                              Border                                  _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+
 /**
  * @author jflute
  */
-class BsLoaderOfMemberService(memberServiceList: List[DbleMemberService]) {
+class BsLoaderOfMemberService {
+
+    protected var _selectedList: List[DbleMemberService] = null;
+    def selectedList: List[DbleMemberService] = {
+        return _selectedList;
+    }
+    def selectedList_=(ls: List[DbleMemberService]): Unit = {
+        _selectedList = ls;
+    }
 }
