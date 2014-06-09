@@ -42,13 +42,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     MEMBER, PRODUCT
  * 
  * [referrer table]
- *     
+ *     PURCHASE_PAYMENT
  * 
  * [foreign property]
  *     member, product
  * 
  * [referrer property]
- *     
+ *     purchasePaymentList
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -161,6 +161,7 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
         setVersionNo(immu.versionNo);
         setMember(immu.member.map(new DbleMember().acceptImmutableEntity(_)))
         setProduct(immu.product.map(new DbleProduct().acceptImmutableEntity(_)))
+        setPurchasePaymentList(immu.purchasePaymentList.map(new DblePurchasePayment().acceptImmutableEntity(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
@@ -381,6 +382,34 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'. */
+    protected var _purchasePaymentList: List[DblePurchasePayment] = null;
+
+    /**
+     * [get] (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
+     * @return The entity list of referrer property 'purchasePaymentList'. (NotNull: even if no loading, returns empty list)
+     */
+    def getPurchasePaymentList(): List[DblePurchasePayment] = {
+        if (_purchasePaymentList == null) { _purchasePaymentList = newReferrerList(); }
+        return _purchasePaymentList;
+    }
+
+    /**
+     * [set] (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
+     * @param purchasePaymentList The entity list of referrer property 'purchasePaymentList'. (NullAllowed)
+     */
+    def setPurchasePaymentList(purchasePaymentList: List[DblePurchasePayment]): Unit = {
+        _purchasePaymentList = purchasePaymentList;
+    }
+
+    /**
+     * [convert] (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
+     * @return The new-created immutable list of immutable entity of the referrer property 'purchasePaymentList'. (NotNull)
+     */
+    def toImmutablePurchasePaymentList(): scala.collection.immutable.List[PurchasePayment] = {
+        return toScalaList(_purchasePaymentList).map(_.toImmutable());
+    }
+
     protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
         return new ArrayList[ELEMENT]();
     }
@@ -533,6 +562,7 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
         { sb.append(li).append(xbRDS(_member, "member")); }
         if (_product != null)
         { sb.append(li).append(xbRDS(_product, "product")); }
+        toScalaList(_purchasePaymentList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "purchasePaymentList")) } });
         return sb.toString();
     }
     protected def xbRDS(et: Entity, name: String): String = {
@@ -579,6 +609,8 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
         val cm: String = ",  ";
         if (_member != null) { sb.append(cm).append("member"); }
         if (_product != null) { sb.append(cm).append("product"); }
+        if (_purchasePaymentList != null && !_purchasePaymentList.isEmpty)
+        { sb.append(cm).append("purchasePaymentList"); }
         if (sb.length() > cm.length()) {
             sb.delete(0, cm.length()).insert(0, "(").append(")");
         }

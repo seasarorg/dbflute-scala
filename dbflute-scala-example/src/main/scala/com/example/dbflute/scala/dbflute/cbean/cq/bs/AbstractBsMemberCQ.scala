@@ -1,7 +1,11 @@
 package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 
-import java.lang.Long;
-import java.util._;
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
+
+import java.util.Collection;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
@@ -121,8 +125,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberIdList The collection of memberId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_InScope(memberIdList: Collection[Integer]): Unit = {
-        doSetMemberId_InScope(memberIdList);
+    def setMemberId_InScope(memberIdList: List[Int]): Unit = {
+        doSetMemberId_InScope(toMutableValueCollectionImplicitly(memberIdList));
     }
 
     protected def doSetMemberId_InScope(memberIdList: Collection[Integer]): Unit = {
@@ -134,8 +138,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: Collection[Integer]): Unit = {
-        doSetMemberId_NotInScope(memberIdList);
+    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+        doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetMemberId_NotInScope(memberIdList: Collection[Integer]): Unit = {
@@ -272,7 +276,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      */
     def setMemberId_IsNotNull(): Unit = { regMemberId(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regMemberId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
+    protected def regMemberId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
     protected def getCValueMemberId(): ConditionValue;
 
     /**
@@ -319,7 +323,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         regLSQ(CK_NLS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", likeSearchOption);
     }
 
-    protected def regMemberName(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberName(), "MEMBER_NAME"); }
+    protected def regMemberName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberName(), "MEMBER_NAME"); }
     protected def getCValueMemberName(): ConditionValue;
 
     /**
@@ -353,8 +357,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)}
      * @param memberAccountList The collection of memberAccount as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberAccount_InScope(memberAccountList: Collection[String]): Unit = {
-        doSetMemberAccount_InScope(memberAccountList);
+    def setMemberAccount_InScope(memberAccountList: List[String]): Unit = {
+        doSetMemberAccount_InScope(toMutableValueCollectionImplicitly(memberAccountList));
     }
 
     def doSetMemberAccount_InScope(memberAccountList: Collection[String]): Unit = {
@@ -366,8 +370,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)}
      * @param memberAccountList The collection of memberAccount as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberAccount_NotInScope(memberAccountList: Collection[String]): Unit = {
-        doSetMemberAccount_NotInScope(memberAccountList);
+    def setMemberAccount_NotInScope(memberAccountList: List[String]): Unit = {
+        doSetMemberAccount_NotInScope(if (memberAccountList != null) { memberAccountList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     def doSetMemberAccount_NotInScope(memberAccountList: Collection[String]): Unit = {
@@ -405,7 +409,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         regLSQ(CK_NLS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", likeSearchOption);
     }
 
-    protected def regMemberAccount(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberAccount(), "MEMBER_ACCOUNT"); }
+    protected def regMemberAccount(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberAccount(), "MEMBER_ACCOUNT"); }
     protected def getCValueMemberAccount(): ConditionValue;
 
     /**
@@ -507,8 +511,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
-        doSetMemberStatusCode_InScope(memberStatusCodeList);
+    def setMemberStatusCode_InScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_InScope(toMutableValueCollectionImplicitly(memberStatusCodeList));
     }
 
     /**
@@ -517,8 +521,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * status of member from entry to withdrawal
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_InScope_AsMemberStatus(cdefList: Collection[CDef.MemberStatus]): Unit = {
-        doSetMemberStatusCode_InScope(cTStrL(cdefList));
+    def setMemberStatusCode_InScope_AsMemberStatus(cdefList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
     def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
@@ -530,8 +534,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
-        doSetMemberStatusCode_NotInScope(memberStatusCodeList);
+    def setMemberStatusCode_NotInScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_NotInScope(if (memberStatusCodeList != null) { memberStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     /**
@@ -540,15 +544,15 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * status of member from entry to withdrawal
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_NotInScope_AsMemberStatus(cdefList: Collection[CDef.MemberStatus]): Unit = {
-        doSetMemberStatusCode_NotInScope(cTStrL(cdefList));
+    def setMemberStatusCode_NotInScope_AsMemberStatus(cdefList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
     def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
-    protected def regMemberStatusCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberStatusCode(), "MEMBER_STATUS_CODE"); }
+    protected def regMemberStatusCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberStatusCode(), "MEMBER_STATUS_CODE"); }
     protected def getCValueMemberStatusCode(): ConditionValue;
 
     /**
@@ -636,7 +640,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      */
     def setFormalizedDatetime_IsNotNull(): Unit = { regFormalizedDatetime(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regFormalizedDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueFormalizedDatetime(), "FORMALIZED_DATETIME"); }
+    protected def regFormalizedDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueFormalizedDatetime(), "FORMALIZED_DATETIME"); }
     protected def getCValueFormalizedDatetime(): ConditionValue;
 
     /**
@@ -724,7 +728,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      */
     def setBirthdate_IsNotNull(): Unit = { regBirthdate(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regBirthdate(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueBirthdate(), "BIRTHDATE"); }
+    protected def regBirthdate(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueBirthdate(), "BIRTHDATE"); }
     protected def getCValueBirthdate(): ConditionValue;
 
     /**
@@ -736,7 +740,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
-    protected def regRegisterDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
+    protected def regRegisterDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
     protected def getCValueRegisterDatetime(): ConditionValue;
 
     /**
@@ -752,7 +756,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         regRegisterUser(CK_EQ, registerUser);
     }
 
-    protected def regRegisterUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
+    protected def regRegisterUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
     protected def getCValueRegisterUser(): ConditionValue;
 
     /**
@@ -764,7 +768,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
-    protected def regUpdateDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
+    protected def regUpdateDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
     protected def getCValueUpdateDatetime(): ConditionValue;
 
     /**
@@ -780,7 +784,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         regUpdateUser(CK_EQ, updateUser);
     }
 
-    protected def regUpdateUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
+    protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
     
     /**
@@ -809,7 +813,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
     }
 
-    protected def regVersionNo(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
+    protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
     protected def getCValueVersionNo(): ConditionValue;
 
     // ===================================================================================
@@ -996,6 +1000,13 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         registerMyselfInScope(cb.query(), pp);
     }
     def keepMyselfInScope(sq: MemberCQ): String;
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
+        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
+    }
 
     // ===================================================================================
     //                                                                       Very Internal

@@ -20,38 +20,38 @@ import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
 import com.example.dbflute.scala.dbflute.cbean._;
 
 /**
- * The behavior of (サービスランク)SERVICE_RANK as TABLE. <br />
+ * The behavior of (購入支払)PURCHASE_PAYMENT as TABLE. <br />
  * <pre>
  * [primary key]
- *     SERVICE_RANK_CODE
+ *     PURCHASE_PAYMENT_ID
  *
  * [column]
- *     SERVICE_RANK_CODE, SERVICE_RANK_NAME, SERVICE_POINT_INCIDENCE, NEW_ACCEPTABLE_FLG, DESCRIPTION, DISPLAY_ORDER
+ *     PURCHASE_PAYMENT_ID, PURCHASE_ID, PAYMENT_AMOUNT, PAYMENT_DATETIME, PAYMENT_METHOD_CODE, REGISTER_DATETIME, REGISTER_USER, UPDATE_DATETIME, UPDATE_USER
  *
  * [sequence]
  *     
  *
  * [identity]
- *     
+ *     PURCHASE_PAYMENT_ID
  *
  * [version-no]
  *     
  *
  * [foreign table]
- *     
+ *     PURCHASE
  *
  * [referrer table]
- *     MEMBER_SERVICE
- *
- * [foreign property]
  *     
  *
+ * [foreign property]
+ *     purchase
+ *
  * [referrer property]
- *     memberServiceList
+ *     
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
+abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
 
     // ===================================================================================
     //                                                                          Definition
@@ -63,13 +63,13 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     //                                                                          Table name
     //                                                                          ==========
     /** @return The name on database of table. (NotNull) */
-    def getTableDbName(): String = { return "SERVICE_RANK"; }
+    def getTableDbName(): String = { return "PURCHASE_PAYMENT"; }
 
     // ===================================================================================
     //                                                                              DBMeta
     //                                                                              ======
     /** @return The instance of DBMeta. (NotNull) */
-    def getDBMeta(): DBMeta = { return ServiceRankDbm; }
+    def getDBMeta(): DBMeta = { return PurchasePaymentDbm; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -81,10 +81,10 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     def newConditionBean(): ConditionBean = { return newMyConditionBean(); }
 
     /** @return The instance of new entity as my table type. (NotNull) */
-    def newMyEntity(): DbleServiceRank = { return new DbleServiceRank(); }
+    def newMyEntity(): DblePurchasePayment = { return new DblePurchasePayment(); }
 
     /** @return The instance of new condition-bean as my table type. (NotNull) */
-    def newMyConditionBean(): ServiceRankCB = { return new ServiceRankCB(); }
+    def newMyConditionBean(): PurchasePaymentCB = { return new PurchasePaymentCB(); }
 
     // ===================================================================================
     //                                                                        Count Select
@@ -93,27 +93,27 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Select the count of uniquely-selected records by the condition-bean. {IgnorePagingCondition, IgnoreSpecifyColumn}<br />
      * SpecifyColumn is ignored but you can use it only to remove text type column for union's distinct.
      * <pre>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
-     * int count = serviceRankBhv.<span style="color: #DD4747">selectCount</span>(cb);
+     * int count = purchasePaymentBhv.<span style="color: #DD4747">selectCount</span>(cb);
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    def selectCount(cbCall: (ServiceRankCB) => Unit): Int = {
+    def selectCount(cbCall: (PurchasePaymentCB) => Unit): Int = {
         return facadeSelectCount(callbackCB(cbCall));
     }
 
-    def facadeSelectCount(cb: ServiceRankCB): Int = {
+    def facadeSelectCount(cb: PurchasePaymentCB): Int = {
         return Integer2int(doSelectCountUniquely(cb));
     }
 
-    protected def doSelectCountUniquely(cb: ServiceRankCB): Integer = { // called by selectCount(cb)
+    protected def doSelectCountUniquely(cb: PurchasePaymentCB): Integer = { // called by selectCount(cb)
         assertCBStateValid(cb);
         return delegateSelectCountUniquely(cb);
     }
 
-    protected def doSelectCountPlainly(cb: ServiceRankCB): Integer = { // called by selectPage(cb)
+    protected def doSelectCountPlainly(cb: PurchasePaymentCB): Integer = { // called by selectPage(cb)
         assertCBStateValid(cb);
         return delegateSelectCountPlainly(cb);
     }
@@ -131,47 +131,47 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * <span style="color: #AD4747; font-size: 120%">If the data always exists as your business rule, get() without check.</span> <br />
      * <span style="color: #AD4747; font-size: 120%">If it might be no data, get() after check by isPresent() or orElse(), ...</span>
      * <pre>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
-     * OptionalEntity&lt;DbleServiceRank&gt; entity = serviceRankBhv.<span style="color: #DD4747">selectEntity</span>(cb);
+     * OptionalEntity&lt;DblePurchasePayment&gt; entity = purchasePaymentBhv.<span style="color: #DD4747">selectEntity</span>(cb);
      *
      * <span style="color: #3F7E5E">// if the data always exists as your business rule</span>
-     * entity.<span style="color: #DD4747">required</span>(serviceRank -&gt; {
+     * entity.<span style="color: #DD4747">required</span>(purchasePayment -&gt; {
      *     ...
      * });
-     * DbleServiceRank serviceRank = entity.entity.<span style="color: #DD4747">get()</span>;
+     * DblePurchasePayment purchasePayment = entity.entity.<span style="color: #DD4747">get()</span>;
      *
      * <span style="color: #3F7E5E">// if it might be no data, ifPresent(), isPresent(), ...</span>
-     * entity.<span style="color: #DD4747">ifPresent</span>(serviceRank -&gt; {
+     * entity.<span style="color: #DD4747">ifPresent</span>(purchasePayment -&gt; {
      *     ...
      * });
      * if (entity.entity.<span style="color: #DD4747">isPresent()</span>) {
-     *     DbleServiceRank serviceRank = entity.entity.<span style="color: #DD4747">get()</span>;
+     *     DblePurchasePayment purchasePayment = entity.entity.<span style="color: #DD4747">get()</span>;
      * } else {
      *     ...
      * }
      * </pre>
-     * @param cbCall The callback for condition-bean of DbleServiceRank. (NotNull)
+     * @param cbCall The callback for condition-bean of DblePurchasePayment. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cbCall: (ServiceRankCB) => Unit): Option[ServiceRank] = {
+    def selectEntity(cbCall: (PurchasePaymentCB) => Unit): Option[PurchasePayment] = {
         return facadeSelectEntity(callbackCB(cbCall));
     }
 
-    protected def facadeSelectEntity(cb: ServiceRankCB): Option[ServiceRank] = {
-        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new ServiceRank(f));
+    protected def facadeSelectEntity(cb: PurchasePaymentCB): Option[PurchasePayment] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new PurchasePayment(f));
     }
 
-    protected def doSelectEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, ServiceRankCB]() {
-            def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
+        return helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, PurchasePaymentCB]() {
+            def callbackSelectList(lcb: PurchasePaymentCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, tp: Class[ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp));
     }
 
@@ -184,29 +184,29 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Select the entity by the condition-bean with deleted check. <br />
      * <span style="color: #AD4747; font-size: 120%">If the data always exists as your business rule, this method is good.</span>
      * <pre>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
-     * DbleServiceRank serviceRank = serviceRankBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
-     * ... = serviceRank.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
+     * DblePurchasePayment purchasePayment = purchasePaymentBhv.<span style="color: #DD4747">selectEntityWithDeletedCheck</span>(cb);
+     * ... = purchasePayment.get...(); <span style="color: #3F7E5E">// the entity always be not null</span>
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @return The entity selected by the condition. (NotNull: if no data, throws exception)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (point is not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cbCall: (ServiceRankCB) => Unit): ServiceRank = {
+    def selectEntityWithDeletedCheck(cbCall: (PurchasePaymentCB) => Unit): PurchasePayment = {
         return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall));
     }
 
-    protected def facadeSelectEntityWithDeletedCheck(cb: ServiceRankCB): ServiceRank = {
-        return new ServiceRank(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
+    protected def facadeSelectEntityWithDeletedCheck(cb: PurchasePaymentCB): PurchasePayment = {
+        return new PurchasePayment(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
     }
 
-    protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): ENTITY = {
+    protected def doSelectEntityWithDeletedCheck[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, tp: Class[ENTITY]): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, ServiceRankCB]() {
-            def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
+        return helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, PurchasePaymentCB]() {
+            def callbackSelectList(lcb: PurchasePaymentCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp); } });
     }
 
     @Override
@@ -216,54 +216,28 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 
     /**
      * Select the entity by the primary-key value.
-     * @param serviceRankCode (サービスランクコード): PK, NotNull, CHAR(3), classification=ServiceRank. (NotNull)
+     * @param purchasePaymentId (購入支払ID): PK, ID, NotNull, BIGINT(19). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByPK(serviceRankCode: CDef.ServiceRank): Option[ServiceRank] = {
-        return facadeSelectByPK(serviceRankCode);
+    def selectByPK(purchasePaymentId: Long): Option[PurchasePayment] = {
+        return facadeSelectByPK(purchasePaymentId);
     }
 
-    def facadeSelectByPK(serviceRankCode: CDef.ServiceRank): Option[ServiceRank] = {
-        return doSelectByPK(serviceRankCode, typeOfSelectedEntity()).map(f => new ServiceRank(f));
+    def facadeSelectByPK(purchasePaymentId: Long): Option[PurchasePayment] = {
+        return doSelectByPK(purchasePaymentId, typeOfSelectedEntity()).map(f => new PurchasePayment(f));
     }
 
-    protected def doSelectByPK[ENTITY <: DbleServiceRank](serviceRankCode: CDef.ServiceRank, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsPK(serviceRankCode), entityType));
+    protected def doSelectByPK[ENTITY <: DblePurchasePayment](purchasePaymentId: Long, entityType: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsPK(purchasePaymentId), entityType));
     }
 
-    protected def xprepareCBAsPK(serviceRankCode: CDef.ServiceRank): ServiceRankCB = {
-        assertObjectNotNull("serviceRankCode", serviceRankCode);
-        val cb: ServiceRankCB = newMyConditionBean();
-        cb.query().setServiceRankCode_Equal_AsServiceRank(serviceRankCode);
-        return cb;
-    }
-
-    /**
-     * Select the entity by the unique-key value.
-     * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
-     * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
-     * @exception EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
-     */
-    def selectByUniqueOf(displayOrder: Integer): Option[ServiceRank] = {
-        return facadeSelectByUniqueOf(displayOrder);
-    }
-
-    protected def facadeSelectByUniqueOf(displayOrder: Integer): Option[ServiceRank] = {
-        return doSelectByUniqueOf(displayOrder, typeOfSelectedEntity()).map(f => new ServiceRank(f));
-    }
-
-    protected def doSelectByUniqueOf[ENTITY <: DbleServiceRank](displayOrder: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), entityType));
-    }
-
-    protected def xprepareCBAsUniqueOf(displayOrder: Integer): ServiceRankCB = {
-        assertObjectNotNull("displayOrder", displayOrder);
-        val cb: ServiceRankCB = newMyConditionBean(); cb.acceptUniqueOf(displayOrder);
+    protected def xprepareCBAsPK(purchasePaymentId: Long): PurchasePaymentCB = {
+        assertObjectNotNull("purchasePaymentId", purchasePaymentId);
+        val cb: PurchasePaymentCB = newMyConditionBean();
+        cb.query().setPurchasePaymentId_Equal(purchasePaymentId);;
         return cb;
     }
 
@@ -273,32 +247,32 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Select the list as result bean.
      * <pre>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
-     * List&lt;${ServiceRank}&gt; serviceRankList = serviceRankBhv.<span style="color: #DD4747">selectList</span>(cb);
-     * serviceRankList.foreach(serviceRank =>
-     *     ... = serviceRank...;
+     * List&lt;${PurchasePayment}&gt; purchasePaymentList = purchasePaymentBhv.<span style="color: #DD4747">selectList</span>(cb);
+     * purchasePaymentList.foreach(purchasePayment =>
+     *     ... = purchasePayment...;
      * }
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (ServiceRankCB) => Unit): scala.collection.immutable.List[ServiceRank] = {
+    def selectList(cbCall: (PurchasePaymentCB) => Unit): scala.collection.immutable.List[PurchasePayment] = {
         return facadeSelectList(callbackCB(cbCall));
     }
 
-    protected def facadeSelectList(cb: ServiceRankCB): scala.collection.immutable.List[ServiceRank] = {
+    protected def facadeSelectList(cb: PurchasePaymentCB): scala.collection.immutable.List[PurchasePayment] = {
         val dbleList = doSelectList(cb, typeOfSelectedEntity());
         return toImmutableEntityList(dbleList);
     }
 
-    protected def doSelectList[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
+    protected def doSelectList[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, tp: Class[ENTITY]): ListResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
-        return helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, ServiceRankCB]() {
-            def callbackSelectList(lcb: ServiceRankCB, ltp: Class[ENTITY]): List[ENTITY] = { return delegateSelectList(lcb, ltp); } });
+        return helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, PurchasePaymentCB]() {
+            def callbackSelectList(lcb: PurchasePaymentCB, ltp: Class[ENTITY]): List[ENTITY] = { return delegateSelectList(lcb, ltp); } });
     }
 
     @Override
@@ -313,33 +287,33 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Select the page as result bean. <br />
      * (both count-select and paging-select are executed)
      * <pre>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
      * cb.query().addOrderBy_Bar...();
      * cb.<span style="color: #DD4747">paging</span>(20, 3); <span style="color: #3F7E5E">// 20 records per a page and current page number is 3</span>
-     * PagingResultBean&lt;DbleServiceRank&gt; page = serviceRankBhv.<span style="color: #DD4747">selectPage</span>(cb);
+     * PagingResultBean&lt;DblePurchasePayment&gt; page = purchasePaymentBhv.<span style="color: #DD4747">selectPage</span>(cb);
      * int allRecordCount = page.getAllRecordCount();
      * int allPageCount = page.getAllPageCount();
      * boolean isExistPrePage = page.isExistPrePage();
      * boolean isExistNextPage = page.isExistNextPage();
      * ...
-     * for (DbleServiceRank serviceRank : page) {
-     *     ... = serviceRank.get...();
+     * for (DblePurchasePayment purchasePayment : page) {
+     *     ... = purchasePayment.get...();
      * }
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (ServiceRankCB) => Unit): PagingResultBean[DbleServiceRank] = {
+    def selectPage(cbCall: (PurchasePaymentCB) => Unit): PagingResultBean[DblePurchasePayment] = {
         return doSelectPage(callbackCB(cbCall), typeOfSelectedEntity());
     }
 
-    protected def doSelectPage[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
+    protected def doSelectPage[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, ServiceRankCB]() {
-            def callbackSelectCount(cb: ServiceRankCB): Int = { return doSelectCountPlainly(cb); }
-            def callbackSelectList(cb: ServiceRankCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
+        return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, PurchasePaymentCB]() {
+            def callbackSelectCount(cb: PurchasePaymentCB): Int = { return doSelectCountPlainly(cb); }
+            def callbackSelectList(cb: PurchasePaymentCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
         });
     }
 
@@ -354,35 +328,35 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Select the cursor by the condition-bean.
      * <pre>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
-     * serviceRankBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;DbleServiceRank&gt;() {
-     *     public void handle(DbleServiceRank entity) {
+     * purchasePaymentBhv.<span style="color: #DD4747">selectCursor</span>(cb, new EntityRowHandler&lt;DblePurchasePayment&gt;() {
+     *     public void handle(DblePurchasePayment entity) {
      *         ... = entity.getFoo...();
      *     }
      * });
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
-     * @param entityRowHandler The handler of entity row of DbleServiceRank. (NotNull)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
+     * @param entityRowHandler The handler of entity row of DblePurchasePayment. (NotNull)
      */
-    def selectCursor(cbCall: (ServiceRankCB) => Unit)(entityRowHandler: (DbleServiceRank) => Unit): Unit = {
+    def selectCursor(cbCall: (PurchasePaymentCB) => Unit)(entityRowHandler: (DblePurchasePayment) => Unit): Unit = {
         facadeSelectCursor(callbackCB(cbCall))(entityRowHandler);
     }
 
-    protected def facadeSelectCursor(cb: ServiceRankCB)(entityRowHandler: (DbleServiceRank) => Unit): Unit = {
-        doSelectCursor(cb, new EntityRowHandler[DbleServiceRank]() {
-            def handle(entity: DbleServiceRank): Unit = {
+    protected def facadeSelectCursor(cb: PurchasePaymentCB)(entityRowHandler: (DblePurchasePayment) => Unit): Unit = {
+        doSelectCursor(cb, new EntityRowHandler[DblePurchasePayment]() {
+            def handle(entity: DblePurchasePayment): Unit = {
                 entityRowHandler(entity)
             }
         }, typeOfSelectedEntity());
     }
 
-    protected def doSelectCursor[ENTITY <: DbleServiceRank](cb: ServiceRankCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
+    protected def doSelectCursor[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
         assertCBStateValid(cb); assertObjectNotNull("entityRowHandler", handler); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
-        helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, ServiceRankCB]() {
-            def callbackSelectCursor(cb: ServiceRankCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = { delegateSelectCursor(cb, handler, tp); }
-            def callbackSelectList(cb: ServiceRankCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
+        helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, PurchasePaymentCB]() {
+            def callbackSelectCursor(cb: PurchasePaymentCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = { delegateSelectCursor(cb, handler, tp); }
+            def callbackSelectList(cb: PurchasePaymentCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp); }
         });
     }
 
@@ -393,8 +367,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Select the scalar value derived by a function from uniquely-selected records. <br />
      * You should call a function method after this method called like as follows:
      * <pre>
-     * serviceRankBhv.<span style="color: #DD4747">scalarSelect</span>(Date.class).max(new ScalarQuery() {
-     *     public void query(ServiceRankCB cb) {
+     * purchasePaymentBhv.<span style="color: #DD4747">scalarSelect</span>(Date.class).max(new ScalarQuery() {
+     *     public void query(PurchasePaymentCB cb) {
      *         cb.specify().<span style="color: #DD4747">columnFooDatetime()</span>; <span style="color: #3F7E5E">// required for a function</span>
      *         cb.query().setBarName_PrefixSearch("S");
      *     }
@@ -404,17 +378,17 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param resultType The type of result. (NotNull)
      * @return The scalar function object to specify function for scalar value. (NotNull)
      */
-    def scalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[ServiceRankCB, RESULT] = {
+    def scalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[PurchasePaymentCB, RESULT] = {
         return doScalarSelect(resultType, newMyConditionBean());
     }
 
-    protected def doScalarSelect[RESULT, CB <: ServiceRankCB](tp: Class[RESULT], cb: CB): SLFunction[CB, RESULT] = {
+    protected def doScalarSelect[RESULT, CB <: PurchasePaymentCB](tp: Class[RESULT], cb: CB): SLFunction[CB, RESULT] = {
         assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
         cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
         return createSLFunction[RESULT, CB](cb, tp);
     }
 
-    protected def createSLFunction[RESULT, CB <: ServiceRankCB](cb: CB, tp: Class[RESULT]): SLFunction[CB, RESULT] = {
+    protected def createSLFunction[RESULT, CB <: PurchasePaymentCB](cb: CB, tp: Class[RESULT]): SLFunction[CB, RESULT] = {
         return new SLFunction[CB, RESULT](cb, tp);
     }
 
@@ -432,118 +406,34 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                       Load Referrer
-    //                                                                       =============
-    /**
-     * Load referrer of memberServiceList by the set-upper of referrer. <br />
-     * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
-     * <pre>
-     * serviceRankBhv.<span style="color: #DD4747">loadMemberServiceList</span>(serviceRankList, new ReferrerConditionSetupper&lt;MemberServiceCB&gt;() {
-     *     public void setup(MemberServiceCB cb) {
-     *         cb.setupSelect...();
-     *         cb.query().setFoo...(value);
-     *         cb.query().addOrderBy_Bar...();
-     *     }
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * for (DbleServiceRank serviceRank : serviceRankList) {
-     *     ... = serviceRank.<span style="color: #DD4747">getMemberServiceList()</span>;
-     * }
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setServiceRankCode_InScope(pkList);
-     * cb.query().addOrderBy_ServiceRankCode_Asc();
-     * </pre>
-     * @param serviceRankList The entity list of serviceRank. (NotNull)
-     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    def loadMemberServiceList(serviceRankList: List[DbleServiceRank], setupCall: (MemberServiceCB) => Unit): NestedReferrerLoader[DbleMemberService] = {
-        val setupper = new ReferrerConditionSetupper[MemberServiceCB]() { def setup(referrerCB: MemberServiceCB): Unit = { setupCall(referrerCB); } }
-        return doLoadMemberServiceList(serviceRankList, new LoadReferrerOption[MemberServiceCB, DbleMemberService]().xinit(setupper));
-    }
-
-    /**
-     * Load referrer of memberServiceList by the set-upper of referrer. <br />
-     * (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
-     * <pre>
-     * serviceRankBhv.<span style="color: #DD4747">loadMemberServiceList</span>(serviceRankList, new ReferrerConditionSetupper&lt;MemberServiceCB&gt;() {
-     *     public void setup(MemberServiceCB cb) {
-     *         cb.setupSelect...();
-     *         cb.query().setFoo...(value);
-     *         cb.query().addOrderBy_Bar...();
-     *     }
-     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
-     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
-     * <span style="color: #3F7E5E">//    ...</span>
-     * <span style="color: #3F7E5E">//});</span>
-     * ... = serviceRank.<span style="color: #DD4747">getMemberServiceList()</span>;
-     * </pre>
-     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
-     * The condition-bean, which the set-upper provides, has settings before callback as follows:
-     * <pre>
-     * cb.query().setServiceRankCode_InScope(pkList);
-     * cb.query().addOrderBy_ServiceRankCode_Asc();
-     * </pre>
-     * @param serviceRank The entity of serviceRank. (NotNull)
-     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
-     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
-     */
-    def loadMemberServiceList(serviceRank: DbleServiceRank, setupCall: (MemberServiceCB) => Unit): NestedReferrerLoader[DbleMemberService] = {
-        val setupper = new ReferrerConditionSetupper[MemberServiceCB]() { def setup(referrerCB: MemberServiceCB): Unit = { setupCall(referrerCB); } }
-        return doLoadMemberServiceList(xnewLRLs(serviceRank), new LoadReferrerOption[MemberServiceCB, DbleMemberService]().xinit(setupper));
-    }
-
-    protected def doLoadMemberServiceList(serviceRankList: List[DbleServiceRank], option: LoadReferrerOption[MemberServiceCB, DbleMemberService]): NestedReferrerLoader[DbleMemberService] = {
-        val referrerBhv: MemberServiceBhv = xgetBSFLR().select(classOf[MemberServiceBhv]);
-        return helpLoadReferrerInternally(serviceRankList, option, new InternalLoadReferrerCallback[DbleServiceRank, String, MemberServiceCB, DbleMemberService]() {
-            def getPKVal(et: DbleServiceRank): String =
-            { return et.getServiceRankCode(); }
-            def setRfLs(et: DbleServiceRank, ls: List[DbleMemberService]): Unit =
-            { et.setMemberServiceList(ls); }
-            def newMyCB(): MemberServiceCB = { return referrerBhv.newMyConditionBean(); }
-            def qyFKIn(cb: MemberServiceCB, ls: List[String]): Unit =
-            { cb.query().setServiceRankCode_InScope(toScalaList(ls).map(_.asInstanceOf[CDef.ServiceRank])); }
-            def qyOdFKAsc(cb: MemberServiceCB): Unit = { cb.query().addOrderBy_ServiceRankCode_Asc(); }
-            def spFKCol(cb: MemberServiceCB): Unit = { cb.specify().columnServiceRankCode(); }
-            def selRfLs(cb: MemberServiceCB): List[DbleMemberService] = { return referrerBhv.readList(cb).asInstanceOf[List[DbleMemberService]]; }
-            def getFKVal(re: DbleMemberService): String = { return re.getServiceRankCode(); }
-            def setlcEt(re: DbleMemberService, le: DbleServiceRank): Unit =
-            { re.setServiceRank(Option.apply(le)); }
-            def getRfPrNm(): String = { return "memberServiceList"; }
-        });
-    }
-
-    // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
+    /**
+     * Pull out the list of foreign table 'DblePurchase'.
+     * @param purchasePaymentList The list of purchasePayment. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    def pulloutPurchase(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment]): scala.collection.immutable.List[DblePurchase] = {
+        return toScalaList(helpPulloutInternally(purchasePaymentList.asJava, new InternalPulloutCallback[DblePurchasePayment, DblePurchase]() {
+            def getFr(et: DblePurchasePayment): DblePurchase =
+            { return et.getPurchase().get; }
+            def hasRf(): Boolean = { return true; }
+            def setRfLs(et: DblePurchase, ls: List[DblePurchasePayment]): Unit =
+            { et.setPurchasePaymentList(ls); }
+        }));
+    }
 
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============
     /**
-     * Extract the value list of (single) primary key serviceRankCode.
-     * @param serviceRankList The list of serviceRank. (NotNull, EmptyAllowed)
+     * Extract the value list of (single) primary key purchasePaymentId.
+     * @param purchasePaymentList The list of purchasePayment. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractServiceRankCodeList(serviceRankList: List[DbleServiceRank]): List[String] = {
-        return helpExtractListInternally(serviceRankList, new InternalExtractCallback[DbleServiceRank, String]() {
-            def getCV(et: DbleServiceRank): String = { return et.getServiceRankCode(); }
-        });
-    }
-
-    /**
-     * Extract the value list of (single) unique key displayOrder.
-     * @param serviceRankList The list of serviceRank. (NotNull, EmptyAllowed)
-     * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
-     */
-    def extractDisplayOrderList(serviceRankList: List[DbleServiceRank]): List[Integer] = {
-        return helpExtractListInternally(serviceRankList, new InternalExtractCallback[DbleServiceRank, Integer]() {
-            def getCV(et: DbleServiceRank): Integer = { return et.getDisplayOrder(); }
+    def extractPurchasePaymentIdList(purchasePaymentList: List[DblePurchasePayment]): List[Long] = {
+        return helpExtractListInternally(purchasePaymentList, new InternalExtractCallback[DblePurchasePayment, Long]() {
+            def getCV(et: DblePurchasePayment): Long = { return et.getPurchasePaymentId(); }
         });
     }
 
@@ -553,31 +443,31 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Insert the entity modified-only. (DefaultConstraintsEnabled)
      * <pre>
-     * DbleServiceRank serviceRank = new DbleServiceRank();
+     * DblePurchasePayment purchasePayment = new DblePurchasePayment();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
-     * serviceRank.setFoo...(value);
-     * serviceRank.setBar...(value);
+     * purchasePayment.setFoo...(value);
+     * purchasePayment.setBar...(value);
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//serviceRank.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//serviceRank.set...;</span>
-     * serviceRankBhv.<span style="color: #DD4747">insert</span>(serviceRank);
-     * ... = serviceRank.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
+     * <span style="color: #3F7E5E">//purchasePayment.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//purchasePayment.set...;</span>
+     * purchasePaymentBhv.<span style="color: #DD4747">insert</span>(purchasePayment);
+     * ... = purchasePayment.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param serviceRank The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param purchasePayment The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(serviceRank: DbleServiceRank): Unit = {
-        doInsert(serviceRank, null);
+    def insert(purchasePayment: DblePurchasePayment): Unit = {
+        doInsert(purchasePayment, null);
     }
 
-    protected def doInsert(serviceRank: DbleServiceRank, op: InsertOption[ServiceRankCB]): Unit = {
-        assertObjectNotNull("serviceRank", serviceRank);
+    protected def doInsert(purchasePayment: DblePurchasePayment, op: InsertOption[PurchasePaymentCB]): Unit = {
+        assertObjectNotNull("purchasePayment", purchasePayment);
         prepareInsertOption(op);
-        delegateInsert(serviceRank, op);
+        delegateInsert(purchasePayment, op);
     }
 
-    protected def prepareInsertOption(op: InsertOption[ServiceRankCB]): Unit = {
+    protected def prepareInsertOption(op: InsertOption[PurchasePaymentCB]): Unit = {
         if (op == null) { return; }
         assertInsertOptionStatus(op);
         if (op.hasSpecifiedInsertColumn()) {
@@ -594,39 +484,39 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Update the entity modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
-     * DbleServiceRank serviceRank = new DbleServiceRank();
-     * serviceRank.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * serviceRank.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * DblePurchasePayment purchasePayment = new DblePurchasePayment();
+     * purchasePayment.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * purchasePayment.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//serviceRank.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//serviceRank.set...;</span>
+     * <span style="color: #3F7E5E">//purchasePayment.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//purchasePayment.set...;</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
-     * serviceRank.<span style="color: #DD4747">setVersionNo</span>(value);
+     * purchasePayment.<span style="color: #DD4747">setVersionNo</span>(value);
      * try {
-     *     serviceRankBhv.<span style="color: #DD4747">update</span>(serviceRank);
+     *     purchasePaymentBhv.<span style="color: #DD4747">update</span>(purchasePayment);
      * } catch (EntityAlreadyUpdatedException e) { <span style="color: #3F7E5E">// if concurrent update</span>
      *     ...
      * }
      * </pre>
-     * @param serviceRank The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param purchasePayment The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(setting: (MbleServiceRank) => Unit): Unit = {
-        val mble = new MbleServiceRank();
+    def update(setting: (MblePurchasePayment) => Unit): Unit = {
+        val mble = new MblePurchasePayment();
         setting(mble);
         doUpdate(mble.toDBableEntity, null);
     }
 
-    protected def doUpdate(serviceRank: DbleServiceRank, op: UpdateOption[ServiceRankCB]): Unit = {
-        assertObjectNotNull("serviceRank", serviceRank);
+    protected def doUpdate(purchasePayment: DblePurchasePayment, op: UpdateOption[PurchasePaymentCB]): Unit = {
+        assertObjectNotNull("purchasePayment", purchasePayment);
         prepareUpdateOption(op);
-        helpUpdateInternally(serviceRank, new InternalUpdateCallback[DbleServiceRank]() {
-            def callbackDelegateUpdate(et: DbleServiceRank): Int = { return delegateUpdate(et, op); } });
+        helpUpdateInternally(purchasePayment, new InternalUpdateCallback[DblePurchasePayment]() {
+            def callbackDelegateUpdate(et: DblePurchasePayment): Int = { return delegateUpdate(et, op); } });
     }
 
-    protected def prepareUpdateOption(op: UpdateOption[ServiceRankCB]): Unit = {
+    protected def prepareUpdateOption(op: UpdateOption[PurchasePaymentCB]): Unit = {
         if (op == null) { return; }
         assertUpdateOptionStatus(op);
         if (op.hasSelfSpecification()) {
@@ -637,14 +527,14 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         }
     }
 
-    protected def createCBForVaryingUpdate(): ServiceRankCB = {
-        val cb: ServiceRankCB = newMyConditionBean();
+    protected def createCBForVaryingUpdate(): PurchasePaymentCB = {
+        val cb: PurchasePaymentCB = newMyConditionBean();
         cb.xsetupForVaryingUpdate();
         return cb;
     }
 
-    protected def createCBForSpecifiedUpdate(): ServiceRankCB = {
-        val cb: ServiceRankCB = newMyConditionBean();
+    protected def createCBForSpecifiedUpdate(): PurchasePaymentCB = {
+        val cb: PurchasePaymentCB = newMyConditionBean();
         cb.xsetupForSpecifiedUpdate();
         return cb;
     }
@@ -664,21 +554,21 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param serviceRank The entity of insert or update target. (NotNull)
+     * @param purchasePayment The entity of insert or update target. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(serviceRank: DbleServiceRank): Unit = {
-        doInesrtOrUpdate(serviceRank, null, null);
+    def insertOrUpdate(purchasePayment: DblePurchasePayment): Unit = {
+        doInesrtOrUpdate(purchasePayment, null, null);
     }
 
-    protected def doInesrtOrUpdate(serviceRank: DbleServiceRank, iop: InsertOption[ServiceRankCB], uop: UpdateOption[ServiceRankCB]): Unit = {
-        helpInsertOrUpdateInternally(serviceRank, new InternalInsertOrUpdateCallback[DbleServiceRank, ServiceRankCB]() {
-            def callbackInsert(et: DbleServiceRank): Unit = { doInsert(et, iop); }
-            def callbackUpdate(et: DbleServiceRank): Unit = { doUpdate(et, uop); }
-            def callbackNewMyConditionBean(): ServiceRankCB = { return newMyConditionBean(); }
-            def callbackSelectCount(cb: ServiceRankCB): Int = { return facadeSelectCount(cb); }
+    protected def doInesrtOrUpdate(purchasePayment: DblePurchasePayment, iop: InsertOption[PurchasePaymentCB], uop: UpdateOption[PurchasePaymentCB]): Unit = {
+        helpInsertOrUpdateInternally(purchasePayment, new InternalInsertOrUpdateCallback[DblePurchasePayment, PurchasePaymentCB]() {
+            def callbackInsert(et: DblePurchasePayment): Unit = { doInsert(et, iop); }
+            def callbackUpdate(et: DblePurchasePayment): Unit = { doUpdate(et, uop); }
+            def callbackNewMyConditionBean(): PurchasePaymentCB = { return newMyConditionBean(); }
+            def callbackSelectCount(cb: PurchasePaymentCB): Int = { return facadeSelectCount(cb); }
         });
     }
 
@@ -686,8 +576,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
         if (iop == null && uop == null) { insertOrUpdate(downcast(et)); }
         else {
-            val niop = if (iop != null) { iop } else { new InsertOption[ServiceRankCB]() };
-            val nuop = if (uop != null) { uop } else { new UpdateOption[ServiceRankCB]() };
+            val niop = if (iop != null) { iop } else { new InsertOption[PurchasePaymentCB]() };
+            val nuop = if (uop != null) { uop } else { new UpdateOption[PurchasePaymentCB]() };
             varyingInsertOrUpdate(downcast(et), downcast(niop), downcast(nuop));
         }
     }
@@ -700,32 +590,32 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Delete the entity. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
-     * DbleServiceRank serviceRank = new DbleServiceRank();
-     * serviceRank.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * DblePurchasePayment purchasePayment = new DblePurchasePayment();
+     * purchasePayment.setPK...(value); <span style="color: #3F7E5E">// required</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
-     * serviceRank.<span style="color: #DD4747">setVersionNo</span>(value);
+     * purchasePayment.<span style="color: #DD4747">setVersionNo</span>(value);
      * try {
-     *     serviceRankBhv.<span style="color: #DD4747">delete</span>(serviceRank);
+     *     purchasePaymentBhv.<span style="color: #DD4747">delete</span>(purchasePayment);
      * } catch (EntityAlreadyUpdatedException e) { <span style="color: #3F7E5E">// if concurrent update</span>
      *     ...
      * }
      * </pre>
-     * @param serviceRank The entity of delete target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param purchasePayment The entity of delete target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(serviceRank: DbleServiceRank): Unit = {
-        doDelete(serviceRank, null);
+    def delete(purchasePayment: DblePurchasePayment): Unit = {
+        doDelete(purchasePayment, null);
     }
 
-    protected def doDelete(serviceRank: DbleServiceRank, op: DeleteOption[ServiceRankCB]): Unit = {
-        assertObjectNotNull("serviceRank", serviceRank);
+    protected def doDelete(purchasePayment: DblePurchasePayment, op: DeleteOption[PurchasePaymentCB]): Unit = {
+        assertObjectNotNull("purchasePayment", purchasePayment);
         prepareDeleteOption(op);
-        helpDeleteInternally(serviceRank, new InternalDeleteCallback[DbleServiceRank]() {
-            def callbackDelegateDelete(et: DbleServiceRank): Int = { return delegateDelete(et, op); } });
+        helpDeleteInternally(purchasePayment, new InternalDeleteCallback[DblePurchasePayment]() {
+            def callbackDelegateDelete(et: DblePurchasePayment): Int = { return delegateDelete(et, op); } });
     }
 
-    protected def prepareDeleteOption(op: DeleteOption[ServiceRankCB]): Unit = {
+    protected def prepareDeleteOption(op: DeleteOption[PurchasePaymentCB]): Unit = {
         if (op == null) { return; }
         assertDeleteOptionStatus(op);
     }
@@ -750,38 +640,38 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * <p><span style="color: #DD4747; font-size: 120%">The columns of least common multiple are registered like this:</span></p>
      * <pre>
      * for (... : ...) {
-     *     DbleServiceRank serviceRank = new DbleServiceRank();
-     *     serviceRank.setFooName("foo");
+     *     DblePurchasePayment purchasePayment = new DblePurchasePayment();
+     *     purchasePayment.setFooName("foo");
      *     if (...) {
-     *         serviceRank.setFooPrice(123);
+     *         purchasePayment.setFooPrice(123);
      *     }
      *     <span style="color: #3F7E5E">// FOO_NAME and FOO_PRICE (and record meta columns) are registered</span>
      *     <span style="color: #3F7E5E">// FOO_PRICE not-called in any entities are registered as null without default value</span>
      *     <span style="color: #3F7E5E">// columns not-called in all entities are registered as null or default value</span>
-     *     serviceRankList.add(serviceRank);
+     *     purchasePaymentList.add(purchasePayment);
      * }
-     * serviceRankBhv.<span style="color: #DD4747">batchInsert</span>(serviceRankList);
+     * purchasePaymentBhv.<span style="color: #DD4747">batchInsert</span>(purchasePaymentList);
      * </pre>
      * <p>While, when the entities are created by select, all columns are registered.</p>
      * <p>And if the table has an identity, entities after the process don't have incremented values.
      * (When you use the (normal) insert(), you can get the incremented value from your entity)</p>
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
+     * @param purchasePaymentList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(serviceRankList: scala.collection.immutable.List[DbleServiceRank]): Array[Int] = {
-        val op: InsertOption[ServiceRankCB] = createInsertUpdateOption();
-        return doBatchInsert(serviceRankList.asJava, op);
+    def batchInsert(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment]): Array[Int] = {
+        val op: InsertOption[PurchasePaymentCB] = createInsertUpdateOption();
+        return doBatchInsert(purchasePaymentList.asJava, op);
     }
 
-    protected def doBatchInsert(serviceRankList: List[DbleServiceRank], op: InsertOption[ServiceRankCB]): Array[Int] = {
-        assertObjectNotNull("serviceRankList", serviceRankList);
-        prepareBatchInsertOption(serviceRankList, op);
-        return delegateBatchInsert(serviceRankList, op);
+    protected def doBatchInsert(purchasePaymentList: List[DblePurchasePayment], op: InsertOption[PurchasePaymentCB]): Array[Int] = {
+        assertObjectNotNull("purchasePaymentList", purchasePaymentList);
+        prepareBatchInsertOption(purchasePaymentList, op);
+        return delegateBatchInsert(purchasePaymentList, op);
     }
 
-    protected def prepareBatchInsertOption(serviceRankList: List[DbleServiceRank], op: InsertOption[ServiceRankCB]): Unit = {
+    protected def prepareBatchInsertOption(purchasePaymentList: List[DblePurchasePayment], op: InsertOption[PurchasePaymentCB]): Unit = {
         op.xallowInsertColumnModifiedPropertiesFragmented();
-        op.xacceptInsertColumnModifiedPropertiesIfNeeds(serviceRankList);
+        op.xacceptInsertColumnModifiedPropertiesIfNeeds(purchasePaymentList);
         prepareInsertOption(op);
     }
 
@@ -797,37 +687,37 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * <span style="color: #DD4747; font-size: 120%">You should specify same-set columns to all entities like this:</span>
      * <pre>
      * for (... : ...) {
-     *     DbleServiceRank serviceRank = new DbleServiceRank();
-     *     serviceRank.setFooName("foo");
+     *     DblePurchasePayment purchasePayment = new DblePurchasePayment();
+     *     purchasePayment.setFooName("foo");
      *     if (...) {
-     *         serviceRank.setFooPrice(123);
+     *         purchasePayment.setFooPrice(123);
      *     } else {
-     *         serviceRank.setFooPrice(null); <span style="color: #3F7E5E">// updated as null</span>
-     *         <span style="color: #3F7E5E">//serviceRank.setFooDate(...); // *not allowed, fragmented</span>
+     *         purchasePayment.setFooPrice(null); <span style="color: #3F7E5E">// updated as null</span>
+     *         <span style="color: #3F7E5E">//purchasePayment.setFooDate(...); // *not allowed, fragmented</span>
      *     }
      *     <span style="color: #3F7E5E">// FOO_NAME and FOO_PRICE (and record meta columns) are updated</span>
      *     <span style="color: #3F7E5E">// (others are not updated: their values are kept)</span>
-     *     serviceRankList.add(serviceRank);
+     *     purchasePaymentList.add(purchasePayment);
      * }
-     * serviceRankBhv.<span style="color: #DD4747">batchUpdate</span>(serviceRankList);
+     * purchasePaymentBhv.<span style="color: #DD4747">batchUpdate</span>(purchasePaymentList);
      * </pre>
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param purchasePaymentList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdate(serviceRankList: scala.collection.immutable.List[DbleServiceRank]): Array[Int] = {
-        val op: UpdateOption[ServiceRankCB] = createPlainUpdateOption();
-        return doBatchUpdate(serviceRankList.asJava, op);
+    def batchUpdate(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment]): Array[Int] = {
+        val op: UpdateOption[PurchasePaymentCB] = createPlainUpdateOption();
+        return doBatchUpdate(purchasePaymentList.asJava, op);
     }
 
-    protected def doBatchUpdate(serviceRankList: List[DbleServiceRank], op: UpdateOption[ServiceRankCB]): Array[Int] = {
-        assertObjectNotNull("serviceRankList", serviceRankList);
-        prepareBatchUpdateOption(serviceRankList, op);
-        return delegateBatchUpdate(serviceRankList, op);
+    protected def doBatchUpdate(purchasePaymentList: List[DblePurchasePayment], op: UpdateOption[PurchasePaymentCB]): Array[Int] = {
+        assertObjectNotNull("purchasePaymentList", purchasePaymentList);
+        prepareBatchUpdateOption(purchasePaymentList, op);
+        return delegateBatchUpdate(purchasePaymentList, op);
     }
 
-    protected def prepareBatchUpdateOption(serviceRankList: List[DbleServiceRank], op: UpdateOption[ServiceRankCB]): Unit = {
-        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(serviceRankList);
+    protected def prepareBatchUpdateOption(purchasePaymentList: List[DblePurchasePayment], op: UpdateOption[PurchasePaymentCB]): Unit = {
+        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(purchasePaymentList);
         prepareUpdateOption(op);
     }
 
@@ -842,15 +732,15 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * This method uses executeBatch() of java.sql.PreparedStatement.
      * <pre>
      * <span style="color: #3F7E5E">// e.g. update two columns only</span>
-     * serviceRankBhv.<span style="color: #DD4747">batchUpdate</span>(serviceRankList, new SpecifyQuery[ServiceRankCB]() {
-     *     public void specify(ServiceRankCB cb) { <span style="color: #3F7E5E">// the two only updated</span>
+     * purchasePaymentBhv.<span style="color: #DD4747">batchUpdate</span>(purchasePaymentList, new SpecifyQuery[PurchasePaymentCB]() {
+     *     public void specify(PurchasePaymentCB cb) { <span style="color: #3F7E5E">// the two only updated</span>
      *         cb.specify().<span style="color: #DD4747">columnFooStatusCode()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
      *         cb.specify().<span style="color: #DD4747">columnBarDate()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
      *     }
      * });
      * <span style="color: #3F7E5E">// e.g. update every column in the table</span>
-     * serviceRankBhv.<span style="color: #DD4747">batchUpdate</span>(serviceRankList, new SpecifyQuery[ServiceRankCB]() {
-     *     public void specify(ServiceRankCB cb) { <span style="color: #3F7E5E">// all columns are updated</span>
+     * purchasePaymentBhv.<span style="color: #DD4747">batchUpdate</span>(purchasePaymentList, new SpecifyQuery[PurchasePaymentCB]() {
+     *     public void specify(PurchasePaymentCB cb) { <span style="color: #3F7E5E">// all columns are updated</span>
      *         cb.specify().<span style="color: #DD4747">columnEveryColumn()</span>; <span style="color: #3F7E5E">// no check of modified properties</span>
      *     }
      * });
@@ -860,13 +750,13 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * and an optimistic lock column because they are specified implicitly.</p>
      * <p>And you should specify columns that are modified in any entities (at least one entity).
      * But if you specify every column, it has no check.</p>
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param purchasePaymentList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param updateColumnSpec The specification of update columns. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdate(serviceRankList: scala.collection.immutable.List[DbleServiceRank], updateColumnSpec: SpecifyQuery[ServiceRankCB]): Array[Int] = {
-        return doBatchUpdate(serviceRankList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
+    def batchUpdate(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment], updateColumnSpec: SpecifyQuery[PurchasePaymentCB]): Array[Int] = {
+        return doBatchUpdate(purchasePaymentList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     @Override
@@ -877,18 +767,18 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Batch-delete the entity list. (NonExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement.
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param purchasePaymentList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDelete(serviceRankList: scala.collection.immutable.List[DbleServiceRank]): Array[Int] = {
-        return doBatchDelete(serviceRankList.asJava, null);
+    def batchDelete(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment]): Array[Int] = {
+        return doBatchDelete(purchasePaymentList.asJava, null);
     }
 
-    protected def doBatchDelete(serviceRankList: List[DbleServiceRank], op: DeleteOption[ServiceRankCB]): Array[Int] = {
-        assertObjectNotNull("serviceRankList", serviceRankList);
+    protected def doBatchDelete(purchasePaymentList: List[DblePurchasePayment], op: DeleteOption[PurchasePaymentCB]): Array[Int] = {
+        assertObjectNotNull("purchasePaymentList", purchasePaymentList);
         prepareDeleteOption(op);
-        return delegateBatchDelete(serviceRankList, op);
+        return delegateBatchDelete(purchasePaymentList, op);
     }
 
     @Override
@@ -908,8 +798,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
-     * serviceRankBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;DbleServiceRank, ServiceRankCB&gt;() {
-     *     public ConditionBean setup(serviceRank entity, ServiceRankCB intoCB) {
+     * purchasePaymentBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;DblePurchasePayment, PurchasePaymentCB&gt;() {
+     *     public ConditionBean setup(purchasePayment entity, PurchasePaymentCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
      *
@@ -931,20 +821,20 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param setupper The setup-per of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[DbleServiceRank, ServiceRankCB]): Int = {
+    def queryInsert(setupper: QueryInsertSetupper[DblePurchasePayment, PurchasePaymentCB]): Int = {
         return Integer2int(doQueryInsert(setupper, null));
     }
 
-    protected def doQueryInsert(sp: QueryInsertSetupper[DbleServiceRank, ServiceRankCB], op: InsertOption[ServiceRankCB]): Integer = {
+    protected def doQueryInsert(sp: QueryInsertSetupper[DblePurchasePayment, PurchasePaymentCB], op: InsertOption[PurchasePaymentCB]): Integer = {
         assertObjectNotNull("setupper", sp);
         prepareInsertOption(op);
-        val e: DbleServiceRank = new DbleServiceRank();
-        val cb: ServiceRankCB = createCBForQueryInsert();
+        val e: DblePurchasePayment = new DblePurchasePayment();
+        val cb: PurchasePaymentCB = createCBForQueryInsert();
         return delegateQueryInsert(e, cb, sp.setup(e, cb), op);
     }
 
-    protected def createCBForQueryInsert(): ServiceRankCB = {
-        val cb: ServiceRankCB = newMyConditionBean();
+    protected def createCBForQueryInsert(): PurchasePaymentCB = {
+        val cb: PurchasePaymentCB = newMyConditionBean();
         cb.xsetupForQueryInsert();
         return cb;
     }
@@ -958,57 +848,57 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
      * <pre>
-     * DbleServiceRank serviceRank = new DbleServiceRank();
+     * DblePurchasePayment purchasePayment = new DblePurchasePayment();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
-     * <span style="color: #3F7E5E">//serviceRank.setPK...(value);</span>
-     * serviceRank.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * <span style="color: #3F7E5E">//purchasePayment.setPK...(value);</span>
+     * purchasePayment.setFoo...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
-     * <span style="color: #3F7E5E">//serviceRank.setRegisterUser(value);</span>
-     * <span style="color: #3F7E5E">//serviceRank.set...;</span>
+     * <span style="color: #3F7E5E">//purchasePayment.setRegisterUser(value);</span>
+     * <span style="color: #3F7E5E">//purchasePayment.set...;</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//serviceRank.setVersionNo(value);</span>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * <span style="color: #3F7E5E">//purchasePayment.setVersionNo(value);</span>
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
-     * serviceRankBhv.<span style="color: #DD4747">queryUpdate</span>(serviceRank, cb);
+     * purchasePaymentBhv.<span style="color: #DD4747">queryUpdate</span>(purchasePayment, cb);
      * </pre>
-     * @param serviceRank The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param purchasePayment The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition.
      */
-    def queryUpdate(serviceRank: DbleServiceRank, cb: ServiceRankCB): Int = {
-        return Integer2int(doQueryUpdate(serviceRank, cb, null));
+    def queryUpdate(purchasePayment: DblePurchasePayment, cb: PurchasePaymentCB): Int = {
+        return Integer2int(doQueryUpdate(purchasePayment, cb, null));
     }
 
-    protected def doQueryUpdate(serviceRank: DbleServiceRank, cb: ServiceRankCB, op: UpdateOption[ServiceRankCB]): Integer = {
-        assertObjectNotNull("serviceRank", serviceRank); assertCBStateValid(cb);
+    protected def doQueryUpdate(purchasePayment: DblePurchasePayment, cb: PurchasePaymentCB, op: UpdateOption[PurchasePaymentCB]): Integer = {
+        assertObjectNotNull("purchasePayment", purchasePayment); assertCBStateValid(cb);
         prepareUpdateOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(serviceRank, cb, op) } else { 0 };
+        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(purchasePayment, cb, op) } else { 0 };
     }
 
     @Override
     protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int = {
-        if (op == null) { return queryUpdate(downcast(et), cb.asInstanceOf[ServiceRankCB]); }
-        else { return varyingQueryUpdate(downcast(et), cb.asInstanceOf[ServiceRankCB], downcast(op)); }
+        if (op == null) { return queryUpdate(downcast(et), cb.asInstanceOf[PurchasePaymentCB]); }
+        else { return varyingQueryUpdate(downcast(et), cb.asInstanceOf[PurchasePaymentCB], downcast(op)); }
     }
 
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
-     * serviceRankBhv.<span style="color: #DD4747">queryDelete</span>(serviceRank, cb);
+     * purchasePaymentBhv.<span style="color: #DD4747">queryDelete</span>(purchasePayment, cb);
      * </pre>
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition.
      */
-    def queryDelete(cb: ServiceRankCB): Int = {
+    def queryDelete(cb: PurchasePaymentCB): Int = {
         return Integer2int(doQueryDelete(cb, null));
     }
 
-    protected def doQueryDelete(cb: ServiceRankCB, op: DeleteOption[ServiceRankCB]): Integer = {
+    protected def doQueryDelete(cb: PurchasePaymentCB, op: DeleteOption[PurchasePaymentCB]): Integer = {
         assertCBStateValid(cb);
         prepareDeleteOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryDelete(cb, op) } else { 0 };
@@ -1016,8 +906,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = {
-        if (op == null) { return queryDelete(cb.asInstanceOf[ServiceRankCB]); }
-        else { return varyingQueryDelete(cb.asInstanceOf[ServiceRankCB], downcast(op)); }
+        if (op == null) { return queryDelete(cb.asInstanceOf[PurchasePaymentCB]); }
+        else { return varyingQueryDelete(cb.asInstanceOf[PurchasePaymentCB], downcast(op)); }
     }
 
     // ===================================================================================
@@ -1031,23 +921,23 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br />
      * Other specifications are same as insert(entity).
      * <pre>
-     * DbleServiceRank serviceRank = new DbleServiceRank();
+     * DblePurchasePayment purchasePayment = new DblePurchasePayment();
      * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
-     * serviceRank.setFoo...(value);
-     * serviceRank.setBar...(value);
-     * InsertOption[ServiceRankCB] option = new InsertOption[ServiceRankCB]();
+     * purchasePayment.setFoo...(value);
+     * purchasePayment.setBar...(value);
+     * InsertOption[PurchasePaymentCB] option = new InsertOption[PurchasePaymentCB]();
      * <span style="color: #3F7E5E">// you can insert by your values for common columns</span>
      * option.disableCommonColumnAutoSetup();
-     * serviceRankBhv.<span style="color: #DD4747">varyingInsert</span>(serviceRank, option);
-     * ... = serviceRank.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
+     * purchasePaymentBhv.<span style="color: #DD4747">varyingInsert</span>(purchasePayment, option);
+     * ... = purchasePayment.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
-     * @param serviceRank The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param purchasePayment The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @param option The option of insert for varying requests. (NotNull)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsert(serviceRank: DbleServiceRank, option: InsertOption[ServiceRankCB]): Unit = {
+    def varyingInsert(purchasePayment: DblePurchasePayment, option: InsertOption[PurchasePaymentCB]): Unit = {
         assertInsertOptionNotNull(option);
-        doInsert(serviceRank, option);
+        doInsert(purchasePayment, option);
     }
 
     /**
@@ -1055,62 +945,62 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br />
      * Other specifications are same as update(entity).
      * <pre>
-     * DbleServiceRank serviceRank = new DbleServiceRank();
-     * serviceRank.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * serviceRank.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * DblePurchasePayment purchasePayment = new DblePurchasePayment();
+     * purchasePayment.setPK...(value); <span style="color: #3F7E5E">// required</span>
+     * purchasePayment.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
-     * serviceRank.<span style="color: #DD4747">setVersionNo</span>(value);
+     * purchasePayment.<span style="color: #DD4747">setVersionNo</span>(value);
      * try {
      *     <span style="color: #3F7E5E">// you can update by self calculation values</span>
-     *     UpdateOption&lt;ServiceRankCB&gt; option = new UpdateOption&lt;ServiceRankCB&gt;();
-     *     option.self(new SpecifyQuery&lt;ServiceRankCB&gt;() {
-     *         public void specify(ServiceRankCB cb) {
+     *     UpdateOption&lt;PurchasePaymentCB&gt; option = new UpdateOption&lt;PurchasePaymentCB&gt;();
+     *     option.self(new SpecifyQuery&lt;PurchasePaymentCB&gt;() {
+     *         public void specify(PurchasePaymentCB cb) {
      *             cb.specify().<span style="color: #DD4747">columnXxxCount()</span>;
      *         }
      *     }).plus(1); <span style="color: #3F7E5E">// XXX_COUNT = XXX_COUNT + 1</span>
-     *     serviceRankBhv.<span style="color: #DD4747">varyingUpdate</span>(serviceRank, option);
+     *     purchasePaymentBhv.<span style="color: #DD4747">varyingUpdate</span>(purchasePayment, option);
      * } catch (EntityAlreadyUpdatedException e) { <span style="color: #3F7E5E">// if concurrent update</span>
      *     ...
      * }
      * </pre>
-     * @param serviceRank The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param purchasePayment The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
      * @param option The option of update for varying requests. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingUpdate(serviceRank: DbleServiceRank, option: UpdateOption[ServiceRankCB]): Unit = {
+    def varyingUpdate(purchasePayment: DblePurchasePayment, option: UpdateOption[PurchasePaymentCB]): Unit = {
         assertUpdateOptionNotNull(option);
-        doUpdate(serviceRank, option);
+        doUpdate(purchasePayment, option);
     }
 
     /**
      * Insert or update the entity with varying requests. (ExclusiveControl: when update) <br />
      * Other specifications are same as insertOrUpdate(entity).
-     * @param serviceRank The entity of insert or update target. (NotNull)
+     * @param purchasePayment The entity of insert or update target. (NotNull)
      * @param insertOption The option of insert for varying requests. (NotNull)
      * @param updateOption The option of update for varying requests. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def varyingInsertOrUpdate(serviceRank: DbleServiceRank, insertOption: InsertOption[ServiceRankCB], updateOption: UpdateOption[ServiceRankCB]): Unit = {
+    def varyingInsertOrUpdate(purchasePayment: DblePurchasePayment, insertOption: InsertOption[PurchasePaymentCB], updateOption: UpdateOption[PurchasePaymentCB]): Unit = {
         assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
-        doInesrtOrUpdate(serviceRank, insertOption, updateOption);
+        doInesrtOrUpdate(purchasePayment, insertOption, updateOption);
     }
 
     /**
      * Delete the entity with varying requests. (ZeroUpdateException, NonExclusiveControl) <br />
      * Now a valid option does not exist. <br />
      * Other specifications are same as delete(entity).
-     * @param serviceRank The entity of delete target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param purchasePayment The entity of delete target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
      * @param option The option of update for varying requests. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def varyingDelete(serviceRank: DbleServiceRank, option: DeleteOption[ServiceRankCB]): Unit = {
+    def varyingDelete(purchasePayment: DblePurchasePayment, option: DeleteOption[PurchasePaymentCB]): Unit = {
         assertDeleteOptionNotNull(option);
-        doDelete(serviceRank, option);
+        doDelete(purchasePayment, option);
     }
 
     // -----------------------------------------------------
@@ -1121,13 +1011,13 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * For example, disableCommonColumnAutoSetup()
      * , disablePrimaryKeyIdentity(), limitBatchInsertLogging(). <br />
      * Other specifications are same as batchInsert(entityList).
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param purchasePaymentList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param option The option of insert for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchInsert(serviceRankList: scala.collection.immutable.List[DbleServiceRank], option: InsertOption[ServiceRankCB]): Array[Int] = {
+    def varyingBatchInsert(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment], option: InsertOption[PurchasePaymentCB]): Array[Int] = {
         assertInsertOptionNotNull(option);
-        return doBatchInsert(serviceRankList.asJava, option);
+        return doBatchInsert(purchasePaymentList.asJava, option);
     }
 
     /**
@@ -1135,26 +1025,26 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * For example, self(selfCalculationSpecification), specify(updateColumnSpecification)
      * , disableCommonColumnAutoSetup(), limitBatchUpdateLogging(). <br />
      * Other specifications are same as batchUpdate(entityList).
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param purchasePaymentList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param option The option of update for varying requests. (NotNull)
      * @return The array of updated count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchUpdate(serviceRankList: scala.collection.immutable.List[DbleServiceRank], option: UpdateOption[ServiceRankCB]): Array[Int] = {
+    def varyingBatchUpdate(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment], option: UpdateOption[PurchasePaymentCB]): Array[Int] = {
         assertUpdateOptionNotNull(option);
-        return doBatchUpdate(serviceRankList.asJava, option);
+        return doBatchUpdate(purchasePaymentList.asJava, option);
     }
 
     /**
      * Batch-delete the list with varying requests. <br />
      * For example, limitBatchDeleteLogging(). <br />
      * Other specifications are same as batchDelete(entityList).
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
+     * @param purchasePaymentList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
      * @param option The option of delete for varying requests. (NotNull)
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      */
-    def varyingBatchDelete(serviceRankList: scala.collection.immutable.List[DbleServiceRank], option: DeleteOption[ServiceRankCB]): Array[Int] = {
+    def varyingBatchDelete(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment], option: DeleteOption[PurchasePaymentCB]): Array[Int] = {
         assertDeleteOptionNotNull(option);
-        return doBatchDelete(serviceRankList.asJava, option);
+        return doBatchDelete(purchasePaymentList.asJava, option);
     }
 
     // -----------------------------------------------------
@@ -1168,7 +1058,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param option The option of insert for varying requests. (NotNull)
      * @return The inserted count.
      */
-    def varyingQueryInsert(setupper: QueryInsertSetupper[DbleServiceRank, ServiceRankCB], option: InsertOption[ServiceRankCB]): Integer = {
+    def varyingQueryInsert(setupper: QueryInsertSetupper[DblePurchasePayment, PurchasePaymentCB], option: InsertOption[PurchasePaymentCB]): Integer = {
         assertInsertOptionNotNull(option);
         return doQueryInsert(setupper, option);
     }
@@ -1180,44 +1070,44 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Other specifications are same as queryUpdate(entity, cb).
      * <pre>
      * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * DbleServiceRank serviceRank = new DbleServiceRank();
+     * DblePurchasePayment purchasePayment = new DblePurchasePayment();
      * <span style="color: #3F7E5E">// you don't need to set PK value</span>
-     * <span style="color: #3F7E5E">//serviceRank.setPK...(value);</span>
-     * serviceRank.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
+     * <span style="color: #3F7E5E">//purchasePayment.setPK...(value);</span>
+     * purchasePayment.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
      * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//serviceRank.setVersionNo(value);</span>
-     * ServiceRankCB cb = new ServiceRankCB();
+     * <span style="color: #3F7E5E">//purchasePayment.setVersionNo(value);</span>
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
      * cb.query().setFoo...(value);
-     * UpdateOption&lt;ServiceRankCB&gt; option = new UpdateOption&lt;ServiceRankCB&gt;();
-     * option.self(new SpecifyQuery&lt;ServiceRankCB&gt;() {
-     *     public void specify(ServiceRankCB cb) {
+     * UpdateOption&lt;PurchasePaymentCB&gt; option = new UpdateOption&lt;PurchasePaymentCB&gt;();
+     * option.self(new SpecifyQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void specify(PurchasePaymentCB cb) {
      *         cb.specify().<span style="color: #DD4747">columnFooCount()</span>;
      *     }
      * }).plus(1); <span style="color: #3F7E5E">// FOO_COUNT = FOO_COUNT + 1</span>
-     * serviceRankBhv.<span style="color: #DD4747">varyingQueryUpdate</span>(serviceRank, cb, option);
+     * purchasePaymentBhv.<span style="color: #DD4747">varyingQueryUpdate</span>(purchasePayment, cb, option);
      * </pre>
-     * @param serviceRank The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param purchasePayment The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @param option The option of update for varying requests. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition (if not allowed).
      */
-    def varyingQueryUpdate(serviceRank: DbleServiceRank, cb: ServiceRankCB, option: UpdateOption[ServiceRankCB]): Integer = {
+    def varyingQueryUpdate(purchasePayment: DblePurchasePayment, cb: PurchasePaymentCB, option: UpdateOption[PurchasePaymentCB]): Integer = {
         assertUpdateOptionNotNull(option);
-        return doQueryUpdate(serviceRank, cb, option);
+        return doQueryUpdate(purchasePayment, cb, option);
     }
 
     /**
      * Delete the several entities by query with varying requests non-strictly. <br />
      * For example, allowNonQueryDelete(). <br />
      * Other specifications are same as batchUpdateNonstrict(entityList).
-     * @param cb The condition-bean of DbleServiceRank. (NotNull)
+     * @param cb The condition-bean of DblePurchasePayment. (NotNull)
      * @param option The option of delete for varying requests. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition (if not allowed).
      */
-    def varyingQueryDelete(cb: ServiceRankCB, option: DeleteOption[ServiceRankCB]): Integer = {
+    def varyingQueryDelete(cb: PurchasePaymentCB, option: DeleteOption[PurchasePaymentCB]): Integer = {
         assertDeleteOptionNotNull(option);
         return doQueryDelete(cb, option);
     }
@@ -1256,7 +1146,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): OutsideSqlBasicExecutor[ServiceRankBhv] = {
+    def outsideSql(): OutsideSqlBasicExecutor[PurchasePaymentBhv] = {
         return doOutsideSql();
     }
 
@@ -1267,55 +1157,55 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     // -----------------------------------------------------
     //                                                Select
     //                                                ------
-    protected def delegateSelectCountUniquely(cb: ServiceRankCB): Integer = { return invoke(createSelectCountCBCommand(cb, true)); }
-    protected def delegateSelectCountPlainly(cb: ServiceRankCB): Integer = { return invoke(createSelectCountCBCommand(cb, false)); }
-    protected def delegateSelectCursor[ENTITY <: DbleServiceRank](cb: ServiceRankCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
+    protected def delegateSelectCountUniquely(cb: PurchasePaymentCB): Integer = { return invoke(createSelectCountCBCommand(cb, true)); }
+    protected def delegateSelectCountPlainly(cb: PurchasePaymentCB): Integer = { return invoke(createSelectCountCBCommand(cb, false)); }
+    protected def delegateSelectCursor[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
     { invoke(createSelectCursorCBCommand(cb, rh, tp)); }
-    protected def delegateSelectList[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY]): List[ENTITY] =
+    protected def delegateSelectList[ENTITY <: DblePurchasePayment](cb: PurchasePaymentCB, tp: Class[ENTITY]): List[ENTITY] =
     { return invoke(createSelectListCBCommand(cb, tp)); }
 
     // -----------------------------------------------------
     //                                                Update
     //                                                ------
-    protected def delegateInsert(et: DbleServiceRank, op: InsertOption[ServiceRankCB]): Integer =
+    protected def delegateInsert(et: DblePurchasePayment, op: InsertOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeInsert(et, op)) { return 0; }
       return invoke(createInsertEntityCommand(et, op)); }
-    protected def delegateUpdate(et: DbleServiceRank, op: UpdateOption[ServiceRankCB]): Integer =
+    protected def delegateUpdate(et: DblePurchasePayment, op: UpdateOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return delegateUpdateNonstrict(et, op); }
-    protected def delegateUpdateNonstrict(et: DbleServiceRank, op: UpdateOption[ServiceRankCB]): Integer =
+    protected def delegateUpdateNonstrict(et: DblePurchasePayment, op: UpdateOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeUpdate(et, op)) { return 0; }
       return invoke(createUpdateNonstrictEntityCommand(et, op)); }
-    protected def delegateDelete(et: DbleServiceRank, op: DeleteOption[ServiceRankCB]): Integer =
+    protected def delegateDelete(et: DblePurchasePayment, op: DeleteOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return delegateDeleteNonstrict(et, op); }
-    protected def delegateDeleteNonstrict(et: DbleServiceRank, op: DeleteOption[ServiceRankCB]): Integer =
+    protected def delegateDeleteNonstrict(et: DblePurchasePayment, op: DeleteOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeDelete(et, op)) { return 0; }
       return invoke(createDeleteNonstrictEntityCommand(et, op)); }
 
-    protected def delegateBatchInsert(ls: List[DbleServiceRank], op: InsertOption[ServiceRankCB]): Array[Int] =
+    protected def delegateBatchInsert(ls: List[DblePurchasePayment], op: InsertOption[PurchasePaymentCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchInsertCommand(processBatchInternally(ls, op), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdate(ls: List[DbleServiceRank], op: UpdateOption[ServiceRankCB]): Array[Int] =
+    protected def delegateBatchUpdate(ls: List[DblePurchasePayment], op: UpdateOption[PurchasePaymentCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return delegateBatchUpdateNonstrict(ls, op); }
-    protected def delegateBatchUpdateNonstrict(ls: List[DbleServiceRank], op: UpdateOption[ServiceRankCB]): Array[Int] =
+    protected def delegateBatchUpdateNonstrict(ls: List[DblePurchasePayment], op: UpdateOption[PurchasePaymentCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchUpdateNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDelete(ls: List[DbleServiceRank], op: DeleteOption[ServiceRankCB]): Array[Int] =
+    protected def delegateBatchDelete(ls: List[DblePurchasePayment], op: DeleteOption[PurchasePaymentCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return delegateBatchDeleteNonstrict(ls, op); }
-    protected def delegateBatchDeleteNonstrict(ls: List[DbleServiceRank], op: DeleteOption[ServiceRankCB]): Array[Int] =
+    protected def delegateBatchDeleteNonstrict(ls: List[DblePurchasePayment], op: DeleteOption[PurchasePaymentCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
 
-    protected def delegateQueryInsert(et: DbleServiceRank, inCB: ServiceRankCB, resCB: ConditionBean, op: InsertOption[ServiceRankCB]): Integer =
+    protected def delegateQueryInsert(et: DblePurchasePayment, inCB: PurchasePaymentCB, resCB: ConditionBean, op: InsertOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeQueryInsert(et, inCB, resCB, op)) { return 0; }
       return invoke(createQueryInsertCBCommand(et, inCB, resCB, op));  }
-    protected def delegateQueryUpdate(et: DbleServiceRank, cb: ServiceRankCB, op: UpdateOption[ServiceRankCB]): Integer =
+    protected def delegateQueryUpdate(et: DblePurchasePayment, cb: PurchasePaymentCB, op: UpdateOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeQueryUpdate(et, cb, op)) { return 0; }
       return invoke(createQueryUpdateCBCommand(et, cb, op));  }
-    protected def delegateQueryDelete(cb: ServiceRankCB, op: DeleteOption[ServiceRankCB]): Integer =
+    protected def delegateQueryDelete(cb: PurchasePaymentCB, op: DeleteOption[PurchasePaymentCB]): Integer =
     { if (!processBeforeQueryDelete(cb, op)) { return 0; }
       return invoke(createQueryDeleteCBCommand(cb, op));  }
 
@@ -1341,42 +1231,42 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                         Type Helper
     //                                                                         ===========
-    protected def typeOfSelectedEntity(): Class[DbleServiceRank] = {
-        return classOf[DbleServiceRank];
+    protected def typeOfSelectedEntity(): Class[DblePurchasePayment] = {
+        return classOf[DblePurchasePayment];
     }
 
-    protected def callbackCB(cbCall: (ServiceRankCB) => Unit): ServiceRankCB = {
-        val cb = new ServiceRankCB();
+    protected def callbackCB(cbCall: (PurchasePaymentCB) => Unit): PurchasePaymentCB = {
+        val cb = new PurchasePaymentCB();
         cbCall(cb);
         return cb;
     }
 
-    protected def downcast(et: Entity): DbleServiceRank = {
-        return helpEntityDowncastInternally(et, classOf[DbleServiceRank]);
+    protected def downcast(et: Entity): DblePurchasePayment = {
+        return helpEntityDowncastInternally(et, classOf[DblePurchasePayment]);
     }
 
-    protected def downcast(cb: ConditionBean): ServiceRankCB = {
-        return helpConditionBeanDowncastInternally(cb, classOf[ServiceRankCB]);
+    protected def downcast(cb: ConditionBean): PurchasePaymentCB = {
+        return helpConditionBeanDowncastInternally(cb, classOf[PurchasePaymentCB]);
     }
 
-    protected def downcast(ls: List[_ <: Entity]): List[DbleServiceRank] = {
-        return ls.asInstanceOf[List[DbleServiceRank]];
+    protected def downcast(ls: List[_ <: Entity]): List[DblePurchasePayment] = {
+        return ls.asInstanceOf[List[DblePurchasePayment]];
     }
 
-    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[ServiceRankCB] = {
-        return op.asInstanceOf[InsertOption[ServiceRankCB]];
+    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[PurchasePaymentCB] = {
+        return op.asInstanceOf[InsertOption[PurchasePaymentCB]];
     }
 
-    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[ServiceRankCB] = {
-        return op.asInstanceOf[UpdateOption[ServiceRankCB]];
+    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[PurchasePaymentCB] = {
+        return op.asInstanceOf[UpdateOption[PurchasePaymentCB]];
     }
 
-    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[ServiceRankCB] = {
-        return op.asInstanceOf[DeleteOption[ServiceRankCB]];
+    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[PurchasePaymentCB] = {
+        return op.asInstanceOf[DeleteOption[PurchasePaymentCB]];
     }
 
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleServiceRank, ServiceRankCB] = {
-        return sp.asInstanceOf[QueryInsertSetupper[DbleServiceRank, ServiceRankCB]];
+    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DblePurchasePayment, PurchasePaymentCB] = {
+        return sp.asInstanceOf[QueryInsertSetupper[DblePurchasePayment, PurchasePaymentCB]];
     }
 
     // ===================================================================================
@@ -1387,28 +1277,17 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleServiceRank]): scala.collection.immutable.List[ServiceRank] = {
-        return toScalaList(dbleList).map(new ServiceRank(_))
+    def toImmutableEntityList(dbleList: Collection[DblePurchasePayment]): scala.collection.immutable.List[PurchasePayment] = {
+        return toScalaList(dbleList).map(new PurchasePayment(_))
     }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[ServiceRank]): List[DbleServiceRank] = {
-        return immuList.map(new DbleServiceRank().acceptImmutableEntity(_)).asJava
+    def toDBableEntityList(immuList: scala.collection.immutable.List[PurchasePayment]): List[DblePurchasePayment] = {
+        return immuList.map(new DblePurchasePayment().acceptImmutableEntity(_)).asJava
     }
 }
 
 /**
  * @author jflute
  */
-class BsLoaderOfServiceRank(serviceRankList: List[DbleServiceRank]) {
-
-    def loadMemberServiceList(setupCall: (MemberServiceCB) => Unit): ScrNestedReferrerLoader[LoaderOfMemberService] = {
-        DBFlutist.serviceRankBhv.loadMemberServiceList(serviceRankList, setupCall)
-            .withNestedReferrer(new ReferrerListHandler[DbleMemberService]() {
-                def handle(referrerList: List[DbleMemberService]): Unit = {
-                }
-            }
-        );
-        // #pending
-        return new ScrNestedReferrerLoader[LoaderOfMemberService](() => new LoaderOfMemberService(null));
-    }
+class BsLoaderOfPurchasePayment(purchasePaymentList: List[DblePurchasePayment]) {
 }

@@ -21,10 +21,10 @@ import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
- * The DB meta of PRODUCT. (Singleton)
+ * The DB meta of PURCHASE_PAYMENT. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
-object ProductDbm extends AbstractDBMeta {
+object PurchasePaymentDbm extends AbstractDBMeta {
 
     // ===================================================================================
     //                                                                       Current DBDef
@@ -39,61 +39,51 @@ object ProductDbm extends AbstractDBMeta {
     //                                       ---------------
     protected val _epgMap: Map[String, PropertyGateway] = newHashMap();
     {
-        setupEpg(_epgMap, new EpgProductId(), "productId");
-        setupEpg(_epgMap, new EpgProductName(), "productName");
-        setupEpg(_epgMap, new EpgProductHandleCode(), "productHandleCode");
-        setupEpg(_epgMap, new EpgProductCategoryCode(), "productCategoryCode");
-        setupEpg(_epgMap, new EpgProductStatusCode(), "productStatusCode");
-        setupEpg(_epgMap, new EpgRegularPrice(), "regularPrice");
+        setupEpg(_epgMap, new EpgPurchasePaymentId(), "purchasePaymentId");
+        setupEpg(_epgMap, new EpgPurchaseId(), "purchaseId");
+        setupEpg(_epgMap, new EpgPaymentAmount(), "paymentAmount");
+        setupEpg(_epgMap, new EpgPaymentDatetime(), "paymentDatetime");
+        setupEpg(_epgMap, new EpgPaymentMethodCode(), "paymentMethodCode");
         setupEpg(_epgMap, new EpgRegisterDatetime(), "registerDatetime");
         setupEpg(_epgMap, new EpgRegisterUser(), "registerUser");
         setupEpg(_epgMap, new EpgUpdateDatetime(), "updateDatetime");
         setupEpg(_epgMap, new EpgUpdateUser(), "updateUser");
-        setupEpg(_epgMap, new EpgVersionNo(), "versionNo");
     }
-    class EpgProductId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductId(dgcti(vl)); }
+    class EpgPurchasePaymentId extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPurchasePaymentId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPurchasePaymentId(dgctl(vl)); }
     }
-    class EpgProductName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductName(vl.asInstanceOf[String]); }
+    class EpgPurchaseId extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPurchaseId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPurchaseId(dgctl(vl)); }
     }
-    class EpgProductHandleCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductHandleCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductHandleCode(vl.asInstanceOf[String]); }
+    class EpgPaymentAmount extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPaymentAmount(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPaymentAmount(dgctb(vl)); }
     }
-    class EpgProductCategoryCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductCategoryCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductCategoryCode(vl.asInstanceOf[String]); }
+    class EpgPaymentDatetime extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPaymentDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPaymentDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
-    class EpgProductStatusCode extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductStatusCode(vl.asInstanceOf[String]); }
-    }
-    class EpgRegularPrice extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getRegularPrice(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setRegularPrice(dgcti(vl)); }
+    class EpgPaymentMethodCode extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPaymentMethodCode(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPaymentMethodCode(vl.asInstanceOf[String]); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getRegisterDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgRegisterUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getRegisterUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setRegisterUser(vl.asInstanceOf[String]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getRegisterUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setRegisterUser(vl.asInstanceOf[String]); }
     }
     class EpgUpdateDatetime extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getUpdateDatetime(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
     }
     class EpgUpdateUser extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getUpdateUser(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setUpdateUser(vl.asInstanceOf[String]); }
-    }
-    class EpgVersionNo extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getVersionNo(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setVersionNo(dgctl(vl)); }
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getUpdateUser(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setUpdateUser(vl.asInstanceOf[String]); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -104,59 +94,66 @@ object ProductDbm extends AbstractDBMeta {
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
 
+    // -----------------------------------------------------
+    //                                      Foreign Property
+    //                                      ----------------
+    protected val _efpgMap: Map[String, PropertyGateway] = newHashMap();
+    {
+        setupEfpg(_efpgMap, new EfpgPurchase(), "purchase");
+    }
+    class EfpgPurchase extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPurchase(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPurchase(vl.asInstanceOf[Option[DblePurchase]]); }
+    }
+    override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
+
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected val _tableDbName: String = "PRODUCT";
-    protected val _tablePropertyName: String = "product";
-    protected val _tableSqlName: TableSqlName = new TableSqlName("EXAMPLEDB.PUBLIC.PRODUCT", _tableDbName);
+    protected val _tableDbName: String = "PURCHASE_PAYMENT";
+    protected val _tablePropertyName: String = "purchasePayment";
+    protected val _tableSqlName: TableSqlName = new TableSqlName("EXAMPLEDB.PUBLIC.PURCHASE_PAYMENT", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getTableSqlNameFilter()); }
     def getTableDbName(): String = { return _tableDbName; }
     def getTablePropertyName(): String = { return _tablePropertyName; }
     def getTableSqlName(): TableSqlName = { return _tableSqlName; }
-    protected val _tableAlias: String = "商品";
+    protected val _tableAlias: String = "購入支払";
     override def getTableAlias(): String = { return _tableAlias; }
 
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, null, classOf[Integer], "productId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_12DB7231_D5F1_421D_A652_AB0338DC0F25", false, null, null, null, "purchaseList", null);
-    protected val _columnProductName: ColumnInfo = cci("PRODUCT_NAME", "PRODUCT_NAME", null, "商品名称", classOf[String], "productName", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
-    protected val _columnProductHandleCode: ColumnInfo = cci("PRODUCT_HANDLE_CODE", "PRODUCT_HANDLE_CODE", null, "商品ハンドルコード", classOf[String], "productHandleCode", null, false, false, true, "VARCHAR", 100, 0, null, false, null, null, null, null, null);
-    protected val _columnProductCategoryCode: ColumnInfo = cci("PRODUCT_CATEGORY_CODE", "PRODUCT_CATEGORY_CODE", null, null, classOf[String], "productCategoryCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, null, null, null);
-    protected val _columnProductStatusCode: ColumnInfo = cci("PRODUCT_STATUS_CODE", "PRODUCT_STATUS_CODE", null, null, classOf[String], "productStatusCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, null, null, null);
-    protected val _columnRegularPrice: ColumnInfo = cci("REGULAR_PRICE", "REGULAR_PRICE", null, "定価", classOf[Integer], "regularPrice", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
+    protected val _columnPurchasePaymentId: ColumnInfo = cci("PURCHASE_PAYMENT_ID", "PURCHASE_PAYMENT_ID", null, "購入支払ID", classOf[Long], "purchasePaymentId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_5473CACB_8819_48F9_A32B_F7D4A22E5B66", false, null, null, null, null, null);
+    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, "購入ID", classOf[Long], "purchaseId", null, false, false, true, "BIGINT", 19, 0, null, false, null, null, "purchase", null, null);
+    protected val _columnPaymentAmount: ColumnInfo = cci("PAYMENT_AMOUNT", "PAYMENT_AMOUNT", null, "支払金額", classOf[java.math.BigDecimal], "paymentAmount", null, false, false, true, "DECIMAL", 10, 2, null, false, null, null, null, null, null);
+    protected val _columnPaymentDatetime: ColumnInfo = cci("PAYMENT_DATETIME", "PAYMENT_DATETIME", null, "支払日時", classOf[java.sql.Timestamp], "paymentDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnPaymentMethodCode: ColumnInfo = cci("PAYMENT_METHOD_CODE", "PAYMENT_METHOD_CODE", null, "支払方法コード", classOf[String], "paymentMethodCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, null, null, null);
     protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
     protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[java.sql.Timestamp], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, null, classOf[String], "updateUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnVersionNo: ColumnInfo = cci("VERSION_NO", "VERSION_NO", null, null, classOf[Long], "versionNo", null, false, false, true, "BIGINT", 19, 0, null, false, OptimisticLockType.VERSION_NO, null, null, null, null);
 
-    def columnProductId(): ColumnInfo = { return _columnProductId; }
-    def columnProductName(): ColumnInfo = { return _columnProductName; }
-    def columnProductHandleCode(): ColumnInfo = { return _columnProductHandleCode; }
-    def columnProductCategoryCode(): ColumnInfo = { return _columnProductCategoryCode; }
-    def columnProductStatusCode(): ColumnInfo = { return _columnProductStatusCode; }
-    def columnRegularPrice(): ColumnInfo = { return _columnRegularPrice; }
+    def columnPurchasePaymentId(): ColumnInfo = { return _columnPurchasePaymentId; }
+    def columnPurchaseId(): ColumnInfo = { return _columnPurchaseId; }
+    def columnPaymentAmount(): ColumnInfo = { return _columnPaymentAmount; }
+    def columnPaymentDatetime(): ColumnInfo = { return _columnPaymentDatetime; }
+    def columnPaymentMethodCode(): ColumnInfo = { return _columnPaymentMethodCode; }
     def columnRegisterDatetime(): ColumnInfo = { return _columnRegisterDatetime; }
     def columnRegisterUser(): ColumnInfo = { return _columnRegisterUser; }
     def columnUpdateDatetime(): ColumnInfo = { return _columnUpdateDatetime; }
     def columnUpdateUser(): ColumnInfo = { return _columnUpdateUser; }
-    def columnVersionNo(): ColumnInfo = { return _columnVersionNo; }
 
     protected def ccil(): List[ColumnInfo] = {
         val ls: List[ColumnInfo] = newArrayList();
-        ls.add(columnProductId());
-        ls.add(columnProductName());
-        ls.add(columnProductHandleCode());
-        ls.add(columnProductCategoryCode());
-        ls.add(columnProductStatusCode());
-        ls.add(columnRegularPrice());
+        ls.add(columnPurchasePaymentId());
+        ls.add(columnPurchaseId());
+        ls.add(columnPaymentAmount());
+        ls.add(columnPaymentDatetime());
+        ls.add(columnPaymentMethodCode());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterUser());
         ls.add(columnUpdateDatetime());
         ls.add(columnUpdateUser());
-        ls.add(columnVersionNo());
         return ls;
     }
 
@@ -168,7 +165,7 @@ object ProductDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected def cpui(): UniqueInfo = { return hpcpui(columnProductId()); }
+    protected def cpui(): UniqueInfo = { return hpcpui(columnPurchasePaymentId()); }
     def hasPrimaryKey(): Boolean = { return true; }
     def hasCompoundPrimaryKey(): Boolean = { return false; }
 
@@ -180,21 +177,19 @@ object ProductDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                      Foreign Property
     //                                      ----------------
+    def foreignPurchase(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnPurchaseId(), PurchaseDbm.columnPurchaseId());
+        return cfi("FK_PURCHASE_PAYMENT_PURCHASE", "purchase", this, PurchaseDbm, mp, 0, classOf[Option[_]], false, false, false, false, null, null, false, "purchasePaymentList");
+    }
 
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
-    def referrerPurchaseList(): ReferrerInfo = {
-        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnProductId(), PurchaseDbm.columnProductId());
-        return cri("FK_PURCHASE_PRODUCT", "purchaseList", this, PurchaseDbm, mp, false, "product");
-    }
 
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
     override def hasIdentity(): Boolean = { return true; }
-    override def hasVersionNo(): Boolean = { return true; }
-    override def getVersionNoColumnInfo(): ColumnInfo = { return _columnVersionNo; }
     override def hasCommonColumn(): Boolean = { return true; }
     override def getCommonColumnInfoList(): List[ColumnInfo] =
     { return newArrayList(columnRegisterDatetime(), columnRegisterUser(), columnUpdateDatetime(), columnUpdateUser()); }
@@ -206,28 +201,28 @@ object ProductDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.DbleProduct"; }
-    def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.ProductCB"; }
-    def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.ProductBhv"; }
+    def getEntityTypeName(): String = { return "com.example.dbflute.scala.dbflute.exentity.DblePurchasePayment"; }
+    def getConditionBeanTypeName(): String = { return "com.example.dbflute.scala.dbflute.cbean.PurchasePaymentCB"; }
+    def getBehaviorTypeName(): String = { return "com.example.dbflute.scala.dbflute.exbhv.PurchasePaymentBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    def getEntityType(): Class[DbleProduct] = { return classOf[DbleProduct]; }
+    def getEntityType(): Class[DblePurchasePayment] = { return classOf[DblePurchasePayment]; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
     def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): DbleProduct = { return new DbleProduct(); }
+    def newMyEntity(): DblePurchasePayment = { return new DblePurchasePayment(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     def acceptPrimaryKeyMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptPrimaryKeyMap(et.asInstanceOf[DbleProduct], mp); }
+    { doAcceptPrimaryKeyMap(et.asInstanceOf[DblePurchasePayment], mp); }
     def acceptAllColumnMap(et: Entity, mp: Map[String, _]): Unit =
-    { doAcceptAllColumnMap(et.asInstanceOf[DbleProduct], mp); }
+    { doAcceptAllColumnMap(et.asInstanceOf[DblePurchasePayment], mp); }
     def extractPrimaryKeyMap(et: Entity): Map[String, Object] = { return doExtractPrimaryKeyMap(et); }
     def extractAllColumnMap(et: Entity): Map[String, Object] = { return doExtractAllColumnMap(et); }
 }

@@ -20,9 +20,7 @@ class TryDbTest extends UnitContainerTestCase {
   }
 
   def test_ConditionBean_basic() {
-    val cb = new MemberCB();
-    cb.query().setMemberName_PrefixSearch("S");
-    val memberList = memberBhv.selectList(cb);
+    val memberList = memberBhv.selectList(_.query().setMemberName_PrefixSearch("S"))
     memberList.foreach(member => log(member));
   }
 }

@@ -13,24 +13,14 @@
 ## either express or implied. See the License for the specific language
 ## governing permissions and limitations under the License.
 ##
-${database.allClassCopyright}package ${glPackageExtendedBhv};
-#set ($myClassName = "${myExtendedBhvClassName}")
-
-import ${glPackageBaseBhv}.${myBaseBhvClassName};
+${database.allClassCopyright}package ${glPackageBaseCommon};
 
 /**
- * The behavior of ${table.tableDbName}.
- * <p>
- * You can implement your original methods here.
- * This class remains when re-generating.
- * </p>
- * @author ${database.classAuthor}
- */
-class $myClassName extends ${myBaseBhvClassName} {
-}
-
-/**
+ * @param <LOADER> The type of loader for referrer.
  * @author jflute
  */
-class ${myExtendedReferrerLoaderClassName}(${myEntityListVariableName}: List[${myExtendedObjectClassName}]) {
+class ScrNestedReferrerLoader[LOADER](loaderProvider: () => LOADER) {
+    def withNestedList(loaderCall: (LOADER) => Unit): Unit = {
+        loaderCall(loaderProvider())
+    }
 }

@@ -1,7 +1,11 @@
 package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 
-import java.lang.Long;
-import java.util._;
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
+
+import java.util.Collection;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
@@ -172,8 +176,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
-        doSetServiceRankCode_InScope(serviceRankCodeList);
+    def setServiceRankCode_InScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_InScope(toMutableValueCollectionImplicitly(serviceRankCodeList));
     }
 
     /**
@@ -182,8 +186,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * rank of service member gets
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_InScope_AsServiceRank(cdefList: Collection[CDef.ServiceRank]): Unit = {
-        doSetServiceRankCode_InScope(cTStrL(cdefList));
+    def setServiceRankCode_InScope_AsServiceRank(cdefList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_InScope(cTStrL(cdefList.asJava));
     }
 
     def doSetServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
@@ -195,8 +199,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
-        doSetServiceRankCode_NotInScope(serviceRankCodeList);
+    def setServiceRankCode_NotInScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_NotInScope(if (serviceRankCodeList != null) { serviceRankCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     /**
@@ -205,8 +209,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * rank of service member gets
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_NotInScope_AsServiceRank(cdefList: Collection[CDef.ServiceRank]): Unit = {
-        doSetServiceRankCode_NotInScope(cTStrL(cdefList));
+    def setServiceRankCode_NotInScope_AsServiceRank(cdefList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
     def doSetServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
@@ -343,7 +347,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      */
     def setServiceRankCode_IsNotNull(): Unit = { regServiceRankCode(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regServiceRankCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueServiceRankCode(), "SERVICE_RANK_CODE"); }
+    protected def regServiceRankCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueServiceRankCode(), "SERVICE_RANK_CODE"); }
     protected def getCValueServiceRankCode(): ConditionValue;
 
     /**
@@ -390,7 +394,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
         regLSQ(CK_NLS, fRES(serviceRankName), getCValueServiceRankName(), "SERVICE_RANK_NAME", likeSearchOption);
     }
 
-    protected def regServiceRankName(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueServiceRankName(), "SERVICE_RANK_NAME"); }
+    protected def regServiceRankName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueServiceRankName(), "SERVICE_RANK_NAME"); }
     protected def getCValueServiceRankName(): ConditionValue;
     
     /**
@@ -473,8 +477,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidenceList The collection of servicePointIncidence as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServicePointIncidence_InScope(servicePointIncidenceList: Collection[java.math.BigDecimal]): Unit = {
-        doSetServicePointIncidence_InScope(servicePointIncidenceList);
+    def setServicePointIncidence_InScope(servicePointIncidenceList: List[java.math.BigDecimal]): Unit = {
+        doSetServicePointIncidence_InScope(toMutableValueCollectionImplicitly(servicePointIncidenceList));
     }
 
     protected def doSetServicePointIncidence_InScope(servicePointIncidenceList: Collection[java.math.BigDecimal]): Unit = {
@@ -486,15 +490,15 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidenceList The collection of servicePointIncidence as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServicePointIncidence_NotInScope(servicePointIncidenceList: Collection[java.math.BigDecimal]): Unit = {
-        doSetServicePointIncidence_NotInScope(servicePointIncidenceList);
+    def setServicePointIncidence_NotInScope(servicePointIncidenceList: List[java.math.BigDecimal]): Unit = {
+        doSetServicePointIncidence_NotInScope(if (servicePointIncidenceList != null) { servicePointIncidenceList.map(_.asInstanceOf[java.math.BigDecimal]).asJava } else { null });
     }
 
     protected def doSetServicePointIncidence_NotInScope(servicePointIncidenceList: Collection[java.math.BigDecimal]): Unit = {
         regINS(CK_NINS, cTL(servicePointIncidenceList), getCValueServicePointIncidence(), "SERVICE_POINT_INCIDENCE");
     }
 
-    protected def regServicePointIncidence(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueServicePointIncidence(), "SERVICE_POINT_INCIDENCE"); }
+    protected def regServicePointIncidence(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueServicePointIncidence(), "SERVICE_POINT_INCIDENCE"); }
     protected def getCValueServicePointIncidence(): ConditionValue;
     
     /**
@@ -580,8 +584,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlgList The collection of newAcceptableFlg as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setNewAcceptableFlg_InScope(newAcceptableFlgList: Collection[Integer]): Unit = {
-        doSetNewAcceptableFlg_InScope(newAcceptableFlgList);
+    def setNewAcceptableFlg_InScope(newAcceptableFlgList: List[CDef.Flg]): Unit = {
+        doSetNewAcceptableFlg_InScope(toMutableValueCollectionImplicitly(newAcceptableFlgList));
     }
 
     /**
@@ -590,8 +594,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * general boolean classification for every flg-column
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setNewAcceptableFlg_InScope_AsFlg(cdefList: Collection[CDef.Flg]): Unit = {
-        doSetNewAcceptableFlg_InScope(cTNumL(cdefList, classOf[Integer]));
+    def setNewAcceptableFlg_InScope_AsFlg(cdefList: List[CDef.Flg]): Unit = {
+        doSetNewAcceptableFlg_InScope(cTNumL(cdefList.asJava, classOf[Integer]));
     }
 
     protected def doSetNewAcceptableFlg_InScope(newAcceptableFlgList: Collection[Integer]): Unit = {
@@ -603,8 +607,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlgList The collection of newAcceptableFlg as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setNewAcceptableFlg_NotInScope(newAcceptableFlgList: Collection[Integer]): Unit = {
-        doSetNewAcceptableFlg_NotInScope(newAcceptableFlgList);
+    def setNewAcceptableFlg_NotInScope(newAcceptableFlgList: List[Integer]): Unit = {
+        doSetNewAcceptableFlg_NotInScope(if (newAcceptableFlgList != null) { newAcceptableFlgList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     /**
@@ -613,15 +617,15 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * general boolean classification for every flg-column
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setNewAcceptableFlg_NotInScope_AsFlg(cdefList: Collection[CDef.Flg]): Unit = {
-        doSetNewAcceptableFlg_NotInScope(cTNumL(cdefList, classOf[Integer]));
+    def setNewAcceptableFlg_NotInScope_AsFlg(cdefList: List[CDef.Flg]): Unit = {
+        doSetNewAcceptableFlg_NotInScope(cTNumL(cdefList.asJava, classOf[Integer]));
     }
 
     protected def doSetNewAcceptableFlg_NotInScope(newAcceptableFlgList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(newAcceptableFlgList), getCValueNewAcceptableFlg(), "NEW_ACCEPTABLE_FLG");
     }
 
-    protected def regNewAcceptableFlg(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueNewAcceptableFlg(), "NEW_ACCEPTABLE_FLG"); }
+    protected def regNewAcceptableFlg(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueNewAcceptableFlg(), "NEW_ACCEPTABLE_FLG"); }
     protected def getCValueNewAcceptableFlg(): ConditionValue;
 
     /**
@@ -637,7 +641,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
         regDescription(CK_EQ, description);
     }
 
-    protected def regDescription(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueDescription(), "DESCRIPTION"); }
+    protected def regDescription(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueDescription(), "DESCRIPTION"); }
     protected def getCValueDescription(): ConditionValue;
     
     /**
@@ -666,7 +670,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
         regROO(minNumber, maxNumber, getCValueDisplayOrder(), "DISPLAY_ORDER", rangeOfOption);
     }
 
-    protected def regDisplayOrder(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueDisplayOrder(), "DISPLAY_ORDER"); }
+    protected def regDisplayOrder(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueDisplayOrder(), "DISPLAY_ORDER"); }
     protected def getCValueDisplayOrder(): ConditionValue;
 
     // ===================================================================================
@@ -853,6 +857,13 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
         registerMyselfInScope(cb.query(), pp);
     }
     def keepMyselfInScope(sq: ServiceRankCQ): String;
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
+        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
+    }
 
     // ===================================================================================
     //                                                                       Very Internal

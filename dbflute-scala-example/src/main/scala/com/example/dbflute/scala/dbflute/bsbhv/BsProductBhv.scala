@@ -13,6 +13,7 @@ import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.outsidesql.executor._;
+import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
 import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
@@ -99,7 +100,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleProduct. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    def selectCount(cb: ProductCB): Int = {
+    def selectCount(cbCall: (ProductCB) => Unit): Int = {
+        return facadeSelectCount(callbackCB(cbCall));
+    }
+
+    def facadeSelectCount(cb: ProductCB): Int = {
         return Integer2int(doSelectCountUniquely(cb));
     }
 
@@ -114,7 +119,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     }
 
     override protected def doReadCount(cb: ConditionBean): Int = {
-        return selectCount(downcast(cb));
+        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -146,14 +151,18 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param cb The condition-bean of DbleProduct. (NotNull)
+     * @param cbCall The callback for condition-bean of DbleProduct. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: ProductCB): Option[Product] = {
-        return doSelectOptionalEntity(cb, classOf[DbleProduct]).map(f => new Product(f));
+    def selectEntity(cbCall: (ProductCB) => Unit): Option[Product] = {
+        return facadeSelectEntity(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntity(cb: ProductCB): Option[Product] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new Product(f));
     }
 
     protected def doSelectEntity[ENTITY <: DbleProduct](cb: ProductCB, tp: Class[ENTITY]): ENTITY = {
@@ -168,7 +177,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return doSelectEntity(downcast(cb), classOf[DbleProduct]);
+        return doSelectEntity(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -186,8 +195,12 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cb: ProductCB): Product = {
-        return new Product(doSelectEntityWithDeletedCheck(cb, classOf[DbleProduct]));
+    def selectEntityWithDeletedCheck(cbCall: (ProductCB) => Unit): Product = {
+        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntityWithDeletedCheck(cb: ProductCB): Product = {
+        return new Product(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
     }
 
     protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleProduct](cb: ProductCB, tp: Class[ENTITY]): ENTITY = {
@@ -198,7 +211,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return doSelectEntityWithDeletedCheck(downcast(cb), classOf[DbleProduct]);
+        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -210,7 +223,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByPK(productId: Integer): Option[Product] = {
-        return doSelectByPK(productId, classOf[DbleProduct]).map(f => new Product(f));
+        return facadeSelectByPK(productId);
+    }
+
+    def facadeSelectByPK(productId: Integer): Option[Product] = {
+        return doSelectByPK(productId, typeOfSelectedEntity()).map(f => new Product(f));
     }
 
     protected def doSelectByPK[ENTITY <: DbleProduct](productId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -233,7 +250,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByUniqueOf(productHandleCode: String): Option[Product] = {
-        return doSelectByUniqueOf(productHandleCode, classOf[DbleProduct]).map(f => new Product(f));
+        return facadeSelectByUniqueOf(productHandleCode);
+    }
+
+    protected def facadeSelectByUniqueOf(productHandleCode: String): Option[Product] = {
+        return doSelectByUniqueOf(productHandleCode, typeOfSelectedEntity()).map(f => new Product(f));
     }
 
     protected def doSelectByUniqueOf[ENTITY <: DbleProduct](productHandleCode: String, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -264,8 +285,12 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: ProductCB): scala.collection.immutable.List[Product] = {
-        val dbleList = doSelectList(cb, classOf[DbleProduct]);
+    def selectList(cbCall: (ProductCB) => Unit): scala.collection.immutable.List[Product] = {
+        return facadeSelectList(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectList(cb: ProductCB): scala.collection.immutable.List[Product] = {
+        val dbleList = doSelectList(cb, typeOfSelectedEntity());
         return toImmutableEntityList(dbleList);
     }
 
@@ -278,7 +303,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[DbleProduct]); // use do method for ListResultBean
+        return doSelectList(downcast(cb), typeOfSelectedEntity()); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -306,8 +331,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cb: ProductCB): PagingResultBean[DbleProduct] = {
-        return doSelectPage(cb, classOf[DbleProduct]);
+    def selectPage(cbCall: (ProductCB) => Unit): PagingResultBean[DbleProduct] = {
+        return doSelectPage(callbackCB(cbCall), typeOfSelectedEntity());
     }
 
     protected def doSelectPage[ENTITY <: DbleProduct](cb: ProductCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
@@ -320,7 +345,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return selectPage(downcast(cb));
+        return doSelectPage(downcast(cb), typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -340,8 +365,16 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleProduct. (NotNull)
      * @param entityRowHandler The handler of entity row of DbleProduct. (NotNull)
      */
-    def selectCursor(cb: ProductCB, entityRowHandler: EntityRowHandler[DbleProduct]): Unit = {
-        doSelectCursor(cb, entityRowHandler, classOf[DbleProduct]);
+    def selectCursor(cbCall: (ProductCB) => Unit)(entityRowHandler: (DbleProduct) => Unit): Unit = {
+        facadeSelectCursor(callbackCB(cbCall))(entityRowHandler);
+    }
+
+    protected def facadeSelectCursor(cb: ProductCB)(entityRowHandler: (DbleProduct) => Unit): Unit = {
+        doSelectCursor(cb, new EntityRowHandler[DbleProduct]() {
+            def handle(entity: DbleProduct): Unit = {
+                entityRowHandler(entity)
+            }
+        }, typeOfSelectedEntity());
     }
 
     protected def doSelectCursor[ENTITY <: DbleProduct](cb: ProductCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
@@ -429,8 +462,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(productList: scala.collection.immutable.List[DbleProduct], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[DblePurchase] = {
-        xassLRArg(productList.asJava, setupper); // #pending easy convert for now
+    def loadPurchaseList(productList: List[DbleProduct], setupCall: (PurchaseCB) => Unit): NestedReferrerLoader[DblePurchase] = {
+        val setupper = new ReferrerConditionSetupper[PurchaseCB]() { def setup(referrerCB: PurchaseCB): Unit = { setupCall(referrerCB); } }
         return doLoadPurchaseList(productList, new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
     }
 
@@ -460,24 +493,24 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(product: DbleProduct, setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[DblePurchase] = {
-        xassLRArg(product, setupper);
-        return doLoadPurchaseList(scala.collection.immutable.List.apply(product), new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
+    def loadPurchaseList(product: DbleProduct, setupCall: (PurchaseCB) => Unit): NestedReferrerLoader[DblePurchase] = {
+        val setupper = new ReferrerConditionSetupper[PurchaseCB]() { def setup(referrerCB: PurchaseCB): Unit = { setupCall(referrerCB); } }
+        return doLoadPurchaseList(xnewLRLs(product), new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
     }
 
-    protected def doLoadPurchaseList(productList: scala.collection.immutable.List[DbleProduct], option: LoadReferrerOption[PurchaseCB, DblePurchase]): NestedReferrerLoader[DblePurchase] = {
+    protected def doLoadPurchaseList(productList: List[DbleProduct], option: LoadReferrerOption[PurchaseCB, DblePurchase]): NestedReferrerLoader[DblePurchase] = {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
-        return helpLoadReferrerInternally(productList.asJava, option, new InternalLoadReferrerCallback[DbleProduct, Integer, PurchaseCB, DblePurchase]() {
+        return helpLoadReferrerInternally(productList, option, new InternalLoadReferrerCallback[DbleProduct, Integer, PurchaseCB, DblePurchase]() {
             def getPKVal(et: DbleProduct): Integer =
             { return et.getProductId(); }
             def setRfLs(et: DbleProduct, ls: List[DblePurchase]): Unit =
             { et.setPurchaseList(ls); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
-            { cb.query().setProductId_InScope(ls); }
+            { cb.query().setProductId_InScope(toScalaList(ls).map(_.asInstanceOf[Int])); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_ProductId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnProductId(); }
-            def selRfLs(cb: PurchaseCB): List[DblePurchase] = { return referrerBhv.toDBableEntityList(referrerBhv.selectList(cb)); }
+            def selRfLs(cb: PurchaseCB): List[DblePurchase] = { return referrerBhv.readList(cb).asInstanceOf[List[DblePurchase]]; }
             def getFKVal(re: DblePurchase): Integer = { return re.getProductId(); }
             def setlcEt(re: DblePurchase, le: DbleProduct): Unit =
             { re.setProduct(Option.apply(le)); }
@@ -676,7 +709,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
             def callbackInsert(et: DbleProduct): Unit = { doInsert(et, iop); }
             def callbackUpdate(et: DbleProduct): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): ProductCB = { return newMyConditionBean(); }
-            def callbackSelectCount(cb: ProductCB): Int = { return selectCount(cb); }
+            def callbackSelectCount(cb: ProductCB): Int = { return facadeSelectCount(cb); }
         });
     }
 
@@ -1585,8 +1618,18 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                     Downcast Helper
-    //                                                                     ===============
+    //                                                                         Type Helper
+    //                                                                         ===========
+    protected def typeOfSelectedEntity(): Class[DbleProduct] = {
+        return classOf[DbleProduct];
+    }
+
+    protected def callbackCB(cbCall: (ProductCB) => Unit): ProductCB = {
+        val cb = new ProductCB();
+        cbCall(cb);
+        return cb;
+    }
+
     protected def downcast(et: Entity): DbleProduct = {
         return helpEntityDowncastInternally(et, classOf[DbleProduct]);
     }
@@ -1629,5 +1672,22 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[Product]): List[DbleProduct] = {
         return immuList.map(new DbleProduct().acceptImmutableEntity(_)).asJava
+    }
+}
+
+/**
+ * @author jflute
+ */
+class BsLoaderOfProduct(productList: List[DbleProduct]) {
+
+    def loadPurchaseList(setupCall: (PurchaseCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchase] = {
+        DBFlutist.productBhv.loadPurchaseList(productList, setupCall)
+            .withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
+                def handle(referrerList: List[DblePurchase]): Unit = {
+                }
+            }
+        );
+        // #pending
+        return new ScrNestedReferrerLoader[LoaderOfPurchase](() => new LoaderOfPurchase(null));
     }
 }

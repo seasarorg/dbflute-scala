@@ -1,7 +1,11 @@
 package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 
-import java.lang.Long;
-import java.util._;
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
+
+import java.util.Collection;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
@@ -121,8 +125,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceIdList The collection of memberServiceId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberServiceId_InScope(memberServiceIdList: Collection[Integer]): Unit = {
-        doSetMemberServiceId_InScope(memberServiceIdList);
+    def setMemberServiceId_InScope(memberServiceIdList: List[Int]): Unit = {
+        doSetMemberServiceId_InScope(toMutableValueCollectionImplicitly(memberServiceIdList));
     }
 
     protected def doSetMemberServiceId_InScope(memberServiceIdList: Collection[Integer]): Unit = {
@@ -134,8 +138,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceIdList The collection of memberServiceId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberServiceId_NotInScope(memberServiceIdList: Collection[Integer]): Unit = {
-        doSetMemberServiceId_NotInScope(memberServiceIdList);
+    def setMemberServiceId_NotInScope(memberServiceIdList: List[Integer]): Unit = {
+        doSetMemberServiceId_NotInScope(if (memberServiceIdList != null) { memberServiceIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetMemberServiceId_NotInScope(memberServiceIdList: Collection[Integer]): Unit = {
@@ -154,7 +158,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      */
     def setMemberServiceId_IsNotNull(): Unit = { regMemberServiceId(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regMemberServiceId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberServiceId(), "MEMBER_SERVICE_ID"); }
+    protected def regMemberServiceId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberServiceId(), "MEMBER_SERVICE_ID"); }
     protected def getCValueMemberServiceId(): ConditionValue;
     
     /**
@@ -237,8 +241,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_InScope(memberIdList: Collection[Integer]): Unit = {
-        doSetMemberId_InScope(memberIdList);
+    def setMemberId_InScope(memberIdList: List[Int]): Unit = {
+        doSetMemberId_InScope(toMutableValueCollectionImplicitly(memberIdList));
     }
 
     protected def doSetMemberId_InScope(memberIdList: Collection[Integer]): Unit = {
@@ -250,15 +254,15 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: Collection[Integer]): Unit = {
-        doSetMemberId_NotInScope(memberIdList);
+    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+        doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetMemberId_NotInScope(memberIdList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(memberIdList), getCValueMemberId(), "MEMBER_ID");
     }
 
-    protected def regMemberId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
+    protected def regMemberId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
     protected def getCValueMemberId(): ConditionValue;
     
     /**
@@ -341,8 +345,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCountList The collection of servicePointCount as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServicePointCount_InScope(servicePointCountList: Collection[Integer]): Unit = {
-        doSetServicePointCount_InScope(servicePointCountList);
+    def setServicePointCount_InScope(servicePointCountList: List[Int]): Unit = {
+        doSetServicePointCount_InScope(toMutableValueCollectionImplicitly(servicePointCountList));
     }
 
     protected def doSetServicePointCount_InScope(servicePointCountList: Collection[Integer]): Unit = {
@@ -354,15 +358,15 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCountList The collection of servicePointCount as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServicePointCount_NotInScope(servicePointCountList: Collection[Integer]): Unit = {
-        doSetServicePointCount_NotInScope(servicePointCountList);
+    def setServicePointCount_NotInScope(servicePointCountList: List[Integer]): Unit = {
+        doSetServicePointCount_NotInScope(if (servicePointCountList != null) { servicePointCountList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetServicePointCount_NotInScope(servicePointCountList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(servicePointCountList), getCValueServicePointCount(), "SERVICE_POINT_COUNT");
     }
 
-    protected def regServicePointCount(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueServicePointCount(), "SERVICE_POINT_COUNT"); }
+    protected def regServicePointCount(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueServicePointCount(), "SERVICE_POINT_COUNT"); }
     protected def getCValueServicePointCount(): ConditionValue;
 
     /**
@@ -496,8 +500,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
-        doSetServiceRankCode_InScope(serviceRankCodeList);
+    def setServiceRankCode_InScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_InScope(toMutableValueCollectionImplicitly(serviceRankCodeList));
     }
 
     /**
@@ -506,8 +510,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * rank of service member gets
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_InScope_AsServiceRank(cdefList: Collection[CDef.ServiceRank]): Unit = {
-        doSetServiceRankCode_InScope(cTStrL(cdefList));
+    def setServiceRankCode_InScope_AsServiceRank(cdefList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_InScope(cTStrL(cdefList.asJava));
     }
 
     def doSetServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
@@ -519,8 +523,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
-        doSetServiceRankCode_NotInScope(serviceRankCodeList);
+    def setServiceRankCode_NotInScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_NotInScope(if (serviceRankCodeList != null) { serviceRankCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     /**
@@ -529,15 +533,15 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * rank of service member gets
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_NotInScope_AsServiceRank(cdefList: Collection[CDef.ServiceRank]): Unit = {
-        doSetServiceRankCode_NotInScope(cTStrL(cdefList));
+    def setServiceRankCode_NotInScope_AsServiceRank(cdefList: List[CDef.ServiceRank]): Unit = {
+        doSetServiceRankCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
     def doSetServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(serviceRankCodeList), getCValueServiceRankCode(), "SERVICE_RANK_CODE");
     }
 
-    protected def regServiceRankCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueServiceRankCode(), "SERVICE_RANK_CODE"); }
+    protected def regServiceRankCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueServiceRankCode(), "SERVICE_RANK_CODE"); }
     protected def getCValueServiceRankCode(): ConditionValue;
 
     /**
@@ -549,7 +553,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
-    protected def regRegisterDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
+    protected def regRegisterDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
     protected def getCValueRegisterDatetime(): ConditionValue;
 
     /**
@@ -565,7 +569,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         regRegisterUser(CK_EQ, registerUser);
     }
 
-    protected def regRegisterUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
+    protected def regRegisterUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
     protected def getCValueRegisterUser(): ConditionValue;
 
     /**
@@ -577,7 +581,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
-    protected def regUpdateDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
+    protected def regUpdateDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
     protected def getCValueUpdateDatetime(): ConditionValue;
 
     /**
@@ -593,7 +597,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         regUpdateUser(CK_EQ, updateUser);
     }
 
-    protected def regUpdateUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
+    protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
     
     /**
@@ -622,7 +626,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
     }
 
-    protected def regVersionNo(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
+    protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
     protected def getCValueVersionNo(): ConditionValue;
 
     // ===================================================================================
@@ -809,6 +813,13 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         registerMyselfInScope(cb.query(), pp);
     }
     def keepMyselfInScope(sq: MemberServiceCQ): String;
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
+        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
+    }
 
     // ===================================================================================
     //                                                                       Very Internal

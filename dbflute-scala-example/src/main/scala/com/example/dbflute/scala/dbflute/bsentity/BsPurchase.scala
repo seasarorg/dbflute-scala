@@ -34,13 +34,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     MEMBER, PRODUCT
  * 
  * [referrer table]
- *     
+ *     PURCHASE_PAYMENT
  * 
  * [foreign property]
  *     member, product
  * 
  * [referrer property]
- *     
+ *     purchasePaymentList
  * 
  * [get template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -229,6 +229,15 @@ abstract class BsPurchase(dble: DblePurchase) extends Serializable {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'. */
+    protected var _purchasePaymentList: List[PurchasePayment] = dble.toImmutablePurchasePaymentList
+
+    /**
+     * [get] (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
+     * @return The entity list of referrer property 'purchasePaymentList'. (NotNull: even if no loading, returns empty list)
+     */
+    def purchasePaymentList: List[PurchasePayment] = { return _purchasePaymentList; }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============

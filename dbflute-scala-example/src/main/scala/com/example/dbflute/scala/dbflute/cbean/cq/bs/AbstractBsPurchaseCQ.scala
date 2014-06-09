@@ -1,7 +1,11 @@
 package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 
-import java.lang.Long;
-import java.util._;
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
+
+import java.util.Collection;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
@@ -121,8 +125,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param purchaseIdList The collection of purchaseId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchaseId_InScope(purchaseIdList: Collection[Long]): Unit = {
-        doSetPurchaseId_InScope(purchaseIdList);
+    def setPurchaseId_InScope(purchaseIdList: List[Long]): Unit = {
+        doSetPurchaseId_InScope(toMutableValueCollectionImplicitly(purchaseIdList));
     }
 
     protected def doSetPurchaseId_InScope(purchaseIdList: Collection[Long]): Unit = {
@@ -134,13 +138,131 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param purchaseIdList The collection of purchaseId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchaseId_NotInScope(purchaseIdList: Collection[Long]): Unit = {
-        doSetPurchaseId_NotInScope(purchaseIdList);
+    def setPurchaseId_NotInScope(purchaseIdList: List[Long]): Unit = {
+        doSetPurchaseId_NotInScope(if (purchaseIdList != null) { purchaseIdList.map(_.asInstanceOf[Long]).asJava } else { null });
     }
 
     protected def doSetPurchaseId_NotInScope(purchaseIdList: Collection[Long]): Unit = {
         regINS(CK_NINS, cTL(purchaseIdList), getCValuePurchaseId(), "PURCHASE_ID");
     }
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br />
+     * {exists (select PURCHASE_ID from PURCHASE_PAYMENT where ...)} <br />
+     * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">existsPurchasePaymentList</span>(new SubQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of PurchasePaymentList for 'exists'. (NotNull)
+     */
+    def existsPurchasePaymentList(subQuery: (PurchasePaymentCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepPurchaseId_ExistsReferrer_PurchasePaymentList(cb.query());
+        registerExistsReferrer(cb.query(), "PURCHASE_ID", "PURCHASE_ID", pp, "purchasePaymentList");
+    }
+    def keepPurchaseId_ExistsReferrer_PurchasePaymentList(sq: PurchasePaymentCQ): String;
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br />
+     * {not exists (select PURCHASE_ID from PURCHASE_PAYMENT where ...)} <br />
+     * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">notExistsPurchasePaymentList</span>(new SubQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of PurchaseId_NotExistsReferrer_PurchasePaymentList for 'not exists'. (NotNull)
+     */
+    def notExistsPurchasePaymentList(subQuery: (PurchasePaymentCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepPurchaseId_NotExistsReferrer_PurchasePaymentList(cb.query());
+        registerNotExistsReferrer(cb.query(), "PURCHASE_ID", "PURCHASE_ID", pp, "purchasePaymentList");
+    }
+    def keepPurchaseId_NotExistsReferrer_PurchasePaymentList(sq: PurchasePaymentCQ): String;
+
+    /**
+     * Set up InScopeRelation (sub-query). <br />
+     * {in (select PURCHASE_ID from PURCHASE_PAYMENT where ...)} <br />
+     * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentAsOne'.
+     * @param subQuery The sub-query of PurchasePaymentList for 'in-scope'. (NotNull)
+     */
+    def inScopePurchasePaymentList(subQuery: (PurchasePaymentCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepPurchaseId_InScopeRelation_PurchasePaymentList(cb.query());
+        registerInScopeRelation(cb.query(), "PURCHASE_ID", "PURCHASE_ID", pp, "purchasePaymentList");
+    }
+    def keepPurchaseId_InScopeRelation_PurchasePaymentList(sq: PurchasePaymentCQ): String;
+
+    /**
+     * Set up NotInScopeRelation (sub-query). <br />
+     * {not in (select PURCHASE_ID from PURCHASE_PAYMENT where ...)} <br />
+     * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentAsOne'.
+     * @param subQuery The sub-query of PurchasePaymentList for 'not in-scope'. (NotNull)
+     */
+    def notInScopePurchasePaymentList(subQuery: (PurchasePaymentCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepPurchaseId_NotInScopeRelation_PurchasePaymentList(cb.query());
+        registerNotInScopeRelation(cb.query(), "PURCHASE_ID", "PURCHASE_ID", pp, "purchasePaymentList");
+    }
+    def keepPurchaseId_NotInScopeRelation_PurchasePaymentList(sq: PurchasePaymentCQ): String;
+
+    def xsderivePurchasePaymentList(fn: String, sq: SubQuery[PurchasePaymentCB], al: String, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val pp: String = keepPurchaseId_SpecifyDerivedReferrer_PurchasePaymentList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "PURCHASE_ID", "PURCHASE_ID", pp, "purchasePaymentList", al, op);
+    }
+    def keepPurchaseId_SpecifyDerivedReferrer_PurchasePaymentList(sq: PurchasePaymentCQ): String;
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />
+     * {FOO &lt;= (select max(BAR) from PURCHASE_PAYMENT where ...)} <br />
+     * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">derivedPurchasePaymentList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB subCB) {
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    def derivedPurchasePaymentList(): HpQDRFunction[PurchasePaymentCB] = {
+        return xcreateQDRFunctionPurchasePaymentList();
+    }
+    protected def xcreateQDRFunctionPurchasePaymentList(): HpQDRFunction[PurchasePaymentCB] = {
+        return new HpQDRFunction[PurchasePaymentCB](new HpQDRSetupper[PurchasePaymentCB]() {
+            def setup(fn: String, sq: SubQuery[PurchasePaymentCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+                xqderivePurchasePaymentList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    def xqderivePurchasePaymentList(fn: String, sq: SubQuery[PurchasePaymentCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val sqpp: String = keepPurchaseId_QueryDerivedReferrer_PurchasePaymentList(cb.query());
+        val prpp: String = keepPurchaseId_QueryDerivedReferrer_PurchasePaymentListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "PURCHASE_ID", "PURCHASE_ID", sqpp, "purchasePaymentList", rd, vl, prpp, op);
+    }
+    def keepPurchaseId_QueryDerivedReferrer_PurchasePaymentList(sq: PurchasePaymentCQ): String;
+    def keepPurchaseId_QueryDerivedReferrer_PurchasePaymentListParameter(vl: Object): String;
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br />
@@ -154,7 +276,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      */
     def setPurchaseId_IsNotNull(): Unit = { regPurchaseId(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regPurchaseId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValuePurchaseId(), "PURCHASE_ID"); }
+    protected def regPurchaseId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchaseId(), "PURCHASE_ID"); }
     protected def getCValuePurchaseId(): ConditionValue;
     
     /**
@@ -237,8 +359,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_InScope(memberIdList: Collection[Integer]): Unit = {
-        doSetMemberId_InScope(memberIdList);
+    def setMemberId_InScope(memberIdList: List[Int]): Unit = {
+        doSetMemberId_InScope(toMutableValueCollectionImplicitly(memberIdList));
     }
 
     protected def doSetMemberId_InScope(memberIdList: Collection[Integer]): Unit = {
@@ -250,15 +372,15 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: Collection[Integer]): Unit = {
-        doSetMemberId_NotInScope(memberIdList);
+    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+        doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetMemberId_NotInScope(memberIdList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(memberIdList), getCValueMemberId(), "MEMBER_ID");
     }
 
-    protected def regMemberId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
+    protected def regMemberId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
     protected def getCValueMemberId(): ConditionValue;
     
     /**
@@ -341,8 +463,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productIdList The collection of productId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductId_InScope(productIdList: Collection[Integer]): Unit = {
-        doSetProductId_InScope(productIdList);
+    def setProductId_InScope(productIdList: List[Int]): Unit = {
+        doSetProductId_InScope(toMutableValueCollectionImplicitly(productIdList));
     }
 
     protected def doSetProductId_InScope(productIdList: Collection[Integer]): Unit = {
@@ -354,15 +476,15 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productIdList The collection of productId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductId_NotInScope(productIdList: Collection[Integer]): Unit = {
-        doSetProductId_NotInScope(productIdList);
+    def setProductId_NotInScope(productIdList: List[Integer]): Unit = {
+        doSetProductId_NotInScope(if (productIdList != null) { productIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetProductId_NotInScope(productIdList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(productIdList), getCValueProductId(), "PRODUCT_ID");
     }
 
-    protected def regProductId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueProductId(), "PRODUCT_ID"); }
+    protected def regProductId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductId(), "PRODUCT_ID"); }
     protected def getCValueProductId(): ConditionValue;
 
     /**
@@ -438,7 +560,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
         setPurchaseDatetime_FromTo(fromDate, toDate, new FromToOption().compareAsDate());
     }
 
-    protected def regPurchaseDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValuePurchaseDatetime(), "PURCHASE_DATETIME"); }
+    protected def regPurchaseDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchaseDatetime(), "PURCHASE_DATETIME"); }
     protected def getCValuePurchaseDatetime(): ConditionValue;
     
     /**
@@ -521,8 +643,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCountList The collection of purchaseCount as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchaseCount_InScope(purchaseCountList: Collection[Integer]): Unit = {
-        doSetPurchaseCount_InScope(purchaseCountList);
+    def setPurchaseCount_InScope(purchaseCountList: List[Int]): Unit = {
+        doSetPurchaseCount_InScope(toMutableValueCollectionImplicitly(purchaseCountList));
     }
 
     protected def doSetPurchaseCount_InScope(purchaseCountList: Collection[Integer]): Unit = {
@@ -534,15 +656,15 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCountList The collection of purchaseCount as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchaseCount_NotInScope(purchaseCountList: Collection[Integer]): Unit = {
-        doSetPurchaseCount_NotInScope(purchaseCountList);
+    def setPurchaseCount_NotInScope(purchaseCountList: List[Integer]): Unit = {
+        doSetPurchaseCount_NotInScope(if (purchaseCountList != null) { purchaseCountList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetPurchaseCount_NotInScope(purchaseCountList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(purchaseCountList), getCValuePurchaseCount(), "PURCHASE_COUNT");
     }
 
-    protected def regPurchaseCount(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValuePurchaseCount(), "PURCHASE_COUNT"); }
+    protected def regPurchaseCount(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchaseCount(), "PURCHASE_COUNT"); }
     protected def getCValuePurchaseCount(): ConditionValue;
     
     /**
@@ -625,8 +747,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePriceList The collection of purchasePrice as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchasePrice_InScope(purchasePriceList: Collection[Integer]): Unit = {
-        doSetPurchasePrice_InScope(purchasePriceList);
+    def setPurchasePrice_InScope(purchasePriceList: List[Int]): Unit = {
+        doSetPurchasePrice_InScope(toMutableValueCollectionImplicitly(purchasePriceList));
     }
 
     protected def doSetPurchasePrice_InScope(purchasePriceList: Collection[Integer]): Unit = {
@@ -638,15 +760,15 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePriceList The collection of purchasePrice as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchasePrice_NotInScope(purchasePriceList: Collection[Integer]): Unit = {
-        doSetPurchasePrice_NotInScope(purchasePriceList);
+    def setPurchasePrice_NotInScope(purchasePriceList: List[Integer]): Unit = {
+        doSetPurchasePrice_NotInScope(if (purchasePriceList != null) { purchasePriceList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetPurchasePrice_NotInScope(purchasePriceList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(purchasePriceList), getCValuePurchasePrice(), "PURCHASE_PRICE");
     }
 
-    protected def regPurchasePrice(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValuePurchasePrice(), "PURCHASE_PRICE"); }
+    protected def regPurchasePrice(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchasePrice(), "PURCHASE_PRICE"); }
     protected def getCValuePurchasePrice(): ConditionValue;
     
     /**
@@ -732,8 +854,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlgList The collection of paymentCompleteFlg as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentCompleteFlg_InScope(paymentCompleteFlgList: Collection[Integer]): Unit = {
-        doSetPaymentCompleteFlg_InScope(paymentCompleteFlgList);
+    def setPaymentCompleteFlg_InScope(paymentCompleteFlgList: List[CDef.Flg]): Unit = {
+        doSetPaymentCompleteFlg_InScope(toMutableValueCollectionImplicitly(paymentCompleteFlgList));
     }
 
     /**
@@ -742,8 +864,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * general boolean classification for every flg-column
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentCompleteFlg_InScope_AsFlg(cdefList: Collection[CDef.Flg]): Unit = {
-        doSetPaymentCompleteFlg_InScope(cTNumL(cdefList, classOf[Integer]));
+    def setPaymentCompleteFlg_InScope_AsFlg(cdefList: List[CDef.Flg]): Unit = {
+        doSetPaymentCompleteFlg_InScope(cTNumL(cdefList.asJava, classOf[Integer]));
     }
 
     protected def doSetPaymentCompleteFlg_InScope(paymentCompleteFlgList: Collection[Integer]): Unit = {
@@ -755,8 +877,8 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlgList The collection of paymentCompleteFlg as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentCompleteFlg_NotInScope(paymentCompleteFlgList: Collection[Integer]): Unit = {
-        doSetPaymentCompleteFlg_NotInScope(paymentCompleteFlgList);
+    def setPaymentCompleteFlg_NotInScope(paymentCompleteFlgList: List[Integer]): Unit = {
+        doSetPaymentCompleteFlg_NotInScope(if (paymentCompleteFlgList != null) { paymentCompleteFlgList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     /**
@@ -765,15 +887,15 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * general boolean classification for every flg-column
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentCompleteFlg_NotInScope_AsFlg(cdefList: Collection[CDef.Flg]): Unit = {
-        doSetPaymentCompleteFlg_NotInScope(cTNumL(cdefList, classOf[Integer]));
+    def setPaymentCompleteFlg_NotInScope_AsFlg(cdefList: List[CDef.Flg]): Unit = {
+        doSetPaymentCompleteFlg_NotInScope(cTNumL(cdefList.asJava, classOf[Integer]));
     }
 
     protected def doSetPaymentCompleteFlg_NotInScope(paymentCompleteFlgList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(paymentCompleteFlgList), getCValuePaymentCompleteFlg(), "PAYMENT_COMPLETE_FLG");
     }
 
-    protected def regPaymentCompleteFlg(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValuePaymentCompleteFlg(), "PAYMENT_COMPLETE_FLG"); }
+    protected def regPaymentCompleteFlg(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePaymentCompleteFlg(), "PAYMENT_COMPLETE_FLG"); }
     protected def getCValuePaymentCompleteFlg(): ConditionValue;
 
     /**
@@ -785,7 +907,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
         regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
-    protected def regRegisterDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
+    protected def regRegisterDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
     protected def getCValueRegisterDatetime(): ConditionValue;
 
     /**
@@ -801,7 +923,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
         regRegisterUser(CK_EQ, registerUser);
     }
 
-    protected def regRegisterUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
+    protected def regRegisterUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
     protected def getCValueRegisterUser(): ConditionValue;
 
     /**
@@ -813,7 +935,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
         regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
-    protected def regUpdateDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
+    protected def regUpdateDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
     protected def getCValueUpdateDatetime(): ConditionValue;
 
     /**
@@ -829,7 +951,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
         regUpdateUser(CK_EQ, updateUser);
     }
 
-    protected def regUpdateUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
+    protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
     
     /**
@@ -858,7 +980,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
         regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
     }
 
-    protected def regVersionNo(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
+    protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
     protected def getCValueVersionNo(): ConditionValue;
 
     // ===================================================================================
@@ -1045,6 +1167,13 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
         registerMyselfInScope(cb.query(), pp);
     }
     def keepMyselfInScope(sq: PurchaseCQ): String;
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
+        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
+    }
 
     // ===================================================================================
     //                                                                       Very Internal

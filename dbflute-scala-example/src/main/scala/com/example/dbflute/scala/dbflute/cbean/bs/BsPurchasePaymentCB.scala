@@ -25,15 +25,15 @@ import com.example.dbflute.scala.dbflute.cbean.cq._
 import com.example.dbflute.scala.dbflute.cbean.nss._
 
 /**
- * The base condition-bean of PURCHASE.
+ * The base condition-bean of PURCHASE_PAYMENT.
  * @author DBFlute(AutoGenerator)
  */
-class BsPurchaseCB extends AbstractConditionBean {
+class BsPurchasePaymentCB extends AbstractConditionBean {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    protected var _conditionQuery: PurchaseCQ = null;
+    protected var _conditionQuery: PurchasePaymentCQ = null;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -74,7 +74,7 @@ class BsPurchaseCB extends AbstractConditionBean {
     //                                                                          Table Name
     //                                                                          ==========
     def getTableDbName(): String = {
-        return "PURCHASE";
+        return "PURCHASE_PAYMENT";
     }
 
     // ===================================================================================
@@ -82,33 +82,21 @@ class BsPurchaseCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param purchaseId : PK, ID, NotNull, BIGINT(19). (NotNull)
+     * @param purchasePaymentId (購入支払ID): PK, ID, NotNull, BIGINT(19). (NotNull)
      */
-    def acceptPrimaryKey(purchaseId: Long): Unit = {
-        assertObjectNotNull("purchaseId", purchaseId);
-        val cb: BsPurchaseCB = this;
-        cb.query().setPurchaseId_Equal(purchaseId);;
-    }
-
-    /**
-     * Accept the query condition of unique key as equal.
-     * @param memberId (会員ID): UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
-     * @param productId (商品ID): +UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT. (NotNull)
-     * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
-     */
-    def acceptUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Unit = {
-        assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
-        val cb: BsPurchaseCB = this;
-        cb.query().setMemberId_Equal(memberId);;cb.query().setProductId_Equal(productId);;cb.query().setPurchaseDatetime_Equal(purchaseDatetime);;
+    def acceptPrimaryKey(purchasePaymentId: Long): Unit = {
+        assertObjectNotNull("purchasePaymentId", purchasePaymentId);
+        val cb: BsPurchasePaymentCB = this;
+        cb.query().setPurchasePaymentId_Equal(purchasePaymentId);;
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {
-        query().addOrderBy_PurchaseId_Asc();
+        query().addOrderBy_PurchasePaymentId_Asc();
         return this;
     }
 
     def addOrderBy_PK_Desc(): ConditionBean = {
-        query().addOrderBy_PurchaseId_Desc();
+        query().addOrderBy_PurchasePaymentId_Desc();
         return this;
     }
 
@@ -189,30 +177,30 @@ class BsPurchaseCB extends AbstractConditionBean {
      * </pre>
      * @return The instance of condition-query for base-point table to set up query. (NotNull)
      */
-    def query(): PurchaseCQ = {
+    def query(): PurchasePaymentCQ = {
         assertQueryPurpose(); // assert only when user-public query 
         return getConditionQuery();
     }
 
-    def getConditionQuery(): PurchaseCQ = { // public for parameter comment and internal
+    def getConditionQuery(): PurchasePaymentCQ = { // public for parameter comment and internal
         if (_conditionQuery == null) {
             _conditionQuery = createLocalCQ();
         }
         return _conditionQuery;
     }
 
-    protected def createLocalCQ(): PurchaseCQ = {
+    protected def createLocalCQ(): PurchasePaymentCQ = {
         return xcreateCQ(null, getSqlClause(), getSqlClause().getBasePointAliasName(), 0);
     }
 
-    protected def xcreateCQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer): PurchaseCQ = {
-        val cq: PurchaseCQ = xnewCQ(childQuery,  sqlClause,  aliasName,  nestLevel);
+    protected def xcreateCQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer): PurchasePaymentCQ = {
+        val cq: PurchasePaymentCQ = xnewCQ(childQuery,  sqlClause,  aliasName,  nestLevel);
         cq.xsetBaseCB(this);
         return cq;
     }
 
-    protected def xnewCQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer): PurchaseCQ = {
-        return new PurchaseCQ(childQuery, sqlClause, aliasName, nestLevel);
+    protected def xnewCQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: String, nestLevel: Integer): PurchasePaymentCQ = {
+        return new PurchasePaymentCQ(childQuery, sqlClause, aliasName, nestLevel);
     }
 
     def localCQ(): ConditionQuery = {
@@ -227,19 +215,19 @@ class BsPurchaseCB extends AbstractConditionBean {
      * You don't need to call SetupSelect in union-query,
      * because it inherits calls before. (Don't call SetupSelect after here)
      * <pre>
-     * cb.query().<span style="color: #DD4747">union</span>(new UnionQuery&lt;PurchaseCB&gt;() {
-     *     public void query(PurchaseCB unionCB) {
+     * cb.query().<span style="color: #DD4747">union</span>(new UnionQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB unionCB) {
      *         unionCB.query().setXxx...
      *     }
      * });
      * </pre>
      * @param unionQuery The query of 'union'. (NotNull)
      */
-    def union(unionQuery: UnionQuery[PurchaseCB]): Unit = {
-        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForUnion(this); xsyncUQ(cb); 
+    def union(unionQuery: UnionQuery[PurchasePaymentCB]): Unit = {
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForUnion(this); xsyncUQ(cb); 
         try { lock(); unionQuery.query(cb); } finally { unlock(); }
         xsaveUCB(cb);
-        val cq: PurchaseCQ = cb.query(); query().xsetUnionQuery(cq);
+        val cq: PurchasePaymentCQ = cb.query(); query().xsetUnionQuery(cq);
     }
 
     /**
@@ -247,76 +235,57 @@ class BsPurchaseCB extends AbstractConditionBean {
      * You don't need to call SetupSelect in union-query,
      * because it inherits calls before. (Don't call SetupSelect after here)
      * <pre>
-     * cb.query().<span style="color: #DD4747">unionAll</span>(new UnionQuery&lt;PurchaseCB&gt;() {
-     *     public void query(PurchaseCB unionCB) {
+     * cb.query().<span style="color: #DD4747">unionAll</span>(new UnionQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB unionCB) {
      *         unionCB.query().setXxx...
      *     }
      * });
      * </pre>
      * @param unionQuery The query of 'union all'. (NotNull)
      */
-    def unionAll(unionQuery: UnionQuery[PurchaseCB]): Unit = {
-        val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
+    def unionAll(unionQuery: UnionQuery[PurchasePaymentCB]): Unit = {
+        val cb: PurchasePaymentCB = new PurchasePaymentCB(); cb.xsetupForUnion(this); xsyncUQ(cb);
         try { lock(); unionQuery.query(cb); } finally { unlock(); }
         xsaveUCB(cb);
-        val cq: PurchaseCQ = cb.query(); query().xsetUnionAllQuery(cq);
+        val cq: PurchasePaymentCQ = cb.query(); query().xsetUnionAllQuery(cq);
     }
 
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
-    protected var _nssMember: MemberNss = null;
-    def getNssMember(): MemberNss = {
-        if (_nssMember == null) { _nssMember = new MemberNss(null); }
-        return _nssMember;
+    protected var _nssPurchase: PurchaseNss = null;
+    def getNssPurchase(): PurchaseNss = {
+        if (_nssPurchase == null) { _nssPurchase = new PurchaseNss(null); }
+        return _nssPurchase;
     }
     /**
      * Set up relation columns to select clause. <br />
-     * (会員)MEMBER by my MEMBER_ID, named 'member'.
+     * (購入)PURCHASE by my PURCHASE_ID, named 'purchase'.
      * <pre>
-     * PurchaseCB cb = new PurchaseCB();
-     * cb.<span style="color: #DD4747">setupSelect_Member()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     * PurchasePaymentCB cb = new PurchasePaymentCB();
+     * cb.<span style="color: #DD4747">setupSelect_Purchase()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
      * cb.query().setFoo...(value);
-     * DblePurchase purchase = purchaseBhv.selectEntityWithDeletedCheck(cb);
-     * ... = purchase.<span style="color: #DD4747">getMember()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * DblePurchasePayment purchasePayment = purchasePaymentBhv.selectEntityWithDeletedCheck(cb);
+     * ... = purchasePayment.<span style="color: #DD4747">getPurchase()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
      * </pre>
      * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
      */
-    def setupSelect_Member(): MemberNss = {
-        assertSetupSelectPurpose("member");
+    def setupSelect_Purchase(): PurchaseNss = {
+        assertSetupSelectPurpose("purchase");
         if (hasSpecifiedColumn()) { // if reverse call
-            specify().columnMemberId();
+            specify().columnPurchaseId();
         }
-        doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryMember(); } });
-        if (_nssMember == null || !_nssMember.hasConditionQuery())
-        { _nssMember = new MemberNss(query().queryMember()); }
-        return _nssMember;
-    }
-
-    /**
-     * Set up relation columns to select clause. <br />
-     * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
-     * <pre>
-     * PurchaseCB cb = new PurchaseCB();
-     * cb.<span style="color: #DD4747">setupSelect_Product()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
-     * cb.query().setFoo...(value);
-     * DblePurchase purchase = purchaseBhv.selectEntityWithDeletedCheck(cb);
-     * ... = purchase.<span style="color: #DD4747">getProduct()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
-     * </pre>
-     */
-    def setupSelect_Product(): Unit = {
-        assertSetupSelectPurpose("product");
-        if (hasSpecifiedColumn()) { // if reverse call
-            specify().columnProductId();
-        }
-        doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryProduct(); } });
+        doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryPurchase(); } });
+        if (_nssPurchase == null || !_nssPurchase.hasConditionQuery())
+        { _nssPurchase = new PurchaseNss(query().queryPurchase()); }
+        return _nssPurchase;
     }
 
     // [DBFlute-0.7.4]
     // ===================================================================================
     //                                                                             Specify
     //                                                                             =======
-    protected var _specification: HpPurchaseCB.HpSpecification = null;
+    protected var _specification: HpPurchasePaymentCB.HpSpecification = null;
 
     /**
      * Prepare for SpecifyColumn, (Specify)DerivedReferrer. <br />
@@ -334,12 +303,12 @@ class BsPurchaseCB extends AbstractConditionBean {
      * </pre>
      * @return The instance of specification. (NotNull)
      */
-    def specify(): HpPurchaseCB.HpSpecification = {
+    def specify(): HpPurchasePaymentCB.HpSpecification = {
         assertSpecifyPurpose();
-        if (_specification == null) { _specification = new HpPurchaseCB.HpSpecification(this
-            , new HpSpQyCall[PurchaseCQ]() {
+        if (_specification == null) { _specification = new HpPurchasePaymentCB.HpSpecification(this
+            , new HpSpQyCall[PurchasePaymentCQ]() {
                 def has(): Boolean = { return true; }
-                def qy(): PurchaseCQ = { return getConditionQuery(); }
+                def qy(): PurchasePaymentCQ = { return getConditionQuery(); }
             }
             , _purpose, getDBMetaProvider()); }
         return _specification;
@@ -361,12 +330,12 @@ class BsPurchaseCB extends AbstractConditionBean {
      * Set up column-query. {column1 = column2}
      * <pre>
      * <span style="color: #3F7E5E">// where FOO &lt; BAR</span>
-     * cb.<span style="color: #DD4747">columnQuery</span>(new SpecifyQuery&lt;PurchaseCB&gt;() {
-     *     public void query(PurchaseCB cb) {
+     * cb.<span style="color: #DD4747">columnQuery</span>(new SpecifyQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB cb) {
      *         cb.specify().<span style="color: #DD4747">columnFoo()</span>; <span style="color: #3F7E5E">// left column</span>
      *     }
-     * }).lessThan(new SpecifyQuery&lt;PurchaseCB&gt;() {
-     *     public void query(PurchaseCB cb) {
+     * }).lessThan(new SpecifyQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB cb) {
      *         cb.specify().<span style="color: #DD4747">columnBar()</span>; <span style="color: #3F7E5E">// right column</span>
      *     }
      * }); <span style="color: #3F7E5E">// you can calculate for right column like '}).plus(3);'</span>
@@ -374,19 +343,19 @@ class BsPurchaseCB extends AbstractConditionBean {
      * @param leftSpecifyQuery The specify-query for left column. (NotNull)
      * @return The object for setting up operand and right column. (NotNull)
      */
-    def columnQuery(leftSpecifyQuery: (PurchaseCB) => Unit): ScrHpColQyOperand[PurchaseCB] = {
-        return new ScrHpColQyOperand[PurchaseCB](new HpColQyHandler[PurchaseCB]() {
-            def handle(rightSp: SpecifyQuery[PurchaseCB], operand: String): HpCalculator = {
-                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[PurchaseCB]() {
-                    def specify(cb: PurchaseCB): Unit = { leftSpecifyQuery(cb); }
+    def columnQuery(leftSpecifyQuery: (PurchasePaymentCB) => Unit): ScrHpColQyOperand[PurchasePaymentCB] = {
+        return new ScrHpColQyOperand[PurchasePaymentCB](new HpColQyHandler[PurchasePaymentCB]() {
+            def handle(rightSp: SpecifyQuery[PurchasePaymentCB], operand: String): HpCalculator = {
+                return xcolqy(xcreateColumnQueryCB(), xcreateColumnQueryCB(), new SpecifyQuery[PurchasePaymentCB]() {
+                    def specify(cb: PurchasePaymentCB): Unit = { leftSpecifyQuery(cb); }
                 }, rightSp, operand);
             }
         });
     }
 
-    protected def xcreateColumnQueryCB(): PurchaseCB = {
-        val cb: PurchaseCB = new PurchaseCB();
-        cb.xsetupForColumnQuery(this.asInstanceOf[PurchaseCB]);
+    protected def xcreateColumnQueryCB(): PurchasePaymentCB = {
+        val cb: PurchasePaymentCB = new PurchasePaymentCB();
+        cb.xsetupForColumnQuery(this.asInstanceOf[PurchasePaymentCB]);
         return cb;
     }
 
@@ -398,9 +367,9 @@ class BsPurchaseCB extends AbstractConditionBean {
      * This is very specialty so you can get the frontier spirit. Bon voyage!
      * @return The condition-bean for dream cruise, which is linked to main condition-bean.
      */
-    def dreamCruiseCB(): PurchaseCB = {
-        val cb: PurchaseCB = new PurchaseCB();
-        cb.xsetupForDreamCruise(this.asInstanceOf[PurchaseCB]);
+    def dreamCruiseCB(): PurchasePaymentCB = {
+        val cb: PurchasePaymentCB = new PurchasePaymentCB();
+        cb.xsetupForDreamCruise(this.asInstanceOf[PurchasePaymentCB]);
         return cb;
     }
 
@@ -417,8 +386,8 @@ class BsPurchaseCB extends AbstractConditionBean {
      * (Same-column-and-same-condition-key conditions are allowed in or-scope)
      * <pre>
      * <span style="color: #3F7E5E">// where (FOO = '...' or BAR = '...')</span>
-     * cb.<span style="color: #DD4747">orScopeQuery</span>(new OrQuery&lt;PurchaseCB&gt;() {
-     *     public void query(PurchaseCB orCB) {
+     * cb.<span style="color: #DD4747">orScopeQuery</span>(new OrQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB orCB) {
      *         orCB.query().setFOO_Equal...
      *         orCB.query().setBAR_Equal...
      *     }
@@ -426,9 +395,9 @@ class BsPurchaseCB extends AbstractConditionBean {
      * </pre>
      * @param orQuery The query for or-condition. (NotNull)
      */
-    def orScopeQuery(orQuery: (PurchaseCB) => Unit): Unit = {
-        xorSQ(this.asInstanceOf[PurchaseCB], new OrQuery[PurchaseCB]{
-            def query(orCB: PurchaseCB): Unit = { orQuery(orCB); }
+    def orScopeQuery(orQuery: (PurchasePaymentCB) => Unit): Unit = {
+        xorSQ(this.asInstanceOf[PurchasePaymentCB], new OrQuery[PurchasePaymentCB]{
+            def query(orCB: PurchasePaymentCB): Unit = { orQuery(orCB); }
         });
     }
 
@@ -437,11 +406,11 @@ class BsPurchaseCB extends AbstractConditionBean {
      * (However nested or-scope query and as-or-split of like-search in and-part are unsupported)
      * <pre>
      * <span style="color: #3F7E5E">// where (FOO = '...' or (BAR = '...' and QUX = '...'))</span>
-     * cb.<span style="color: #DD4747">orScopeQuery</span>(new OrQuery&lt;PurchaseCB&gt;() {
-     *     public void query(PurchaseCB orCB) {
+     * cb.<span style="color: #DD4747">orScopeQuery</span>(new OrQuery&lt;PurchasePaymentCB&gt;() {
+     *     public void query(PurchasePaymentCB orCB) {
      *         orCB.query().setFOO_Equal...
-     *         orCB.<span style="color: #DD4747">orScopeQueryAndPart</span>(new AndQuery&lt;PurchaseCB&gt;() {
-     *             public void query(PurchaseCB andCB) {
+     *         orCB.<span style="color: #DD4747">orScopeQueryAndPart</span>(new AndQuery&lt;PurchasePaymentCB&gt;() {
+     *             public void query(PurchasePaymentCB andCB) {
      *                 andCB.query().setBar_...
      *                 andCB.query().setQux_...
      *             }
@@ -451,9 +420,9 @@ class BsPurchaseCB extends AbstractConditionBean {
      * </pre>
      * @param andQuery The query for and-condition. (NotNull)
      */
-    def orScopeQueryAndPart(andQuery: (PurchaseCB) => Unit): Unit = {
-        xorSQAP(this.asInstanceOf[PurchaseCB], new AndQuery[PurchaseCB] {
-            def query(cb: PurchaseCB): Unit = { andQuery(cb); }
+    def orScopeQueryAndPart(andQuery: (PurchasePaymentCB) => Unit): Unit = {
+        xorSQAP(this.asInstanceOf[PurchasePaymentCB], new AndQuery[PurchasePaymentCB] {
+            def query(cb: PurchasePaymentCB): Unit = { andQuery(cb); }
         });
     }
 
@@ -480,14 +449,14 @@ class BsPurchaseCB extends AbstractConditionBean {
     //                                                                        ============
     @Override
     protected def xprepareSyncQyCall(mainCB: ConditionBean): Unit = {
-        val cb: PurchaseCB = if (mainCB != null) {
-            mainCB.asInstanceOf[PurchaseCB];
+        val cb: PurchasePaymentCB = if (mainCB != null) {
+            mainCB.asInstanceOf[PurchasePaymentCB];
         } else {
-            new PurchaseCB();
+            new PurchasePaymentCB();
         }
-        specify().xsetSyncQyCall(new HpSpQyCall[PurchaseCQ]() {
+        specify().xsetSyncQyCall(new HpSpQyCall[PurchasePaymentCQ]() {
             def has(): Boolean = { return true; }
-            def qy(): PurchaseCQ = { return cb.query(); }
+            def qy(): PurchasePaymentCQ = { return cb.query(); }
         });
     }
 
@@ -495,8 +464,8 @@ class BsPurchaseCB extends AbstractConditionBean {
     //                                                                            Internal
     //                                                                            ========
     // very internal (for suppressing warn about 'Not Use Import')
-    protected def getConditionBeanClassNameInternally(): String = { return classOf[PurchaseCB].getName(); }
-    protected def getConditionQueryClassNameInternally(): String = { return classOf[PurchaseCQ].getName(); }
+    protected def getConditionBeanClassNameInternally(): String = { return classOf[PurchasePaymentCB].getName(); }
+    protected def getConditionQueryClassNameInternally(): String = { return classOf[PurchasePaymentCQ].getName(); }
     protected def getSubQueryClassNameInternally(): String = { return classOf[SubQuery[_]].getName(); }
     protected def getConditionOptionClassNameInternally(): String = { return classOf[ConditionOption].getName(); }
 }
@@ -505,47 +474,36 @@ class BsPurchaseCB extends AbstractConditionBean {
  * The singleton object to define condition-bean's specification.
  * @author DBFlute(AutoGenerator)
  */
-object HpPurchaseCB {
+object HpPurchasePaymentCB {
 
-    class HpSpecification(baseCB: ConditionBean, qyCall: HpSpQyCall[PurchaseCQ], purpose: HpCBPurpose, dbmetaProvider: DBMetaProvider)
-            extends HpAbstractSpecification[PurchaseCQ](baseCB, qyCall, purpose, dbmetaProvider) {
-        protected var _member: HpMemberCB.HpSpecification = null;
-        protected var _product: HpProductCB.HpSpecification = null;
+    class HpSpecification(baseCB: ConditionBean, qyCall: HpSpQyCall[PurchasePaymentCQ], purpose: HpCBPurpose, dbmetaProvider: DBMetaProvider)
+            extends HpAbstractSpecification[PurchasePaymentCQ](baseCB, qyCall, purpose, dbmetaProvider) {
+        protected var _purchase: HpPurchaseCB.HpSpecification = null;
         /**
-         * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
+         * (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)}
+         * @return The information object of specified column. (NotNull)
+         */
+        def columnPurchasePaymentId(): HpSpecifiedColumn = { return doColumn("PURCHASE_PAYMENT_ID"); }
+        /**
+         * (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE}
          * @return The information object of specified column. (NotNull)
          */
         def columnPurchaseId(): HpSpecifiedColumn = { return doColumn("PURCHASE_ID"); }
         /**
-         * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
+         * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
          * @return The information object of specified column. (NotNull)
          */
-        def columnMemberId(): HpSpecifiedColumn = { return doColumn("MEMBER_ID"); }
+        def columnPaymentAmount(): HpSpecifiedColumn = { return doColumn("PAYMENT_AMOUNT"); }
         /**
-         * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
+         * (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)}
          * @return The information object of specified column. (NotNull)
          */
-        def columnProductId(): HpSpecifiedColumn = { return doColumn("PRODUCT_ID"); }
+        def columnPaymentDatetime(): HpSpecifiedColumn = { return doColumn("PAYMENT_DATETIME"); }
         /**
-         * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
+         * (支払方法コード)PAYMENT_METHOD_CODE: {NotNull, CHAR(3)}
          * @return The information object of specified column. (NotNull)
          */
-        def columnPurchaseDatetime(): HpSpecifiedColumn = { return doColumn("PURCHASE_DATETIME"); }
-        /**
-         * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
-         * @return The information object of specified column. (NotNull)
-         */
-        def columnPurchaseCount(): HpSpecifiedColumn = { return doColumn("PURCHASE_COUNT"); }
-        /**
-         * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
-         * @return The information object of specified column. (NotNull)
-         */
-        def columnPurchasePrice(): HpSpecifiedColumn = { return doColumn("PURCHASE_PRICE"); }
-        /**
-         * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
-         * @return The information object of specified column. (NotNull)
-         */
-        def columnPaymentCompleteFlg(): HpSpecifiedColumn = { return doColumn("PAYMENT_COMPLETE_FLG"); }
+        def columnPaymentMethodCode(): HpSpecifiedColumn = { return doColumn("PAYMENT_METHOD_CODE"); }
         /**
          * REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)}
          * @return The information object of specified column. (NotNull)
@@ -566,97 +524,47 @@ object HpPurchaseCB {
          * @return The information object of specified column. (NotNull)
          */
         def columnUpdateUser(): HpSpecifiedColumn = { return doColumn("UPDATE_USER"); }
-        /**
-         * VERSION_NO: {NotNull, BIGINT(19)}
-         * @return The information object of specified column. (NotNull)
-         */
-        def columnVersionNo(): HpSpecifiedColumn = { return doColumn("VERSION_NO"); }
         def everyColumn(): Unit = { doEveryColumn(); }
         def exceptRecordMetaColumn(): Unit = { doExceptRecordMetaColumn(); }
         @Override
         protected def doSpecifyRequiredColumn(): Unit = {
-            columnPurchaseId(); // PK
-            if (qyCall().qy().hasConditionQueryMember()
-                    || qyCall().qy().xgetReferrerQuery().isInstanceOf[MemberCQ]) {
-                columnMemberId(); // FK or one-to-one referrer
-            }
-            if (qyCall().qy().hasConditionQueryProduct()
-                    || qyCall().qy().xgetReferrerQuery().isInstanceOf[ProductCQ]) {
-                columnProductId(); // FK or one-to-one referrer
+            columnPurchasePaymentId(); // PK
+            if (qyCall().qy().hasConditionQueryPurchase()
+                    || qyCall().qy().xgetReferrerQuery().isInstanceOf[PurchaseCQ]) {
+                columnPurchaseId(); // FK or one-to-one referrer
             }
         }
         @Override
-        protected def getTableDbName(): String = { return "PURCHASE"; }
+        protected def getTableDbName(): String = { return "PURCHASE_PAYMENT"; }
         /**
          * Prepare to specify functions about relation table. <br />
-         * (会員)MEMBER by my MEMBER_ID, named 'member'.
+         * (購入)PURCHASE by my PURCHASE_ID, named 'purchase'.
          * @return The instance for specification for relation table to specify. (NotNull)
          */
-        def specifyMember(): HpMemberCB.HpSpecification = {
-            assertRelation("member");
-            if (_member == null) {
-                _member = new HpMemberCB.HpSpecification(_baseCB, new HpSpQyCall[MemberCQ]() {
-                    def has(): Boolean = { return _qyCall.has() && _qyCall.qy().hasConditionQueryMember(); }
-                    def qy(): MemberCQ = { return _qyCall.qy().queryMember(); } }
+        def specifyPurchase(): HpPurchaseCB.HpSpecification = {
+            assertRelation("purchase");
+            if (_purchase == null) {
+                _purchase = new HpPurchaseCB.HpSpecification(_baseCB, new HpSpQyCall[PurchaseCQ]() {
+                    def has(): Boolean = { return _qyCall.has() && _qyCall.qy().hasConditionQueryPurchase(); }
+                    def qy(): PurchaseCQ = { return _qyCall.qy().queryPurchase(); } }
                     , _purpose, _dbmetaProvider);
                 if (xhasSyncQyCall()) { // inherits it
-                    _member.xsetSyncQyCall(new HpSpQyCall[MemberCQ]() {
-                        def has(): Boolean = { return xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryMember(); }
-                        def qy(): MemberCQ = { return xsyncQyCall().qy().queryMember(); }
+                    _purchase.xsetSyncQyCall(new HpSpQyCall[PurchaseCQ]() {
+                        def has(): Boolean = { return xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryPurchase(); }
+                        def qy(): PurchaseCQ = { return xsyncQyCall().qy().queryPurchase(); }
                     });
                 }
             }
-            return _member;
-        }
-        /**
-         * Prepare to specify functions about relation table. <br />
-         * (商品)PRODUCT by my PRODUCT_ID, named 'product'.
-         * @return The instance for specification for relation table to specify. (NotNull)
-         */
-        def specifyProduct(): HpProductCB.HpSpecification = {
-            assertRelation("product");
-            if (_product == null) {
-                _product = new HpProductCB.HpSpecification(_baseCB, new HpSpQyCall[ProductCQ]() {
-                    def has(): Boolean = { return _qyCall.has() && _qyCall.qy().hasConditionQueryProduct(); }
-                    def qy(): ProductCQ = { return _qyCall.qy().queryProduct(); } }
-                    , _purpose, _dbmetaProvider);
-                if (xhasSyncQyCall()) { // inherits it
-                    _product.xsetSyncQyCall(new HpSpQyCall[ProductCQ]() {
-                        def has(): Boolean = { return xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryProduct(); }
-                        def qy(): ProductCQ = { return xsyncQyCall().qy().queryProduct(); }
-                    });
-                }
-            }
-            return _product;
-        }
-        /**
-         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br />
-         * {select max(FOO) from PURCHASE_PAYMENT where ...) as FOO_MAX} <br />
-         * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
-         * <pre>
-         * cb.specify().<span style="color: #DD4747">derivedPurchasePaymentList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;PurchasePaymentCB&gt;() {
-         *     public void query(PurchasePaymentCB subCB) {
-         *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
-         *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
-         *     }
-         * }, DblePurchasePayment.<span style="color: #DD4747">ALIAS_foo...</span>);
-         * </pre>
-         * @return The object to set up a function for referrer table. (NotNull)
-         */
-        def derivedPurchasePaymentList(): HpSDRFunction[PurchasePaymentCB, PurchaseCQ] = {
-            assertDerived("purchasePaymentList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[PurchasePaymentCB, PurchaseCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[PurchasePaymentCB, PurchaseCQ]() {
-                def setup(fn: String, sq: SubQuery[PurchasePaymentCB], cq: PurchaseCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsderivePurchasePaymentList(fn, sq, al, op); } }, _dbmetaProvider);
+            return _purchase;
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        def myselfDerived(): HpSDRFunction[PurchaseCB, PurchaseCQ] = {
+        def myselfDerived(): HpSDRFunction[PurchasePaymentCB, PurchasePaymentCQ] = {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[PurchaseCB, PurchaseCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[PurchaseCB, PurchaseCQ]() {
-                def setup(fn: String, sq: SubQuery[PurchaseCB], cq: PurchaseCQ, al: String, op: DerivedReferrerOption): Unit = {
+            return new HpSDRFunction[PurchasePaymentCB, PurchasePaymentCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[PurchasePaymentCB, PurchasePaymentCQ]() {
+                def setup(fn: String, sq: SubQuery[PurchasePaymentCB], cq: PurchasePaymentCQ, al: String, op: DerivedReferrerOption): Unit = {
                     cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider);
         }
     }

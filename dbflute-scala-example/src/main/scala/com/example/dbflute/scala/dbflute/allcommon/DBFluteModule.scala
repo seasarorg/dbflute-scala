@@ -86,6 +86,11 @@ class DBFluteModule(dataSource: DataSource) extends AbstractModule {
             bind(classOf[PurchaseBhv]).toInstance(bhv.asInstanceOf[PurchaseBhv]);
         }
         {
+            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.PurchasePaymentBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
+            bind(classOf[PurchasePaymentBhv]).toInstance(bhv.asInstanceOf[PurchasePaymentBhv]);
+        }
+        {
             val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ServiceRankBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[ServiceRankBhv]).toInstance(bhv.asInstanceOf[ServiceRankBhv]);

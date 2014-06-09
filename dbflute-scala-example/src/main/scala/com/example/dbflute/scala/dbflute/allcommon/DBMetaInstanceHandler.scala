@@ -34,6 +34,7 @@ object DBMetaInstanceHandler extends DBMetaProvider {
         tmpMap.put("MEMBER_STATUS", com.example.dbflute.scala.dbflute.bsentity.dbmeta.MemberStatusDbm);
         tmpMap.put("PRODUCT", com.example.dbflute.scala.dbflute.bsentity.dbmeta.ProductDbm);
         tmpMap.put("PURCHASE", com.example.dbflute.scala.dbflute.bsentity.dbmeta.PurchaseDbm);
+        tmpMap.put("PURCHASE_PAYMENT", com.example.dbflute.scala.dbflute.bsentity.dbmeta.PurchasePaymentDbm);
         tmpMap.put("SERVICE_RANK", com.example.dbflute.scala.dbflute.bsentity.dbmeta.ServiceRankDbm);
         _tableDbNameInstanceMap = Collections.unmodifiableMap(tmpMap);
     }

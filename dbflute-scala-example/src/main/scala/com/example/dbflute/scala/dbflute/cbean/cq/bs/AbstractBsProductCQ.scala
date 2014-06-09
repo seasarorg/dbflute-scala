@@ -1,7 +1,11 @@
 package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 
-import java.lang.Long;
-import java.util._;
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
+
+import java.util.Collection;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
@@ -121,8 +125,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productIdList The collection of productId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductId_InScope(productIdList: Collection[Integer]): Unit = {
-        doSetProductId_InScope(productIdList);
+    def setProductId_InScope(productIdList: List[Int]): Unit = {
+        doSetProductId_InScope(toMutableValueCollectionImplicitly(productIdList));
     }
 
     protected def doSetProductId_InScope(productIdList: Collection[Integer]): Unit = {
@@ -134,8 +138,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productIdList The collection of productId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductId_NotInScope(productIdList: Collection[Integer]): Unit = {
-        doSetProductId_NotInScope(productIdList);
+    def setProductId_NotInScope(productIdList: List[Integer]): Unit = {
+        doSetProductId_NotInScope(if (productIdList != null) { productIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetProductId_NotInScope(productIdList: Collection[Integer]): Unit = {
@@ -272,7 +276,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      */
     def setProductId_IsNotNull(): Unit = { regProductId(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regProductId(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueProductId(), "PRODUCT_ID"); }
+    protected def regProductId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductId(), "PRODUCT_ID"); }
     protected def getCValueProductId(): ConditionValue;
 
     /**
@@ -319,7 +323,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regLSQ(CK_NLS, fRES(productName), getCValueProductName(), "PRODUCT_NAME", likeSearchOption);
     }
 
-    protected def regProductName(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueProductName(), "PRODUCT_NAME"); }
+    protected def regProductName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductName(), "PRODUCT_NAME"); }
     protected def getCValueProductName(): ConditionValue;
 
     /**
@@ -353,8 +357,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)}
      * @param productHandleCodeList The collection of productHandleCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductHandleCode_InScope(productHandleCodeList: Collection[String]): Unit = {
-        doSetProductHandleCode_InScope(productHandleCodeList);
+    def setProductHandleCode_InScope(productHandleCodeList: List[String]): Unit = {
+        doSetProductHandleCode_InScope(toMutableValueCollectionImplicitly(productHandleCodeList));
     }
 
     def doSetProductHandleCode_InScope(productHandleCodeList: Collection[String]): Unit = {
@@ -366,8 +370,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)}
      * @param productHandleCodeList The collection of productHandleCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductHandleCode_NotInScope(productHandleCodeList: Collection[String]): Unit = {
-        doSetProductHandleCode_NotInScope(productHandleCodeList);
+    def setProductHandleCode_NotInScope(productHandleCodeList: List[String]): Unit = {
+        doSetProductHandleCode_NotInScope(if (productHandleCodeList != null) { productHandleCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     def doSetProductHandleCode_NotInScope(productHandleCodeList: Collection[String]): Unit = {
@@ -405,7 +409,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regLSQ(CK_NLS, fRES(productHandleCode), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE", likeSearchOption);
     }
 
-    protected def regProductHandleCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE"); }
+    protected def regProductHandleCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE"); }
     protected def getCValueProductHandleCode(): ConditionValue;
 
     /**
@@ -439,8 +443,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
      * @param productCategoryCodeList The collection of productCategoryCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductCategoryCode_InScope(productCategoryCodeList: Collection[String]): Unit = {
-        doSetProductCategoryCode_InScope(productCategoryCodeList);
+    def setProductCategoryCode_InScope(productCategoryCodeList: List[String]): Unit = {
+        doSetProductCategoryCode_InScope(toMutableValueCollectionImplicitly(productCategoryCodeList));
     }
 
     def doSetProductCategoryCode_InScope(productCategoryCodeList: Collection[String]): Unit = {
@@ -452,8 +456,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
      * @param productCategoryCodeList The collection of productCategoryCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductCategoryCode_NotInScope(productCategoryCodeList: Collection[String]): Unit = {
-        doSetProductCategoryCode_NotInScope(productCategoryCodeList);
+    def setProductCategoryCode_NotInScope(productCategoryCodeList: List[String]): Unit = {
+        doSetProductCategoryCode_NotInScope(if (productCategoryCodeList != null) { productCategoryCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     def doSetProductCategoryCode_NotInScope(productCategoryCodeList: Collection[String]): Unit = {
@@ -491,7 +495,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regLSQ(CK_NLS, fRES(productCategoryCode), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE", likeSearchOption);
     }
 
-    protected def regProductCategoryCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE"); }
+    protected def regProductCategoryCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE"); }
     protected def getCValueProductCategoryCode(): ConditionValue;
 
     /**
@@ -525,8 +529,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
      * @param productStatusCodeList The collection of productStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
-        doSetProductStatusCode_InScope(productStatusCodeList);
+    def setProductStatusCode_InScope(productStatusCodeList: List[String]): Unit = {
+        doSetProductStatusCode_InScope(toMutableValueCollectionImplicitly(productStatusCodeList));
     }
 
     def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
@@ -538,8 +542,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
      * @param productStatusCodeList The collection of productStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
-        doSetProductStatusCode_NotInScope(productStatusCodeList);
+    def setProductStatusCode_NotInScope(productStatusCodeList: List[String]): Unit = {
+        doSetProductStatusCode_NotInScope(if (productStatusCodeList != null) { productStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
@@ -577,7 +581,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regLSQ(CK_NLS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", likeSearchOption);
     }
 
-    protected def regProductStatusCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueProductStatusCode(), "PRODUCT_STATUS_CODE"); }
+    protected def regProductStatusCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductStatusCode(), "PRODUCT_STATUS_CODE"); }
     protected def getCValueProductStatusCode(): ConditionValue;
     
     /**
@@ -660,8 +664,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPriceList The collection of regularPrice as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setRegularPrice_InScope(regularPriceList: Collection[Integer]): Unit = {
-        doSetRegularPrice_InScope(regularPriceList);
+    def setRegularPrice_InScope(regularPriceList: List[Int]): Unit = {
+        doSetRegularPrice_InScope(toMutableValueCollectionImplicitly(regularPriceList));
     }
 
     protected def doSetRegularPrice_InScope(regularPriceList: Collection[Integer]): Unit = {
@@ -673,15 +677,15 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPriceList The collection of regularPrice as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setRegularPrice_NotInScope(regularPriceList: Collection[Integer]): Unit = {
-        doSetRegularPrice_NotInScope(regularPriceList);
+    def setRegularPrice_NotInScope(regularPriceList: List[Integer]): Unit = {
+        doSetRegularPrice_NotInScope(if (regularPriceList != null) { regularPriceList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
     protected def doSetRegularPrice_NotInScope(regularPriceList: Collection[Integer]): Unit = {
         regINS(CK_NINS, cTL(regularPriceList), getCValueRegularPrice(), "REGULAR_PRICE");
     }
 
-    protected def regRegularPrice(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegularPrice(), "REGULAR_PRICE"); }
+    protected def regRegularPrice(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegularPrice(), "REGULAR_PRICE"); }
     protected def getCValueRegularPrice(): ConditionValue;
 
     /**
@@ -693,7 +697,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
-    protected def regRegisterDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
+    protected def regRegisterDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterDatetime(), "REGISTER_DATETIME"); }
     protected def getCValueRegisterDatetime(): ConditionValue;
 
     /**
@@ -709,7 +713,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regRegisterUser(CK_EQ, registerUser);
     }
 
-    protected def regRegisterUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
+    protected def regRegisterUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueRegisterUser(), "REGISTER_USER"); }
     protected def getCValueRegisterUser(): ConditionValue;
 
     /**
@@ -721,7 +725,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
-    protected def regUpdateDatetime(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
+    protected def regUpdateDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateDatetime(), "UPDATE_DATETIME"); }
     protected def getCValueUpdateDatetime(): ConditionValue;
 
     /**
@@ -737,7 +741,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regUpdateUser(CK_EQ, updateUser);
     }
 
-    protected def regUpdateUser(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
+    protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
     
     /**
@@ -766,7 +770,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
     }
 
-    protected def regVersionNo(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
+    protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
     protected def getCValueVersionNo(): ConditionValue;
 
     // ===================================================================================
@@ -953,6 +957,13 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         registerMyselfInScope(cb.query(), pp);
     }
     def keepMyselfInScope(sq: ProductCQ): String;
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
+        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
+    }
 
     // ===================================================================================
     //                                                                       Very Internal

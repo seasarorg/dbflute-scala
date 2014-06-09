@@ -12,3 +12,9 @@ import com.example.dbflute.scala.dbflute.bsbhv.BsServiceRankBhv;
  */
 class ServiceRankBhv extends BsServiceRankBhv {
 }
+
+/**
+ * @author jflute
+ */
+class LoaderOfServiceRank(serviceRankList: List[DbleServiceRank]) {
+}

@@ -1,13 +1,14 @@
 package com.example.dbflute.scala.dbflute.whitebox.cbean
 
 import org.dbflute.scala.testlib.unit.UnitContainerTestCase
+
+import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
+import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
 import com.example.dbflute.scala.dbflute.cbean.MemberCB
 import com.example.dbflute.scala.dbflute.exbhv.MemberBhv
-import javax.sql.DataSource
 import com.google.inject.Module
-import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
-import junit.framework.AssertionFailedError
-import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
+
+import javax.sql.DataSource
 
 /**
  * @author jflute
@@ -27,15 +28,15 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
   }
 
   def test_setupSelect_none() {
-    val cb = new MemberCB();
-    cb.query().setMemberName_PrefixSearch("S");
-    cb.query.addOrderBy_Birthdate_Desc.withNullsLast
-    val memberList = memberBhv.selectList(cb);
+    val memberList = memberBhv.selectList { cb =>
+      cb.query().setMemberName_PrefixSearch("S")
+      cb.query.addOrderBy_Birthdate_Desc.withNullsLast
+    }
     memberList.foreach(member => {
       if (member.memberName.startsWith("S")) {
         log("aaa");
       } else {
-    	  log("bbb");
+        log("bbb");
       }
       assertTrueAll(member.memberName.startsWith("S"));
       assertTrueAll(member.memberStatus.isEmpty);
@@ -45,10 +46,10 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
   }
 
   def test_setupSelect_ManyToOne() {
-    val cb = new MemberCB();
-    cb.setupSelect_MemberStatus();
-    cb.query().setMemberName_PrefixSearch("S");
-    val memberList = memberBhv.selectList(cb);
+    val memberList = memberBhv.selectList { cb =>
+      cb.setupSelect_MemberStatus();
+      cb.query().setMemberName_PrefixSearch("S");
+    }
     memberList.foreach(member => {
       val status = member.memberStatus
       assertTrueAll(status != null);
@@ -59,10 +60,10 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
   }
 
   def test_setupSelect_OneToOne() {
-    val cb = new MemberCB();
-    cb.setupSelect_MemberServiceAsOne;
-    cb.query().setMemberName_PrefixSearch("S");
-    val memberList = memberBhv.selectList(cb);
+    val memberList = memberBhv.selectList { cb =>
+      cb.setupSelect_MemberServiceAsOne;
+      cb.query().setMemberName_PrefixSearch("S");
+    }
     memberList.foreach(member => {
       val service = member.memberServiceAsOne
       assertTrueAll(service != null);
@@ -73,10 +74,10 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
   }
 
   def test_setupSelect_OneToOne_with_Nested() {
-    val cb = new MemberCB();
-    cb.setupSelect_MemberServiceAsOne.withServiceRank;
-    cb.query().setMemberName_PrefixSearch("S");
-    val memberList = memberBhv.selectList(cb);
+    val memberList = memberBhv.selectList { cb =>
+      cb.setupSelect_MemberServiceAsOne.withServiceRank;
+      cb.query().setMemberName_PrefixSearch("S");
+    }
     memberList.foreach(member => {
       val service = member.memberServiceAsOne
       assertTrueAll(service != null);

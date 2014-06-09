@@ -13,6 +13,7 @@ import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.outsidesql.executor._;
+import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
 import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
@@ -99,7 +100,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleMember. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    def selectCount(cb: MemberCB): Int = {
+    def selectCount(cbCall: (MemberCB) => Unit): Int = {
+        return facadeSelectCount(callbackCB(cbCall));
+    }
+
+    def facadeSelectCount(cb: MemberCB): Int = {
         return Integer2int(doSelectCountUniquely(cb));
     }
 
@@ -114,7 +119,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     override protected def doReadCount(cb: ConditionBean): Int = {
-        return selectCount(downcast(cb));
+        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -146,14 +151,18 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param cb The condition-bean of DbleMember. (NotNull)
+     * @param cbCall The callback for condition-bean of DbleMember. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: MemberCB): Option[Member] = {
-        return doSelectOptionalEntity(cb, classOf[DbleMember]).map(f => new Member(f));
+    def selectEntity(cbCall: (MemberCB) => Unit): Option[Member] = {
+        return facadeSelectEntity(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntity(cb: MemberCB): Option[Member] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new Member(f));
     }
 
     protected def doSelectEntity[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY]): ENTITY = {
@@ -168,7 +177,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return doSelectEntity(downcast(cb), classOf[DbleMember]);
+        return doSelectEntity(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -186,8 +195,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cb: MemberCB): Member = {
-        return new Member(doSelectEntityWithDeletedCheck(cb, classOf[DbleMember]));
+    def selectEntityWithDeletedCheck(cbCall: (MemberCB) => Unit): Member = {
+        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntityWithDeletedCheck(cb: MemberCB): Member = {
+        return new Member(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
     }
 
     protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY]): ENTITY = {
@@ -198,7 +211,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return doSelectEntityWithDeletedCheck(downcast(cb), classOf[DbleMember]);
+        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -210,7 +223,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByPK(memberId: Integer): Option[Member] = {
-        return doSelectByPK(memberId, classOf[DbleMember]).map(f => new Member(f));
+        return facadeSelectByPK(memberId);
+    }
+
+    def facadeSelectByPK(memberId: Integer): Option[Member] = {
+        return doSelectByPK(memberId, typeOfSelectedEntity()).map(f => new Member(f));
     }
 
     protected def doSelectByPK[ENTITY <: DbleMember](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -233,7 +250,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByUniqueOf(memberAccount: String): Option[Member] = {
-        return doSelectByUniqueOf(memberAccount, classOf[DbleMember]).map(f => new Member(f));
+        return facadeSelectByUniqueOf(memberAccount);
+    }
+
+    protected def facadeSelectByUniqueOf(memberAccount: String): Option[Member] = {
+        return doSelectByUniqueOf(memberAccount, typeOfSelectedEntity()).map(f => new Member(f));
     }
 
     protected def doSelectByUniqueOf[ENTITY <: DbleMember](memberAccount: String, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -264,8 +285,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: MemberCB): scala.collection.immutable.List[Member] = {
-        val dbleList = doSelectList(cb, classOf[DbleMember]);
+    def selectList(cbCall: (MemberCB) => Unit): scala.collection.immutable.List[Member] = {
+        return facadeSelectList(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectList(cb: MemberCB): scala.collection.immutable.List[Member] = {
+        val dbleList = doSelectList(cb, typeOfSelectedEntity());
         return toImmutableEntityList(dbleList);
     }
 
@@ -278,7 +303,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[DbleMember]); // use do method for ListResultBean
+        return doSelectList(downcast(cb), typeOfSelectedEntity()); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -306,8 +331,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cb: MemberCB): PagingResultBean[DbleMember] = {
-        return doSelectPage(cb, classOf[DbleMember]);
+    def selectPage(cbCall: (MemberCB) => Unit): PagingResultBean[DbleMember] = {
+        return doSelectPage(callbackCB(cbCall), typeOfSelectedEntity());
     }
 
     protected def doSelectPage[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
@@ -320,7 +345,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return selectPage(downcast(cb));
+        return doSelectPage(downcast(cb), typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -340,8 +365,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleMember. (NotNull)
      * @param entityRowHandler The handler of entity row of DbleMember. (NotNull)
      */
-    def selectCursor(cb: MemberCB, entityRowHandler: EntityRowHandler[DbleMember]): Unit = {
-        doSelectCursor(cb, entityRowHandler, classOf[DbleMember]);
+    def selectCursor(cbCall: (MemberCB) => Unit)(entityRowHandler: (DbleMember) => Unit): Unit = {
+        facadeSelectCursor(callbackCB(cbCall))(entityRowHandler);
+    }
+
+    protected def facadeSelectCursor(cb: MemberCB)(entityRowHandler: (DbleMember) => Unit): Unit = {
+        doSelectCursor(cb, new EntityRowHandler[DbleMember]() {
+            def handle(entity: DbleMember): Unit = {
+                entityRowHandler(entity)
+            }
+        }, typeOfSelectedEntity());
     }
 
     protected def doSelectCursor[ENTITY <: DbleMember](cb: MemberCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
@@ -429,8 +462,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(memberList: scala.collection.immutable.List[DbleMember], setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[DblePurchase] = {
-        xassLRArg(memberList.asJava, setupper); // #pending easy convert for now
+    def loadPurchaseList(memberList: List[DbleMember], setupCall: (PurchaseCB) => Unit): NestedReferrerLoader[DblePurchase] = {
+        val setupper = new ReferrerConditionSetupper[PurchaseCB]() { def setup(referrerCB: PurchaseCB): Unit = { setupCall(referrerCB); } }
         return doLoadPurchaseList(memberList, new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
     }
 
@@ -460,24 +493,24 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(member: DbleMember, setupper: ReferrerConditionSetupper[PurchaseCB]): NestedReferrerLoader[DblePurchase] = {
-        xassLRArg(member, setupper);
-        return doLoadPurchaseList(scala.collection.immutable.List.apply(member), new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
+    def loadPurchaseList(member: DbleMember, setupCall: (PurchaseCB) => Unit): NestedReferrerLoader[DblePurchase] = {
+        val setupper = new ReferrerConditionSetupper[PurchaseCB]() { def setup(referrerCB: PurchaseCB): Unit = { setupCall(referrerCB); } }
+        return doLoadPurchaseList(xnewLRLs(member), new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
     }
 
-    protected def doLoadPurchaseList(memberList: scala.collection.immutable.List[DbleMember], option: LoadReferrerOption[PurchaseCB, DblePurchase]): NestedReferrerLoader[DblePurchase] = {
+    protected def doLoadPurchaseList(memberList: List[DbleMember], option: LoadReferrerOption[PurchaseCB, DblePurchase]): NestedReferrerLoader[DblePurchase] = {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
-        return helpLoadReferrerInternally(memberList.asJava, option, new InternalLoadReferrerCallback[DbleMember, Integer, PurchaseCB, DblePurchase]() {
+        return helpLoadReferrerInternally(memberList, option, new InternalLoadReferrerCallback[DbleMember, Integer, PurchaseCB, DblePurchase]() {
             def getPKVal(et: DbleMember): Integer =
             { return et.getMemberId(); }
             def setRfLs(et: DbleMember, ls: List[DblePurchase]): Unit =
             { et.setPurchaseList(ls); }
             def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
-            { cb.query().setMemberId_InScope(ls); }
+            { cb.query().setMemberId_InScope(toScalaList(ls).map(_.asInstanceOf[Int])); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_MemberId_Asc(); }
             def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnMemberId(); }
-            def selRfLs(cb: PurchaseCB): List[DblePurchase] = { return referrerBhv.toDBableEntityList(referrerBhv.selectList(cb)); }
+            def selRfLs(cb: PurchaseCB): List[DblePurchase] = { return referrerBhv.readList(cb).asInstanceOf[List[DblePurchase]]; }
             def getFKVal(re: DblePurchase): Integer = { return re.getMemberId(); }
             def setlcEt(re: DblePurchase, le: DbleMember): Unit =
             { re.setMember(Option.apply(le)); }
@@ -704,7 +737,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
             def callbackInsert(et: DbleMember): Unit = { doInsert(et, iop); }
             def callbackUpdate(et: DbleMember): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): MemberCB = { return newMyConditionBean(); }
-            def callbackSelectCount(cb: MemberCB): Int = { return selectCount(cb); }
+            def callbackSelectCount(cb: MemberCB): Int = { return facadeSelectCount(cb); }
         });
     }
 
@@ -1613,8 +1646,18 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                     Downcast Helper
-    //                                                                     ===============
+    //                                                                         Type Helper
+    //                                                                         ===========
+    protected def typeOfSelectedEntity(): Class[DbleMember] = {
+        return classOf[DbleMember];
+    }
+
+    protected def callbackCB(cbCall: (MemberCB) => Unit): MemberCB = {
+        val cb = new MemberCB();
+        cbCall(cb);
+        return cb;
+    }
+
     protected def downcast(et: Entity): DbleMember = {
         return helpEntityDowncastInternally(et, classOf[DbleMember]);
     }
@@ -1657,5 +1700,22 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[Member]): List[DbleMember] = {
         return immuList.map(new DbleMember().acceptImmutableEntity(_)).asJava
+    }
+}
+
+/**
+ * @author jflute
+ */
+class BsLoaderOfMember(memberList: List[DbleMember]) {
+
+    def loadPurchaseList(setupCall: (PurchaseCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchase] = {
+        DBFlutist.memberBhv.loadPurchaseList(memberList, setupCall)
+            .withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
+                def handle(referrerList: List[DblePurchase]): Unit = {
+                }
+            }
+        );
+        // #pending
+        return new ScrNestedReferrerLoader[LoaderOfPurchase](() => new LoaderOfPurchase(null));
     }
 }

@@ -12,3 +12,9 @@ import com.example.dbflute.scala.dbflute.bsbhv.BsPurchaseBhv;
  */
 class PurchaseBhv extends BsPurchaseBhv {
 }
+
+/**
+ * @author jflute
+ */
+class LoaderOfPurchase(purchaseList: List[DblePurchase]) {
+}

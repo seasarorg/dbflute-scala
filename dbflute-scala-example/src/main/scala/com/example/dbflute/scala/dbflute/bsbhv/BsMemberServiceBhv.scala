@@ -13,6 +13,7 @@ import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.outsidesql.executor._;
+import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
 import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
@@ -99,7 +100,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleMemberService. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    def selectCount(cb: MemberServiceCB): Int = {
+    def selectCount(cbCall: (MemberServiceCB) => Unit): Int = {
+        return facadeSelectCount(callbackCB(cbCall));
+    }
+
+    def facadeSelectCount(cb: MemberServiceCB): Int = {
         return Integer2int(doSelectCountUniquely(cb));
     }
 
@@ -114,7 +119,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     }
 
     override protected def doReadCount(cb: ConditionBean): Int = {
-        return selectCount(downcast(cb));
+        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -146,14 +151,18 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param cb The condition-bean of DbleMemberService. (NotNull)
+     * @param cbCall The callback for condition-bean of DbleMemberService. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: MemberServiceCB): Option[MemberService] = {
-        return doSelectOptionalEntity(cb, classOf[DbleMemberService]).map(f => new MemberService(f));
+    def selectEntity(cbCall: (MemberServiceCB) => Unit): Option[MemberService] = {
+        return facadeSelectEntity(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntity(cb: MemberServiceCB): Option[MemberService] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new MemberService(f));
     }
 
     protected def doSelectEntity[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
@@ -168,7 +177,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return doSelectEntity(downcast(cb), classOf[DbleMemberService]);
+        return doSelectEntity(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -186,8 +195,12 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cb: MemberServiceCB): MemberService = {
-        return new MemberService(doSelectEntityWithDeletedCheck(cb, classOf[DbleMemberService]));
+    def selectEntityWithDeletedCheck(cbCall: (MemberServiceCB) => Unit): MemberService = {
+        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntityWithDeletedCheck(cb: MemberServiceCB): MemberService = {
+        return new MemberService(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
     }
 
     protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): ENTITY = {
@@ -198,7 +211,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return doSelectEntityWithDeletedCheck(downcast(cb), classOf[DbleMemberService]);
+        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -210,7 +223,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByPK(memberServiceId: Integer): Option[MemberService] = {
-        return doSelectByPK(memberServiceId, classOf[DbleMemberService]).map(f => new MemberService(f));
+        return facadeSelectByPK(memberServiceId);
+    }
+
+    def facadeSelectByPK(memberServiceId: Integer): Option[MemberService] = {
+        return doSelectByPK(memberServiceId, typeOfSelectedEntity()).map(f => new MemberService(f));
     }
 
     protected def doSelectByPK[ENTITY <: DbleMemberService](memberServiceId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -233,7 +250,11 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByUniqueOf(memberId: Integer): Option[MemberService] = {
-        return doSelectByUniqueOf(memberId, classOf[DbleMemberService]).map(f => new MemberService(f));
+        return facadeSelectByUniqueOf(memberId);
+    }
+
+    protected def facadeSelectByUniqueOf(memberId: Integer): Option[MemberService] = {
+        return doSelectByUniqueOf(memberId, typeOfSelectedEntity()).map(f => new MemberService(f));
     }
 
     protected def doSelectByUniqueOf[ENTITY <: DbleMemberService](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -264,8 +285,12 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: MemberServiceCB): scala.collection.immutable.List[MemberService] = {
-        val dbleList = doSelectList(cb, classOf[DbleMemberService]);
+    def selectList(cbCall: (MemberServiceCB) => Unit): scala.collection.immutable.List[MemberService] = {
+        return facadeSelectList(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectList(cb: MemberServiceCB): scala.collection.immutable.List[MemberService] = {
+        val dbleList = doSelectList(cb, typeOfSelectedEntity());
         return toImmutableEntityList(dbleList);
     }
 
@@ -278,7 +303,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[DbleMemberService]); // use do method for ListResultBean
+        return doSelectList(downcast(cb), typeOfSelectedEntity()); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -306,8 +331,8 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cb: MemberServiceCB): PagingResultBean[DbleMemberService] = {
-        return doSelectPage(cb, classOf[DbleMemberService]);
+    def selectPage(cbCall: (MemberServiceCB) => Unit): PagingResultBean[DbleMemberService] = {
+        return doSelectPage(callbackCB(cbCall), typeOfSelectedEntity());
     }
 
     protected def doSelectPage[ENTITY <: DbleMemberService](cb: MemberServiceCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
@@ -320,7 +345,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return selectPage(downcast(cb));
+        return doSelectPage(downcast(cb), typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -340,8 +365,16 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DbleMemberService. (NotNull)
      * @param entityRowHandler The handler of entity row of DbleMemberService. (NotNull)
      */
-    def selectCursor(cb: MemberServiceCB, entityRowHandler: EntityRowHandler[DbleMemberService]): Unit = {
-        doSelectCursor(cb, entityRowHandler, classOf[DbleMemberService]);
+    def selectCursor(cbCall: (MemberServiceCB) => Unit)(entityRowHandler: (DbleMemberService) => Unit): Unit = {
+        facadeSelectCursor(callbackCB(cbCall))(entityRowHandler);
+    }
+
+    protected def facadeSelectCursor(cb: MemberServiceCB)(entityRowHandler: (DbleMemberService) => Unit): Unit = {
+        doSelectCursor(cb, new EntityRowHandler[DbleMemberService]() {
+            def handle(entity: DbleMemberService): Unit = {
+                entityRowHandler(entity)
+            }
+        }, typeOfSelectedEntity());
     }
 
     protected def doSelectCursor[ENTITY <: DbleMemberService](cb: MemberServiceCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
@@ -617,7 +650,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
             def callbackInsert(et: DbleMemberService): Unit = { doInsert(et, iop); }
             def callbackUpdate(et: DbleMemberService): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): MemberServiceCB = { return newMyConditionBean(); }
-            def callbackSelectCount(cb: MemberServiceCB): Int = { return selectCount(cb); }
+            def callbackSelectCount(cb: MemberServiceCB): Int = { return facadeSelectCount(cb); }
         });
     }
 
@@ -1526,8 +1559,18 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                     Downcast Helper
-    //                                                                     ===============
+    //                                                                         Type Helper
+    //                                                                         ===========
+    protected def typeOfSelectedEntity(): Class[DbleMemberService] = {
+        return classOf[DbleMemberService];
+    }
+
+    protected def callbackCB(cbCall: (MemberServiceCB) => Unit): MemberServiceCB = {
+        val cb = new MemberServiceCB();
+        cbCall(cb);
+        return cb;
+    }
+
     protected def downcast(et: Entity): DbleMemberService = {
         return helpEntityDowncastInternally(et, classOf[DbleMemberService]);
     }
@@ -1571,4 +1614,10 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     def toDBableEntityList(immuList: scala.collection.immutable.List[MemberService]): List[DbleMemberService] = {
         return immuList.map(new DbleMemberService().acceptImmutableEntity(_)).asJava
     }
+}
+
+/**
+ * @author jflute
+ */
+class BsLoaderOfMemberService(memberServiceList: List[DbleMemberService]) {
 }

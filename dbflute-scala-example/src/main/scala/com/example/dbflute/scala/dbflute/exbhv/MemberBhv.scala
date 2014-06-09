@@ -12,3 +12,9 @@ import com.example.dbflute.scala.dbflute.bsbhv.BsMemberBhv;
  */
 class MemberBhv extends BsMemberBhv {
 }
+
+/**
+ * @author jflute
+ */
+class LoaderOfMember(memberList: List[DbleMember]) {
+}

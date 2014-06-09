@@ -13,6 +13,7 @@ import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.outsidesql.executor._;
+import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity._;
 import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
@@ -40,13 +41,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     MEMBER, PRODUCT
  *
  * [referrer table]
- *     
+ *     PURCHASE_PAYMENT
  *
  * [foreign property]
  *     member, product
  *
  * [referrer property]
- *     
+ *     purchasePaymentList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -99,7 +100,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DblePurchase. (NotNull)
      * @return The count for the condition. (NotMinus)
      */
-    def selectCount(cb: PurchaseCB): Int = {
+    def selectCount(cbCall: (PurchaseCB) => Unit): Int = {
+        return facadeSelectCount(callbackCB(cbCall));
+    }
+
+    def facadeSelectCount(cb: PurchaseCB): Int = {
         return Integer2int(doSelectCountUniquely(cb));
     }
 
@@ -114,7 +119,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     }
 
     override protected def doReadCount(cb: ConditionBean): Int = {
-        return selectCount(downcast(cb));
+        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -146,14 +151,18 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param cb The condition-bean of DblePurchase. (NotNull)
+     * @param cbCall The callback for condition-bean of DblePurchase. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
      * @exception EntityAlreadyDeletedException When get() of return value is called and the value is null, which means entity has already been deleted (point is not found).
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntity(cb: PurchaseCB): Option[Purchase] = {
-        return doSelectOptionalEntity(cb, classOf[DblePurchase]).map(f => new Purchase(f));
+    def selectEntity(cbCall: (PurchaseCB) => Unit): Option[Purchase] = {
+        return facadeSelectEntity(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntity(cb: PurchaseCB): Option[Purchase] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity()).map(f => new Purchase(f));
     }
 
     protected def doSelectEntity[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ENTITY = {
@@ -168,7 +177,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return doSelectEntity(downcast(cb), classOf[DblePurchase]);
+        return doSelectEntity(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -186,8 +195,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectEntityWithDeletedCheck(cb: PurchaseCB): Purchase = {
-        return new Purchase(doSelectEntityWithDeletedCheck(cb, classOf[DblePurchase]));
+    def selectEntityWithDeletedCheck(cbCall: (PurchaseCB) => Unit): Purchase = {
+        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectEntityWithDeletedCheck(cb: PurchaseCB): Purchase = {
+        return new Purchase(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity()));
     }
 
     protected def doSelectEntityWithDeletedCheck[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): ENTITY = {
@@ -198,7 +211,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return doSelectEntityWithDeletedCheck(downcast(cb), classOf[DblePurchase]);
+        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity());
     }
 
     /**
@@ -210,7 +223,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByPK(purchaseId: Long): Option[Purchase] = {
-        return doSelectByPK(purchaseId, classOf[DblePurchase]).map(f => new Purchase(f));
+        return facadeSelectByPK(purchaseId);
+    }
+
+    def facadeSelectByPK(purchaseId: Long): Option[Purchase] = {
+        return doSelectByPK(purchaseId, typeOfSelectedEntity()).map(f => new Purchase(f));
     }
 
     protected def doSelectByPK[ENTITY <: DblePurchase](purchaseId: Long, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -235,7 +252,11 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Option[Purchase] = {
-        return doSelectByUniqueOf(memberId, productId, purchaseDatetime, classOf[DblePurchase]).map(f => new Purchase(f));
+        return facadeSelectByUniqueOf(memberId, productId, purchaseDatetime);
+    }
+
+    protected def facadeSelectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Option[Purchase] = {
+        return doSelectByUniqueOf(memberId, productId, purchaseDatetime, typeOfSelectedEntity()).map(f => new Purchase(f));
     }
 
     protected def doSelectByUniqueOf[ENTITY <: DblePurchase](memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp, entityType: Class[ENTITY]): Option[ENTITY] = {
@@ -266,8 +287,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cb: PurchaseCB): scala.collection.immutable.List[Purchase] = {
-        val dbleList = doSelectList(cb, classOf[DblePurchase]);
+    def selectList(cbCall: (PurchaseCB) => Unit): scala.collection.immutable.List[Purchase] = {
+        return facadeSelectList(callbackCB(cbCall));
+    }
+
+    protected def facadeSelectList(cb: PurchaseCB): scala.collection.immutable.List[Purchase] = {
+        val dbleList = doSelectList(cb, typeOfSelectedEntity());
         return toImmutableEntityList(dbleList);
     }
 
@@ -280,7 +305,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), classOf[DblePurchase]); // use do method for ListResultBean
+        return doSelectList(downcast(cb), typeOfSelectedEntity()); // use do method for ListResultBean
     }
 
     // ===================================================================================
@@ -308,8 +333,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cb: PurchaseCB): PagingResultBean[DblePurchase] = {
-        return doSelectPage(cb, classOf[DblePurchase]);
+    def selectPage(cbCall: (PurchaseCB) => Unit): PagingResultBean[DblePurchase] = {
+        return doSelectPage(callbackCB(cbCall), typeOfSelectedEntity());
     }
 
     protected def doSelectPage[ENTITY <: DblePurchase](cb: PurchaseCB, tp: Class[ENTITY]): PagingResultBean[ENTITY] = {
@@ -322,7 +347,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return selectPage(downcast(cb));
+        return doSelectPage(downcast(cb), typeOfSelectedEntity());
     }
 
     // ===================================================================================
@@ -342,8 +367,16 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param cb The condition-bean of DblePurchase. (NotNull)
      * @param entityRowHandler The handler of entity row of DblePurchase. (NotNull)
      */
-    def selectCursor(cb: PurchaseCB, entityRowHandler: EntityRowHandler[DblePurchase]): Unit = {
-        doSelectCursor(cb, entityRowHandler, classOf[DblePurchase]);
+    def selectCursor(cbCall: (PurchaseCB) => Unit)(entityRowHandler: (DblePurchase) => Unit): Unit = {
+        facadeSelectCursor(callbackCB(cbCall))(entityRowHandler);
+    }
+
+    protected def facadeSelectCursor(cb: PurchaseCB)(entityRowHandler: (DblePurchase) => Unit): Unit = {
+        doSelectCursor(cb, new EntityRowHandler[DblePurchase]() {
+            def handle(entity: DblePurchase): Unit = {
+                entityRowHandler(entity)
+            }
+        }, typeOfSelectedEntity());
     }
 
     protected def doSelectCursor[ENTITY <: DblePurchase](cb: PurchaseCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
@@ -398,6 +431,93 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     protected def doReadNextVal(): Number = {
         val msg: String = "This table is NOT related to sequence: " + getTableDbName();
         throw new UnsupportedOperationException(msg);
+    }
+
+    // ===================================================================================
+    //                                                                       Load Referrer
+    //                                                                       =============
+    /**
+     * Load referrer of purchasePaymentList by the set-upper of referrer. <br />
+     * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
+     * <pre>
+     * purchaseBhv.<span style="color: #DD4747">loadPurchasePaymentList</span>(purchaseList, new ReferrerConditionSetupper&lt;PurchasePaymentCB&gt;() {
+     *     public void setup(PurchasePaymentCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * for (DblePurchase purchase : purchaseList) {
+     *     ... = purchase.<span style="color: #DD4747">getPurchasePaymentList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPurchaseId_InScope(pkList);
+     * cb.query().addOrderBy_PurchaseId_Asc();
+     * </pre>
+     * @param purchaseList The entity list of purchase. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadPurchasePaymentList(purchaseList: List[DblePurchase], setupCall: (PurchasePaymentCB) => Unit): NestedReferrerLoader[DblePurchasePayment] = {
+        val setupper = new ReferrerConditionSetupper[PurchasePaymentCB]() { def setup(referrerCB: PurchasePaymentCB): Unit = { setupCall(referrerCB); } }
+        return doLoadPurchasePaymentList(purchaseList, new LoadReferrerOption[PurchasePaymentCB, DblePurchasePayment]().xinit(setupper));
+    }
+
+    /**
+     * Load referrer of purchasePaymentList by the set-upper of referrer. <br />
+     * (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
+     * <pre>
+     * purchaseBhv.<span style="color: #DD4747">loadPurchasePaymentList</span>(purchaseList, new ReferrerConditionSetupper&lt;PurchasePaymentCB&gt;() {
+     *     public void setup(PurchasePaymentCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = purchase.<span style="color: #DD4747">getPurchasePaymentList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPurchaseId_InScope(pkList);
+     * cb.query().addOrderBy_PurchaseId_Asc();
+     * </pre>
+     * @param purchase The entity of purchase. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadPurchasePaymentList(purchase: DblePurchase, setupCall: (PurchasePaymentCB) => Unit): NestedReferrerLoader[DblePurchasePayment] = {
+        val setupper = new ReferrerConditionSetupper[PurchasePaymentCB]() { def setup(referrerCB: PurchasePaymentCB): Unit = { setupCall(referrerCB); } }
+        return doLoadPurchasePaymentList(xnewLRLs(purchase), new LoadReferrerOption[PurchasePaymentCB, DblePurchasePayment]().xinit(setupper));
+    }
+
+    protected def doLoadPurchasePaymentList(purchaseList: List[DblePurchase], option: LoadReferrerOption[PurchasePaymentCB, DblePurchasePayment]): NestedReferrerLoader[DblePurchasePayment] = {
+        val referrerBhv: PurchasePaymentBhv = xgetBSFLR().select(classOf[PurchasePaymentBhv]);
+        return helpLoadReferrerInternally(purchaseList, option, new InternalLoadReferrerCallback[DblePurchase, Long, PurchasePaymentCB, DblePurchasePayment]() {
+            def getPKVal(et: DblePurchase): Long =
+            { return et.getPurchaseId(); }
+            def setRfLs(et: DblePurchase, ls: List[DblePurchasePayment]): Unit =
+            { et.setPurchasePaymentList(ls); }
+            def newMyCB(): PurchasePaymentCB = { return referrerBhv.newMyConditionBean(); }
+            def qyFKIn(cb: PurchasePaymentCB, ls: List[Long]): Unit =
+            { cb.query().setPurchaseId_InScope(toScalaList(ls).map(_.asInstanceOf[Long])); }
+            def qyOdFKAsc(cb: PurchasePaymentCB): Unit = { cb.query().addOrderBy_PurchaseId_Asc(); }
+            def spFKCol(cb: PurchasePaymentCB): Unit = { cb.specify().columnPurchaseId(); }
+            def selRfLs(cb: PurchasePaymentCB): List[DblePurchasePayment] = { return referrerBhv.readList(cb).asInstanceOf[List[DblePurchasePayment]]; }
+            def getFKVal(re: DblePurchasePayment): Long = { return re.getPurchaseId(); }
+            def setlcEt(re: DblePurchasePayment, le: DblePurchase): Unit =
+            { re.setPurchase(Option.apply(le)); }
+            def getRfPrNm(): String = { return "purchasePaymentList"; }
+        });
     }
 
     // ===================================================================================
@@ -608,7 +728,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
             def callbackInsert(et: DblePurchase): Unit = { doInsert(et, iop); }
             def callbackUpdate(et: DblePurchase): Unit = { doUpdate(et, uop); }
             def callbackNewMyConditionBean(): PurchaseCB = { return newMyConditionBean(); }
-            def callbackSelectCount(cb: PurchaseCB): Int = { return selectCount(cb); }
+            def callbackSelectCount(cb: PurchaseCB): Int = { return facadeSelectCount(cb); }
         });
     }
 
@@ -1517,8 +1637,18 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                     Downcast Helper
-    //                                                                     ===============
+    //                                                                         Type Helper
+    //                                                                         ===========
+    protected def typeOfSelectedEntity(): Class[DblePurchase] = {
+        return classOf[DblePurchase];
+    }
+
+    protected def callbackCB(cbCall: (PurchaseCB) => Unit): PurchaseCB = {
+        val cb = new PurchaseCB();
+        cbCall(cb);
+        return cb;
+    }
+
     protected def downcast(et: Entity): DblePurchase = {
         return helpEntityDowncastInternally(et, classOf[DblePurchase]);
     }
@@ -1561,5 +1691,22 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[Purchase]): List[DblePurchase] = {
         return immuList.map(new DblePurchase().acceptImmutableEntity(_)).asJava
+    }
+}
+
+/**
+ * @author jflute
+ */
+class BsLoaderOfPurchase(purchaseList: List[DblePurchase]) {
+
+    def loadPurchasePaymentList(setupCall: (PurchasePaymentCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchasePayment] = {
+        DBFlutist.purchaseBhv.loadPurchasePaymentList(purchaseList, setupCall)
+            .withNestedReferrer(new ReferrerListHandler[DblePurchasePayment]() {
+                def handle(referrerList: List[DblePurchasePayment]): Unit = {
+                }
+            }
+        );
+        // #pending
+        return new ScrNestedReferrerLoader[LoaderOfPurchasePayment](() => new LoaderOfPurchasePayment(null));
     }
 }

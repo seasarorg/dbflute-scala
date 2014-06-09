@@ -37,6 +37,10 @@ object DBFlutist {
         return select(classOf[PurchaseBhv]);
     }
 
+    def purchasePaymentBhv(): PurchasePaymentBhv = {
+        return select(classOf[PurchasePaymentBhv]);
+    }
+
     def serviceRankBhv(): ServiceRankBhv = {
         return select(classOf[ServiceRankBhv]);
     }

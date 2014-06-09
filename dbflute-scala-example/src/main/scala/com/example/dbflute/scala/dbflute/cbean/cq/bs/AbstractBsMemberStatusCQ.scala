@@ -1,7 +1,11 @@
 package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 
-import java.lang.Long;
-import java.util._;
+import scala.collection.immutable._;
+import scala.collection.JavaConverters._;
+
+import java.util.Collection;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
@@ -140,8 +144,8 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
-        doSetMemberStatusCode_InScope(memberStatusCodeList);
+    def setMemberStatusCode_InScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_InScope(toMutableValueCollectionImplicitly(memberStatusCodeList));
     }
 
     /**
@@ -150,8 +154,8 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * status of member from entry to withdrawal
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_InScope_AsMemberStatus(cdefList: Collection[CDef.MemberStatus]): Unit = {
-        doSetMemberStatusCode_InScope(cTStrL(cdefList));
+    def setMemberStatusCode_InScope_AsMemberStatus(cdefList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
     def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
@@ -163,8 +167,8 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
-        doSetMemberStatusCode_NotInScope(memberStatusCodeList);
+    def setMemberStatusCode_NotInScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_NotInScope(if (memberStatusCodeList != null) { memberStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
     /**
@@ -173,8 +177,8 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * status of member from entry to withdrawal
      * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_NotInScope_AsMemberStatus(cdefList: Collection[CDef.MemberStatus]): Unit = {
-        doSetMemberStatusCode_NotInScope(cTStrL(cdefList));
+    def setMemberStatusCode_NotInScope_AsMemberStatus(cdefList: List[CDef.MemberStatus]): Unit = {
+        doSetMemberStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
     def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
@@ -311,7 +315,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      */
     def setMemberStatusCode_IsNotNull(): Unit = { regMemberStatusCode(CK_ISNN, AbstractConditionQuery.DOBJ); }
 
-    protected def regMemberStatusCode(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberStatusCode(), "MEMBER_STATUS_CODE"); }
+    protected def regMemberStatusCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberStatusCode(), "MEMBER_STATUS_CODE"); }
     protected def getCValueMemberStatusCode(): ConditionValue;
 
     /**
@@ -358,7 +362,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         regLSQ(CK_NLS, fRES(memberStatusName), getCValueMemberStatusName(), "MEMBER_STATUS_NAME", likeSearchOption);
     }
 
-    protected def regMemberStatusName(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueMemberStatusName(), "MEMBER_STATUS_NAME"); }
+    protected def regMemberStatusName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberStatusName(), "MEMBER_STATUS_NAME"); }
     protected def getCValueMemberStatusName(): ConditionValue;
 
     /**
@@ -374,7 +378,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         regDescription(CK_EQ, description);
     }
 
-    protected def regDescription(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueDescription(), "DESCRIPTION"); }
+    protected def regDescription(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueDescription(), "DESCRIPTION"); }
     protected def getCValueDescription(): ConditionValue;
     
     /**
@@ -403,7 +407,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         regROO(minNumber, maxNumber, getCValueDisplayOrder(), "DISPLAY_ORDER", rangeOfOption);
     }
 
-    protected def regDisplayOrder(ky: ConditionKey, vl: Object): Unit = { regQ(ky, vl, getCValueDisplayOrder(), "DISPLAY_ORDER"); }
+    protected def regDisplayOrder(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueDisplayOrder(), "DISPLAY_ORDER"); }
     protected def getCValueDisplayOrder(): ConditionValue;
 
     // ===================================================================================
@@ -590,6 +594,13 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         registerMyselfInScope(cb.query(), pp);
     }
     def keepMyselfInScope(sq: MemberStatusCQ): String;
+
+    // ===================================================================================
+    //                                                                        Scala Helper
+    //                                                                        ============
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
+        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
+    }
 
     // ===================================================================================
     //                                                                       Very Internal

@@ -7,8 +7,8 @@ import org.seasar.dbflute.cbean.chelper.HpCalculator;
 import org.seasar.dbflute.cbean.chelper.HpColQyHandler;
 
 /**
- * @author jflute
  * @param <CB> The type of condition-bean.
+ * @author jflute
  */
 class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
 
@@ -151,8 +151,8 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
 }
 
 /**
- * @author jflute
  * @param <CB> The type of condition-bean.
+ * @author jflute
  */
 trait ScrHpColQyHandler[CB <: ConditionBean] {
 

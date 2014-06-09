@@ -12,3 +12,9 @@ import com.example.dbflute.scala.dbflute.bsbhv.BsProductBhv;
  */
 class ProductBhv extends BsProductBhv {
 }
+
+/**
+ * @author jflute
+ */
+class LoaderOfProduct(productList: List[DbleProduct]) {
+}

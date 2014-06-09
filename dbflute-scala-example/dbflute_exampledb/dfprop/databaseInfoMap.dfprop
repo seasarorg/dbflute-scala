@@ -59,7 +59,7 @@ map:{
         # ex) list:{PURCHASE ; contain:MEMBER}
         #
         # *use until improvement (against compile cost)
-        ; tableTargetList=list:{MEMBER ; MEMBER_STATUS ; PURCHASE; PRODUCT; MEMBER_SERVICE; SERVICE_RANK}
+        ; tableTargetList=list:{MEMBER ; MEMBER_STATUS ; PURCHASE ; PURCHASE_PAYMENT ; PRODUCT; MEMBER_SERVICE; SERVICE_RANK}
 
         # o columnExceptList: (NotRequired - Default 'list:{}')
         # If you want to exclude some columns in generating target,
