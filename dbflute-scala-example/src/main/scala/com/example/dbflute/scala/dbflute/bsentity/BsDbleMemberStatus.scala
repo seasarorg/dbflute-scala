@@ -102,12 +102,12 @@ abstract class BsDbleMemberStatus extends Entity with Serializable with Cloneabl
      * Accept immutable entity to initialize this.
      * @return this. (NotNull)
      */
-    def acceptImmutableEntity(immu: MemberStatus): DbleMemberStatus = {
+    def acceptImmutable(immu: MemberStatus): DbleMemberStatus = {
         setMemberStatusCodeAsMemberStatus(immu.memberStatusCode);
         setMemberStatusName(immu.memberStatusName);
         setDescription(immu.description);
         setDisplayOrder(immu.displayOrder);
-        setMemberList(immu.memberList.map(new DbleMember().acceptImmutableEntity(_)).asJava)
+        setMemberList(immu.memberList.map(new DbleMember().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();

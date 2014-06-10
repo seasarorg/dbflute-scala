@@ -544,28 +544,31 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param memberList The list of member. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMemberStatus(memberList: scala.collection.immutable.List[DbleMember]): scala.collection.immutable.List[DbleMemberStatus] = {
-        return toScalaList(helpPulloutInternally(memberList.asJava, new InternalPulloutCallback[DbleMember, DbleMemberStatus]() {
+    def pulloutMemberStatus(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberStatus] = {
+        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), new InternalPulloutCallback[DbleMember, DbleMemberStatus]() {
             def getFr(et: DbleMember): DbleMemberStatus =
-            { return et.getMemberStatus().get; }
+            { return et.getMemberStatus().orNull; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: DbleMemberStatus, ls: List[DbleMember]): Unit =
             { et.setMemberList(ls); }
-        }));
+        });
+        return toScalaList(dbleList).map(new MemberStatus(_));
     }
+
     /**
      * Pull out the list of referrer-as-one table 'DbleMemberService'.
      * @param memberList The list of member. (NotNull, EmptyAllowed)
      * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMemberServiceAsOne(memberList: List[DbleMember]): List[DbleMemberService] = {
-        return helpPulloutInternally(memberList, new InternalPulloutCallback[DbleMember, DbleMemberService]() {
+    def pulloutMemberServiceAsOne(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberService] = {
+        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), new InternalPulloutCallback[DbleMember, DbleMemberService]() {
             def getFr(et: DbleMember): DbleMemberService =
-            { return et.getMemberServiceAsOne().get; }
+            { return et.getMemberServiceAsOne().orNull; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: DbleMemberService, ls: List[DbleMember]): Unit =
             { if (!ls.isEmpty()) { et.setMember(Option.apply(ls.get(0))); } }
         });
+        return toScalaList(dbleList).map(new MemberService(_));
     }
 
     // ===================================================================================
@@ -576,10 +579,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param memberList The list of member. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberIdList(memberList: List[DbleMember]): List[Integer] = {
-        return helpExtractListInternally(memberList, new InternalExtractCallback[DbleMember, Integer]() {
+    def extractMemberIdList(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[Int] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(memberList), new InternalExtractCallback[DbleMember, Integer]() {
             def getCV(et: DbleMember): Integer = { return et.getMemberId(); }
-        });
+        })).map(_.asInstanceOf[Int]);
     }
 
     /**
@@ -587,10 +590,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param memberList The list of member. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberAccountList(memberList: List[DbleMember]): List[String] = {
-        return helpExtractListInternally(memberList, new InternalExtractCallback[DbleMember, String]() {
+    def extractMemberAccountList(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[String] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(memberList), new InternalExtractCallback[DbleMember, String]() {
             def getCV(et: DbleMember): String = { return et.getMemberAccount(); }
-        });
+        })).map(_.asInstanceOf[String]);
     }
 
     // ===================================================================================
@@ -610,11 +613,14 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * ... = member.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param member The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param entityCall The callback for entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(member: DbleMember): Unit = {
-        doInsert(member, null);
+    def insert(entityCall: (MbleMember) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleMember();
+        entityCall(mble);
+        doInsert(mble.toDBableEntity, null);
     }
 
     protected def doInsert(member: DbleMember, op: InsertOption[MemberCB]): Unit = {
@@ -633,8 +639,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { insert(downcast(et)); }
-        else { varyingInsert(downcast(et), downcast(op)); }
+        if (op == null) { doInsert(downcast(et), null); }
+        else { doInsert(downcast(et), downcast(op)); }
     }
 
     /**
@@ -654,15 +660,21 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param member The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(setting: (MbleMember) => Unit): Unit = {
+    def update(entityCall: (MbleMember) => Unit)(implicit optionCall: (UpdateOption[MemberCB]) => Unit = null): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
         val mble = new MbleMember();
-        setting(mble);
-        doUpdate(mble.toDBableEntity, null);
+        entityCall(mble);
+        var option: UpdateOption[MemberCB] = null;
+        if (optionCall != null) {
+            option = new UpdateOption[MemberCB]();
+            optionCall(option);
+        }
+        doUpdate(mble.toDBableEntity, option);
     }
 
     protected def doUpdate(member: DbleMember, op: UpdateOption[MemberCB]): Unit = {
@@ -698,7 +710,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     @Override
     protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
         if (op == null) { doUpdate(downcast(et), null); }
-        else { varyingUpdate(downcast(et), downcast(op)); }
+        else { doUpdate(downcast(et), downcast(op)); }
     }
 
     /**
@@ -715,13 +727,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * <span style="color: #3F7E5E">//member.setVersionNo(value);</span>
      * memberBhv.<span style="color: #DD4747">updateNonstrict</span>(member);
      * </pre>
-     * @param member The entity of update target. (NotNull, PrimaryKeyNotNull)
+     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(member: DbleMember): Unit = {
-        doUpdateNonstrict(member, null);
+    def updateNonstrict(entityCall: (MbleMember) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleMember();
+        entityCall(mble);
+        doUpdateNonstrict(mble.toDBableEntity, null);
     }
 
     protected def doUpdateNonstrict(member: DbleMember, op: UpdateOption[MemberCB]): Unit = {
@@ -733,21 +748,24 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { updateNonstrict(downcast(et)); }
-        else { varyingUpdateNonstrict(downcast(et), downcast(op)); }
+        if (op == null) { doUpdateNonstrict(downcast(et), null); }
+        else { doUpdateNonstrict(downcast(et), downcast(op)); }
     }
 
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, ExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param member The entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update target. (NotNull)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(member: DbleMember): Unit = {
-        doInesrtOrUpdate(member, null, null);
+    def insertOrUpdate(entityCall: (MbleMember) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleMember();
+        entityCall(mble);
+        doInesrtOrUpdate(mble.toDBableEntity, null, null);
     }
 
     protected def doInesrtOrUpdate(member: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
@@ -761,7 +779,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { insertOrUpdate(downcast(et)); }
+        if (iop == null && uop == null) { doInesrtOrUpdate(downcast(et), null, null); }
         else {
             val niop = if (iop != null) { iop } else { new InsertOption[MemberCB]() };
             val nuop = if (uop != null) { uop } else { new UpdateOption[MemberCB]() };
@@ -773,13 +791,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * Insert or update the entity non-strictly modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() }
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param member The entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update target. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(member: DbleMember): Unit = {
-        doInesrtOrUpdateNonstrict(member, null, null);
+    def insertOrUpdateNonstrict(entityCall: (MbleMember) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleMember();
+        entityCall(mble);
+        doInesrtOrUpdateNonstrict(mble.toDBableEntity, null, null);
     }
 
     protected def doInesrtOrUpdateNonstrict(member: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
@@ -791,7 +812,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreateOrModifyNonstrict(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { insertOrUpdateNonstrict(downcast(et)); }
+        if (iop == null && uop == null) { doInesrtOrUpdateNonstrict(downcast(et), null, null); }
         else {
             val niop = if (iop != null) { iop } else { new InsertOption[MemberCB]() };
             val nuop = if (uop != null) { uop } else { new UpdateOption[MemberCB]() };
@@ -1680,7 +1701,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     protected def doCallbackLoader(dbleList: List[DbleMember], loaderCall: (LoaderOfMember) => Unit = null): Unit = {
         if (loaderCall != null) {
             val loader = new LoaderOfMember();
-            loader.selectedList = dbleList.asInstanceOf[List[DbleMember]];
+            loader.ready(dbleList.asInstanceOf[List[DbleMember]], _behaviorSelector);
             loaderCall(loader);
         }
     }
@@ -1726,7 +1747,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[Member]): List[DbleMember] = {
-        return immuList.map(new DbleMember().acceptImmutableEntity(_)).asJava
+        return immuList.map(new DbleMember().acceptImmutable(_)).asJava
     }
 }
 
@@ -1741,27 +1762,44 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
 
 /**
+ * The referrer loader of (会員)MEMBER as TABLE.
  * @author jflute
  */
 class BsLoaderOfMember {
 
     protected var _selectedList: List[DbleMember] = null;
-    def selectedList: List[DbleMember] = {
-        return _selectedList;
-    }
-    def selectedList_=(ls: List[DbleMember]): Unit = {
-        _selectedList = ls;
+    protected var _selector: BehaviorSelector = null;
+    protected var _myBhv: MemberBhv = null; // lazy-loaded
+
+    def ready(selectedList: List[DbleMember], selector: BehaviorSelector): LoaderOfMember =
+    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfMember]; }
+
+    protected def myBhv: MemberBhv =
+    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[MemberBhv]); _myBhv } }
+
+    protected var _referrerPurchaseList: List[DblePurchase] = null;
+    def loadPurchaseList(cbCall: (PurchaseCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchase] = {
+        myBhv.loadPurchaseList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
+            def handle(referrerList: List[DblePurchase]): Unit = { _referrerPurchaseList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfPurchase().ready(_referrerPurchaseList, _selector); });
     }
 
-    var _referrerPurchaseListList: List[DblePurchase] = null;
-    def loadPurchaseList(setupCall: (PurchaseCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchase] = {
-        DBFlutist.memberBhv.loadPurchaseList(_selectedList, setupCall).withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
-            def handle(referrerList: List[DblePurchase]): Unit = { _referrerPurchaseListList = referrerList; }
-        });
-        return new ScrNestedReferrerLoader[LoaderOfPurchase](() => {
-            val nestedLoader = new LoaderOfPurchase();
-            nestedLoader.selectedList = _referrerPurchaseListList;
-            nestedLoader;
-        });
+    protected var _foreignMemberStatusList: List[DbleMemberStatus] = null;
+    def pulloutMemberStatus: LoaderOfMemberStatus = {
+        if (_foreignMemberStatusList == null)
+        { _foreignMemberStatusList = myBhv.pulloutMemberStatus(toScalaList(_selectedList).map(new Member(_))).map(new DbleMemberStatus().acceptImmutable(_)).asJava }
+        return new LoaderOfMemberStatus().ready(_foreignMemberStatusList, _selector);
     }
+
+    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
+    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
+
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { scala.collection.immutable.List() }
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    }
+
+    def selectedList: List[DbleMember] = { _selectedList; }
+    def selector: BehaviorSelector = { _selector; }
 }

@@ -59,77 +59,32 @@ import com.example.dbflute.scala.dbflute.exentity._;
 abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable {
 
     // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)} */
-    protected val _purchasePaymentId: Long = dble.getPurchasePaymentId;
-
-    /** (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE} */
-    protected val _purchaseId: Long = dble.getPurchaseId;
-
-    /** (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)} */
-    protected val _paymentAmount: java.math.BigDecimal = dble.getPaymentAmount;
-
-    /** (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)} */
-    protected val _paymentDatetime: java.sql.Timestamp = dble.getPaymentDatetime;
-
-    /** (支払方法コード)PAYMENT_METHOD_CODE: {NotNull, CHAR(3)} */
-    protected val _paymentMethodCode: String = dble.getPaymentMethodCode;
-
-    /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _registerDatetime: java.sql.Timestamp = dble.getRegisterDatetime;
-
-    /** REGISTER_USER: {NotNull, VARCHAR(200)} */
-    protected val _registerUser: String = dble.getRegisterUser;
-
-    /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _updateDatetime: java.sql.Timestamp = dble.getUpdateDatetime;
-
-    /** UPDATE_USER: {NotNull, VARCHAR(200)} */
-    protected val _updateUser: String = dble.getUpdateUser;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
-
-    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
-    { Set(javaList.toArray).asInstanceOf[Set[String]] }
-
-    // ===================================================================================
     //                                                                           Case Like
     //                                                                           =========
     def copy(
-         purchasePaymentId: Long = _purchasePaymentId
-        , purchaseId: Long = _purchaseId
-        , paymentAmount: java.math.BigDecimal = _paymentAmount
-        , paymentDatetime: java.sql.Timestamp = _paymentDatetime
-        , paymentMethodCode: String = _paymentMethodCode
-        , registerDatetime: java.sql.Timestamp = _registerDatetime
-        , registerUser: String = _registerUser
-        , updateDatetime: java.sql.Timestamp = _updateDatetime
-        , updateUser: String = _updateUser
+         purchasePaymentId: Long = purchasePaymentId
+        , purchaseId: Long = purchaseId
+        , paymentAmount: java.math.BigDecimal = paymentAmount
+        , paymentDatetime: java.sql.Timestamp = paymentDatetime
+        , paymentMethodCode: String = paymentMethodCode
+        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , registerUser: String = registerUser
+        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateUser: String = updateUser
     ): PurchasePayment = {
-        val newDble = new DblePurchasePayment();
-        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
-        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
-        if (!purchasePaymentId.equals(_purchasePaymentId)) { newDble.setPurchasePaymentId(_purchasePaymentId); }
-        if (!purchaseId.equals(_purchaseId)) { newDble.setPurchaseId(_purchaseId); }
-        if (!paymentAmount.equals(_paymentAmount)) { newDble.setPaymentAmount(_paymentAmount); }
-        if (!paymentDatetime.equals(_paymentDatetime)) { newDble.setPaymentDatetime(_paymentDatetime); }
-        if (!paymentMethodCode.equals(_paymentMethodCode)) { newDble.setPaymentMethodCode(_paymentMethodCode); }
-        if (!registerDatetime.equals(_registerDatetime)) { newDble.setRegisterDatetime(_registerDatetime); }
-        if (!registerUser.equals(_registerUser)) { newDble.setRegisterUser(_registerUser); }
-        if (!updateDatetime.equals(_updateDatetime)) { newDble.setUpdateDatetime(_updateDatetime); }
-        if (!updateUser.equals(_updateUser)) { newDble.setUpdateUser(_updateUser); }
-        return new PurchasePayment(newDble);
+        val newDble = new DblePurchasePayment
+        newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
+        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        if (!purchasePaymentId.equals(this.purchasePaymentId)) { newDble.setPurchasePaymentId(purchasePaymentId) }
+        if (!purchaseId.equals(this.purchaseId)) { newDble.setPurchaseId(purchaseId) }
+        if (!paymentAmount.equals(this.paymentAmount)) { newDble.setPaymentAmount(paymentAmount) }
+        if (!paymentDatetime.equals(this.paymentDatetime)) { newDble.setPaymentDatetime(paymentDatetime) }
+        if (!paymentMethodCode.equals(this.paymentMethodCode)) { newDble.setPaymentMethodCode(paymentMethodCode) }
+        if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
+        if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
+        if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
+        if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
+        new PurchasePayment(newDble)
     }
 
     // ===================================================================================
@@ -137,8 +92,11 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
     //                                                                         ===========
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
-    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
-    def getModifiedProperties(): Set[String] = { __modifiedProperties }
+    def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
+    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
 
     // ===================================================================================
     //                                                        Classification Determination
@@ -146,14 +104,11 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** (購入)PURCHASE by my PURCHASE_ID, named 'purchase'. */
-    protected val _purchase: Option[Purchase] = dble.toImmutablePurchase
-
     /**
      * [get] (購入)PURCHASE by my PURCHASE_ID, named 'purchase'.
      * @return The entity of foreign property 'purchase'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def purchase: Option[Purchase] = { _purchase }
+    def purchase: Option[Purchase] = { dble.toImmutablePurchase }
 
     // ===================================================================================
     //                                                                   Referrer Property
@@ -193,7 +148,7 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+    override def toString(): String = { dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true) }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -202,55 +157,55 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
      * [get] (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)} <br />
      * @return The value of the column 'PURCHASE_PAYMENT_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    def purchasePaymentId: Long = { return _purchasePaymentId; }
+    def purchasePaymentId: Long = { dble.getPurchasePaymentId }
 
     /**
      * [get] (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE} <br />
      * @return The value of the column 'PURCHASE_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    def purchaseId: Long = { return _purchaseId; }
+    def purchaseId: Long = { dble.getPurchaseId }
 
     /**
      * [get] (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)} <br />
      * @return The value of the column 'PAYMENT_AMOUNT'. (NotNull but EmptyAllowed if null in database)
      */
-    def paymentAmount: java.math.BigDecimal = { return _paymentAmount; }
+    def paymentAmount: java.math.BigDecimal = { dble.getPaymentAmount }
 
     /**
      * [get] (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'PAYMENT_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def paymentDatetime: java.sql.Timestamp = { return _paymentDatetime; }
+    def paymentDatetime: java.sql.Timestamp = { dble.getPaymentDatetime }
 
     /**
      * [get] (支払方法コード)PAYMENT_METHOD_CODE: {NotNull, CHAR(3)} <br />
      * @return The value of the column 'PAYMENT_METHOD_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def paymentMethodCode: String = { return _paymentMethodCode; }
+    def paymentMethodCode: String = { dble.getPaymentMethodCode }
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { return _registerDatetime; }
+    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerUser: String = { return _registerUser; }
+    def registerUser: String = { dble.getRegisterUser }
 
     /**
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { return _updateDatetime; }
+    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateUser: String = { return _updateUser; }
+    def updateUser: String = { dble.getUpdateUser }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

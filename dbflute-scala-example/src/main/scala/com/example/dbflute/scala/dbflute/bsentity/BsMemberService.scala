@@ -60,77 +60,32 @@ import com.example.dbflute.scala.dbflute.exentity._;
 abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
 
     // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} */
-    protected val _memberServiceId: Int = dble.getMemberServiceId;
-
-    /** (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} */
-    protected val _memberId: Int = dble.getMemberId;
-
-    /** (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} */
-    protected val _servicePointCount: Int = dble.getServicePointCount;
-
-    /** (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} */
-    protected val _serviceRankCode: CDef.ServiceRank = dble.getServiceRankCodeAsServiceRank;
-
-    /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _registerDatetime: java.sql.Timestamp = dble.getRegisterDatetime;
-
-    /** REGISTER_USER: {NotNull, VARCHAR(200)} */
-    protected val _registerUser: String = dble.getRegisterUser;
-
-    /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _updateDatetime: java.sql.Timestamp = dble.getUpdateDatetime;
-
-    /** UPDATE_USER: {NotNull, VARCHAR(200)} */
-    protected val _updateUser: String = dble.getUpdateUser;
-
-    /** VERSION_NO: {NotNull, BIGINT(19)} */
-    protected val _versionNo: Long = dble.getVersionNo;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
-
-    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
-    { Set(javaList.toArray).asInstanceOf[Set[String]] }
-
-    // ===================================================================================
     //                                                                           Case Like
     //                                                                           =========
     def copy(
-         memberServiceId: Int = _memberServiceId
-        , memberId: Int = _memberId
-        , servicePointCount: Int = _servicePointCount
-        , serviceRankCode: CDef.ServiceRank = _serviceRankCode
-        , registerDatetime: java.sql.Timestamp = _registerDatetime
-        , registerUser: String = _registerUser
-        , updateDatetime: java.sql.Timestamp = _updateDatetime
-        , updateUser: String = _updateUser
-        , versionNo: Long = _versionNo
+         memberServiceId: Int = memberServiceId
+        , memberId: Int = memberId
+        , servicePointCount: Int = servicePointCount
+        , serviceRankCode: CDef.ServiceRank = serviceRankCode
+        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , registerUser: String = registerUser
+        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateUser: String = updateUser
+        , versionNo: Long = versionNo
     ): MemberService = {
-        val newDble = new DbleMemberService();
-        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
-        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
-        if (!memberServiceId.equals(_memberServiceId)) { newDble.setMemberServiceId(_memberServiceId); }
-        if (!memberId.equals(_memberId)) { newDble.setMemberId(_memberId); }
-        if (!servicePointCount.equals(_servicePointCount)) { newDble.setServicePointCount(_servicePointCount); }
-        if (!serviceRankCode.equals(_serviceRankCode)) { newDble.setServiceRankCodeAsServiceRank(_serviceRankCode); }
-        if (!registerDatetime.equals(_registerDatetime)) { newDble.setRegisterDatetime(_registerDatetime); }
-        if (!registerUser.equals(_registerUser)) { newDble.setRegisterUser(_registerUser); }
-        if (!updateDatetime.equals(_updateDatetime)) { newDble.setUpdateDatetime(_updateDatetime); }
-        if (!updateUser.equals(_updateUser)) { newDble.setUpdateUser(_updateUser); }
-        if (!versionNo.equals(_versionNo)) { newDble.setVersionNo(_versionNo); }
-        return new MemberService(newDble);
+        val newDble = new DbleMemberService
+        newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
+        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        if (!memberServiceId.equals(this.memberServiceId)) { newDble.setMemberServiceId(memberServiceId) }
+        if (!memberId.equals(this.memberId)) { newDble.setMemberId(memberId) }
+        if (!servicePointCount.equals(this.servicePointCount)) { newDble.setServicePointCount(servicePointCount) }
+        if (!serviceRankCode.equals(this.serviceRankCode)) { newDble.setServiceRankCodeAsServiceRank(serviceRankCode) }
+        if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
+        if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
+        if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
+        if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
+        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(versionNo) }
+        new MemberService(newDble)
     }
 
     // ===================================================================================
@@ -138,8 +93,11 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
     //                                                                         ===========
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
-    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
-    def getModifiedProperties(): Set[String] = { __modifiedProperties }
+    def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
+    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
 
     // ===================================================================================
     //                                                             Classification Property
@@ -199,23 +157,17 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** (会員)MEMBER by my MEMBER_ID, named 'member'. */
-    protected val _member: Option[Member] = dble.toImmutableMember
-
     /**
      * [get] (会員)MEMBER by my MEMBER_ID, named 'member'.
      * @return The entity of foreign property 'member'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def member: Option[Member] = { _member }
-
-    /** (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'. */
-    protected val _serviceRank: Option[ServiceRank] = dble.toImmutableServiceRank
+    def member: Option[Member] = { dble.toImmutableMember }
 
     /**
      * [get] (サービスランク)SERVICE_RANK by my SERVICE_RANK_CODE, named 'serviceRank'.
      * @return The entity of foreign property 'serviceRank'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def serviceRank: Option[ServiceRank] = { _serviceRank }
+    def serviceRank: Option[ServiceRank] = { dble.toImmutableServiceRank }
 
     // ===================================================================================
     //                                                                   Referrer Property
@@ -255,7 +207,7 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+    override def toString(): String = { dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true) }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -264,55 +216,55 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
      * [get] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'MEMBER_SERVICE_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberServiceId: Int = { return _memberServiceId; }
+    def memberServiceId: Int = { dble.getMemberServiceId }
 
     /**
      * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @return The value of the column 'MEMBER_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberId: Int = { return _memberId; }
+    def memberId: Int = { dble.getMemberId }
 
     /**
      * [get] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'SERVICE_POINT_COUNT'. (NotNull but EmptyAllowed if null in database)
      */
-    def servicePointCount: Int = { return _servicePointCount; }
+    def servicePointCount: Int = { dble.getServicePointCount }
 
     /**
      * [get] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
      * @return The value of the column 'SERVICE_RANK_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def serviceRankCode: CDef.ServiceRank = { return _serviceRankCode; }
+    def serviceRankCode: CDef.ServiceRank = { dble.getServiceRankCodeAsServiceRank }
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { return _registerDatetime; }
+    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerUser: String = { return _registerUser; }
+    def registerUser: String = { dble.getRegisterUser }
 
     /**
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { return _updateDatetime; }
+    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateUser: String = { return _updateUser; }
+    def updateUser: String = { dble.getUpdateUser }
 
     /**
      * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (NotNull but EmptyAllowed if null in database)
      */
-    def versionNo: Long = { return _versionNo; }
+    def versionNo: Long = { dble.getVersionNo }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

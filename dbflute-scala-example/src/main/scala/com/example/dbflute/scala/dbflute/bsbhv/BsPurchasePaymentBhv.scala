@@ -429,14 +429,15 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      * @param purchasePaymentList The list of purchasePayment. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutPurchase(purchasePaymentList: scala.collection.immutable.List[DblePurchasePayment]): scala.collection.immutable.List[DblePurchase] = {
-        return toScalaList(helpPulloutInternally(purchasePaymentList.asJava, new InternalPulloutCallback[DblePurchasePayment, DblePurchase]() {
+    def pulloutPurchase(purchasePaymentList: scala.collection.immutable.List[PurchasePayment]): scala.collection.immutable.List[Purchase] = {
+        val dbleList = helpPulloutInternally(toDBableEntityList(purchasePaymentList), new InternalPulloutCallback[DblePurchasePayment, DblePurchase]() {
             def getFr(et: DblePurchasePayment): DblePurchase =
-            { return et.getPurchase().get; }
+            { return et.getPurchase().orNull; }
             def hasRf(): Boolean = { return true; }
             def setRfLs(et: DblePurchase, ls: List[DblePurchasePayment]): Unit =
             { et.setPurchasePaymentList(ls); }
-        }));
+        });
+        return toScalaList(dbleList).map(new Purchase(_));
     }
 
     // ===================================================================================
@@ -447,10 +448,10 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      * @param purchasePaymentList The list of purchasePayment. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractPurchasePaymentIdList(purchasePaymentList: List[DblePurchasePayment]): List[Long] = {
-        return helpExtractListInternally(purchasePaymentList, new InternalExtractCallback[DblePurchasePayment, Long]() {
+    def extractPurchasePaymentIdList(purchasePaymentList: scala.collection.immutable.List[PurchasePayment]): scala.collection.immutable.List[Long] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(purchasePaymentList), new InternalExtractCallback[DblePurchasePayment, Long]() {
             def getCV(et: DblePurchasePayment): Long = { return et.getPurchasePaymentId(); }
-        });
+        })).map(_.asInstanceOf[Long]);
     }
 
     // ===================================================================================
@@ -470,11 +471,14 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      * ... = purchasePayment.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param purchasePayment The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param entityCall The callback for entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(purchasePayment: DblePurchasePayment): Unit = {
-        doInsert(purchasePayment, null);
+    def insert(entityCall: (MblePurchasePayment) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MblePurchasePayment();
+        entityCall(mble);
+        doInsert(mble.toDBableEntity, null);
     }
 
     protected def doInsert(purchasePayment: DblePurchasePayment, op: InsertOption[PurchasePaymentCB]): Unit = {
@@ -493,8 +497,8 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { insert(downcast(et)); }
-        else { varyingInsert(downcast(et), downcast(op)); }
+        if (op == null) { doInsert(downcast(et), null); }
+        else { doInsert(downcast(et), downcast(op)); }
     }
 
     /**
@@ -514,15 +518,21 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param purchasePayment The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(setting: (MblePurchasePayment) => Unit): Unit = {
+    def update(entityCall: (MblePurchasePayment) => Unit)(implicit optionCall: (UpdateOption[PurchasePaymentCB]) => Unit = null): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
         val mble = new MblePurchasePayment();
-        setting(mble);
-        doUpdate(mble.toDBableEntity, null);
+        entityCall(mble);
+        var option: UpdateOption[PurchasePaymentCB] = null;
+        if (optionCall != null) {
+            option = new UpdateOption[PurchasePaymentCB]();
+            optionCall(option);
+        }
+        doUpdate(mble.toDBableEntity, option);
     }
 
     protected def doUpdate(purchasePayment: DblePurchasePayment, op: UpdateOption[PurchasePaymentCB]): Unit = {
@@ -558,7 +568,7 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
     @Override
     protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
         if (op == null) { doUpdate(downcast(et), null); }
-        else { varyingUpdate(downcast(et), downcast(op)); }
+        else { doUpdate(downcast(et), downcast(op)); }
     }
 
     @Override
@@ -570,13 +580,16 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param purchasePayment The entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update target. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(purchasePayment: DblePurchasePayment): Unit = {
-        doInesrtOrUpdate(purchasePayment, null, null);
+    def insertOrUpdate(entityCall: (MblePurchasePayment) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MblePurchasePayment();
+        entityCall(mble);
+        doInesrtOrUpdate(mble.toDBableEntity, null, null);
     }
 
     protected def doInesrtOrUpdate(purchasePayment: DblePurchasePayment, iop: InsertOption[PurchasePaymentCB], uop: UpdateOption[PurchasePaymentCB]): Unit = {
@@ -590,7 +603,7 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { insertOrUpdate(downcast(et)); }
+        if (iop == null && uop == null) { doInesrtOrUpdate(downcast(et), null, null); }
         else {
             val niop = if (iop != null) { iop } else { new InsertOption[PurchasePaymentCB]() };
             val nuop = if (uop != null) { uop } else { new UpdateOption[PurchasePaymentCB]() };
@@ -1261,7 +1274,7 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
     protected def doCallbackLoader(dbleList: List[DblePurchasePayment], loaderCall: (LoaderOfPurchasePayment) => Unit = null): Unit = {
         if (loaderCall != null) {
             val loader = new LoaderOfPurchasePayment();
-            loader.selectedList = dbleList.asInstanceOf[List[DblePurchasePayment]];
+            loader.ready(dbleList.asInstanceOf[List[DblePurchasePayment]], _behaviorSelector);
             loaderCall(loader);
         }
     }
@@ -1307,7 +1320,7 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
     }
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[PurchasePayment]): List[DblePurchasePayment] = {
-        return immuList.map(new DblePurchasePayment().acceptImmutableEntity(_)).asJava
+        return immuList.map(new DblePurchasePayment().acceptImmutable(_)).asJava
     }
 }
 
@@ -1322,15 +1335,36 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
 
 /**
+ * The referrer loader of (購入支払)PURCHASE_PAYMENT as TABLE.
  * @author jflute
  */
 class BsLoaderOfPurchasePayment {
 
     protected var _selectedList: List[DblePurchasePayment] = null;
-    def selectedList: List[DblePurchasePayment] = {
-        return _selectedList;
+    protected var _selector: BehaviorSelector = null;
+    protected var _myBhv: PurchasePaymentBhv = null; // lazy-loaded
+
+    def ready(selectedList: List[DblePurchasePayment], selector: BehaviorSelector): LoaderOfPurchasePayment =
+    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfPurchasePayment]; }
+
+    protected def myBhv: PurchasePaymentBhv =
+    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[PurchasePaymentBhv]); _myBhv } }
+
+    protected var _foreignPurchaseList: List[DblePurchase] = null;
+    def pulloutPurchase: LoaderOfPurchase = {
+        if (_foreignPurchaseList == null)
+        { _foreignPurchaseList = myBhv.pulloutPurchase(toScalaList(_selectedList).map(new PurchasePayment(_))).map(new DblePurchase().acceptImmutable(_)).asJava }
+        return new LoaderOfPurchase().ready(_foreignPurchaseList, _selector);
     }
-    def selectedList_=(ls: List[DblePurchasePayment]): Unit = {
-        _selectedList = ls;
+
+    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
+    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
+
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { scala.collection.immutable.List() }
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
+
+    def selectedList: List[DblePurchasePayment] = { _selectedList; }
+    def selector: BehaviorSelector = { _selector; }
 }

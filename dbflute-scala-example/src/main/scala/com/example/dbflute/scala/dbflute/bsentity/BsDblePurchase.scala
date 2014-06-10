@@ -146,7 +146,7 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
      * Accept immutable entity to initialize this.
      * @return this. (NotNull)
      */
-    def acceptImmutableEntity(immu: Purchase): DblePurchase = {
+    def acceptImmutable(immu: Purchase): DblePurchase = {
         setPurchaseId(immu.purchaseId);
         setMemberId(immu.memberId);
         setProductId(immu.productId);
@@ -159,9 +159,9 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
         setVersionNo(immu.versionNo);
-        setMember(immu.member.map(new DbleMember().acceptImmutableEntity(_)))
-        setProduct(immu.product.map(new DbleProduct().acceptImmutableEntity(_)))
-        setPurchasePaymentList(immu.purchasePaymentList.map(new DblePurchasePayment().acceptImmutableEntity(_)).asJava)
+        setMember(immu.member.map(new DbleMember().acceptImmutable(_)))
+        setProduct(immu.product.map(new DbleProduct().acceptImmutable(_)))
+        setPurchasePaymentList(immu.purchasePaymentList.map(new DblePurchasePayment().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();

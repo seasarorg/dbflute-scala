@@ -130,7 +130,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Seri
      * Accept immutable entity to initialize this.
      * @return this. (NotNull)
      */
-    def acceptImmutableEntity(immu: PurchasePayment): DblePurchasePayment = {
+    def acceptImmutable(immu: PurchasePayment): DblePurchasePayment = {
         setPurchasePaymentId(immu.purchasePaymentId);
         setPurchaseId(immu.purchaseId);
         setPaymentAmount(immu.paymentAmount);
@@ -140,7 +140,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Seri
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setPurchase(immu.purchase.map(new DblePurchase().acceptImmutableEntity(_)))
+        setPurchase(immu.purchase.map(new DblePurchase().acceptImmutable(_)))
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();

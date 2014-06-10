@@ -57,62 +57,26 @@ import com.example.dbflute.scala.dbflute.exentity._;
 abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
 
     // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} */
-    protected val _serviceRankCode: CDef.ServiceRank = dble.getServiceRankCodeAsServiceRank;
-
-    /** (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} */
-    protected val _serviceRankName: String = dble.getServiceRankName;
-
-    /** (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} */
-    protected val _servicePointIncidence: java.math.BigDecimal = dble.getServicePointIncidence;
-
-    /** (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} */
-    protected val _newAcceptableFlg: CDef.Flg = dble.getNewAcceptableFlgAsFlg;
-
-    /** (説明)DESCRIPTION: {NotNull, VARCHAR(200)} */
-    protected val _description: String = dble.getDescription;
-
-    /** (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} */
-    protected val _displayOrder: Int = dble.getDisplayOrder;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
-
-    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
-    { Set(javaList.toArray).asInstanceOf[Set[String]] }
-
-    // ===================================================================================
     //                                                                           Case Like
     //                                                                           =========
     def copy(
-         serviceRankCode: CDef.ServiceRank = _serviceRankCode
-        , serviceRankName: String = _serviceRankName
-        , servicePointIncidence: java.math.BigDecimal = _servicePointIncidence
-        , newAcceptableFlg: CDef.Flg = _newAcceptableFlg
-        , description: String = _description
-        , displayOrder: Int = _displayOrder
+         serviceRankCode: CDef.ServiceRank = serviceRankCode
+        , serviceRankName: String = serviceRankName
+        , servicePointIncidence: java.math.BigDecimal = servicePointIncidence
+        , newAcceptableFlg: CDef.Flg = newAcceptableFlg
+        , description: String = description
+        , displayOrder: Int = displayOrder
     ): ServiceRank = {
-        val newDble = new DbleServiceRank();
-        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
-        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
-        if (!serviceRankCode.equals(_serviceRankCode)) { newDble.setServiceRankCodeAsServiceRank(_serviceRankCode); }
-        if (!serviceRankName.equals(_serviceRankName)) { newDble.setServiceRankName(_serviceRankName); }
-        if (!servicePointIncidence.equals(_servicePointIncidence)) { newDble.setServicePointIncidence(_servicePointIncidence); }
-        if (!newAcceptableFlg.equals(_newAcceptableFlg)) { newDble.setNewAcceptableFlgAsFlg(_newAcceptableFlg); }
-        if (!description.equals(_description)) { newDble.setDescription(_description); }
-        if (!displayOrder.equals(_displayOrder)) { newDble.setDisplayOrder(_displayOrder); }
-        return new ServiceRank(newDble);
+        val newDble = new DbleServiceRank
+        newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
+        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        if (!serviceRankCode.equals(this.serviceRankCode)) { newDble.setServiceRankCodeAsServiceRank(serviceRankCode) }
+        if (!serviceRankName.equals(this.serviceRankName)) { newDble.setServiceRankName(serviceRankName) }
+        if (!servicePointIncidence.equals(this.servicePointIncidence)) { newDble.setServicePointIncidence(servicePointIncidence) }
+        if (!newAcceptableFlg.equals(this.newAcceptableFlg)) { newDble.setNewAcceptableFlgAsFlg(newAcceptableFlg) }
+        if (!description.equals(this.description)) { newDble.setDescription(description) }
+        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(displayOrder) }
+        new ServiceRank(newDble)
     }
 
     // ===================================================================================
@@ -120,8 +84,11 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
     //                                                                         ===========
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
-    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
-    def getModifiedProperties(): Set[String] = { __modifiedProperties }
+    def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
+    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
 
     // ===================================================================================
     //                                                             Classification Property
@@ -224,14 +191,11 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'. */
-    protected var _memberServiceList: List[MemberService] = dble.toImmutableMemberServiceList
-
     /**
      * [get] (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
      * @return The entity list of referrer property 'memberServiceList'. (NotNull: even if no loading, returns empty list)
      */
-    def memberServiceList: List[MemberService] = { return _memberServiceList; }
+    def memberServiceList: List[MemberService] = { dble.toImmutableMemberServiceList }
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -268,7 +232,7 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+    override def toString(): String = { dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true) }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -277,37 +241,37 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
      * [get] (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank} <br />
      * @return The value of the column 'SERVICE_RANK_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def serviceRankCode: CDef.ServiceRank = { return _serviceRankCode; }
+    def serviceRankCode: CDef.ServiceRank = { dble.getServiceRankCodeAsServiceRank }
 
     /**
      * [get] (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'SERVICE_RANK_NAME'. (NotNull but EmptyAllowed if null in database)
      */
-    def serviceRankName: String = { return _serviceRankName; }
+    def serviceRankName: String = { dble.getServiceRankName }
 
     /**
      * [get] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
      * @return The value of the column 'SERVICE_POINT_INCIDENCE'. (NotNull but EmptyAllowed if null in database)
      */
-    def servicePointIncidence: java.math.BigDecimal = { return _servicePointIncidence; }
+    def servicePointIncidence: java.math.BigDecimal = { dble.getServicePointIncidence }
 
     /**
      * [get] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
      * @return The value of the column 'NEW_ACCEPTABLE_FLG'. (NotNull but EmptyAllowed if null in database)
      */
-    def newAcceptableFlg: CDef.Flg = { return _newAcceptableFlg; }
+    def newAcceptableFlg: CDef.Flg = { dble.getNewAcceptableFlgAsFlg }
 
     /**
      * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'DESCRIPTION'. (NotNull but EmptyAllowed if null in database)
      */
-    def description: String = { return _description; }
+    def description: String = { dble.getDescription }
 
     /**
      * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'DISPLAY_ORDER'. (NotNull but EmptyAllowed if null in database)
      */
-    def displayOrder: Int = { return _displayOrder; }
+    def displayOrder: Int = { dble.getDisplayOrder }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

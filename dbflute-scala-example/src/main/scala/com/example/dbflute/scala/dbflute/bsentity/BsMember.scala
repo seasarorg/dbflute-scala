@@ -63,87 +63,36 @@ import com.example.dbflute.scala.dbflute.exentity._;
 abstract class BsMember(dble: DbleMember) extends Serializable {
 
     // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} */
-    protected val _memberId: Int = dble.getMemberId;
-
-    /** (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} */
-    protected val _memberName: String = dble.getMemberName;
-
-    /** (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} */
-    protected val _memberAccount: String = dble.getMemberAccount;
-
-    /** (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} */
-    protected val _memberStatusCode: CDef.MemberStatus = dble.getMemberStatusCodeAsMemberStatus;
-
-    /** (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} */
-    protected val _formalizedDatetime: Option[java.sql.Timestamp] = Option(dble.getFormalizedDatetime);
-
-    /** (生年月日)BIRTHDATE: {DATE(8)} */
-    protected val _birthdate: Option[java.util.Date] = Option(dble.getBirthdate);
-
-    /** (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _registerDatetime: java.sql.Timestamp = dble.getRegisterDatetime;
-
-    /** (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} */
-    protected val _registerUser: String = dble.getRegisterUser;
-
-    /** (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _updateDatetime: java.sql.Timestamp = dble.getUpdateDatetime;
-
-    /** (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} */
-    protected val _updateUser: String = dble.getUpdateUser;
-
-    /** (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} */
-    protected val _versionNo: Long = dble.getVersionNo;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
-
-    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
-    { Set(javaList.toArray).asInstanceOf[Set[String]] }
-
-    // ===================================================================================
     //                                                                           Case Like
     //                                                                           =========
     def copy(
-         memberId: Int = _memberId
-        , memberName: String = _memberName
-        , memberAccount: String = _memberAccount
-        , memberStatusCode: CDef.MemberStatus = _memberStatusCode
-        , formalizedDatetime: Option[java.sql.Timestamp] = _formalizedDatetime
-        , birthdate: Option[java.util.Date] = _birthdate
-        , registerDatetime: java.sql.Timestamp = _registerDatetime
-        , registerUser: String = _registerUser
-        , updateDatetime: java.sql.Timestamp = _updateDatetime
-        , updateUser: String = _updateUser
-        , versionNo: Long = _versionNo
+         memberId: Int = memberId
+        , memberName: String = memberName
+        , memberAccount: String = memberAccount
+        , memberStatusCode: CDef.MemberStatus = memberStatusCode
+        , formalizedDatetime: Option[java.sql.Timestamp] = formalizedDatetime
+        , birthdate: Option[java.util.Date] = birthdate
+        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , registerUser: String = registerUser
+        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateUser: String = updateUser
+        , versionNo: Long = versionNo
     ): Member = {
-        val newDble = new DbleMember();
-        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
-        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
-        if (!memberId.equals(_memberId)) { newDble.setMemberId(_memberId); }
-        if (!memberName.equals(_memberName)) { newDble.setMemberName(_memberName); }
-        if (!memberAccount.equals(_memberAccount)) { newDble.setMemberAccount(_memberAccount); }
-        if (!memberStatusCode.equals(_memberStatusCode)) { newDble.setMemberStatusCodeAsMemberStatus(_memberStatusCode); }
-        if (!formalizedDatetime.equals(_formalizedDatetime)) { newDble.setFormalizedDatetime(_formalizedDatetime.orNull); }
-        if (!birthdate.equals(_birthdate)) { newDble.setBirthdate(_birthdate.orNull); }
-        if (!registerDatetime.equals(_registerDatetime)) { newDble.setRegisterDatetime(_registerDatetime); }
-        if (!registerUser.equals(_registerUser)) { newDble.setRegisterUser(_registerUser); }
-        if (!updateDatetime.equals(_updateDatetime)) { newDble.setUpdateDatetime(_updateDatetime); }
-        if (!updateUser.equals(_updateUser)) { newDble.setUpdateUser(_updateUser); }
-        if (!versionNo.equals(_versionNo)) { newDble.setVersionNo(_versionNo); }
-        return new Member(newDble);
+        val newDble = new DbleMember
+        newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
+        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        if (!memberId.equals(this.memberId)) { newDble.setMemberId(memberId) }
+        if (!memberName.equals(this.memberName)) { newDble.setMemberName(memberName) }
+        if (!memberAccount.equals(this.memberAccount)) { newDble.setMemberAccount(memberAccount) }
+        if (!memberStatusCode.equals(this.memberStatusCode)) { newDble.setMemberStatusCodeAsMemberStatus(memberStatusCode) }
+        if (!formalizedDatetime.equals(this.formalizedDatetime)) { newDble.setFormalizedDatetime(formalizedDatetime.orNull) }
+        if (!birthdate.equals(this.birthdate)) { newDble.setBirthdate(birthdate.orNull) }
+        if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
+        if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
+        if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
+        if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
+        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(versionNo) }
+        new Member(newDble)
     }
 
     // ===================================================================================
@@ -151,8 +100,11 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
     //                                                                         ===========
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
-    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
-    def getModifiedProperties(): Set[String] = { __modifiedProperties }
+    def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
+    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
 
     // ===================================================================================
     //                                                             Classification Property
@@ -196,35 +148,26 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
-    /** (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'. */
-    protected val _memberStatus: Option[MemberStatus] = dble.toImmutableMemberStatus
-
     /**
      * [get] (会員ステータス)MEMBER_STATUS by my MEMBER_STATUS_CODE, named 'memberStatus'.
      * @return The entity of foreign property 'memberStatus'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
      */
-    def memberStatus: Option[MemberStatus] = { _memberStatus }
-
-    /** (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'. */
-    protected val _memberServiceAsOne: Option[MemberService] = dble.toImmutableMemberServiceAsOne
+    def memberStatus: Option[MemberStatus] = { dble.toImmutableMemberStatus }
 
     /**
      * [get] (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @return the entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (EmptyAllowed: when e.g. no data, no setupSelect)
      */
-    def memberServiceAsOne: Option[MemberService] = { return _memberServiceAsOne; }
+    def memberServiceAsOne: Option[MemberService] = { dble.toImmutableMemberServiceAsOne }
 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** (購入)PURCHASE by MEMBER_ID, named 'purchaseList'. */
-    protected var _purchaseList: List[Purchase] = dble.toImmutablePurchaseList
-
     /**
      * [get] (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)
      */
-    def purchaseList: List[Purchase] = { return _purchaseList; }
+    def purchaseList: List[Purchase] = { dble.toImmutablePurchaseList }
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -261,7 +204,7 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+    override def toString(): String = { dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true) }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -270,67 +213,67 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
      * [get] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'MEMBER_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberId: Int = { return _memberId; }
+    def memberId: Int = { dble.getMemberId }
 
     /**
      * [get] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'MEMBER_NAME'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberName: String = { return _memberName; }
+    def memberName: String = { dble.getMemberName }
 
     /**
      * [get] (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'MEMBER_ACCOUNT'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberAccount: String = { return _memberAccount; }
+    def memberAccount: String = { dble.getMemberAccount }
 
     /**
      * [get] (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
      * @return The value of the column 'MEMBER_STATUS_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberStatusCode: CDef.MemberStatus = { return _memberStatusCode; }
+    def memberStatusCode: CDef.MemberStatus = { dble.getMemberStatusCodeAsMemberStatus }
 
     /**
      * [get] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FORMALIZED_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def formalizedDatetime: Option[java.sql.Timestamp] = { return _formalizedDatetime; }
+    def formalizedDatetime: Option[java.sql.Timestamp] = { Option(dble.getFormalizedDatetime) }
 
     /**
      * [get] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @return The value of the column 'BIRTHDATE'. (basically NotNull if selected: for the constraint)
      */
-    def birthdate: Option[java.util.Date] = { return _birthdate; }
+    def birthdate: Option[java.util.Date] = { Option(dble.getBirthdate) }
 
     /**
      * [get] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { return _registerDatetime; }
+    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
 
     /**
      * [get] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerUser: String = { return _registerUser; }
+    def registerUser: String = { dble.getRegisterUser }
 
     /**
      * [get] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { return _updateDatetime; }
+    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
 
     /**
      * [get] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateUser: String = { return _updateUser; }
+    def updateUser: String = { dble.getUpdateUser }
 
     /**
      * [get] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (NotNull but EmptyAllowed if null in database)
      */
-    def versionNo: Long = { return _versionNo; }
+    def versionNo: Long = { dble.getVersionNo }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

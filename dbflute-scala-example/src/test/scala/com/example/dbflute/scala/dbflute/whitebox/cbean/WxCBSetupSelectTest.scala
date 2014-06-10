@@ -4,7 +4,6 @@ import org.dbflute.scala.testlib.unit.UnitContainerTestCase
 
 import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
 import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
-import com.example.dbflute.scala.dbflute.cbean.MemberCB
 import com.example.dbflute.scala.dbflute.exbhv.MemberBhv
 import com.google.inject.Module
 
@@ -87,5 +86,16 @@ class WxCBSetupSelectTest extends UnitContainerTestCase {
       assertTrueAll(member.memberStatus.isEmpty);
       assertTrueAll(member.purchaseList.isEmpty);
     });
+
+    // trying
+    memberList.foreach { member =>
+      log(member.memberName, member.memberStatus.get.memberStatusName, member.memberServiceAsOne.get.servicePointCount.toString)
+      for (ms <- member.memberStatus; msa <- member.memberServiceAsOne) {
+        ms.description
+        msa.isServiceRankCode_Plastic
+      }
+      member.memberStatus.flatMap(ms => member.memberServiceAsOne.map { msa => })
+      assertTrueAll(member.memberName.startsWith("S"));
+    };
   }
 }

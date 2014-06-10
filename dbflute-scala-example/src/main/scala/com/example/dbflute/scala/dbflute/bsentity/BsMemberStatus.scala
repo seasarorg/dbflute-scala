@@ -55,52 +55,22 @@ import com.example.dbflute.scala.dbflute.exentity._;
 abstract class BsMemberStatus(dble: DbleMemberStatus) extends Serializable {
 
     // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} */
-    protected val _memberStatusCode: CDef.MemberStatus = dble.getMemberStatusCodeAsMemberStatus;
-
-    /** (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} */
-    protected val _memberStatusName: String = dble.getMemberStatusName;
-
-    /** (説明)DESCRIPTION: {NotNull, VARCHAR(200)} */
-    protected val _description: String = dble.getDescription;
-
-    /** (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} */
-    protected val _displayOrder: Int = dble.getDisplayOrder;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
-
-    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
-    { Set(javaList.toArray).asInstanceOf[Set[String]] }
-
-    // ===================================================================================
     //                                                                           Case Like
     //                                                                           =========
     def copy(
-         memberStatusCode: CDef.MemberStatus = _memberStatusCode
-        , memberStatusName: String = _memberStatusName
-        , description: String = _description
-        , displayOrder: Int = _displayOrder
+         memberStatusCode: CDef.MemberStatus = memberStatusCode
+        , memberStatusName: String = memberStatusName
+        , description: String = description
+        , displayOrder: Int = displayOrder
     ): MemberStatus = {
-        val newDble = new DbleMemberStatus();
-        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
-        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
-        if (!memberStatusCode.equals(_memberStatusCode)) { newDble.setMemberStatusCodeAsMemberStatus(_memberStatusCode); }
-        if (!memberStatusName.equals(_memberStatusName)) { newDble.setMemberStatusName(_memberStatusName); }
-        if (!description.equals(_description)) { newDble.setDescription(_description); }
-        if (!displayOrder.equals(_displayOrder)) { newDble.setDisplayOrder(_displayOrder); }
-        return new MemberStatus(newDble);
+        val newDble = new DbleMemberStatus
+        newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
+        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        if (!memberStatusCode.equals(this.memberStatusCode)) { newDble.setMemberStatusCodeAsMemberStatus(memberStatusCode) }
+        if (!memberStatusName.equals(this.memberStatusName)) { newDble.setMemberStatusName(memberStatusName) }
+        if (!description.equals(this.description)) { newDble.setDescription(description) }
+        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(displayOrder) }
+        new MemberStatus(newDble)
     }
 
     // ===================================================================================
@@ -108,8 +78,11 @@ abstract class BsMemberStatus(dble: DbleMemberStatus) extends Serializable {
     //                                                                         ===========
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
-    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
-    def getModifiedProperties(): Set[String] = { __modifiedProperties }
+    def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
+    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
 
     // ===================================================================================
     //                                                             Classification Property
@@ -156,14 +129,11 @@ abstract class BsMemberStatus(dble: DbleMemberStatus) extends Serializable {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'. */
-    protected var _memberList: List[Member] = dble.toImmutableMemberList
-
     /**
      * [get] (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
      * @return The entity list of referrer property 'memberList'. (NotNull: even if no loading, returns empty list)
      */
-    def memberList: List[Member] = { return _memberList; }
+    def memberList: List[Member] = { dble.toImmutableMemberList }
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -200,7 +170,7 @@ abstract class BsMemberStatus(dble: DbleMemberStatus) extends Serializable {
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+    override def toString(): String = { dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true) }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -209,25 +179,25 @@ abstract class BsMemberStatus(dble: DbleMemberStatus) extends Serializable {
      * [get] (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus} <br />
      * @return The value of the column 'MEMBER_STATUS_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberStatusCode: CDef.MemberStatus = { return _memberStatusCode; }
+    def memberStatusCode: CDef.MemberStatus = { dble.getMemberStatusCodeAsMemberStatus }
 
     /**
      * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'MEMBER_STATUS_NAME'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberStatusName: String = { return _memberStatusName; }
+    def memberStatusName: String = { dble.getMemberStatusName }
 
     /**
      * [get] (説明)DESCRIPTION: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'DESCRIPTION'. (NotNull but EmptyAllowed if null in database)
      */
-    def description: String = { return _description; }
+    def description: String = { dble.getDescription }
 
     /**
      * [get] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'DISPLAY_ORDER'. (NotNull but EmptyAllowed if null in database)
      */
-    def displayOrder: Int = { return _displayOrder; }
+    def displayOrder: Int = { dble.getDisplayOrder }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

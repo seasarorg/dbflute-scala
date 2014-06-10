@@ -61,87 +61,36 @@ import com.example.dbflute.scala.dbflute.exentity._;
 abstract class BsProduct(dble: DbleProduct) extends Serializable {
 
     // ===================================================================================
-    //                                                                           Attribute
-    //                                                                           =========
-    // -----------------------------------------------------
-    //                                                Column
-    //                                                ------
-    /** PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)} */
-    protected val _productId: Int = dble.getProductId;
-
-    /** (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)} */
-    protected val _productName: String = dble.getProductName;
-
-    /** (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)} */
-    protected val _productHandleCode: String = dble.getProductHandleCode;
-
-    /** PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} */
-    protected val _productCategoryCode: String = dble.getProductCategoryCode;
-
-    /** PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} */
-    protected val _productStatusCode: String = dble.getProductStatusCode;
-
-    /** (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} */
-    protected val _regularPrice: Int = dble.getRegularPrice;
-
-    /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _registerDatetime: java.sql.Timestamp = dble.getRegisterDatetime;
-
-    /** REGISTER_USER: {NotNull, VARCHAR(200)} */
-    protected val _registerUser: String = dble.getRegisterUser;
-
-    /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected val _updateDatetime: java.sql.Timestamp = dble.getUpdateDatetime;
-
-    /** UPDATE_USER: {NotNull, VARCHAR(200)} */
-    protected val _updateUser: String = dble.getUpdateUser;
-
-    /** VERSION_NO: {NotNull, BIGINT(19)} */
-    protected val _versionNo: Long = dble.getVersionNo;
-
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: Set[String] = toScalaStringSet(dble.myuniqueDrivenProperties());
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: Set[String] = toScalaStringSet(dble.modifiedProperties());
-
-    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
-    { Set(javaList.toArray).asInstanceOf[Set[String]] }
-
-    // ===================================================================================
     //                                                                           Case Like
     //                                                                           =========
     def copy(
-         productId: Int = _productId
-        , productName: String = _productName
-        , productHandleCode: String = _productHandleCode
-        , productCategoryCode: String = _productCategoryCode
-        , productStatusCode: String = _productStatusCode
-        , regularPrice: Int = _regularPrice
-        , registerDatetime: java.sql.Timestamp = _registerDatetime
-        , registerUser: String = _registerUser
-        , updateDatetime: java.sql.Timestamp = _updateDatetime
-        , updateUser: String = _updateUser
-        , versionNo: Long = _versionNo
+         productId: Int = productId
+        , productName: String = productName
+        , productHandleCode: String = productHandleCode
+        , productCategoryCode: String = productCategoryCode
+        , productStatusCode: String = productStatusCode
+        , regularPrice: Int = regularPrice
+        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , registerUser: String = registerUser
+        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateUser: String = updateUser
+        , versionNo: Long = versionNo
     ): Product = {
-        val newDble = new DbleProduct();
-        newDble.myuniqueDrivenProperties.addAll(__uniqueDrivenProperties.asJava); // inherit
-        newDble.modifiedProperties.addAll(__modifiedProperties.asJava); // inherit
-        if (!productId.equals(_productId)) { newDble.setProductId(_productId); }
-        if (!productName.equals(_productName)) { newDble.setProductName(_productName); }
-        if (!productHandleCode.equals(_productHandleCode)) { newDble.setProductHandleCode(_productHandleCode); }
-        if (!productCategoryCode.equals(_productCategoryCode)) { newDble.setProductCategoryCode(_productCategoryCode); }
-        if (!productStatusCode.equals(_productStatusCode)) { newDble.setProductStatusCode(_productStatusCode); }
-        if (!regularPrice.equals(_regularPrice)) { newDble.setRegularPrice(_regularPrice); }
-        if (!registerDatetime.equals(_registerDatetime)) { newDble.setRegisterDatetime(_registerDatetime); }
-        if (!registerUser.equals(_registerUser)) { newDble.setRegisterUser(_registerUser); }
-        if (!updateDatetime.equals(_updateDatetime)) { newDble.setUpdateDatetime(_updateDatetime); }
-        if (!updateUser.equals(_updateUser)) { newDble.setUpdateUser(_updateUser); }
-        if (!versionNo.equals(_versionNo)) { newDble.setVersionNo(_versionNo); }
-        return new Product(newDble);
+        val newDble = new DbleProduct
+        newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
+        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        if (!productId.equals(this.productId)) { newDble.setProductId(productId) }
+        if (!productName.equals(this.productName)) { newDble.setProductName(productName) }
+        if (!productHandleCode.equals(this.productHandleCode)) { newDble.setProductHandleCode(productHandleCode) }
+        if (!productCategoryCode.equals(this.productCategoryCode)) { newDble.setProductCategoryCode(productCategoryCode) }
+        if (!productStatusCode.equals(this.productStatusCode)) { newDble.setProductStatusCode(productStatusCode) }
+        if (!regularPrice.equals(this.regularPrice)) { newDble.setRegularPrice(regularPrice) }
+        if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
+        if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
+        if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
+        if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
+        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(versionNo) }
+        new Product(newDble)
     }
 
     // ===================================================================================
@@ -149,8 +98,11 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
     //                                                                         ===========
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
-    def getMyUniqueDrivenProperties(): Set[String] = { __uniqueDrivenProperties }
-    def getModifiedProperties(): Set[String] = { __modifiedProperties }
+    def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
+    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+
+    protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
+    { Set(javaList.toArray).asInstanceOf[Set[String]] }
 
     // ===================================================================================
     //                                                        Classification Determination
@@ -161,14 +113,11 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    /** (購入)PURCHASE by PRODUCT_ID, named 'purchaseList'. */
-    protected var _purchaseList: List[Purchase] = dble.toImmutablePurchaseList
-
     /**
      * [get] (購入)PURCHASE by PRODUCT_ID, named 'purchaseList'.
      * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)
      */
-    def purchaseList: List[Purchase] = { return _purchaseList; }
+    def purchaseList: List[Purchase] = { dble.toImmutablePurchaseList }
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -205,7 +154,7 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
      * Convert to display string of entity's data. (no relation data)
      * @return The display string of all columns and relation existences. (NotNull)
      */
-    override def toString(): String = { return dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true); }
+    override def toString(): String = { dble.buildDisplayString(FunCustodial.toClassTitle(this), true, true) }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -214,67 +163,67 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
      * [get] PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @return The value of the column 'PRODUCT_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    def productId: Int = { return _productId; }
+    def productId: Int = { dble.getProductId }
 
     /**
      * [get] (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)} <br />
      * @return The value of the column 'PRODUCT_NAME'. (NotNull but EmptyAllowed if null in database)
      */
-    def productName: String = { return _productName; }
+    def productName: String = { dble.getProductName }
 
     /**
      * [get] (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)} <br />
      * @return The value of the column 'PRODUCT_HANDLE_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def productHandleCode: String = { return _productHandleCode; }
+    def productHandleCode: String = { dble.getProductHandleCode }
 
     /**
      * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
      * @return The value of the column 'PRODUCT_CATEGORY_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def productCategoryCode: String = { return _productCategoryCode; }
+    def productCategoryCode: String = { dble.getProductCategoryCode }
 
     /**
      * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
      * @return The value of the column 'PRODUCT_STATUS_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def productStatusCode: String = { return _productStatusCode; }
+    def productStatusCode: String = { dble.getProductStatusCode }
 
     /**
      * [get] (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} <br />
      * @return The value of the column 'REGULAR_PRICE'. (NotNull but EmptyAllowed if null in database)
      */
-    def regularPrice: Int = { return _regularPrice; }
+    def regularPrice: Int = { dble.getRegularPrice }
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { return _registerDatetime; }
+    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'REGISTER_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerUser: String = { return _registerUser; }
+    def registerUser: String = { dble.getRegisterUser }
 
     /**
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { return _updateDatetime; }
+    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
      * @return The value of the column 'UPDATE_USER'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateUser: String = { return _updateUser; }
+    def updateUser: String = { dble.getUpdateUser }
 
     /**
      * [get] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @return The value of the column 'VERSION_NO'. (NotNull but EmptyAllowed if null in database)
      */
-    def versionNo: Long = { return _versionNo; }
+    def versionNo: Long = { dble.getVersionNo }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

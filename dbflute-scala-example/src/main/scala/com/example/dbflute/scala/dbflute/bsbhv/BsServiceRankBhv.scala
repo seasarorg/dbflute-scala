@@ -539,7 +539,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
-
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============
@@ -548,10 +547,10 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param serviceRankList The list of serviceRank. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractServiceRankCodeList(serviceRankList: List[DbleServiceRank]): List[String] = {
-        return helpExtractListInternally(serviceRankList, new InternalExtractCallback[DbleServiceRank, String]() {
+    def extractServiceRankCodeList(serviceRankList: scala.collection.immutable.List[ServiceRank]): scala.collection.immutable.List[CDef.ServiceRank] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(serviceRankList), new InternalExtractCallback[DbleServiceRank, String]() {
             def getCV(et: DbleServiceRank): String = { return et.getServiceRankCode(); }
-        });
+        })).map(_.asInstanceOf[CDef.ServiceRank]);
     }
 
     /**
@@ -559,10 +558,10 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param serviceRankList The list of serviceRank. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractDisplayOrderList(serviceRankList: List[DbleServiceRank]): List[Integer] = {
-        return helpExtractListInternally(serviceRankList, new InternalExtractCallback[DbleServiceRank, Integer]() {
+    def extractDisplayOrderList(serviceRankList: scala.collection.immutable.List[ServiceRank]): scala.collection.immutable.List[Int] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(serviceRankList), new InternalExtractCallback[DbleServiceRank, Integer]() {
             def getCV(et: DbleServiceRank): Integer = { return et.getDisplayOrder(); }
-        });
+        })).map(_.asInstanceOf[Int]);
     }
 
     // ===================================================================================
@@ -582,11 +581,14 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * ... = serviceRank.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param serviceRank The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param entityCall The callback for entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(serviceRank: DbleServiceRank): Unit = {
-        doInsert(serviceRank, null);
+    def insert(entityCall: (MbleServiceRank) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleServiceRank();
+        entityCall(mble);
+        doInsert(mble.toDBableEntity, null);
     }
 
     protected def doInsert(serviceRank: DbleServiceRank, op: InsertOption[ServiceRankCB]): Unit = {
@@ -605,8 +607,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { insert(downcast(et)); }
-        else { varyingInsert(downcast(et), downcast(op)); }
+        if (op == null) { doInsert(downcast(et), null); }
+        else { doInsert(downcast(et), downcast(op)); }
     }
 
     /**
@@ -626,15 +628,21 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param serviceRank The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(setting: (MbleServiceRank) => Unit): Unit = {
+    def update(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (UpdateOption[ServiceRankCB]) => Unit = null): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
         val mble = new MbleServiceRank();
-        setting(mble);
-        doUpdate(mble.toDBableEntity, null);
+        entityCall(mble);
+        var option: UpdateOption[ServiceRankCB] = null;
+        if (optionCall != null) {
+            option = new UpdateOption[ServiceRankCB]();
+            optionCall(option);
+        }
+        doUpdate(mble.toDBableEntity, option);
     }
 
     protected def doUpdate(serviceRank: DbleServiceRank, op: UpdateOption[ServiceRankCB]): Unit = {
@@ -670,7 +678,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     @Override
     protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
         if (op == null) { doUpdate(downcast(et), null); }
-        else { varyingUpdate(downcast(et), downcast(op)); }
+        else { doUpdate(downcast(et), downcast(op)); }
     }
 
     @Override
@@ -682,13 +690,16 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param serviceRank The entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update target. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(serviceRank: DbleServiceRank): Unit = {
-        doInesrtOrUpdate(serviceRank, null, null);
+    def insertOrUpdate(entityCall: (MbleServiceRank) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleServiceRank();
+        entityCall(mble);
+        doInesrtOrUpdate(mble.toDBableEntity, null, null);
     }
 
     protected def doInesrtOrUpdate(serviceRank: DbleServiceRank, iop: InsertOption[ServiceRankCB], uop: UpdateOption[ServiceRankCB]): Unit = {
@@ -702,7 +713,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { insertOrUpdate(downcast(et)); }
+        if (iop == null && uop == null) { doInesrtOrUpdate(downcast(et), null, null); }
         else {
             val niop = if (iop != null) { iop } else { new InsertOption[ServiceRankCB]() };
             val nuop = if (uop != null) { uop } else { new UpdateOption[ServiceRankCB]() };
@@ -1373,7 +1384,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     protected def doCallbackLoader(dbleList: List[DbleServiceRank], loaderCall: (LoaderOfServiceRank) => Unit = null): Unit = {
         if (loaderCall != null) {
             val loader = new LoaderOfServiceRank();
-            loader.selectedList = dbleList.asInstanceOf[List[DbleServiceRank]];
+            loader.ready(dbleList.asInstanceOf[List[DbleServiceRank]], _behaviorSelector);
             loaderCall(loader);
         }
     }
@@ -1419,7 +1430,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[ServiceRank]): List[DbleServiceRank] = {
-        return immuList.map(new DbleServiceRank().acceptImmutableEntity(_)).asJava
+        return immuList.map(new DbleServiceRank().acceptImmutable(_)).asJava
     }
 }
 
@@ -1434,27 +1445,37 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
 
 /**
+ * The referrer loader of (サービスランク)SERVICE_RANK as TABLE.
  * @author jflute
  */
 class BsLoaderOfServiceRank {
 
     protected var _selectedList: List[DbleServiceRank] = null;
-    def selectedList: List[DbleServiceRank] = {
-        return _selectedList;
-    }
-    def selectedList_=(ls: List[DbleServiceRank]): Unit = {
-        _selectedList = ls;
+    protected var _selector: BehaviorSelector = null;
+    protected var _myBhv: ServiceRankBhv = null; // lazy-loaded
+
+    def ready(selectedList: List[DbleServiceRank], selector: BehaviorSelector): LoaderOfServiceRank =
+    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfServiceRank]; }
+
+    protected def myBhv: ServiceRankBhv =
+    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[ServiceRankBhv]); _myBhv } }
+
+    protected var _referrerMemberServiceList: List[DbleMemberService] = null;
+    def loadMemberServiceList(cbCall: (MemberServiceCB) => Unit): ScrNestedReferrerLoader[LoaderOfMemberService] = {
+        myBhv.loadMemberServiceList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMemberService]() {
+            def handle(referrerList: List[DbleMemberService]): Unit = { _referrerMemberServiceList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfMemberService().ready(_referrerMemberServiceList, _selector); });
     }
 
-    var _referrerMemberServiceListList: List[DbleMemberService] = null;
-    def loadMemberServiceList(setupCall: (MemberServiceCB) => Unit): ScrNestedReferrerLoader[LoaderOfMemberService] = {
-        DBFlutist.serviceRankBhv.loadMemberServiceList(_selectedList, setupCall).withNestedReferrer(new ReferrerListHandler[DbleMemberService]() {
-            def handle(referrerList: List[DbleMemberService]): Unit = { _referrerMemberServiceListList = referrerList; }
-        });
-        return new ScrNestedReferrerLoader[LoaderOfMemberService](() => {
-            val nestedLoader = new LoaderOfMemberService();
-            nestedLoader.selectedList = _referrerMemberServiceListList;
-            nestedLoader;
-        });
+    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
+    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
+
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { scala.collection.immutable.List() }
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
+
+    def selectedList: List[DbleServiceRank] = { _selectedList; }
+    def selector: BehaviorSelector = { _selector; }
 }

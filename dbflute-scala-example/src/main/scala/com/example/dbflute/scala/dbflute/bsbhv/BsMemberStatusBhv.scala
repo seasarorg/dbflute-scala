@@ -539,7 +539,6 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
-
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============
@@ -548,10 +547,10 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param memberStatusList The list of memberStatus. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberStatusCodeList(memberStatusList: List[DbleMemberStatus]): List[String] = {
-        return helpExtractListInternally(memberStatusList, new InternalExtractCallback[DbleMemberStatus, String]() {
+    def extractMemberStatusCodeList(memberStatusList: scala.collection.immutable.List[MemberStatus]): scala.collection.immutable.List[CDef.MemberStatus] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(memberStatusList), new InternalExtractCallback[DbleMemberStatus, String]() {
             def getCV(et: DbleMemberStatus): String = { return et.getMemberStatusCode(); }
-        });
+        })).map(_.asInstanceOf[CDef.MemberStatus]);
     }
 
     /**
@@ -559,10 +558,10 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param memberStatusList The list of memberStatus. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractDisplayOrderList(memberStatusList: List[DbleMemberStatus]): List[Integer] = {
-        return helpExtractListInternally(memberStatusList, new InternalExtractCallback[DbleMemberStatus, Integer]() {
+    def extractDisplayOrderList(memberStatusList: scala.collection.immutable.List[MemberStatus]): scala.collection.immutable.List[Int] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(memberStatusList), new InternalExtractCallback[DbleMemberStatus, Integer]() {
             def getCV(et: DbleMemberStatus): Integer = { return et.getDisplayOrder(); }
-        });
+        })).map(_.asInstanceOf[Int]);
     }
 
     // ===================================================================================
@@ -582,11 +581,14 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * ... = memberStatus.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param memberStatus The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param entityCall The callback for entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(memberStatus: DbleMemberStatus): Unit = {
-        doInsert(memberStatus, null);
+    def insert(entityCall: (MbleMemberStatus) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleMemberStatus();
+        entityCall(mble);
+        doInsert(mble.toDBableEntity, null);
     }
 
     protected def doInsert(memberStatus: DbleMemberStatus, op: InsertOption[MemberStatusCB]): Unit = {
@@ -605,8 +607,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { insert(downcast(et)); }
-        else { varyingInsert(downcast(et), downcast(op)); }
+        if (op == null) { doInsert(downcast(et), null); }
+        else { doInsert(downcast(et), downcast(op)); }
     }
 
     /**
@@ -626,15 +628,21 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param memberStatus The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(setting: (MbleMemberStatus) => Unit): Unit = {
+    def update(entityCall: (MbleMemberStatus) => Unit)(implicit optionCall: (UpdateOption[MemberStatusCB]) => Unit = null): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
         val mble = new MbleMemberStatus();
-        setting(mble);
-        doUpdate(mble.toDBableEntity, null);
+        entityCall(mble);
+        var option: UpdateOption[MemberStatusCB] = null;
+        if (optionCall != null) {
+            option = new UpdateOption[MemberStatusCB]();
+            optionCall(option);
+        }
+        doUpdate(mble.toDBableEntity, option);
     }
 
     protected def doUpdate(memberStatus: DbleMemberStatus, op: UpdateOption[MemberStatusCB]): Unit = {
@@ -670,7 +678,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
     @Override
     protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
         if (op == null) { doUpdate(downcast(et), null); }
-        else { varyingUpdate(downcast(et), downcast(op)); }
+        else { doUpdate(downcast(et), downcast(op)); }
     }
 
     @Override
@@ -682,13 +690,16 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param memberStatus The entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update target. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(memberStatus: DbleMemberStatus): Unit = {
-        doInesrtOrUpdate(memberStatus, null, null);
+    def insertOrUpdate(entityCall: (MbleMemberStatus) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleMemberStatus();
+        entityCall(mble);
+        doInesrtOrUpdate(mble.toDBableEntity, null, null);
     }
 
     protected def doInesrtOrUpdate(memberStatus: DbleMemberStatus, iop: InsertOption[MemberStatusCB], uop: UpdateOption[MemberStatusCB]): Unit = {
@@ -702,7 +713,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { insertOrUpdate(downcast(et)); }
+        if (iop == null && uop == null) { doInesrtOrUpdate(downcast(et), null, null); }
         else {
             val niop = if (iop != null) { iop } else { new InsertOption[MemberStatusCB]() };
             val nuop = if (uop != null) { uop } else { new UpdateOption[MemberStatusCB]() };
@@ -1373,7 +1384,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
     protected def doCallbackLoader(dbleList: List[DbleMemberStatus], loaderCall: (LoaderOfMemberStatus) => Unit = null): Unit = {
         if (loaderCall != null) {
             val loader = new LoaderOfMemberStatus();
-            loader.selectedList = dbleList.asInstanceOf[List[DbleMemberStatus]];
+            loader.ready(dbleList.asInstanceOf[List[DbleMemberStatus]], _behaviorSelector);
             loaderCall(loader);
         }
     }
@@ -1419,7 +1430,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
     }
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[MemberStatus]): List[DbleMemberStatus] = {
-        return immuList.map(new DbleMemberStatus().acceptImmutableEntity(_)).asJava
+        return immuList.map(new DbleMemberStatus().acceptImmutable(_)).asJava
     }
 }
 
@@ -1434,27 +1445,37 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
 
 /**
+ * The referrer loader of (会員ステータス)MEMBER_STATUS as TABLE.
  * @author jflute
  */
 class BsLoaderOfMemberStatus {
 
     protected var _selectedList: List[DbleMemberStatus] = null;
-    def selectedList: List[DbleMemberStatus] = {
-        return _selectedList;
-    }
-    def selectedList_=(ls: List[DbleMemberStatus]): Unit = {
-        _selectedList = ls;
+    protected var _selector: BehaviorSelector = null;
+    protected var _myBhv: MemberStatusBhv = null; // lazy-loaded
+
+    def ready(selectedList: List[DbleMemberStatus], selector: BehaviorSelector): LoaderOfMemberStatus =
+    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfMemberStatus]; }
+
+    protected def myBhv: MemberStatusBhv =
+    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[MemberStatusBhv]); _myBhv } }
+
+    protected var _referrerMemberList: List[DbleMember] = null;
+    def loadMemberList(cbCall: (MemberCB) => Unit): ScrNestedReferrerLoader[LoaderOfMember] = {
+        myBhv.loadMemberList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMember]() {
+            def handle(referrerList: List[DbleMember]): Unit = { _referrerMemberList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfMember().ready(_referrerMemberList, _selector); });
     }
 
-    var _referrerMemberListList: List[DbleMember] = null;
-    def loadMemberList(setupCall: (MemberCB) => Unit): ScrNestedReferrerLoader[LoaderOfMember] = {
-        DBFlutist.memberStatusBhv.loadMemberList(_selectedList, setupCall).withNestedReferrer(new ReferrerListHandler[DbleMember]() {
-            def handle(referrerList: List[DbleMember]): Unit = { _referrerMemberListList = referrerList; }
-        });
-        return new ScrNestedReferrerLoader[LoaderOfMember](() => {
-            val nestedLoader = new LoaderOfMember();
-            nestedLoader.selectedList = _referrerMemberListList;
-            nestedLoader;
-        });
+    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
+    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
+
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { scala.collection.immutable.List() }
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
+
+    def selectedList: List[DbleMemberStatus] = { _selectedList; }
+    def selector: BehaviorSelector = { _selector; }
 }

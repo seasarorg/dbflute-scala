@@ -539,7 +539,6 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
-
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============
@@ -548,10 +547,10 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractProductIdList(productList: List[DbleProduct]): List[Integer] = {
-        return helpExtractListInternally(productList, new InternalExtractCallback[DbleProduct, Integer]() {
+    def extractProductIdList(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[Int] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(productList), new InternalExtractCallback[DbleProduct, Integer]() {
             def getCV(et: DbleProduct): Integer = { return et.getProductId(); }
-        });
+        })).map(_.asInstanceOf[Int]);
     }
 
     /**
@@ -559,10 +558,10 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractProductHandleCodeList(productList: List[DbleProduct]): List[String] = {
-        return helpExtractListInternally(productList, new InternalExtractCallback[DbleProduct, String]() {
+    def extractProductHandleCodeList(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[String] = {
+        return toScalaList(helpExtractListInternally(toDBableEntityList(productList), new InternalExtractCallback[DbleProduct, String]() {
             def getCV(et: DbleProduct): String = { return et.getProductHandleCode(); }
-        });
+        })).map(_.asInstanceOf[String]);
     }
 
     // ===================================================================================
@@ -582,11 +581,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * ... = product.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param product The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param entityCall The callback for entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(product: DbleProduct): Unit = {
-        doInsert(product, null);
+    def insert(entityCall: (MbleProduct) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleProduct();
+        entityCall(mble);
+        doInsert(mble.toDBableEntity, null);
     }
 
     protected def doInsert(product: DbleProduct, op: InsertOption[ProductCB]): Unit = {
@@ -605,8 +607,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { insert(downcast(et)); }
-        else { varyingInsert(downcast(et), downcast(op)); }
+        if (op == null) { doInsert(downcast(et), null); }
+        else { doInsert(downcast(et), downcast(op)); }
     }
 
     /**
@@ -626,15 +628,21 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param product The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(setting: (MbleProduct) => Unit): Unit = {
+    def update(entityCall: (MbleProduct) => Unit)(implicit optionCall: (UpdateOption[ProductCB]) => Unit = null): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
         val mble = new MbleProduct();
-        setting(mble);
-        doUpdate(mble.toDBableEntity, null);
+        entityCall(mble);
+        var option: UpdateOption[ProductCB] = null;
+        if (optionCall != null) {
+            option = new UpdateOption[ProductCB]();
+            optionCall(option);
+        }
+        doUpdate(mble.toDBableEntity, option);
     }
 
     protected def doUpdate(product: DbleProduct, op: UpdateOption[ProductCB]): Unit = {
@@ -670,7 +678,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     @Override
     protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
         if (op == null) { doUpdate(downcast(et), null); }
-        else { varyingUpdate(downcast(et), downcast(op)); }
+        else { doUpdate(downcast(et), downcast(op)); }
     }
 
     /**
@@ -687,13 +695,16 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * <span style="color: #3F7E5E">//product.setVersionNo(value);</span>
      * productBhv.<span style="color: #DD4747">updateNonstrict</span>(product);
      * </pre>
-     * @param product The entity of update target. (NotNull, PrimaryKeyNotNull)
+     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(product: DbleProduct): Unit = {
-        doUpdateNonstrict(product, null);
+    def updateNonstrict(entityCall: (MbleProduct) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleProduct();
+        entityCall(mble);
+        doUpdateNonstrict(mble.toDBableEntity, null);
     }
 
     protected def doUpdateNonstrict(product: DbleProduct, op: UpdateOption[ProductCB]): Unit = {
@@ -705,21 +716,24 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { updateNonstrict(downcast(et)); }
-        else { varyingUpdateNonstrict(downcast(et), downcast(op)); }
+        if (op == null) { doUpdateNonstrict(downcast(et), null); }
+        else { doUpdateNonstrict(downcast(et), downcast(op)); }
     }
 
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, ExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param product The entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update target. (NotNull)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(product: DbleProduct): Unit = {
-        doInesrtOrUpdate(product, null, null);
+    def insertOrUpdate(entityCall: (MbleProduct) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleProduct();
+        entityCall(mble);
+        doInesrtOrUpdate(mble.toDBableEntity, null, null);
     }
 
     protected def doInesrtOrUpdate(product: DbleProduct, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
@@ -733,7 +747,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { insertOrUpdate(downcast(et)); }
+        if (iop == null && uop == null) { doInesrtOrUpdate(downcast(et), null, null); }
         else {
             val niop = if (iop != null) { iop } else { new InsertOption[ProductCB]() };
             val nuop = if (uop != null) { uop } else { new UpdateOption[ProductCB]() };
@@ -745,13 +759,16 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * Insert or update the entity non-strictly modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() }
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param product The entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update target. (NotNull)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(product: DbleProduct): Unit = {
-        doInesrtOrUpdateNonstrict(product, null, null);
+    def insertOrUpdateNonstrict(entityCall: (MbleProduct) => Unit): Unit = {
+        assertObjectNotNull("entityCall", entityCall);
+        val mble = new MbleProduct();
+        entityCall(mble);
+        doInesrtOrUpdateNonstrict(mble.toDBableEntity, null, null);
     }
 
     protected def doInesrtOrUpdateNonstrict(product: DbleProduct, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
@@ -763,7 +780,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreateOrModifyNonstrict(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { insertOrUpdateNonstrict(downcast(et)); }
+        if (iop == null && uop == null) { doInesrtOrUpdateNonstrict(downcast(et), null, null); }
         else {
             val niop = if (iop != null) { iop } else { new InsertOption[ProductCB]() };
             val nuop = if (uop != null) { uop } else { new UpdateOption[ProductCB]() };
@@ -1652,7 +1669,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     protected def doCallbackLoader(dbleList: List[DbleProduct], loaderCall: (LoaderOfProduct) => Unit = null): Unit = {
         if (loaderCall != null) {
             val loader = new LoaderOfProduct();
-            loader.selectedList = dbleList.asInstanceOf[List[DbleProduct]];
+            loader.ready(dbleList.asInstanceOf[List[DbleProduct]], _behaviorSelector);
             loaderCall(loader);
         }
     }
@@ -1698,7 +1715,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     }
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[Product]): List[DbleProduct] = {
-        return immuList.map(new DbleProduct().acceptImmutableEntity(_)).asJava
+        return immuList.map(new DbleProduct().acceptImmutable(_)).asJava
     }
 }
 
@@ -1713,27 +1730,37 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
 
 /**
+ * The referrer loader of (商品)PRODUCT as TABLE.
  * @author jflute
  */
 class BsLoaderOfProduct {
 
     protected var _selectedList: List[DbleProduct] = null;
-    def selectedList: List[DbleProduct] = {
-        return _selectedList;
-    }
-    def selectedList_=(ls: List[DbleProduct]): Unit = {
-        _selectedList = ls;
+    protected var _selector: BehaviorSelector = null;
+    protected var _myBhv: ProductBhv = null; // lazy-loaded
+
+    def ready(selectedList: List[DbleProduct], selector: BehaviorSelector): LoaderOfProduct =
+    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfProduct]; }
+
+    protected def myBhv: ProductBhv =
+    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[ProductBhv]); _myBhv } }
+
+    protected var _referrerPurchaseList: List[DblePurchase] = null;
+    def loadPurchaseList(cbCall: (PurchaseCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchase] = {
+        myBhv.loadPurchaseList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
+            def handle(referrerList: List[DblePurchase]): Unit = { _referrerPurchaseList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfPurchase().ready(_referrerPurchaseList, _selector); });
     }
 
-    var _referrerPurchaseListList: List[DblePurchase] = null;
-    def loadPurchaseList(setupCall: (PurchaseCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchase] = {
-        DBFlutist.productBhv.loadPurchaseList(_selectedList, setupCall).withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
-            def handle(referrerList: List[DblePurchase]): Unit = { _referrerPurchaseListList = referrerList; }
-        });
-        return new ScrNestedReferrerLoader[LoaderOfPurchase](() => {
-            val nestedLoader = new LoaderOfPurchase();
-            nestedLoader.selectedList = _referrerPurchaseListList;
-            nestedLoader;
-        });
+    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
+    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
+
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { scala.collection.immutable.List() }
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
+
+    def selectedList: List[DbleProduct] = { _selectedList; }
+    def selector: BehaviorSelector = { _selector; }
 }

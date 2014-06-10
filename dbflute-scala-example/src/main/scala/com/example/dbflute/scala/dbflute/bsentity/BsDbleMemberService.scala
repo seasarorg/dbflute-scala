@@ -131,7 +131,7 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serial
      * Accept immutable entity to initialize this.
      * @return this. (NotNull)
      */
-    def acceptImmutableEntity(immu: MemberService): DbleMemberService = {
+    def acceptImmutable(immu: MemberService): DbleMemberService = {
         setMemberServiceId(immu.memberServiceId);
         setMemberId(immu.memberId);
         setServicePointCount(immu.servicePointCount);
@@ -141,8 +141,8 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serial
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
         setVersionNo(immu.versionNo);
-        setMember(immu.member.map(new DbleMember().acceptImmutableEntity(_)))
-        setServiceRank(immu.serviceRank.map(new DbleServiceRank().acceptImmutableEntity(_)))
+        setMember(immu.member.map(new DbleMember().acceptImmutable(_)))
+        setServiceRank(immu.serviceRank.map(new DbleServiceRank().acceptImmutable(_)))
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();

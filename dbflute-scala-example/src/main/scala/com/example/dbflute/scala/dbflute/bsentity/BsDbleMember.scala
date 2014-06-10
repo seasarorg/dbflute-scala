@@ -142,7 +142,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
      * Accept immutable entity to initialize this.
      * @return this. (NotNull)
      */
-    def acceptImmutableEntity(immu: Member): DbleMember = {
+    def acceptImmutable(immu: Member): DbleMember = {
         setMemberId(immu.memberId);
         setMemberName(immu.memberName);
         setMemberAccount(immu.memberAccount);
@@ -154,9 +154,9 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
         setVersionNo(immu.versionNo);
-        setMemberStatus(immu.memberStatus.map(new DbleMemberStatus().acceptImmutableEntity(_)))
-        setMemberServiceAsOne(immu.memberServiceAsOne.map(new DbleMemberService().acceptImmutableEntity(_)))
-        setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutableEntity(_)).asJava)
+        setMemberStatus(immu.memberStatus.map(new DbleMemberStatus().acceptImmutable(_)))
+        setMemberServiceAsOne(immu.memberServiceAsOne.map(new DbleMemberService().acceptImmutable(_)))
+        setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
