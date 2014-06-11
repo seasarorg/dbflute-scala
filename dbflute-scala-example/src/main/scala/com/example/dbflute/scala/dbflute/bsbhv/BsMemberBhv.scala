@@ -69,23 +69,17 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                              DBMeta
     //                                                                              ======
-    /** @return The instance of DBMeta. (NotNull) */
+    /** {@inheritDoc} */
     def getDBMeta(): DBMeta = { return MemberDbm; }
 
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
     /** {@inheritDoc} */
-    def newEntity(): Entity = { return newMyEntity(); }
+    def newEntity(): DbleMember = { return new DbleMember(); }
 
     /** {@inheritDoc} */
-    def newConditionBean(): ConditionBean = { return newMyConditionBean(); }
-
-    /** @return The instance of new entity as my table type. (NotNull) */
-    def newMyEntity(): DbleMember = { return new DbleMember(); }
-
-    /** @return The instance of new condition-bean as my table type. (NotNull) */
-    def newMyConditionBean(): MemberCB = { return new MemberCB(); }
+    def newConditionBean(): MemberCB = { return new MemberCB(); }
 
     // ===================================================================================
     //                                                                        Count Select
@@ -105,16 +99,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return facadeSelectCount(callbackCB(cbCall));
     }
 
-    def facadeSelectCount(cb: MemberCB): Int = {
-        return Integer2int(doSelectCountUniquely(cb));
+    protected def facadeSelectCount(cb: MemberCB): Int = {
+        return doSelectCountUniquely(cb);
     }
 
-    protected def doSelectCountUniquely(cb: MemberCB): Integer = { // called by selectCount(cb)
+    protected def doSelectCountUniquely(cb: MemberCB): Int = { // called by selectCount(cb)
         assertCBStateValid(cb);
         return delegateSelectCountUniquely(cb);
     }
 
-    protected def doSelectCountPlainly(cb: MemberCB): Integer = { // called by selectPage(cb)
+    protected def doSelectCountPlainly(cb: MemberCB): Int = { // called by selectPage(cb)
         assertCBStateValid(cb);
         return delegateSelectCountPlainly(cb);
     }
@@ -160,11 +154,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectEntity(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): Option[Member] = {
-        return facadeSelectEntity(callbackCB(cbCall))(loaderCall);
+        return facadeSelectEntity(callbackCB(cbCall))(loaderCall).map(_.toImmutable);
     }
 
-    protected def facadeSelectEntity(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): Option[Member] = {
-        return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall).map(f => new Member(f));
+    protected def facadeSelectEntity(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): Option[DbleMember] = {
+        return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall);
     }
 
     protected def doSelectEntity[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMember) => Unit = null): ENTITY = {
@@ -172,7 +166,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         val dble = helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, MemberCB]() {
             def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
         if (dble != null) {
-            doCallbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMember]), loaderCall);
+            callbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMember]), loaderCall);
         }
         return dble;
     }
@@ -183,7 +177,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadEntity(cb: ConditionBean): Entity = {
-        return doSelectEntity(downcast(cb), typeOfSelectedEntity())();
+        return facadeSelectEntity(downcast(cb))().orNull;
     }
 
     /**
@@ -203,24 +197,24 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectEntityWithDeletedCheck(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): Member = {
-        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall))(loaderCall);
+        return facadeSelectEntityWithDeletedCheck(callbackCB(cbCall))(loaderCall).toImmutable;
     }
 
-    protected def facadeSelectEntityWithDeletedCheck(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): Member = {
-        return new Member(doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity())(loaderCall));
+    protected def facadeSelectEntityWithDeletedCheck(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): DbleMember = {
+        return doSelectEntityWithDeletedCheck(cb, typeOfSelectedEntity())(loaderCall);
     }
 
     protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMember) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         val dble = helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, MemberCB]() {
             def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
-        doCallbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMember]), loaderCall);
+        callbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMember]), loaderCall);
         return dble;
     }
 
     @Override
     protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return doSelectEntityWithDeletedCheck(downcast(cb), typeOfSelectedEntity())();
+        return facadeSelectEntityWithDeletedCheck(downcast(cb))();
     }
 
     /**
@@ -232,21 +226,20 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByPK(memberId: Integer): Option[Member] = {
-        return facadeSelectByPK(memberId);
+        return facadeSelectByPK(memberId).map(_.toImmutable);
     }
 
-    def facadeSelectByPK(memberId: Integer): Option[Member] = {
-        return doSelectByPK(memberId, typeOfSelectedEntity()).map(f => new Member(f));
+    protected def facadeSelectByPK(memberId: Integer): Option[DbleMember] = {
+        return doSelectByPK(memberId, typeOfSelectedEntity());
     }
 
-    protected def doSelectByPK[ENTITY <: DbleMember](memberId: Integer, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsPK(memberId), entityType)());
+    protected def doSelectByPK[ENTITY <: DbleMember](memberId: Integer, tp: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsPK(memberId), tp)());
     }
 
     protected def xprepareCBAsPK(memberId: Integer): MemberCB = {
         assertObjectNotNull("memberId", memberId);
-        val cb: MemberCB = newMyConditionBean();
-        cb.query().setMemberId_Equal(memberId);;
+        val cb = newConditionBean(); cb.acceptPrimaryKey(memberId);
         return cb;
     }
 
@@ -259,20 +252,20 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
     def selectByUniqueOf(memberAccount: String): Option[Member] = {
-        return facadeSelectByUniqueOf(memberAccount);
+        return facadeSelectByUniqueOf(memberAccount).map(_.toImmutable);
     }
 
-    protected def facadeSelectByUniqueOf(memberAccount: String): Option[Member] = {
-        return doSelectByUniqueOf(memberAccount, typeOfSelectedEntity()).map(f => new Member(f));
+    protected def facadeSelectByUniqueOf(memberAccount: String): Option[DbleMember] = {
+        return doSelectByUniqueOf(memberAccount, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DbleMember](memberAccount: String, entityType: Class[ENTITY]): Option[ENTITY] = {
-        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberAccount), entityType)());
+    protected def doSelectByUniqueOf[ENTITY <: DbleMember](memberAccount: String, tp: Class[ENTITY]): Option[ENTITY] = {
+        return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberAccount), tp)());
     }
 
     protected def xprepareCBAsUniqueOf(memberAccount: String): MemberCB = {
         assertObjectNotNull("memberAccount", memberAccount);
-        val cb: MemberCB = newMyConditionBean(); cb.acceptUniqueOf(memberAccount);
+        val cb: MemberCB = newConditionBean(); cb.acceptUniqueOf(memberAccount);
         return cb;
     }
 
@@ -296,11 +289,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
     def selectList(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): scala.collection.immutable.List[Member] = {
-        return facadeSelectList(callbackCB(cbCall))(loaderCall);
+        return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
-    protected def facadeSelectList(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): scala.collection.immutable.List[Member] = {
-        return toImmutableEntityList(doSelectList(cb, typeOfSelectedEntity())(loaderCall));
+    protected def facadeSelectList(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): ListResultBean[DbleMember] = {
+        return doSelectList(cb, typeOfSelectedEntity())(loaderCall);
     }
 
     protected def doSelectList[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMember) => Unit = null): ListResultBean[ENTITY] = {
@@ -308,13 +301,13 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         val dbleList = helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, MemberCB]() {
             def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return delegateSelectList(lcb, ltp); } });
-        doCallbackLoader(dbleList.asInstanceOf[List[DbleMember]], loaderCall);
+        callbackLoader(dbleList.asInstanceOf[List[DbleMember]], loaderCall);
         return dbleList;
     }
 
     @Override
     protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return doSelectList(downcast(cb), typeOfSelectedEntity())();
+        return facadeSelectList(downcast(cb))();
     }
 
     // ===================================================================================
@@ -344,10 +337,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
     def selectPage(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): PagingResultBean[DbleMember] = {
-        return facadeSelectPage(callbackCB(cbCall))(loaderCall);
+        return facadeSelectPage(callbackCB(cbCall))(loaderCall); // #pending use toImmutableEntityList()
     }
 
-    def facadeSelectPage(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): PagingResultBean[DbleMember] = {
+    protected def facadeSelectPage(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): PagingResultBean[DbleMember] = {
         return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
     }
 
@@ -361,7 +354,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return doSelectPage(downcast(cb), typeOfSelectedEntity())();
+        return facadeSelectPage(downcast(cb))();
     }
 
     // ===================================================================================
@@ -382,23 +375,21 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @param entityRowHandler The handler of entity row of DbleMember. (NotNull)
      */
     def selectCursor(cbCall: (MemberCB) => Unit)(rowCall: (Member) => Unit): Unit = {
-        facadeSelectCursor(callbackCB(cbCall))(rowCall);
+        facadeSelectCursor(callbackCB(cbCall), new EntityRowHandler[DbleMember]() {
+            def handle(entity: DbleMember): Unit = { rowCall(entity.toImmutable) }
+        });
     }
 
-    protected def facadeSelectCursor(cb: MemberCB)(rowCall: (Member) => Unit): Unit = {
-        doSelectCursor(cb, new EntityRowHandler[DbleMember]() {
-            def handle(entity: DbleMember): Unit = {
-                rowCall(new Member(entity))
-            }
-        }, typeOfSelectedEntity());
+    protected def facadeSelectCursor(cb: MemberCB, handler: EntityRowHandler[DbleMember]): Unit = {
+        doSelectCursor(cb, handler, typeOfSelectedEntity());
     }
 
     protected def doSelectCursor[ENTITY <: DbleMember](cb: MemberCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
         assertCBStateValid(cb); assertObjectNotNull("entityRowHandler", handler); assertObjectNotNull("entityType", tp);
         assertSpecifyDerivedReferrerEntityProperty(cb, tp);
         helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, MemberCB]() {
-            def callbackSelectCursor(cb: MemberCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = { delegateSelectCursor(cb, handler, tp); }
-            def callbackSelectList(cb: MemberCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp)(); }
+            def callbackSelectCursor(lcb: MemberCB, lhandler: EntityRowHandler[ENTITY], ltp: Class[ENTITY]): Unit = { delegateSelectCursor(lcb, lhandler, ltp); }
+            def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); }
         });
     }
 
@@ -421,7 +412,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The scalar function object to specify function for scalar value. (NotNull)
      */
     def scalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[MemberCB, RESULT] = {
-        return doScalarSelect(resultType, newMyConditionBean());
+        return facadeScalarSelect(resultType);
+    }
+
+    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[MemberCB, RESULT] = {
+        return doScalarSelect(resultType, newConditionBean());
     }
 
     protected def doScalarSelect[RESULT, CB <: MemberCB](tp: Class[RESULT], cb: CB): SLFunction[CB, RESULT] = {
@@ -435,7 +430,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doReadScalar[RESULT](tp: Class[RESULT]): SLFunction[_ <: ConditionBean, RESULT] = {
-        return doScalarSelect(tp, newMyConditionBean());
+        return facadeScalarSelect(tp);
     }
 
     // ===================================================================================
@@ -523,7 +518,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
             { return et.getMemberId(); }
             def setRfLs(et: DbleMember, ls: List[DblePurchase]): Unit =
             { et.setPurchaseList(ls); }
-            def newMyCB(): PurchaseCB = { return referrerBhv.newMyConditionBean(); }
+            def newMyCB(): PurchaseCB = { return referrerBhv.newConditionBean(); }
             def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
             { cb.query().setMemberId_InScope(toScalaList(ls).map(_.asInstanceOf[Int])); }
             def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_MemberId_Asc(); }
@@ -613,20 +608,19 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * ... = member.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
      * </pre>
      * <p>While, when the entity is created by select, all columns are registered.</p>
-     * @param entityCall The callback for entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param entityCall The callback for entity of insert. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
+     * @param optionCall The callback for option of insert. (NoArgAllowed: then no option)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(entityCall: (MbleMember) => Unit): Unit = {
+    def insert(entityCall: (MbleMember) => Unit)(implicit optionCall: (InsertOption[MemberCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
-        val mble = new MbleMember();
-        entityCall(mble);
-        doInsert(mble.toDBableEntity, null);
+        doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
 
-    protected def doInsert(member: DbleMember, op: InsertOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", member);
+    protected def doInsert(et: DbleMember, op: InsertOption[MemberCB]): Unit = {
+        assertObjectNotNull("member", et);
         prepareInsertOption(op);
-        delegateInsert(member, op);
+        delegateInsert(et, op);
     }
 
     protected def prepareInsertOption(op: InsertOption[MemberCB]): Unit = {
@@ -639,8 +633,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { doInsert(downcast(et), null); }
-        else { doInsert(downcast(et), downcast(op)); }
+        doInsert(downcast(et), downcast(op));
     }
 
     /**
@@ -652,7 +645,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
      * <span style="color: #3F7E5E">//member.setRegisterUser(value);</span>
      * <span style="color: #3F7E5E">//member.set...;</span>
-     * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
+     * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
      * member.<span style="color: #DD4747">setVersionNo</span>(value);
      * try {
      *     memberBhv.<span style="color: #DD4747">update</span>(member);
@@ -660,57 +653,40 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
+     * @param entityCall The callback for entity of update. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnNotNull)
+     * @param optionCall The callback for option of update. (NoArgAllowed: then no option)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
     def update(entityCall: (MbleMember) => Unit)(implicit optionCall: (UpdateOption[MemberCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
-        val mble = new MbleMember();
-        entityCall(mble);
-        var option: UpdateOption[MemberCB] = null;
-        if (optionCall != null) {
-            option = new UpdateOption[MemberCB]();
-            optionCall(option);
-        }
-        doUpdate(mble.toDBableEntity, option);
+        doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doUpdate(member: DbleMember, op: UpdateOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", member);
+    protected def doUpdate(et: DbleMember, op: UpdateOption[MemberCB]): Unit = {
+        assertObjectNotNull("member", et);
         prepareUpdateOption(op);
-        helpUpdateInternally(member, new InternalUpdateCallback[DbleMember]() {
-            def callbackDelegateUpdate(et: DbleMember): Int = { return delegateUpdate(et, op); } });
+        helpUpdateInternally(et, new InternalUpdateCallback[DbleMember]() {
+            def callbackDelegateUpdate(let: DbleMember): Int = { return delegateUpdate(let, op); } });
     }
 
     protected def prepareUpdateOption(op: UpdateOption[MemberCB]): Unit = {
         if (op == null) { return; }
         assertUpdateOptionStatus(op);
-        if (op.hasSelfSpecification()) {
-            op.resolveSelfSpecification(createCBForVaryingUpdate());
-        }
-        if (op.hasSpecifiedUpdateColumn()) {
-            op.resolveUpdateColumnSpecification(createCBForSpecifiedUpdate());
-        }
+        if (op.hasSelfSpecification()) { op.resolveSelfSpecification(createCBForVaryingUpdate()); }
+        if (op.hasSpecifiedUpdateColumn()) { op.resolveUpdateColumnSpecification(createCBForSpecifiedUpdate()); }
     }
 
-    protected def createCBForVaryingUpdate(): MemberCB = {
-        val cb: MemberCB = newMyConditionBean();
-        cb.xsetupForVaryingUpdate();
-        return cb;
-    }
+    protected def createCBForVaryingUpdate(): MemberCB =
+    { val cb: MemberCB = newConditionBean(); cb.xsetupForVaryingUpdate(); return cb; }
 
-    protected def createCBForSpecifiedUpdate(): MemberCB = {
-        val cb: MemberCB = newMyConditionBean();
-        cb.xsetupForSpecifiedUpdate();
-        return cb;
-    }
+    protected def createCBForSpecifiedUpdate(): MemberCB =
+    { val cb: MemberCB = newConditionBean(); cb.xsetupForSpecifiedUpdate(); return cb; }
 
     @Override
     protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { doUpdate(downcast(et), null); }
-        else { doUpdate(downcast(et), downcast(op)); }
+        doUpdate(downcast(et), downcast(op));
     }
 
     /**
@@ -722,102 +698,83 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
      * <span style="color: #3F7E5E">//member.setRegisterUser(value);</span>
      * <span style="color: #3F7E5E">//member.set...;</span>
-     * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
+     * <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
      * <span style="color: #3F7E5E">//member.setVersionNo(value);</span>
      * memberBhv.<span style="color: #DD4747">updateNonstrict</span>(member);
      * </pre>
-     * @param entityCall The callback for entity of update target. (NotNull, basically PrimaryKeyNotNull)
+     * @param entityCall The callback for entity of update. (NotNull, PrimaryKeyNotNull)
+     * @param optionCall The callback for option of update. (NoArgAllowed: then no option)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(entityCall: (MbleMember) => Unit): Unit = {
-        assertObjectNotNull("entityCall", entityCall);
-        val mble = new MbleMember();
-        entityCall(mble);
-        doUpdateNonstrict(mble.toDBableEntity, null);
+    def updateNonstrict(entityCall: (MbleMember) => Unit)(implicit optionCall: (UpdateOption[MemberCB]) => Unit = null): Unit = {
+        doUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doUpdateNonstrict(member: DbleMember, op: UpdateOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", member);
+    protected def doUpdateNonstrict(et: DbleMember, op: UpdateOption[MemberCB]): Unit = {
+        assertObjectNotNull("member", et);
         prepareUpdateOption(op);
-        helpUpdateNonstrictInternally(member, new InternalUpdateNonstrictCallback[DbleMember]() {
-            def callbackDelegateUpdateNonstrict(et: DbleMember): Int = { return delegateUpdateNonstrict(et, op); } });
+        helpUpdateNonstrictInternally(et, new InternalUpdateNonstrictCallback[DbleMember]() {
+            def callbackDelegateUpdateNonstrict(let: DbleMember): Int = { return delegateUpdateNonstrict(let, op); } });
     }
 
     @Override
     protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { doUpdateNonstrict(downcast(et), null); }
-        else { doUpdateNonstrict(downcast(et), downcast(op)); }
+        doUpdateNonstrict(downcast(et), downcast(op));
     }
 
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, ExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param entityCall The callback for entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update. (NotNull, ...depends on insert or update)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
     def insertOrUpdate(entityCall: (MbleMember) => Unit): Unit = {
-        assertObjectNotNull("entityCall", entityCall);
-        val mble = new MbleMember();
-        entityCall(mble);
-        doInesrtOrUpdate(mble.toDBableEntity, null, null);
+        doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), null, null);
     }
 
-    protected def doInesrtOrUpdate(member: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
-        helpInsertOrUpdateInternally(member, new InternalInsertOrUpdateCallback[DbleMember, MemberCB]() {
-            def callbackInsert(et: DbleMember): Unit = { doInsert(et, iop); }
-            def callbackUpdate(et: DbleMember): Unit = { doUpdate(et, uop); }
-            def callbackNewMyConditionBean(): MemberCB = { return newMyConditionBean(); }
+    protected def doInsertOrUpdate(et: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
+        helpInsertOrUpdateInternally(et, new InternalInsertOrUpdateCallback[DbleMember, MemberCB]() {
+            def callbackInsert(let: DbleMember): Unit = { doInsert(let, iop); }
+            def callbackUpdate(let: DbleMember): Unit = { doUpdate(let, uop); }
+            def callbackNewMyConditionBean(): MemberCB = { return newConditionBean(); }
             def callbackSelectCount(cb: MemberCB): Int = { return facadeSelectCount(cb); }
         });
     }
 
     @Override
     protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { doInesrtOrUpdate(downcast(et), null, null); }
-        else {
-            val niop = if (iop != null) { iop } else { new InsertOption[MemberCB]() };
-            val nuop = if (uop != null) { uop } else { new UpdateOption[MemberCB]() };
-            varyingInsertOrUpdate(downcast(et), downcast(niop), downcast(nuop));
-        }
+        doInsertOrUpdate(downcast(et), downcast(iop), downcast(uop));
     }
 
     /**
      * Insert or update the entity non-strictly modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() }
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
-     * @param entityCall The callback for entity of insert or update target. (NotNull)
+     * @param entityCall The callback for entity of insert or update. (NotNull, ...depends on insert or update)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
     def insertOrUpdateNonstrict(entityCall: (MbleMember) => Unit): Unit = {
-        assertObjectNotNull("entityCall", entityCall);
-        val mble = new MbleMember();
-        entityCall(mble);
-        doInesrtOrUpdateNonstrict(mble.toDBableEntity, null, null);
+        doInsertOrUpdateNonstrict(callbackMbleEntityToDBable(entityCall), null, null);
     }
 
-    protected def doInesrtOrUpdateNonstrict(member: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
-        helpInsertOrUpdateInternally(member, new InternalInsertOrUpdateNonstrictCallback[DbleMember]() {
-            def callbackInsert(et: DbleMember): Unit = { doInsert(et, iop); }
-            def callbackUpdateNonstrict(et: DbleMember): Unit = { doUpdateNonstrict(et, uop); }
+    protected def doInsertOrUpdateNonstrict(et: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
+        helpInsertOrUpdateInternally(et, new InternalInsertOrUpdateNonstrictCallback[DbleMember]() {
+            def callbackInsert(let: DbleMember): Unit = { doInsert(let, iop); }
+            def callbackUpdateNonstrict(let: DbleMember): Unit = { doUpdateNonstrict(let, uop); }
         });
     }
 
     @Override
     protected def doCreateOrModifyNonstrict(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        if (iop == null && uop == null) { doInesrtOrUpdateNonstrict(downcast(et), null, null); }
-        else {
-            val niop = if (iop != null) { iop } else { new InsertOption[MemberCB]() };
-            val nuop = if (uop != null) { uop } else { new UpdateOption[MemberCB]() };
-            varyingInsertOrUpdateNonstrict(downcast(et), downcast(niop), downcast(nuop));
-        }
+        doInsertOrUpdateNonstrict(downcast(et), downcast(iop), downcast(uop));
     }
 
     /**
@@ -825,7 +782,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * <pre>
      * DbleMember member = new DbleMember();
      * member.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
+     * <span style="color: #3F7E5E">// if exclusive control, the value of concurrency column is required</span>
      * member.<span style="color: #DD4747">setVersionNo</span>(value);
      * try {
      *     memberBhv.<span style="color: #DD4747">delete</span>(member);
@@ -833,30 +790,28 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      *     ...
      * }
      * </pre>
-     * @param member The entity of delete target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
+     * @param entityCall The callback for entity of delete. (NotNull, PrimaryKeyNotNull)
+     * @param optionCall The callback for option of delete. (NoArgAllowed: then no option)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(member: DbleMember): Unit = {
-        doDelete(member, null);
+    def delete(entityCall: (MbleMember) => Unit)(implicit optionCall: (DeleteOption[MemberCB]) => Unit = null): Unit = {
+        doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
-    protected def doDelete(member: DbleMember, op: DeleteOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", member);
+    protected def doDelete(et: DbleMember, op: DeleteOption[MemberCB]): Unit = {
+        assertObjectNotNull("member", et);
         prepareDeleteOption(op);
-        helpDeleteInternally(member, new InternalDeleteCallback[DbleMember]() {
-            def callbackDelegateDelete(et: DbleMember): Int = { return delegateDelete(et, op); } });
+        helpDeleteInternally(et, new InternalDeleteCallback[DbleMember]() {
+            def callbackDelegateDelete(let: DbleMember): Int = { return delegateDelete(let, op); } });
     }
 
-    protected def prepareDeleteOption(op: DeleteOption[MemberCB]): Unit = {
-        if (op == null) { return; }
-        assertDeleteOptionStatus(op);
-    }
+    protected def prepareDeleteOption(op: DeleteOption[MemberCB]): Unit =
+    { if (op != null) { assertDeleteOptionStatus(op); } }
 
     @Override
     protected def doRemove(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { delete(downcast(et)); }
-        else { varyingDelete(downcast(et), downcast(op)); }
+        doDelete(downcast(et), downcast(op));
     }
 
     /**
@@ -864,55 +819,30 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * <pre>
      * DbleMember member = new DbleMember();
      * member.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
+     * <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
      * <span style="color: #3F7E5E">//member.setVersionNo(value);</span>
      * memberBhv.<span style="color: #DD4747">deleteNonstrict</span>(member);
      * </pre>
-     * @param member The entity of delete target. (NotNull, PrimaryKeyNotNull)
+     * @param entityCall The callback for entity of delete. (NotNull, PrimaryKeyNotNull)
+     * @param optionCall The callback for option of delete. (NoArgAllowed: then no option)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrict(member: DbleMember): Unit = {
-        doDeleteNonstrict(member, null);
+    def deleteNonstrict(entityCall: (MbleMember) => Unit)(implicit optionCall: (DeleteOption[MemberCB]) => Unit = null): Unit = {
+        doDeleteNonstrict(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
-    protected def doDeleteNonstrict(member: DbleMember, op: DeleteOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", member);
+    protected def doDeleteNonstrict(et: DbleMember, op: DeleteOption[MemberCB]): Unit = {
+        assertObjectNotNull("member", et);
         prepareDeleteOption(op);
-        helpDeleteNonstrictInternally(member, new InternalDeleteNonstrictCallback[DbleMember]() {
-            def callbackDelegateDeleteNonstrict(et: DbleMember): Int = { return delegateDeleteNonstrict(et, op); } });
-    }
-
-    /**
-     * Delete the entity non-strictly ignoring deleted. {ZeroUpdateException, NonExclusiveControl}
-     * <pre>
-     * DbleMember member = new DbleMember();
-     * member.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
-     * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//member.setVersionNo(value);</span>
-     * memberBhv.<span style="color: #DD4747">deleteNonstrictIgnoreDeleted</span>(member);
-     * <span style="color: #3F7E5E">// if the target entity doesn't exist, no exception</span>
-     * </pre>
-     * @param member The entity of delete target. (NotNull, PrimaryKeyNotNull)
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     */
-    def deleteNonstrictIgnoreDeleted(member: DbleMember): Unit = {
-        doDeleteNonstrictIgnoreDeleted(member, null);
-    }
-
-    protected def doDeleteNonstrictIgnoreDeleted(member: DbleMember, op: DeleteOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", member);
-        prepareDeleteOption(op);
-        helpDeleteNonstrictIgnoreDeletedInternally(member, new InternalDeleteNonstrictIgnoreDeletedCallback[DbleMember]() {
-            def callbackDelegateDeleteNonstrict(et: DbleMember): Int = { return delegateDeleteNonstrict(et, op); } });
+        helpDeleteNonstrictInternally(et, new InternalDeleteNonstrictCallback[DbleMember]() {
+            def callbackDelegateDeleteNonstrict(let: DbleMember): Int = { return delegateDeleteNonstrict(let, op); } });
     }
 
     @Override
     protected def doRemoveNonstrict(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = {
-        if (op == null) { deleteNonstrict(downcast(et)); }
-        else { varyingDeleteNonstrict(downcast(et), downcast(op)); }
+        doDeleteNonstrict(downcast(et), downcast(op));
     }
 
     // ===================================================================================
@@ -943,26 +873,25 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
     def batchInsert(memberList: scala.collection.immutable.List[DbleMember]): Array[Int] = {
-        val op: InsertOption[MemberCB] = createInsertUpdateOption();
-        return doBatchInsert(memberList.asJava, op);
+        return doBatchInsert(memberList.asJava, null);
     }
 
-    protected def doBatchInsert(memberList: List[DbleMember], op: InsertOption[MemberCB]): Array[Int] = {
-        assertObjectNotNull("memberList", memberList);
-        prepareBatchInsertOption(memberList, op);
-        return delegateBatchInsert(memberList, op);
+    protected def doBatchInsert(ls: List[DbleMember], op: InsertOption[MemberCB]): Array[Int] = {
+        assertObjectNotNull("memberList", ls);
+        val rlop: InsertOption[MemberCB] = if (op != null) { op } else { createPlainInsertOption() }
+        prepareBatchInsertOption(ls, op); // required
+        return delegateBatchInsert(ls, op);
     }
 
-    protected def prepareBatchInsertOption(memberList: List[DbleMember], op: InsertOption[MemberCB]): Unit = {
+    protected def prepareBatchInsertOption(ls: List[DbleMember], op: InsertOption[MemberCB]): Unit = {
         op.xallowInsertColumnModifiedPropertiesFragmented();
-        op.xacceptInsertColumnModifiedPropertiesIfNeeds(memberList);
+        op.xacceptInsertColumnModifiedPropertiesIfNeeds(ls);
         prepareInsertOption(op);
     }
 
     @Override
     protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchInsert(toScalaList(downcast(ls))); }
-        else { return varyingBatchInsert(toScalaList(downcast(ls)), downcast(op)); }
+        return doBatchInsert(downcast(ls), downcast(op));
     }
 
     /**
@@ -990,25 +919,24 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
     def batchUpdate(memberList: scala.collection.immutable.List[DbleMember]): Array[Int] = {
-        val op: UpdateOption[MemberCB] = createPlainUpdateOption();
-        return doBatchUpdate(memberList.asJava, op);
+        return doBatchUpdate(memberList.asJava, null);
     }
 
-    protected def doBatchUpdate(memberList: List[DbleMember], op: UpdateOption[MemberCB]): Array[Int] = {
-        assertObjectNotNull("memberList", memberList);
-        prepareBatchUpdateOption(memberList, op);
-        return delegateBatchUpdate(memberList, op);
+    protected def doBatchUpdate(ls: List[DbleMember], op: UpdateOption[MemberCB]): Array[Int] = {
+        assertObjectNotNull("memberList", ls);
+        val rlop: UpdateOption[MemberCB] = if (op != null) { op } else { createPlainUpdateOption() }
+        prepareBatchUpdateOption(ls, rlop); // required
+        return delegateBatchUpdate(ls, rlop);
     }
 
-    protected def prepareBatchUpdateOption(memberList: List[DbleMember], op: UpdateOption[MemberCB]): Unit = {
-        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(memberList);
+    protected def prepareBatchUpdateOption(ls: List[DbleMember], op: UpdateOption[MemberCB]): Unit = {
+        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(ls);
         prepareUpdateOption(op);
     }
 
     @Override
     protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdate(toScalaList(downcast(ls))); }
-        else { return varyingBatchUpdate(toScalaList(downcast(ls)), downcast(op)); }
+        doBatchUpdate(downcast(ls), downcast(op));
     }
 
     /**
@@ -1068,14 +996,14 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
     def batchUpdateNonstrict(memberList: scala.collection.immutable.List[DbleMember]): Array[Int] = {
-        val option: UpdateOption[MemberCB] = createPlainUpdateOption();
-        return doBatchUpdateNonstrict(memberList.asJava, option);
+        return doBatchUpdateNonstrict(memberList.asJava, null);
     }
 
-    protected def doBatchUpdateNonstrict(memberList: List[DbleMember], op: UpdateOption[MemberCB]): Array[Int] = {
-        assertObjectNotNull("memberList", memberList);
-        prepareBatchUpdateOption(memberList, op);
-        return delegateBatchUpdateNonstrict(memberList, op);
+    protected def doBatchUpdateNonstrict(ls: List[DbleMember], op: UpdateOption[MemberCB]): Array[Int] = {
+        assertObjectNotNull("memberList", ls);
+        val rlop: UpdateOption[MemberCB] = if (op != null) { op } else { createPlainUpdateOption() }
+        prepareBatchUpdateOption(ls, rlop);
+        return delegateBatchUpdateNonstrict(ls, rlop);
     }
 
     /**
@@ -1111,8 +1039,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchUpdateNonstrict(toScalaList(downcast(ls))); }
-        else { return varyingBatchUpdateNonstrict(toScalaList(downcast(ls)), downcast(op)); }
+        return doBatchUpdateNonstrict(downcast(ls), downcast(op));
     }
 
     /**
@@ -1126,16 +1053,15 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return doBatchDelete(memberList.asJava, null);
     }
 
-    protected def doBatchDelete(memberList: List[DbleMember], op: DeleteOption[MemberCB]): Array[Int] = {
-        assertObjectNotNull("memberList", memberList);
+    protected def doBatchDelete(ls: List[DbleMember], op: DeleteOption[MemberCB]): Array[Int] = {
+        assertObjectNotNull("memberList", ls);
         prepareDeleteOption(op);
-        return delegateBatchDelete(memberList, op);
+        return delegateBatchDelete(ls, op);
     }
 
     @Override
     protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDelete(toScalaList(downcast(ls))); }
-        else { return varyingBatchDelete(toScalaList(downcast(ls)), downcast(op)); }
+        return doBatchDelete(downcast(ls), downcast(op));
     }
 
     /**
@@ -1149,16 +1075,15 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return doBatchDeleteNonstrict(memberList.asJava, null);
     }
 
-    protected def doBatchDeleteNonstrict(memberList: List[DbleMember], op: DeleteOption[MemberCB]): Array[Int] = {
-        assertObjectNotNull("memberList", memberList);
+    protected def doBatchDeleteNonstrict(ls: List[DbleMember], op: DeleteOption[MemberCB]): Array[Int] = {
+        assertObjectNotNull("memberList", ls);
         prepareDeleteOption(op);
-        return delegateBatchDeleteNonstrict(memberList, op);
+        return delegateBatchDeleteNonstrict(ls, op);
     }
 
     @Override
     protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        if (op == null) { return batchDeleteNonstrict(toScalaList(downcast(ls))); }
-        else { return varyingBatchDeleteNonstrict(toScalaList(downcast(ls)), downcast(op)); }
+        return doBatchDeleteNonstrict(downcast(ls), downcast(op));
     }
 
     // ===================================================================================
@@ -1180,7 +1105,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      *         <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
      *         <span style="color: #3F7E5E">//entity.setRegisterUser(value);</span>
      *         <span style="color: #3F7E5E">//entity.set...;</span>
-     *         <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
+     *         <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      *         <span style="color: #3F7E5E">//entity.setVersionNo(value);</span>
      *
      *         return cb;
@@ -1191,27 +1116,23 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The inserted count.
      */
     def queryInsert(setupper: QueryInsertSetupper[DbleMember, MemberCB]): Int = {
-        return Integer2int(doQueryInsert(setupper, null));
+        return doQueryInsert(setupper, null);
     }
 
-    protected def doQueryInsert(sp: QueryInsertSetupper[DbleMember, MemberCB], op: InsertOption[MemberCB]): Integer = {
+    protected def doQueryInsert(sp: QueryInsertSetupper[DbleMember, MemberCB], op: InsertOption[MemberCB]): Int = {
         assertObjectNotNull("setupper", sp);
         prepareInsertOption(op);
-        val e: DbleMember = new DbleMember();
+        val et: DbleMember = newEntity();
         val cb: MemberCB = createCBForQueryInsert();
-        return delegateQueryInsert(e, cb, sp.setup(e, cb), op);
+        return delegateQueryInsert(et, cb, sp.setup(et, cb), op);
     }
 
-    protected def createCBForQueryInsert(): MemberCB = {
-        val cb: MemberCB = newMyConditionBean();
-        cb.xsetupForQueryInsert();
-        return cb;
-    }
+    protected def createCBForQueryInsert(): MemberCB =
+    { val cb: MemberCB = newConditionBean(); cb.xsetupForQueryInsert(); return cb; }
 
     @Override
     protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int = {
-        if (option == null) { return queryInsert(downcast(setupper)); }
-        else { return varyingQueryInsert(downcast(setupper), downcast(option)); }
+        doQueryInsert(downcast(setupper), downcast(option));
     }
 
     /**
@@ -1224,23 +1145,24 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * <span style="color: #3F7E5E">// you don't need to set values of common columns</span>
      * <span style="color: #3F7E5E">//member.setRegisterUser(value);</span>
      * <span style="color: #3F7E5E">//member.set...;</span>
-     * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
+     * <span style="color: #3F7E5E">// you don't need to set a value of concurrency column</span>
      * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
      * <span style="color: #3F7E5E">//member.setVersionNo(value);</span>
      * MemberCB cb = new MemberCB();
      * cb.query().setFoo...(value);
      * memberBhv.<span style="color: #DD4747">queryUpdate</span>(member, cb);
      * </pre>
-     * @param member The entity that contains update values. (NotNull, PrimaryKeyNullAllowed)
-     * @param cb The condition-bean of DbleMember. (NotNull)
+     * @param entityCall The callback for entity that contains update values. (NotNull)
+     * @param cbCall The callback for condition-bean of Member. (NotNull)
      * @return The updated count.
      * @exception NonQueryUpdateNotAllowedException When the query has no condition.
      */
-    def queryUpdate(member: DbleMember, cb: MemberCB): Int = {
-        return Integer2int(doQueryUpdate(member, cb, null));
+    def queryUpdate(entityCall: (MbleMember) => Unit)(cbCall: (MemberCB) => Unit): Int = {
+        assertObjectNotNull("entityCall", entityCall); assertObjectNotNull("cbCall", cbCall);
+        return doQueryUpdate(callbackMbleEntityToDBable(entityCall), callbackCB(cbCall), null);
     }
 
-    protected def doQueryUpdate(member: DbleMember, cb: MemberCB, op: UpdateOption[MemberCB]): Integer = {
+    protected def doQueryUpdate(member: DbleMember, cb: MemberCB, op: UpdateOption[MemberCB]): Int = {
         assertObjectNotNull("member", member); assertCBStateValid(cb);
         prepareUpdateOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(member, cb, op) } else { 0 };
@@ -1248,8 +1170,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int = {
-        if (op == null) { return queryUpdate(downcast(et), cb.asInstanceOf[MemberCB]); }
-        else { return varyingQueryUpdate(downcast(et), cb.asInstanceOf[MemberCB], downcast(op)); }
+        return doQueryUpdate(downcast(et), downcast(cb), downcast(op));
     }
 
     /**
@@ -1259,15 +1180,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * cb.query().setFoo...(value);
      * memberBhv.<span style="color: #DD4747">queryDelete</span>(member, cb);
      * </pre>
-     * @param cb The condition-bean of DbleMember. (NotNull)
+     * @param cbCall The callback for condition-bean of Member. (NotNull)
      * @return The deleted count.
      * @exception NonQueryDeleteNotAllowedException When the query has no condition.
      */
-    def queryDelete(cb: MemberCB): Int = {
-        return Integer2int(doQueryDelete(cb, null));
+    def queryDelete(cbCall: (MemberCB) => Unit): Int = {
+        assertObjectNotNull("cbCall", cbCall);
+        return doQueryDelete(callbackCB(cbCall), null);
     }
 
-    protected def doQueryDelete(cb: MemberCB, op: DeleteOption[MemberCB]): Integer = {
+    protected def doQueryDelete(cb: MemberCB, op: DeleteOption[MemberCB]): Int = {
         assertCBStateValid(cb);
         prepareDeleteOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryDelete(cb, op) } else { 0 };
@@ -1275,297 +1197,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     @Override
     protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = {
-        if (op == null) { return queryDelete(cb.asInstanceOf[MemberCB]); }
-        else { return varyingQueryDelete(cb.asInstanceOf[MemberCB], downcast(op)); }
-    }
-
-    // ===================================================================================
-    //                                                                      Varying Update
-    //                                                                      ==============
-    // -----------------------------------------------------
-    //                                         Entity Update
-    //                                         -------------
-    /**
-     * Insert the entity with varying requests. <br />
-     * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br />
-     * Other specifications are same as insert(entity).
-     * <pre>
-     * DbleMember member = new DbleMember();
-     * <span style="color: #3F7E5E">// if auto-increment, you don't need to set the PK value</span>
-     * member.setFoo...(value);
-     * member.setBar...(value);
-     * InsertOption[MemberCB] option = new InsertOption[MemberCB]();
-     * <span style="color: #3F7E5E">// you can insert by your values for common columns</span>
-     * option.disableCommonColumnAutoSetup();
-     * memberBhv.<span style="color: #DD4747">varyingInsert</span>(member, option);
-     * ... = member.getPK...(); <span style="color: #3F7E5E">// if auto-increment, you can get the value after</span>
-     * </pre>
-     * @param member The entity of insert target. (NotNull, PrimaryKeyNullAllowed: when auto-increment)
-     * @param option The option of insert for varying requests. (NotNull)
-     * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
-     */
-    def varyingInsert(member: DbleMember, option: InsertOption[MemberCB]): Unit = {
-        assertInsertOptionNotNull(option);
-        doInsert(member, option);
-    }
-
-    /**
-     * Update the entity with varying requests modified-only. (ZeroUpdateException, ExclusiveControl) <br />
-     * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br />
-     * Other specifications are same as update(entity).
-     * <pre>
-     * DbleMember member = new DbleMember();
-     * member.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * member.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
-     * <span style="color: #3F7E5E">// if exclusive control, the value of exclusive control column is required</span>
-     * member.<span style="color: #DD4747">setVersionNo</span>(value);
-     * try {
-     *     <span style="color: #3F7E5E">// you can update by self calculation values</span>
-     *     UpdateOption&lt;MemberCB&gt; option = new UpdateOption&lt;MemberCB&gt;();
-     *     option.self(new SpecifyQuery&lt;MemberCB&gt;() {
-     *         public void specify(MemberCB cb) {
-     *             cb.specify().<span style="color: #DD4747">columnXxxCount()</span>;
-     *         }
-     *     }).plus(1); <span style="color: #3F7E5E">// XXX_COUNT = XXX_COUNT + 1</span>
-     *     memberBhv.<span style="color: #DD4747">varyingUpdate</span>(member, option);
-     * } catch (EntityAlreadyUpdatedException e) { <span style="color: #3F7E5E">// if concurrent update</span>
-     *     ...
-     * }
-     * </pre>
-     * @param member The entity of update target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
-     * @param option The option of update for varying requests. (NotNull)
-     * @exception EntityAlreadyUpdatedException When the entity has already been updated.
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
-     */
-    def varyingUpdate(member: DbleMember, option: UpdateOption[MemberCB]): Unit = {
-        assertUpdateOptionNotNull(option);
-        doUpdate(member, option);
-    }
-
-    /**
-     * Update the entity with varying requests non-strictly modified-only. (ZeroUpdateException, NonExclusiveControl) <br />
-     * For example, self(selfCalculationSpecification), specify(updateColumnSpecification), disableCommonColumnAutoSetup(). <br />
-     * Other specifications are same as updateNonstrict(entity).
-     * <pre>
-     * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * DbleMember member = new DbleMember();
-     * member.setPK...(value); <span style="color: #3F7E5E">// required</span>
-     * member.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
-     * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
-     * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//member.setVersionNo(value);</span>
-     * UpdateOption&lt;MemberCB&gt; option = new UpdateOption&lt;MemberCB&gt;();
-     * option.self(new SpecifyQuery&lt;MemberCB&gt;() {
-     *     public void specify(MemberCB cb) {
-     *         cb.specify().<span style="color: #DD4747">columnFooCount()</span>;
-     *     }
-     * }).plus(1); <span style="color: #3F7E5E">// FOO_COUNT = FOO_COUNT + 1</span>
-     * memberBhv.<span style="color: #DD4747">varyingUpdateNonstrict</span>(member, option);
-     * </pre>
-     * @param member The entity of update target. (NotNull, PrimaryKeyNotNull)
-     * @param option The option of update for varying requests. (NotNull)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
-     */
-    def varyingUpdateNonstrict(member: DbleMember, option: UpdateOption[MemberCB]): Unit = {
-        assertUpdateOptionNotNull(option);
-        doUpdateNonstrict(member, option);
-    }
-
-    /**
-     * Insert or update the entity with varying requests. (ExclusiveControl: when update) <br />
-     * Other specifications are same as insertOrUpdate(entity).
-     * @param member The entity of insert or update target. (NotNull)
-     * @param insertOption The option of insert for varying requests. (NotNull)
-     * @param updateOption The option of update for varying requests. (NotNull)
-     * @exception EntityAlreadyUpdatedException When the entity has already been updated.
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
-     */
-    def varyingInsertOrUpdate(member: DbleMember, insertOption: InsertOption[MemberCB], updateOption: UpdateOption[MemberCB]): Unit = {
-        assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
-        doInesrtOrUpdate(member, insertOption, updateOption);
-    }
-
-    /**
-     * Insert or update the entity with varying requests non-strictly. (NonExclusiveControl: when update) <br />
-     * Other specifications are same as insertOrUpdateNonstrict(entity).
-     * @param member The entity of insert or update target. (NotNull)
-     * @param insertOption The option of insert for varying requests. (NotNull)
-     * @param updateOption The option of update for varying requests. (NotNull)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
-     */
-    def varyingInsertOrUpdateNonstrict(member: DbleMember, insertOption: InsertOption[MemberCB], updateOption: UpdateOption[MemberCB]): Unit = {
-        assertInsertOptionNotNull(insertOption); assertUpdateOptionNotNull(updateOption);
-        doInesrtOrUpdateNonstrict(member, insertOption, updateOption);
-    }
-
-    /**
-     * Delete the entity with varying requests. (ZeroUpdateException, ExclusiveControl) <br />
-     * Now a valid option does not exist. <br />
-     * Other specifications are same as delete(entity).
-     * @param member The entity of delete target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
-     * @param option The option of update for varying requests. (NotNull)
-     * @exception EntityAlreadyUpdatedException When the entity has already been updated.
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     */
-    def varyingDelete(member: DbleMember, option: DeleteOption[MemberCB]): Unit = {
-        assertDeleteOptionNotNull(option);
-        doDelete(member, option);
-    }
-
-    /**
-     * Delete the entity with varying requests non-strictly. (ZeroUpdateException, NonExclusiveControl) <br />
-     * Now a valid option does not exist. <br />
-     * Other specifications are same as deleteNonstrict(entity).
-     * @param member The entity of delete target. (NotNull, PrimaryKeyNotNull, ConcurrencyColumnRequired)
-     * @param option The option of update for varying requests. (NotNull)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
-     * @exception EntityDuplicatedException When the entity has been duplicated.
-     */
-    def varyingDeleteNonstrict(member: DbleMember, option: DeleteOption[MemberCB]): Unit = {
-        assertDeleteOptionNotNull(option);
-        doDeleteNonstrict(member, option);
-    }
-
-    // -----------------------------------------------------
-    //                                          Batch Update
-    //                                          ------------
-    /**
-     * Batch-insert the list with varying requests. <br />
-     * For example, disableCommonColumnAutoSetup()
-     * , disablePrimaryKeyIdentity(), limitBatchInsertLogging(). <br />
-     * Other specifications are same as batchInsert(entityList).
-     * @param memberList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param option The option of insert for varying requests. (NotNull)
-     * @return The array of updated count. (NotNull, EmptyAllowed)
-     */
-    def varyingBatchInsert(memberList: scala.collection.immutable.List[DbleMember], option: InsertOption[MemberCB]): Array[Int] = {
-        assertInsertOptionNotNull(option);
-        return doBatchInsert(memberList.asJava, option);
-    }
-
-    /**
-     * Batch-update the list with varying requests. <br />
-     * For example, self(selfCalculationSpecification), specify(updateColumnSpecification)
-     * , disableCommonColumnAutoSetup(), limitBatchUpdateLogging(). <br />
-     * Other specifications are same as batchUpdate(entityList).
-     * @param memberList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param option The option of update for varying requests. (NotNull)
-     * @return The array of updated count. (NotNull, EmptyAllowed)
-     */
-    def varyingBatchUpdate(memberList: scala.collection.immutable.List[DbleMember], option: UpdateOption[MemberCB]): Array[Int] = {
-        assertUpdateOptionNotNull(option);
-        return doBatchUpdate(memberList.asJava, option);
-    }
-
-    /**
-     * Batch-update the list with varying requests non-strictly. <br />
-     * For example, self(selfCalculationSpecification), specify(updateColumnSpecification)
-     * , disableCommonColumnAutoSetup(), limitBatchUpdateLogging(). <br />
-     * Other specifications are same as batchUpdateNonstrict(entityList).
-     * @param memberList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param option The option of update for varying requests. (NotNull)
-     * @return The array of updated count. (NotNull, EmptyAllowed)
-     */
-    def varyingBatchUpdateNonstrict(memberList: scala.collection.immutable.List[DbleMember], option: UpdateOption[MemberCB]): Array[Int] = {
-        assertUpdateOptionNotNull(option);
-        return doBatchUpdateNonstrict(memberList.asJava, option);
-    }
-
-    /**
-     * Batch-delete the list with varying requests. <br />
-     * For example, limitBatchDeleteLogging(). <br />
-     * Other specifications are same as batchDelete(entityList).
-     * @param memberList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param option The option of delete for varying requests. (NotNull)
-     * @return The array of deleted count. (NotNull, EmptyAllowed)
-     */
-    def varyingBatchDelete(memberList: scala.collection.immutable.List[DbleMember], option: DeleteOption[MemberCB]): Array[Int] = {
-        assertDeleteOptionNotNull(option);
-        return doBatchDelete(memberList.asJava, option);
-    }
-
-    /**
-     * Batch-delete the list with varying requests non-strictly. <br />
-     * For example, limitBatchDeleteLogging(). <br />
-     * Other specifications are same as batchDeleteNonstrict(entityList).
-     * @param memberList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param option The option of delete for varying requests. (NotNull)
-     * @return The array of deleted count. (NotNull, EmptyAllowed)
-     */
-    def varyingBatchDeleteNonstrict(memberList: scala.collection.immutable.List[DbleMember], option: DeleteOption[MemberCB]): Array[Int] = {
-        assertDeleteOptionNotNull(option);
-        return doBatchDeleteNonstrict(memberList.asJava, option);
-    }
-
-    // -----------------------------------------------------
-    //                                          Query Update
-    //                                          ------------
-    /**
-     * Insert the several entities by query with varying requests (modified-only for fixed value). <br />
-     * For example, disableCommonColumnAutoSetup(), disablePrimaryKeyIdentity(). <br />
-     * Other specifications are same as queryInsert(entity, setupper).
-     * @param setupper The setup-per of query-insert. (NotNull)
-     * @param option The option of insert for varying requests. (NotNull)
-     * @return The inserted count.
-     */
-    def varyingQueryInsert(setupper: QueryInsertSetupper[DbleMember, MemberCB], option: InsertOption[MemberCB]): Integer = {
-        assertInsertOptionNotNull(option);
-        return doQueryInsert(setupper, option);
-    }
-
-    /**
-     * Update the several entities by query with varying requests non-strictly modified-only. {NonExclusiveControl} <br />
-     * For example, self(selfCalculationSpecification), specify(updateColumnSpecification)
-     * , disableCommonColumnAutoSetup(), allowNonQueryUpdate(). <br />
-     * Other specifications are same as queryUpdate(entity, cb).
-     * <pre>
-     * <span style="color: #3F7E5E">// ex) you can update by self calculation values</span>
-     * DbleMember member = new DbleMember();
-     * <span style="color: #3F7E5E">// you don't need to set PK value</span>
-     * <span style="color: #3F7E5E">//member.setPK...(value);</span>
-     * member.setOther...(value); <span style="color: #3F7E5E">// you should set only modified columns</span>
-     * <span style="color: #3F7E5E">// you don't need to set a value of exclusive control column</span>
-     * <span style="color: #3F7E5E">// (auto-increment for version number is valid though non-exclusive control)</span>
-     * <span style="color: #3F7E5E">//member.setVersionNo(value);</span>
-     * MemberCB cb = new MemberCB();
-     * cb.query().setFoo...(value);
-     * UpdateOption&lt;MemberCB&gt; option = new UpdateOption&lt;MemberCB&gt;();
-     * option.self(new SpecifyQuery&lt;MemberCB&gt;() {
-     *     public void specify(MemberCB cb) {
-     *         cb.specify().<span style="color: #DD4747">columnFooCount()</span>;
-     *     }
-     * }).plus(1); <span style="color: #3F7E5E">// FOO_COUNT = FOO_COUNT + 1</span>
-     * memberBhv.<span style="color: #DD4747">varyingQueryUpdate</span>(member, cb, option);
-     * </pre>
-     * @param member The entity that contains update values. (NotNull) {PrimaryKeyNotRequired}
-     * @param cb The condition-bean of DbleMember. (NotNull)
-     * @param option The option of update for varying requests. (NotNull)
-     * @return The updated count.
-     * @exception NonQueryUpdateNotAllowedException When the query has no condition (if not allowed).
-     */
-    def varyingQueryUpdate(member: DbleMember, cb: MemberCB, option: UpdateOption[MemberCB]): Integer = {
-        assertUpdateOptionNotNull(option);
-        return doQueryUpdate(member, cb, option);
-    }
-
-    /**
-     * Delete the several entities by query with varying requests non-strictly. <br />
-     * For example, allowNonQueryDelete(). <br />
-     * Other specifications are same as batchUpdateNonstrict(entityList).
-     * @param cb The condition-bean of DbleMember. (NotNull)
-     * @param option The option of delete for varying requests. (NotNull)
-     * @return The deleted count.
-     * @exception NonQueryDeleteNotAllowedException When the query has no condition (if not allowed).
-     */
-    def varyingQueryDelete(cb: MemberCB, option: DeleteOption[MemberCB]): Integer = {
-        assertDeleteOptionNotNull(option);
-        return doQueryDelete(cb, option);
+        return doQueryDelete(downcast(cb), downcast(op));
     }
 
     // ===================================================================================
@@ -1613,8 +1245,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     // -----------------------------------------------------
     //                                                Select
     //                                                ------
-    protected def delegateSelectCountUniquely(cb: MemberCB): Integer = { return invoke(createSelectCountCBCommand(cb, true)); }
-    protected def delegateSelectCountPlainly(cb: MemberCB): Integer = { return invoke(createSelectCountCBCommand(cb, false)); }
+    protected def delegateSelectCountUniquely(cb: MemberCB): Int = { return Integer2int(invoke(createSelectCountCBCommand(cb, true))); }
+    protected def delegateSelectCountPlainly(cb: MemberCB): Int = { return Integer2int(invoke(createSelectCountCBCommand(cb, false))); }
     protected def delegateSelectCursor[ENTITY <: DbleMember](cb: MemberCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
     { invoke(createSelectCursorCBCommand(cb, rh, tp)); }
     protected def delegateSelectList[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY]): List[ENTITY] =
@@ -1623,21 +1255,21 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     // -----------------------------------------------------
     //                                                Update
     //                                                ------
-    protected def delegateInsert(et: DbleMember, op: InsertOption[MemberCB]): Integer =
+    protected def delegateInsert(et: DbleMember, op: InsertOption[MemberCB]): Int =
     { if (!processBeforeInsert(et, op)) { return 0; }
-      return invoke(createInsertEntityCommand(et, op)); }
-    protected def delegateUpdate(et: DbleMember, op: UpdateOption[MemberCB]): Integer =
+      return Integer2int(invoke(createInsertEntityCommand(et, op))); }
+    protected def delegateUpdate(et: DbleMember, op: UpdateOption[MemberCB]): Int =
     { if (!processBeforeUpdate(et, op)) { return 0; }
-      return invoke(createUpdateEntityCommand(et, op)); }
-    protected def delegateUpdateNonstrict(et: DbleMember, op: UpdateOption[MemberCB]): Integer =
+      return Integer2int(invoke(createUpdateEntityCommand(et, op))); }
+    protected def delegateUpdateNonstrict(et: DbleMember, op: UpdateOption[MemberCB]): Int =
     { if (!processBeforeUpdate(et, op)) { return 0; }
-      return invoke(createUpdateNonstrictEntityCommand(et, op)); }
-    protected def delegateDelete(et: DbleMember, op: DeleteOption[MemberCB]): Integer =
+      return Integer2int(invoke(createUpdateNonstrictEntityCommand(et, op))); }
+    protected def delegateDelete(et: DbleMember, op: DeleteOption[MemberCB]): Int =
     { if (!processBeforeDelete(et, op)) { return 0; }
-      return invoke(createDeleteEntityCommand(et, op)); }
-    protected def delegateDeleteNonstrict(et: DbleMember, op: DeleteOption[MemberCB]): Integer =
+      return Integer2int(invoke(createDeleteEntityCommand(et, op))); }
+    protected def delegateDeleteNonstrict(et: DbleMember, op: DeleteOption[MemberCB]): Int =
     { if (!processBeforeDelete(et, op)) { return 0; }
-      return invoke(createDeleteNonstrictEntityCommand(et, op)); }
+      return Integer2int(invoke(createDeleteNonstrictEntityCommand(et, op))); }
 
     protected def delegateBatchInsert(ls: List[DbleMember], op: InsertOption[MemberCB]): Array[Int] =
     { if (ls.isEmpty()) { return new Array[Int](0); }
@@ -1655,15 +1287,15 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     { if (ls.isEmpty()) { return new Array[Int](0); }
       return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
 
-    protected def delegateQueryInsert(et: DbleMember, inCB: MemberCB, resCB: ConditionBean, op: InsertOption[MemberCB]): Integer =
+    protected def delegateQueryInsert(et: DbleMember, inCB: MemberCB, resCB: ConditionBean, op: InsertOption[MemberCB]): Int =
     { if (!processBeforeQueryInsert(et, inCB, resCB, op)) { return 0; }
-      return invoke(createQueryInsertCBCommand(et, inCB, resCB, op));  }
-    protected def delegateQueryUpdate(et: DbleMember, cb: MemberCB, op: UpdateOption[MemberCB]): Integer =
+      return Integer2int(invoke(createQueryInsertCBCommand(et, inCB, resCB, op)));  }
+    protected def delegateQueryUpdate(et: DbleMember, cb: MemberCB, op: UpdateOption[MemberCB]): Int =
     { if (!processBeforeQueryUpdate(et, cb, op)) { return 0; }
-      return invoke(createQueryUpdateCBCommand(et, cb, op));  }
-    protected def delegateQueryDelete(cb: MemberCB, op: DeleteOption[MemberCB]): Integer =
+      return Integer2int(invoke(createQueryUpdateCBCommand(et, cb, op)));  }
+    protected def delegateQueryDelete(cb: MemberCB, op: DeleteOption[MemberCB]): Int =
     { if (!processBeforeQueryDelete(cb, op)) { return 0; }
-      return invoke(createQueryDeleteCBCommand(cb, op));  }
+      return Integer2int(invoke(createQueryDeleteCBCommand(cb, op)));  }
 
     // ===================================================================================
     //                                                                Optimistic Lock Info
@@ -1687,52 +1319,65 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                       Assist Helper
     //                                                                       =============
-    protected def typeOfSelectedEntity(): Class[DbleMember] = {
-        return classOf[DbleMember];
-    }
+    protected def typeOfSelectedEntity(): Class[DbleMember] = { classOf[DbleMember] }
+    protected def newMbleEntity(): MbleMember = { new MbleMember() }
 
     protected def callbackCB(cbCall: (MemberCB) => Unit): MemberCB = {
         assertObjectNotNull("cbCall", cbCall);
-        val cb = new MemberCB();
-        cbCall(cb);
-        return cb;
+        val cb = newConditionBean(); cbCall(cb); return cb;
     }
 
-    protected def doCallbackLoader(dbleList: List[DbleMember], loaderCall: (LoaderOfMember) => Unit = null): Unit = {
-        if (loaderCall != null) {
-            val loader = new LoaderOfMember();
-            loader.ready(dbleList.asInstanceOf[List[DbleMember]], _behaviorSelector);
-            loaderCall(loader);
-        }
+    protected def callbackMbleEntity(entityCall: (MbleMember) => Unit): MbleMember = {
+        assertObjectNotNull("entityCall", entityCall);
+        val entity = newMbleEntity(); entityCall(entity); return entity;
     }
 
-    protected def downcast(et: Entity): DbleMember = {
-        return helpEntityDowncastInternally(et, classOf[DbleMember]);
+    protected def callbackMbleEntityToDBable(entityCall: (MbleMember) => Unit): DbleMember = {
+        return callbackMbleEntity(entityCall).toDBableEntity;
     }
 
-    protected def downcast(cb: ConditionBean): MemberCB = {
-        return helpConditionBeanDowncastInternally(cb, classOf[MemberCB]);
+    protected def callbackInsertOption(optionCall: (InsertOption[MemberCB]) => Unit): InsertOption[MemberCB] = {
+        if (optionCall == null) { return null; }
+        val option = new InsertOption[MemberCB](); optionCall(option); return option;
     }
 
-    protected def downcast(ls: List[_ <: Entity]): List[DbleMember] = {
-        return ls.asInstanceOf[List[DbleMember]];
+    protected def callbackUpdateOption(optionCall: (UpdateOption[MemberCB]) => Unit): UpdateOption[MemberCB] = {
+        if (optionCall == null) { return null; }
+        val option = new UpdateOption[MemberCB](); optionCall(option); return option;
     }
 
-    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[MemberCB] = {
-        return op.asInstanceOf[InsertOption[MemberCB]];
+    protected def callbackDeleteOption(optionCall: (DeleteOption[MemberCB]) => Unit): DeleteOption[MemberCB] = {
+        if (optionCall == null) { return null; }
+        val option = new DeleteOption[MemberCB](); optionCall(option); return option;
     }
 
-    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[MemberCB] = {
-        return op.asInstanceOf[UpdateOption[MemberCB]];
+    protected def callbackLoader(dbleList: List[DbleMember], loaderCall: (LoaderOfMember) => Unit = null): Unit = {
+        if (loaderCall == null) { return; }
+        val loader = new LoaderOfMember();
+        loader.ready(dbleList.asInstanceOf[List[DbleMember]], _behaviorSelector);
+        loaderCall(loader);
     }
 
-    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[MemberCB] = {
-        return op.asInstanceOf[DeleteOption[MemberCB]];
-    }
+    protected def downcast(et: Entity): DbleMember =
+    { return helpEntityDowncastInternally(et, classOf[DbleMember]); }
 
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleMember, MemberCB] = {
-        return sp.asInstanceOf[QueryInsertSetupper[DbleMember, MemberCB]];
-    }
+    protected def downcast(cb: ConditionBean): MemberCB =
+    { return helpConditionBeanDowncastInternally(cb, classOf[MemberCB]); }
+
+    protected def downcast(ls: List[_ <: Entity]): List[DbleMember] =
+    { return ls.asInstanceOf[List[DbleMember]]; }
+
+    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[MemberCB] =
+    { return op.asInstanceOf[InsertOption[MemberCB]]; }
+
+    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[MemberCB] =
+    { return op.asInstanceOf[UpdateOption[MemberCB]]; }
+
+    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[MemberCB] =
+    { return op.asInstanceOf[DeleteOption[MemberCB]]; }
+
+    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleMember, MemberCB] =
+    { return sp.asInstanceOf[QueryInsertSetupper[DbleMember, MemberCB]]; }
 
     // ===================================================================================
     //                                                                        Scala Helper

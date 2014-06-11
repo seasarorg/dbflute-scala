@@ -33,7 +33,7 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** The cache of behavior. */
+    /** The concurrent cache of behavior. */
     protected var _behaviorCache: Map[Class[_ <: BehaviorReadable], BehaviorReadable] = new ConcurrentHashMap();
 
     /** The container of Guice. */
