@@ -243,8 +243,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * </pre>
      * @return The object to set up a function for referrer table. (NotNull)
      */
-    def derivedPurchaseList(): HpQDRFunction[PurchaseCB] = {
-        return xcreateQDRFunctionPurchaseList();
+    def derivedPurchaseList(): ScrHpQDRFunction[PurchaseCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionPurchaseList());
     }
     protected def xcreateQDRFunctionPurchaseList(): HpQDRFunction[PurchaseCB] = {
         return new HpQDRFunction[PurchaseCB](new HpQDRSetupper[PurchaseCB]() {
@@ -298,7 +298,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productName The value of productName as prefixSearch. (NullAllowed: if null (or empty), no condition)
      */
     def setProductName_PrefixSearch(productName: String): Unit = {
-        setProductName_LikeSearch(productName, cLSOP());
+        setProductName_LikeSearch(productName)(_.likePrefix);
     }
 
     /**
@@ -306,10 +306,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)} <br />
      * <pre>e.g. setProductName_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param productName The value of productName as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of like-search. (NotNull)
+     * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductName_LikeSearch(productName: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_LS, fRES(productName), getCValueProductName(), "PRODUCT_NAME", likeSearchOption);
+    def setProductName_LikeSearch(productName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        val op = createLikeSearchOption(); optionCall(op);
+        regLSQ(CK_LS, fRES(productName), getCValueProductName(), "PRODUCT_NAME", callbackLSOP(optionCall));
     }
 
     /**
@@ -317,10 +318,10 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * And NullOrEmptyIgnored, SeveralRegistered. <br />
      * (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)}
      * @param productName The value of productName as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
+     * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductName_NotLikeSearch(productName: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_NLS, fRES(productName), getCValueProductName(), "PRODUCT_NAME", likeSearchOption);
+    def setProductName_NotLikeSearch(productName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        regLSQ(CK_NLS, fRES(productName), getCValueProductName(), "PRODUCT_NAME", callbackLSOP(optionCall));
     }
 
     protected def regProductName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductName(), "PRODUCT_NAME"); }
@@ -384,7 +385,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productHandleCode The value of productHandleCode as prefixSearch. (NullAllowed: if null (or empty), no condition)
      */
     def setProductHandleCode_PrefixSearch(productHandleCode: String): Unit = {
-        setProductHandleCode_LikeSearch(productHandleCode, cLSOP());
+        setProductHandleCode_LikeSearch(productHandleCode)(_.likePrefix);
     }
 
     /**
@@ -392,10 +393,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)} <br />
      * <pre>e.g. setProductHandleCode_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param productHandleCode The value of productHandleCode as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of like-search. (NotNull)
+     * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductHandleCode_LikeSearch(productHandleCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_LS, fRES(productHandleCode), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE", likeSearchOption);
+    def setProductHandleCode_LikeSearch(productHandleCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        val op = createLikeSearchOption(); optionCall(op);
+        regLSQ(CK_LS, fRES(productHandleCode), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE", callbackLSOP(optionCall));
     }
 
     /**
@@ -403,10 +405,10 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * And NullOrEmptyIgnored, SeveralRegistered. <br />
      * (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)}
      * @param productHandleCode The value of productHandleCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
+     * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductHandleCode_NotLikeSearch(productHandleCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_NLS, fRES(productHandleCode), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE", likeSearchOption);
+    def setProductHandleCode_NotLikeSearch(productHandleCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        regLSQ(CK_NLS, fRES(productHandleCode), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE", callbackLSOP(optionCall));
     }
 
     protected def regProductHandleCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE"); }
@@ -470,7 +472,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productCategoryCode The value of productCategoryCode as prefixSearch. (NullAllowed: if null (or empty), no condition)
      */
     def setProductCategoryCode_PrefixSearch(productCategoryCode: String): Unit = {
-        setProductCategoryCode_LikeSearch(productCategoryCode, cLSOP());
+        setProductCategoryCode_LikeSearch(productCategoryCode)(_.likePrefix);
     }
 
     /**
@@ -478,10 +480,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
      * <pre>e.g. setProductCategoryCode_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param productCategoryCode The value of productCategoryCode as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of like-search. (NotNull)
+     * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductCategoryCode_LikeSearch(productCategoryCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_LS, fRES(productCategoryCode), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE", likeSearchOption);
+    def setProductCategoryCode_LikeSearch(productCategoryCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        val op = createLikeSearchOption(); optionCall(op);
+        regLSQ(CK_LS, fRES(productCategoryCode), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE", callbackLSOP(optionCall));
     }
 
     /**
@@ -489,10 +492,10 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * And NullOrEmptyIgnored, SeveralRegistered. <br />
      * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
      * @param productCategoryCode The value of productCategoryCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
+     * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductCategoryCode_NotLikeSearch(productCategoryCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_NLS, fRES(productCategoryCode), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE", likeSearchOption);
+    def setProductCategoryCode_NotLikeSearch(productCategoryCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        regLSQ(CK_NLS, fRES(productCategoryCode), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE", callbackLSOP(optionCall));
     }
 
     protected def regProductCategoryCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE"); }
@@ -556,7 +559,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productStatusCode The value of productStatusCode as prefixSearch. (NullAllowed: if null (or empty), no condition)
      */
     def setProductStatusCode_PrefixSearch(productStatusCode: String): Unit = {
-        setProductStatusCode_LikeSearch(productStatusCode, cLSOP());
+        setProductStatusCode_LikeSearch(productStatusCode)(_.likePrefix);
     }
 
     /**
@@ -564,10 +567,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
      * <pre>e.g. setProductStatusCode_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param productStatusCode The value of productStatusCode as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of like-search. (NotNull)
+     * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductStatusCode_LikeSearch(productStatusCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_LS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", likeSearchOption);
+    def setProductStatusCode_LikeSearch(productStatusCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        val op = createLikeSearchOption(); optionCall(op);
+        regLSQ(CK_LS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", callbackLSOP(optionCall));
     }
 
     /**
@@ -575,10 +579,10 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * And NullOrEmptyIgnored, SeveralRegistered. <br />
      * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
      * @param productStatusCode The value of productStatusCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
+     * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductStatusCode_NotLikeSearch(productStatusCode: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_NLS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", likeSearchOption);
+    def setProductStatusCode_NotLikeSearch(productStatusCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        regLSQ(CK_NLS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", callbackLSOP(optionCall));
     }
 
     protected def regProductStatusCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductStatusCode(), "PRODUCT_STATUS_CODE"); }
@@ -789,8 +793,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_Equal(): HpSSQFunction[ProductCB] = {
-        return xcreateSSQFunction(CK_EQ.getOperand(), classOf[ProductCB]);
+    def scalar_Equal(): ScrHpSSQFunction[ProductCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_EQ, classOf[ProductCB]));
     }
 
     /**
@@ -806,8 +810,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_NotEqual(): HpSSQFunction[ProductCB] = {
-        return xcreateSSQFunction(CK_NES.getOperand(), classOf[ProductCB]);
+    def scalar_NotEqual(): ScrHpSSQFunction[ProductCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_NES, classOf[ProductCB]));
     }
 
     /**
@@ -823,8 +827,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_GreaterThan(): HpSSQFunction[ProductCB] = {
-        return xcreateSSQFunction(CK_GT.getOperand(), classOf[ProductCB]);
+    def scalar_GreaterThan(): ScrHpSSQFunction[ProductCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_GT, classOf[ProductCB]));
     }
 
     /**
@@ -840,8 +844,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_LessThan(): HpSSQFunction[ProductCB] = {
-        return xcreateSSQFunction(CK_LT.getOperand(), classOf[ProductCB]);
+    def scalar_LessThan(): ScrHpSSQFunction[ProductCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_LT, classOf[ProductCB]));
     }
 
     /**
@@ -857,8 +861,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_GreaterEqual(): HpSSQFunction[ProductCB] = {
-        return xcreateSSQFunction(CK_GE.getOperand(), classOf[ProductCB]);
+    def scalar_GreaterEqual(): ScrHpSSQFunction[ProductCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_GE, classOf[ProductCB]));
     }
 
     /**
@@ -874,9 +878,12 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_LessEqual(): HpSSQFunction[ProductCB] = {
-        return xcreateSSQFunction(CK_LE.getOperand(), classOf[ProductCB]);
+    def scalar_LessEqual(): ScrHpSSQFunction[ProductCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_LE, classOf[ProductCB]));
     }
+
+    protected def toScalaSSQFunction(function: HpSSQFunction[ProductCB]): ScrHpSSQFunction[ProductCB] =
+    { new ScrHpSSQFunction(function) }
 
     override protected def xscalarCondition[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, op: HpSSQOption[CB]): Unit = {
         assertObjectNotNull("subQuery", sq);
@@ -912,8 +919,8 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * Prepare for (Query)MyselfDerived (correlated sub-query).
      * @return The object to set up a function for myself table. (NotNull)
      */
-    def myselfDerived(): HpQDRFunction[ProductCB] = {
-        return xcreateQDRFunctionMyselfDerived(classOf[ProductCB]);
+    def myselfDerived(): ScrHpQDRFunction[ProductCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMyselfDerived(classOf[ProductCB]));
     }
     override protected def xqderiveMyselfDerived[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
         assertObjectNotNull("subQuery", sq);
@@ -959,11 +966,67 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     def keepMyselfInScope(sq: ProductCQ): String;
 
     // ===================================================================================
+    //                                                                            Order By
+    //                                                                            ========
+    /**
+     * Order along manual ordering information.
+     * <pre>
+     * MemberCB cb = new MemberCB();
+     * ManualOrderBean mob = new ManualOrderBean();
+     * mob.<span style="color: #DD4747">when_GreaterEqual</span>(priorityDate); <span style="color: #3F7E5E">// e.g. 2000/01/01</span>
+     * cb.query().addOrderBy_Birthdate_Asc().<span style="color: #DD4747">withManualOrder(mob)</span>;
+     * <span style="color: #3F7E5E">// order by </span>
+     * <span style="color: #3F7E5E">//   case</span>
+     * <span style="color: #3F7E5E">//     when BIRTHDATE &gt;= '2000/01/01' then 0</span>
+     * <span style="color: #3F7E5E">//     else 1</span>
+     * <span style="color: #3F7E5E">//   end asc, ...</span>
+     *
+     * MemberCB cb = new MemberCB();
+     * ManualOrderBean mob = new ManualOrderBean();
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Withdrawal);
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Formalized);
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Provisional);
+     * cb.query().addOrderBy_MemberStatusCode_Asc().<span style="color: #DD4747">withManualOrder(mob)</span>;
+     * <span style="color: #3F7E5E">// order by </span>
+     * <span style="color: #3F7E5E">//   case</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'WDL' then 0</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'FML' then 1</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'PRV' then 2</span>
+     * <span style="color: #3F7E5E">//     else 3</span>
+     * <span style="color: #3F7E5E">//   end asc, ...</span>
+     * </pre>
+     * <p>This function with Union is unsupported!</p>
+     * <p>The order values are bound (treated as bind parameter).</p>
+     * @param mob The bean of manual order containing order values. (NotNull)
+     */
+    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+        assertObjectNotNull("withManualOrder(mobCall)", mobCall);
+        xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    // ===================================================================================
+    //                                                                       Create Option
+    //                                                                       =============
+    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    { val op = createLikeSearchOption(); optionCall(op); return op; }
+    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+
+    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    { val op = createFromToOption(); optionCall(op); return op; }
+    protected def createFromToOption(): FromToOption = { new FromToOption() }
+
+    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    { val mob = createManualOrderBean(); mobCall(mob); return mob; }
+    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
-        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
-    }
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] =
+    { if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null } }
+
+    protected def toScalaQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]): ScrHpQDRFunction[CB] =
+    { new ScrHpQDRFunction[CB](function) }
 
     // ===================================================================================
     //                                                                       Very Internal

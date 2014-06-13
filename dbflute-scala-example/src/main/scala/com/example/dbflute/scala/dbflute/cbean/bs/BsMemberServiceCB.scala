@@ -20,6 +20,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
 import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpSDRFunction;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 import com.example.dbflute.scala.dbflute.cbean.nss._
@@ -616,11 +617,14 @@ object HpMemberServiceCB {
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        def myselfDerived(): HpSDRFunction[MemberServiceCB, MemberServiceCQ] = {
+        def myselfDerived(): ScrHpSDRFunction[MemberServiceCB, MemberServiceCQ] = {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[MemberServiceCB, MemberServiceCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberServiceCB, MemberServiceCQ]() {
+            return toScalaSDRFunction(new HpSDRFunction[MemberServiceCB, MemberServiceCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberServiceCB, MemberServiceCQ]() {
                 def setup(fn: String, sq: SubQuery[MemberServiceCB], cq: MemberServiceCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider);
+                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider));
         }
     }
+
+    protected def toScalaSDRFunction[CB <: ConditionBean, CQ <: ConditionQuery](function: HpSDRFunction[CB, CQ]): ScrHpSDRFunction[CB, CQ] =
+    { new ScrHpSDRFunction[CB, CQ](function) } 
 }

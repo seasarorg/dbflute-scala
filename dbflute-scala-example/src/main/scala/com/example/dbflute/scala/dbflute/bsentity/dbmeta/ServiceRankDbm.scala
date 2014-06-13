@@ -176,8 +176,7 @@ object ServiceRankDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): DbleServiceRank = { return new DbleServiceRank(); }
+    def newEntity(): DbleServiceRank = { return new DbleServiceRank(); }
 
     // ===================================================================================
     //                                                                   Map Communication

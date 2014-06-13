@@ -243,8 +243,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @return The object to set up a function for referrer table. (NotNull)
      */
-    def derivedPurchaseList(): HpQDRFunction[PurchaseCB] = {
-        return xcreateQDRFunctionPurchaseList();
+    def derivedPurchaseList(): ScrHpQDRFunction[PurchaseCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionPurchaseList());
     }
     protected def xcreateQDRFunctionPurchaseList(): HpQDRFunction[PurchaseCB] = {
         return new HpQDRFunction[PurchaseCB](new HpQDRSetupper[PurchaseCB]() {
@@ -298,7 +298,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberName The value of memberName as prefixSearch. (NullAllowed: if null (or empty), no condition)
      */
     def setMemberName_PrefixSearch(memberName: String): Unit = {
-        setMemberName_LikeSearch(memberName, cLSOP());
+        setMemberName_LikeSearch(memberName)(_.likePrefix);
     }
 
     /**
@@ -306,10 +306,11 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
      * <pre>e.g. setMemberName_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param memberName The value of memberName as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of like-search. (NotNull)
+     * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setMemberName_LikeSearch(memberName: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_LS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", likeSearchOption);
+    def setMemberName_LikeSearch(memberName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        val op = createLikeSearchOption(); optionCall(op);
+        regLSQ(CK_LS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", callbackLSOP(optionCall));
     }
 
     /**
@@ -317,10 +318,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * And NullOrEmptyIgnored, SeveralRegistered. <br />
      * (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)}
      * @param memberName The value of memberName as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
+     * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setMemberName_NotLikeSearch(memberName: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_NLS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", likeSearchOption);
+    def setMemberName_NotLikeSearch(memberName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        regLSQ(CK_NLS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", callbackLSOP(optionCall));
     }
 
     protected def regMemberName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberName(), "MEMBER_NAME"); }
@@ -384,7 +385,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberAccount The value of memberAccount as prefixSearch. (NullAllowed: if null (or empty), no condition)
      */
     def setMemberAccount_PrefixSearch(memberAccount: String): Unit = {
-        setMemberAccount_LikeSearch(memberAccount, cLSOP());
+        setMemberAccount_LikeSearch(memberAccount)(_.likePrefix);
     }
 
     /**
@@ -392,10 +393,11 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)} <br />
      * <pre>e.g. setMemberAccount_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param memberAccount The value of memberAccount as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of like-search. (NotNull)
+     * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setMemberAccount_LikeSearch(memberAccount: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_LS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", likeSearchOption);
+    def setMemberAccount_LikeSearch(memberAccount: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        val op = createLikeSearchOption(); optionCall(op);
+        regLSQ(CK_LS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", callbackLSOP(optionCall));
     }
 
     /**
@@ -403,10 +405,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * And NullOrEmptyIgnored, SeveralRegistered. <br />
      * (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)}
      * @param memberAccount The value of memberAccount as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param likeSearchOption The option of not-like-search. (NotNull)
+     * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setMemberAccount_NotLikeSearch(memberAccount: String, likeSearchOption: LikeSearchOption): Unit = {
-        regLSQ(CK_NLS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", likeSearchOption);
+    def setMemberAccount_NotLikeSearch(memberAccount: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+        regLSQ(CK_NLS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", callbackLSOP(optionCall));
     }
 
     protected def regMemberAccount(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberAccount(), "MEMBER_ACCOUNT"); }
@@ -609,8 +611,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of formalizedDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setFormalizedDatetime_FromTo(fromDatetime: Date, toDatetime: Date, fromToOption: FromToOption): Unit = {
-        regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValueFormalizedDatetime(), "FORMALIZED_DATETIME", fromToOption);
+    def setFormalizedDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (FromToOption) => Unit): Unit = {
+        regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValueFormalizedDatetime(), "FORMALIZED_DATETIME", callbackFTOP(optionCall));
     }
 
     /**
@@ -625,7 +627,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDate The to-date(yyyy/MM/dd) of formalizedDatetime. (NullAllowed: if null, no to-condition)
      */
     def setFormalizedDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
-        setFormalizedDatetime_FromTo(fromDate, toDate, new FromToOption().compareAsDate());
+        setFormalizedDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
     /**
@@ -697,8 +699,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of birthdate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setBirthdate_FromTo(fromDatetime: Date, toDatetime: Date, fromToOption: FromToOption): Unit = {
-        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueBirthdate(), "BIRTHDATE", fromToOption);
+    def setBirthdate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (FromToOption) => Unit): Unit = {
+        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueBirthdate(), "BIRTHDATE", callbackFTOP(optionCall));
     }
 
     /**
@@ -713,7 +715,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDate The to-date(yyyy/MM/dd) of birthdate. (NullAllowed: if null, no to-condition)
      */
     def setBirthdate_DateFromTo(fromDate: Date, toDate: Date): Unit = {
-        setBirthdate_FromTo(fromDate, toDate, new FromToOption().compareAsDate());
+        setBirthdate_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
     /**
@@ -832,8 +834,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_Equal(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(CK_EQ.getOperand(), classOf[MemberCB]);
+    def scalar_Equal(): ScrHpSSQFunction[MemberCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_EQ, classOf[MemberCB]));
     }
 
     /**
@@ -849,8 +851,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_NotEqual(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(CK_NES.getOperand(), classOf[MemberCB]);
+    def scalar_NotEqual(): ScrHpSSQFunction[MemberCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_NES, classOf[MemberCB]));
     }
 
     /**
@@ -866,8 +868,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_GreaterThan(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(CK_GT.getOperand(), classOf[MemberCB]);
+    def scalar_GreaterThan(): ScrHpSSQFunction[MemberCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_GT, classOf[MemberCB]));
     }
 
     /**
@@ -883,8 +885,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_LessThan(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(CK_LT.getOperand(), classOf[MemberCB]);
+    def scalar_LessThan(): ScrHpSSQFunction[MemberCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_LT, classOf[MemberCB]));
     }
 
     /**
@@ -900,8 +902,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_GreaterEqual(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(CK_GE.getOperand(), classOf[MemberCB]);
+    def scalar_GreaterEqual(): ScrHpSSQFunction[MemberCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_GE, classOf[MemberCB]));
     }
 
     /**
@@ -917,9 +919,12 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_LessEqual(): HpSSQFunction[MemberCB] = {
-        return xcreateSSQFunction(CK_LE.getOperand(), classOf[MemberCB]);
+    def scalar_LessEqual(): ScrHpSSQFunction[MemberCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_LE, classOf[MemberCB]));
     }
+
+    protected def toScalaSSQFunction(function: HpSSQFunction[MemberCB]): ScrHpSSQFunction[MemberCB] =
+    { new ScrHpSSQFunction(function) }
 
     override protected def xscalarCondition[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, op: HpSSQOption[CB]): Unit = {
         assertObjectNotNull("subQuery", sq);
@@ -955,8 +960,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * Prepare for (Query)MyselfDerived (correlated sub-query).
      * @return The object to set up a function for myself table. (NotNull)
      */
-    def myselfDerived(): HpQDRFunction[MemberCB] = {
-        return xcreateQDRFunctionMyselfDerived(classOf[MemberCB]);
+    def myselfDerived(): ScrHpQDRFunction[MemberCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMyselfDerived(classOf[MemberCB]));
     }
     override protected def xqderiveMyselfDerived[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
         assertObjectNotNull("subQuery", sq);
@@ -1002,11 +1007,67 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     def keepMyselfInScope(sq: MemberCQ): String;
 
     // ===================================================================================
+    //                                                                            Order By
+    //                                                                            ========
+    /**
+     * Order along manual ordering information.
+     * <pre>
+     * MemberCB cb = new MemberCB();
+     * ManualOrderBean mob = new ManualOrderBean();
+     * mob.<span style="color: #DD4747">when_GreaterEqual</span>(priorityDate); <span style="color: #3F7E5E">// e.g. 2000/01/01</span>
+     * cb.query().addOrderBy_Birthdate_Asc().<span style="color: #DD4747">withManualOrder(mob)</span>;
+     * <span style="color: #3F7E5E">// order by </span>
+     * <span style="color: #3F7E5E">//   case</span>
+     * <span style="color: #3F7E5E">//     when BIRTHDATE &gt;= '2000/01/01' then 0</span>
+     * <span style="color: #3F7E5E">//     else 1</span>
+     * <span style="color: #3F7E5E">//   end asc, ...</span>
+     *
+     * MemberCB cb = new MemberCB();
+     * ManualOrderBean mob = new ManualOrderBean();
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Withdrawal);
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Formalized);
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Provisional);
+     * cb.query().addOrderBy_MemberStatusCode_Asc().<span style="color: #DD4747">withManualOrder(mob)</span>;
+     * <span style="color: #3F7E5E">// order by </span>
+     * <span style="color: #3F7E5E">//   case</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'WDL' then 0</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'FML' then 1</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'PRV' then 2</span>
+     * <span style="color: #3F7E5E">//     else 3</span>
+     * <span style="color: #3F7E5E">//   end asc, ...</span>
+     * </pre>
+     * <p>This function with Union is unsupported!</p>
+     * <p>The order values are bound (treated as bind parameter).</p>
+     * @param mob The bean of manual order containing order values. (NotNull)
+     */
+    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+        assertObjectNotNull("withManualOrder(mobCall)", mobCall);
+        xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    // ===================================================================================
+    //                                                                       Create Option
+    //                                                                       =============
+    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    { val op = createLikeSearchOption(); optionCall(op); return op; }
+    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+
+    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    { val op = createFromToOption(); optionCall(op); return op; }
+    protected def createFromToOption(): FromToOption = { new FromToOption() }
+
+    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    { val mob = createManualOrderBean(); mobCall(mob); return mob; }
+    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
-        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
-    }
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] =
+    { if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null } }
+
+    protected def toScalaQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]): ScrHpQDRFunction[CB] =
+    { new ScrHpQDRFunction[CB](function) }
 
     // ===================================================================================
     //                                                                       Very Internal

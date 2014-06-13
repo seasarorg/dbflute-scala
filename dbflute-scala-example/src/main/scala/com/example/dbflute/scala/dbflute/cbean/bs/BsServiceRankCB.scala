@@ -21,6 +21,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
 import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpSDRFunction;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 
@@ -512,21 +513,24 @@ object HpServiceRankCB {
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */
-        def derivedMemberServiceList(): HpSDRFunction[MemberServiceCB, ServiceRankCQ] = {
+        def derivedMemberServiceList(): ScrHpSDRFunction[MemberServiceCB, ServiceRankCQ] = {
             assertDerived("memberServiceList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[MemberServiceCB, ServiceRankCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberServiceCB, ServiceRankCQ]() {
+            return toScalaSDRFunction(new HpSDRFunction[MemberServiceCB, ServiceRankCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberServiceCB, ServiceRankCQ]() {
                 def setup(fn: String, sq: SubQuery[MemberServiceCB], cq: ServiceRankCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsderiveMemberServiceList(fn, sq, al, op); } }, _dbmetaProvider);
+                    cq.xsderiveMemberServiceList(fn, sq, al, op); } }, _dbmetaProvider));
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        def myselfDerived(): HpSDRFunction[ServiceRankCB, ServiceRankCQ] = {
+        def myselfDerived(): ScrHpSDRFunction[ServiceRankCB, ServiceRankCQ] = {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[ServiceRankCB, ServiceRankCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[ServiceRankCB, ServiceRankCQ]() {
+            return toScalaSDRFunction(new HpSDRFunction[ServiceRankCB, ServiceRankCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[ServiceRankCB, ServiceRankCQ]() {
                 def setup(fn: String, sq: SubQuery[ServiceRankCB], cq: ServiceRankCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider);
+                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider));
         }
     }
+
+    protected def toScalaSDRFunction[CB <: ConditionBean, CQ <: ConditionQuery](function: HpSDRFunction[CB, CQ]): ScrHpSDRFunction[CB, CQ] =
+    { new ScrHpSDRFunction[CB, CQ](function) } 
 }

@@ -21,6 +21,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
 import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpSDRFunction;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 
@@ -502,21 +503,24 @@ object HpMemberStatusCB {
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */
-        def derivedMemberList(): HpSDRFunction[MemberCB, MemberStatusCQ] = {
+        def derivedMemberList(): ScrHpSDRFunction[MemberCB, MemberStatusCQ] = {
             assertDerived("memberList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[MemberCB, MemberStatusCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberCB, MemberStatusCQ]() {
+            return toScalaSDRFunction(new HpSDRFunction[MemberCB, MemberStatusCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberCB, MemberStatusCQ]() {
                 def setup(fn: String, sq: SubQuery[MemberCB], cq: MemberStatusCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsderiveMemberList(fn, sq, al, op); } }, _dbmetaProvider);
+                    cq.xsderiveMemberList(fn, sq, al, op); } }, _dbmetaProvider));
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        def myselfDerived(): HpSDRFunction[MemberStatusCB, MemberStatusCQ] = {
+        def myselfDerived(): ScrHpSDRFunction[MemberStatusCB, MemberStatusCQ] = {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[MemberStatusCB, MemberStatusCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberStatusCB, MemberStatusCQ]() {
+            return toScalaSDRFunction(new HpSDRFunction[MemberStatusCB, MemberStatusCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberStatusCB, MemberStatusCQ]() {
                 def setup(fn: String, sq: SubQuery[MemberStatusCB], cq: MemberStatusCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider);
+                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider));
         }
     }
+
+    protected def toScalaSDRFunction[CB <: ConditionBean, CQ <: ConditionQuery](function: HpSDRFunction[CB, CQ]): ScrHpSDRFunction[CB, CQ] =
+    { new ScrHpSDRFunction[CB, CQ](function) } 
 }

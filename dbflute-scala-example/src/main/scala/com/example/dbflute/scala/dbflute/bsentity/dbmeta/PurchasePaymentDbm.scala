@@ -213,8 +213,7 @@ object PurchasePaymentDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): DblePurchasePayment = { return new DblePurchasePayment(); }
+    def newEntity(): DblePurchasePayment = { return new DblePurchasePayment(); }
 
     // ===================================================================================
     //                                                                   Map Communication

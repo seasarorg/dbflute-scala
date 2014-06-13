@@ -10,6 +10,7 @@ import org.seasar.dbflute.bhv._;
 import org.seasar.dbflute.bhv.AbstractBehaviorReadable._;
 import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
+import org.seasar.dbflute.cbean.chelper._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.util._;
@@ -411,25 +412,24 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param resultType The type of result. (NotNull)
      * @return The scalar function object to specify function for scalar value. (NotNull)
      */
-    def scalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[ProductCB, RESULT] = {
-        return facadeScalarSelect(resultType);
+    def scalarSelect[RESULT](resultType: Class[RESULT]): ScrHpSLSFunction[ProductCB, RESULT] = {
+        return toScalaSLSFunction[RESULT](facadeScalarSelect(resultType));
     }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[ProductCB, RESULT] = {
+    protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[ProductCB, RESULT]): ScrHpSLSFunction[ProductCB, RESULT] =
+    { new ScrHpSLSFunction[ProductCB, RESULT](function) }
+
+    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[ProductCB, RESULT] = {
         return doScalarSelect(resultType, newConditionBean());
     }
 
-    protected def doScalarSelect[RESULT, CB <: ProductCB](tp: Class[RESULT], cb: CB): SLFunction[CB, RESULT] = {
+    protected def doScalarSelect[RESULT, CB <: ProductCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
         assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
         cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLFunction[RESULT, CB](cb, tp);
+        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
     }
 
-    protected def createSLFunction[RESULT, CB <: ProductCB](cb: CB, tp: Class[RESULT]): SLFunction[CB, RESULT] = {
-        return new SLFunction[CB, RESULT](cb, tp);
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): SLFunction[_ <: ConditionBean, RESULT] = {
+    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = {
         return facadeScalarSelect(tp);
     }
 
@@ -1355,13 +1355,11 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
         return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleProduct]): scala.collection.immutable.List[Product] = {
-        return toScalaList(dbleList).map(new Product(_))
-    }
+    def toImmutableEntityList(dbleList: Collection[DbleProduct]): scala.collection.immutable.List[Product] =
+    { toScalaList(dbleList).map(new Product(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[Product]): List[DbleProduct] = {
-        return immuList.map(new DbleProduct().acceptImmutable(_)).asJava
-    }
+    def toDBableEntityList(immuList: scala.collection.immutable.List[Product]): List[DbleProduct] =
+    { immuList.map(new DbleProduct().acceptImmutable(_)).asJava }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

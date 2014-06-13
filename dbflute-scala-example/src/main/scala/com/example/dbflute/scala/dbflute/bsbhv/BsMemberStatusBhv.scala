@@ -10,6 +10,7 @@ import org.seasar.dbflute.bhv._;
 import org.seasar.dbflute.bhv.AbstractBehaviorReadable._;
 import org.seasar.dbflute.bhv.AbstractBehaviorWritable._;
 import org.seasar.dbflute.cbean._;
+import org.seasar.dbflute.cbean.chelper._;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.util._;
@@ -411,25 +412,24 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param resultType The type of result. (NotNull)
      * @return The scalar function object to specify function for scalar value. (NotNull)
      */
-    def scalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[MemberStatusCB, RESULT] = {
-        return facadeScalarSelect(resultType);
+    def scalarSelect[RESULT](resultType: Class[RESULT]): ScrHpSLSFunction[MemberStatusCB, RESULT] = {
+        return toScalaSLSFunction[RESULT](facadeScalarSelect(resultType));
     }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): SLFunction[MemberStatusCB, RESULT] = {
+    protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[MemberStatusCB, RESULT]): ScrHpSLSFunction[MemberStatusCB, RESULT] =
+    { new ScrHpSLSFunction[MemberStatusCB, RESULT](function) }
+
+    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[MemberStatusCB, RESULT] = {
         return doScalarSelect(resultType, newConditionBean());
     }
 
-    protected def doScalarSelect[RESULT, CB <: MemberStatusCB](tp: Class[RESULT], cb: CB): SLFunction[CB, RESULT] = {
+    protected def doScalarSelect[RESULT, CB <: MemberStatusCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
         assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
         cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLFunction[RESULT, CB](cb, tp);
+        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
     }
 
-    protected def createSLFunction[RESULT, CB <: MemberStatusCB](cb: CB, tp: Class[RESULT]): SLFunction[CB, RESULT] = {
-        return new SLFunction[CB, RESULT](cb, tp);
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): SLFunction[_ <: ConditionBean, RESULT] = {
+    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = {
         return facadeScalarSelect(tp);
     }
 
@@ -1195,13 +1195,11 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
         return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleMemberStatus]): scala.collection.immutable.List[MemberStatus] = {
-        return toScalaList(dbleList).map(new MemberStatus(_))
-    }
+    def toImmutableEntityList(dbleList: Collection[DbleMemberStatus]): scala.collection.immutable.List[MemberStatus] =
+    { toScalaList(dbleList).map(new MemberStatus(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[MemberStatus]): List[DbleMemberStatus] = {
-        return immuList.map(new DbleMemberStatus().acceptImmutable(_)).asJava
-    }
+    def toDBableEntityList(immuList: scala.collection.immutable.List[MemberStatus]): List[DbleMemberStatus] =
+    { immuList.map(new DbleMemberStatus().acceptImmutable(_)).asJava }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */

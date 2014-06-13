@@ -250,8 +250,7 @@ object MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): DbleMember = { return new DbleMember(); }
+    def newEntity(): DbleMember = { return new DbleMember(); }
 
     // ===================================================================================
     //                                                                   Map Communication

@@ -20,6 +20,7 @@ import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedInvokerAssistant;
 import com.example.dbflute.scala.dbflute.allcommon.ImplementedSqlClauseCreator;
 import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
+import com.example.dbflute.scala.dbflute.allcommon.ScrHpSDRFunction;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
 import com.example.dbflute.scala.dbflute.cbean.nss._
@@ -643,21 +644,24 @@ object HpPurchaseCB {
          * </pre>
          * @return The object to set up a function for referrer table. (NotNull)
          */
-        def derivedPurchasePaymentList(): HpSDRFunction[PurchasePaymentCB, PurchaseCQ] = {
+        def derivedPurchasePaymentList(): ScrHpSDRFunction[PurchasePaymentCB, PurchaseCQ] = {
             assertDerived("purchasePaymentList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[PurchasePaymentCB, PurchaseCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[PurchasePaymentCB, PurchaseCQ]() {
+            return toScalaSDRFunction(new HpSDRFunction[PurchasePaymentCB, PurchaseCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[PurchasePaymentCB, PurchaseCQ]() {
                 def setup(fn: String, sq: SubQuery[PurchasePaymentCB], cq: PurchaseCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsderivePurchasePaymentList(fn, sq, al, op); } }, _dbmetaProvider);
+                    cq.xsderivePurchasePaymentList(fn, sq, al, op); } }, _dbmetaProvider));
         }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */
-        def myselfDerived(): HpSDRFunction[PurchaseCB, PurchaseCQ] = {
+        def myselfDerived(): ScrHpSDRFunction[PurchaseCB, PurchaseCQ] = {
             assertDerived("myselfDerived"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
-            return new HpSDRFunction[PurchaseCB, PurchaseCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[PurchaseCB, PurchaseCQ]() {
+            return toScalaSDRFunction(new HpSDRFunction[PurchaseCB, PurchaseCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[PurchaseCB, PurchaseCQ]() {
                 def setup(fn: String, sq: SubQuery[PurchaseCB], cq: PurchaseCQ, al: String, op: DerivedReferrerOption): Unit = {
-                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider);
+                    cq.xsmyselfDerive(fn, sq, al, op); } }, _dbmetaProvider));
         }
     }
+
+    protected def toScalaSDRFunction[CB <: ConditionBean, CQ <: ConditionQuery](function: HpSDRFunction[CB, CQ]): ScrHpSDRFunction[CB, CQ] =
+    { new ScrHpSDRFunction[CB, CQ](function) } 
 }

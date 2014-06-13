@@ -218,8 +218,7 @@ object ProductDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    def newEntity(): Entity = { return newMyEntity(); }
-    def newMyEntity(): DbleProduct = { return new DbleProduct(); }
+    def newEntity(): DbleProduct = { return new DbleProduct(); }
 
     // ===================================================================================
     //                                                                   Map Communication

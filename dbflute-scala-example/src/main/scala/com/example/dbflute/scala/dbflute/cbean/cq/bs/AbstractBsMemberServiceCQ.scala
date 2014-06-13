@@ -645,8 +645,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_Equal(): HpSSQFunction[MemberServiceCB] = {
-        return xcreateSSQFunction(CK_EQ.getOperand(), classOf[MemberServiceCB]);
+    def scalar_Equal(): ScrHpSSQFunction[MemberServiceCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_EQ, classOf[MemberServiceCB]));
     }
 
     /**
@@ -662,8 +662,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_NotEqual(): HpSSQFunction[MemberServiceCB] = {
-        return xcreateSSQFunction(CK_NES.getOperand(), classOf[MemberServiceCB]);
+    def scalar_NotEqual(): ScrHpSSQFunction[MemberServiceCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_NES, classOf[MemberServiceCB]));
     }
 
     /**
@@ -679,8 +679,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_GreaterThan(): HpSSQFunction[MemberServiceCB] = {
-        return xcreateSSQFunction(CK_GT.getOperand(), classOf[MemberServiceCB]);
+    def scalar_GreaterThan(): ScrHpSSQFunction[MemberServiceCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_GT, classOf[MemberServiceCB]));
     }
 
     /**
@@ -696,8 +696,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_LessThan(): HpSSQFunction[MemberServiceCB] = {
-        return xcreateSSQFunction(CK_LT.getOperand(), classOf[MemberServiceCB]);
+    def scalar_LessThan(): ScrHpSSQFunction[MemberServiceCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_LT, classOf[MemberServiceCB]));
     }
 
     /**
@@ -713,8 +713,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_GreaterEqual(): HpSSQFunction[MemberServiceCB] = {
-        return xcreateSSQFunction(CK_GE.getOperand(), classOf[MemberServiceCB]);
+    def scalar_GreaterEqual(): ScrHpSSQFunction[MemberServiceCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_GE, classOf[MemberServiceCB]));
     }
 
     /**
@@ -730,9 +730,12 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * </pre>
      * @return The object to set up a function. (NotNull)
      */
-    def scalar_LessEqual(): HpSSQFunction[MemberServiceCB] = {
-        return xcreateSSQFunction(CK_LE.getOperand(), classOf[MemberServiceCB]);
+    def scalar_LessEqual(): ScrHpSSQFunction[MemberServiceCB] = {
+        return toScalaSSQFunction(xcreateSSQFunction(CK_LE, classOf[MemberServiceCB]));
     }
+
+    protected def toScalaSSQFunction(function: HpSSQFunction[MemberServiceCB]): ScrHpSSQFunction[MemberServiceCB] =
+    { new ScrHpSSQFunction(function) }
 
     override protected def xscalarCondition[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, op: HpSSQOption[CB]): Unit = {
         assertObjectNotNull("subQuery", sq);
@@ -768,8 +771,8 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * Prepare for (Query)MyselfDerived (correlated sub-query).
      * @return The object to set up a function for myself table. (NotNull)
      */
-    def myselfDerived(): HpQDRFunction[MemberServiceCB] = {
-        return xcreateQDRFunctionMyselfDerived(classOf[MemberServiceCB]);
+    def myselfDerived(): ScrHpQDRFunction[MemberServiceCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMyselfDerived(classOf[MemberServiceCB]));
     }
     override protected def xqderiveMyselfDerived[CB <: ConditionBean](fn: String, sq: SubQuery[CB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
         assertObjectNotNull("subQuery", sq);
@@ -815,11 +818,67 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
     def keepMyselfInScope(sq: MemberServiceCQ): String;
 
     // ===================================================================================
+    //                                                                            Order By
+    //                                                                            ========
+    /**
+     * Order along manual ordering information.
+     * <pre>
+     * MemberCB cb = new MemberCB();
+     * ManualOrderBean mob = new ManualOrderBean();
+     * mob.<span style="color: #DD4747">when_GreaterEqual</span>(priorityDate); <span style="color: #3F7E5E">// e.g. 2000/01/01</span>
+     * cb.query().addOrderBy_Birthdate_Asc().<span style="color: #DD4747">withManualOrder(mob)</span>;
+     * <span style="color: #3F7E5E">// order by </span>
+     * <span style="color: #3F7E5E">//   case</span>
+     * <span style="color: #3F7E5E">//     when BIRTHDATE &gt;= '2000/01/01' then 0</span>
+     * <span style="color: #3F7E5E">//     else 1</span>
+     * <span style="color: #3F7E5E">//   end asc, ...</span>
+     *
+     * MemberCB cb = new MemberCB();
+     * ManualOrderBean mob = new ManualOrderBean();
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Withdrawal);
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Formalized);
+     * mob.<span style="color: #DD4747">when_Equal</span>(CDef.MemberStatus.Provisional);
+     * cb.query().addOrderBy_MemberStatusCode_Asc().<span style="color: #DD4747">withManualOrder(mob)</span>;
+     * <span style="color: #3F7E5E">// order by </span>
+     * <span style="color: #3F7E5E">//   case</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'WDL' then 0</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'FML' then 1</span>
+     * <span style="color: #3F7E5E">//     when MEMBER_STATUS_CODE = 'PRV' then 2</span>
+     * <span style="color: #3F7E5E">//     else 3</span>
+     * <span style="color: #3F7E5E">//   end asc, ...</span>
+     * </pre>
+     * <p>This function with Union is unsupported!</p>
+     * <p>The order values are bound (treated as bind parameter).</p>
+     * @param mob The bean of manual order containing order values. (NotNull)
+     */
+    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+        assertObjectNotNull("withManualOrder(mobCall)", mobCall);
+        xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    // ===================================================================================
+    //                                                                       Create Option
+    //                                                                       =============
+    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    { val op = createLikeSearchOption(); optionCall(op); return op; }
+    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+
+    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    { val op = createFromToOption(); optionCall(op); return op; }
+    protected def createFromToOption(): FromToOption = { new FromToOption() }
+
+    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    { val mob = createManualOrderBean(); mobCall(mob); return mob; }
+    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] = {
-        if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null }
-    }
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] =
+    { if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null } }
+
+    protected def toScalaQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]): ScrHpQDRFunction[CB] =
+    { new ScrHpQDRFunction[CB](function) }
 
     // ===================================================================================
     //                                                                       Very Internal
