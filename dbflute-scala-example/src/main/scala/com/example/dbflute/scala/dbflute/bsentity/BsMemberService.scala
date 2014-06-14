@@ -76,15 +76,15 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
         val newDble = new DbleMemberService
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
-        if (!memberServiceId.equals(this.memberServiceId)) { newDble.setMemberServiceId(memberServiceId) }
-        if (!memberId.equals(this.memberId)) { newDble.setMemberId(memberId) }
-        if (!servicePointCount.equals(this.servicePointCount)) { newDble.setServicePointCount(servicePointCount) }
+        if (!memberServiceId.equals(this.memberServiceId)) { newDble.setMemberServiceId(int2Integer(memberServiceId)) }
+        if (!memberId.equals(this.memberId)) { newDble.setMemberId(int2Integer(memberId)) }
+        if (!servicePointCount.equals(this.servicePointCount)) { newDble.setServicePointCount(int2Integer(servicePointCount)) }
         if (!serviceRankCode.equals(this.serviceRankCode)) { newDble.setServiceRankCodeAsServiceRank(serviceRankCode) }
         if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
         if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
         if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
         if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
-        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(versionNo) }
+        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(long2Long(versionNo)) }
         new MemberService(newDble)
     }
 
@@ -433,7 +433,7 @@ abstract class BsMbleMemberService {
      * [set] (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @param memberServiceId The value of the column 'MEMBER_SERVICE_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def memberServiceId_=(memberServiceId: Int) = { dble.setMemberServiceId(memberServiceId) }
+    def memberServiceId_=(memberServiceId: Int) = { dble.setMemberServiceId(int2Integer(memberServiceId)) }
 
     /**
      * [get] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
@@ -445,7 +445,7 @@ abstract class BsMbleMemberService {
      * [set] (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def memberId_=(memberId: Int) = { dble.setMemberId(memberId) }
+    def memberId_=(memberId: Int) = { dble.setMemberId(int2Integer(memberId)) }
 
     /**
      * [get] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
@@ -457,7 +457,7 @@ abstract class BsMbleMemberService {
      * [set] (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)} <br />
      * @param servicePointCount The value of the column 'SERVICE_POINT_COUNT'. (NullAllowed: null update allowed for no constraint)
      */
-    def servicePointCount_=(servicePointCount: Int) = { dble.setServicePointCount(servicePointCount) }
+    def servicePointCount_=(servicePointCount: Int) = { dble.setServicePointCount(int2Integer(servicePointCount)) }
 
     /**
      * [get] (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank} <br />
@@ -529,5 +529,5 @@ abstract class BsMbleMemberService {
      * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (NullAllowed: null update allowed for no constraint)
      */
-    def versionNo_=(versionNo: Long) = { dble.setVersionNo(versionNo) }
+    def versionNo_=(versionNo: Long) = { dble.setVersionNo(long2Long(versionNo)) }
 }

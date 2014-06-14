@@ -141,17 +141,17 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with Serializable
      * @return this. (NotNull)
      */
     def acceptImmutable(immu: Product): DbleProduct = {
-        setProductId(immu.productId);
+        setProductId(int2Integer(immu.productId));
         setProductName(immu.productName);
         setProductHandleCode(immu.productHandleCode);
         setProductCategoryCode(immu.productCategoryCode);
         setProductStatusCode(immu.productStatusCode);
-        setRegularPrice(immu.regularPrice);
+        setRegularPrice(int2Integer(immu.regularPrice));
         setRegisterDatetime(immu.registerDatetime);
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setVersionNo(immu.versionNo);
+        setVersionNo(long2Long(immu.versionNo));
         setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))

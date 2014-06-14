@@ -115,10 +115,10 @@ abstract class BsDbleServiceRank extends Entity with Serializable with Cloneable
     def acceptImmutable(immu: ServiceRank): DbleServiceRank = {
         setServiceRankCodeAsServiceRank(immu.serviceRankCode);
         setServiceRankName(immu.serviceRankName);
-        setServicePointIncidence(immu.servicePointIncidence);
+        setServicePointIncidence(immu.servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
         setNewAcceptableFlgAsFlg(immu.newAcceptableFlg);
         setDescription(immu.description);
-        setDisplayOrder(immu.displayOrder);
+        setDisplayOrder(int2Integer(immu.displayOrder));
         setMemberServiceList(immu.memberServiceList.map(new DbleMemberService().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))

@@ -147,18 +147,18 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
      * @return this. (NotNull)
      */
     def acceptImmutable(immu: Purchase): DblePurchase = {
-        setPurchaseId(immu.purchaseId);
-        setMemberId(immu.memberId);
-        setProductId(immu.productId);
+        setPurchaseId(long2Long(immu.purchaseId));
+        setMemberId(int2Integer(immu.memberId));
+        setProductId(int2Integer(immu.productId));
         setPurchaseDatetime(immu.purchaseDatetime);
-        setPurchaseCount(immu.purchaseCount);
-        setPurchasePrice(immu.purchasePrice);
+        setPurchaseCount(int2Integer(immu.purchaseCount));
+        setPurchasePrice(int2Integer(immu.purchasePrice));
         setPaymentCompleteFlgAsFlg(immu.paymentCompleteFlg);
         setRegisterDatetime(immu.registerDatetime);
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setVersionNo(immu.versionNo);
+        setVersionNo(long2Long(immu.versionNo));
         setMember(immu.member.map(new DbleMember().acceptImmutable(_)))
         setProduct(immu.product.map(new DbleProduct().acceptImmutable(_)))
         setPurchasePaymentList(immu.purchasePaymentList.map(new DblePurchasePayment().acceptImmutable(_)).asJava)

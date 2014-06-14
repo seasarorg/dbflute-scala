@@ -98,7 +98,7 @@ class BsServiceRankCB extends AbstractConditionBean {
     def acceptUniqueOf(displayOrder: Integer): Unit = {
         assertObjectNotNull("displayOrder", displayOrder);
         val cb: BsServiceRankCB = this;
-        cb.query().setDisplayOrder_Equal(displayOrder);;
+        cb.query().setDisplayOrder_Equal(displayOrder);
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

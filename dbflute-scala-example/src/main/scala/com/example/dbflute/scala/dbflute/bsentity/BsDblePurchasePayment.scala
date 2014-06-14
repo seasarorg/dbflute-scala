@@ -131,9 +131,9 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Seri
      * @return this. (NotNull)
      */
     def acceptImmutable(immu: PurchasePayment): DblePurchasePayment = {
-        setPurchasePaymentId(immu.purchasePaymentId);
-        setPurchaseId(immu.purchaseId);
-        setPaymentAmount(immu.paymentAmount);
+        setPurchasePaymentId(long2Long(immu.purchasePaymentId));
+        setPurchaseId(long2Long(immu.purchaseId));
+        setPaymentAmount(immu.paymentAmount.asInstanceOf[java.math.BigDecimal]);
         setPaymentDatetime(immu.paymentDatetime);
         setPaymentMethodCode(immu.paymentMethodCode);
         setRegisterDatetime(immu.registerDatetime);

@@ -88,7 +88,7 @@ class BsPurchaseCB extends AbstractConditionBean {
     def acceptPrimaryKey(purchaseId: Long): Unit = {
         assertObjectNotNull("purchaseId", purchaseId);
         val cb: BsPurchaseCB = this;
-        cb.query().setPurchaseId_Equal(purchaseId);;
+        cb.query().setPurchaseId_Equal(purchaseId);
     }
 
     /**
@@ -100,7 +100,7 @@ class BsPurchaseCB extends AbstractConditionBean {
     def acceptUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Unit = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
         val cb: BsPurchaseCB = this;
-        cb.query().setMemberId_Equal(memberId);;cb.query().setProductId_Equal(productId);;cb.query().setPurchaseDatetime_Equal(purchaseDatetime);;
+        cb.query().setMemberId_Equal(memberId);cb.query().setProductId_Equal(productId);cb.query().setPurchaseDatetime_Equal(purchaseDatetime);
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

@@ -45,7 +45,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val purchasePaymentId: Long = entity.purchasePaymentId
  * val purchaseId: Long = entity.purchaseId
- * val paymentAmount: java.math.BigDecimal = entity.paymentAmount
+ * val paymentAmount: scala.math.BigDecimal = entity.paymentAmount
  * val paymentDatetime: java.sql.Timestamp = entity.paymentDatetime
  * val paymentMethodCode: String = entity.paymentMethodCode
  * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
@@ -64,7 +64,7 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
     def copy(
          purchasePaymentId: Long = purchasePaymentId
         , purchaseId: Long = purchaseId
-        , paymentAmount: java.math.BigDecimal = paymentAmount
+        , paymentAmount: scala.math.BigDecimal = paymentAmount
         , paymentDatetime: java.sql.Timestamp = paymentDatetime
         , paymentMethodCode: String = paymentMethodCode
         , registerDatetime: java.sql.Timestamp = registerDatetime
@@ -75,9 +75,9 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
         val newDble = new DblePurchasePayment
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
-        if (!purchasePaymentId.equals(this.purchasePaymentId)) { newDble.setPurchasePaymentId(purchasePaymentId) }
-        if (!purchaseId.equals(this.purchaseId)) { newDble.setPurchaseId(purchaseId) }
-        if (!paymentAmount.equals(this.paymentAmount)) { newDble.setPaymentAmount(paymentAmount) }
+        if (!purchasePaymentId.equals(this.purchasePaymentId)) { newDble.setPurchasePaymentId(long2Long(purchasePaymentId)) }
+        if (!purchaseId.equals(this.purchaseId)) { newDble.setPurchaseId(long2Long(purchaseId)) }
+        if (!paymentAmount.equals(this.paymentAmount)) { newDble.setPaymentAmount(paymentAmount.asInstanceOf[java.math.BigDecimal]) }
         if (!paymentDatetime.equals(this.paymentDatetime)) { newDble.setPaymentDatetime(paymentDatetime) }
         if (!paymentMethodCode.equals(this.paymentMethodCode)) { newDble.setPaymentMethodCode(paymentMethodCode) }
         if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
@@ -169,7 +169,7 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
      * [get] (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)} <br />
      * @return The value of the column 'PAYMENT_AMOUNT'. (NotNull but EmptyAllowed if null in database)
      */
-    def paymentAmount: java.math.BigDecimal = { dble.getPaymentAmount }
+    def paymentAmount: scala.math.BigDecimal = { dble.getPaymentAmount }
 
     /**
      * [get] (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)} <br />
@@ -224,7 +224,7 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val purchasePaymentId: Long = entity.purchasePaymentId
  * val purchaseId: Long = entity.purchaseId
- * val paymentAmount: java.math.BigDecimal = entity.paymentAmount
+ * val paymentAmount: scala.math.BigDecimal = entity.paymentAmount
  * val paymentDatetime: java.sql.Timestamp = entity.paymentDatetime
  * val paymentMethodCode: String = entity.paymentMethodCode
  * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
@@ -271,7 +271,7 @@ abstract class BsMblePurchasePayment {
      * [set] (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)} <br />
      * @param purchasePaymentId The value of the column 'PURCHASE_PAYMENT_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def purchasePaymentId_=(purchasePaymentId: Long) = { dble.setPurchasePaymentId(purchasePaymentId) }
+    def purchasePaymentId_=(purchasePaymentId: Long) = { dble.setPurchasePaymentId(long2Long(purchasePaymentId)) }
 
     /**
      * [get] (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE} <br />
@@ -283,19 +283,19 @@ abstract class BsMblePurchasePayment {
      * [set] (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE} <br />
      * @param purchaseId The value of the column 'PURCHASE_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def purchaseId_=(purchaseId: Long) = { dble.setPurchaseId(purchaseId) }
+    def purchaseId_=(purchaseId: Long) = { dble.setPurchaseId(long2Long(purchaseId)) }
 
     /**
      * [get] (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)} <br />
      * @return The value of the column 'PAYMENT_AMOUNT'. (basically NotNull if selected: for the constraint)
      */
-    def paymentAmount: java.math.BigDecimal = { dble.getPaymentAmount }
+    def paymentAmount: scala.math.BigDecimal = { dble.getPaymentAmount }
 
     /**
      * [set] (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)} <br />
      * @param paymentAmount The value of the column 'PAYMENT_AMOUNT'. (NullAllowed: null update allowed for no constraint)
      */
-    def paymentAmount_=(paymentAmount: java.math.BigDecimal) = { dble.setPaymentAmount(paymentAmount) }
+    def paymentAmount_=(paymentAmount: scala.math.BigDecimal) = { dble.setPaymentAmount(paymentAmount.asInstanceOf[java.math.BigDecimal]) }
 
     /**
      * [get] (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)} <br />

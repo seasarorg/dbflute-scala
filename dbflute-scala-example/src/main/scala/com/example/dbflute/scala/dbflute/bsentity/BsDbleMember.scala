@@ -143,7 +143,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
      * @return this. (NotNull)
      */
     def acceptImmutable(immu: Member): DbleMember = {
-        setMemberId(immu.memberId);
+        setMemberId(int2Integer(immu.memberId));
         setMemberName(immu.memberName);
         setMemberAccount(immu.memberAccount);
         setMemberStatusCodeAsMemberStatus(immu.memberStatusCode);
@@ -153,7 +153,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setVersionNo(immu.versionNo);
+        setVersionNo(long2Long(immu.versionNo));
         setMemberStatus(immu.memberStatus.map(new DbleMemberStatus().acceptImmutable(_)))
         setMemberServiceAsOne(immu.memberServiceAsOne.map(new DbleMemberService().acceptImmutable(_)))
         setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutable(_)).asJava)

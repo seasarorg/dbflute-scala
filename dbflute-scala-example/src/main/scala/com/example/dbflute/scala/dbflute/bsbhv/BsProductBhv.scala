@@ -4,6 +4,7 @@ import scala.collection.JavaConverters._;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.seasar.dbflute._;
 import org.seasar.dbflute.bhv._;
@@ -17,6 +18,7 @@ import org.seasar.dbflute.util._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
+import com.example.dbflute.scala.dbflute.bsbhv.loader._;
 import com.example.dbflute.scala.dbflute.exentity._;
 import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
 import com.example.dbflute.scala.dbflute.cbean._;
@@ -473,7 +475,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(productList: List[DbleProduct], setupCall: (PurchaseCB) => Unit): NestedReferrerLoader[DblePurchase] = {
+    def loadPurchaseList(productList: List[DbleProduct], setupCall: (PurchaseCB) => Unit): NestedReferrerListGateway[DblePurchase] = {
         assertObjectNotNull("productList", productList); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[PurchaseCB]() { def setup(referrerCB: PurchaseCB): Unit = { setupCall(referrerCB); } }
         return doLoadPurchaseList(productList, new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
@@ -505,13 +507,13 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadPurchaseList(product: DbleProduct, setupCall: (PurchaseCB) => Unit): NestedReferrerLoader[DblePurchase] = {
+    def loadPurchaseList(product: DbleProduct, setupCall: (PurchaseCB) => Unit): NestedReferrerListGateway[DblePurchase] = {
         assertObjectNotNull("product", product); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[PurchaseCB]() { def setup(referrerCB: PurchaseCB): Unit = { setupCall(referrerCB); } }
         return doLoadPurchaseList(xnewLRLs(product), new LoadReferrerOption[PurchaseCB, DblePurchase]().xinit(setupper));
     }
 
-    protected def doLoadPurchaseList(productList: List[DbleProduct], option: LoadReferrerOption[PurchaseCB, DblePurchase]): NestedReferrerLoader[DblePurchase] = {
+    protected def doLoadPurchaseList(productList: List[DbleProduct], option: LoadReferrerOption[PurchaseCB, DblePurchase]): NestedReferrerListGateway[DblePurchase] = {
         val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
         return helpLoadReferrerInternally(productList, option, new InternalLoadReferrerCallback[DbleProduct, Integer, PurchaseCB, DblePurchase]() {
             def getPKVal(et: DbleProduct): Integer =
@@ -698,12 +700,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
      * @param entityCall The callback for entity of insert or update. (NotNull, ...depends on insert or update)
+     * @param insertOptionCall The callback for option of insert. (NoArgAllowed: then no option)
+     * @param updateOptionCall The callback for option of update. (NoArgAllowed: then no option)
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(entityCall: (MbleProduct) => Unit): Unit = {
-        doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), null, null);
+    def insertOrUpdate(entityCall: (MbleProduct) => Unit)(implicit insertOptionCall: (InsertOption[ProductCB]) => Unit = null, updateOptionCall: (UpdateOption[ProductCB]) => Unit = null): Unit = {
+        doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
     protected def doInsertOrUpdate(et: DbleProduct, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
@@ -725,12 +729,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() }
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
      * @param entityCall The callback for entity of insert or update. (NotNull, ...depends on insert or update)
+     * @param insertOptionCall The callback for option of insert. (NoArgAllowed: then no option)
+     * @param updateOptionCall The callback for option of update. (NoArgAllowed: then no option)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(entityCall: (MbleProduct) => Unit): Unit = {
-        doInsertOrUpdateNonstrict(callbackMbleEntityToDBable(entityCall), null, null);
+    def insertOrUpdateNonstrict(entityCall: (MbleProduct) => Unit)(implicit insertOptionCall: (InsertOption[ProductCB]) => Unit = null, updateOptionCall: (UpdateOption[ProductCB]) => Unit = null): Unit = {
+        doInsertOrUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
     protected def doInsertOrUpdateNonstrict(et: DbleProduct, iop: InsertOption[ProductCB], uop: UpdateOption[ProductCB]): Unit = {
@@ -840,8 +846,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(productList: scala.collection.immutable.List[DbleProduct]): Array[Int] = {
-        return doBatchInsert(productList.asJava, null);
+    def batchInsert(batchCall: (ScrBatchEntityList[MbleProduct]) => Unit)(implicit optionCall: (InsertOption[ProductCB]) => Unit = null): Array[Int] = {
+        return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
     protected def doBatchInsert(ls: List[DbleProduct], op: InsertOption[ProductCB]): Array[Int] = {
@@ -886,8 +892,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(productList: scala.collection.immutable.List[DbleProduct]): Array[Int] = {
-        return doBatchUpdate(productList.asJava, null);
+    def batchUpdate(batchCall: (ScrBatchEntityList[MbleProduct]) => Unit)(implicit optionCall: (UpdateOption[ProductCB]) => Unit = null): Array[Int] = {
+        return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
     protected def doBatchUpdate(ls: List[DbleProduct], op: UpdateOption[ProductCB]): Array[Int] = {
@@ -905,38 +911,6 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     @Override
     protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
         doBatchUpdate(downcast(ls), downcast(op));
-    }
-
-    /**
-     * Batch-update the entity list specified-only. (ExclusiveControl) <br />
-     * This method uses executeBatch() of java.sql.PreparedStatement.
-     * <pre>
-     * <span style="color: #3F7E5E">// e.g. update two columns only</span>
-     * productBhv.<span style="color: #DD4747">batchUpdate</span>(productList, new SpecifyQuery[ProductCB]() {
-     *     public void specify(ProductCB cb) { <span style="color: #3F7E5E">// the two only updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnFooStatusCode()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *         cb.specify().<span style="color: #DD4747">columnBarDate()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *     }
-     * });
-     * <span style="color: #3F7E5E">// e.g. update every column in the table</span>
-     * productBhv.<span style="color: #DD4747">batchUpdate</span>(productList, new SpecifyQuery[ProductCB]() {
-     *     public void specify(ProductCB cb) { <span style="color: #3F7E5E">// all columns are updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnEveryColumn()</span>; <span style="color: #3F7E5E">// no check of modified properties</span>
-     *     }
-     * });
-     * </pre>
-     * <p>You can specify update columns used on set clause of update statement.
-     * However you do not need to specify common columns for update
-     * and an optimistic lock column because they are specified implicitly.</p>
-     * <p>And you should specify columns that are modified in any entities (at least one entity).
-     * But if you specify every column, it has no check.</p>
-     * @param productList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param updateColumnSpec The specification of update columns. (NotNull)
-     * @return The array of updated count. (NotNull, EmptyAllowed)
-     * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
-     */
-    def batchUpdate(productList: scala.collection.immutable.List[DbleProduct], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
-        return doBatchUpdate(productList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     /**
@@ -963,8 +937,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(productList: scala.collection.immutable.List[DbleProduct]): Array[Int] = {
-        return doBatchUpdateNonstrict(productList.asJava, null);
+    def batchUpdateNonstrict(batchCall: (ScrBatchEntityList[MbleProduct]) => Unit)(implicit optionCall: (UpdateOption[ProductCB]) => Unit = null): Array[Int] = {
+        return doBatchUpdateNonstrict(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
     protected def doBatchUpdateNonstrict(ls: List[DbleProduct], op: UpdateOption[ProductCB]): Array[Int] = {
@@ -972,37 +946,6 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
         val rlop: UpdateOption[ProductCB] = if (op != null) { op } else { createPlainUpdateOption() }
         prepareBatchUpdateOption(ls, rlop);
         return delegateBatchUpdateNonstrict(ls, rlop);
-    }
-
-    /**
-     * Batch-update the entity list non-strictly specified-only. (NonExclusiveControl) <br />
-     * This method uses executeBatch() of java.sql.PreparedStatement.
-     * <pre>
-     * <span style="color: #3F7E5E">// e.g. update two columns only</span>
-     * productBhv.<span style="color: #DD4747">batchUpdateNonstrict</span>(productList, new SpecifyQuery[ProductCB]() {
-     *     public void specify(ProductCB cb) { <span style="color: #3F7E5E">// the two only updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnFooStatusCode()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *         cb.specify().<span style="color: #DD4747">columnBarDate()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *     }
-     * });
-     * <span style="color: #3F7E5E">// e.g. update every column in the table</span>
-     * productBhv.<span style="color: #DD4747">batchUpdateNonstrict</span>(productList, new SpecifyQuery[ProductCB]() {
-     *     public void specify(ProductCB cb) { <span style="color: #3F7E5E">// all columns are updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnEveryColumn()</span>; <span style="color: #3F7E5E">// no check of modified properties</span>
-     *     }
-     * });
-     * </pre>
-     * <p>You can specify update columns used on set clause of update statement.
-     * However you do not need to specify common columns for update
-     * and an optimistic lock column because they are specified implicitly.</p>
-     * <p>And you should specify columns that are modified in any entities (at least one entity).</p>
-     * @param productList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param updateColumnSpec The specification of update columns. (NotNull)
-     * @return The array of updated count. (NotNull, EmptyAllowed)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
-     */
-    def batchUpdateNonstrict(productList: scala.collection.immutable.List[DbleProduct], updateColumnSpec: SpecifyQuery[ProductCB]): Array[Int] = {
-        return doBatchUpdateNonstrict(productList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
     }
 
     @Override
@@ -1017,8 +960,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(productList: scala.collection.immutable.List[DbleProduct]): Array[Int] = {
-        return doBatchDelete(productList.asJava, null);
+    def batchDelete(batchCall: (ScrBatchEntityList[MbleProduct]) => Unit)(implicit optionCall: (DeleteOption[ProductCB]) => Unit = null): Array[Int] = {
+        return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
     protected def doBatchDelete(ls: List[DbleProduct], op: DeleteOption[ProductCB]): Array[Int] = {
@@ -1039,8 +982,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(productList: scala.collection.immutable.List[DbleProduct]): Array[Int] = {
-        return doBatchDeleteNonstrict(productList.asJava, null);
+    def batchDeleteNonstrict(batchCall: (ScrBatchEntityList[MbleProduct]) => Unit)(implicit optionCall: (DeleteOption[ProductCB]) => Unit = null): Array[Int] = {
+        return doBatchDeleteNonstrict(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
     protected def doBatchDeleteNonstrict(ls: List[DbleProduct], op: DeleteOption[ProductCB]): Array[Int] = {
@@ -1295,6 +1238,16 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
         val cb = newConditionBean(); cbCall(cb); return cb;
     }
 
+    protected def callbackBatch(batchCall: (ScrBatchEntityList[MbleProduct]) => Unit): List[DbleProduct] = {
+        assertObjectNotNull("batchCall", batchCall);
+        val batch = new ScrBatchEntityList[MbleProduct]();
+        val entityList: List[DbleProduct] = new ArrayList[DbleProduct]();
+        batch.entityCallList.asScala.map { entityCall =>
+            val entity = newMbleEntity(); entityCall(entity); entity.toDBableEntity;
+        }
+        return entityList;
+    }
+
     protected def callbackMbleEntity(entityCall: (MbleProduct) => Unit): MbleProduct = {
         assertObjectNotNull("entityCall", entityCall);
         val entity = newMbleEntity(); entityCall(entity); return entity;
@@ -1360,50 +1313,4 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[Product]): List[DbleProduct] =
     { immuList.map(new DbleProduct().acceptImmutable(_)).asJava }
-}
-
-/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                  Behavior                                            _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                        Loader                        _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                              Border                                  _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
-
-/**
- * The referrer loader of (商品)PRODUCT as TABLE.
- * @author jflute
- */
-class BsLoaderOfProduct {
-
-    protected var _selectedList: List[DbleProduct] = null;
-    protected var _selector: BehaviorSelector = null;
-    protected var _myBhv: ProductBhv = null; // lazy-loaded
-
-    def ready(selectedList: List[DbleProduct], selector: BehaviorSelector): LoaderOfProduct =
-    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfProduct]; }
-
-    protected def myBhv: ProductBhv =
-    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[ProductBhv]); _myBhv } }
-
-    protected var _referrerPurchaseList: List[DblePurchase] = null;
-    def loadPurchaseList(cbCall: (PurchaseCB) => Unit): ScrNestedReferrerLoader[LoaderOfPurchase] = {
-        myBhv.loadPurchaseList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
-            def handle(referrerList: List[DblePurchase]): Unit = { _referrerPurchaseList = referrerList; }
-        });
-        return createNested(() => { new LoaderOfPurchase().ready(_referrerPurchaseList, _selector); });
-    }
-
-    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
-    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
-
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
-    }
-
-    def selectedList: List[DbleProduct] = { _selectedList; }
-    def selector: BehaviorSelector = { _selector; }
 }

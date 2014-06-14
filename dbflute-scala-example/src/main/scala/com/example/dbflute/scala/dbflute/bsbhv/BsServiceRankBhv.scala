@@ -4,6 +4,7 @@ import scala.collection.JavaConverters._;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.seasar.dbflute._;
 import org.seasar.dbflute.bhv._;
@@ -17,6 +18,7 @@ import org.seasar.dbflute.util._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
+import com.example.dbflute.scala.dbflute.bsbhv.loader._;
 import com.example.dbflute.scala.dbflute.exentity._;
 import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
 import com.example.dbflute.scala.dbflute.cbean._;
@@ -473,7 +475,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadMemberServiceList(serviceRankList: List[DbleServiceRank], setupCall: (MemberServiceCB) => Unit): NestedReferrerLoader[DbleMemberService] = {
+    def loadMemberServiceList(serviceRankList: List[DbleServiceRank], setupCall: (MemberServiceCB) => Unit): NestedReferrerListGateway[DbleMemberService] = {
         assertObjectNotNull("serviceRankList", serviceRankList); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[MemberServiceCB]() { def setup(referrerCB: MemberServiceCB): Unit = { setupCall(referrerCB); } }
         return doLoadMemberServiceList(serviceRankList, new LoadReferrerOption[MemberServiceCB, DbleMemberService]().xinit(setupper));
@@ -505,13 +507,13 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadMemberServiceList(serviceRank: DbleServiceRank, setupCall: (MemberServiceCB) => Unit): NestedReferrerLoader[DbleMemberService] = {
+    def loadMemberServiceList(serviceRank: DbleServiceRank, setupCall: (MemberServiceCB) => Unit): NestedReferrerListGateway[DbleMemberService] = {
         assertObjectNotNull("serviceRank", serviceRank); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[MemberServiceCB]() { def setup(referrerCB: MemberServiceCB): Unit = { setupCall(referrerCB); } }
         return doLoadMemberServiceList(xnewLRLs(serviceRank), new LoadReferrerOption[MemberServiceCB, DbleMemberService]().xinit(setupper));
     }
 
-    protected def doLoadMemberServiceList(serviceRankList: List[DbleServiceRank], option: LoadReferrerOption[MemberServiceCB, DbleMemberService]): NestedReferrerLoader[DbleMemberService] = {
+    protected def doLoadMemberServiceList(serviceRankList: List[DbleServiceRank], option: LoadReferrerOption[MemberServiceCB, DbleMemberService]): NestedReferrerListGateway[DbleMemberService] = {
         val referrerBhv: MemberServiceBhv = xgetBSFLR().select(classOf[MemberServiceBhv]);
         return helpLoadReferrerInternally(serviceRankList, option, new InternalLoadReferrerCallback[DbleServiceRank, String, MemberServiceCB, DbleMemberService]() {
             def getPKVal(et: DbleServiceRank): String =
@@ -667,12 +669,14 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
      * @param entityCall The callback for entity of insert or update. (NotNull, ...depends on insert or update)
+     * @param insertOptionCall The callback for option of insert. (NoArgAllowed: then no option)
+     * @param updateOptionCall The callback for option of update. (NoArgAllowed: then no option)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(entityCall: (MbleServiceRank) => Unit): Unit = {
-        doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), null, null);
+    def insertOrUpdate(entityCall: (MbleServiceRank) => Unit)(implicit insertOptionCall: (InsertOption[ServiceRankCB]) => Unit = null, updateOptionCall: (UpdateOption[ServiceRankCB]) => Unit = null): Unit = {
+        doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
     protected def doInsertOrUpdate(et: DbleServiceRank, iop: InsertOption[ServiceRankCB], uop: UpdateOption[ServiceRankCB]): Unit = {
@@ -763,8 +767,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(serviceRankList: scala.collection.immutable.List[DbleServiceRank]): Array[Int] = {
-        return doBatchInsert(serviceRankList.asJava, null);
+    def batchInsert(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (InsertOption[ServiceRankCB]) => Unit = null): Array[Int] = {
+        return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
     protected def doBatchInsert(ls: List[DbleServiceRank], op: InsertOption[ServiceRankCB]): Array[Int] = {
@@ -809,8 +813,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdate(serviceRankList: scala.collection.immutable.List[DbleServiceRank]): Array[Int] = {
-        return doBatchUpdate(serviceRankList.asJava, null);
+    def batchUpdate(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (UpdateOption[ServiceRankCB]) => Unit = null): Array[Int] = {
+        return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
     protected def doBatchUpdate(ls: List[DbleServiceRank], op: UpdateOption[ServiceRankCB]): Array[Int] = {
@@ -830,38 +834,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         doBatchUpdate(downcast(ls), downcast(op));
     }
 
-    /**
-     * Batch-update the entity list specified-only. (NonExclusiveControl) <br />
-     * This method uses executeBatch() of java.sql.PreparedStatement.
-     * <pre>
-     * <span style="color: #3F7E5E">// e.g. update two columns only</span>
-     * serviceRankBhv.<span style="color: #DD4747">batchUpdate</span>(serviceRankList, new SpecifyQuery[ServiceRankCB]() {
-     *     public void specify(ServiceRankCB cb) { <span style="color: #3F7E5E">// the two only updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnFooStatusCode()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *         cb.specify().<span style="color: #DD4747">columnBarDate()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *     }
-     * });
-     * <span style="color: #3F7E5E">// e.g. update every column in the table</span>
-     * serviceRankBhv.<span style="color: #DD4747">batchUpdate</span>(serviceRankList, new SpecifyQuery[ServiceRankCB]() {
-     *     public void specify(ServiceRankCB cb) { <span style="color: #3F7E5E">// all columns are updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnEveryColumn()</span>; <span style="color: #3F7E5E">// no check of modified properties</span>
-     *     }
-     * });
-     * </pre>
-     * <p>You can specify update columns used on set clause of update statement.
-     * However you do not need to specify common columns for update
-     * and an optimistic lock column because they are specified implicitly.</p>
-     * <p>And you should specify columns that are modified in any entities (at least one entity).
-     * But if you specify every column, it has no check.</p>
-     * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param updateColumnSpec The specification of update columns. (NotNull)
-     * @return The array of updated count. (NotNull, EmptyAllowed)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
-     */
-    def batchUpdate(serviceRankList: scala.collection.immutable.List[DbleServiceRank], updateColumnSpec: SpecifyQuery[ServiceRankCB]): Array[Int] = {
-        return doBatchUpdate(serviceRankList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
-    }
-
     @Override
     protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
         return doLumpModify(ls, op);
@@ -874,8 +846,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDelete(serviceRankList: scala.collection.immutable.List[DbleServiceRank]): Array[Int] = {
-        return doBatchDelete(serviceRankList.asJava, null);
+    def batchDelete(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (DeleteOption[ServiceRankCB]) => Unit = null): Array[Int] = {
+        return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
     protected def doBatchDelete(ls: List[DbleServiceRank], op: DeleteOption[ServiceRankCB]): Array[Int] = {
@@ -1135,6 +1107,16 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         val cb = newConditionBean(); cbCall(cb); return cb;
     }
 
+    protected def callbackBatch(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit): List[DbleServiceRank] = {
+        assertObjectNotNull("batchCall", batchCall);
+        val batch = new ScrBatchEntityList[MbleServiceRank]();
+        val entityList: List[DbleServiceRank] = new ArrayList[DbleServiceRank]();
+        batch.entityCallList.asScala.map { entityCall =>
+            val entity = newMbleEntity(); entityCall(entity); entity.toDBableEntity;
+        }
+        return entityList;
+    }
+
     protected def callbackMbleEntity(entityCall: (MbleServiceRank) => Unit): MbleServiceRank = {
         assertObjectNotNull("entityCall", entityCall);
         val entity = newMbleEntity(); entityCall(entity); return entity;
@@ -1200,50 +1182,4 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[ServiceRank]): List[DbleServiceRank] =
     { immuList.map(new DbleServiceRank().acceptImmutable(_)).asJava }
-}
-
-/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                  Behavior                                            _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                        Loader                        _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                              Border                                  _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
-
-/**
- * The referrer loader of (サービスランク)SERVICE_RANK as TABLE.
- * @author jflute
- */
-class BsLoaderOfServiceRank {
-
-    protected var _selectedList: List[DbleServiceRank] = null;
-    protected var _selector: BehaviorSelector = null;
-    protected var _myBhv: ServiceRankBhv = null; // lazy-loaded
-
-    def ready(selectedList: List[DbleServiceRank], selector: BehaviorSelector): LoaderOfServiceRank =
-    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfServiceRank]; }
-
-    protected def myBhv: ServiceRankBhv =
-    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[ServiceRankBhv]); _myBhv } }
-
-    protected var _referrerMemberServiceList: List[DbleMemberService] = null;
-    def loadMemberServiceList(cbCall: (MemberServiceCB) => Unit): ScrNestedReferrerLoader[LoaderOfMemberService] = {
-        myBhv.loadMemberServiceList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMemberService]() {
-            def handle(referrerList: List[DbleMemberService]): Unit = { _referrerMemberServiceList = referrerList; }
-        });
-        return createNested(() => { new LoaderOfMemberService().ready(_referrerMemberServiceList, _selector); });
-    }
-
-    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
-    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
-
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
-    }
-
-    def selectedList: List[DbleServiceRank] = { _selectedList; }
-    def selector: BehaviorSelector = { _selector; }
 }

@@ -478,7 +478,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidenceList The collection of servicePointIncidence as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServicePointIncidence_InScope(servicePointIncidenceList: List[java.math.BigDecimal]): Unit = {
+    def setServicePointIncidence_InScope(servicePointIncidenceList: List[scala.math.BigDecimal]): Unit = {
         doSetServicePointIncidence_InScope(toMutableValueCollectionImplicitly(servicePointIncidenceList));
     }
 

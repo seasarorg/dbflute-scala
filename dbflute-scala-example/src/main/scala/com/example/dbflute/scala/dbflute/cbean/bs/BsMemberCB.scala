@@ -88,7 +88,7 @@ class BsMemberCB extends AbstractConditionBean {
     def acceptPrimaryKey(memberId: Integer): Unit = {
         assertObjectNotNull("memberId", memberId);
         val cb: BsMemberCB = this;
-        cb.query().setMemberId_Equal(memberId);;
+        cb.query().setMemberId_Equal(memberId);
     }
 
     /**
@@ -98,7 +98,7 @@ class BsMemberCB extends AbstractConditionBean {
     def acceptUniqueOf(memberAccount: String): Unit = {
         assertObjectNotNull("memberAccount", memberAccount);
         val cb: BsMemberCB = this;
-        cb.query().setMemberAccount_Equal(memberAccount);;
+        cb.query().setMemberAccount_Equal(memberAccount);
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

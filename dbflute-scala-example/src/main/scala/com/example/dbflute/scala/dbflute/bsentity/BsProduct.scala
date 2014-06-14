@@ -79,17 +79,17 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
         val newDble = new DbleProduct
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
-        if (!productId.equals(this.productId)) { newDble.setProductId(productId) }
+        if (!productId.equals(this.productId)) { newDble.setProductId(int2Integer(productId)) }
         if (!productName.equals(this.productName)) { newDble.setProductName(productName) }
         if (!productHandleCode.equals(this.productHandleCode)) { newDble.setProductHandleCode(productHandleCode) }
         if (!productCategoryCode.equals(this.productCategoryCode)) { newDble.setProductCategoryCode(productCategoryCode) }
         if (!productStatusCode.equals(this.productStatusCode)) { newDble.setProductStatusCode(productStatusCode) }
-        if (!regularPrice.equals(this.regularPrice)) { newDble.setRegularPrice(regularPrice) }
+        if (!regularPrice.equals(this.regularPrice)) { newDble.setRegularPrice(int2Integer(regularPrice)) }
         if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
         if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
         if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
         if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
-        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(versionNo) }
+        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(long2Long(versionNo)) }
         new Product(newDble)
     }
 
@@ -300,7 +300,7 @@ abstract class BsMbleProduct {
      * [set] PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @param productId The value of the column 'PRODUCT_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def productId_=(productId: Int) = { dble.setProductId(productId) }
+    def productId_=(productId: Int) = { dble.setProductId(int2Integer(productId)) }
 
     /**
      * [get] (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)} <br />
@@ -360,7 +360,7 @@ abstract class BsMbleProduct {
      * [set] (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} <br />
      * @param regularPrice The value of the column 'REGULAR_PRICE'. (NullAllowed: null update allowed for no constraint)
      */
-    def regularPrice_=(regularPrice: Int) = { dble.setRegularPrice(regularPrice) }
+    def regularPrice_=(regularPrice: Int) = { dble.setRegularPrice(int2Integer(regularPrice)) }
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
@@ -420,5 +420,5 @@ abstract class BsMbleProduct {
      * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (NullAllowed: null update allowed for no constraint)
      */
-    def versionNo_=(versionNo: Long) = { dble.setVersionNo(versionNo) }
+    def versionNo_=(versionNo: Long) = { dble.setVersionNo(long2Long(versionNo)) }
 }

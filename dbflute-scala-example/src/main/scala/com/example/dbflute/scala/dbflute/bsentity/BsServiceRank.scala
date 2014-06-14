@@ -46,7 +46,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val serviceRankCode: CDef.ServiceRank = entity.serviceRankCode
  * val serviceRankName: String = entity.serviceRankName
- * val servicePointIncidence: java.math.BigDecimal = entity.servicePointIncidence
+ * val servicePointIncidence: scala.math.BigDecimal = entity.servicePointIncidence
  * val newAcceptableFlg: CDef.Flg = entity.newAcceptableFlg
  * val description: String = entity.description
  * val displayOrder: Int = entity.displayOrder
@@ -62,7 +62,7 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
     def copy(
          serviceRankCode: CDef.ServiceRank = serviceRankCode
         , serviceRankName: String = serviceRankName
-        , servicePointIncidence: java.math.BigDecimal = servicePointIncidence
+        , servicePointIncidence: scala.math.BigDecimal = servicePointIncidence
         , newAcceptableFlg: CDef.Flg = newAcceptableFlg
         , description: String = description
         , displayOrder: Int = displayOrder
@@ -72,10 +72,10 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
         if (!serviceRankCode.equals(this.serviceRankCode)) { newDble.setServiceRankCodeAsServiceRank(serviceRankCode) }
         if (!serviceRankName.equals(this.serviceRankName)) { newDble.setServiceRankName(serviceRankName) }
-        if (!servicePointIncidence.equals(this.servicePointIncidence)) { newDble.setServicePointIncidence(servicePointIncidence) }
+        if (!servicePointIncidence.equals(this.servicePointIncidence)) { newDble.setServicePointIncidence(servicePointIncidence.asInstanceOf[java.math.BigDecimal]) }
         if (!newAcceptableFlg.equals(this.newAcceptableFlg)) { newDble.setNewAcceptableFlgAsFlg(newAcceptableFlg) }
         if (!description.equals(this.description)) { newDble.setDescription(description) }
-        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(displayOrder) }
+        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(int2Integer(displayOrder)) }
         new ServiceRank(newDble)
     }
 
@@ -253,7 +253,7 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
      * [get] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
      * @return The value of the column 'SERVICE_POINT_INCIDENCE'. (NotNull but EmptyAllowed if null in database)
      */
-    def servicePointIncidence: java.math.BigDecimal = { dble.getServicePointIncidence }
+    def servicePointIncidence: scala.math.BigDecimal = { dble.getServicePointIncidence }
 
     /**
      * [get] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
@@ -290,7 +290,7 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val serviceRankCode: CDef.ServiceRank = entity.serviceRankCode
  * val serviceRankName: String = entity.serviceRankName
- * val servicePointIncidence: java.math.BigDecimal = entity.servicePointIncidence
+ * val servicePointIncidence: scala.math.BigDecimal = entity.servicePointIncidence
  * val newAcceptableFlg: CDef.Flg = entity.newAcceptableFlg
  * val description: String = entity.description
  * val displayOrder: Int = entity.displayOrder
@@ -497,13 +497,13 @@ abstract class BsMbleServiceRank {
      * [get] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
      * @return The value of the column 'SERVICE_POINT_INCIDENCE'. (basically NotNull if selected: for the constraint)
      */
-    def servicePointIncidence: java.math.BigDecimal = { dble.getServicePointIncidence }
+    def servicePointIncidence: scala.math.BigDecimal = { dble.getServicePointIncidence }
 
     /**
      * [set] (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)} <br />
      * @param servicePointIncidence The value of the column 'SERVICE_POINT_INCIDENCE'. (NullAllowed: null update allowed for no constraint)
      */
-    def servicePointIncidence_=(servicePointIncidence: java.math.BigDecimal) = { dble.setServicePointIncidence(servicePointIncidence) }
+    def servicePointIncidence_=(servicePointIncidence: scala.math.BigDecimal) = { dble.setServicePointIncidence(servicePointIncidence.asInstanceOf[java.math.BigDecimal]) }
 
     /**
      * [get] (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
@@ -539,5 +539,5 @@ abstract class BsMbleServiceRank {
      * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (NullAllowed: null update allowed for no constraint)
      */
-    def displayOrder_=(displayOrder: Int) = { dble.setDisplayOrder(displayOrder) }
+    def displayOrder_=(displayOrder: Int) = { dble.setDisplayOrder(int2Integer(displayOrder)) }
 }

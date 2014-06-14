@@ -345,7 +345,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmountList The collection of paymentAmount as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentAmount_InScope(paymentAmountList: List[java.math.BigDecimal]): Unit = {
+    def setPaymentAmount_InScope(paymentAmountList: List[scala.math.BigDecimal]): Unit = {
         doSetPaymentAmount_InScope(toMutableValueCollectionImplicitly(paymentAmountList));
     }
 

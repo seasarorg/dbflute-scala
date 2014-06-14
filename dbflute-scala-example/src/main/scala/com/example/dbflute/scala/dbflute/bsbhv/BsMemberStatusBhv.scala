@@ -4,6 +4,7 @@ import scala.collection.JavaConverters._;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.seasar.dbflute._;
 import org.seasar.dbflute.bhv._;
@@ -17,6 +18,7 @@ import org.seasar.dbflute.util._;
 import org.seasar.dbflute.outsidesql.executor._;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv._;
+import com.example.dbflute.scala.dbflute.bsbhv.loader._;
 import com.example.dbflute.scala.dbflute.exentity._;
 import com.example.dbflute.scala.dbflute.bsentity.dbmeta._;
 import com.example.dbflute.scala.dbflute.cbean._;
@@ -473,7 +475,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadMemberList(memberStatusList: List[DbleMemberStatus], setupCall: (MemberCB) => Unit): NestedReferrerLoader[DbleMember] = {
+    def loadMemberList(memberStatusList: List[DbleMemberStatus], setupCall: (MemberCB) => Unit): NestedReferrerListGateway[DbleMember] = {
         assertObjectNotNull("memberStatusList", memberStatusList); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[MemberCB]() { def setup(referrerCB: MemberCB): Unit = { setupCall(referrerCB); } }
         return doLoadMemberList(memberStatusList, new LoadReferrerOption[MemberCB, DbleMember]().xinit(setupper));
@@ -505,13 +507,13 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
      * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
      */
-    def loadMemberList(memberStatus: DbleMemberStatus, setupCall: (MemberCB) => Unit): NestedReferrerLoader[DbleMember] = {
+    def loadMemberList(memberStatus: DbleMemberStatus, setupCall: (MemberCB) => Unit): NestedReferrerListGateway[DbleMember] = {
         assertObjectNotNull("memberStatus", memberStatus); assertObjectNotNull("setupCall", setupCall);
         val setupper = new ReferrerConditionSetupper[MemberCB]() { def setup(referrerCB: MemberCB): Unit = { setupCall(referrerCB); } }
         return doLoadMemberList(xnewLRLs(memberStatus), new LoadReferrerOption[MemberCB, DbleMember]().xinit(setupper));
     }
 
-    protected def doLoadMemberList(memberStatusList: List[DbleMemberStatus], option: LoadReferrerOption[MemberCB, DbleMember]): NestedReferrerLoader[DbleMember] = {
+    protected def doLoadMemberList(memberStatusList: List[DbleMemberStatus], option: LoadReferrerOption[MemberCB, DbleMember]): NestedReferrerListGateway[DbleMember] = {
         val referrerBhv: MemberBhv = xgetBSFLR().select(classOf[MemberBhv]);
         return helpLoadReferrerInternally(memberStatusList, option, new InternalLoadReferrerCallback[DbleMemberStatus, String, MemberCB, DbleMember]() {
             def getPKVal(et: DbleMemberStatus): String =
@@ -667,12 +669,14 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
      * <p><span style="color: #DD4747; font-size: 120%">Attention, you cannot update by unique keys instead of PK.</span></p>
      * @param entityCall The callback for entity of insert or update. (NotNull, ...depends on insert or update)
+     * @param insertOptionCall The callback for option of insert. (NoArgAllowed: then no option)
+     * @param updateOptionCall The callback for option of update. (NoArgAllowed: then no option)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(entityCall: (MbleMemberStatus) => Unit): Unit = {
-        doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), null, null);
+    def insertOrUpdate(entityCall: (MbleMemberStatus) => Unit)(implicit insertOptionCall: (InsertOption[MemberStatusCB]) => Unit = null, updateOptionCall: (UpdateOption[MemberStatusCB]) => Unit = null): Unit = {
+        doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
     protected def doInsertOrUpdate(et: DbleMemberStatus, iop: InsertOption[MemberStatusCB], uop: UpdateOption[MemberStatusCB]): Unit = {
@@ -763,8 +767,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param memberStatusList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(memberStatusList: scala.collection.immutable.List[DbleMemberStatus]): Array[Int] = {
-        return doBatchInsert(memberStatusList.asJava, null);
+    def batchInsert(batchCall: (ScrBatchEntityList[MbleMemberStatus]) => Unit)(implicit optionCall: (InsertOption[MemberStatusCB]) => Unit = null): Array[Int] = {
+        return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
     protected def doBatchInsert(ls: List[DbleMemberStatus], op: InsertOption[MemberStatusCB]): Array[Int] = {
@@ -809,8 +813,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdate(memberStatusList: scala.collection.immutable.List[DbleMemberStatus]): Array[Int] = {
-        return doBatchUpdate(memberStatusList.asJava, null);
+    def batchUpdate(batchCall: (ScrBatchEntityList[MbleMemberStatus]) => Unit)(implicit optionCall: (UpdateOption[MemberStatusCB]) => Unit = null): Array[Int] = {
+        return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
     protected def doBatchUpdate(ls: List[DbleMemberStatus], op: UpdateOption[MemberStatusCB]): Array[Int] = {
@@ -830,38 +834,6 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
         doBatchUpdate(downcast(ls), downcast(op));
     }
 
-    /**
-     * Batch-update the entity list specified-only. (NonExclusiveControl) <br />
-     * This method uses executeBatch() of java.sql.PreparedStatement.
-     * <pre>
-     * <span style="color: #3F7E5E">// e.g. update two columns only</span>
-     * memberStatusBhv.<span style="color: #DD4747">batchUpdate</span>(memberStatusList, new SpecifyQuery[MemberStatusCB]() {
-     *     public void specify(MemberStatusCB cb) { <span style="color: #3F7E5E">// the two only updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnFooStatusCode()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *         cb.specify().<span style="color: #DD4747">columnBarDate()</span>; <span style="color: #3F7E5E">// should be modified in any entities</span>
-     *     }
-     * });
-     * <span style="color: #3F7E5E">// e.g. update every column in the table</span>
-     * memberStatusBhv.<span style="color: #DD4747">batchUpdate</span>(memberStatusList, new SpecifyQuery[MemberStatusCB]() {
-     *     public void specify(MemberStatusCB cb) { <span style="color: #3F7E5E">// all columns are updated</span>
-     *         cb.specify().<span style="color: #DD4747">columnEveryColumn()</span>; <span style="color: #3F7E5E">// no check of modified properties</span>
-     *     }
-     * });
-     * </pre>
-     * <p>You can specify update columns used on set clause of update statement.
-     * However you do not need to specify common columns for update
-     * and an optimistic lock column because they are specified implicitly.</p>
-     * <p>And you should specify columns that are modified in any entities (at least one entity).
-     * But if you specify every column, it has no check.</p>
-     * @param memberStatusList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNotNull)
-     * @param updateColumnSpec The specification of update columns. (NotNull)
-     * @return The array of updated count. (NotNull, EmptyAllowed)
-     * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
-     */
-    def batchUpdate(memberStatusList: scala.collection.immutable.List[DbleMemberStatus], updateColumnSpec: SpecifyQuery[MemberStatusCB]): Array[Int] = {
-        return doBatchUpdate(memberStatusList.asJava, createSpecifiedUpdateOption(updateColumnSpec));
-    }
-
     @Override
     protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
         return doLumpModify(ls, op);
@@ -874,8 +846,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDelete(memberStatusList: scala.collection.immutable.List[DbleMemberStatus]): Array[Int] = {
-        return doBatchDelete(memberStatusList.asJava, null);
+    def batchDelete(batchCall: (ScrBatchEntityList[MbleMemberStatus]) => Unit)(implicit optionCall: (DeleteOption[MemberStatusCB]) => Unit = null): Array[Int] = {
+        return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
     protected def doBatchDelete(ls: List[DbleMemberStatus], op: DeleteOption[MemberStatusCB]): Array[Int] = {
@@ -1135,6 +1107,16 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
         val cb = newConditionBean(); cbCall(cb); return cb;
     }
 
+    protected def callbackBatch(batchCall: (ScrBatchEntityList[MbleMemberStatus]) => Unit): List[DbleMemberStatus] = {
+        assertObjectNotNull("batchCall", batchCall);
+        val batch = new ScrBatchEntityList[MbleMemberStatus]();
+        val entityList: List[DbleMemberStatus] = new ArrayList[DbleMemberStatus]();
+        batch.entityCallList.asScala.map { entityCall =>
+            val entity = newMbleEntity(); entityCall(entity); entity.toDBableEntity;
+        }
+        return entityList;
+    }
+
     protected def callbackMbleEntity(entityCall: (MbleMemberStatus) => Unit): MbleMemberStatus = {
         assertObjectNotNull("entityCall", entityCall);
         val entity = newMbleEntity(); entityCall(entity); return entity;
@@ -1200,50 +1182,4 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
 
     def toDBableEntityList(immuList: scala.collection.immutable.List[MemberStatus]): List[DbleMemberStatus] =
     { immuList.map(new DbleMemberStatus().acceptImmutable(_)).asJava }
-}
-
-/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                  Behavior                                            _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                        Loader                        _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                              Border                                  _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
-/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
-
-/**
- * The referrer loader of (会員ステータス)MEMBER_STATUS as TABLE.
- * @author jflute
- */
-class BsLoaderOfMemberStatus {
-
-    protected var _selectedList: List[DbleMemberStatus] = null;
-    protected var _selector: BehaviorSelector = null;
-    protected var _myBhv: MemberStatusBhv = null; // lazy-loaded
-
-    def ready(selectedList: List[DbleMemberStatus], selector: BehaviorSelector): LoaderOfMemberStatus =
-    { _selectedList = selectedList; _selector = selector; return this.asInstanceOf[LoaderOfMemberStatus]; }
-
-    protected def myBhv: MemberStatusBhv =
-    { if (_myBhv != null) { _myBhv } else { _myBhv = _selector.select(classOf[MemberStatusBhv]); _myBhv } }
-
-    protected var _referrerMemberList: List[DbleMember] = null;
-    def loadMemberList(cbCall: (MemberCB) => Unit): ScrNestedReferrerLoader[LoaderOfMember] = {
-        myBhv.loadMemberList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMember]() {
-            def handle(referrerList: List[DbleMember]): Unit = { _referrerMemberList = referrerList; }
-        });
-        return createNested(() => { new LoaderOfMember().ready(_referrerMemberList, _selector); });
-    }
-
-    protected def createNested[LOADER](loaderCall: () => LOADER): ScrNestedReferrerLoader[LOADER] =
-    { return new ScrNestedReferrerLoader[LOADER](loaderCall); }
-
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
-    }
-
-    def selectedList: List[DbleMemberStatus] = { _selectedList; }
-    def selector: BehaviorSelector = { _selector; }
 }

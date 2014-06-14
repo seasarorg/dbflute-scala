@@ -87,7 +87,7 @@ class BsProductCB extends AbstractConditionBean {
     def acceptPrimaryKey(productId: Integer): Unit = {
         assertObjectNotNull("productId", productId);
         val cb: BsProductCB = this;
-        cb.query().setProductId_Equal(productId);;
+        cb.query().setProductId_Equal(productId);
     }
 
     /**
@@ -97,7 +97,7 @@ class BsProductCB extends AbstractConditionBean {
     def acceptUniqueOf(productHandleCode: String): Unit = {
         assertObjectNotNull("productHandleCode", productHandleCode);
         val cb: BsProductCB = this;
-        cb.query().setProductHandleCode_Equal(productHandleCode);;
+        cb.query().setProductHandleCode_Equal(productHandleCode);
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

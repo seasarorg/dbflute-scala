@@ -81,7 +81,7 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
         val newDble = new DbleMember
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
-        if (!memberId.equals(this.memberId)) { newDble.setMemberId(memberId) }
+        if (!memberId.equals(this.memberId)) { newDble.setMemberId(int2Integer(memberId)) }
         if (!memberName.equals(this.memberName)) { newDble.setMemberName(memberName) }
         if (!memberAccount.equals(this.memberAccount)) { newDble.setMemberAccount(memberAccount) }
         if (!memberStatusCode.equals(this.memberStatusCode)) { newDble.setMemberStatusCodeAsMemberStatus(memberStatusCode) }
@@ -91,7 +91,7 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
         if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
         if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
         if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
-        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(versionNo) }
+        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(long2Long(versionNo)) }
         new Member(newDble)
     }
 
@@ -418,7 +418,7 @@ abstract class BsMbleMember {
      * [set] (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def memberId_=(memberId: Int) = { dble.setMemberId(memberId) }
+    def memberId_=(memberId: Int) = { dble.setMemberId(int2Integer(memberId)) }
 
     /**
      * [get] (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)} <br />
@@ -538,5 +538,5 @@ abstract class BsMbleMember {
      * [set] (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (NullAllowed: null update allowed for no constraint)
      */
-    def versionNo_=(versionNo: Long) = { dble.setVersionNo(versionNo) }
+    def versionNo_=(versionNo: Long) = { dble.setVersionNo(long2Long(versionNo)) }
 }

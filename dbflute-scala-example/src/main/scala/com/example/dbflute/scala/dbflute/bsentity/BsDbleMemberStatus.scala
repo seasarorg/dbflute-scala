@@ -106,7 +106,7 @@ abstract class BsDbleMemberStatus extends Entity with Serializable with Cloneabl
         setMemberStatusCodeAsMemberStatus(immu.memberStatusCode);
         setMemberStatusName(immu.memberStatusName);
         setDescription(immu.description);
-        setDisplayOrder(immu.displayOrder);
+        setDisplayOrder(int2Integer(immu.displayOrder));
         setMemberList(immu.memberList.map(new DbleMember().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))

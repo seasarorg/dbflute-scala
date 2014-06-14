@@ -88,7 +88,7 @@ class BsPurchasePaymentCB extends AbstractConditionBean {
     def acceptPrimaryKey(purchasePaymentId: Long): Unit = {
         assertObjectNotNull("purchasePaymentId", purchasePaymentId);
         val cb: BsPurchasePaymentCB = this;
-        cb.query().setPurchasePaymentId_Equal(purchasePaymentId);;
+        cb.query().setPurchasePaymentId_Equal(purchasePaymentId);
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

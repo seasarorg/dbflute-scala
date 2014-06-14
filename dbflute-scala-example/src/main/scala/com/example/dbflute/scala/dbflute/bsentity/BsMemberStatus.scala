@@ -69,7 +69,7 @@ abstract class BsMemberStatus(dble: DbleMemberStatus) extends Serializable {
         if (!memberStatusCode.equals(this.memberStatusCode)) { newDble.setMemberStatusCodeAsMemberStatus(memberStatusCode) }
         if (!memberStatusName.equals(this.memberStatusName)) { newDble.setMemberStatusName(memberStatusName) }
         if (!description.equals(this.description)) { newDble.setDescription(description) }
-        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(displayOrder) }
+        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(int2Integer(displayOrder)) }
         new MemberStatus(newDble)
     }
 
@@ -364,5 +364,5 @@ abstract class BsMbleMemberStatus {
      * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (NullAllowed: null update allowed for no constraint)
      */
-    def displayOrder_=(displayOrder: Int) = { dble.setDisplayOrder(displayOrder) }
+    def displayOrder_=(displayOrder: Int) = { dble.setDisplayOrder(int2Integer(displayOrder)) }
 }
