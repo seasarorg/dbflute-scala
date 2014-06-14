@@ -114,10 +114,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param minNumber The min number of purchaseId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of purchaseId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPurchaseId_RangeOf(minNumber: Long, maxNumber: Long, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValuePurchaseId(), "PURCHASE_ID", rangeOfOption);
+    def setPurchaseId_RangeOf(minNumber: Long, maxNumber: Long)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValuePurchaseId(), "PURCHASE_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -348,10 +348,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param minNumber The min number of memberId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", rangeOfOption);
+    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -452,10 +452,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param minNumber The min number of productId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of productId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setProductId_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueProductId(), "PRODUCT_ID", rangeOfOption);
+    def setProductId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueProductId(), "PRODUCT_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -541,7 +541,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of purchaseDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setPurchaseDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (FromToOption) => Unit): Unit = {
+    def setPurchaseDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValuePurchaseDatetime(), "PURCHASE_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -632,10 +632,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param minNumber The min number of purchaseCount. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of purchaseCount. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPurchaseCount_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValuePurchaseCount(), "PURCHASE_COUNT", rangeOfOption);
+    def setPurchaseCount_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValuePurchaseCount(), "PURCHASE_COUNT", callbackROOP(optionCall));
     }
 
     /**
@@ -736,10 +736,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param minNumber The min number of purchasePrice. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of purchasePrice. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPurchasePrice_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValuePurchasePrice(), "PURCHASE_PRICE", rangeOfOption);
+    def setPurchasePrice_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValuePurchasePrice(), "PURCHASE_PRICE", callbackROOP(optionCall));
     }
 
     /**
@@ -974,10 +974,10 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param minNumber The min number of versionNo. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of versionNo. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
+    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", callbackROOP(optionCall));
     }
 
     protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
@@ -1205,7 +1205,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * <p>The order values are bound (treated as bind parameter).</p>
      * @param mob The bean of manual order containing order values. (NotNull)
      */
-    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+    def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
     }
@@ -1213,17 +1213,21 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
     // ===================================================================================
     //                                                                       Create Option
     //                                                                       =============
-    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
     { val op = createLikeSearchOption(); optionCall(op); return op; }
-    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
-    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    protected def callbackFTOP(optionCall: (ScrFromToOption) => Unit): FromToOption =
     { val op = createFromToOption(); optionCall(op); return op; }
-    protected def createFromToOption(): FromToOption = { new FromToOption() }
+    protected def createFromToOption(): ScrFromToOption = { new ScrFromToOption() }
 
-    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    protected def callbackROOP(optionCall: (ScrRangeOfOption) => Unit): RangeOfOption =
+    { val op = createRangeOfOption(); optionCall(op); return op; }
+    protected def createRangeOfOption(): ScrRangeOfOption = { new ScrRangeOfOption() }
+
+    protected def callbackMOB(mobCall: (ScrManualOrderBean) => Unit): ManualOrderBean =
     { val mob = createManualOrderBean(); mobCall(mob); return mob; }
-    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+    protected def createManualOrderBean(): ScrManualOrderBean = { new ScrManualOrderBean() }
 
     // ===================================================================================
     //                                                                        Scala Helper

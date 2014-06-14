@@ -21,7 +21,7 @@ import org.seasar.dbflute.cbean.coption._;
 
 /**
  * @param <CB> The type of condition-bean.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
 
@@ -151,7 +151,7 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
 
 /**
  * @param <CB> The type of condition-bean.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 trait ScrHpColQyHandler[CB <: ConditionBean] {
 
@@ -177,7 +177,7 @@ trait ScrHpColQyHandler[CB <: ConditionBean] {
  * The function for (Specify)DerivedReferrer.
  * @param <REFERRER_CB> The type of referrer condition-bean.
  * @param <LOCAL_CQ> The type of local condition-query.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery](function: HpSDRFunction[REFERRER_CB, LOCAL_CQ]) {
 
@@ -319,7 +319,7 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
 /**
  * The function of (Query)DerivedReferrer.
  * @param <CB> The type of condition-bean.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
 
@@ -452,7 +452,7 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
  * The parameter of (Query)DerivedReferrer.
  * @param <CB> The type of condition-bean.
  * @param <PARAMETER> The type of parameter.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrHpQDRParameter[CB <: ConditionBean, PARAMETER](parameter: HpQDRParameter[CB, PARAMETER]) {
 
@@ -656,7 +656,7 @@ class ScrHpQDRParameter[CB <: ConditionBean, PARAMETER](parameter: HpQDRParamete
  * The function for scalar select. 
  * @param <CB> The type of condition-bean.
  * @param <RESULT> The type of result for scalar select
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrHpSLSFunction[CB <: ConditionBean, RESULT](function: HpSLSFunction[CB, RESULT]) {
 
@@ -785,7 +785,7 @@ class ScrHpSLSFunction[CB <: ConditionBean, RESULT](function: HpSLSFunction[CB, 
 /**
  * The function for ScalarCondition (the old name: ScalarSubQuery).
  * @param <CB> The type of condition-bean.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrHpSSQFunction[CB <: ConditionBean](function: HpSSQFunction[CB]) {
 
@@ -862,7 +862,7 @@ class ScrHpSSQFunction[CB <: ConditionBean](function: HpSSQFunction[CB]) {
 /**
  * The decorator for ScalarCondition (the old name: ScalarSubQuery).
  * @param <CB> The type of condition-bean.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrHpSSQDecorator[CB <: ConditionBean](decorator: HpSSQDecorator[CB]) {
 

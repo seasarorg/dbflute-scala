@@ -325,7 +325,7 @@ abstract class BsMbleMember {
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
-    def toDBableEntity(): DbleMember = { dble }
+    def toDBable(): DbleMember = { dble }
 
     // ===================================================================================
     //                                                                          Unique Key

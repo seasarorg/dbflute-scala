@@ -114,10 +114,10 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param minNumber The min number of memberServiceId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of memberServiceId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberServiceId_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueMemberServiceId(), "MEMBER_SERVICE_ID", rangeOfOption);
+    def setMemberServiceId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueMemberServiceId(), "MEMBER_SERVICE_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -230,10 +230,10 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param minNumber The min number of memberId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", rangeOfOption);
+    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -334,10 +334,10 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param minNumber The min number of servicePointCount. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of servicePointCount. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setServicePointCount_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueServicePointCount(), "SERVICE_POINT_COUNT", rangeOfOption);
+    def setServicePointCount_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueServicePointCount(), "SERVICE_POINT_COUNT", callbackROOP(optionCall));
     }
 
     /**
@@ -620,10 +620,10 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param minNumber The min number of versionNo. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of versionNo. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
+    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", callbackROOP(optionCall));
     }
 
     protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
@@ -851,7 +851,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * <p>The order values are bound (treated as bind parameter).</p>
      * @param mob The bean of manual order containing order values. (NotNull)
      */
-    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+    def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
     }
@@ -859,17 +859,21 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
     // ===================================================================================
     //                                                                       Create Option
     //                                                                       =============
-    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
     { val op = createLikeSearchOption(); optionCall(op); return op; }
-    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
-    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    protected def callbackFTOP(optionCall: (ScrFromToOption) => Unit): FromToOption =
     { val op = createFromToOption(); optionCall(op); return op; }
-    protected def createFromToOption(): FromToOption = { new FromToOption() }
+    protected def createFromToOption(): ScrFromToOption = { new ScrFromToOption() }
 
-    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    protected def callbackROOP(optionCall: (ScrRangeOfOption) => Unit): RangeOfOption =
+    { val op = createRangeOfOption(); optionCall(op); return op; }
+    protected def createRangeOfOption(): ScrRangeOfOption = { new ScrRangeOfOption() }
+
+    protected def callbackMOB(mobCall: (ScrManualOrderBean) => Unit): ManualOrderBean =
     { val mob = createManualOrderBean(); mobCall(mob); return mob; }
-    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+    protected def createManualOrderBean(): ScrManualOrderBean = { new ScrManualOrderBean() }
 
     // ===================================================================================
     //                                                                        Scala Helper

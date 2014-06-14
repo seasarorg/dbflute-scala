@@ -114,10 +114,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param minNumber The min number of memberId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", rangeOfOption);
+    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -308,8 +308,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberName The value of memberName as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setMemberName_LikeSearch(memberName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
-        val op = createLikeSearchOption(); optionCall(op);
+    def setMemberName_LikeSearch(memberName: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_LS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", callbackLSOP(optionCall));
     }
 
@@ -320,7 +319,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberName The value of memberName as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setMemberName_NotLikeSearch(memberName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+    def setMemberName_NotLikeSearch(memberName: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_NLS, fRES(memberName), getCValueMemberName(), "MEMBER_NAME", callbackLSOP(optionCall));
     }
 
@@ -395,8 +394,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberAccount The value of memberAccount as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setMemberAccount_LikeSearch(memberAccount: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
-        val op = createLikeSearchOption(); optionCall(op);
+    def setMemberAccount_LikeSearch(memberAccount: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_LS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", callbackLSOP(optionCall));
     }
 
@@ -407,7 +405,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param memberAccount The value of memberAccount as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setMemberAccount_NotLikeSearch(memberAccount: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+    def setMemberAccount_NotLikeSearch(memberAccount: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_NLS, fRES(memberAccount), getCValueMemberAccount(), "MEMBER_ACCOUNT", callbackLSOP(optionCall));
     }
 
@@ -611,7 +609,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of formalizedDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setFormalizedDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (FromToOption) => Unit): Unit = {
+    def setFormalizedDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValueFormalizedDatetime(), "FORMALIZED_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -699,7 +697,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of birthdate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setBirthdate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (FromToOption) => Unit): Unit = {
+    def setBirthdate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueBirthdate(), "BIRTHDATE", callbackFTOP(optionCall));
     }
 
@@ -809,10 +807,10 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)}
      * @param minNumber The min number of versionNo. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of versionNo. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
+    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", callbackROOP(optionCall));
     }
 
     protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
@@ -1040,7 +1038,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * <p>The order values are bound (treated as bind parameter).</p>
      * @param mob The bean of manual order containing order values. (NotNull)
      */
-    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+    def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
     }
@@ -1048,17 +1046,21 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     // ===================================================================================
     //                                                                       Create Option
     //                                                                       =============
-    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
     { val op = createLikeSearchOption(); optionCall(op); return op; }
-    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
-    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    protected def callbackFTOP(optionCall: (ScrFromToOption) => Unit): FromToOption =
     { val op = createFromToOption(); optionCall(op); return op; }
-    protected def createFromToOption(): FromToOption = { new FromToOption() }
+    protected def createFromToOption(): ScrFromToOption = { new ScrFromToOption() }
 
-    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    protected def callbackROOP(optionCall: (ScrRangeOfOption) => Unit): RangeOfOption =
+    { val op = createRangeOfOption(); optionCall(op); return op; }
+    protected def createRangeOfOption(): ScrRangeOfOption = { new ScrRangeOfOption() }
+
+    protected def callbackMOB(mobCall: (ScrManualOrderBean) => Unit): ManualOrderBean =
     { val mob = createManualOrderBean(); mobCall(mob); return mob; }
-    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+    protected def createManualOrderBean(): ScrManualOrderBean = { new ScrManualOrderBean() }
 
     // ===================================================================================
     //                                                                        Scala Helper

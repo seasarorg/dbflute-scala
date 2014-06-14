@@ -313,7 +313,7 @@ abstract class BsMbleServiceRank {
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
-    def toDBableEntity(): DbleServiceRank = { dble }
+    def toDBable(): DbleServiceRank = { dble }
 
     // ===================================================================================
     //                                                                          Unique Key

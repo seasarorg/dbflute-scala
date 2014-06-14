@@ -582,7 +582,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param optionCall The callback for option of insert. (NoArgAllowed: then no option)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (InsertOption[ServiceRankCB]) => Unit = null): Unit = {
+    def insert(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (ScrInsertOption[ServiceRankCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
         doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
@@ -629,7 +629,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (UpdateOption[ServiceRankCB]) => Unit = null): Unit = {
+    def update(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (ScrUpdateOption[ServiceRankCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
         doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
@@ -675,7 +675,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(entityCall: (MbleServiceRank) => Unit)(implicit insertOptionCall: (InsertOption[ServiceRankCB]) => Unit = null, updateOptionCall: (UpdateOption[ServiceRankCB]) => Unit = null): Unit = {
+    def insertOrUpdate(entityCall: (MbleServiceRank) => Unit)(implicit insertOptionCall: (ScrInsertOption[ServiceRankCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[ServiceRankCB]) => Unit = null): Unit = {
         doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
@@ -716,7 +716,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (DeleteOption[ServiceRankCB]) => Unit = null): Unit = {
+    def delete(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (ScrDeleteOption[ServiceRankCB]) => Unit = null): Unit = {
         doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
@@ -767,7 +767,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param serviceRankList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (InsertOption[ServiceRankCB]) => Unit = null): Array[Int] = {
+    def batchInsert(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (ScrInsertOption[ServiceRankCB]) => Unit = null): Array[Int] = {
         return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
@@ -813,7 +813,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdate(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (UpdateOption[ServiceRankCB]) => Unit = null): Array[Int] = {
+    def batchUpdate(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (ScrUpdateOption[ServiceRankCB]) => Unit = null): Array[Int] = {
         return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
@@ -846,7 +846,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDelete(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (DeleteOption[ServiceRankCB]) => Unit = null): Array[Int] = {
+    def batchDelete(batchCall: (ScrBatchEntityList[MbleServiceRank]) => Unit)(implicit optionCall: (ScrDeleteOption[ServiceRankCB]) => Unit = null): Array[Int] = {
         return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
@@ -1112,7 +1112,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         val batch = new ScrBatchEntityList[MbleServiceRank]();
         val entityList: List[DbleServiceRank] = new ArrayList[DbleServiceRank]();
         batch.entityCallList.asScala.map { entityCall =>
-            val entity = newMbleEntity(); entityCall(entity); entity.toDBableEntity;
+            val entity = newMbleEntity(); entityCall(entity); entity.toDBable;
         }
         return entityList;
     }
@@ -1123,22 +1123,23 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 
     protected def callbackMbleEntityToDBable(entityCall: (MbleServiceRank) => Unit): DbleServiceRank = {
-        return callbackMbleEntity(entityCall).toDBableEntity;
+        return callbackMbleEntity(entityCall).toDBable;
     }
 
-    protected def callbackInsertOption(optionCall: (InsertOption[ServiceRankCB]) => Unit): InsertOption[ServiceRankCB] = {
+    protected def callbackInsertOption(optionCall: (ScrInsertOption[ServiceRankCB]) => Unit): InsertOption[ServiceRankCB] = {
         if (optionCall == null) { return null; }
-        val option = new InsertOption[ServiceRankCB](); optionCall(option); return option;
+        val option = new ScrInsertOption[ServiceRankCB](new InsertOption[ServiceRankCB]());
+        optionCall(option); return option.toNative;
     }
 
-    protected def callbackUpdateOption(optionCall: (UpdateOption[ServiceRankCB]) => Unit): UpdateOption[ServiceRankCB] = {
+    protected def callbackUpdateOption(optionCall: (ScrUpdateOption[ServiceRankCB]) => Unit): UpdateOption[ServiceRankCB] = {
         if (optionCall == null) { return null; }
-        val option = new UpdateOption[ServiceRankCB](); optionCall(option); return option;
+        val option = new ScrUpdateOption[ServiceRankCB](new UpdateOption[ServiceRankCB]()); optionCall(option); return option.toNative;
     }
 
-    protected def callbackDeleteOption(optionCall: (DeleteOption[ServiceRankCB]) => Unit): DeleteOption[ServiceRankCB] = {
+    protected def callbackDeleteOption(optionCall: (ScrDeleteOption[ServiceRankCB]) => Unit): DeleteOption[ServiceRankCB] = {
         if (optionCall == null) { return null; }
-        val option = new DeleteOption[ServiceRankCB](); optionCall(option); return option;
+        val option = new ScrDeleteOption[ServiceRankCB](new DeleteOption[ServiceRankCB]()); optionCall(option); return option.toNative;
     }
 
     protected def callbackLoader(dbleList: List[DbleServiceRank], loaderCall: (LoaderOfServiceRank) => Unit = null): Unit = {

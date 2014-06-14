@@ -235,7 +235,7 @@ abstract class BsMbleMemberStatus {
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
-    def toDBableEntity(): DbleMemberStatus = { dble }
+    def toDBable(): DbleMemberStatus = { dble }
 
     // ===================================================================================
     //                                                                          Unique Key

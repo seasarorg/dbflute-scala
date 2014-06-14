@@ -114,10 +114,10 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param minNumber The min number of productId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of productId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setProductId_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueProductId(), "PRODUCT_ID", rangeOfOption);
+    def setProductId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueProductId(), "PRODUCT_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -308,8 +308,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productName The value of productName as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductName_LikeSearch(productName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
-        val op = createLikeSearchOption(); optionCall(op);
+    def setProductName_LikeSearch(productName: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_LS, fRES(productName), getCValueProductName(), "PRODUCT_NAME", callbackLSOP(optionCall));
     }
 
@@ -320,7 +319,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productName The value of productName as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductName_NotLikeSearch(productName: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+    def setProductName_NotLikeSearch(productName: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_NLS, fRES(productName), getCValueProductName(), "PRODUCT_NAME", callbackLSOP(optionCall));
     }
 
@@ -395,8 +394,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productHandleCode The value of productHandleCode as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductHandleCode_LikeSearch(productHandleCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
-        val op = createLikeSearchOption(); optionCall(op);
+    def setProductHandleCode_LikeSearch(productHandleCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_LS, fRES(productHandleCode), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE", callbackLSOP(optionCall));
     }
 
@@ -407,7 +405,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productHandleCode The value of productHandleCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductHandleCode_NotLikeSearch(productHandleCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+    def setProductHandleCode_NotLikeSearch(productHandleCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_NLS, fRES(productHandleCode), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE", callbackLSOP(optionCall));
     }
 
@@ -482,8 +480,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productCategoryCode The value of productCategoryCode as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductCategoryCode_LikeSearch(productCategoryCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
-        val op = createLikeSearchOption(); optionCall(op);
+    def setProductCategoryCode_LikeSearch(productCategoryCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_LS, fRES(productCategoryCode), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE", callbackLSOP(optionCall));
     }
 
@@ -494,7 +491,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productCategoryCode The value of productCategoryCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductCategoryCode_NotLikeSearch(productCategoryCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+    def setProductCategoryCode_NotLikeSearch(productCategoryCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_NLS, fRES(productCategoryCode), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE", callbackLSOP(optionCall));
     }
 
@@ -569,8 +566,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productStatusCode The value of productStatusCode as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setProductStatusCode_LikeSearch(productStatusCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
-        val op = createLikeSearchOption(); optionCall(op);
+    def setProductStatusCode_LikeSearch(productStatusCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_LS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", callbackLSOP(optionCall));
     }
 
@@ -581,7 +577,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param productStatusCode The value of productStatusCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setProductStatusCode_NotLikeSearch(productStatusCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+    def setProductStatusCode_NotLikeSearch(productStatusCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_NLS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", callbackLSOP(optionCall));
     }
 
@@ -657,10 +653,10 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param minNumber The min number of regularPrice. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of regularPrice. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setRegularPrice_RangeOf(minNumber: Integer, maxNumber: Integer, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueRegularPrice(), "REGULAR_PRICE", rangeOfOption);
+    def setRegularPrice_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueRegularPrice(), "REGULAR_PRICE", callbackROOP(optionCall));
     }
 
     /**
@@ -768,10 +764,10 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param minNumber The min number of versionNo. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of versionNo. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", rangeOfOption);
+    def setVersionNo_RangeOf(minNumber: Long, maxNumber: Long)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValueVersionNo(), "VERSION_NO", callbackROOP(optionCall));
     }
 
     protected def regVersionNo(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueVersionNo(), "VERSION_NO"); }
@@ -999,7 +995,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * <p>The order values are bound (treated as bind parameter).</p>
      * @param mob The bean of manual order containing order values. (NotNull)
      */
-    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+    def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
     }
@@ -1007,17 +1003,21 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     // ===================================================================================
     //                                                                       Create Option
     //                                                                       =============
-    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
     { val op = createLikeSearchOption(); optionCall(op); return op; }
-    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
-    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    protected def callbackFTOP(optionCall: (ScrFromToOption) => Unit): FromToOption =
     { val op = createFromToOption(); optionCall(op); return op; }
-    protected def createFromToOption(): FromToOption = { new FromToOption() }
+    protected def createFromToOption(): ScrFromToOption = { new ScrFromToOption() }
 
-    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    protected def callbackROOP(optionCall: (ScrRangeOfOption) => Unit): RangeOfOption =
+    { val op = createRangeOfOption(); optionCall(op); return op; }
+    protected def createRangeOfOption(): ScrRangeOfOption = { new ScrRangeOfOption() }
+
+    protected def callbackMOB(mobCall: (ScrManualOrderBean) => Unit): ManualOrderBean =
     { val mob = createManualOrderBean(); mobCall(mob); return mob; }
-    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+    protected def createManualOrderBean(): ScrManualOrderBean = { new ScrManualOrderBean() }
 
     // ===================================================================================
     //                                                                        Scala Helper

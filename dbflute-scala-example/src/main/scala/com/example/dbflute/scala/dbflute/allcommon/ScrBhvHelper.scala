@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * The gateway of loader handling for nested referrer as Scala runtime.
  * @param <LOADER> The type of loader for referrer.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrNestedReferrerLoaderGateway[LOADER](loaderProvider: () => LOADER) {
 
@@ -22,7 +22,7 @@ class ScrNestedReferrerLoaderGateway[LOADER](loaderProvider: () => LOADER) {
 /**
  * The list of batch entity.
  * @param <ENTITY> The type of entity to be batch updated.
- * @author jflute
+ * @author DBFlute(AutoGenerator)
  */
 class ScrBatchEntityList[ENTITY] {
 

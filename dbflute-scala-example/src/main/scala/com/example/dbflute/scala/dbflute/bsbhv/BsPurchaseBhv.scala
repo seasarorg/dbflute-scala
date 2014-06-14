@@ -605,7 +605,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param optionCall The callback for option of insert. (NoArgAllowed: then no option)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(entityCall: (MblePurchase) => Unit)(implicit optionCall: (InsertOption[PurchaseCB]) => Unit = null): Unit = {
+    def insert(entityCall: (MblePurchase) => Unit)(implicit optionCall: (ScrInsertOption[PurchaseCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
         doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
@@ -652,7 +652,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(entityCall: (MblePurchase) => Unit)(implicit optionCall: (UpdateOption[PurchaseCB]) => Unit = null): Unit = {
+    def update(entityCall: (MblePurchase) => Unit)(implicit optionCall: (ScrUpdateOption[PurchaseCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
         doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
@@ -702,7 +702,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(entityCall: (MblePurchase) => Unit)(implicit optionCall: (UpdateOption[PurchaseCB]) => Unit = null): Unit = {
+    def updateNonstrict(entityCall: (MblePurchase) => Unit)(implicit optionCall: (ScrUpdateOption[PurchaseCB]) => Unit = null): Unit = {
         doUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
@@ -729,7 +729,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(entityCall: (MblePurchase) => Unit)(implicit insertOptionCall: (InsertOption[PurchaseCB]) => Unit = null, updateOptionCall: (UpdateOption[PurchaseCB]) => Unit = null): Unit = {
+    def insertOrUpdate(entityCall: (MblePurchase) => Unit)(implicit insertOptionCall: (ScrInsertOption[PurchaseCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[PurchaseCB]) => Unit = null): Unit = {
         doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
@@ -758,7 +758,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(entityCall: (MblePurchase) => Unit)(implicit insertOptionCall: (InsertOption[PurchaseCB]) => Unit = null, updateOptionCall: (UpdateOption[PurchaseCB]) => Unit = null): Unit = {
+    def insertOrUpdateNonstrict(entityCall: (MblePurchase) => Unit)(implicit insertOptionCall: (ScrInsertOption[PurchaseCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[PurchaseCB]) => Unit = null): Unit = {
         doInsertOrUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
@@ -792,7 +792,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(entityCall: (MblePurchase) => Unit)(implicit optionCall: (DeleteOption[PurchaseCB]) => Unit = null): Unit = {
+    def delete(entityCall: (MblePurchase) => Unit)(implicit optionCall: (ScrDeleteOption[PurchaseCB]) => Unit = null): Unit = {
         doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
@@ -826,7 +826,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrict(entityCall: (MblePurchase) => Unit)(implicit optionCall: (DeleteOption[PurchaseCB]) => Unit = null): Unit = {
+    def deleteNonstrict(entityCall: (MblePurchase) => Unit)(implicit optionCall: (ScrDeleteOption[PurchaseCB]) => Unit = null): Unit = {
         doDeleteNonstrict(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
@@ -869,7 +869,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (InsertOption[PurchaseCB]) => Unit = null): Array[Int] = {
+    def batchInsert(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (ScrInsertOption[PurchaseCB]) => Unit = null): Array[Int] = {
         return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
@@ -915,7 +915,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (UpdateOption[PurchaseCB]) => Unit = null): Array[Int] = {
+    def batchUpdate(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (ScrUpdateOption[PurchaseCB]) => Unit = null): Array[Int] = {
         return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
@@ -960,7 +960,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (UpdateOption[PurchaseCB]) => Unit = null): Array[Int] = {
+    def batchUpdateNonstrict(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (ScrUpdateOption[PurchaseCB]) => Unit = null): Array[Int] = {
         return doBatchUpdateNonstrict(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
@@ -983,7 +983,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (DeleteOption[PurchaseCB]) => Unit = null): Array[Int] = {
+    def batchDelete(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (ScrDeleteOption[PurchaseCB]) => Unit = null): Array[Int] = {
         return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
@@ -1005,7 +1005,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (DeleteOption[PurchaseCB]) => Unit = null): Array[Int] = {
+    def batchDeleteNonstrict(batchCall: (ScrBatchEntityList[MblePurchase]) => Unit)(implicit optionCall: (ScrDeleteOption[PurchaseCB]) => Unit = null): Array[Int] = {
         return doBatchDeleteNonstrict(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
@@ -1266,7 +1266,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
         val batch = new ScrBatchEntityList[MblePurchase]();
         val entityList: List[DblePurchase] = new ArrayList[DblePurchase]();
         batch.entityCallList.asScala.map { entityCall =>
-            val entity = newMbleEntity(); entityCall(entity); entity.toDBableEntity;
+            val entity = newMbleEntity(); entityCall(entity); entity.toDBable;
         }
         return entityList;
     }
@@ -1277,22 +1277,23 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     }
 
     protected def callbackMbleEntityToDBable(entityCall: (MblePurchase) => Unit): DblePurchase = {
-        return callbackMbleEntity(entityCall).toDBableEntity;
+        return callbackMbleEntity(entityCall).toDBable;
     }
 
-    protected def callbackInsertOption(optionCall: (InsertOption[PurchaseCB]) => Unit): InsertOption[PurchaseCB] = {
+    protected def callbackInsertOption(optionCall: (ScrInsertOption[PurchaseCB]) => Unit): InsertOption[PurchaseCB] = {
         if (optionCall == null) { return null; }
-        val option = new InsertOption[PurchaseCB](); optionCall(option); return option;
+        val option = new ScrInsertOption[PurchaseCB](new InsertOption[PurchaseCB]());
+        optionCall(option); return option.toNative;
     }
 
-    protected def callbackUpdateOption(optionCall: (UpdateOption[PurchaseCB]) => Unit): UpdateOption[PurchaseCB] = {
+    protected def callbackUpdateOption(optionCall: (ScrUpdateOption[PurchaseCB]) => Unit): UpdateOption[PurchaseCB] = {
         if (optionCall == null) { return null; }
-        val option = new UpdateOption[PurchaseCB](); optionCall(option); return option;
+        val option = new ScrUpdateOption[PurchaseCB](new UpdateOption[PurchaseCB]()); optionCall(option); return option.toNative;
     }
 
-    protected def callbackDeleteOption(optionCall: (DeleteOption[PurchaseCB]) => Unit): DeleteOption[PurchaseCB] = {
+    protected def callbackDeleteOption(optionCall: (ScrDeleteOption[PurchaseCB]) => Unit): DeleteOption[PurchaseCB] = {
         if (optionCall == null) { return null; }
-        val option = new DeleteOption[PurchaseCB](); optionCall(option); return option;
+        val option = new ScrDeleteOption[PurchaseCB](new DeleteOption[PurchaseCB]()); optionCall(option); return option.toNative;
     }
 
     protected def callbackLoader(dbleList: List[DblePurchase], loaderCall: (LoaderOfPurchase) => Unit = null): Unit = {

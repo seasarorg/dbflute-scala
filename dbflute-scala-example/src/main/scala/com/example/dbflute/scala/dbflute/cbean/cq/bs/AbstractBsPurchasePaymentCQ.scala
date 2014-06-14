@@ -114,10 +114,10 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param minNumber The min number of purchasePaymentId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of purchasePaymentId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPurchasePaymentId_RangeOf(minNumber: Long, maxNumber: Long, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValuePurchasePaymentId(), "PURCHASE_PAYMENT_ID", rangeOfOption);
+    def setPurchasePaymentId_RangeOf(minNumber: Long, maxNumber: Long)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValuePurchasePaymentId(), "PURCHASE_PAYMENT_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -230,10 +230,10 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE}
      * @param minNumber The min number of purchaseId. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of purchaseId. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPurchaseId_RangeOf(minNumber: Long, maxNumber: Long, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValuePurchaseId(), "PURCHASE_ID", rangeOfOption);
+    def setPurchaseId_RangeOf(minNumber: Long, maxNumber: Long)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValuePurchaseId(), "PURCHASE_ID", callbackROOP(optionCall));
     }
 
     /**
@@ -334,10 +334,10 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param minNumber The min number of paymentAmount. (NullAllowed: if null, no from-condition)
      * @param maxNumber The max number of paymentAmount. (NullAllowed: if null, no to-condition)
-     * @param rangeOfOption The option of range-of. (NotNull)
+     * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPaymentAmount_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal, rangeOfOption: RangeOfOption): Unit = {
-        regROO(minNumber, maxNumber, getCValuePaymentAmount(), "PAYMENT_AMOUNT", rangeOfOption);
+    def setPaymentAmount_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
+        regROO(minNumber, maxNumber, getCValuePaymentAmount(), "PAYMENT_AMOUNT", callbackROOP(optionCall));
     }
 
     /**
@@ -423,7 +423,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of paymentDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setPaymentDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (FromToOption) => Unit): Unit = {
+    def setPaymentDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValuePaymentDatetime(), "PAYMENT_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -513,8 +513,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentMethodCode The value of paymentMethodCode as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
      */
-    def setPaymentMethodCode_LikeSearch(paymentMethodCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
-        val op = createLikeSearchOption(); optionCall(op);
+    def setPaymentMethodCode_LikeSearch(paymentMethodCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_LS, fRES(paymentMethodCode), getCValuePaymentMethodCode(), "PAYMENT_METHOD_CODE", callbackLSOP(optionCall));
     }
 
@@ -525,7 +524,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentMethodCode The value of paymentMethodCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
-    def setPaymentMethodCode_NotLikeSearch(paymentMethodCode: String)(optionCall: (LikeSearchOption) => Unit): Unit = {
+    def setPaymentMethodCode_NotLikeSearch(paymentMethodCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         regLSQ(CK_NLS, fRES(paymentMethodCode), getCValuePaymentMethodCode(), "PAYMENT_METHOD_CODE", callbackLSOP(optionCall));
     }
 
@@ -810,7 +809,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * <p>The order values are bound (treated as bind parameter).</p>
      * @param mob The bean of manual order containing order values. (NotNull)
      */
-    def withManualOrder(mobCall: (ManualOrderBean) => Unit): Unit = { // is user public!
+    def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
     }
@@ -818,17 +817,21 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
     // ===================================================================================
     //                                                                       Create Option
     //                                                                       =============
-    protected def callbackLSOP(optionCall: (LikeSearchOption) => Unit): LikeSearchOption =
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
     { val op = createLikeSearchOption(); optionCall(op); return op; }
-    protected def createLikeSearchOption(): LikeSearchOption = { new LikeSearchOption() }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
-    protected def callbackFTOP(optionCall: (FromToOption) => Unit): FromToOption =
+    protected def callbackFTOP(optionCall: (ScrFromToOption) => Unit): FromToOption =
     { val op = createFromToOption(); optionCall(op); return op; }
-    protected def createFromToOption(): FromToOption = { new FromToOption() }
+    protected def createFromToOption(): ScrFromToOption = { new ScrFromToOption() }
 
-    protected def callbackMOB(mobCall: (ManualOrderBean) => Unit): ManualOrderBean =
+    protected def callbackROOP(optionCall: (ScrRangeOfOption) => Unit): RangeOfOption =
+    { val op = createRangeOfOption(); optionCall(op); return op; }
+    protected def createRangeOfOption(): ScrRangeOfOption = { new ScrRangeOfOption() }
+
+    protected def callbackMOB(mobCall: (ScrManualOrderBean) => Unit): ManualOrderBean =
     { val mob = createManualOrderBean(); mobCall(mob); return mob; }
-    protected def createManualOrderBean(): ManualOrderBean = { new ManualOrderBean() }
+    protected def createManualOrderBean(): ScrManualOrderBean = { new ScrManualOrderBean() }
 
     // ===================================================================================
     //                                                                        Scala Helper

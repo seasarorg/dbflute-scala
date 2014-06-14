@@ -275,7 +275,7 @@ abstract class BsMbleProduct {
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
-    def toDBableEntity(): DbleProduct = { dble }
+    def toDBable(): DbleProduct = { dble }
 
     // ===================================================================================
     //                                                                          Unique Key

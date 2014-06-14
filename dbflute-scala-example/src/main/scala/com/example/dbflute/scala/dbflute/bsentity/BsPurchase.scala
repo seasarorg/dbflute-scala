@@ -342,7 +342,7 @@ abstract class BsMblePurchase {
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
-    def toDBableEntity(): DblePurchase = { dble }
+    def toDBable(): DblePurchase = { dble }
 
     // ===================================================================================
     //                                                                          Unique Key

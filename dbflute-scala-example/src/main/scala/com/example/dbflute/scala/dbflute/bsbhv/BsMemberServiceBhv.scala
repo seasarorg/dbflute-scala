@@ -525,7 +525,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param optionCall The callback for option of insert. (NoArgAllowed: then no option)
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insert(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (InsertOption[MemberServiceCB]) => Unit = null): Unit = {
+    def insert(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (ScrInsertOption[MemberServiceCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
         doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
@@ -572,7 +572,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def update(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (UpdateOption[MemberServiceCB]) => Unit = null): Unit = {
+    def update(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (ScrUpdateOption[MemberServiceCB]) => Unit = null): Unit = {
         assertObjectNotNull("entityCall", entityCall);
         doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
@@ -622,7 +622,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def updateNonstrict(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (UpdateOption[MemberServiceCB]) => Unit = null): Unit = {
+    def updateNonstrict(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (ScrUpdateOption[MemberServiceCB]) => Unit = null): Unit = {
         doUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
@@ -649,7 +649,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdate(entityCall: (MbleMemberService) => Unit)(implicit insertOptionCall: (InsertOption[MemberServiceCB]) => Unit = null, updateOptionCall: (UpdateOption[MemberServiceCB]) => Unit = null): Unit = {
+    def insertOrUpdate(entityCall: (MbleMemberService) => Unit)(implicit insertOptionCall: (ScrInsertOption[MemberServiceCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[MemberServiceCB]) => Unit = null): Unit = {
         doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
@@ -678,7 +678,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception EntityAlreadyExistsException When the entity already exists. (unique constraint violation)
      */
-    def insertOrUpdateNonstrict(entityCall: (MbleMemberService) => Unit)(implicit insertOptionCall: (InsertOption[MemberServiceCB]) => Unit = null, updateOptionCall: (UpdateOption[MemberServiceCB]) => Unit = null): Unit = {
+    def insertOrUpdateNonstrict(entityCall: (MbleMemberService) => Unit)(implicit insertOptionCall: (ScrInsertOption[MemberServiceCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[MemberServiceCB]) => Unit = null): Unit = {
         doInsertOrUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
@@ -712,7 +712,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyUpdatedException When the entity has already been updated.
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def delete(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (DeleteOption[MemberServiceCB]) => Unit = null): Unit = {
+    def delete(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (ScrDeleteOption[MemberServiceCB]) => Unit = null): Unit = {
         doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
@@ -746,7 +746,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      * @exception EntityDuplicatedException When the entity has been duplicated.
      */
-    def deleteNonstrict(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (DeleteOption[MemberServiceCB]) => Unit = null): Unit = {
+    def deleteNonstrict(entityCall: (MbleMemberService) => Unit)(implicit optionCall: (ScrDeleteOption[MemberServiceCB]) => Unit = null): Unit = {
         doDeleteNonstrict(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
@@ -789,7 +789,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @param memberServiceList The list of the entity. (NotNull, EmptyAllowed, PrimaryKeyNullAllowed: when auto-increment)
      * @return The array of inserted count. (NotNull, EmptyAllowed)
      */
-    def batchInsert(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (InsertOption[MemberServiceCB]) => Unit = null): Array[Int] = {
+    def batchInsert(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (ScrInsertOption[MemberServiceCB]) => Unit = null): Array[Int] = {
         return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
@@ -835,7 +835,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchUpdate(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (UpdateOption[MemberServiceCB]) => Unit = null): Array[Int] = {
+    def batchUpdate(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (ScrUpdateOption[MemberServiceCB]) => Unit = null): Array[Int] = {
         return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
@@ -880,7 +880,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of updated count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchUpdateNonstrict(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (UpdateOption[MemberServiceCB]) => Unit = null): Array[Int] = {
+    def batchUpdateNonstrict(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (ScrUpdateOption[MemberServiceCB]) => Unit = null): Array[Int] = {
         return doBatchUpdateNonstrict(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
@@ -903,7 +903,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception BatchEntityAlreadyUpdatedException When the entity has already been updated. This exception extends EntityAlreadyUpdatedException.
      */
-    def batchDelete(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (DeleteOption[MemberServiceCB]) => Unit = null): Array[Int] = {
+    def batchDelete(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (ScrDeleteOption[MemberServiceCB]) => Unit = null): Array[Int] = {
         return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
@@ -925,7 +925,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The array of deleted count. (NotNull, EmptyAllowed)
      * @exception EntityAlreadyDeletedException When the entity has already been deleted. (not found)
      */
-    def batchDeleteNonstrict(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (DeleteOption[MemberServiceCB]) => Unit = null): Array[Int] = {
+    def batchDeleteNonstrict(batchCall: (ScrBatchEntityList[MbleMemberService]) => Unit)(implicit optionCall: (ScrDeleteOption[MemberServiceCB]) => Unit = null): Array[Int] = {
         return doBatchDeleteNonstrict(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
@@ -1186,7 +1186,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
         val batch = new ScrBatchEntityList[MbleMemberService]();
         val entityList: List[DbleMemberService] = new ArrayList[DbleMemberService]();
         batch.entityCallList.asScala.map { entityCall =>
-            val entity = newMbleEntity(); entityCall(entity); entity.toDBableEntity;
+            val entity = newMbleEntity(); entityCall(entity); entity.toDBable;
         }
         return entityList;
     }
@@ -1197,22 +1197,23 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     }
 
     protected def callbackMbleEntityToDBable(entityCall: (MbleMemberService) => Unit): DbleMemberService = {
-        return callbackMbleEntity(entityCall).toDBableEntity;
+        return callbackMbleEntity(entityCall).toDBable;
     }
 
-    protected def callbackInsertOption(optionCall: (InsertOption[MemberServiceCB]) => Unit): InsertOption[MemberServiceCB] = {
+    protected def callbackInsertOption(optionCall: (ScrInsertOption[MemberServiceCB]) => Unit): InsertOption[MemberServiceCB] = {
         if (optionCall == null) { return null; }
-        val option = new InsertOption[MemberServiceCB](); optionCall(option); return option;
+        val option = new ScrInsertOption[MemberServiceCB](new InsertOption[MemberServiceCB]());
+        optionCall(option); return option.toNative;
     }
 
-    protected def callbackUpdateOption(optionCall: (UpdateOption[MemberServiceCB]) => Unit): UpdateOption[MemberServiceCB] = {
+    protected def callbackUpdateOption(optionCall: (ScrUpdateOption[MemberServiceCB]) => Unit): UpdateOption[MemberServiceCB] = {
         if (optionCall == null) { return null; }
-        val option = new UpdateOption[MemberServiceCB](); optionCall(option); return option;
+        val option = new ScrUpdateOption[MemberServiceCB](new UpdateOption[MemberServiceCB]()); optionCall(option); return option.toNative;
     }
 
-    protected def callbackDeleteOption(optionCall: (DeleteOption[MemberServiceCB]) => Unit): DeleteOption[MemberServiceCB] = {
+    protected def callbackDeleteOption(optionCall: (ScrDeleteOption[MemberServiceCB]) => Unit): DeleteOption[MemberServiceCB] = {
         if (optionCall == null) { return null; }
-        val option = new DeleteOption[MemberServiceCB](); optionCall(option); return option;
+        val option = new ScrDeleteOption[MemberServiceCB](new DeleteOption[MemberServiceCB]()); optionCall(option); return option.toNative;
     }
 
     protected def callbackLoader(dbleList: List[DbleMemberService], loaderCall: (LoaderOfMemberService) => Unit = null): Unit = {
