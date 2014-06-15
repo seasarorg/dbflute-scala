@@ -242,8 +242,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsPK(productId: Integer): ProductCB = {
         assertObjectNotNull("productId", productId);
-        val cb = newConditionBean(); cb.acceptPrimaryKey(productId);
-        return cb;
+        return newConditionBean().acceptPK(productId);
     }
 
     /**
@@ -268,8 +267,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsUniqueOf(productHandleCode: String): ProductCB = {
         assertObjectNotNull("productHandleCode", productHandleCode);
-        val cb: ProductCB = newConditionBean(); cb.acceptUniqueOf(productHandleCode);
-        return cb;
+        return newConditionBean().acceptUniqueOf(productHandleCode);
     }
 
     // ===================================================================================
@@ -339,8 +337,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (ProductCB) => Unit)(implicit loaderCall: (LoaderOfProduct) => Unit = null): PagingResultBean[DbleProduct] = {
-        return facadeSelectPage(callbackCB(cbCall))(loaderCall); // #pending use toImmutableEntityList()
+    def selectPage(cbCall: (ProductCB) => Unit)(implicit loaderCall: (LoaderOfProduct) => Unit = null): PagingView[Product] = {
+        return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
     protected def facadeSelectPage(cb: ProductCB)(loaderCall: (LoaderOfProduct) => Unit = null): PagingResultBean[DbleProduct] = {
@@ -1232,6 +1230,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleProduct] = { classOf[DbleProduct] }
     protected def newMbleEntity(): MbleProduct = { new MbleProduct() }
+    protected def newPagingView(rb: PagingResultBean[DbleProduct]): PagingView[Product] =
+    { new PagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (ProductCB) => Unit): ProductCB = {
         assertObjectNotNull("cbCall", cbCall);

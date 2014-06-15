@@ -84,21 +84,25 @@ class BsServiceRankCB extends AbstractConditionBean {
     /**
      * Accept the query condition of primary key as equal.
      * @param serviceRankCode (サービスランクコード): PK, NotNull, CHAR(3), classification=ServiceRank. (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptPrimaryKey(serviceRankCode: CDef.ServiceRank): Unit = {
+    def acceptPK(serviceRankCode: CDef.ServiceRank): ServiceRankCB = {
         assertObjectNotNull("serviceRankCode", serviceRankCode);
         val cb: BsServiceRankCB = this;
         cb.query().setServiceRankCode_Equal_AsServiceRank(serviceRankCode);
+        return this.asInstanceOf[ServiceRankCB];
     }
 
     /**
      * Accept the query condition of unique key as equal.
      * @param displayOrder (表示順): UQ, NotNull, INTEGER(10). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptUniqueOf(displayOrder: Integer): Unit = {
+    def acceptUniqueOf(displayOrder: Integer): ServiceRankCB = {
         assertObjectNotNull("displayOrder", displayOrder);
         val cb: BsServiceRankCB = this;
         cb.query().setDisplayOrder_Equal(displayOrder);
+        return this.asInstanceOf[ServiceRankCB];
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

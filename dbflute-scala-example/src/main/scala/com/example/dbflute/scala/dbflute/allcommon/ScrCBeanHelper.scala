@@ -45,7 +45,7 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
      * @param rightSpecifyQuery The specify-query for right column. (NotNull)
      * @return The calculator for right column. (NotNull)
      */
-    def equal(rightSpecifyQuery: (CB) => Unit): HpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_EQUAL) }
+    def equal(rightSpecifyQuery: (CB) => Unit): ScrHpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_EQUAL) }
 
     /**
      * NotEqual(&lt;&gt;).
@@ -64,7 +64,7 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
      * @param rightSpecifyQuery The specify-query for right column. (NotNull)
      * @return The calculator for right column. (NotNull)
      */
-    def notEqual(rightSpecifyQuery: (CB) => Unit): HpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_NOT_EQUAL_STANDARD) }
+    def notEqual(rightSpecifyQuery: (CB) => Unit): ScrHpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_NOT_EQUAL_STANDARD) }
 
     /**
      * GreaterThan(&gt;).
@@ -83,7 +83,7 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
      * @param rightSpecifyQuery The specify-query for right column. (NotNull)
      * @return The calculator for right column. (NotNull)
      */
-    def greaterThan(rightSpecifyQuery: (CB) => Unit): HpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_GREATER_THAN) }
+    def greaterThan(rightSpecifyQuery: (CB) => Unit): ScrHpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_GREATER_THAN) }
 
     /**
      * LessThan(&lt;).
@@ -102,7 +102,7 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
      * @param rightSpecifyQuery The specify-query for right column. (NotNull)
      * @return The calculator for right column. (NotNull)
      */
-    def lessThan(rightSpecifyQuery: (CB) => Unit): HpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_LESS_THAN) }
+    def lessThan(rightSpecifyQuery: (CB) => Unit): ScrHpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_LESS_THAN) }
 
     /**
      * GreaterEqual(&gt;=).
@@ -121,7 +121,7 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
      * @param rightSpecifyQuery The specify-query for right column. (NotNull)
      * @return The calculator for right column. (NotNull)
      */
-    def greaterEqual(rightSpecifyQuery: (CB) => Unit): HpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_GREATER_EQUAL) }
+    def greaterEqual(rightSpecifyQuery: (CB) => Unit): ScrHpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_GREATER_EQUAL) }
 
     /**
      * LessThan(&lt;=).
@@ -140,12 +140,12 @@ class ScrHpColQyOperand[CB <: ConditionBean](handler: HpColQyHandler[CB]) {
      * @param rightSpecifyQuery The specify-query for right column. (NotNull)
      * @return The calculator for right column. (NotNull)
      */
-    def lessEqual(rightSpecifyQuery: (CB) => Unit): HpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_LESS_EQUAL) }
+    def lessEqual(rightSpecifyQuery: (CB) => Unit): ScrHpCalculator = { doHandle(rightSpecifyQuery, ConditionKey.CK_LESS_EQUAL) }
 
-    protected def doHandle(rightSpecifyQuery: (CB) => Unit, ckey: ConditionKey): HpCalculator =
-    { handler.handle(toJavaSpecifyQuery(rightSpecifyQuery), ckey.getOperand()) }
+    protected def doHandle(rightSpecifyQuery: (CB) => Unit, ckey: ConditionKey): ScrHpCalculator =
+    { new ScrHpCalculator(handler.handle(toNativeSpecifyQuery(rightSpecifyQuery), ckey.getOperand())) }
 
-    protected def toJavaSpecifyQuery(rightSpecifyQuery: (CB) => Unit): SpecifyQuery[CB] =
+    protected def toNativeSpecifyQuery(rightSpecifyQuery: (CB) => Unit): SpecifyQuery[CB] =
     { new SpecifyQuery[CB]() { def specify(cb: CB): Unit = { rightSpecifyQuery(cb) } } }
 }
 
@@ -199,8 +199,8 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
     def count(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
-        if (optionCall == null) { function.count(toJavaSubQuery(subQuery), aliasName) }
-        else { function.count(toJavaSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
+        if (optionCall == null) { function.count(toNativeSubQuery(subQuery), aliasName) }
+        else { function.count(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
 
     /**
@@ -218,8 +218,8 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
     def countDistinct(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
-        if (optionCall == null) { function.countDistinct(toJavaSubQuery(subQuery), aliasName) }
-        else { function.countDistinct(toJavaSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
+        if (optionCall == null) { function.countDistinct(toNativeSubQuery(subQuery), aliasName) }
+        else { function.countDistinct(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
 
     /**
@@ -237,8 +237,8 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
     def max(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
-        if (optionCall == null) { function.max(toJavaSubQuery(subQuery), aliasName) }
-        else { function.max(toJavaSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
+        if (optionCall == null) { function.max(toNativeSubQuery(subQuery), aliasName) }
+        else { function.max(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
 
     /**
@@ -256,8 +256,8 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
     def min(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
-        if (optionCall == null) { function.min(toJavaSubQuery(subQuery), aliasName) }
-        else { function.min(toJavaSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
+        if (optionCall == null) { function.min(toNativeSubQuery(subQuery), aliasName) }
+        else { function.min(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
 
     /**
@@ -275,8 +275,8 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
     def sum(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
-        if (optionCall == null) { function.sum(toJavaSubQuery(subQuery), aliasName) }
-        else { function.sum(toJavaSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
+        if (optionCall == null) { function.sum(toNativeSubQuery(subQuery), aliasName) }
+        else { function.sum(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
 
     /**
@@ -294,15 +294,15 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
     def avg(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
-        if (optionCall == null) { function.avg(toJavaSubQuery(subQuery), aliasName) }
-        else { function.avg(toJavaSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
+        if (optionCall == null) { function.avg(toNativeSubQuery(subQuery), aliasName) }
+        else { function.avg(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
 
     protected def callbackDROP(optionCall: (DerivedReferrerOption) => Unit): DerivedReferrerOption =
     { val op = createDerivedReferrerOption(); optionCall(op); return op; }
     protected def createDerivedReferrerOption(): DerivedReferrerOption = { new DerivedReferrerOption() }
 
-    protected def toJavaSubQuery[CB <: ConditionBean](subQuery: (CB) => Unit): SubQuery[CB] =
+    protected def toNativeSubQuery[CB <: ConditionBean](subQuery: (CB) => Unit): SubQuery[CB] =
     { new SubQuery[CB]() { def query(cb: CB): Unit = { subQuery(cb) } } }
 }
 
@@ -338,8 +338,8 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
      * @return The parameter for comparing with scalar. (NotNull)
      */
     def count(subQuery: (CB) => Unit)(implicit optionCall: (DerivedReferrerOption) => Unit = null): ScrHpQDRParameter[CB, Integer] = {
-        if (optionCall == null) { toScalaQDRParameter(function.count(toJavaSubQuery(subQuery))) }
-        else { toScalaQDRParameter(function.count(toJavaSubQuery(subQuery), callbackDROP(optionCall))) }
+        if (optionCall == null) { toScalaQDRParameter(function.count(toNativeSubQuery(subQuery))) }
+        else { toScalaQDRParameter(function.count(toNativeSubQuery(subQuery), callbackDROP(optionCall))) }
     }
 
     /**
@@ -357,8 +357,8 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
      * @return The parameter for comparing with scalar. (NotNull)
      */
     def countDistinct(subQuery: (CB) => Unit)(implicit optionCall: (DerivedReferrerOption) => Unit = null): ScrHpQDRParameter[CB, Integer] = {
-        if (optionCall == null) { toScalaQDRParameter(function.countDistinct(toJavaSubQuery(subQuery))) }
-        else { toScalaQDRParameter(function.countDistinct(toJavaSubQuery(subQuery), callbackDROP(optionCall))) }
+        if (optionCall == null) { toScalaQDRParameter(function.countDistinct(toNativeSubQuery(subQuery))) }
+        else { toScalaQDRParameter(function.countDistinct(toNativeSubQuery(subQuery), callbackDROP(optionCall))) }
     }
 
     /**
@@ -376,8 +376,8 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
      * @return The parameter for comparing with scalar. (NotNull)
      */
     def max(subQuery: (CB) => Unit)(implicit optionCall: (DerivedReferrerOption) => Unit = null): ScrHpQDRParameter[CB, Object] = {
-        if (optionCall == null) { toScalaQDRParameter(function.max(toJavaSubQuery(subQuery))) }
-        else { toScalaQDRParameter(function.max(toJavaSubQuery(subQuery), callbackDROP(optionCall))) }
+        if (optionCall == null) { toScalaQDRParameter(function.max(toNativeSubQuery(subQuery))) }
+        else { toScalaQDRParameter(function.max(toNativeSubQuery(subQuery), callbackDROP(optionCall))) }
     }
 
     /**
@@ -395,8 +395,8 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
      * @return The parameter for comparing with scalar. (NotNull)
      */
     def min(subQuery: (CB) => Unit)(implicit optionCall: (DerivedReferrerOption) => Unit = null): ScrHpQDRParameter[CB, Object] = {
-        if (optionCall == null) { toScalaQDRParameter(function.min(toJavaSubQuery(subQuery))) }
-        else { toScalaQDRParameter(function.min(toJavaSubQuery(subQuery), callbackDROP(optionCall))) }
+        if (optionCall == null) { toScalaQDRParameter(function.min(toNativeSubQuery(subQuery))) }
+        else { toScalaQDRParameter(function.min(toNativeSubQuery(subQuery), callbackDROP(optionCall))) }
     }
 
     /**
@@ -414,8 +414,8 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
      * @return The parameter for comparing with scalar. (NotNull)
      */
     def sum(subQuery: (CB) => Unit)(implicit optionCall: (DerivedReferrerOption) => Unit = null): ScrHpQDRParameter[CB, Number] = {
-        if (optionCall == null) { toScalaQDRParameter(function.sum(toJavaSubQuery(subQuery))) }
-        else { toScalaQDRParameter(function.sum(toJavaSubQuery(subQuery), callbackDROP(optionCall))) }
+        if (optionCall == null) { toScalaQDRParameter(function.sum(toNativeSubQuery(subQuery))) }
+        else { toScalaQDRParameter(function.sum(toNativeSubQuery(subQuery), callbackDROP(optionCall))) }
     }
 
     /**
@@ -433,8 +433,8 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
      * @return The parameter for comparing with scalar. (NotNull)
      */
     def avg(subQuery: (CB) => Unit)(implicit optionCall: (DerivedReferrerOption) => Unit = null): ScrHpQDRParameter[CB, Number] = {
-        if (optionCall == null) { toScalaQDRParameter(function.avg(toJavaSubQuery(subQuery))) }
-        else { toScalaQDRParameter(function.avg(toJavaSubQuery(subQuery), callbackDROP(optionCall))) }
+        if (optionCall == null) { toScalaQDRParameter(function.avg(toNativeSubQuery(subQuery))) }
+        else { toScalaQDRParameter(function.avg(toNativeSubQuery(subQuery), callbackDROP(optionCall))) }
     }
 
     protected def callbackDROP(optionCall: (DerivedReferrerOption) => Unit): DerivedReferrerOption =
@@ -444,7 +444,7 @@ class ScrHpQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]) {
     protected def toScalaQDRParameter[PARAMETER](parameter: HpQDRParameter[CB, PARAMETER]): ScrHpQDRParameter[CB, PARAMETER] =
     { new ScrHpQDRParameter[CB, PARAMETER](parameter) }
 
-    protected def toJavaSubQuery(subQuery: (CB) => Unit): SubQuery[CB] =
+    protected def toNativeSubQuery(subQuery: (CB) => Unit): SubQuery[CB] =
     { new SubQuery[CB]() { def query(cb: CB): Unit = { subQuery(cb) } } }
 }
 
@@ -706,11 +706,11 @@ class ScrHpSLSFunction[CB <: ConditionBean, RESULT](function: HpSLSFunction[CB, 
      * </pre>
      * @param scalarQuery The query for scalar select. (NotNull)
      * @param optionCall The callback for option for scalar select. (NotNull)
-     * @return The maximum value calculated by function. (NullAllowed: or NotNull if you use coalesce by option)
+     * @return The maximum value calculated by function. (EmptyAllowed: or AlwaysPresent if you use coalesce by option)
      */
-    def max(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): RESULT = {
-        if (optionCall == null) { function.max(toJavaScalarQuery(scalarQuery)) }
-        else { function.max(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall)) }
+    def max(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): Option[RESULT] = {
+        if (optionCall == null) { Option(function.max(toJavaScalarQuery(scalarQuery))) }
+        else { Option(function.max(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall))) }
     }
 
     /**
@@ -723,11 +723,11 @@ class ScrHpSLSFunction[CB <: ConditionBean, RESULT](function: HpSLSFunction[CB, 
      * </pre>
      * @param scalarQuery The query for scalar select. (NotNull)
      * @param optionCall The callback for option for scalar select. (NotNull)
-     * @return The minimum value calculated by function. (NullAllowed: or NotNull if you use coalesce by option)
+     * @return The minimum value calculated by function. (EmptyAllowed: or AlwaysPresent if you use coalesce by option)
      */
-    def min(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): RESULT = {
-        if (optionCall == null) { function.min(toJavaScalarQuery(scalarQuery)) }
-        else { function.min(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall)) }
+    def min(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): Option[RESULT] = {
+        if (optionCall == null) { Option(function.min(toJavaScalarQuery(scalarQuery))) }
+        else { Option(function.min(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall))) }
     }
 
     /**
@@ -740,11 +740,11 @@ class ScrHpSLSFunction[CB <: ConditionBean, RESULT](function: HpSLSFunction[CB, 
      * </pre>
      * @param scalarQuery The query for scalar select. (NotNull)
      * @param optionCall The callback for option for scalar select. (NotNull)
-     * @return The summary value calculated by function. (NullAllowed: or NotNull if you use coalesce by option)
+     * @return The summary value calculated by function. (EmptyAllowed: or AlwaysPresent if you use coalesce by option)
      */
-    def sum(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): RESULT = {
-        if (optionCall == null) { function.sum(toJavaScalarQuery(scalarQuery)) }
-        else { function.sum(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall)) }
+    def sum(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): Option[RESULT] = {
+        if (optionCall == null) { Option(function.sum(toJavaScalarQuery(scalarQuery))) }
+        else { Option(function.sum(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall))) }
     }
 
     /**
@@ -757,11 +757,11 @@ class ScrHpSLSFunction[CB <: ConditionBean, RESULT](function: HpSLSFunction[CB, 
      * </pre>
      * @param scalarQuery The query for scalar select. (NotNull)
      * @param optionCall The callback for option for scalar select. (NotNull)
-     * @return The average value calculated by function. (NullAllowed: or NotNull if you use coalesce by option)
+     * @return The average value calculated by function. (EmptyAllowed: or AlwaysPresent if you use coalesce by option)
      */
-    def avg(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): RESULT = {
-        if (optionCall == null) { function.avg(toJavaScalarQuery(scalarQuery)) }
-        else { function.avg(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall)) }
+    def avg(scalarQuery: (CB) => Unit)(implicit optionCall: (ScalarSelectOption) => Unit = null): Option[RESULT] = {
+        if (optionCall == null) { Option(function.avg(toJavaScalarQuery(scalarQuery))) }
+        else { Option(function.avg(toJavaScalarQuery(scalarQuery), callbackSSOP(optionCall))) }
     }
 
     protected def callbackSSOP(optionCall: (ScalarSelectOption) => Unit): ScalarSelectOption =
@@ -805,7 +805,7 @@ class ScrHpSSQFunction[CB <: ConditionBean](function: HpSSQFunction[CB]) {
      * @param subQuery The sub query of myself. (NotNull)
      * @return The decorator of ScalarCondition. e.g. you can use partition-by. (NotNull)
      */
-    def max(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.max(toJavaSubQuery(subQuery))) }
+    def max(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.max(toNativeSubQuery(subQuery))) }
 
     /**
      * Set up the sub query of myself for the scalar 'min'.
@@ -820,7 +820,7 @@ class ScrHpSSQFunction[CB <: ConditionBean](function: HpSSQFunction[CB]) {
      * @param subQuery The sub query of myself. (NotNull)
      * @return The decorator of ScalarCondition. e.g. you can use partition-by. (NotNull)
      */
-    def min(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.min(toJavaSubQuery(subQuery))) }
+    def min(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.min(toNativeSubQuery(subQuery))) }
 
     /**
      * Set up the sub query of myself for the scalar 'sum'.
@@ -835,7 +835,7 @@ class ScrHpSSQFunction[CB <: ConditionBean](function: HpSSQFunction[CB]) {
      * @param subQuery The sub query of myself. (NotNull)
      * @return The decorator of ScalarCondition. e.g. you can use partition-by. (NotNull)
      */
-    def sum(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.sum(toJavaSubQuery(subQuery))) }
+    def sum(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.sum(toNativeSubQuery(subQuery))) }
 
     /**
      * Set up the sub query of myself for the scalar 'avg'.
@@ -850,12 +850,12 @@ class ScrHpSSQFunction[CB <: ConditionBean](function: HpSSQFunction[CB]) {
      * @param subQuery The sub query of myself. (NotNull)
      * @return The decorator of ScalarCondition. e.g. you can use partition-by. (NotNull)
      */
-    def avg(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.avg(toJavaSubQuery(subQuery))) }
+    def avg(subQuery: (CB) => Unit): ScrHpSSQDecorator[CB] = { toScalaDecorator(function.avg(toNativeSubQuery(subQuery))) }
 
     protected def toScalaDecorator(decorator: HpSSQDecorator[CB]): ScrHpSSQDecorator[CB] =
     { new ScrHpSSQDecorator[CB](decorator) }
 
-    protected def toJavaSubQuery(subQuery: (CB) => Unit): SubQuery[CB] =
+    protected def toNativeSubQuery(subQuery: (CB) => Unit): SubQuery[CB] =
     { new SubQuery[CB]() { def query(cb: CB): Unit = { subQuery(cb) } } }
 }
 
@@ -886,8 +886,183 @@ class ScrHpSSQDecorator[CB <: ConditionBean](decorator: HpSSQDecorator[CB]) {
      * </pre>
      * @param specifyQuery The query to specify the partition. (NotNull)
      */
-    def partitionBy(specifyQuery: (CB) => Unit): Unit = { decorator.partitionBy(toJavaSpecifyQuery(specifyQuery)) }
+    def partitionBy(specifyQuery: (CB) => Unit): Unit = { decorator.partitionBy(toNativeSpecifyQuery(specifyQuery)) }
 
-    protected def toJavaSpecifyQuery(specifyQuery: (CB) => Unit): SpecifyQuery[CB] =
+    protected def toNativeSpecifyQuery(specifyQuery: (CB) => Unit): SpecifyQuery[CB] =
     { new SpecifyQuery[CB]() { def specify(cb: CB): Unit = { specifyQuery(cb) } } }
+}
+
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                         General Calculator                           _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/                                                                      _/_/_/_/_/_/_/_/_/_/_/ */
+/* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
+
+/**
+ * @author jflute
+ */
+class ScrHpCalculator(calculator: HpCalculator) {
+
+    // ===================================================================================
+    //                                                                         Calculation
+    //                                                                         ===========
+    /**
+     * Plus the specified column with the value. (+)
+     * @param plusValue The number value for plus. (NotNull)
+     * @return this. (NotNull)
+     */
+    def plus(plusValue: Number): ScrHpCalculator = { calculator.plus(plusValue); return this; }
+
+    /**
+     * Plus the specified column with the plus column. (+) {Dream Cruise}
+     * <pre>
+     * e.g. ManualOrder: order by PURCHASE_PRICE + PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  ManualOrderBean mob = new ManualOrderBean
+     *  mob.<span style="color: #DD4747">plus</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     *  cb.query().addOrderBy_PurchasePrice_Asc().withManualOrder(mob);
+     * 
+     * e.g. ColumnQuery: ... > PURCHASE_PRICE + PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  cb.columnQuery(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.column...();
+     *      }
+     *  }).greaterThan(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.columnPurchasePrice();
+     *      }
+     *  }).<span style="color: #DD4747">plus</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     * </pre>
+     * @param plusColumn The plus column specified by your Dream Cruise. (NotNull)
+     * @return this. (NotNull)
+     */
+    def plus(plusColumn: HpSpecifiedColumn): ScrHpCalculator = { calculator.plus(plusColumn); return this; }
+
+    /**
+     * Minus the specified column with the value. (-)
+     * @param minusValue The number value for minus. (NotNull)
+     * @return this. (NotNull)
+     */
+    def minus(minusValue: Number): ScrHpCalculator = { calculator.minus(minusValue); return this; }
+
+    /**
+     * Minus the specified column with the minus column. (-) {Dream Cruise}
+     * <pre>
+     * e.g. ManualOrder: order by PURCHASE_PRICE - PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  ManualOrderBean mob = new ManualOrderBean
+     *  mob.<span style="color: #DD4747">minus</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     *  cb.query().addOrderBy_PurchasePrice_Asc().withManualOrder(mob);
+     * 
+     * e.g. ColumnQuery: ... > PURCHASE_PRICE - PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  cb.columnQuery(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.column...();
+     *      }
+     *  }).greaterThan(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.columnPurchasePrice();
+     *      }
+     *  }).<span style="color: #DD4747">minus</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     * </pre>
+     * @param minusColumn The minus column specified by your Dream Cruise. (NotNull)
+     * @return this. (NotNull)
+     */
+    def minus(minusColumn: HpSpecifiedColumn): ScrHpCalculator = { calculator.minus(minusColumn); return this; }
+
+    /**
+     * Multiply the value to the specified column. (*)
+     * @param multiplyValue The number value for multiply. (NotNull)
+     * @return this. (NotNull)
+     */
+    def multiply(multiplyValue: Number): ScrHpCalculator = { calculator.multiply(multiplyValue); return this; }
+
+    /**
+     * Multiply the specified column with the multiply column. (*) {Dream Cruise}
+     * <pre>
+     * e.g. ManualOrder: order by PURCHASE_PRICE * PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  ManualOrderBean mob = new ManualOrderBean
+     *  mob.<span style="color: #DD4747">multiply</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     *  cb.query().addOrderBy_PurchasePrice_Asc().withManualOrder(mob);
+     * 
+     * e.g. ColumnQuery: ... > PURCHASE_PRICE * PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  cb.columnQuery(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.column...();
+     *      }
+     *  }).greaterThan(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.columnPurchasePrice();
+     *      }
+     *  }).<span style="color: #DD4747">multiply</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     * </pre>
+     * @param multiplyColumn The multiply column specified by your Dream Cruise. (NotNull)
+     * @return this. (NotNull)
+     */
+    def multiply(multiplyColumn: HpSpecifiedColumn): ScrHpCalculator = { calculator.multiply(multiplyColumn); return this; }
+
+    /**
+     * Divide the specified column by the value. (/)
+     * @param divideValue The number value for divide. (NotNull)
+     * @return this. (NotNull)
+     */
+    def divide(divideValue: Number): ScrHpCalculator = { calculator.divide(divideValue); return this; }
+
+    /**
+     * Divide the specified column with the divide column. (/) {Dream Cruise}
+     * <pre>
+     * e.g. ManualOrder: order by PURCHASE_PRICE / PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  ManualOrderBean mob = new ManualOrderBean
+     *  mob.<span style="color: #DD4747">divide</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     *  cb.query().addOrderBy_PurchasePrice_Asc().withManualOrder(mob);
+     * 
+     * e.g. ColumnQuery: ... > PURCHASE_PRICE / PURCHASE_COUNT
+     *  PurchaseCB cb = new PurchaseCB();
+     *  cb.columnQuery(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.column...();
+     *      }
+     *  }).greaterThan(new SpecifyQuery() {
+     *      public void specify(Purchase cb) {
+     *          cb.columnPurchasePrice();
+     *      }
+     *  }).<span style="color: #DD4747">divide</span>(cb.<span style="color: #DD4747">dreamCruiseCB()</span>.specify().columnPurchaseCount());
+     * </pre>
+     * @param divideColumn The divide column specified by your Dream Cruise. (NotNull)
+     * @return this. (NotNull)
+     */
+    def divide(divideColumn: HpSpecifiedColumn): ScrHpCalculator = { calculator.divide(divideColumn); return this; }
+
+    /**
+     * Convert the value of right column by function.
+     * @param option The conversion option of column. (NotNull)
+     * @return this. (NotNull)
+     */
+    def convert(optionCall: (ScrColumnConversionOption) => Unit): ScrHpCalculator =
+    { val option = new ScrColumnConversionOption(); optionCall(option); calculator.convert(option); return this; }
+
+    // ===================================================================================
+    //                                                                     Left/Right Mode
+    //                                                                     ===============
+    /**
+     * To be for left column.
+     * @return this. (NotNull)
+     */
+    def left(): ScrHpCalculator = { calculator.left(); return this; }
+
+    /**
+     * To be for right column. (default)<br />
+     * It also means main process internally.
+     * @return this. (NotNull)
+     */
+    def right(): ScrHpCalculator = { calculator.right(); return this; }
 }

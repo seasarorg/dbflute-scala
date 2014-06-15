@@ -242,8 +242,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsPK(serviceRankCode: CDef.ServiceRank): ServiceRankCB = {
         assertObjectNotNull("serviceRankCode", serviceRankCode);
-        val cb = newConditionBean(); cb.acceptPrimaryKey(serviceRankCode);
-        return cb;
+        return newConditionBean().acceptPK(serviceRankCode);
     }
 
     /**
@@ -268,8 +267,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsUniqueOf(displayOrder: Integer): ServiceRankCB = {
         assertObjectNotNull("displayOrder", displayOrder);
-        val cb: ServiceRankCB = newConditionBean(); cb.acceptUniqueOf(displayOrder);
-        return cb;
+        return newConditionBean().acceptUniqueOf(displayOrder);
     }
 
     // ===================================================================================
@@ -339,8 +337,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): PagingResultBean[DbleServiceRank] = {
-        return facadeSelectPage(callbackCB(cbCall))(loaderCall); // #pending use toImmutableEntityList()
+    def selectPage(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): PagingView[ServiceRank] = {
+        return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
     protected def facadeSelectPage(cb: ServiceRankCB)(loaderCall: (LoaderOfServiceRank) => Unit = null): PagingResultBean[DbleServiceRank] = {
@@ -1101,6 +1099,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleServiceRank] = { classOf[DbleServiceRank] }
     protected def newMbleEntity(): MbleServiceRank = { new MbleServiceRank() }
+    protected def newPagingView(rb: PagingResultBean[DbleServiceRank]): PagingView[ServiceRank] =
+    { new PagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (ServiceRankCB) => Unit): ServiceRankCB = {
         assertObjectNotNull("cbCall", cbCall);

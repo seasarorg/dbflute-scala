@@ -242,8 +242,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsPK(purchaseId: Long): PurchaseCB = {
         assertObjectNotNull("purchaseId", purchaseId);
-        val cb = newConditionBean(); cb.acceptPrimaryKey(purchaseId);
-        return cb;
+        return newConditionBean().acceptPK(purchaseId);
     }
 
     /**
@@ -270,8 +269,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): PurchaseCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
-        val cb: PurchaseCB = newConditionBean(); cb.acceptUniqueOf(memberId, productId, purchaseDatetime);
-        return cb;
+        return newConditionBean().acceptUniqueOf(memberId, productId, purchaseDatetime);
     }
 
     // ===================================================================================
@@ -341,8 +339,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (PurchaseCB) => Unit)(implicit loaderCall: (LoaderOfPurchase) => Unit = null): PagingResultBean[DblePurchase] = {
-        return facadeSelectPage(callbackCB(cbCall))(loaderCall); // #pending use toImmutableEntityList()
+    def selectPage(cbCall: (PurchaseCB) => Unit)(implicit loaderCall: (LoaderOfPurchase) => Unit = null): PagingView[Purchase] = {
+        return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
     protected def facadeSelectPage(cb: PurchaseCB)(loaderCall: (LoaderOfPurchase) => Unit = null): PagingResultBean[DblePurchase] = {
@@ -1255,6 +1253,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DblePurchase] = { classOf[DblePurchase] }
     protected def newMbleEntity(): MblePurchase = { new MblePurchase() }
+    protected def newPagingView(rb: PagingResultBean[DblePurchase]): PagingView[Purchase] =
+    { new PagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (PurchaseCB) => Unit): PurchaseCB = {
         assertObjectNotNull("cbCall", cbCall);

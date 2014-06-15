@@ -2,7 +2,6 @@ package com.example.dbflute.scala.dbflute.allcommon;
 
 import org.seasar.dbflute.bhv._;
 import org.seasar.dbflute.cbean._;
-import org.seasar.dbflute.cbean.chelper.HpCalculator;
 import org.seasar.dbflute.jdbc.StatementConfig;
 
 /**
@@ -36,8 +35,8 @@ class ScrInsertOption[CB <: ConditionBean](option: InsertOption[CB]) {
  */
 class ScrUpdateOption[CB <: ConditionBean](option: UpdateOption[CB]) {
 
-    def self(specCall: (CB) => Unit): HpCalculator = {
-        return option.self(new SpecifyQuery[CB]() { def specify(cb: CB): Unit = { specCall(cb) } });
+    def self(specCall: (CB) => Unit): ScrHpCalculator = {
+        return new ScrHpCalculator(option.self(new SpecifyQuery[CB]() { def specify(cb: CB): Unit = { specCall(cb) } }));
     }
     def specify(specCall: (CB) => Unit): Unit = {
         option.specify(new SpecifyQuery[CB]() { def specify(cb: CB): Unit = { specCall(cb) } });

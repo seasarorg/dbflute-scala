@@ -84,21 +84,25 @@ class BsMemberCB extends AbstractConditionBean {
     /**
      * Accept the query condition of primary key as equal.
      * @param memberId (会員ID): PK, ID, NotNull, INTEGER(10). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptPrimaryKey(memberId: Integer): Unit = {
+    def acceptPK(memberId: Integer): MemberCB = {
         assertObjectNotNull("memberId", memberId);
         val cb: BsMemberCB = this;
         cb.query().setMemberId_Equal(memberId);
+        return this.asInstanceOf[MemberCB];
     }
 
     /**
      * Accept the query condition of unique key as equal.
      * @param memberAccount (会員アカウント): UQ, NotNull, VARCHAR(50). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptUniqueOf(memberAccount: String): Unit = {
+    def acceptUniqueOf(memberAccount: String): MemberCB = {
         assertObjectNotNull("memberAccount", memberAccount);
         val cb: BsMemberCB = this;
         cb.query().setMemberAccount_Equal(memberAccount);
+        return this.asInstanceOf[MemberCB];
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

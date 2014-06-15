@@ -84,11 +84,13 @@ class BsPurchaseCB extends AbstractConditionBean {
     /**
      * Accept the query condition of primary key as equal.
      * @param purchaseId : PK, ID, NotNull, BIGINT(19). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptPrimaryKey(purchaseId: Long): Unit = {
+    def acceptPK(purchaseId: Long): PurchaseCB = {
         assertObjectNotNull("purchaseId", purchaseId);
         val cb: BsPurchaseCB = this;
         cb.query().setPurchaseId_Equal(purchaseId);
+        return this.asInstanceOf[PurchaseCB];
     }
 
     /**
@@ -96,11 +98,13 @@ class BsPurchaseCB extends AbstractConditionBean {
      * @param memberId (会員ID): UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
      * @param productId (商品ID): +UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT. (NotNull)
      * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Unit = {
+    def acceptUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): PurchaseCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
         val cb: BsPurchaseCB = this;
         cb.query().setMemberId_Equal(memberId);cb.query().setProductId_Equal(productId);cb.query().setPurchaseDatetime_Equal(purchaseDatetime);
+        return this.asInstanceOf[PurchaseCB];
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

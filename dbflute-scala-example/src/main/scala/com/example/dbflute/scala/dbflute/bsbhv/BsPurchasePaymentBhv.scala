@@ -242,8 +242,7 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsPK(purchasePaymentId: Long): PurchasePaymentCB = {
         assertObjectNotNull("purchasePaymentId", purchasePaymentId);
-        val cb = newConditionBean(); cb.acceptPrimaryKey(purchasePaymentId);
-        return cb;
+        return newConditionBean().acceptPK(purchasePaymentId);
     }
 
     // ===================================================================================
@@ -313,8 +312,8 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (PurchasePaymentCB) => Unit)(implicit loaderCall: (LoaderOfPurchasePayment) => Unit = null): PagingResultBean[DblePurchasePayment] = {
-        return facadeSelectPage(callbackCB(cbCall))(loaderCall); // #pending use toImmutableEntityList()
+    def selectPage(cbCall: (PurchasePaymentCB) => Unit)(implicit loaderCall: (LoaderOfPurchasePayment) => Unit = null): PagingView[PurchasePayment] = {
+        return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
     protected def facadeSelectPage(cb: PurchasePaymentCB)(loaderCall: (LoaderOfPurchasePayment) => Unit = null): PagingResultBean[DblePurchasePayment] = {
@@ -991,6 +990,8 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DblePurchasePayment] = { classOf[DblePurchasePayment] }
     protected def newMbleEntity(): MblePurchasePayment = { new MblePurchasePayment() }
+    protected def newPagingView(rb: PagingResultBean[DblePurchasePayment]): PagingView[PurchasePayment] =
+    { new PagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (PurchasePaymentCB) => Unit): PurchasePaymentCB = {
         assertObjectNotNull("cbCall", cbCall);

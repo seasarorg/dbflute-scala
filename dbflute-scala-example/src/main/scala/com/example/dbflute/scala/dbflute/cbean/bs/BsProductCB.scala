@@ -83,21 +83,25 @@ class BsProductCB extends AbstractConditionBean {
     /**
      * Accept the query condition of primary key as equal.
      * @param productId : PK, ID, NotNull, INTEGER(10). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptPrimaryKey(productId: Integer): Unit = {
+    def acceptPK(productId: Integer): ProductCB = {
         assertObjectNotNull("productId", productId);
         val cb: BsProductCB = this;
         cb.query().setProductId_Equal(productId);
+        return this.asInstanceOf[ProductCB];
     }
 
     /**
      * Accept the query condition of unique key as equal.
      * @param productHandleCode (商品ハンドルコード): UQ, NotNull, VARCHAR(100). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptUniqueOf(productHandleCode: String): Unit = {
+    def acceptUniqueOf(productHandleCode: String): ProductCB = {
         assertObjectNotNull("productHandleCode", productHandleCode);
         val cb: BsProductCB = this;
         cb.query().setProductHandleCode_Equal(productHandleCode);
+        return this.asInstanceOf[ProductCB];
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {

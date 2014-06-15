@@ -61,6 +61,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
+    /** Simple Member Select */
+    val PATH_selectSimpleMember: String = "selectSimpleMember";
     /*df:endQueryPath*/
 
     // ===================================================================================
@@ -242,8 +244,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsPK(memberId: Integer): MemberCB = {
         assertObjectNotNull("memberId", memberId);
-        val cb = newConditionBean(); cb.acceptPrimaryKey(memberId);
-        return cb;
+        return newConditionBean().acceptPK(memberId);
     }
 
     /**
@@ -268,8 +269,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     protected def xprepareCBAsUniqueOf(memberAccount: String): MemberCB = {
         assertObjectNotNull("memberAccount", memberAccount);
-        val cb: MemberCB = newConditionBean(); cb.acceptUniqueOf(memberAccount);
-        return cb;
+        return newConditionBean().acceptUniqueOf(memberAccount);
     }
 
     // ===================================================================================
@@ -339,8 +339,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): PagingResultBean[DbleMember] = {
-        return facadeSelectPage(callbackCB(cbCall))(loaderCall); // #pending use toImmutableEntityList()
+    def selectPage(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): PagingView[Member] = {
+        return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
     protected def facadeSelectPage(cb: MemberCB)(loaderCall: (LoaderOfMember) => Unit = null): PagingResultBean[DbleMember] = {
@@ -1264,6 +1264,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleMember] = { classOf[DbleMember] }
     protected def newMbleEntity(): MbleMember = { new MbleMember() }
+    protected def newPagingView(rb: PagingResultBean[DbleMember]): PagingView[Member] =
+    { new PagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (MemberCB) => Unit): MemberCB = {
         assertObjectNotNull("cbCall", cbCall);

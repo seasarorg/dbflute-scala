@@ -84,11 +84,13 @@ class BsPurchasePaymentCB extends AbstractConditionBean {
     /**
      * Accept the query condition of primary key as equal.
      * @param purchasePaymentId (購入支払ID): PK, ID, NotNull, BIGINT(19). (NotNull)
+     * @return this. (NotNull)
      */
-    def acceptPrimaryKey(purchasePaymentId: Long): Unit = {
+    def acceptPK(purchasePaymentId: Long): PurchasePaymentCB = {
         assertObjectNotNull("purchasePaymentId", purchasePaymentId);
         val cb: BsPurchasePaymentCB = this;
         cb.query().setPurchasePaymentId_Equal(purchasePaymentId);
+        return this.asInstanceOf[PurchasePaymentCB];
     }
 
     def addOrderBy_PK_Asc(): ConditionBean = {
