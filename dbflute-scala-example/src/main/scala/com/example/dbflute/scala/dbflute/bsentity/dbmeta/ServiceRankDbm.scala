@@ -92,7 +92,7 @@ object ServiceRankDbm extends AbstractDBMeta {
     //                                                                          ==========
     protected val _tableDbName: String = "SERVICE_RANK";
     protected val _tablePropertyName: String = "serviceRank";
-    protected val _tableSqlName: TableSqlName = new TableSqlName("EXAMPLEDB.PUBLIC.SERVICE_RANK", _tableDbName);
+    protected val _tableSqlName: TableSqlName = new TableSqlName("SERVICE_RANK", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getTableSqlNameFilter()); }
     def getTableDbName(): String = { return _tableDbName; }
     def getTablePropertyName(): String = { return _tablePropertyName; }

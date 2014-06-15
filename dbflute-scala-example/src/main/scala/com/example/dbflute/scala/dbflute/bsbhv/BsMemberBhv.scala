@@ -1181,9 +1181,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
     }
 
-    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[MemberBhv]): ScrOutsideSqlBasicExecutor[MemberBhv] = {
-        return new ScrOutsideSqlBasicExecutor(executor);
-    }
+    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[MemberBhv]): ScrOutsideSqlBasicExecutor[MemberBhv] =
+    { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
     //                                                                     Delegate Method

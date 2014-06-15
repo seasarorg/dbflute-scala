@@ -1170,9 +1170,8 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
         return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
     }
 
-    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[PurchaseBhv]): ScrOutsideSqlBasicExecutor[PurchaseBhv] = {
-        return new ScrOutsideSqlBasicExecutor(executor);
-    }
+    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[PurchaseBhv]): ScrOutsideSqlBasicExecutor[PurchaseBhv] =
+    { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
     //                                                                     Delegate Method

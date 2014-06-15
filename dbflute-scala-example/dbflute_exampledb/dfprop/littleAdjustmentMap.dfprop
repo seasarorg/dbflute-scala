@@ -42,7 +42,7 @@ map:{
     #   [false]
     #     Non.
     #
-    ; isAvailableAddingSchemaToTableSqlName = true
+    #; isAvailableAddingSchemaToTableSqlName = false
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,7 +54,7 @@ map:{
     #   [false]
     #     Non.
     #
-    ; isAvailableAddingCatalogToTableSqlName = true
+    #; isAvailableAddingCatalogToTableSqlName = false
     # - - - - - - - - - -/
 
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

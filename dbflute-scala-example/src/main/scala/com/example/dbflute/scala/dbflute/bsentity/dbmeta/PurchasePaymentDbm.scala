@@ -112,7 +112,7 @@ object PurchasePaymentDbm extends AbstractDBMeta {
     //                                                                          ==========
     protected val _tableDbName: String = "PURCHASE_PAYMENT";
     protected val _tablePropertyName: String = "purchasePayment";
-    protected val _tableSqlName: TableSqlName = new TableSqlName("EXAMPLEDB.PUBLIC.PURCHASE_PAYMENT", _tableDbName);
+    protected val _tableSqlName: TableSqlName = new TableSqlName("PURCHASE_PAYMENT", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getTableSqlNameFilter()); }
     def getTableDbName(): String = { return _tableDbName; }
     def getTablePropertyName(): String = { return _tablePropertyName; }

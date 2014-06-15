@@ -78,7 +78,7 @@ object MemberStatusDbm extends AbstractDBMeta {
     //                                                                          ==========
     protected val _tableDbName: String = "MEMBER_STATUS";
     protected val _tablePropertyName: String = "memberStatus";
-    protected val _tableSqlName: TableSqlName = new TableSqlName("EXAMPLEDB.PUBLIC.MEMBER_STATUS", _tableDbName);
+    protected val _tableSqlName: TableSqlName = new TableSqlName("MEMBER_STATUS", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getTableSqlNameFilter()); }
     def getTableDbName(): String = { return _tableDbName; }
     def getTablePropertyName(): String = { return _tablePropertyName; }
