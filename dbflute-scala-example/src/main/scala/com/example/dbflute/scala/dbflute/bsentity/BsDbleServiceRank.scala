@@ -15,6 +15,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -67,7 +68,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleServiceRank extends Entity with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -109,8 +110,7 @@ abstract class BsDbleServiceRank extends Entity with Serializable with Cloneable
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: ServiceRank): DbleServiceRank = {
         setServiceRankCodeAsServiceRank(immu.serviceRankCode);
@@ -118,13 +118,20 @@ abstract class BsDbleServiceRank extends Entity with Serializable with Cloneable
         setServicePointIncidence(immu.servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
         setNewAcceptableFlgAsFlg(immu.newAcceptableFlg);
         setDescription(immu.description);
-        setDisplayOrder(int2Integer(immu.displayOrder));
+        setDisplayOrder(immu.displayOrder);
         setMemberServiceList(immu.memberServiceList.map(new DbleMemberService().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleServiceRank];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): ServiceRank = {
+        return new ServiceRank(this.asInstanceOf[DbleServiceRank]);
     }
 
     // ===================================================================================
@@ -476,13 +483,6 @@ abstract class BsDbleServiceRank extends Entity with Serializable with Cloneable
     }
 
     // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): ServiceRank = {
-        return new ServiceRank(this.asInstanceOf[DbleServiceRank]);
-    }
-
-    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -503,9 +503,9 @@ abstract class BsDbleServiceRank extends Entity with Serializable with Cloneable
         obj match {
             case obj: BsDbleServiceRank => {
                 val other: BsDbleServiceRank = obj.asInstanceOf[BsDbleServiceRank];
-                {
+                {(
                      xSV(getServiceRankCode(), other.getServiceRankCode())
-                }
+                )}
             }
             case _ => false
         }

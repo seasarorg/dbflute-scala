@@ -15,6 +15,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -63,7 +64,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleMemberStatus extends Entity with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -99,20 +100,26 @@ abstract class BsDbleMemberStatus extends Entity with Serializable with Cloneabl
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: MemberStatus): DbleMemberStatus = {
         setMemberStatusCodeAsMemberStatus(immu.memberStatusCode);
         setMemberStatusName(immu.memberStatusName);
         setDescription(immu.description);
-        setDisplayOrder(int2Integer(immu.displayOrder));
+        setDisplayOrder(immu.displayOrder);
         setMemberList(immu.memberList.map(new DbleMember().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleMemberStatus];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): MemberStatus = {
+        return new MemberStatus(this.asInstanceOf[DbleMemberStatus]);
     }
 
     // ===================================================================================
@@ -346,13 +353,6 @@ abstract class BsDbleMemberStatus extends Entity with Serializable with Cloneabl
     }
 
     // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): MemberStatus = {
-        return new MemberStatus(this.asInstanceOf[DbleMemberStatus]);
-    }
-
-    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -373,9 +373,9 @@ abstract class BsDbleMemberStatus extends Entity with Serializable with Cloneabl
         obj match {
             case obj: BsDbleMemberStatus => {
                 val other: BsDbleMemberStatus = obj.asInstanceOf[BsDbleMemberStatus];
-                {
+                {(
                      xSV(getMemberStatusCode(), other.getMemberStatusCode())
-                }
+                )}
             }
             case _ => false
         }

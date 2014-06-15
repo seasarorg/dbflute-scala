@@ -1,8 +1,10 @@
 package com.example.dbflute.scala.dbflute.bsbhv.pmbean;
 
+import scala.collection.JavaConverters._;
+
 import java.util._;
 
-import org.seasar.dbflute.outsidesql.typed._;
+import org.seasar.dbflute.immutable.outsidesql._;
 import org.seasar.dbflute.jdbc._;
 import org.seasar.dbflute.jdbc.ParameterUtil.ShortCharHandlingMode;
 import org.seasar.dbflute.cbean.coption.LikeSearchOption;
@@ -18,7 +20,7 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * This is related to "<span style="color: #AD4747">selectSimpleMember</span>" on MemberBhv.
  * @author DBFlute(AutoGenerator)
  */
- class BsSimpleMemberPmb extends ListHandlingPmb[MemberBhv, DbleSimpleMember] with EntityHandlingPmb[MemberBhv, DbleSimpleMember] with FetchBean {
+ class BsSimpleMemberPmb extends ImmutableListHandlingPmb[MemberBhv, SimpleMember, DbleSimpleMember] with ImmutableEntityHandlingPmb[MemberBhv, SimpleMember, DbleSimpleMember] with FetchBean {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -41,12 +43,6 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    /**
-     * Constructor for the typed parameter-bean of SimpleMember. <br />
-     * This is related to "<span style="color: #AD4747">selectSimpleMember</span>" on MemberBhv.
-     */
-    {
-    }
 
     // ===================================================================================
     //                                                                Typed Implementation
@@ -54,17 +50,13 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
     /**
      * {@inheritDoc}
      */
-    def getOutsideSqlPath(): String = {
-        return "selectSimpleMember";
-    }
+    def getOutsideSqlPath(): String = { "selectSimpleMember" }
 
     /**
      * Get the type of an entity for result. (implementation)
      * @return The type instance of an entity, customize entity. (NotNull)
      */
-    def getEntityType(): Class[DbleSimpleMember] = {
-        return classOf[DbleSimpleMember];
-    }
+    def getEntityType(): Class[DbleSimpleMember] = { classOf[DbleSimpleMember] }
 
     // ===================================================================================
     //                                                                       Safety Result
@@ -72,24 +64,18 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
     /**
      * {@inheritDoc}
      */
-    def checkSafetyResult(safetyMaxResultSize: Int): Unit = {
-        _safetyMaxResultSize = safetyMaxResultSize;
-    }
+    def checkSafetyResult(safetyMaxResultSize: Int): Unit = { _safetyMaxResultSize = safetyMaxResultSize }
 
     /**
      * {@inheritDoc}
      */
-    def getSafetyMaxResultSize(): Int = {
-        return _safetyMaxResultSize;
-    }
+    def getSafetyMaxResultSize(): Int = { _safetyMaxResultSize }
 
     // ===================================================================================
     //                                                                       Assist Helper
     //                                                                       =============
     protected def filterStringParameter(value: String): String = {
-        if (isEmptyStringParameterAllowed()) {
-            return value;
-        }
+        if (isEmptyStringParameterAllowed()) { return value; }
         return convertEmptyToNull(value);
     }
 
@@ -108,6 +94,14 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
 
     protected def getShortCharHandlingMode(propertyName: String, value: String, size: Integer): ShortCharHandlingMode = {
         return ShortCharHandlingMode.EXCEPTION;
+    }
+
+    protected def newArrayList[ELEMENT](elements: ELEMENT*): List[ELEMENT] = { // might be called by option handling
+        return elements.asJava
+    }
+
+    protected def toNumber[NUMBER <: Number](obj: Object, tp: Class[NUMBER]): NUMBER = { // might be called by option handling
+        return DfTypeUtil.toNumber(obj, tp).asInstanceOf[NUMBER];
     }
 
     protected def toBoolean(obj: Object): Boolean = {
@@ -151,7 +145,7 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
         sb.append(xbuildColumnString());
         return sb.toString();
     }
-    private def xbuildColumnString(): String = {
+    protected def xbuildColumnString(): String = {
         val dm: String = ", ";
         val sb: StringBuilder = new StringBuilder();
         sb.append(dm).append(_memberId);
@@ -221,5 +215,4 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
     def setBirthdate(birthdate: Date): Unit = {
         _birthdate = birthdate;
     }
-
 }

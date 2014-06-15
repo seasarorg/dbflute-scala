@@ -75,7 +75,7 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
         if (!servicePointIncidence.equals(this.servicePointIncidence)) { newDble.setServicePointIncidence(servicePointIncidence.asInstanceOf[java.math.BigDecimal]) }
         if (!newAcceptableFlg.equals(this.newAcceptableFlg)) { newDble.setNewAcceptableFlgAsFlg(newAcceptableFlg) }
         if (!description.equals(this.description)) { newDble.setDescription(description) }
-        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(int2Integer(displayOrder)) }
+        if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(displayOrder) }
         new ServiceRank(newDble)
     }
 
@@ -210,9 +210,9 @@ abstract class BsServiceRank(dble: DbleServiceRank) extends Serializable {
         obj match {
             case obj: BsServiceRank => {
                 val other: BsServiceRank = obj.asInstanceOf[BsServiceRank];
-                {
+                {(
                      xSV(serviceRankCode, other.serviceRankCode)
-                }
+                )}
             }
             case _ => false
         }
@@ -539,5 +539,5 @@ abstract class BsMbleServiceRank {
      * [set] (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (NullAllowed: null update allowed for no constraint)
      */
-    def displayOrder_=(displayOrder: Int) = { dble.setDisplayOrder(int2Integer(displayOrder)) }
+    def displayOrder_=(displayOrder: Int) = { dble.setDisplayOrder(displayOrder) }
 }

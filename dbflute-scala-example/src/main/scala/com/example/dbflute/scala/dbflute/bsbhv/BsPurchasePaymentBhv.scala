@@ -312,7 +312,7 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (PurchasePaymentCB) => Unit)(implicit loaderCall: (LoaderOfPurchasePayment) => Unit = null): PagingView[PurchasePayment] = {
+    def selectPage(cbCall: (PurchasePaymentCB) => Unit)(implicit loaderCall: (LoaderOfPurchasePayment) => Unit = null): ScrPagingView[PurchasePayment] = {
         return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
@@ -903,8 +903,12 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): OutsideSqlBasicExecutor[PurchasePaymentBhv] = {
-        return doOutsideSql();
+    def outsideSql(): ScrOutsideSqlBasicExecutor[PurchasePaymentBhv] = {
+        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    }
+
+    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[PurchasePaymentBhv]): ScrOutsideSqlBasicExecutor[PurchasePaymentBhv] = {
+        return new ScrOutsideSqlBasicExecutor(executor);
     }
 
     // ===================================================================================
@@ -990,8 +994,8 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DblePurchasePayment] = { classOf[DblePurchasePayment] }
     protected def newMbleEntity(): MblePurchasePayment = { new MblePurchasePayment() }
-    protected def newPagingView(rb: PagingResultBean[DblePurchasePayment]): PagingView[PurchasePayment] =
-    { new PagingView(toImmutableEntityList(rb), rb) }
+    protected def newPagingView(rb: PagingResultBean[DblePurchasePayment]): ScrPagingView[PurchasePayment] =
+    { new ScrPagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (PurchasePaymentCB) => Unit): PurchasePaymentCB = {
         assertObjectNotNull("cbCall", cbCall);

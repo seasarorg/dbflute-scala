@@ -337,7 +337,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (MemberStatusCB) => Unit)(implicit loaderCall: (LoaderOfMemberStatus) => Unit = null): PagingView[MemberStatus] = {
+    def selectPage(cbCall: (MemberStatusCB) => Unit)(implicit loaderCall: (LoaderOfMemberStatus) => Unit = null): ScrPagingView[MemberStatus] = {
         return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
@@ -1012,8 +1012,12 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): OutsideSqlBasicExecutor[MemberStatusBhv] = {
-        return doOutsideSql();
+    def outsideSql(): ScrOutsideSqlBasicExecutor[MemberStatusBhv] = {
+        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    }
+
+    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[MemberStatusBhv]): ScrOutsideSqlBasicExecutor[MemberStatusBhv] = {
+        return new ScrOutsideSqlBasicExecutor(executor);
     }
 
     // ===================================================================================
@@ -1099,8 +1103,8 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleMemberStatus] = { classOf[DbleMemberStatus] }
     protected def newMbleEntity(): MbleMemberStatus = { new MbleMemberStatus() }
-    protected def newPagingView(rb: PagingResultBean[DbleMemberStatus]): PagingView[MemberStatus] =
-    { new PagingView(toImmutableEntityList(rb), rb) }
+    protected def newPagingView(rb: PagingResultBean[DbleMemberStatus]): ScrPagingView[MemberStatus] =
+    { new ScrPagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (MemberStatusCB) => Unit): MemberStatusCB = {
         assertObjectNotNull("cbCall", cbCall);

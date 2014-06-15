@@ -16,6 +16,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.exentity.customize._;
 
 /**
@@ -62,7 +63,7 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleSimpleMember extends Entity with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -98,8 +99,7 @@ abstract class BsDbleSimpleMember extends Entity with Serializable with Cloneabl
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: SimpleMember): DbleSimpleMember = {
         setMemberId(immu.memberId.map(int2Integer(_)).orNull);
@@ -111,6 +111,13 @@ abstract class BsDbleSimpleMember extends Entity with Serializable with Cloneabl
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleSimpleMember];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): SimpleMember = {
+        return new SimpleMember(this.asInstanceOf[DbleSimpleMember]);
     }
 
     // ===================================================================================
@@ -214,13 +221,6 @@ abstract class BsDbleSimpleMember extends Entity with Serializable with Cloneabl
      */
     def createdBySelect(): Boolean = {
         return __createdBySelect;
-    }
-
-    // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): SimpleMember = {
-        return new SimpleMember(this.asInstanceOf[DbleSimpleMember]);
     }
 
     // ===================================================================================

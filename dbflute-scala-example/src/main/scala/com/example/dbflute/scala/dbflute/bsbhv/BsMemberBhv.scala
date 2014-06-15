@@ -339,7 +339,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): PagingView[Member] = {
+    def selectPage(cbCall: (MemberCB) => Unit)(implicit loaderCall: (LoaderOfMember) => Unit = null): ScrPagingView[Member] = {
         return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
@@ -1177,8 +1177,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): OutsideSqlBasicExecutor[MemberBhv] = {
-        return doOutsideSql();
+    def outsideSql(): ScrOutsideSqlBasicExecutor[MemberBhv] = {
+        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    }
+
+    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[MemberBhv]): ScrOutsideSqlBasicExecutor[MemberBhv] = {
+        return new ScrOutsideSqlBasicExecutor(executor);
     }
 
     // ===================================================================================
@@ -1264,8 +1268,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleMember] = { classOf[DbleMember] }
     protected def newMbleEntity(): MbleMember = { new MbleMember() }
-    protected def newPagingView(rb: PagingResultBean[DbleMember]): PagingView[Member] =
-    { new PagingView(toImmutableEntityList(rb), rb) }
+    protected def newPagingView(rb: PagingResultBean[DbleMember]): ScrPagingView[Member] =
+    { new ScrPagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (MemberCB) => Unit): MemberCB = {
         assertObjectNotNull("cbCall", cbCall);

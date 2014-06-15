@@ -337,7 +337,7 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected page. (NotNull: if no data, returns bean as empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectPage(cbCall: (MemberServiceCB) => Unit)(implicit loaderCall: (LoaderOfMemberService) => Unit = null): PagingView[MemberService] = {
+    def selectPage(cbCall: (MemberServiceCB) => Unit)(implicit loaderCall: (LoaderOfMemberService) => Unit = null): ScrPagingView[MemberService] = {
         return newPagingView(facadeSelectPage(callbackCB(cbCall))(loaderCall));
     }
 
@@ -1086,8 +1086,12 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): OutsideSqlBasicExecutor[MemberServiceBhv] = {
-        return doOutsideSql();
+    def outsideSql(): ScrOutsideSqlBasicExecutor[MemberServiceBhv] = {
+        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    }
+
+    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[MemberServiceBhv]): ScrOutsideSqlBasicExecutor[MemberServiceBhv] = {
+        return new ScrOutsideSqlBasicExecutor(executor);
     }
 
     // ===================================================================================
@@ -1173,8 +1177,8 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable {
     //                                                                       =============
     protected def typeOfSelectedEntity(): Class[DbleMemberService] = { classOf[DbleMemberService] }
     protected def newMbleEntity(): MbleMemberService = { new MbleMemberService() }
-    protected def newPagingView(rb: PagingResultBean[DbleMemberService]): PagingView[MemberService] =
-    { new PagingView(toImmutableEntityList(rb), rb) }
+    protected def newPagingView(rb: PagingResultBean[DbleMemberService]): ScrPagingView[MemberService] =
+    { new ScrPagingView(toImmutableEntityList(rb), rb) }
 
     protected def callbackCB(cbCall: (MemberServiceCB) => Unit): MemberServiceCB = {
         assertObjectNotNull("cbCall", cbCall);

@@ -82,18 +82,18 @@ abstract class BsPurchase(dble: DblePurchase) extends Serializable {
         val newDble = new DblePurchase
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
-        if (!purchaseId.equals(this.purchaseId)) { newDble.setPurchaseId(long2Long(purchaseId)) }
-        if (!memberId.equals(this.memberId)) { newDble.setMemberId(int2Integer(memberId)) }
-        if (!productId.equals(this.productId)) { newDble.setProductId(int2Integer(productId)) }
+        if (!purchaseId.equals(this.purchaseId)) { newDble.setPurchaseId(purchaseId) }
+        if (!memberId.equals(this.memberId)) { newDble.setMemberId(memberId) }
+        if (!productId.equals(this.productId)) { newDble.setProductId(productId) }
         if (!purchaseDatetime.equals(this.purchaseDatetime)) { newDble.setPurchaseDatetime(purchaseDatetime) }
-        if (!purchaseCount.equals(this.purchaseCount)) { newDble.setPurchaseCount(int2Integer(purchaseCount)) }
-        if (!purchasePrice.equals(this.purchasePrice)) { newDble.setPurchasePrice(int2Integer(purchasePrice)) }
+        if (!purchaseCount.equals(this.purchaseCount)) { newDble.setPurchaseCount(purchaseCount) }
+        if (!purchasePrice.equals(this.purchasePrice)) { newDble.setPurchasePrice(purchasePrice) }
         if (!paymentCompleteFlg.equals(this.paymentCompleteFlg)) { newDble.setPaymentCompleteFlgAsFlg(paymentCompleteFlg) }
         if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
         if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
         if (!updateDatetime.equals(this.updateDatetime)) { newDble.setUpdateDatetime(updateDatetime) }
         if (!updateUser.equals(this.updateUser)) { newDble.setUpdateUser(updateUser) }
-        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(long2Long(versionNo)) }
+        if (!versionNo.equals(this.versionNo)) { newDble.setVersionNo(versionNo) }
         new Purchase(newDble)
     }
 
@@ -191,9 +191,9 @@ abstract class BsPurchase(dble: DblePurchase) extends Serializable {
         obj match {
             case obj: BsPurchase => {
                 val other: BsPurchase = obj.asInstanceOf[BsPurchase];
-                {
+                {(
                      xSV(purchaseId, other.purchaseId)
-                }
+                )}
             }
             case _ => false
         }
@@ -423,7 +423,7 @@ abstract class BsMblePurchase {
      * [set] PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)} <br />
      * @param purchaseId The value of the column 'PURCHASE_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def purchaseId_=(purchaseId: Long) = { dble.setPurchaseId(long2Long(purchaseId)) }
+    def purchaseId_=(purchaseId: Long) = { dble.setPurchaseId(purchaseId) }
 
     /**
      * [get] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
@@ -435,7 +435,7 @@ abstract class BsMblePurchase {
      * [set] (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER} <br />
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def memberId_=(memberId: Int) = { dble.setMemberId(int2Integer(memberId)) }
+    def memberId_=(memberId: Int) = { dble.setMemberId(memberId) }
 
     /**
      * [get] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
@@ -447,7 +447,7 @@ abstract class BsMblePurchase {
      * [set] (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT} <br />
      * @param productId The value of the column 'PRODUCT_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def productId_=(productId: Int) = { dble.setProductId(int2Integer(productId)) }
+    def productId_=(productId: Int) = { dble.setProductId(productId) }
 
     /**
      * [get] (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)} <br />
@@ -471,7 +471,7 @@ abstract class BsMblePurchase {
      * [set] (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)} <br />
      * @param purchaseCount The value of the column 'PURCHASE_COUNT'. (NullAllowed: null update allowed for no constraint)
      */
-    def purchaseCount_=(purchaseCount: Int) = { dble.setPurchaseCount(int2Integer(purchaseCount)) }
+    def purchaseCount_=(purchaseCount: Int) = { dble.setPurchaseCount(purchaseCount) }
 
     /**
      * [get] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
@@ -483,7 +483,7 @@ abstract class BsMblePurchase {
      * [set] (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)} <br />
      * @param purchasePrice The value of the column 'PURCHASE_PRICE'. (NullAllowed: null update allowed for no constraint)
      */
-    def purchasePrice_=(purchasePrice: Int) = { dble.setPurchasePrice(int2Integer(purchasePrice)) }
+    def purchasePrice_=(purchasePrice: Int) = { dble.setPurchasePrice(purchasePrice) }
 
     /**
      * [get] (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg} <br />
@@ -555,5 +555,5 @@ abstract class BsMblePurchase {
      * [set] VERSION_NO: {NotNull, BIGINT(19)} <br />
      * @param versionNo The value of the column 'VERSION_NO'. (NullAllowed: null update allowed for no constraint)
      */
-    def versionNo_=(versionNo: Long) = { dble.setVersionNo(long2Long(versionNo)) }
+    def versionNo_=(versionNo: Long) = { dble.setVersionNo(versionNo) }
 }

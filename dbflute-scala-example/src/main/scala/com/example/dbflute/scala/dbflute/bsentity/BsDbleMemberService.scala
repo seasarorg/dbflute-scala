@@ -15,6 +15,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
@@ -74,7 +75,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBableEntity[MemberService] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -128,19 +129,18 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serial
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: MemberService): DbleMemberService = {
-        setMemberServiceId(int2Integer(immu.memberServiceId));
-        setMemberId(int2Integer(immu.memberId));
-        setServicePointCount(int2Integer(immu.servicePointCount));
+        setMemberServiceId(immu.memberServiceId);
+        setMemberId(immu.memberId);
+        setServicePointCount(immu.servicePointCount);
         setServiceRankCodeAsServiceRank(immu.serviceRankCode);
         setRegisterDatetime(immu.registerDatetime);
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setVersionNo(long2Long(immu.versionNo));
+        setVersionNo(immu.versionNo);
         setMember(immu.member.map(new DbleMember().acceptImmutable(_)))
         setServiceRank(immu.serviceRank.map(new DbleServiceRank().acceptImmutable(_)))
         __uniqueDrivenProperties.clear();
@@ -148,6 +148,13 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serial
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleMemberService];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): MemberService = {
+        return new MemberService(this.asInstanceOf[DbleMemberService]);
     }
 
     // ===================================================================================
@@ -469,13 +476,6 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serial
     }
 
     // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): MemberService = {
-        return new MemberService(this.asInstanceOf[DbleMemberService]);
-    }
-
-    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -496,9 +496,9 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with Serial
         obj match {
             case obj: BsDbleMemberService => {
                 val other: BsDbleMemberService = obj.asInstanceOf[BsDbleMemberService];
-                {
+                {(
                      xSV(getMemberServiceId(), other.getMemberServiceId())
-                }
+                )}
             }
             case _ => false
         }

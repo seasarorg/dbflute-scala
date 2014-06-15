@@ -75,8 +75,8 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
         val newDble = new DblePurchasePayment
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
-        if (!purchasePaymentId.equals(this.purchasePaymentId)) { newDble.setPurchasePaymentId(long2Long(purchasePaymentId)) }
-        if (!purchaseId.equals(this.purchaseId)) { newDble.setPurchaseId(long2Long(purchaseId)) }
+        if (!purchasePaymentId.equals(this.purchasePaymentId)) { newDble.setPurchasePaymentId(purchasePaymentId) }
+        if (!purchaseId.equals(this.purchaseId)) { newDble.setPurchaseId(purchaseId) }
         if (!paymentAmount.equals(this.paymentAmount)) { newDble.setPaymentAmount(paymentAmount.asInstanceOf[java.math.BigDecimal]) }
         if (!paymentDatetime.equals(this.paymentDatetime)) { newDble.setPaymentDatetime(paymentDatetime) }
         if (!paymentMethodCode.equals(this.paymentMethodCode)) { newDble.setPaymentMethodCode(paymentMethodCode) }
@@ -126,9 +126,9 @@ abstract class BsPurchasePayment(dble: DblePurchasePayment) extends Serializable
         obj match {
             case obj: BsPurchasePayment => {
                 val other: BsPurchasePayment = obj.asInstanceOf[BsPurchasePayment];
-                {
+                {(
                      xSV(purchasePaymentId, other.purchasePaymentId)
-                }
+                )}
             }
             case _ => false
         }
@@ -271,7 +271,7 @@ abstract class BsMblePurchasePayment {
      * [set] (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)} <br />
      * @param purchasePaymentId The value of the column 'PURCHASE_PAYMENT_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def purchasePaymentId_=(purchasePaymentId: Long) = { dble.setPurchasePaymentId(long2Long(purchasePaymentId)) }
+    def purchasePaymentId_=(purchasePaymentId: Long) = { dble.setPurchasePaymentId(purchasePaymentId) }
 
     /**
      * [get] (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE} <br />
@@ -283,7 +283,7 @@ abstract class BsMblePurchasePayment {
      * [set] (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE} <br />
      * @param purchaseId The value of the column 'PURCHASE_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def purchaseId_=(purchaseId: Long) = { dble.setPurchaseId(long2Long(purchaseId)) }
+    def purchaseId_=(purchaseId: Long) = { dble.setPurchaseId(purchaseId) }
 
     /**
      * [get] (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)} <br />

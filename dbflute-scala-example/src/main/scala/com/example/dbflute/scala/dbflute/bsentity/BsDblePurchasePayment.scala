@@ -15,6 +15,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -73,7 +74,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBableEntity[PurchasePayment] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -127,12 +128,11 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Seri
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: PurchasePayment): DblePurchasePayment = {
-        setPurchasePaymentId(long2Long(immu.purchasePaymentId));
-        setPurchaseId(long2Long(immu.purchaseId));
+        setPurchasePaymentId(immu.purchasePaymentId);
+        setPurchaseId(immu.purchaseId);
         setPaymentAmount(immu.paymentAmount.asInstanceOf[java.math.BigDecimal]);
         setPaymentDatetime(immu.paymentDatetime);
         setPaymentMethodCode(immu.paymentMethodCode);
@@ -146,6 +146,13 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Seri
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DblePurchasePayment];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): PurchasePayment = {
+        return new PurchasePayment(this.asInstanceOf[DblePurchasePayment]);
     }
 
     // ===================================================================================
@@ -304,13 +311,6 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Seri
     }
 
     // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): PurchasePayment = {
-        return new PurchasePayment(this.asInstanceOf[DblePurchasePayment]);
-    }
-
-    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -331,9 +331,9 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with Seri
         obj match {
             case obj: BsDblePurchasePayment => {
                 val other: BsDblePurchasePayment = obj.asInstanceOf[BsDblePurchasePayment];
-                {
+                {(
                      xSV(getPurchasePaymentId(), other.getPurchasePaymentId())
-                }
+                )}
             }
             case _ => false
         }

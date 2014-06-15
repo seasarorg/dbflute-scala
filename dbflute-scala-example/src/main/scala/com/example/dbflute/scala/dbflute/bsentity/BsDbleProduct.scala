@@ -15,6 +15,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -77,7 +78,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleProduct extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity[Product] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -137,27 +138,33 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with Serializable
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: Product): DbleProduct = {
-        setProductId(int2Integer(immu.productId));
+        setProductId(immu.productId);
         setProductName(immu.productName);
         setProductHandleCode(immu.productHandleCode);
         setProductCategoryCode(immu.productCategoryCode);
         setProductStatusCode(immu.productStatusCode);
-        setRegularPrice(int2Integer(immu.regularPrice));
+        setRegularPrice(immu.regularPrice);
         setRegisterDatetime(immu.registerDatetime);
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setVersionNo(long2Long(immu.versionNo));
+        setVersionNo(immu.versionNo);
         setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleProduct];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): Product = {
+        return new Product(this.asInstanceOf[DbleProduct]);
     }
 
     // ===================================================================================
@@ -328,13 +335,6 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with Serializable
     }
 
     // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): Product = {
-        return new Product(this.asInstanceOf[DbleProduct]);
-    }
-
-    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -355,9 +355,9 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with Serializable
         obj match {
             case obj: BsDbleProduct => {
                 val other: BsDbleProduct = obj.asInstanceOf[BsDbleProduct];
-                {
+                {(
                      xSV(getProductId(), other.getProductId())
-                }
+                )}
             }
             case _ => false
         }

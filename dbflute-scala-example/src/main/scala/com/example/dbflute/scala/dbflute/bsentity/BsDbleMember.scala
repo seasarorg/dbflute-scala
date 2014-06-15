@@ -16,6 +16,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
@@ -79,7 +80,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[Member] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -139,11 +140,10 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: Member): DbleMember = {
-        setMemberId(int2Integer(immu.memberId));
+        setMemberId(immu.memberId);
         setMemberName(immu.memberName);
         setMemberAccount(immu.memberAccount);
         setMemberStatusCodeAsMemberStatus(immu.memberStatusCode);
@@ -153,7 +153,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setVersionNo(long2Long(immu.versionNo));
+        setVersionNo(immu.versionNo);
         setMemberStatus(immu.memberStatus.map(new DbleMemberStatus().acceptImmutable(_)))
         setMemberServiceAsOne(immu.memberServiceAsOne.map(new DbleMemberService().acceptImmutable(_)))
         setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutable(_)).asJava)
@@ -162,6 +162,13 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleMember];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): Member = {
+        return new Member(this.asInstanceOf[DbleMember]);
     }
 
     // ===================================================================================
@@ -473,13 +480,6 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
     }
 
     // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): Member = {
-        return new Member(this.asInstanceOf[DbleMember]);
-    }
-
-    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -500,9 +500,9 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with Serializable 
         obj match {
             case obj: BsDbleMember => {
                 val other: BsDbleMember = obj.asInstanceOf[BsDbleMember];
-                {
+                {(
                      xSV(getMemberId(), other.getMemberId())
-                }
+                )}
             }
             case _ => false
         }

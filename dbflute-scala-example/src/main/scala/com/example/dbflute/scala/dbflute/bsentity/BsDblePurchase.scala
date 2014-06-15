@@ -15,6 +15,7 @@ import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
+import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
@@ -80,7 +81,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDblePurchase extends EntityDefinedCommonColumn with DBableEntity[Purchase] with Serializable with Cloneable with DfCoupleProperties {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -143,22 +144,21 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
     //                                                                           Immutable
     //                                                                           =========
     /**
-     * Accept immutable entity to initialize this.
-     * @return this. (NotNull)
+     * {@inheritDoc}
      */
     def acceptImmutable(immu: Purchase): DblePurchase = {
-        setPurchaseId(long2Long(immu.purchaseId));
-        setMemberId(int2Integer(immu.memberId));
-        setProductId(int2Integer(immu.productId));
+        setPurchaseId(immu.purchaseId);
+        setMemberId(immu.memberId);
+        setProductId(immu.productId);
         setPurchaseDatetime(immu.purchaseDatetime);
-        setPurchaseCount(int2Integer(immu.purchaseCount));
-        setPurchasePrice(int2Integer(immu.purchasePrice));
+        setPurchaseCount(immu.purchaseCount);
+        setPurchasePrice(immu.purchasePrice);
         setPaymentCompleteFlgAsFlg(immu.paymentCompleteFlg);
         setRegisterDatetime(immu.registerDatetime);
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
-        setVersionNo(long2Long(immu.versionNo));
+        setVersionNo(immu.versionNo);
         setMember(immu.member.map(new DbleMember().acceptImmutable(_)))
         setProduct(immu.product.map(new DbleProduct().acceptImmutable(_)))
         setPurchasePaymentList(immu.purchasePaymentList.map(new DblePurchasePayment().acceptImmutable(_)).asJava)
@@ -167,6 +167,13 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
         __modifiedProperties.clear();
         immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DblePurchase];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    def toImmutable(): Purchase = {
+        return new Purchase(this.asInstanceOf[DblePurchase]);
     }
 
     // ===================================================================================
@@ -484,13 +491,6 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
     }
 
     // ===================================================================================
-    //                                                                    Immutable Entity
-    //                                                                    ================
-    def toImmutable(): Purchase = {
-        return new Purchase(this.asInstanceOf[DblePurchase]);
-    }
-
-    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -511,9 +511,9 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with Serializabl
         obj match {
             case obj: BsDblePurchase => {
                 val other: BsDblePurchase = obj.asInstanceOf[BsDblePurchase];
-                {
+                {(
                      xSV(getPurchaseId(), other.getPurchaseId())
-                }
+                )}
             }
             case _ => false
         }
