@@ -61,6 +61,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
+    /** Example for ManualPaging */
+    val PATH_selectPurchaseMaxPriceMember: String = "selectPurchaseMaxPriceMember";
     /** Simple Member Select */
     val PATH_selectSimpleMember: String = "selectSimpleMember";
     /*df:endQueryPath*/

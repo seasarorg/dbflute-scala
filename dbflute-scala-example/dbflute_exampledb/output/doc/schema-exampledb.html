@@ -269,6 +269,7 @@ dl.procedurelist dd.column pre {
 <p class="mainschema">generated from <strong>EXAMPLEDB.PUBLIC</strong></p>
 <div class="navilinkarea">
 <p class="sublink"><a href="#cdef">Classification Definition</a></p>
+<p class="sublink"><a href="#outsidesql">OutsideSql List</a></p>
 <p class="sisterlink"><a href="./history-exampledb.html">to HistoryHTML</a></p>
 </div>
 
@@ -367,6 +368,7 @@ dl.procedurelist dd.column pre {
 
   <h2 id="member" title="type=TABLE, primaryKey={MEMBER_ID}, nameLength=6, columnCount=11">
 (会員)MEMBER
+&nbsp;<span class="bqpcount"><a href="#member_sql">(outsideSql=1)</a></span>
 </h2>
 <p class="tablecomment">会員のプロフィールやアカウントなどの基本情報を保持する。<br />基本的に物理削除はなく、退会したらステータスが退会会員になる。<br />ライフサイクルやカテゴリの違う会員情報は、one-to-oneなどの関連テーブルにて。</p>
 <table summary="Columns in MEMBER">
@@ -1915,6 +1917,20 @@ dl.procedurelist dd.column pre {
 	</tbody>
 </table>
 
+<h2 id="outsidesql">OutsideSql List</h2>
+<h3 id="member_sql"><a href="#member">MEMBER</a></h3>
+<dl class="bqplist">
+	<dt>(Simple&nbsp;Member&nbsp;Select)selectSimpleMember</dt>
+	<dd>
+		<pre class="commentdesc"> This SQL is the most basic example for outsideSql.
+ It uses CustomizeEntity and ParameterBean.</pre>
+	</dd>
+	<dd class="subinfo">
+		<span class="file">MemberBhv_selectSimpleMember.sql</span>
+		<span class="ctet">(df:entity)</span>
+		<span class="pmb">(df:pmb)</span>
+	</dd>
+</dl>
 <script>
 /**
  * Incremental Search contributed by makotot (Thanks!)
