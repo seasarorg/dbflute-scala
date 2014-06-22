@@ -328,10 +328,7 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     protected def xcreateQueryMember(): MemberCQ = {
         val nrp: String = resolveNextRelationPath("MEMBER_SERVICE",  "member");
         val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        val cq: MemberCQ = new MemberCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
-        cq.xsetBaseCB(_baseCB);
-        cq.xsetForeignPropertyName("member");
-        cq.xsetRelationPath(nrp); return cq;
+        return xinitRelCQ(new MemberCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "member", nrp);
     }
     protected def xsetupOuterJoinMember(): Unit = {
         val cq: MemberCQ = getConditionQueryMember();
@@ -339,9 +336,7 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
         joinOnMap.put("MEMBER_ID", "MEMBER_ID");
         registerOuterJoin(cq, joinOnMap, "member");
     }
-    def hasConditionQueryMember(): Boolean = {
-        return _conditionQueryMember != null;
-    }
+    def hasConditionQueryMember(): Boolean = { _conditionQueryMember != null }
 
     /**
      * Get the condition-query for relation table. <br />
@@ -362,10 +357,7 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     protected def xcreateQueryServiceRank(): ServiceRankCQ = {
         val nrp: String = resolveNextRelationPath("MEMBER_SERVICE",  "serviceRank");
         val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        val cq: ServiceRankCQ = new ServiceRankCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
-        cq.xsetBaseCB(_baseCB);
-        cq.xsetForeignPropertyName("serviceRank");
-        cq.xsetRelationPath(nrp); return cq;
+        return xinitRelCQ(new ServiceRankCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "serviceRank", nrp);
     }
     protected def xsetupOuterJoinServiceRank(): Unit = {
         val cq: ServiceRankCQ = getConditionQueryServiceRank();
@@ -373,9 +365,7 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
         joinOnMap.put("SERVICE_RANK_CODE", "SERVICE_RANK_CODE");
         registerOuterJoin(cq, joinOnMap, "serviceRank");
     }
-    def hasConditionQueryServiceRank(): Boolean = {
-        return _conditionQueryServiceRank != null;
-    }
+    def hasConditionQueryServiceRank(): Boolean = { _conditionQueryServiceRank != null }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;

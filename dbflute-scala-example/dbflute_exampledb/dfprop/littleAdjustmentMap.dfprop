@@ -34,6 +34,9 @@
 # *The line that starts with '#' means comment-out.
 #
 map:{
+    # the test of derived-mappable
+    ; isEntityDerivedMappable = true
+
     # /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # o isAvailableAddingSchemaToTableSqlName: (NotRequired - Default false)
     #   [true]

@@ -1,25 +1,14 @@
 package com.example.dbflute.scala.dbflute.allcommon;
 
-import org.seasar.dbflute.s2dao.extension.TnBeanMetaDataFactoryExtension;
-import org.seasar.dbflute.s2dao.extension.TnRelationOptionalFactory;
-import org.seasar.dbflute.s2dao.metadata.TnRelationPropertyType;
+import org.seasar.dbflute.optional.RelationOptionalFactory;
+import org.seasar.dbflute.optional.OptionalObjectExceptionThrower;
 
 /**
  * @author DBFlute(AutoGenerator)
  */
-class ScrBeanMetaDataFactoryExtension extends TnBeanMetaDataFactoryExtension {
+class ScrRelationOptionalFactory extends RelationOptionalFactory {
 
-    override protected def createRelationOptionalFactory(): TnRelationOptionalFactory = {
-        return new ScrRelationOptionalFactory();
-    }
-}
-
-/**
- * @author DBFlute(AutoGenerator)
- */
-class ScrRelationOptionalFactory extends TnRelationOptionalFactory {
-
-    override protected def createOptionalNullEntity(row: Object, rpt: TnRelationPropertyType): Object = {
+    override protected def createOptionalNullEntity(thrower: OptionalObjectExceptionThrower): Object = {
         return Option.empty;
     }
 
@@ -29,5 +18,9 @@ class ScrRelationOptionalFactory extends TnRelationOptionalFactory {
 
     override def getOptionalEntityType(): Class[_] = {
         return classOf[Option[_]];
+    }
+
+    override def orElseNull(optional: Object): Object = {
+        return optional.asInstanceOf[Option[Object]].orNull;
     }
 }

@@ -173,6 +173,17 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
     //                                                                   Referrer Property
     //                                                                   =================
     // ===================================================================================
+    //                                                                    Derived Mappable
+    //                                                                    ================
+    /**
+     * Find the derived value from derived map.
+     * @param <VALUE> The type of the value.
+     * @param aliasName The alias name of derived-referrer. (NotNull)
+     * @return The derived value found in the map. (NullAllowed: when null selected)
+     */
+    def derived[VALUE](aliasName: String): VALUE = { dble.derived[VALUE](aliasName) }
+
+    // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
     /**

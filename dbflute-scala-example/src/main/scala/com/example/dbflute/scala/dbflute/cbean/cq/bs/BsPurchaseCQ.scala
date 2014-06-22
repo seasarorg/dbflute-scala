@@ -446,10 +446,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     protected def xcreateQueryMember(): MemberCQ = {
         val nrp: String = resolveNextRelationPath("PURCHASE",  "member");
         val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        val cq: MemberCQ = new MemberCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
-        cq.xsetBaseCB(_baseCB);
-        cq.xsetForeignPropertyName("member");
-        cq.xsetRelationPath(nrp); return cq;
+        return xinitRelCQ(new MemberCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "member", nrp);
     }
     protected def xsetupOuterJoinMember(): Unit = {
         val cq: MemberCQ = getConditionQueryMember();
@@ -457,9 +454,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
         joinOnMap.put("MEMBER_ID", "MEMBER_ID");
         registerOuterJoin(cq, joinOnMap, "member");
     }
-    def hasConditionQueryMember(): Boolean = {
-        return _conditionQueryMember != null;
-    }
+    def hasConditionQueryMember(): Boolean = { _conditionQueryMember != null }
 
     /**
      * Get the condition-query for relation table. <br />
@@ -480,10 +475,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     protected def xcreateQueryProduct(): ProductCQ = {
         val nrp: String = resolveNextRelationPath("PURCHASE",  "product");
         val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        val cq: ProductCQ = new ProductCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
-        cq.xsetBaseCB(_baseCB);
-        cq.xsetForeignPropertyName("product");
-        cq.xsetRelationPath(nrp); return cq;
+        return xinitRelCQ(new ProductCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "product", nrp);
     }
     protected def xsetupOuterJoinProduct(): Unit = {
         val cq: ProductCQ = getConditionQueryProduct();
@@ -491,9 +483,7 @@ class BsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
         joinOnMap.put("PRODUCT_ID", "PRODUCT_ID");
         registerOuterJoin(cq, joinOnMap, "product");
     }
-    def hasConditionQueryProduct(): Boolean = {
-        return _conditionQueryProduct != null;
-    }
+    def hasConditionQueryProduct(): Boolean = { _conditionQueryProduct != null }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;

@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Date;
 
-import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.dbmeta.DBMeta;
+import org.seasar.dbflute.dbmeta.DerivedMappable;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
+import org.seasar.dbflute.Entity.EntityDerivedMap;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -80,7 +82,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[Member] with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[Member] with Serializable with Cloneable with DerivedMappable {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -129,6 +131,9 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
 
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
+
+    /** The map of derived value, key is alias name. (NullAllowed: lazy-loaded) */
+    protected var __derivedMap: EntityDerivedMap = null;
 
     /** Is common column auto set up effective? */
     protected var __canCommonColumnAutoSetup: Boolean = true;
@@ -480,6 +485,32 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     }
 
     // ===================================================================================
+    //                                                                    Derived Mappable
+    //                                                                    ================
+    /**
+     * {@inheritDoc}
+     */
+    def registerDerivedValue(aliasName: String, selectedValue: Object): Unit = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        __derivedMap.registerDerivedValue(aliasName, selectedValue);
+    }
+
+    /**
+     * Find the derived value from derived map.
+     * @param <VALUE> The type of the value.
+     * @param aliasName The alias name of derived-referrer. (NotNull)
+     * @return The derived value found in the map. (NullAllowed: when null selected)
+     */
+    def derived[VALUE](aliasName: String): VALUE = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        return __derivedMap.findDerivedValue(aliasName);
+    }
+
+    protected def newDerivedMap(): EntityDerivedMap = {
+        return new EntityDerivedMap();
+    }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -642,7 +673,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setMemberId(memberId: Integer): Unit = {
         __modifiedProperties.addPropertyName("memberId");
-        this._memberId = memberId;
+        _memberId = memberId;
     }
 
     /**
@@ -659,7 +690,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setMemberName(memberName: String): Unit = {
         __modifiedProperties.addPropertyName("memberName");
-        this._memberName = memberName;
+        _memberName = memberName;
     }
 
     /**
@@ -676,7 +707,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setMemberAccount(memberAccount: String): Unit = {
         __modifiedProperties.addPropertyName("memberAccount");
-        this._memberAccount = memberAccount;
+        _memberAccount = memberAccount;
     }
 
     /**
@@ -693,7 +724,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     protected def setMemberStatusCode(memberStatusCode: String): Unit = {
         __modifiedProperties.addPropertyName("memberStatusCode");
-        this._memberStatusCode = memberStatusCode;
+        _memberStatusCode = memberStatusCode;
     }
 
     /**
@@ -710,7 +741,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setFormalizedDatetime(formalizedDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("formalizedDatetime");
-        this._formalizedDatetime = formalizedDatetime;
+        _formalizedDatetime = formalizedDatetime;
     }
 
     /**
@@ -727,7 +758,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setBirthdate(birthdate: java.util.Date): Unit = {
         __modifiedProperties.addPropertyName("birthdate");
-        this._birthdate = birthdate;
+        _birthdate = birthdate;
     }
 
     /**
@@ -744,7 +775,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
-        this._registerDatetime = registerDatetime;
+        _registerDatetime = registerDatetime;
     }
 
     /**
@@ -761,7 +792,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setRegisterUser(registerUser: String): Unit = {
         __modifiedProperties.addPropertyName("registerUser");
-        this._registerUser = registerUser;
+        _registerUser = registerUser;
     }
 
     /**
@@ -778,7 +809,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
-        this._updateDatetime = updateDatetime;
+        _updateDatetime = updateDatetime;
     }
 
     /**
@@ -795,7 +826,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setUpdateUser(updateUser: String): Unit = {
         __modifiedProperties.addPropertyName("updateUser");
-        this._updateUser = updateUser;
+        _updateUser = updateUser;
     }
 
     /**
@@ -812,7 +843,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      */
     def setVersionNo(versionNo: Long): Unit = {
         __modifiedProperties.addPropertyName("versionNo");
-        this._versionNo = versionNo;
+        _versionNo = versionNo;
     }
 
     protected def convertEmptyToNull(value: String): String = {

@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.dbmeta.DBMeta;
+import org.seasar.dbflute.dbmeta.DerivedMappable;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
+import org.seasar.dbflute.Entity.EntityDerivedMap;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -68,7 +70,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] with Serializable with Cloneable with DerivedMappable {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -102,6 +104,9 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
 
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
+
+    /** The map of derived value, key is alias name. (NullAllowed: lazy-loaded) */
+    protected var __derivedMap: EntityDerivedMap = null;
 
     /** Is the entity created by DBFlute select process? */
     protected var __createdBySelect: Boolean = false;
@@ -483,6 +488,32 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     }
 
     // ===================================================================================
+    //                                                                    Derived Mappable
+    //                                                                    ================
+    /**
+     * {@inheritDoc}
+     */
+    def registerDerivedValue(aliasName: String, selectedValue: Object): Unit = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        __derivedMap.registerDerivedValue(aliasName, selectedValue);
+    }
+
+    /**
+     * Find the derived value from derived map.
+     * @param <VALUE> The type of the value.
+     * @param aliasName The alias name of derived-referrer. (NotNull)
+     * @return The derived value found in the map. (NullAllowed: when null selected)
+     */
+    def derived[VALUE](aliasName: String): VALUE = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        return __derivedMap.findDerivedValue(aliasName);
+    }
+
+    protected def newDerivedMap(): EntityDerivedMap = {
+        return new EntityDerivedMap();
+    }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -625,7 +656,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      */
     protected def setServiceRankCode(serviceRankCode: String): Unit = {
         __modifiedProperties.addPropertyName("serviceRankCode");
-        this._serviceRankCode = serviceRankCode;
+        _serviceRankCode = serviceRankCode;
     }
 
     /**
@@ -642,7 +673,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      */
     def setServiceRankName(serviceRankName: String): Unit = {
         __modifiedProperties.addPropertyName("serviceRankName");
-        this._serviceRankName = serviceRankName;
+        _serviceRankName = serviceRankName;
     }
 
     /**
@@ -659,7 +690,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      */
     def setServicePointIncidence(servicePointIncidence: java.math.BigDecimal): Unit = {
         __modifiedProperties.addPropertyName("servicePointIncidence");
-        this._servicePointIncidence = servicePointIncidence;
+        _servicePointIncidence = servicePointIncidence;
     }
 
     /**
@@ -677,7 +708,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     protected def setNewAcceptableFlg(newAcceptableFlg: Integer): Unit = {
         checkImplicitSet("NEW_ACCEPTABLE_FLG", CDef.DefMeta.Flg, newAcceptableFlg);
         __modifiedProperties.addPropertyName("newAcceptableFlg");
-        this._newAcceptableFlg = newAcceptableFlg;
+        _newAcceptableFlg = newAcceptableFlg;
     }
 
     /**
@@ -694,7 +725,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      */
     def setDescription(description: String): Unit = {
         __modifiedProperties.addPropertyName("description");
-        this._description = description;
+        _description = description;
     }
 
     /**
@@ -711,7 +742,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      */
     def setDisplayOrder(displayOrder: Integer): Unit = {
         __modifiedProperties.addPropertyName("displayOrder");
-        this._displayOrder = displayOrder;
+        _displayOrder = displayOrder;
     }
 
     protected def convertEmptyToNull(value: String): String = {

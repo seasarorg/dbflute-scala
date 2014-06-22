@@ -325,10 +325,7 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     protected def xcreateQueryPurchase(): PurchaseCQ = {
         val nrp: String = resolveNextRelationPath("PURCHASE_PAYMENT",  "purchase");
         val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        val cq: PurchaseCQ = new PurchaseCQ(this,  xgetSqlClause(),  jan,  xgetNextNestLevel());
-        cq.xsetBaseCB(_baseCB);
-        cq.xsetForeignPropertyName("purchase");
-        cq.xsetRelationPath(nrp); return cq;
+        return xinitRelCQ(new PurchaseCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "purchase", nrp);
     }
     protected def xsetupOuterJoinPurchase(): Unit = {
         val cq: PurchaseCQ = getConditionQueryPurchase();
@@ -336,9 +333,7 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
         joinOnMap.put("PURCHASE_ID", "PURCHASE_ID");
         registerOuterJoin(cq, joinOnMap, "purchase");
     }
-    def hasConditionQueryPurchase(): Boolean = {
-        return _conditionQueryPurchase != null;
-    }
+    def hasConditionQueryPurchase(): Boolean = { _conditionQueryPurchase != null }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;

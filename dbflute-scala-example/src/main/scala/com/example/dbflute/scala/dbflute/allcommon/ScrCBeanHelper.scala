@@ -198,7 +198,7 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param aliasName The alias of the name. The property should exists on the entity. (NotNull)
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
-    def count(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
+    def count(subQuery: (REFERRER_CB) => Unit)(aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
         if (optionCall == null) { function.count(toNativeSubQuery(subQuery), aliasName) }
         else { function.count(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
@@ -217,7 +217,7 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param aliasName The alias of the name. The property should exists on the entity. (NotNull)
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
-    def countDistinct(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
+    def countDistinct(subQuery: (REFERRER_CB) => Unit)(aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
         if (optionCall == null) { function.countDistinct(toNativeSubQuery(subQuery), aliasName) }
         else { function.countDistinct(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
@@ -236,7 +236,7 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param aliasName The alias of the name. The property should exists on the entity. (NotNull)
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
-    def max(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
+    def max(subQuery: (REFERRER_CB) => Unit)(aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
         if (optionCall == null) { function.max(toNativeSubQuery(subQuery), aliasName) }
         else { function.max(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
@@ -255,7 +255,7 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param aliasName The alias of the name. The property should exists on the entity. (NotNull)
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
-    def min(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
+    def min(subQuery: (REFERRER_CB) => Unit)(aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
         if (optionCall == null) { function.min(toNativeSubQuery(subQuery), aliasName) }
         else { function.min(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
@@ -274,7 +274,7 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param aliasName The alias of the name. The property should exists on the entity. (NotNull)
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
-    def sum(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
+    def sum(subQuery: (REFERRER_CB) => Unit)(aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
         if (optionCall == null) { function.sum(toNativeSubQuery(subQuery), aliasName) }
         else { function.sum(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }
@@ -293,7 +293,7 @@ class ScrHpSDRFunction[REFERRER_CB <: ConditionBean, LOCAL_CQ <: ConditionQuery]
      * @param aliasName The alias of the name. The property should exists on the entity. (NotNull)
      * @param optionCall The callback for option for DerivedReferrer. e.g. you can use a coalesce function. (NotNull)
      */
-    def avg(subQuery: (REFERRER_CB) => Unit, aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
+    def avg(subQuery: (REFERRER_CB) => Unit)(aliasName: String)(implicit optionCall: (DerivedReferrerOption) => Unit = null): Unit = {
         if (optionCall == null) { function.avg(toNativeSubQuery(subQuery), aliasName) }
         else { function.avg(toNativeSubQuery(subQuery), aliasName, callbackDROP(optionCall)) }
     }

@@ -179,6 +179,17 @@ abstract class BsPurchase(dble: DblePurchase) extends Serializable {
     def purchasePaymentList: List[PurchasePayment] = { dble.toImmutablePurchasePaymentList }
 
     // ===================================================================================
+    //                                                                    Derived Mappable
+    //                                                                    ================
+    /**
+     * Find the derived value from derived map.
+     * @param <VALUE> The type of the value.
+     * @param aliasName The alias name of derived-referrer. (NotNull)
+     * @return The derived value found in the map. (NullAllowed: when null selected)
+     */
+    def derived[VALUE](aliasName: String): VALUE = { dble.derived[VALUE](aliasName) }
+
+    // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
     /**

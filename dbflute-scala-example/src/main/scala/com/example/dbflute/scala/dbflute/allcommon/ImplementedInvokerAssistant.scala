@@ -17,6 +17,7 @@ import org.seasar.dbflute.jdbc.HandlingDataSourceWrapper;
 import org.seasar.dbflute.jdbc.SQLExceptionDigger;
 import org.seasar.dbflute.jdbc.StatementConfig;
 import org.seasar.dbflute.jdbc.StatementFactory;
+import org.seasar.dbflute.optional.RelationOptionalFactory;
 import org.seasar.dbflute.outsidesql.factory.DefaultOutsideSqlExecutorFactory;
 import org.seasar.dbflute.outsidesql.factory.OutsideSqlExecutorFactory;
 import org.seasar.dbflute.resource.ResourceParameter;
@@ -68,6 +69,8 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     protected var _sqlExceptionHandlerFactory: SQLExceptionHandlerFactory = null;
     @volatile
     protected var _sequenceCacheHandler: SequenceCacheHandler = null;
+    @volatile
+    protected var _relationOptionalFactory: RelationOptionalFactory = null;
 
     // -----------------------------------------------------
     //                                       Disposable Flag
@@ -137,7 +140,11 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
         if (creator != null) {
             return creator;
         }
-        return new ImplementedSqlClauseCreator(); // as default
+        return newImplementedSqlClauseCreator(); // as default
+    }
+
+    protected def newImplementedSqlClauseCreator(): ImplementedSqlClauseCreator = {
+        return new ImplementedSqlClauseCreator();
     }
 
     // -----------------------------------------------------
@@ -157,11 +164,15 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     }
 
     protected def createStatementFactory(): StatementFactory = {
-        val factory: TnStatementFactoryImpl = new TnStatementFactoryImpl();
+        val factory: TnStatementFactoryImpl = newStatementFactoryImpl();
         factory.setDefaultStatementConfig(assistDefaultStatementConfig());
         factory.setInternalDebug(DBFluteConfig.isInternalDebug());
         factory.setCursorSelectFetchSize(DBFluteConfig.getCursorSelectFetchSize());
         return factory;
+    }
+
+    protected def newStatementFactoryImpl(): TnStatementFactoryImpl = {
+        return new TnStatementFactoryImpl();
     }
 
     // -----------------------------------------------------
@@ -181,10 +192,42 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     }
 
     protected def createBeanMetaDataFactory(): TnBeanMetaDataFactory = {
-        val factory: ScrBeanMetaDataFactoryExtension = new ScrBeanMetaDataFactoryExtension();
+        val relationOptionalFactory: RelationOptionalFactory = assistRelationOptionalFactory();
+        val factory: TnBeanMetaDataFactoryExtension = newBeanMetaDataFactoryExtension(relationOptionalFactory);
         factory.setDataSource(_dataSource);
         factory.setInternalDebug(DBFluteConfig.isInternalDebug());
         return factory;
+    }
+
+    protected def newBeanMetaDataFactoryExtension(relationOptionalFactory: RelationOptionalFactory): TnBeanMetaDataFactoryExtension = {
+        return new TnBeanMetaDataFactoryExtension(relationOptionalFactory);
+    }
+
+    // -----------------------------------------------------
+    //                             Relation Optional Factory
+    //                             -------------------------
+    /**
+     * {@inheritDoc}
+     */
+    def assistRelationOptionalFactory(): RelationOptionalFactory = {
+        if (_relationOptionalFactory != null) {
+            return _relationOptionalFactory;
+        }
+        this.synchronized {
+            if (_relationOptionalFactory != null) {
+                return _relationOptionalFactory;
+            }
+            _relationOptionalFactory = createRelationOptionalFactory();
+        }
+        return _relationOptionalFactory;
+    }
+
+    protected def createRelationOptionalFactory(): RelationOptionalFactory = {
+        return newRelationOptionalFactory();
+    }
+
+    protected def newRelationOptionalFactory(): RelationOptionalFactory = {
+        return new ScrRelationOptionalFactory();
     }
 
     // -----------------------------------------------------
@@ -207,6 +250,10 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     }
 
     protected def createSqlAnalyzerFactory(): SqlAnalyzerFactory = {
+        return newDefaultSqlAnalyzerFactory();
+    }
+
+    protected def newDefaultSqlAnalyzerFactory(): DefaultSqlAnalyzerFactory = {
         return new DefaultSqlAnalyzerFactory();
     }
 
@@ -234,6 +281,10 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
         if (factory != null) {
             return factory;
         }
+        return newDefaultOutsideSqlExecutorFactory(); // as default
+    }
+
+    protected def newDefaultOutsideSqlExecutorFactory(): DefaultOutsideSqlExecutorFactory = {
         return new DefaultOutsideSqlExecutorFactory();
     }
 
@@ -244,6 +295,10 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
      * {@inheritDoc}
      */
     def assistSQLExceptionDigger(): SQLExceptionDigger = {
+        return createSQLExceptionDigger();
+    }
+
+    protected def createSQLExceptionDigger(): SQLExceptionDigger = {
         return DBFluteConfig.getSQLExceptionDigger();
     }
 
@@ -267,6 +322,10 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     }
 
     protected def createSQLExceptionHandlerFactory(): SQLExceptionHandlerFactory = {
+        return newDefaultSQLExceptionHandlerFactory();
+    }
+
+    protected def newDefaultSQLExceptionHandlerFactory(): DefaultSQLExceptionHandlerFactory = {
         return new DefaultSQLExceptionHandlerFactory();
     }
 
@@ -290,13 +349,17 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     }
 
     protected def createSequenceCacheHandler(): SequenceCacheHandler = {
-        val handler: SequenceCacheHandler = new SequenceCacheHandler();
+        val handler: SequenceCacheHandler = newSequenceCacheHandler();
         val generator: SequenceCacheKeyGenerator = DBFluteConfig.getSequenceCacheKeyGenerator();
         if (generator != null) {
             handler.setSequenceCacheKeyGenerator(generator);
         }
         handler.setInternalDebug(DBFluteConfig.isInternalDebug());
         return handler;
+    }
+
+    protected def newSequenceCacheHandler(): SequenceCacheHandler = {
+        return new SequenceCacheHandler();
     }
 
     // -----------------------------------------------------
@@ -331,12 +394,16 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
     //                                    Resource Parameter
     //                                    ------------------
     def assistResourceParameter(): ResourceParameter = {
-        val resourceParameter: ResourceParameter = new ResourceParameter();
-        resourceParameter.setOutsideSqlPackage(DBFluteConfig.getOutsideSqlPackage());
-        resourceParameter.setLogDateFormat(DBFluteConfig.getLogDateFormat());
-        resourceParameter.setLogTimestampFormat(DBFluteConfig.getLogTimestampFormat());
-        resourceParameter.setInternalDebug(DBFluteConfig.isInternalDebug());
-        return resourceParameter;
+        val parameter: ResourceParameter = newResourceParameter();
+        parameter.setOutsideSqlPackage(DBFluteConfig.getOutsideSqlPackage());
+        parameter.setLogDateFormat(DBFluteConfig.getLogDateFormat());
+        parameter.setLogTimestampFormat(DBFluteConfig.getLogTimestampFormat());
+        parameter.setInternalDebug(DBFluteConfig.isInternalDebug());
+        return parameter;
+    }
+
+    protected def newResourceParameter(): ResourceParameter = {
+        return new ResourceParameter();
     }
 
     // -----------------------------------------------------

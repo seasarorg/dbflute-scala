@@ -170,8 +170,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     protected def doSelectEntity[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMember) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        val dble = helpSelectEntityInternally(cb, tp, new InternalSelectEntityCallback[ENTITY, MemberCB]() {
-            def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
+        val dble = helpSelectEntityInternally(cb, tp);
         if (dble != null) {
             callbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMember]), loaderCall);
         }
@@ -182,10 +181,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
-    @Override
-    protected def doReadEntity(cb: ConditionBean): Entity = {
-        return facadeSelectEntity(downcast(cb))().orNull;
-    }
+    protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
 
     /**
      * Select the entity by the condition-bean with deleted check. <br />
@@ -213,16 +209,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
 
     protected def doSelectEntityWithDeletedCheck[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMember) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        val dble = helpSelectEntityWithDeletedCheckInternally(cb, tp, new InternalSelectEntityWithDeletedCheckCallback[ENTITY, MemberCB]() {
-            def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); } });
+        val dble = helpSelectEntityWithDeletedCheckInternally(cb, tp);
         callbackLoader(DfCollectionUtil.newArrayList(dble.asInstanceOf[DbleMember]), loaderCall);
         return dble;
     }
 
-    @Override
-    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = {
-        return facadeSelectEntityWithDeletedCheck(downcast(cb))();
-    }
+    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
 
     /**
      * Select the entity by the primary-key value.
@@ -302,18 +294,14 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doSelectList[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMember) => Unit = null): ListResultBean[ENTITY] = {
-        assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        assertSpecifyDerivedReferrerEntityProperty(cb, tp);
-        val dbleList = helpSelectListInternally(cb, tp, new InternalSelectListCallback[ENTITY, MemberCB]() {
-            def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return delegateSelectList(lcb, ltp); } });
+        val dbleList = helpSelectListInternally(cb, tp);
         callbackLoader(dbleList.asInstanceOf[List[DbleMember]], loaderCall);
         return dbleList;
     }
 
-    @Override
-    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = {
-        return facadeSelectList(downcast(cb))();
-    }
+    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
+
+    override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
 
     // ===================================================================================
     //                                                                         Page Select
@@ -350,17 +338,10 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doSelectPage[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMember) => Unit = null): PagingResultBean[ENTITY] = {
-        assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
-        return helpSelectPageInternally(cb, tp, new InternalSelectPageCallback[ENTITY, MemberCB]() {
-            def callbackSelectCount(cb: MemberCB): Int = { return doSelectCountPlainly(cb); }
-            def callbackSelectList(cb: MemberCB, tp: Class[ENTITY]): List[ENTITY] = { return doSelectList(cb, tp)(loaderCall); }
-        });
+        return helpSelectPageInternally(cb, tp);
     }
 
-    @Override
-    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = {
-        return facadeSelectPage(downcast(cb))();
-    }
+    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
 
     // ===================================================================================
     //                                                                       Cursor Select
@@ -390,12 +371,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doSelectCursor[ENTITY <: DbleMember](cb: MemberCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
-        assertCBStateValid(cb); assertObjectNotNull("entityRowHandler", handler); assertObjectNotNull("entityType", tp);
-        assertSpecifyDerivedReferrerEntityProperty(cb, tp);
-        helpSelectCursorInternally(cb, handler, tp, new InternalSelectCursorCallback[ENTITY, MemberCB]() {
-            def callbackSelectCursor(lcb: MemberCB, lhandler: EntityRowHandler[ENTITY], ltp: Class[ENTITY]): Unit = { delegateSelectCursor(lcb, lhandler, ltp); }
-            def callbackSelectList(lcb: MemberCB, ltp: Class[ENTITY]): List[ENTITY] = { return doSelectList(lcb, ltp)(); }
-        });
+        helpSelectCursorInternally(cb, handler, tp);
     }
 
     // ===================================================================================
@@ -433,9 +409,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
     }
 
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = {
-        return facadeScalarSelect(tp);
-    }
+    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = { facadeScalarSelect(tp) }
 
     // ===================================================================================
     //                                                                            Sequence
@@ -544,13 +518,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
     def pulloutMemberStatus(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberStatus] = {
-        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), new InternalPulloutCallback[DbleMember, DbleMemberStatus]() {
-            def getFr(et: DbleMember): DbleMemberStatus =
-            { return et.getMemberStatus().orNull; }
-            def hasRf(): Boolean = { return true; }
-            def setRfLs(et: DbleMemberStatus, ls: List[DbleMember]): Unit =
-            { et.setMemberList(ls); }
-        });
+        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), "memberStatus");
         return toScalaList(dbleList).map(new MemberStatus(_));
     }
 
@@ -560,13 +528,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
      */
     def pulloutMemberServiceAsOne(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberService] = {
-        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), new InternalPulloutCallback[DbleMember, DbleMemberService]() {
-            def getFr(et: DbleMember): DbleMemberService =
-            { return et.getMemberServiceAsOne().orNull; }
-            def hasRf(): Boolean = { return true; }
-            def setRfLs(et: DbleMemberService, ls: List[DbleMember]): Unit =
-            { if (!ls.isEmpty()) { et.setMember(Option.apply(ls.get(0))); } }
-        });
+        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), "memberServiceAsOne");
         return toScalaList(dbleList).map(new MemberService(_));
     }
 
@@ -579,9 +541,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
     def extractMemberIdList(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[Int] = {
-        return toScalaList(helpExtractListInternally(toDBableEntityList(memberList), new InternalExtractCallback[DbleMember, Integer]() {
-            def getCV(et: DbleMember): Integer = { return et.getMemberId(); }
-        })).map(_.asInstanceOf[Int]);
+        val plainList = helpExtractListInternally(toDBableEntityList(memberList), "memberId");
+        return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
 
     /**
@@ -590,9 +551,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
     def extractMemberAccountList(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[String] = {
-        return toScalaList(helpExtractListInternally(toDBableEntityList(memberList), new InternalExtractCallback[DbleMember, String]() {
-            def getCV(et: DbleMember): String = { return et.getMemberAccount(); }
-        })).map(_.asInstanceOf[String]);
+        val plainList = helpExtractListInternally(toDBableEntityList(memberList), "memberAccount");
+        return toScalaList(plainList).map(_.asInstanceOf[String]);
     }
 
     // ===================================================================================
@@ -622,9 +582,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doInsert(et: DbleMember, op: InsertOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", et);
-        prepareInsertOption(op);
-        delegateInsert(et, op);
+        assertObjectNotNull("member", et); prepareInsertOption(op); delegateInsert(et, op);
     }
 
     protected def prepareInsertOption(op: InsertOption[MemberCB]): Unit = {
@@ -669,10 +627,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doUpdate(et: DbleMember, op: UpdateOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", et);
-        prepareUpdateOption(op);
-        helpUpdateInternally(et, new InternalUpdateCallback[DbleMember]() {
-            def callbackDelegateUpdate(let: DbleMember): Int = { return delegateUpdate(let, op); } });
+        assertObjectNotNull("member", et); prepareUpdateOption(op); helpUpdateInternally(et, op);
     }
 
     protected def prepareUpdateOption(op: UpdateOption[MemberCB]): Unit = {
@@ -688,10 +643,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     protected def createCBForSpecifiedUpdate(): MemberCB =
     { val cb: MemberCB = newConditionBean(); cb.xsetupForSpecifiedUpdate(); return cb; }
 
-    @Override
-    protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
-        doUpdate(downcast(et), downcast(op));
-    }
+    protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = { doUpdate(downcast(et), downcast(op)) }
 
     /**
      * Update the entity non-strictly modified-only. (ZeroUpdateException, NonExclusiveControl)
@@ -718,16 +670,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doUpdateNonstrict(et: DbleMember, op: UpdateOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", et);
-        prepareUpdateOption(op);
-        helpUpdateNonstrictInternally(et, new InternalUpdateNonstrictCallback[DbleMember]() {
-            def callbackDelegateUpdateNonstrict(let: DbleMember): Int = { return delegateUpdateNonstrict(let, op); } });
+        assertObjectNotNull("member", et); prepareUpdateOption(op); helpUpdateNonstrictInternally(et, op);
     }
 
-    @Override
-    protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = {
-        doUpdateNonstrict(downcast(et), downcast(op));
-    }
+    protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit =
+    { doUpdateNonstrict(downcast(et), downcast(op)) }
 
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, ExclusiveControl) <br />
@@ -745,18 +692,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doInsertOrUpdate(et: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
-        helpInsertOrUpdateInternally(et, new InternalInsertOrUpdateCallback[DbleMember, MemberCB]() {
-            def callbackInsert(let: DbleMember): Unit = { doInsert(let, iop); }
-            def callbackUpdate(let: DbleMember): Unit = { doUpdate(let, uop); }
-            def callbackNewMyConditionBean(): MemberCB = { return newConditionBean(); }
-            def callbackSelectCount(cb: MemberCB): Int = { return facadeSelectCount(cb); }
-        });
+        assertObjectNotNull("member", et); helpInsertOrUpdateInternally(et, iop, uop);
     }
 
-    @Override
-    protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        doInsertOrUpdate(downcast(et), downcast(iop), downcast(uop));
-    }
+    protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit =
+    { doInsertOrUpdate(downcast(et), downcast(iop), downcast(uop)) }
 
     /**
      * Insert or update the entity non-strictly modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
@@ -774,10 +714,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doInsertOrUpdateNonstrict(et: DbleMember, iop: InsertOption[MemberCB], uop: UpdateOption[MemberCB]): Unit = {
-        helpInsertOrUpdateInternally(et, new InternalInsertOrUpdateNonstrictCallback[DbleMember]() {
-            def callbackInsert(let: DbleMember): Unit = { doInsert(let, iop); }
-            def callbackUpdateNonstrict(let: DbleMember): Unit = { doUpdateNonstrict(let, uop); }
-        });
+        assertObjectNotNull("member", et); helpInsertOrUpdateInternally(et, iop, uop);
     }
 
     @Override
@@ -808,19 +745,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doDelete(et: DbleMember, op: DeleteOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", et);
-        prepareDeleteOption(op);
-        helpDeleteInternally(et, new InternalDeleteCallback[DbleMember]() {
-            def callbackDelegateDelete(let: DbleMember): Int = { return delegateDelete(let, op); } });
+        assertObjectNotNull("member", et); prepareDeleteOption(op); helpDeleteInternally(et, op);
     }
 
-    protected def prepareDeleteOption(op: DeleteOption[MemberCB]): Unit =
-    { if (op != null) { assertDeleteOptionStatus(op); } }
+    protected def prepareDeleteOption(op: DeleteOption[MemberCB]): Unit = { if (op != null) { assertDeleteOptionStatus(op); } }
 
-    @Override
-    protected def doRemove(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = {
-        doDelete(downcast(et), downcast(op));
-    }
+    protected def doRemove(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = { doDelete(downcast(et), downcast(op)) }
 
     /**
      * Delete the entity non-strictly. {ZeroUpdateException, NonExclusiveControl}
@@ -842,16 +772,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doDeleteNonstrict(et: DbleMember, op: DeleteOption[MemberCB]): Unit = {
-        assertObjectNotNull("member", et);
-        prepareDeleteOption(op);
-        helpDeleteNonstrictInternally(et, new InternalDeleteNonstrictCallback[DbleMember]() {
-            def callbackDelegateDeleteNonstrict(let: DbleMember): Int = { return delegateDeleteNonstrict(let, op); } });
+        assertObjectNotNull("member", et); prepareDeleteOption(op); helpDeleteNonstrictInternally(et, op);
     }
 
-    @Override
-    protected def doRemoveNonstrict(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = {
-        doDeleteNonstrict(downcast(et), downcast(op));
-    }
+    protected def doRemoveNonstrict(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit =
+    { doDeleteNonstrict(downcast(et), downcast(op)) }
 
     // ===================================================================================
     //                                                                        Batch Update
@@ -897,10 +822,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         prepareInsertOption(op);
     }
 
-    @Override
-    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = {
-        return doBatchInsert(downcast(ls), downcast(op));
-    }
+    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = { doBatchInsert(downcast(ls), downcast(op)) }
 
     /**
      * Batch-update the entity list modified-only of same-set columns. (ExclusiveControl) <br />
@@ -942,10 +864,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         prepareUpdateOption(op);
     }
 
-    @Override
-    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        doBatchUpdate(downcast(ls), downcast(op));
-    }
+    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = { doBatchUpdate(downcast(ls), downcast(op)) }
 
     /**
      * Batch-update the entity list non-strictly modified-only of same-set columns. (NonExclusiveControl) <br />
@@ -982,10 +901,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return delegateBatchUpdateNonstrict(ls, rlop);
     }
 
-    @Override
-    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = {
-        return doBatchUpdateNonstrict(downcast(ls), downcast(op));
-    }
+    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] =
+    { doBatchUpdateNonstrict(downcast(ls), downcast(op)) }
 
     /**
      * Batch-delete the entity list. (ExclusiveControl) <br />
@@ -999,15 +916,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doBatchDelete(ls: List[DbleMember], op: DeleteOption[MemberCB]): Array[Int] = {
-        assertObjectNotNull("memberList", ls);
-        prepareDeleteOption(op);
+        assertObjectNotNull("memberList", ls); prepareDeleteOption(op);
         return delegateBatchDelete(ls, op);
     }
 
-    @Override
-    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        return doBatchDelete(downcast(ls), downcast(op));
-    }
+    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = { doBatchDelete(downcast(ls), downcast(op)) }
 
     /**
      * Batch-delete the entity list non-strictly. {NonExclusiveControl} <br />
@@ -1026,10 +939,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         return delegateBatchDeleteNonstrict(ls, op);
     }
 
-    @Override
-    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = {
-        return doBatchDeleteNonstrict(downcast(ls), downcast(op));
-    }
+    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] =
+    { return doBatchDeleteNonstrict(downcast(ls), downcast(op)); }
 
     // ===================================================================================
     //                                                                        Query Update
@@ -1065,8 +976,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doQueryInsert(sp: QueryInsertSetupper[DbleMember, MemberCB], op: InsertOption[MemberCB]): Int = {
-        assertObjectNotNull("setupper", sp);
-        prepareInsertOption(op);
+        assertObjectNotNull("setupper", sp); prepareInsertOption(op);
         val et: DbleMember = newEntity();
         val cb: MemberCB = createCBForQueryInsert();
         return delegateQueryInsert(et, cb, sp.setup(et, cb), op);
@@ -1075,10 +985,8 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     protected def createCBForQueryInsert(): MemberCB =
     { val cb: MemberCB = newConditionBean(); cb.xsetupForQueryInsert(); return cb; }
 
-    @Override
-    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int = {
-        doQueryInsert(downcast(setupper), downcast(option));
-    }
+    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int =
+    { doQueryInsert(downcast(setupper), downcast(option)) }
 
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
@@ -1108,15 +1016,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doQueryUpdate(member: DbleMember, cb: MemberCB, op: UpdateOption[MemberCB]): Int = {
-        assertObjectNotNull("member", member); assertCBStateValid(cb);
-        prepareUpdateOption(op);
+        assertObjectNotNull("member", member); assertCBStateValid(cb); prepareUpdateOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(member, cb, op) } else { 0 };
     }
 
-    @Override
-    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int = {
-        return doQueryUpdate(downcast(et), downcast(cb), downcast(op));
-    }
+    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int =
+    { doQueryUpdate(downcast(et), downcast(cb), downcast(op)) }
 
     /**
      * Delete the several entities by query. (NonExclusiveControl)
@@ -1135,15 +1040,11 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     protected def doQueryDelete(cb: MemberCB, op: DeleteOption[MemberCB]): Int = {
-        assertCBStateValid(cb);
-        prepareDeleteOption(op);
+        assertCBStateValid(cb); prepareDeleteOption(op);
         return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryDelete(cb, op) } else { 0 };
     }
 
-    @Override
-    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = {
-        return doQueryDelete(downcast(cb), downcast(op));
-    }
+    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = { doQueryDelete(downcast(cb), downcast(op)) }
 
     // ===================================================================================
     //                                                                          OutsideSql
@@ -1187,91 +1088,15 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
-    //                                                                     Delegate Method
-    //                                                                     ===============
-    // [Behavior Command]
-    // -----------------------------------------------------
-    //                                                Select
-    //                                                ------
-    protected def delegateSelectCountUniquely(cb: MemberCB): Int = { return Integer2int(invoke(createSelectCountCBCommand(cb, true))); }
-    protected def delegateSelectCountPlainly(cb: MemberCB): Int = { return Integer2int(invoke(createSelectCountCBCommand(cb, false))); }
-    protected def delegateSelectCursor[ENTITY <: DbleMember](cb: MemberCB, rh: EntityRowHandler[ENTITY], tp: Class[ENTITY])
-    { invoke(createSelectCursorCBCommand(cb, rh, tp)); }
-    protected def delegateSelectList[ENTITY <: DbleMember](cb: MemberCB, tp: Class[ENTITY]): List[ENTITY] =
-    { return invoke(createSelectListCBCommand(cb, tp)); }
-
-    // -----------------------------------------------------
-    //                                                Update
-    //                                                ------
-    protected def delegateInsert(et: DbleMember, op: InsertOption[MemberCB]): Int =
-    { if (!processBeforeInsert(et, op)) { return 0; }
-      return Integer2int(invoke(createInsertEntityCommand(et, op))); }
-    protected def delegateUpdate(et: DbleMember, op: UpdateOption[MemberCB]): Int =
-    { if (!processBeforeUpdate(et, op)) { return 0; }
-      return Integer2int(invoke(createUpdateEntityCommand(et, op))); }
-    protected def delegateUpdateNonstrict(et: DbleMember, op: UpdateOption[MemberCB]): Int =
-    { if (!processBeforeUpdate(et, op)) { return 0; }
-      return Integer2int(invoke(createUpdateNonstrictEntityCommand(et, op))); }
-    protected def delegateDelete(et: DbleMember, op: DeleteOption[MemberCB]): Int =
-    { if (!processBeforeDelete(et, op)) { return 0; }
-      return Integer2int(invoke(createDeleteEntityCommand(et, op))); }
-    protected def delegateDeleteNonstrict(et: DbleMember, op: DeleteOption[MemberCB]): Int =
-    { if (!processBeforeDelete(et, op)) { return 0; }
-      return Integer2int(invoke(createDeleteNonstrictEntityCommand(et, op))); }
-
-    protected def delegateBatchInsert(ls: List[DbleMember], op: InsertOption[MemberCB]): Array[Int] =
-    { if (ls.isEmpty()) { return new Array[Int](0); }
-      return invoke(createBatchInsertCommand(processBatchInternally(ls, op), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdate(ls: List[DbleMember], op: UpdateOption[MemberCB]): Array[Int] =
-    { if (ls.isEmpty()) { return new Array[Int](0); }
-      return invoke(createBatchUpdateCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchUpdateNonstrict(ls: List[DbleMember], op: UpdateOption[MemberCB]): Array[Int] =
-    { if (ls.isEmpty()) { return new Array[Int](0); }
-      return invoke(createBatchUpdateNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDelete(ls: List[DbleMember], op: DeleteOption[MemberCB]): Array[Int] =
-    { if (ls.isEmpty()) { return new Array[Int](0); }
-      return invoke(createBatchDeleteCommand(processBatchInternally(ls, op, false), op)).asInstanceOf[Array[Int]]; }
-    protected def delegateBatchDeleteNonstrict(ls: List[DbleMember], op: DeleteOption[MemberCB]): Array[Int] =
-    { if (ls.isEmpty()) { return new Array[Int](0); }
-      return invoke(createBatchDeleteNonstrictCommand(processBatchInternally(ls, op, true), op)).asInstanceOf[Array[Int]]; }
-
-    protected def delegateQueryInsert(et: DbleMember, inCB: MemberCB, resCB: ConditionBean, op: InsertOption[MemberCB]): Int =
-    { if (!processBeforeQueryInsert(et, inCB, resCB, op)) { return 0; }
-      return Integer2int(invoke(createQueryInsertCBCommand(et, inCB, resCB, op)));  }
-    protected def delegateQueryUpdate(et: DbleMember, cb: MemberCB, op: UpdateOption[MemberCB]): Int =
-    { if (!processBeforeQueryUpdate(et, cb, op)) { return 0; }
-      return Integer2int(invoke(createQueryUpdateCBCommand(et, cb, op)));  }
-    protected def delegateQueryDelete(cb: MemberCB, op: DeleteOption[MemberCB]): Int =
-    { if (!processBeforeQueryDelete(cb, op)) { return 0; }
-      return Integer2int(invoke(createQueryDeleteCBCommand(cb, op)));  }
-
-    // ===================================================================================
     //                                                                Optimistic Lock Info
     //                                                                ====================
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected def hasVersionNoValue(et: Entity): Boolean = {
+    override protected def hasVersionNoValue(et: Entity): Boolean = {
         return downcast(et).getVersionNo() != null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected def hasUpdateDateValue(et: Entity): Boolean = {
-        return false;
     }
 
     // ===================================================================================
     //                                                                       Assist Helper
     //                                                                       =============
-    protected def typeOfSelectedEntity(): Class[DbleMember] = { classOf[DbleMember] }
-    protected def newMbleEntity(): MbleMember = { new MbleMember() }
-    protected def newPagingView(rb: PagingResultBean[DbleMember]): ScrPagingView[Member] =
-    { new ScrPagingView(toImmutableEntityList(rb), rb) }
-
     protected def callbackCB(cbCall: (MemberCB) => Unit): MemberCB = {
         assertObjectNotNull("cbCall", cbCall);
         val cb = newConditionBean(); cbCall(cb); return cb;
@@ -1319,26 +1144,19 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
         loaderCall(loader);
     }
 
-    protected def downcast(et: Entity): DbleMember =
-    { return helpEntityDowncastInternally(et, classOf[DbleMember]); }
+    protected def newMbleEntity(): MbleMember = { new MbleMember() }
+    protected def newPagingView(rb: PagingResultBean[DbleMember]): ScrPagingView[Member] =
+    { new ScrPagingView(toImmutableEntityList(rb), rb) }
 
-    protected def downcast(cb: ConditionBean): MemberCB =
-    { return helpConditionBeanDowncastInternally(cb, classOf[MemberCB]); }
-
-    protected def downcast(ls: List[_ <: Entity]): List[DbleMember] =
-    { return ls.asInstanceOf[List[DbleMember]]; }
-
-    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[MemberCB] =
-    { return op.asInstanceOf[InsertOption[MemberCB]]; }
-
-    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[MemberCB] =
-    { return op.asInstanceOf[UpdateOption[MemberCB]]; }
-
-    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[MemberCB] =
-    { return op.asInstanceOf[DeleteOption[MemberCB]]; }
-
+    protected def typeOfSelectedEntity(): Class[DbleMember] = { classOf[DbleMember] }
+    protected def downcast(et: Entity): DbleMember = { helpEntityDowncastInternally(et, classOf[DbleMember]) }
+    protected def downcast(cb: ConditionBean): MemberCB = { helpConditionBeanDowncastInternally(cb, classOf[MemberCB]) }
+    protected def downcast(ls: List[_ <: Entity]): List[DbleMember] = { ls.asInstanceOf[List[DbleMember]] }
+    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[MemberCB] = { op.asInstanceOf[InsertOption[MemberCB]] }
+    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[MemberCB] = { op.asInstanceOf[UpdateOption[MemberCB]] }
+    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[MemberCB] = { op.asInstanceOf[DeleteOption[MemberCB]] }
     protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleMember, MemberCB] =
-    { return sp.asInstanceOf[QueryInsertSetupper[DbleMember, MemberCB]]; }
+    { sp.asInstanceOf[QueryInsertSetupper[DbleMember, MemberCB]] }
 
     // ===================================================================================
     //                                                                        Scala Helper

@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.dbmeta.DBMeta;
+import org.seasar.dbflute.dbmeta.DerivedMappable;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
+import org.seasar.dbflute.Entity.EntityDerivedMap;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -74,7 +76,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBableEntity[PurchasePayment] with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBableEntity[PurchasePayment] with Serializable with Cloneable with DerivedMappable {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -117,6 +119,9 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
 
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
+
+    /** The map of derived value, key is alias name. (NullAllowed: lazy-loaded) */
+    protected var __derivedMap: EntityDerivedMap = null;
 
     /** Is common column auto set up effective? */
     protected var __canCommonColumnAutoSetup: Boolean = true;
@@ -311,6 +316,32 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
     }
 
     // ===================================================================================
+    //                                                                    Derived Mappable
+    //                                                                    ================
+    /**
+     * {@inheritDoc}
+     */
+    def registerDerivedValue(aliasName: String, selectedValue: Object): Unit = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        __derivedMap.registerDerivedValue(aliasName, selectedValue);
+    }
+
+    /**
+     * Find the derived value from derived map.
+     * @param <VALUE> The type of the value.
+     * @param aliasName The alias name of derived-referrer. (NotNull)
+     * @return The derived value found in the map. (NullAllowed: when null selected)
+     */
+    def derived[VALUE](aliasName: String): VALUE = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        return __derivedMap.findDerivedValue(aliasName);
+    }
+
+    protected def newDerivedMap(): EntityDerivedMap = {
+        return new EntityDerivedMap();
+    }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -459,7 +490,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setPurchasePaymentId(purchasePaymentId: Long): Unit = {
         __modifiedProperties.addPropertyName("purchasePaymentId");
-        this._purchasePaymentId = purchasePaymentId;
+        _purchasePaymentId = purchasePaymentId;
     }
 
     /**
@@ -476,7 +507,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setPurchaseId(purchaseId: Long): Unit = {
         __modifiedProperties.addPropertyName("purchaseId");
-        this._purchaseId = purchaseId;
+        _purchaseId = purchaseId;
     }
 
     /**
@@ -493,7 +524,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setPaymentAmount(paymentAmount: java.math.BigDecimal): Unit = {
         __modifiedProperties.addPropertyName("paymentAmount");
-        this._paymentAmount = paymentAmount;
+        _paymentAmount = paymentAmount;
     }
 
     /**
@@ -510,7 +541,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setPaymentDatetime(paymentDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("paymentDatetime");
-        this._paymentDatetime = paymentDatetime;
+        _paymentDatetime = paymentDatetime;
     }
 
     /**
@@ -527,7 +558,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setPaymentMethodCode(paymentMethodCode: String): Unit = {
         __modifiedProperties.addPropertyName("paymentMethodCode");
-        this._paymentMethodCode = paymentMethodCode;
+        _paymentMethodCode = paymentMethodCode;
     }
 
     /**
@@ -544,7 +575,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
-        this._registerDatetime = registerDatetime;
+        _registerDatetime = registerDatetime;
     }
 
     /**
@@ -561,7 +592,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setRegisterUser(registerUser: String): Unit = {
         __modifiedProperties.addPropertyName("registerUser");
-        this._registerUser = registerUser;
+        _registerUser = registerUser;
     }
 
     /**
@@ -578,7 +609,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
-        this._updateDatetime = updateDatetime;
+        _updateDatetime = updateDatetime;
     }
 
     /**
@@ -595,7 +626,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      */
     def setUpdateUser(updateUser: String): Unit = {
         __modifiedProperties.addPropertyName("updateUser");
-        this._updateUser = updateUser;
+        _updateUser = updateUser;
     }
 
     protected def convertEmptyToNull(value: String): String = {

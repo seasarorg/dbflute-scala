@@ -1,6 +1,7 @@
 package com.example.dbflute.scala.dbflute.exentity;
 
 import com.example.dbflute.scala.dbflute.bsentity.BsDbleMember;
+import scala.beans.BeanProperty
 
 /**
  * The entity of MEMBER.
@@ -11,4 +12,7 @@ import com.example.dbflute.scala.dbflute.bsentity.BsDbleMember;
  * @author DBFlute(AutoGenerator)
  */
 class DbleMember extends BsDbleMember {
+
+  @BeanProperty
+  var highestPurchasePrice = 0
 }

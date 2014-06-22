@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.dbmeta.DBMeta;
+import org.seasar.dbflute.dbmeta.DerivedMappable;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
+import org.seasar.dbflute.Entity.EntityDerivedMap;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -64,7 +66,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus] with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus] with Serializable with Cloneable with DerivedMappable {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -92,6 +94,9 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
 
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
+
+    /** The map of derived value, key is alias name. (NullAllowed: lazy-loaded) */
+    protected var __derivedMap: EntityDerivedMap = null;
 
     /** Is the entity created by DBFlute select process? */
     protected var __createdBySelect: Boolean = false;
@@ -353,6 +358,32 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
     }
 
     // ===================================================================================
+    //                                                                    Derived Mappable
+    //                                                                    ================
+    /**
+     * {@inheritDoc}
+     */
+    def registerDerivedValue(aliasName: String, selectedValue: Object): Unit = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        __derivedMap.registerDerivedValue(aliasName, selectedValue);
+    }
+
+    /**
+     * Find the derived value from derived map.
+     * @param <VALUE> The type of the value.
+     * @param aliasName The alias name of derived-referrer. (NotNull)
+     * @return The derived value found in the map. (NullAllowed: when null selected)
+     */
+    def derived[VALUE](aliasName: String): VALUE = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        return __derivedMap.findDerivedValue(aliasName);
+    }
+
+    protected def newDerivedMap(): EntityDerivedMap = {
+        return new EntityDerivedMap();
+    }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
@@ -493,7 +524,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
      */
     protected def setMemberStatusCode(memberStatusCode: String): Unit = {
         __modifiedProperties.addPropertyName("memberStatusCode");
-        this._memberStatusCode = memberStatusCode;
+        _memberStatusCode = memberStatusCode;
     }
 
     /**
@@ -510,7 +541,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
      */
     def setMemberStatusName(memberStatusName: String): Unit = {
         __modifiedProperties.addPropertyName("memberStatusName");
-        this._memberStatusName = memberStatusName;
+        _memberStatusName = memberStatusName;
     }
 
     /**
@@ -527,7 +558,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
      */
     def setDescription(description: String): Unit = {
         __modifiedProperties.addPropertyName("description");
-        this._description = description;
+        _description = description;
     }
 
     /**
@@ -544,7 +575,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
      */
     def setDisplayOrder(displayOrder: Integer): Unit = {
         __modifiedProperties.addPropertyName("displayOrder");
-        this._displayOrder = displayOrder;
+        _displayOrder = displayOrder;
     }
 
     protected def convertEmptyToNull(value: String): String = {

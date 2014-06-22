@@ -12,6 +12,8 @@ import com.example.dbflute.scala.dbflute.bsentity.BsMbleMember;
  * @author DBFlute(AutoGenerator)
  */
 class Member(dble: DbleMember) extends BsMember(dble) {
+  
+  def highestPurchasePrice: Int = { dble.highestPurchasePrice }
 }
 
 /**
