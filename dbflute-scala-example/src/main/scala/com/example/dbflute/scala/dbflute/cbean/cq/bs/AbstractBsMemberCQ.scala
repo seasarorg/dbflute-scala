@@ -1063,8 +1063,22 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     protected def createManualOrderBean(): ScrManualOrderBean = { new ScrManualOrderBean() }
 
     // ===================================================================================
+    //                                                                        Invoke Query
+    //                                                                        ============
+    override protected def xfilterInvokeQueryParameterType(colName: String, ckey: String, parameterType: Class[_]): Class[_] =
+    { if (classOf[Collection[_]].isAssignableFrom(parameterType)) { classOf[List[_]] } else { parameterType } }
+
+    override protected def xfilterInvokeQueryParameterValue(colName: String, ckey: String, parameterValue: Object): Object =
+    { if (parameterValue.isInstanceOf[Collection[_]]) { toScalaList(parameterValue.asInstanceOf[Collection[_]]) } else { parameterValue } }
+
+    // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
+        if (javaList == null) { scala.collection.immutable.List() }
+        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    }
+
     protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] =
     { if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null } }
 

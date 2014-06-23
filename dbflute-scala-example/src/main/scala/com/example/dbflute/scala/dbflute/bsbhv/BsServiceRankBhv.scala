@@ -486,23 +486,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     }
 
     protected def doLoadMemberServiceList(serviceRankList: List[DbleServiceRank], option: LoadReferrerOption[MemberServiceCB, DbleMemberService]): NestedReferrerListGateway[DbleMemberService] = {
-        val referrerBhv: MemberServiceBhv = xgetBSFLR().select(classOf[MemberServiceBhv]);
-        return helpLoadReferrerInternally(serviceRankList, option, new InternalLoadReferrerCallback[DbleServiceRank, String, MemberServiceCB, DbleMemberService]() {
-            def getPKVal(et: DbleServiceRank): String =
-            { return et.getServiceRankCode(); }
-            def setRfLs(et: DbleServiceRank, ls: List[DbleMemberService]): Unit =
-            { et.setMemberServiceList(ls); }
-            def newMyCB(): MemberServiceCB = { return referrerBhv.newConditionBean(); }
-            def qyFKIn(cb: MemberServiceCB, ls: List[String]): Unit =
-            { cb.query().setServiceRankCode_InScope(toScalaList(ls).map(_.asInstanceOf[CDef.ServiceRank])); }
-            def qyOdFKAsc(cb: MemberServiceCB): Unit = { cb.query().addOrderBy_ServiceRankCode_Asc(); }
-            def spFKCol(cb: MemberServiceCB): Unit = { cb.specify().columnServiceRankCode(); }
-            def selRfLs(cb: MemberServiceCB): List[DbleMemberService] = { return referrerBhv.readList(cb).asInstanceOf[List[DbleMemberService]]; }
-            def getFKVal(re: DbleMemberService): String = { return re.getServiceRankCode(); }
-            def setlcEt(re: DbleMemberService, le: DbleServiceRank): Unit =
-            { re.setServiceRank(Option.apply(le)); }
-            def getRfPrNm(): String = { return "memberServiceList"; }
-        });
+        return helpLoadReferrerInternally(serviceRankList, option, "memberServiceList");
     }
 
     // ===================================================================================

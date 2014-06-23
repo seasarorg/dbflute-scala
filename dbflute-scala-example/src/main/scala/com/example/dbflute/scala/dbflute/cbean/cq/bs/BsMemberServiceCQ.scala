@@ -67,10 +67,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     //                                                                               Query
     //                                                                               =====
     protected var _memberServiceId: ConditionValue = null;
-    def getMemberServiceId(): ConditionValue = {
-        if (_memberServiceId == null) { _memberServiceId = nCV(); }
-        return _memberServiceId;
-    }
+    def getMemberServiceId(): ConditionValue =
+    { if (_memberServiceId == null) { _memberServiceId = nCV(); }
+      return _memberServiceId; }
     protected def getCValueMemberServiceId(): ConditionValue = { return getMemberServiceId(); }
 
     /** 
@@ -88,10 +87,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_MemberServiceId_Desc(): BsMemberServiceCQ = { regOBD("MEMBER_SERVICE_ID"); return this; }
 
     protected var _memberId: ConditionValue = null;
-    def getMemberId(): ConditionValue = {
-        if (_memberId == null) { _memberId = nCV(); }
-        return _memberId;
-    }
+    def getMemberId(): ConditionValue =
+    { if (_memberId == null) { _memberId = nCV(); }
+      return _memberId; }
     protected def getCValueMemberId(): ConditionValue = { return getMemberId(); }
 
     /** 
@@ -109,10 +107,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_MemberId_Desc(): BsMemberServiceCQ = { regOBD("MEMBER_ID"); return this; }
 
     protected var _servicePointCount: ConditionValue = null;
-    def getServicePointCount(): ConditionValue = {
-        if (_servicePointCount == null) { _servicePointCount = nCV(); }
-        return _servicePointCount;
-    }
+    def getServicePointCount(): ConditionValue =
+    { if (_servicePointCount == null) { _servicePointCount = nCV(); }
+      return _servicePointCount; }
     protected def getCValueServicePointCount(): ConditionValue = { return getServicePointCount(); }
 
     /** 
@@ -130,10 +127,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_ServicePointCount_Desc(): BsMemberServiceCQ = { regOBD("SERVICE_POINT_COUNT"); return this; }
 
     protected var _serviceRankCode: ConditionValue = null;
-    def getServiceRankCode(): ConditionValue = {
-        if (_serviceRankCode == null) { _serviceRankCode = nCV(); }
-        return _serviceRankCode;
-    }
+    def getServiceRankCode(): ConditionValue =
+    { if (_serviceRankCode == null) { _serviceRankCode = nCV(); }
+      return _serviceRankCode; }
     protected def getCValueServiceRankCode(): ConditionValue = { return getServiceRankCode(); }
 
     /** 
@@ -151,10 +147,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_ServiceRankCode_Desc(): BsMemberServiceCQ = { regOBD("SERVICE_RANK_CODE"); return this; }
 
     protected var _registerDatetime: ConditionValue = null;
-    def getRegisterDatetime(): ConditionValue = {
-        if (_registerDatetime == null) { _registerDatetime = nCV(); }
-        return _registerDatetime;
-    }
+    def getRegisterDatetime(): ConditionValue =
+    { if (_registerDatetime == null) { _registerDatetime = nCV(); }
+      return _registerDatetime; }
     protected def getCValueRegisterDatetime(): ConditionValue = { return getRegisterDatetime(); }
 
     /** 
@@ -172,10 +167,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_RegisterDatetime_Desc(): BsMemberServiceCQ = { regOBD("REGISTER_DATETIME"); return this; }
 
     protected var _registerUser: ConditionValue = null;
-    def getRegisterUser(): ConditionValue = {
-        if (_registerUser == null) { _registerUser = nCV(); }
-        return _registerUser;
-    }
+    def getRegisterUser(): ConditionValue =
+    { if (_registerUser == null) { _registerUser = nCV(); }
+      return _registerUser; }
     protected def getCValueRegisterUser(): ConditionValue = { return getRegisterUser(); }
 
     /** 
@@ -193,10 +187,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_RegisterUser_Desc(): BsMemberServiceCQ = { regOBD("REGISTER_USER"); return this; }
 
     protected var _updateDatetime: ConditionValue = null;
-    def getUpdateDatetime(): ConditionValue = {
-        if (_updateDatetime == null) { _updateDatetime = nCV(); }
-        return _updateDatetime;
-    }
+    def getUpdateDatetime(): ConditionValue =
+    { if (_updateDatetime == null) { _updateDatetime = nCV(); }
+      return _updateDatetime; }
     protected def getCValueUpdateDatetime(): ConditionValue = { return getUpdateDatetime(); }
 
     /** 
@@ -214,10 +207,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_UpdateDatetime_Desc(): BsMemberServiceCQ = { regOBD("UPDATE_DATETIME"); return this; }
 
     protected var _updateUser: ConditionValue = null;
-    def getUpdateUser(): ConditionValue = {
-        if (_updateUser == null) { _updateUser = nCV(); }
-        return _updateUser;
-    }
+    def getUpdateUser(): ConditionValue =
+    { if (_updateUser == null) { _updateUser = nCV(); }
+      return _updateUser; }
     protected def getCValueUpdateUser(): ConditionValue = { return getUpdateUser(); }
 
     /** 
@@ -235,10 +227,9 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def addOrderBy_UpdateUser_Desc(): BsMemberServiceCQ = { regOBD("UPDATE_USER"); return this; }
 
     protected var _versionNo: ConditionValue = null;
-    def getVersionNo(): ConditionValue = {
-        if (_versionNo == null) { _versionNo = nCV(); }
-        return _versionNo;
-    }
+    def getVersionNo(): ConditionValue =
+    { if (_versionNo == null) { _versionNo = nCV(); }
+      return _versionNo; }
     protected def getCValueVersionNo(): ConditionValue = { return getVersionNo(); }
 
     /** 
@@ -272,8 +263,7 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsMemberServiceCQ =
-    { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsMemberServiceCQ = { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
 
     /**
      * Add order-by for specified derived column as descend.
@@ -289,8 +279,7 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsMemberServiceCQ =
-    { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsMemberServiceCQ = { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
 
     // ===================================================================================
     //                                                                         Union Query
@@ -317,26 +306,17 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def queryMember(): MemberCQ = {
         return getConditionQueryMember();
     }
-    protected var _conditionQueryMember: MemberCQ = null;
     def getConditionQueryMember(): MemberCQ = {
-        if (_conditionQueryMember == null) {
-            _conditionQueryMember = xcreateQueryMember();
-            xsetupOuterJoinMember();
-        }
-        return _conditionQueryMember;
+        val prop = "member";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryMember()); xsetupOuterJoinMember(); }
+        return xgetQueRlMap(prop);
     }
     protected def xcreateQueryMember(): MemberCQ = {
-        val nrp: String = resolveNextRelationPath("MEMBER_SERVICE",  "member");
-        val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        return xinitRelCQ(new MemberCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "member", nrp);
+        val nrp = xresolveNRP("MEMBER_SERVICE",  "member"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new MemberCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "member", nrp);
     }
-    protected def xsetupOuterJoinMember(): Unit = {
-        val cq: MemberCQ = getConditionQueryMember();
-        val joinOnMap: Map[String, String] = newLinkedHashMapSized(4);
-        joinOnMap.put("MEMBER_ID", "MEMBER_ID");
-        registerOuterJoin(cq, joinOnMap, "member");
-    }
-    def hasConditionQueryMember(): Boolean = { _conditionQueryMember != null }
+    protected def xsetupOuterJoinMember(): Unit = { xregOutJo("member") }
+    def hasConditionQueryMember(): Boolean = { xhasQueRlMap("member") }
 
     /**
      * Get the condition-query for relation table. <br />
@@ -346,26 +326,17 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     def queryServiceRank(): ServiceRankCQ = {
         return getConditionQueryServiceRank();
     }
-    protected var _conditionQueryServiceRank: ServiceRankCQ = null;
     def getConditionQueryServiceRank(): ServiceRankCQ = {
-        if (_conditionQueryServiceRank == null) {
-            _conditionQueryServiceRank = xcreateQueryServiceRank();
-            xsetupOuterJoinServiceRank();
-        }
-        return _conditionQueryServiceRank;
+        val prop = "serviceRank";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryServiceRank()); xsetupOuterJoinServiceRank(); }
+        return xgetQueRlMap(prop);
     }
     protected def xcreateQueryServiceRank(): ServiceRankCQ = {
-        val nrp: String = resolveNextRelationPath("MEMBER_SERVICE",  "serviceRank");
-        val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        return xinitRelCQ(new ServiceRankCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "serviceRank", nrp);
+        val nrp = xresolveNRP("MEMBER_SERVICE",  "serviceRank"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new ServiceRankCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "serviceRank", nrp);
     }
-    protected def xsetupOuterJoinServiceRank(): Unit = {
-        val cq: ServiceRankCQ = getConditionQueryServiceRank();
-        val joinOnMap: Map[String, String] = newLinkedHashMapSized(4);
-        joinOnMap.put("SERVICE_RANK_CODE", "SERVICE_RANK_CODE");
-        registerOuterJoin(cq, joinOnMap, "serviceRank");
-    }
-    def hasConditionQueryServiceRank(): Boolean = { _conditionQueryServiceRank != null }
+    protected def xsetupOuterJoinServiceRank(): Unit = { xregOutJo("serviceRank") }
+    def hasConditionQueryServiceRank(): Boolean = { xhasQueRlMap("serviceRank") }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;
@@ -374,61 +345,31 @@ class BsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, ali
     // ===================================================================================
     //                                                                     ScalarCondition
     //                                                                     ===============
-    protected var _scalarConditionMap: Map[String, MemberServiceCQ] = null;
-    def getScalarCondition(): Map[String, MemberServiceCQ] = { return _scalarConditionMap; }
-    def keepScalarCondition(sq: MemberServiceCQ): String = {
-        if (_scalarConditionMap == null) { _scalarConditionMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_scalarConditionMap.size() + 1);
-        _scalarConditionMap.put(ky, sq); return "scalarCondition." + ky;
-    }
+    def getScalarCondition(): Map[String, MemberServiceCQ] = { xgetSQueMap("scalarCondition") }
+    def keepScalarCondition(sq: MemberServiceCQ): String = { xkeepSQue("scalarCondition", sq) }
 
     // ===================================================================================
     //                                                                       MyselfDerived
     //                                                                       =============
-    protected var _specifyMyselfDerivedMap: Map[String, MemberServiceCQ] = null;
-    def getSpecifyMyselfDerived(): Map[String, MemberServiceCQ] = { return _specifyMyselfDerivedMap; }
-    def keepSpecifyMyselfDerived(sq: MemberServiceCQ): String = {
-        if (_specifyMyselfDerivedMap == null) { _specifyMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_specifyMyselfDerivedMap.size() + 1);
-        _specifyMyselfDerivedMap.put(ky, sq); return "specifyMyselfDerived." + ky;
-    }
+    def getSpecifyMyselfDerived(): Map[String, MemberServiceCQ] = { xgetSQueMap("specifyMyselfDerived") }
+    def keepSpecifyMyselfDerived(sq: MemberServiceCQ): String = { xkeepSQue("specifyMyselfDerived", sq) }
 
-    protected var _queryMyselfDerivedMap: Map[String, MemberServiceCQ] = null;
-    def getQueryMyselfDerived(): Map[String, MemberServiceCQ] = { return _queryMyselfDerivedMap; }
-    def keepQueryMyselfDerived(sq: MemberServiceCQ): String = {
-        if (_queryMyselfDerivedMap == null) { _queryMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_queryMyselfDerivedMap.size() + 1);
-        _queryMyselfDerivedMap.put(ky, sq); return "queryMyselfDerived." + ky;
-    }
-    protected var _qyeryMyselfDerivedParameterMap: Map[String, Object] = null;
-    def getQueryMyselfDerivedParameter(): Map[String, Object] = { return _qyeryMyselfDerivedParameterMap; }
-    def keepQueryMyselfDerivedParameter(vl: Object): String = {
-        if (_qyeryMyselfDerivedParameterMap == null) { _qyeryMyselfDerivedParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_qyeryMyselfDerivedParameterMap.size() + 1);
-        _qyeryMyselfDerivedParameterMap.put(ky, vl); return "queryMyselfDerivedParameter." + ky;
-    }
+    def getQueryMyselfDerived(): Map[String, MemberServiceCQ] = { xgetSQueMap("queryMyselfDerived") }
+    def keepQueryMyselfDerived(sq: MemberServiceCQ): String = { xkeepSQue("queryMyselfDerived", sq) }
+    def getQueryMyselfDerivedParameter(): Map[String, Object] = { xgetSQuePmMap("qyeryMyselfDerived") }
+    def keepQueryMyselfDerivedParameter(pm: Object): String = { xkeepSQuePm("qyeryMyselfDerived", pm) }
 
     // ===================================================================================
     //                                                                        MyselfExists
     //                                                                        ============
-    protected var _myselfExistsMap: Map[String, MemberServiceCQ] = null;
-    def getMyselfExists(): Map[String, MemberServiceCQ] = { return _myselfExistsMap; }
-    def keepMyselfExists(sq: MemberServiceCQ): String = {
-        if (_myselfExistsMap == null) { _myselfExistsMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfExistsMap.size() + 1);
-        _myselfExistsMap.put(ky, sq); return "myselfExists." + ky;
-    }
+    def getMyselfExists(): Map[String, MemberServiceCQ] = { xgetSQueMap("myselfExists") }
+    def keepMyselfExists(sq: MemberServiceCQ): String = { xkeepSQue("myselfExists", sq) }
 
     // ===================================================================================
     //                                                                       MyselfInScope
     //                                                                       =============
-    protected var _myselfInScopeMap: Map[String, MemberServiceCQ] = null;
-    def getMyselfInScope(): Map[String, MemberServiceCQ] = { return _myselfInScopeMap; }
-    def keepMyselfInScope(sq: MemberServiceCQ): String = {
-        if (_myselfInScopeMap == null) { _myselfInScopeMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfInScopeMap.size() + 1);
-        _myselfInScopeMap.put(ky, sq); return "myselfInScope." + ky;
-    }
+    def getMyselfInScope(): Map[String, MemberServiceCQ] = { xgetSQueMap("myselfInScope") }
+    def keepMyselfInScope(sq: MemberServiceCQ): String = { xkeepSQue("myselfInScope", sq) }
 
     // ===================================================================================
     //                                                                       Very Internal

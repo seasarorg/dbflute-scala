@@ -67,66 +67,30 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     //                                                                               Query
     //                                                                               =====
     protected var _productId: ConditionValue = null;
-    def getProductId(): ConditionValue = {
-        if (_productId == null) { _productId = nCV(); }
-        return _productId;
-    }
+    def getProductId(): ConditionValue =
+    { if (_productId == null) { _productId = nCV(); }
+      return _productId; }
     protected def getCValueProductId(): ConditionValue = { return getProductId(); }
 
-    protected var _productId_ExistsReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getProductId_ExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _productId_ExistsReferrer_PurchaseListMap; }
-    def keepProductId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_productId_ExistsReferrer_PurchaseListMap == null) { _productId_ExistsReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_productId_ExistsReferrer_PurchaseListMap.size() + 1);
-        _productId_ExistsReferrer_PurchaseListMap.put(ky, sq); return "productId_ExistsReferrer_PurchaseList." + ky;
-    }
+    def getProductId_ExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("productId_ExistsReferrer_PurchaseList") }
+    def keepProductId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("productId_ExistsReferrer_PurchaseList", sq) }
 
-    protected var _productId_NotExistsReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getProductId_NotExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _productId_NotExistsReferrer_PurchaseListMap; }
-    def keepProductId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_productId_NotExistsReferrer_PurchaseListMap == null) { _productId_NotExistsReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_productId_NotExistsReferrer_PurchaseListMap.size() + 1);
-        _productId_NotExistsReferrer_PurchaseListMap.put(ky, sq); return "productId_NotExistsReferrer_PurchaseList." + ky;
-    }
+    def getProductId_NotExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("productId_NotExistsReferrer_PurchaseList") }
+    def keepProductId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("productId_NotExistsReferrer_PurchaseList", sq) }
 
-    protected var _productId_SpecifyDerivedReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getProductId_SpecifyDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _productId_SpecifyDerivedReferrer_PurchaseListMap; }
-    def keepProductId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_productId_SpecifyDerivedReferrer_PurchaseListMap == null) { _productId_SpecifyDerivedReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_productId_SpecifyDerivedReferrer_PurchaseListMap.size() + 1);
-        _productId_SpecifyDerivedReferrer_PurchaseListMap.put(ky, sq); return "productId_SpecifyDerivedReferrer_PurchaseList." + ky;
-    }
+    def getProductId_SpecifyDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("productId_SpecifyDerivedReferrer_PurchaseList") }
+    def keepProductId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("productId_SpecifyDerivedReferrer_PurchaseList", sq) }
 
-    protected var _productId_InScopeRelation_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getProductId_InScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { return _productId_InScopeRelation_PurchaseListMap; }
-    def keepProductId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String = {
-        if (_productId_InScopeRelation_PurchaseListMap == null) { _productId_InScopeRelation_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_productId_InScopeRelation_PurchaseListMap.size() + 1);
-        _productId_InScopeRelation_PurchaseListMap.put(ky, sq); return "productId_InScopeRelation_PurchaseList." + ky;
-    }
+    def getProductId_InScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("productId_InScopeRelation_PurchaseList") }
+    def keepProductId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("productId_InScopeRelation_PurchaseList", sq) }
 
-    protected var _productId_NotInScopeRelation_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getProductId_NotInScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { return _productId_NotInScopeRelation_PurchaseListMap; }
-    def keepProductId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String = {
-        if (_productId_NotInScopeRelation_PurchaseListMap == null) { _productId_NotInScopeRelation_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_productId_NotInScopeRelation_PurchaseListMap.size() + 1);
-        _productId_NotInScopeRelation_PurchaseListMap.put(ky, sq); return "productId_NotInScopeRelation_PurchaseList." + ky;
-    }
+    def getProductId_NotInScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("productId_NotInScopeRelation_PurchaseList") }
+    def keepProductId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("productId_NotInScopeRelation_PurchaseList", sq) }
 
-    protected var _productId_QueryDerivedReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getProductId_QueryDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _productId_QueryDerivedReferrer_PurchaseListMap; }
-    def keepProductId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_productId_QueryDerivedReferrer_PurchaseListMap == null) { _productId_QueryDerivedReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_productId_QueryDerivedReferrer_PurchaseListMap.size() + 1);
-        _productId_QueryDerivedReferrer_PurchaseListMap.put(ky, sq); return "productId_QueryDerivedReferrer_PurchaseList." + ky;
-    }
-    protected var _productId_QueryDerivedReferrer_PurchaseListParameterMap: Map[String, Object] = null;
-    def getProductId_QueryDerivedReferrer_PurchaseListParameter(): Map[String, Object] = { return _productId_QueryDerivedReferrer_PurchaseListParameterMap; }
-    def keepProductId_QueryDerivedReferrer_PurchaseListParameter(vl: Object): String = {
-        if (_productId_QueryDerivedReferrer_PurchaseListParameterMap == null) { _productId_QueryDerivedReferrer_PurchaseListParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_productId_QueryDerivedReferrer_PurchaseListParameterMap.size() + 1);
-        _productId_QueryDerivedReferrer_PurchaseListParameterMap.put(ky, vl); return "productId_QueryDerivedReferrer_PurchaseListParameter." + ky;
-    }
+    def getProductId_QueryDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("productId_QueryDerivedReferrer_PurchaseList") }
+    def keepProductId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("productId_QueryDerivedReferrer_PurchaseList", sq) }
+    def getProductId_QueryDerivedReferrer_PurchaseListParameter(): Map[String, Object] = { xgetSQuePmMap("productId_QueryDerivedReferrer_PurchaseList") }
+    def keepProductId_QueryDerivedReferrer_PurchaseListParameter(pm: Object): String = { xkeepSQuePm("productId_QueryDerivedReferrer_PurchaseList", pm) }
 
     /** 
      * Add order-by as ascend. <br />
@@ -143,10 +107,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_ProductId_Desc(): BsProductCQ = { regOBD("PRODUCT_ID"); return this; }
 
     protected var _productName: ConditionValue = null;
-    def getProductName(): ConditionValue = {
-        if (_productName == null) { _productName = nCV(); }
-        return _productName;
-    }
+    def getProductName(): ConditionValue =
+    { if (_productName == null) { _productName = nCV(); }
+      return _productName; }
     protected def getCValueProductName(): ConditionValue = { return getProductName(); }
 
     /** 
@@ -164,10 +127,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_ProductName_Desc(): BsProductCQ = { regOBD("PRODUCT_NAME"); return this; }
 
     protected var _productHandleCode: ConditionValue = null;
-    def getProductHandleCode(): ConditionValue = {
-        if (_productHandleCode == null) { _productHandleCode = nCV(); }
-        return _productHandleCode;
-    }
+    def getProductHandleCode(): ConditionValue =
+    { if (_productHandleCode == null) { _productHandleCode = nCV(); }
+      return _productHandleCode; }
     protected def getCValueProductHandleCode(): ConditionValue = { return getProductHandleCode(); }
 
     /** 
@@ -185,10 +147,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_ProductHandleCode_Desc(): BsProductCQ = { regOBD("PRODUCT_HANDLE_CODE"); return this; }
 
     protected var _productCategoryCode: ConditionValue = null;
-    def getProductCategoryCode(): ConditionValue = {
-        if (_productCategoryCode == null) { _productCategoryCode = nCV(); }
-        return _productCategoryCode;
-    }
+    def getProductCategoryCode(): ConditionValue =
+    { if (_productCategoryCode == null) { _productCategoryCode = nCV(); }
+      return _productCategoryCode; }
     protected def getCValueProductCategoryCode(): ConditionValue = { return getProductCategoryCode(); }
 
     /** 
@@ -206,10 +167,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_ProductCategoryCode_Desc(): BsProductCQ = { regOBD("PRODUCT_CATEGORY_CODE"); return this; }
 
     protected var _productStatusCode: ConditionValue = null;
-    def getProductStatusCode(): ConditionValue = {
-        if (_productStatusCode == null) { _productStatusCode = nCV(); }
-        return _productStatusCode;
-    }
+    def getProductStatusCode(): ConditionValue =
+    { if (_productStatusCode == null) { _productStatusCode = nCV(); }
+      return _productStatusCode; }
     protected def getCValueProductStatusCode(): ConditionValue = { return getProductStatusCode(); }
 
     /** 
@@ -227,10 +187,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_ProductStatusCode_Desc(): BsProductCQ = { regOBD("PRODUCT_STATUS_CODE"); return this; }
 
     protected var _regularPrice: ConditionValue = null;
-    def getRegularPrice(): ConditionValue = {
-        if (_regularPrice == null) { _regularPrice = nCV(); }
-        return _regularPrice;
-    }
+    def getRegularPrice(): ConditionValue =
+    { if (_regularPrice == null) { _regularPrice = nCV(); }
+      return _regularPrice; }
     protected def getCValueRegularPrice(): ConditionValue = { return getRegularPrice(); }
 
     /** 
@@ -248,10 +207,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_RegularPrice_Desc(): BsProductCQ = { regOBD("REGULAR_PRICE"); return this; }
 
     protected var _registerDatetime: ConditionValue = null;
-    def getRegisterDatetime(): ConditionValue = {
-        if (_registerDatetime == null) { _registerDatetime = nCV(); }
-        return _registerDatetime;
-    }
+    def getRegisterDatetime(): ConditionValue =
+    { if (_registerDatetime == null) { _registerDatetime = nCV(); }
+      return _registerDatetime; }
     protected def getCValueRegisterDatetime(): ConditionValue = { return getRegisterDatetime(); }
 
     /** 
@@ -269,10 +227,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_RegisterDatetime_Desc(): BsProductCQ = { regOBD("REGISTER_DATETIME"); return this; }
 
     protected var _registerUser: ConditionValue = null;
-    def getRegisterUser(): ConditionValue = {
-        if (_registerUser == null) { _registerUser = nCV(); }
-        return _registerUser;
-    }
+    def getRegisterUser(): ConditionValue =
+    { if (_registerUser == null) { _registerUser = nCV(); }
+      return _registerUser; }
     protected def getCValueRegisterUser(): ConditionValue = { return getRegisterUser(); }
 
     /** 
@@ -290,10 +247,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_RegisterUser_Desc(): BsProductCQ = { regOBD("REGISTER_USER"); return this; }
 
     protected var _updateDatetime: ConditionValue = null;
-    def getUpdateDatetime(): ConditionValue = {
-        if (_updateDatetime == null) { _updateDatetime = nCV(); }
-        return _updateDatetime;
-    }
+    def getUpdateDatetime(): ConditionValue =
+    { if (_updateDatetime == null) { _updateDatetime = nCV(); }
+      return _updateDatetime; }
     protected def getCValueUpdateDatetime(): ConditionValue = { return getUpdateDatetime(); }
 
     /** 
@@ -311,10 +267,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_UpdateDatetime_Desc(): BsProductCQ = { regOBD("UPDATE_DATETIME"); return this; }
 
     protected var _updateUser: ConditionValue = null;
-    def getUpdateUser(): ConditionValue = {
-        if (_updateUser == null) { _updateUser = nCV(); }
-        return _updateUser;
-    }
+    def getUpdateUser(): ConditionValue =
+    { if (_updateUser == null) { _updateUser = nCV(); }
+      return _updateUser; }
     protected def getCValueUpdateUser(): ConditionValue = { return getUpdateUser(); }
 
     /** 
@@ -332,10 +287,9 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     def addOrderBy_UpdateUser_Desc(): BsProductCQ = { regOBD("UPDATE_USER"); return this; }
 
     protected var _versionNo: ConditionValue = null;
-    def getVersionNo(): ConditionValue = {
-        if (_versionNo == null) { _versionNo = nCV(); }
-        return _versionNo;
-    }
+    def getVersionNo(): ConditionValue =
+    { if (_versionNo == null) { _versionNo = nCV(); }
+      return _versionNo; }
     protected def getCValueVersionNo(): ConditionValue = { return getVersionNo(); }
 
     /** 
@@ -369,8 +323,7 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsProductCQ =
-    { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsProductCQ = { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
 
     /**
      * Add order-by for specified derived column as descend.
@@ -386,8 +339,7 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsProductCQ =
-    { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsProductCQ = { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
 
     // ===================================================================================
     //                                                                         Union Query
@@ -405,61 +357,31 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     // ===================================================================================
     //                                                                     ScalarCondition
     //                                                                     ===============
-    protected var _scalarConditionMap: Map[String, ProductCQ] = null;
-    def getScalarCondition(): Map[String, ProductCQ] = { return _scalarConditionMap; }
-    def keepScalarCondition(sq: ProductCQ): String = {
-        if (_scalarConditionMap == null) { _scalarConditionMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_scalarConditionMap.size() + 1);
-        _scalarConditionMap.put(ky, sq); return "scalarCondition." + ky;
-    }
+    def getScalarCondition(): Map[String, ProductCQ] = { xgetSQueMap("scalarCondition") }
+    def keepScalarCondition(sq: ProductCQ): String = { xkeepSQue("scalarCondition", sq) }
 
     // ===================================================================================
     //                                                                       MyselfDerived
     //                                                                       =============
-    protected var _specifyMyselfDerivedMap: Map[String, ProductCQ] = null;
-    def getSpecifyMyselfDerived(): Map[String, ProductCQ] = { return _specifyMyselfDerivedMap; }
-    def keepSpecifyMyselfDerived(sq: ProductCQ): String = {
-        if (_specifyMyselfDerivedMap == null) { _specifyMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_specifyMyselfDerivedMap.size() + 1);
-        _specifyMyselfDerivedMap.put(ky, sq); return "specifyMyselfDerived." + ky;
-    }
+    def getSpecifyMyselfDerived(): Map[String, ProductCQ] = { xgetSQueMap("specifyMyselfDerived") }
+    def keepSpecifyMyselfDerived(sq: ProductCQ): String = { xkeepSQue("specifyMyselfDerived", sq) }
 
-    protected var _queryMyselfDerivedMap: Map[String, ProductCQ] = null;
-    def getQueryMyselfDerived(): Map[String, ProductCQ] = { return _queryMyselfDerivedMap; }
-    def keepQueryMyselfDerived(sq: ProductCQ): String = {
-        if (_queryMyselfDerivedMap == null) { _queryMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_queryMyselfDerivedMap.size() + 1);
-        _queryMyselfDerivedMap.put(ky, sq); return "queryMyselfDerived." + ky;
-    }
-    protected var _qyeryMyselfDerivedParameterMap: Map[String, Object] = null;
-    def getQueryMyselfDerivedParameter(): Map[String, Object] = { return _qyeryMyselfDerivedParameterMap; }
-    def keepQueryMyselfDerivedParameter(vl: Object): String = {
-        if (_qyeryMyselfDerivedParameterMap == null) { _qyeryMyselfDerivedParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_qyeryMyselfDerivedParameterMap.size() + 1);
-        _qyeryMyselfDerivedParameterMap.put(ky, vl); return "queryMyselfDerivedParameter." + ky;
-    }
+    def getQueryMyselfDerived(): Map[String, ProductCQ] = { xgetSQueMap("queryMyselfDerived") }
+    def keepQueryMyselfDerived(sq: ProductCQ): String = { xkeepSQue("queryMyselfDerived", sq) }
+    def getQueryMyselfDerivedParameter(): Map[String, Object] = { xgetSQuePmMap("qyeryMyselfDerived") }
+    def keepQueryMyselfDerivedParameter(pm: Object): String = { xkeepSQuePm("qyeryMyselfDerived", pm) }
 
     // ===================================================================================
     //                                                                        MyselfExists
     //                                                                        ============
-    protected var _myselfExistsMap: Map[String, ProductCQ] = null;
-    def getMyselfExists(): Map[String, ProductCQ] = { return _myselfExistsMap; }
-    def keepMyselfExists(sq: ProductCQ): String = {
-        if (_myselfExistsMap == null) { _myselfExistsMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfExistsMap.size() + 1);
-        _myselfExistsMap.put(ky, sq); return "myselfExists." + ky;
-    }
+    def getMyselfExists(): Map[String, ProductCQ] = { xgetSQueMap("myselfExists") }
+    def keepMyselfExists(sq: ProductCQ): String = { xkeepSQue("myselfExists", sq) }
 
     // ===================================================================================
     //                                                                       MyselfInScope
     //                                                                       =============
-    protected var _myselfInScopeMap: Map[String, ProductCQ] = null;
-    def getMyselfInScope(): Map[String, ProductCQ] = { return _myselfInScopeMap; }
-    def keepMyselfInScope(sq: ProductCQ): String = {
-        if (_myselfInScopeMap == null) { _myselfInScopeMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfInScopeMap.size() + 1);
-        _myselfInScopeMap.put(ky, sq); return "myselfInScope." + ky;
-    }
+    def getMyselfInScope(): Map[String, ProductCQ] = { xgetSQueMap("myselfInScope") }
+    def keepMyselfInScope(sq: ProductCQ): String = { xkeepSQue("myselfInScope", sq) }
 
     // ===================================================================================
     //                                                                       Very Internal

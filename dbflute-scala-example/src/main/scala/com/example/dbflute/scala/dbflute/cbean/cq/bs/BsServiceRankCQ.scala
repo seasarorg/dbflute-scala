@@ -67,66 +67,30 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
     //                                                                               Query
     //                                                                               =====
     protected var _serviceRankCode: ConditionValue = null;
-    def getServiceRankCode(): ConditionValue = {
-        if (_serviceRankCode == null) { _serviceRankCode = nCV(); }
-        return _serviceRankCode;
-    }
+    def getServiceRankCode(): ConditionValue =
+    { if (_serviceRankCode == null) { _serviceRankCode = nCV(); }
+      return _serviceRankCode; }
     protected def getCValueServiceRankCode(): ConditionValue = { return getServiceRankCode(); }
 
-    protected var _serviceRankCode_ExistsReferrer_MemberServiceListMap: Map[String, MemberServiceCQ] = null;
-    def getServiceRankCode_ExistsReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { return _serviceRankCode_ExistsReferrer_MemberServiceListMap; }
-    def keepServiceRankCode_ExistsReferrer_MemberServiceList(sq: MemberServiceCQ): String = {
-        if (_serviceRankCode_ExistsReferrer_MemberServiceListMap == null) { _serviceRankCode_ExistsReferrer_MemberServiceListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_serviceRankCode_ExistsReferrer_MemberServiceListMap.size() + 1);
-        _serviceRankCode_ExistsReferrer_MemberServiceListMap.put(ky, sq); return "serviceRankCode_ExistsReferrer_MemberServiceList." + ky;
-    }
+    def getServiceRankCode_ExistsReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { xgetSQueMap("serviceRankCode_ExistsReferrer_MemberServiceList") }
+    def keepServiceRankCode_ExistsReferrer_MemberServiceList(sq: MemberServiceCQ): String = { xkeepSQue("serviceRankCode_ExistsReferrer_MemberServiceList", sq) }
 
-    protected var _serviceRankCode_NotExistsReferrer_MemberServiceListMap: Map[String, MemberServiceCQ] = null;
-    def getServiceRankCode_NotExistsReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { return _serviceRankCode_NotExistsReferrer_MemberServiceListMap; }
-    def keepServiceRankCode_NotExistsReferrer_MemberServiceList(sq: MemberServiceCQ): String = {
-        if (_serviceRankCode_NotExistsReferrer_MemberServiceListMap == null) { _serviceRankCode_NotExistsReferrer_MemberServiceListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_serviceRankCode_NotExistsReferrer_MemberServiceListMap.size() + 1);
-        _serviceRankCode_NotExistsReferrer_MemberServiceListMap.put(ky, sq); return "serviceRankCode_NotExistsReferrer_MemberServiceList." + ky;
-    }
+    def getServiceRankCode_NotExistsReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { xgetSQueMap("serviceRankCode_NotExistsReferrer_MemberServiceList") }
+    def keepServiceRankCode_NotExistsReferrer_MemberServiceList(sq: MemberServiceCQ): String = { xkeepSQue("serviceRankCode_NotExistsReferrer_MemberServiceList", sq) }
 
-    protected var _serviceRankCode_InScopeRelation_MemberServiceListMap: Map[String, MemberServiceCQ] = null;
-    def getServiceRankCode_InScopeRelation_MemberServiceList(): Map[String, MemberServiceCQ] = { return _serviceRankCode_InScopeRelation_MemberServiceListMap; }
-    def keepServiceRankCode_InScopeRelation_MemberServiceList(sq: MemberServiceCQ): String = {
-        if (_serviceRankCode_InScopeRelation_MemberServiceListMap == null) { _serviceRankCode_InScopeRelation_MemberServiceListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_serviceRankCode_InScopeRelation_MemberServiceListMap.size() + 1);
-        _serviceRankCode_InScopeRelation_MemberServiceListMap.put(ky, sq); return "serviceRankCode_InScopeRelation_MemberServiceList." + ky;
-    }
+    def getServiceRankCode_InScopeRelation_MemberServiceList(): Map[String, MemberServiceCQ] = { xgetSQueMap("serviceRankCode_InScopeRelation_MemberServiceList") }
+    def keepServiceRankCode_InScopeRelation_MemberServiceList(sq: MemberServiceCQ): String = { xkeepSQue("serviceRankCode_InScopeRelation_MemberServiceList", sq) }
 
-    protected var _serviceRankCode_NotInScopeRelation_MemberServiceListMap: Map[String, MemberServiceCQ] = null;
-    def getServiceRankCode_NotInScopeRelation_MemberServiceList(): Map[String, MemberServiceCQ] = { return _serviceRankCode_NotInScopeRelation_MemberServiceListMap; }
-    def keepServiceRankCode_NotInScopeRelation_MemberServiceList(sq: MemberServiceCQ): String = {
-        if (_serviceRankCode_NotInScopeRelation_MemberServiceListMap == null) { _serviceRankCode_NotInScopeRelation_MemberServiceListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_serviceRankCode_NotInScopeRelation_MemberServiceListMap.size() + 1);
-        _serviceRankCode_NotInScopeRelation_MemberServiceListMap.put(ky, sq); return "serviceRankCode_NotInScopeRelation_MemberServiceList." + ky;
-    }
+    def getServiceRankCode_NotInScopeRelation_MemberServiceList(): Map[String, MemberServiceCQ] = { xgetSQueMap("serviceRankCode_NotInScopeRelation_MemberServiceList") }
+    def keepServiceRankCode_NotInScopeRelation_MemberServiceList(sq: MemberServiceCQ): String = { xkeepSQue("serviceRankCode_NotInScopeRelation_MemberServiceList", sq) }
 
-    protected var _serviceRankCode_SpecifyDerivedReferrer_MemberServiceListMap: Map[String, MemberServiceCQ] = null;
-    def getServiceRankCode_SpecifyDerivedReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { return _serviceRankCode_SpecifyDerivedReferrer_MemberServiceListMap; }
-    def keepServiceRankCode_SpecifyDerivedReferrer_MemberServiceList(sq: MemberServiceCQ): String = {
-        if (_serviceRankCode_SpecifyDerivedReferrer_MemberServiceListMap == null) { _serviceRankCode_SpecifyDerivedReferrer_MemberServiceListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_serviceRankCode_SpecifyDerivedReferrer_MemberServiceListMap.size() + 1);
-        _serviceRankCode_SpecifyDerivedReferrer_MemberServiceListMap.put(ky, sq); return "serviceRankCode_SpecifyDerivedReferrer_MemberServiceList." + ky;
-    }
+    def getServiceRankCode_SpecifyDerivedReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { xgetSQueMap("serviceRankCode_SpecifyDerivedReferrer_MemberServiceList") }
+    def keepServiceRankCode_SpecifyDerivedReferrer_MemberServiceList(sq: MemberServiceCQ): String = { xkeepSQue("serviceRankCode_SpecifyDerivedReferrer_MemberServiceList", sq) }
 
-    protected var _serviceRankCode_QueryDerivedReferrer_MemberServiceListMap: Map[String, MemberServiceCQ] = null;
-    def getServiceRankCode_QueryDerivedReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { return _serviceRankCode_QueryDerivedReferrer_MemberServiceListMap; }
-    def keepServiceRankCode_QueryDerivedReferrer_MemberServiceList(sq: MemberServiceCQ): String = {
-        if (_serviceRankCode_QueryDerivedReferrer_MemberServiceListMap == null) { _serviceRankCode_QueryDerivedReferrer_MemberServiceListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_serviceRankCode_QueryDerivedReferrer_MemberServiceListMap.size() + 1);
-        _serviceRankCode_QueryDerivedReferrer_MemberServiceListMap.put(ky, sq); return "serviceRankCode_QueryDerivedReferrer_MemberServiceList." + ky;
-    }
-    protected var _serviceRankCode_QueryDerivedReferrer_MemberServiceListParameterMap: Map[String, Object] = null;
-    def getServiceRankCode_QueryDerivedReferrer_MemberServiceListParameter(): Map[String, Object] = { return _serviceRankCode_QueryDerivedReferrer_MemberServiceListParameterMap; }
-    def keepServiceRankCode_QueryDerivedReferrer_MemberServiceListParameter(vl: Object): String = {
-        if (_serviceRankCode_QueryDerivedReferrer_MemberServiceListParameterMap == null) { _serviceRankCode_QueryDerivedReferrer_MemberServiceListParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_serviceRankCode_QueryDerivedReferrer_MemberServiceListParameterMap.size() + 1);
-        _serviceRankCode_QueryDerivedReferrer_MemberServiceListParameterMap.put(ky, vl); return "serviceRankCode_QueryDerivedReferrer_MemberServiceListParameter." + ky;
-    }
+    def getServiceRankCode_QueryDerivedReferrer_MemberServiceList(): Map[String, MemberServiceCQ] = { xgetSQueMap("serviceRankCode_QueryDerivedReferrer_MemberServiceList") }
+    def keepServiceRankCode_QueryDerivedReferrer_MemberServiceList(sq: MemberServiceCQ): String = { xkeepSQue("serviceRankCode_QueryDerivedReferrer_MemberServiceList", sq) }
+    def getServiceRankCode_QueryDerivedReferrer_MemberServiceListParameter(): Map[String, Object] = { xgetSQuePmMap("serviceRankCode_QueryDerivedReferrer_MemberServiceList") }
+    def keepServiceRankCode_QueryDerivedReferrer_MemberServiceListParameter(pm: Object): String = { xkeepSQuePm("serviceRankCode_QueryDerivedReferrer_MemberServiceList", pm) }
 
     /** 
      * Add order-by as ascend. <br />
@@ -143,10 +107,9 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
     def addOrderBy_ServiceRankCode_Desc(): BsServiceRankCQ = { regOBD("SERVICE_RANK_CODE"); return this; }
 
     protected var _serviceRankName: ConditionValue = null;
-    def getServiceRankName(): ConditionValue = {
-        if (_serviceRankName == null) { _serviceRankName = nCV(); }
-        return _serviceRankName;
-    }
+    def getServiceRankName(): ConditionValue =
+    { if (_serviceRankName == null) { _serviceRankName = nCV(); }
+      return _serviceRankName; }
     protected def getCValueServiceRankName(): ConditionValue = { return getServiceRankName(); }
 
     /** 
@@ -164,10 +127,9 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
     def addOrderBy_ServiceRankName_Desc(): BsServiceRankCQ = { regOBD("SERVICE_RANK_NAME"); return this; }
 
     protected var _servicePointIncidence: ConditionValue = null;
-    def getServicePointIncidence(): ConditionValue = {
-        if (_servicePointIncidence == null) { _servicePointIncidence = nCV(); }
-        return _servicePointIncidence;
-    }
+    def getServicePointIncidence(): ConditionValue =
+    { if (_servicePointIncidence == null) { _servicePointIncidence = nCV(); }
+      return _servicePointIncidence; }
     protected def getCValueServicePointIncidence(): ConditionValue = { return getServicePointIncidence(); }
 
     /** 
@@ -185,10 +147,9 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
     def addOrderBy_ServicePointIncidence_Desc(): BsServiceRankCQ = { regOBD("SERVICE_POINT_INCIDENCE"); return this; }
 
     protected var _newAcceptableFlg: ConditionValue = null;
-    def getNewAcceptableFlg(): ConditionValue = {
-        if (_newAcceptableFlg == null) { _newAcceptableFlg = nCV(); }
-        return _newAcceptableFlg;
-    }
+    def getNewAcceptableFlg(): ConditionValue =
+    { if (_newAcceptableFlg == null) { _newAcceptableFlg = nCV(); }
+      return _newAcceptableFlg; }
     protected def getCValueNewAcceptableFlg(): ConditionValue = { return getNewAcceptableFlg(); }
 
     /** 
@@ -206,17 +167,15 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
     def addOrderBy_NewAcceptableFlg_Desc(): BsServiceRankCQ = { regOBD("NEW_ACCEPTABLE_FLG"); return this; }
 
     protected var _description: ConditionValue = null;
-    def getDescription(): ConditionValue = {
-        if (_description == null) { _description = nCV(); }
-        return _description;
-    }
+    def getDescription(): ConditionValue =
+    { if (_description == null) { _description = nCV(); }
+      return _description; }
     protected def getCValueDescription(): ConditionValue = { return getDescription(); }
 
     protected var _displayOrder: ConditionValue = null;
-    def getDisplayOrder(): ConditionValue = {
-        if (_displayOrder == null) { _displayOrder = nCV(); }
-        return _displayOrder;
-    }
+    def getDisplayOrder(): ConditionValue =
+    { if (_displayOrder == null) { _displayOrder = nCV(); }
+      return _displayOrder; }
     protected def getCValueDisplayOrder(): ConditionValue = { return getDisplayOrder(); }
 
     /** 
@@ -243,8 +202,7 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsServiceRankCQ =
-    { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsServiceRankCQ = { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
 
     /**
      * Add order-by for specified derived column as descend.
@@ -260,8 +218,7 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsServiceRankCQ =
-    { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsServiceRankCQ = { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
 
     // ===================================================================================
     //                                                                         Union Query
@@ -279,61 +236,31 @@ class BsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alias
     // ===================================================================================
     //                                                                     ScalarCondition
     //                                                                     ===============
-    protected var _scalarConditionMap: Map[String, ServiceRankCQ] = null;
-    def getScalarCondition(): Map[String, ServiceRankCQ] = { return _scalarConditionMap; }
-    def keepScalarCondition(sq: ServiceRankCQ): String = {
-        if (_scalarConditionMap == null) { _scalarConditionMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_scalarConditionMap.size() + 1);
-        _scalarConditionMap.put(ky, sq); return "scalarCondition." + ky;
-    }
+    def getScalarCondition(): Map[String, ServiceRankCQ] = { xgetSQueMap("scalarCondition") }
+    def keepScalarCondition(sq: ServiceRankCQ): String = { xkeepSQue("scalarCondition", sq) }
 
     // ===================================================================================
     //                                                                       MyselfDerived
     //                                                                       =============
-    protected var _specifyMyselfDerivedMap: Map[String, ServiceRankCQ] = null;
-    def getSpecifyMyselfDerived(): Map[String, ServiceRankCQ] = { return _specifyMyselfDerivedMap; }
-    def keepSpecifyMyselfDerived(sq: ServiceRankCQ): String = {
-        if (_specifyMyselfDerivedMap == null) { _specifyMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_specifyMyselfDerivedMap.size() + 1);
-        _specifyMyselfDerivedMap.put(ky, sq); return "specifyMyselfDerived." + ky;
-    }
+    def getSpecifyMyselfDerived(): Map[String, ServiceRankCQ] = { xgetSQueMap("specifyMyselfDerived") }
+    def keepSpecifyMyselfDerived(sq: ServiceRankCQ): String = { xkeepSQue("specifyMyselfDerived", sq) }
 
-    protected var _queryMyselfDerivedMap: Map[String, ServiceRankCQ] = null;
-    def getQueryMyselfDerived(): Map[String, ServiceRankCQ] = { return _queryMyselfDerivedMap; }
-    def keepQueryMyselfDerived(sq: ServiceRankCQ): String = {
-        if (_queryMyselfDerivedMap == null) { _queryMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_queryMyselfDerivedMap.size() + 1);
-        _queryMyselfDerivedMap.put(ky, sq); return "queryMyselfDerived." + ky;
-    }
-    protected var _qyeryMyselfDerivedParameterMap: Map[String, Object] = null;
-    def getQueryMyselfDerivedParameter(): Map[String, Object] = { return _qyeryMyselfDerivedParameterMap; }
-    def keepQueryMyselfDerivedParameter(vl: Object): String = {
-        if (_qyeryMyselfDerivedParameterMap == null) { _qyeryMyselfDerivedParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_qyeryMyselfDerivedParameterMap.size() + 1);
-        _qyeryMyselfDerivedParameterMap.put(ky, vl); return "queryMyselfDerivedParameter." + ky;
-    }
+    def getQueryMyselfDerived(): Map[String, ServiceRankCQ] = { xgetSQueMap("queryMyselfDerived") }
+    def keepQueryMyselfDerived(sq: ServiceRankCQ): String = { xkeepSQue("queryMyselfDerived", sq) }
+    def getQueryMyselfDerivedParameter(): Map[String, Object] = { xgetSQuePmMap("qyeryMyselfDerived") }
+    def keepQueryMyselfDerivedParameter(pm: Object): String = { xkeepSQuePm("qyeryMyselfDerived", pm) }
 
     // ===================================================================================
     //                                                                        MyselfExists
     //                                                                        ============
-    protected var _myselfExistsMap: Map[String, ServiceRankCQ] = null;
-    def getMyselfExists(): Map[String, ServiceRankCQ] = { return _myselfExistsMap; }
-    def keepMyselfExists(sq: ServiceRankCQ): String = {
-        if (_myselfExistsMap == null) { _myselfExistsMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfExistsMap.size() + 1);
-        _myselfExistsMap.put(ky, sq); return "myselfExists." + ky;
-    }
+    def getMyselfExists(): Map[String, ServiceRankCQ] = { xgetSQueMap("myselfExists") }
+    def keepMyselfExists(sq: ServiceRankCQ): String = { xkeepSQue("myselfExists", sq) }
 
     // ===================================================================================
     //                                                                       MyselfInScope
     //                                                                       =============
-    protected var _myselfInScopeMap: Map[String, ServiceRankCQ] = null;
-    def getMyselfInScope(): Map[String, ServiceRankCQ] = { return _myselfInScopeMap; }
-    def keepMyselfInScope(sq: ServiceRankCQ): String = {
-        if (_myselfInScopeMap == null) { _myselfInScopeMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfInScopeMap.size() + 1);
-        _myselfInScopeMap.put(ky, sq); return "myselfInScope." + ky;
-    }
+    def getMyselfInScope(): Map[String, ServiceRankCQ] = { xgetSQueMap("myselfInScope") }
+    def keepMyselfInScope(sq: ServiceRankCQ): String = { xkeepSQue("myselfInScope", sq) }
 
     // ===================================================================================
     //                                                                       Very Internal

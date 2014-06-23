@@ -486,23 +486,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     }
 
     protected def doLoadPurchaseList(productList: List[DbleProduct], option: LoadReferrerOption[PurchaseCB, DblePurchase]): NestedReferrerListGateway[DblePurchase] = {
-        val referrerBhv: PurchaseBhv = xgetBSFLR().select(classOf[PurchaseBhv]);
-        return helpLoadReferrerInternally(productList, option, new InternalLoadReferrerCallback[DbleProduct, Integer, PurchaseCB, DblePurchase]() {
-            def getPKVal(et: DbleProduct): Integer =
-            { return et.getProductId(); }
-            def setRfLs(et: DbleProduct, ls: List[DblePurchase]): Unit =
-            { et.setPurchaseList(ls); }
-            def newMyCB(): PurchaseCB = { return referrerBhv.newConditionBean(); }
-            def qyFKIn(cb: PurchaseCB, ls: List[Integer]): Unit =
-            { cb.query().setProductId_InScope(toScalaList(ls).map(_.asInstanceOf[Int])); }
-            def qyOdFKAsc(cb: PurchaseCB): Unit = { cb.query().addOrderBy_ProductId_Asc(); }
-            def spFKCol(cb: PurchaseCB): Unit = { cb.specify().columnProductId(); }
-            def selRfLs(cb: PurchaseCB): List[DblePurchase] = { return referrerBhv.readList(cb).asInstanceOf[List[DblePurchase]]; }
-            def getFKVal(re: DblePurchase): Integer = { return re.getProductId(); }
-            def setlcEt(re: DblePurchase, le: DbleProduct): Unit =
-            { re.setProduct(Option.apply(le)); }
-            def getRfPrNm(): String = { return "purchaseList"; }
-        });
+        return helpLoadReferrerInternally(productList, option, "purchaseList");
     }
 
     // ===================================================================================

@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Date;
 
-import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity;
+import org.seasar.dbflute.dbmeta.DBMeta;
+import org.seasar.dbflute.dbmeta.DerivedMappable;
 import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
 import org.seasar.dbflute.Entity.EntityModifiedProperties;
+import org.seasar.dbflute.Entity.EntityDerivedMap;
 import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -63,7 +65,7 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember] with Serializable with Cloneable with DfCoupleProperties {
+abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember] with Serializable with Cloneable with DerivedMappable {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -91,6 +93,9 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
 
     /** The modified properties for this entity. (NotNull) */
     protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
+
+    /** The map of derived value, key is alias name. (NullAllowed: lazy-loaded) */
+    protected var __derivedMap: EntityDerivedMap = null;
 
     /** Is the entity created by DBFlute select process? */
     protected var __createdBySelect: Boolean = false;
@@ -221,6 +226,32 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
      */
     def createdBySelect(): Boolean = {
         return __createdBySelect;
+    }
+
+    // ===================================================================================
+    //                                                                    Derived Mappable
+    //                                                                    ================
+    /**
+     * {@inheritDoc}
+     */
+    def registerDerivedValue(aliasName: String, selectedValue: Object): Unit = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        __derivedMap.registerDerivedValue(aliasName, selectedValue);
+    }
+
+    /**
+     * Find the derived value from derived map.
+     * @param <VALUE> The type of the value.
+     * @param aliasName The alias name of derived-referrer. (NotNull)
+     * @return The derived value found in the map. (NullAllowed: when null selected)
+     */
+    def derived[VALUE](aliasName: String): VALUE = {
+        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
+        return __derivedMap.findDerivedValue(aliasName);
+    }
+
+    protected def newDerivedMap(): EntityDerivedMap = {
+        return new EntityDerivedMap();
     }
 
     // ===================================================================================
@@ -364,7 +395,7 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
      */
     def setMemberId(memberId: Integer): Unit = {
         __modifiedProperties.addPropertyName("memberId");
-        this._memberId = memberId;
+        _memberId = memberId;
     }
 
     /**
@@ -381,7 +412,7 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
      */
     def setMemberName(memberName: String): Unit = {
         __modifiedProperties.addPropertyName("memberName");
-        this._memberName = memberName;
+        _memberName = memberName;
     }
 
     /**
@@ -398,7 +429,7 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
      */
     def setBirthdate(birthdate: java.util.Date): Unit = {
         __modifiedProperties.addPropertyName("birthdate");
-        this._birthdate = birthdate;
+        _birthdate = birthdate;
     }
 
     /**
@@ -415,7 +446,7 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
      */
     def setMemberStatusName(memberStatusName: String): Unit = {
         __modifiedProperties.addPropertyName("memberStatusName");
-        this._memberStatusName = memberStatusName;
+        _memberStatusName = memberStatusName;
     }
 
     protected def convertEmptyToNull(value: String): String = {

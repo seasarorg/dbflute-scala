@@ -486,23 +486,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
     }
 
     protected def doLoadMemberList(memberStatusList: List[DbleMemberStatus], option: LoadReferrerOption[MemberCB, DbleMember]): NestedReferrerListGateway[DbleMember] = {
-        val referrerBhv: MemberBhv = xgetBSFLR().select(classOf[MemberBhv]);
-        return helpLoadReferrerInternally(memberStatusList, option, new InternalLoadReferrerCallback[DbleMemberStatus, String, MemberCB, DbleMember]() {
-            def getPKVal(et: DbleMemberStatus): String =
-            { return et.getMemberStatusCode(); }
-            def setRfLs(et: DbleMemberStatus, ls: List[DbleMember]): Unit =
-            { et.setMemberList(ls); }
-            def newMyCB(): MemberCB = { return referrerBhv.newConditionBean(); }
-            def qyFKIn(cb: MemberCB, ls: List[String]): Unit =
-            { cb.query().setMemberStatusCode_InScope(toScalaList(ls).map(_.asInstanceOf[CDef.MemberStatus])); }
-            def qyOdFKAsc(cb: MemberCB): Unit = { cb.query().addOrderBy_MemberStatusCode_Asc(); }
-            def spFKCol(cb: MemberCB): Unit = { cb.specify().columnMemberStatusCode(); }
-            def selRfLs(cb: MemberCB): List[DbleMember] = { return referrerBhv.readList(cb).asInstanceOf[List[DbleMember]]; }
-            def getFKVal(re: DbleMember): String = { return re.getMemberStatusCode(); }
-            def setlcEt(re: DbleMember, le: DbleMemberStatus): Unit =
-            { re.setMemberStatus(Option.apply(le)); }
-            def getRfPrNm(): String = { return "memberList"; }
-        });
+        return helpLoadReferrerInternally(memberStatusList, option, "memberList");
     }
 
     // ===================================================================================

@@ -67,66 +67,30 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     //                                                                               Query
     //                                                                               =====
     protected var _memberId: ConditionValue = null;
-    def getMemberId(): ConditionValue = {
-        if (_memberId == null) { _memberId = nCV(); }
-        return _memberId;
-    }
+    def getMemberId(): ConditionValue =
+    { if (_memberId == null) { _memberId = nCV(); }
+      return _memberId; }
     protected def getCValueMemberId(): ConditionValue = { return getMemberId(); }
 
-    protected var _memberId_ExistsReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getMemberId_ExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_ExistsReferrer_PurchaseListMap; }
-    def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_memberId_ExistsReferrer_PurchaseListMap == null) { _memberId_ExistsReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_memberId_ExistsReferrer_PurchaseListMap.size() + 1);
-        _memberId_ExistsReferrer_PurchaseListMap.put(ky, sq); return "memberId_ExistsReferrer_PurchaseList." + ky;
-    }
+    def getMemberId_ExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_ExistsReferrer_PurchaseList") }
+    def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_ExistsReferrer_PurchaseList", sq) }
 
-    protected var _memberId_NotExistsReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getMemberId_NotExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_NotExistsReferrer_PurchaseListMap; }
-    def keepMemberId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_memberId_NotExistsReferrer_PurchaseListMap == null) { _memberId_NotExistsReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_memberId_NotExistsReferrer_PurchaseListMap.size() + 1);
-        _memberId_NotExistsReferrer_PurchaseListMap.put(ky, sq); return "memberId_NotExistsReferrer_PurchaseList." + ky;
-    }
+    def getMemberId_NotExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_NotExistsReferrer_PurchaseList") }
+    def keepMemberId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_NotExistsReferrer_PurchaseList", sq) }
 
-    protected var _memberId_SpecifyDerivedReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getMemberId_SpecifyDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_SpecifyDerivedReferrer_PurchaseListMap; }
-    def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_memberId_SpecifyDerivedReferrer_PurchaseListMap == null) { _memberId_SpecifyDerivedReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_memberId_SpecifyDerivedReferrer_PurchaseListMap.size() + 1);
-        _memberId_SpecifyDerivedReferrer_PurchaseListMap.put(ky, sq); return "memberId_SpecifyDerivedReferrer_PurchaseList." + ky;
-    }
+    def getMemberId_SpecifyDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_SpecifyDerivedReferrer_PurchaseList") }
+    def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_SpecifyDerivedReferrer_PurchaseList", sq) }
 
-    protected var _memberId_InScopeRelation_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getMemberId_InScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_InScopeRelation_PurchaseListMap; }
-    def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String = {
-        if (_memberId_InScopeRelation_PurchaseListMap == null) { _memberId_InScopeRelation_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_memberId_InScopeRelation_PurchaseListMap.size() + 1);
-        _memberId_InScopeRelation_PurchaseListMap.put(ky, sq); return "memberId_InScopeRelation_PurchaseList." + ky;
-    }
+    def getMemberId_InScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_InScopeRelation_PurchaseList") }
+    def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_InScopeRelation_PurchaseList", sq) }
 
-    protected var _memberId_NotInScopeRelation_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getMemberId_NotInScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_NotInScopeRelation_PurchaseListMap; }
-    def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String = {
-        if (_memberId_NotInScopeRelation_PurchaseListMap == null) { _memberId_NotInScopeRelation_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_memberId_NotInScopeRelation_PurchaseListMap.size() + 1);
-        _memberId_NotInScopeRelation_PurchaseListMap.put(ky, sq); return "memberId_NotInScopeRelation_PurchaseList." + ky;
-    }
+    def getMemberId_NotInScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_NotInScopeRelation_PurchaseList") }
+    def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_NotInScopeRelation_PurchaseList", sq) }
 
-    protected var _memberId_QueryDerivedReferrer_PurchaseListMap: Map[String, PurchaseCQ] = null;
-    def getMemberId_QueryDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { return _memberId_QueryDerivedReferrer_PurchaseListMap; }
-    def keepMemberId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = {
-        if (_memberId_QueryDerivedReferrer_PurchaseListMap == null) { _memberId_QueryDerivedReferrer_PurchaseListMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_memberId_QueryDerivedReferrer_PurchaseListMap.size() + 1);
-        _memberId_QueryDerivedReferrer_PurchaseListMap.put(ky, sq); return "memberId_QueryDerivedReferrer_PurchaseList." + ky;
-    }
-    protected var _memberId_QueryDerivedReferrer_PurchaseListParameterMap: Map[String, Object] = null;
-    def getMemberId_QueryDerivedReferrer_PurchaseListParameter(): Map[String, Object] = { return _memberId_QueryDerivedReferrer_PurchaseListParameterMap; }
-    def keepMemberId_QueryDerivedReferrer_PurchaseListParameter(vl: Object): String = {
-        if (_memberId_QueryDerivedReferrer_PurchaseListParameterMap == null) { _memberId_QueryDerivedReferrer_PurchaseListParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_memberId_QueryDerivedReferrer_PurchaseListParameterMap.size() + 1);
-        _memberId_QueryDerivedReferrer_PurchaseListParameterMap.put(ky, vl); return "memberId_QueryDerivedReferrer_PurchaseListParameter." + ky;
-    }
+    def getMemberId_QueryDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_QueryDerivedReferrer_PurchaseList") }
+    def keepMemberId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_QueryDerivedReferrer_PurchaseList", sq) }
+    def getMemberId_QueryDerivedReferrer_PurchaseListParameter(): Map[String, Object] = { xgetSQuePmMap("memberId_QueryDerivedReferrer_PurchaseList") }
+    def keepMemberId_QueryDerivedReferrer_PurchaseListParameter(pm: Object): String = { xkeepSQuePm("memberId_QueryDerivedReferrer_PurchaseList", pm) }
 
     /** 
      * Add order-by as ascend. <br />
@@ -143,10 +107,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_MemberId_Desc(): BsMemberCQ = { regOBD("MEMBER_ID"); return this; }
 
     protected var _memberName: ConditionValue = null;
-    def getMemberName(): ConditionValue = {
-        if (_memberName == null) { _memberName = nCV(); }
-        return _memberName;
-    }
+    def getMemberName(): ConditionValue =
+    { if (_memberName == null) { _memberName = nCV(); }
+      return _memberName; }
     protected def getCValueMemberName(): ConditionValue = { return getMemberName(); }
 
     /** 
@@ -164,10 +127,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_MemberName_Desc(): BsMemberCQ = { regOBD("MEMBER_NAME"); return this; }
 
     protected var _memberAccount: ConditionValue = null;
-    def getMemberAccount(): ConditionValue = {
-        if (_memberAccount == null) { _memberAccount = nCV(); }
-        return _memberAccount;
-    }
+    def getMemberAccount(): ConditionValue =
+    { if (_memberAccount == null) { _memberAccount = nCV(); }
+      return _memberAccount; }
     protected def getCValueMemberAccount(): ConditionValue = { return getMemberAccount(); }
 
     /** 
@@ -185,10 +147,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_MemberAccount_Desc(): BsMemberCQ = { regOBD("MEMBER_ACCOUNT"); return this; }
 
     protected var _memberStatusCode: ConditionValue = null;
-    def getMemberStatusCode(): ConditionValue = {
-        if (_memberStatusCode == null) { _memberStatusCode = nCV(); }
-        return _memberStatusCode;
-    }
+    def getMemberStatusCode(): ConditionValue =
+    { if (_memberStatusCode == null) { _memberStatusCode = nCV(); }
+      return _memberStatusCode; }
     protected def getCValueMemberStatusCode(): ConditionValue = { return getMemberStatusCode(); }
 
     /** 
@@ -206,10 +167,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_MemberStatusCode_Desc(): BsMemberCQ = { regOBD("MEMBER_STATUS_CODE"); return this; }
 
     protected var _formalizedDatetime: ConditionValue = null;
-    def getFormalizedDatetime(): ConditionValue = {
-        if (_formalizedDatetime == null) { _formalizedDatetime = nCV(); }
-        return _formalizedDatetime;
-    }
+    def getFormalizedDatetime(): ConditionValue =
+    { if (_formalizedDatetime == null) { _formalizedDatetime = nCV(); }
+      return _formalizedDatetime; }
     protected def getCValueFormalizedDatetime(): ConditionValue = { return getFormalizedDatetime(); }
 
     /** 
@@ -227,10 +187,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_FormalizedDatetime_Desc(): BsMemberCQ = { regOBD("FORMALIZED_DATETIME"); return this; }
 
     protected var _birthdate: ConditionValue = null;
-    def getBirthdate(): ConditionValue = {
-        if (_birthdate == null) { _birthdate = nCV(); }
-        return _birthdate;
-    }
+    def getBirthdate(): ConditionValue =
+    { if (_birthdate == null) { _birthdate = nCV(); }
+      return _birthdate; }
     protected def getCValueBirthdate(): ConditionValue = { return getBirthdate(); }
 
     /** 
@@ -248,10 +207,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_Birthdate_Desc(): BsMemberCQ = { regOBD("BIRTHDATE"); return this; }
 
     protected var _registerDatetime: ConditionValue = null;
-    def getRegisterDatetime(): ConditionValue = {
-        if (_registerDatetime == null) { _registerDatetime = nCV(); }
-        return _registerDatetime;
-    }
+    def getRegisterDatetime(): ConditionValue =
+    { if (_registerDatetime == null) { _registerDatetime = nCV(); }
+      return _registerDatetime; }
     protected def getCValueRegisterDatetime(): ConditionValue = { return getRegisterDatetime(); }
 
     /** 
@@ -269,10 +227,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_RegisterDatetime_Desc(): BsMemberCQ = { regOBD("REGISTER_DATETIME"); return this; }
 
     protected var _registerUser: ConditionValue = null;
-    def getRegisterUser(): ConditionValue = {
-        if (_registerUser == null) { _registerUser = nCV(); }
-        return _registerUser;
-    }
+    def getRegisterUser(): ConditionValue =
+    { if (_registerUser == null) { _registerUser = nCV(); }
+      return _registerUser; }
     protected def getCValueRegisterUser(): ConditionValue = { return getRegisterUser(); }
 
     /** 
@@ -290,10 +247,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_RegisterUser_Desc(): BsMemberCQ = { regOBD("REGISTER_USER"); return this; }
 
     protected var _updateDatetime: ConditionValue = null;
-    def getUpdateDatetime(): ConditionValue = {
-        if (_updateDatetime == null) { _updateDatetime = nCV(); }
-        return _updateDatetime;
-    }
+    def getUpdateDatetime(): ConditionValue =
+    { if (_updateDatetime == null) { _updateDatetime = nCV(); }
+      return _updateDatetime; }
     protected def getCValueUpdateDatetime(): ConditionValue = { return getUpdateDatetime(); }
 
     /** 
@@ -311,10 +267,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_UpdateDatetime_Desc(): BsMemberCQ = { regOBD("UPDATE_DATETIME"); return this; }
 
     protected var _updateUser: ConditionValue = null;
-    def getUpdateUser(): ConditionValue = {
-        if (_updateUser == null) { _updateUser = nCV(); }
-        return _updateUser;
-    }
+    def getUpdateUser(): ConditionValue =
+    { if (_updateUser == null) { _updateUser = nCV(); }
+      return _updateUser; }
     protected def getCValueUpdateUser(): ConditionValue = { return getUpdateUser(); }
 
     /** 
@@ -332,10 +287,9 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def addOrderBy_UpdateUser_Desc(): BsMemberCQ = { regOBD("UPDATE_USER"); return this; }
 
     protected var _versionNo: ConditionValue = null;
-    def getVersionNo(): ConditionValue = {
-        if (_versionNo == null) { _versionNo = nCV(); }
-        return _versionNo;
-    }
+    def getVersionNo(): ConditionValue =
+    { if (_versionNo == null) { _versionNo = nCV(); }
+      return _versionNo; }
     protected def getCValueVersionNo(): ConditionValue = { return getVersionNo(); }
 
     /** 
@@ -369,8 +323,7 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsMemberCQ =
-    { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsMemberCQ = { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
 
     /**
      * Add order-by for specified derived column as descend.
@@ -386,8 +339,7 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsMemberCQ =
-    { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsMemberCQ = { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
 
     // ===================================================================================
     //                                                                         Union Query
@@ -398,9 +350,8 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
         if (bq.hasConditionQueryMemberStatus()) {
             uq.queryMemberStatus().reflectRelationOnUnionQuery(bq.queryMemberStatus(), uq.queryMemberStatus());
         }
-        if (bq.hasConditionQueryMemberServiceAsOne()) {
-            uq.queryMemberServiceAsOne().reflectRelationOnUnionQuery(bq.queryMemberServiceAsOne(), uq.queryMemberServiceAsOne());
-        }
+        if (bq.hasConditionQueryMemberServiceAsOne())
+        { uq.queryMemberServiceAsOne().reflectRelationOnUnionQuery(bq.queryMemberServiceAsOne(), uq.queryMemberServiceAsOne()); }
     }
 
     // ===================================================================================
@@ -414,55 +365,35 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     def queryMemberStatus(): MemberStatusCQ = {
         return getConditionQueryMemberStatus();
     }
-    protected var _conditionQueryMemberStatus: MemberStatusCQ = null;
     def getConditionQueryMemberStatus(): MemberStatusCQ = {
-        if (_conditionQueryMemberStatus == null) {
-            _conditionQueryMemberStatus = xcreateQueryMemberStatus();
-            xsetupOuterJoinMemberStatus();
-        }
-        return _conditionQueryMemberStatus;
+        val prop = "memberStatus";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryMemberStatus()); xsetupOuterJoinMemberStatus(); }
+        return xgetQueRlMap(prop);
     }
     protected def xcreateQueryMemberStatus(): MemberStatusCQ = {
-        val nrp: String = resolveNextRelationPath("MEMBER",  "memberStatus");
-        val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        return xinitRelCQ(new MemberStatusCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "memberStatus", nrp);
+        val nrp = xresolveNRP("MEMBER",  "memberStatus"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new MemberStatusCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "memberStatus", nrp);
     }
-    protected def xsetupOuterJoinMemberStatus(): Unit = {
-        val cq: MemberStatusCQ = getConditionQueryMemberStatus();
-        val joinOnMap: Map[String, String] = newLinkedHashMapSized(4);
-        joinOnMap.put("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE");
-        registerOuterJoin(cq, joinOnMap, "memberStatus");
-    }
-    def hasConditionQueryMemberStatus(): Boolean = { _conditionQueryMemberStatus != null }
+    protected def xsetupOuterJoinMemberStatus(): Unit = { xregOutJo("memberStatus") }
+    def hasConditionQueryMemberStatus(): Boolean = { xhasQueRlMap("memberStatus") }
 
     /**
      * Get the condition-query for relation table. <br />
      * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @return The instance of condition-query. (NotNull)
      */
-    def queryMemberServiceAsOne(): MemberServiceCQ = {
-        return getConditionQueryMemberServiceAsOne();
-    }
-    protected var _conditionQueryMemberServiceAsOne: MemberServiceCQ = null;
+    def queryMemberServiceAsOne(): MemberServiceCQ = { getConditionQueryMemberServiceAsOne() }
     def getConditionQueryMemberServiceAsOne(): MemberServiceCQ = {
-        if (_conditionQueryMemberServiceAsOne == null) {
-            _conditionQueryMemberServiceAsOne = xcreateQueryMemberServiceAsOne();
-            xsetupOuterJoinMemberServiceAsOne();
-        }
-        return _conditionQueryMemberServiceAsOne;
+        val prop = "memberServiceAsOne";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryMemberServiceAsOne()); xsetupOuterJoinMemberServiceAsOne(); }
+        return xgetQueRlMap(prop);
     }
     protected def xcreateQueryMemberServiceAsOne(): MemberServiceCQ = {
-        val nrp: String = resolveNextRelationPath("MEMBER",  "memberServiceAsOne");
-        val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        return xinitRelCQ(new MemberServiceCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "memberServiceAsOne", nrp);
+        val nrp = xresolveNRP("MEMBER",  "memberServiceAsOne"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new MemberServiceCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "memberServiceAsOne", nrp);
     }
-    protected def xsetupOuterJoinMemberServiceAsOne(): Unit = {
-        val cq: MemberServiceCQ = getConditionQueryMemberServiceAsOne();
-        val joinOnMap: Map[String, String] = newLinkedHashMapSized(4);
-        joinOnMap.put("MEMBER_ID", "MEMBER_ID");
-        registerOuterJoin(cq, joinOnMap, "memberServiceAsOne");
-    }
-    def hasConditionQueryMemberServiceAsOne(): Boolean = { _conditionQueryMemberServiceAsOne != null }
+    protected def xsetupOuterJoinMemberServiceAsOne(): Unit = { xregOutJo("memberServiceAsOne") }
+    def hasConditionQueryMemberServiceAsOne(): Boolean = { xhasQueRlMap("memberServiceAsOne") }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;
@@ -471,61 +402,31 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     // ===================================================================================
     //                                                                     ScalarCondition
     //                                                                     ===============
-    protected var _scalarConditionMap: Map[String, MemberCQ] = null;
-    def getScalarCondition(): Map[String, MemberCQ] = { return _scalarConditionMap; }
-    def keepScalarCondition(sq: MemberCQ): String = {
-        if (_scalarConditionMap == null) { _scalarConditionMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_scalarConditionMap.size() + 1);
-        _scalarConditionMap.put(ky, sq); return "scalarCondition." + ky;
-    }
+    def getScalarCondition(): Map[String, MemberCQ] = { xgetSQueMap("scalarCondition") }
+    def keepScalarCondition(sq: MemberCQ): String = { xkeepSQue("scalarCondition", sq) }
 
     // ===================================================================================
     //                                                                       MyselfDerived
     //                                                                       =============
-    protected var _specifyMyselfDerivedMap: Map[String, MemberCQ] = null;
-    def getSpecifyMyselfDerived(): Map[String, MemberCQ] = { return _specifyMyselfDerivedMap; }
-    def keepSpecifyMyselfDerived(sq: MemberCQ): String = {
-        if (_specifyMyselfDerivedMap == null) { _specifyMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_specifyMyselfDerivedMap.size() + 1);
-        _specifyMyselfDerivedMap.put(ky, sq); return "specifyMyselfDerived." + ky;
-    }
+    def getSpecifyMyselfDerived(): Map[String, MemberCQ] = { xgetSQueMap("specifyMyselfDerived") }
+    def keepSpecifyMyselfDerived(sq: MemberCQ): String = { xkeepSQue("specifyMyselfDerived", sq) }
 
-    protected var _queryMyselfDerivedMap: Map[String, MemberCQ] = null;
-    def getQueryMyselfDerived(): Map[String, MemberCQ] = { return _queryMyselfDerivedMap; }
-    def keepQueryMyselfDerived(sq: MemberCQ): String = {
-        if (_queryMyselfDerivedMap == null) { _queryMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_queryMyselfDerivedMap.size() + 1);
-        _queryMyselfDerivedMap.put(ky, sq); return "queryMyselfDerived." + ky;
-    }
-    protected var _qyeryMyselfDerivedParameterMap: Map[String, Object] = null;
-    def getQueryMyselfDerivedParameter(): Map[String, Object] = { return _qyeryMyselfDerivedParameterMap; }
-    def keepQueryMyselfDerivedParameter(vl: Object): String = {
-        if (_qyeryMyselfDerivedParameterMap == null) { _qyeryMyselfDerivedParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_qyeryMyselfDerivedParameterMap.size() + 1);
-        _qyeryMyselfDerivedParameterMap.put(ky, vl); return "queryMyselfDerivedParameter." + ky;
-    }
+    def getQueryMyselfDerived(): Map[String, MemberCQ] = { xgetSQueMap("queryMyselfDerived") }
+    def keepQueryMyselfDerived(sq: MemberCQ): String = { xkeepSQue("queryMyselfDerived", sq) }
+    def getQueryMyselfDerivedParameter(): Map[String, Object] = { xgetSQuePmMap("qyeryMyselfDerived") }
+    def keepQueryMyselfDerivedParameter(pm: Object): String = { xkeepSQuePm("qyeryMyselfDerived", pm) }
 
     // ===================================================================================
     //                                                                        MyselfExists
     //                                                                        ============
-    protected var _myselfExistsMap: Map[String, MemberCQ] = null;
-    def getMyselfExists(): Map[String, MemberCQ] = { return _myselfExistsMap; }
-    def keepMyselfExists(sq: MemberCQ): String = {
-        if (_myselfExistsMap == null) { _myselfExistsMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfExistsMap.size() + 1);
-        _myselfExistsMap.put(ky, sq); return "myselfExists." + ky;
-    }
+    def getMyselfExists(): Map[String, MemberCQ] = { xgetSQueMap("myselfExists") }
+    def keepMyselfExists(sq: MemberCQ): String = { xkeepSQue("myselfExists", sq) }
 
     // ===================================================================================
     //                                                                       MyselfInScope
     //                                                                       =============
-    protected var _myselfInScopeMap: Map[String, MemberCQ] = null;
-    def getMyselfInScope(): Map[String, MemberCQ] = { return _myselfInScopeMap; }
-    def keepMyselfInScope(sq: MemberCQ): String = {
-        if (_myselfInScopeMap == null) { _myselfInScopeMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfInScopeMap.size() + 1);
-        _myselfInScopeMap.put(ky, sq); return "myselfInScope." + ky;
-    }
+    def getMyselfInScope(): Map[String, MemberCQ] = { xgetSQueMap("myselfInScope") }
+    def keepMyselfInScope(sq: MemberCQ): String = { xkeepSQue("myselfInScope", sq) }
 
     // ===================================================================================
     //                                                                       Very Internal

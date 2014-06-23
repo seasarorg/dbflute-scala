@@ -67,10 +67,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     //                                                                               Query
     //                                                                               =====
     protected var _purchasePaymentId: ConditionValue = null;
-    def getPurchasePaymentId(): ConditionValue = {
-        if (_purchasePaymentId == null) { _purchasePaymentId = nCV(); }
-        return _purchasePaymentId;
-    }
+    def getPurchasePaymentId(): ConditionValue =
+    { if (_purchasePaymentId == null) { _purchasePaymentId = nCV(); }
+      return _purchasePaymentId; }
     protected def getCValuePurchasePaymentId(): ConditionValue = { return getPurchasePaymentId(); }
 
     /** 
@@ -88,10 +87,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_PurchasePaymentId_Desc(): BsPurchasePaymentCQ = { regOBD("PURCHASE_PAYMENT_ID"); return this; }
 
     protected var _purchaseId: ConditionValue = null;
-    def getPurchaseId(): ConditionValue = {
-        if (_purchaseId == null) { _purchaseId = nCV(); }
-        return _purchaseId;
-    }
+    def getPurchaseId(): ConditionValue =
+    { if (_purchaseId == null) { _purchaseId = nCV(); }
+      return _purchaseId; }
     protected def getCValuePurchaseId(): ConditionValue = { return getPurchaseId(); }
 
     /** 
@@ -109,10 +107,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_PurchaseId_Desc(): BsPurchasePaymentCQ = { regOBD("PURCHASE_ID"); return this; }
 
     protected var _paymentAmount: ConditionValue = null;
-    def getPaymentAmount(): ConditionValue = {
-        if (_paymentAmount == null) { _paymentAmount = nCV(); }
-        return _paymentAmount;
-    }
+    def getPaymentAmount(): ConditionValue =
+    { if (_paymentAmount == null) { _paymentAmount = nCV(); }
+      return _paymentAmount; }
     protected def getCValuePaymentAmount(): ConditionValue = { return getPaymentAmount(); }
 
     /** 
@@ -130,10 +127,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_PaymentAmount_Desc(): BsPurchasePaymentCQ = { regOBD("PAYMENT_AMOUNT"); return this; }
 
     protected var _paymentDatetime: ConditionValue = null;
-    def getPaymentDatetime(): ConditionValue = {
-        if (_paymentDatetime == null) { _paymentDatetime = nCV(); }
-        return _paymentDatetime;
-    }
+    def getPaymentDatetime(): ConditionValue =
+    { if (_paymentDatetime == null) { _paymentDatetime = nCV(); }
+      return _paymentDatetime; }
     protected def getCValuePaymentDatetime(): ConditionValue = { return getPaymentDatetime(); }
 
     /** 
@@ -151,10 +147,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_PaymentDatetime_Desc(): BsPurchasePaymentCQ = { regOBD("PAYMENT_DATETIME"); return this; }
 
     protected var _paymentMethodCode: ConditionValue = null;
-    def getPaymentMethodCode(): ConditionValue = {
-        if (_paymentMethodCode == null) { _paymentMethodCode = nCV(); }
-        return _paymentMethodCode;
-    }
+    def getPaymentMethodCode(): ConditionValue =
+    { if (_paymentMethodCode == null) { _paymentMethodCode = nCV(); }
+      return _paymentMethodCode; }
     protected def getCValuePaymentMethodCode(): ConditionValue = { return getPaymentMethodCode(); }
 
     /** 
@@ -172,10 +167,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_PaymentMethodCode_Desc(): BsPurchasePaymentCQ = { regOBD("PAYMENT_METHOD_CODE"); return this; }
 
     protected var _registerDatetime: ConditionValue = null;
-    def getRegisterDatetime(): ConditionValue = {
-        if (_registerDatetime == null) { _registerDatetime = nCV(); }
-        return _registerDatetime;
-    }
+    def getRegisterDatetime(): ConditionValue =
+    { if (_registerDatetime == null) { _registerDatetime = nCV(); }
+      return _registerDatetime; }
     protected def getCValueRegisterDatetime(): ConditionValue = { return getRegisterDatetime(); }
 
     /** 
@@ -193,10 +187,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_RegisterDatetime_Desc(): BsPurchasePaymentCQ = { regOBD("REGISTER_DATETIME"); return this; }
 
     protected var _registerUser: ConditionValue = null;
-    def getRegisterUser(): ConditionValue = {
-        if (_registerUser == null) { _registerUser = nCV(); }
-        return _registerUser;
-    }
+    def getRegisterUser(): ConditionValue =
+    { if (_registerUser == null) { _registerUser = nCV(); }
+      return _registerUser; }
     protected def getCValueRegisterUser(): ConditionValue = { return getRegisterUser(); }
 
     /** 
@@ -214,10 +207,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_RegisterUser_Desc(): BsPurchasePaymentCQ = { regOBD("REGISTER_USER"); return this; }
 
     protected var _updateDatetime: ConditionValue = null;
-    def getUpdateDatetime(): ConditionValue = {
-        if (_updateDatetime == null) { _updateDatetime = nCV(); }
-        return _updateDatetime;
-    }
+    def getUpdateDatetime(): ConditionValue =
+    { if (_updateDatetime == null) { _updateDatetime = nCV(); }
+      return _updateDatetime; }
     protected def getCValueUpdateDatetime(): ConditionValue = { return getUpdateDatetime(); }
 
     /** 
@@ -235,10 +227,9 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def addOrderBy_UpdateDatetime_Desc(): BsPurchasePaymentCQ = { regOBD("UPDATE_DATETIME"); return this; }
 
     protected var _updateUser: ConditionValue = null;
-    def getUpdateUser(): ConditionValue = {
-        if (_updateUser == null) { _updateUser = nCV(); }
-        return _updateUser;
-    }
+    def getUpdateUser(): ConditionValue =
+    { if (_updateUser == null) { _updateUser = nCV(); }
+      return _updateUser; }
     protected def getCValueUpdateUser(): ConditionValue = { return getUpdateUser(); }
 
     /** 
@@ -272,8 +263,7 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsPurchasePaymentCQ =
-    { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Asc(aliasName: String): BsPurchasePaymentCQ = { registerSpecifiedDerivedOrderBy_Asc(aliasName); return this; }
 
     /**
      * Add order-by for specified derived column as descend.
@@ -289,8 +279,7 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
      * @param aliasName The alias name specified at (Specify)DerivedReferrer. (NotNull)
      * @return this. (NotNull)
      */
-    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsPurchasePaymentCQ =
-    { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
+    def addSpecifiedDerivedOrderBy_Desc(aliasName: String): BsPurchasePaymentCQ = { registerSpecifiedDerivedOrderBy_Desc(aliasName); return this; }
 
     // ===================================================================================
     //                                                                         Union Query
@@ -314,26 +303,17 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     def queryPurchase(): PurchaseCQ = {
         return getConditionQueryPurchase();
     }
-    protected var _conditionQueryPurchase: PurchaseCQ = null;
     def getConditionQueryPurchase(): PurchaseCQ = {
-        if (_conditionQueryPurchase == null) {
-            _conditionQueryPurchase = xcreateQueryPurchase();
-            xsetupOuterJoinPurchase();
-        }
-        return _conditionQueryPurchase;
+        val prop = "purchase";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryPurchase()); xsetupOuterJoinPurchase(); }
+        return xgetQueRlMap(prop);
     }
     protected def xcreateQueryPurchase(): PurchaseCQ = {
-        val nrp: String = resolveNextRelationPath("PURCHASE_PAYMENT",  "purchase");
-        val jan: String = resolveJoinAliasName(nrp,  xgetNextNestLevel());
-        return xinitRelCQ(new PurchaseCQ(this, xgetSqlClause(), jan, xgetNextNestLevel()), _baseCB, "purchase", nrp);
+        val nrp = xresolveNRP("PURCHASE_PAYMENT",  "purchase"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new PurchaseCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "purchase", nrp);
     }
-    protected def xsetupOuterJoinPurchase(): Unit = {
-        val cq: PurchaseCQ = getConditionQueryPurchase();
-        val joinOnMap: Map[String, String] = newLinkedHashMapSized(4);
-        joinOnMap.put("PURCHASE_ID", "PURCHASE_ID");
-        registerOuterJoin(cq, joinOnMap, "purchase");
-    }
-    def hasConditionQueryPurchase(): Boolean = { _conditionQueryPurchase != null }
+    protected def xsetupOuterJoinPurchase(): Unit = { xregOutJo("purchase") }
+    def hasConditionQueryPurchase(): Boolean = { xhasQueRlMap("purchase") }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;
@@ -342,61 +322,31 @@ class BsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, a
     // ===================================================================================
     //                                                                     ScalarCondition
     //                                                                     ===============
-    protected var _scalarConditionMap: Map[String, PurchasePaymentCQ] = null;
-    def getScalarCondition(): Map[String, PurchasePaymentCQ] = { return _scalarConditionMap; }
-    def keepScalarCondition(sq: PurchasePaymentCQ): String = {
-        if (_scalarConditionMap == null) { _scalarConditionMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_scalarConditionMap.size() + 1);
-        _scalarConditionMap.put(ky, sq); return "scalarCondition." + ky;
-    }
+    def getScalarCondition(): Map[String, PurchasePaymentCQ] = { xgetSQueMap("scalarCondition") }
+    def keepScalarCondition(sq: PurchasePaymentCQ): String = { xkeepSQue("scalarCondition", sq) }
 
     // ===================================================================================
     //                                                                       MyselfDerived
     //                                                                       =============
-    protected var _specifyMyselfDerivedMap: Map[String, PurchasePaymentCQ] = null;
-    def getSpecifyMyselfDerived(): Map[String, PurchasePaymentCQ] = { return _specifyMyselfDerivedMap; }
-    def keepSpecifyMyselfDerived(sq: PurchasePaymentCQ): String = {
-        if (_specifyMyselfDerivedMap == null) { _specifyMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_specifyMyselfDerivedMap.size() + 1);
-        _specifyMyselfDerivedMap.put(ky, sq); return "specifyMyselfDerived." + ky;
-    }
+    def getSpecifyMyselfDerived(): Map[String, PurchasePaymentCQ] = { xgetSQueMap("specifyMyselfDerived") }
+    def keepSpecifyMyselfDerived(sq: PurchasePaymentCQ): String = { xkeepSQue("specifyMyselfDerived", sq) }
 
-    protected var _queryMyselfDerivedMap: Map[String, PurchasePaymentCQ] = null;
-    def getQueryMyselfDerived(): Map[String, PurchasePaymentCQ] = { return _queryMyselfDerivedMap; }
-    def keepQueryMyselfDerived(sq: PurchasePaymentCQ): String = {
-        if (_queryMyselfDerivedMap == null) { _queryMyselfDerivedMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_queryMyselfDerivedMap.size() + 1);
-        _queryMyselfDerivedMap.put(ky, sq); return "queryMyselfDerived." + ky;
-    }
-    protected var _qyeryMyselfDerivedParameterMap: Map[String, Object] = null;
-    def getQueryMyselfDerivedParameter(): Map[String, Object] = { return _qyeryMyselfDerivedParameterMap; }
-    def keepQueryMyselfDerivedParameter(vl: Object): String = {
-        if (_qyeryMyselfDerivedParameterMap == null) { _qyeryMyselfDerivedParameterMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryParameterKey" + (_qyeryMyselfDerivedParameterMap.size() + 1);
-        _qyeryMyselfDerivedParameterMap.put(ky, vl); return "queryMyselfDerivedParameter." + ky;
-    }
+    def getQueryMyselfDerived(): Map[String, PurchasePaymentCQ] = { xgetSQueMap("queryMyselfDerived") }
+    def keepQueryMyselfDerived(sq: PurchasePaymentCQ): String = { xkeepSQue("queryMyselfDerived", sq) }
+    def getQueryMyselfDerivedParameter(): Map[String, Object] = { xgetSQuePmMap("qyeryMyselfDerived") }
+    def keepQueryMyselfDerivedParameter(pm: Object): String = { xkeepSQuePm("qyeryMyselfDerived", pm) }
 
     // ===================================================================================
     //                                                                        MyselfExists
     //                                                                        ============
-    protected var _myselfExistsMap: Map[String, PurchasePaymentCQ] = null;
-    def getMyselfExists(): Map[String, PurchasePaymentCQ] = { return _myselfExistsMap; }
-    def keepMyselfExists(sq: PurchasePaymentCQ): String = {
-        if (_myselfExistsMap == null) { _myselfExistsMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfExistsMap.size() + 1);
-        _myselfExistsMap.put(ky, sq); return "myselfExists." + ky;
-    }
+    def getMyselfExists(): Map[String, PurchasePaymentCQ] = { xgetSQueMap("myselfExists") }
+    def keepMyselfExists(sq: PurchasePaymentCQ): String = { xkeepSQue("myselfExists", sq) }
 
     // ===================================================================================
     //                                                                       MyselfInScope
     //                                                                       =============
-    protected var _myselfInScopeMap: Map[String, PurchasePaymentCQ] = null;
-    def getMyselfInScope(): Map[String, PurchasePaymentCQ] = { return _myselfInScopeMap; }
-    def keepMyselfInScope(sq: PurchasePaymentCQ): String = {
-        if (_myselfInScopeMap == null) { _myselfInScopeMap = newLinkedHashMapSized(4); }
-        val ky: String = "subQueryMapKey" + (_myselfInScopeMap.size() + 1);
-        _myselfInScopeMap.put(ky, sq); return "myselfInScope." + ky;
-    }
+    def getMyselfInScope(): Map[String, PurchasePaymentCQ] = { xgetSQueMap("myselfInScope") }
+    def keepMyselfInScope(sq: PurchasePaymentCQ): String = { xkeepSQue("myselfInScope", sq) }
 
     // ===================================================================================
     //                                                                       Very Internal
