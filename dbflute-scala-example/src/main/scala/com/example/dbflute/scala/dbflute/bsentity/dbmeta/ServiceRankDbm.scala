@@ -1,7 +1,8 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
-// #avoided same name type
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -137,8 +138,8 @@ object ServiceRankDbm extends AbstractDBMeta {
     //                                       Primary Element
     //                                       ---------------
     protected def cpui(): UniqueInfo = { return hpcpui(columnServiceRankCode()); }
-    def hasPrimaryKey(): Boolean = { return true; }
-    def hasCompoundPrimaryKey(): Boolean = { return false; }
+    def hasPrimaryKey(): scala.Boolean = { return true; }
+    def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================
     //                                                                       Relation Info

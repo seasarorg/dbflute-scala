@@ -414,7 +414,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCode The value of productCategoryCode as equal. (NullAllowed: if null (or empty), no condition)
      */
      def setProductCategoryCode_Equal(productCategoryCode: String): Unit = {
@@ -427,7 +427,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCode The value of productCategoryCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
      def setProductCategoryCode_NotEqual(productCategoryCode: String): Unit = {
@@ -440,7 +440,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCodeList The collection of productCategoryCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
     def setProductCategoryCode_InScope(productCategoryCodeList: List[String]): Unit = {
@@ -453,7 +453,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCodeList The collection of productCategoryCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
     def setProductCategoryCode_NotInScope(productCategoryCodeList: List[String]): Unit = {
@@ -466,7 +466,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * PrefixSearch {like 'xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCode The value of productCategoryCode as prefixSearch. (NullAllowed: if null (or empty), no condition)
      */
     def setProductCategoryCode_PrefixSearch(productCategoryCode: String): Unit = {
@@ -475,7 +475,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY} <br />
      * <pre>e.g. setProductCategoryCode_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
      * @param productCategoryCode The value of productCategoryCode as likeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of like-search. (NotNull)
@@ -487,7 +487,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     /**
      * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br />
      * And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCode The value of productCategoryCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
      * @param optionCall The callback for option of not-like-search. (NotNull)
      */
@@ -500,11 +500,45 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @param productStatusCode The value of productStatusCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductStatusCode_Equal(productStatusCode: String): Unit = {
+    protected def setProductStatusCode_Equal(productStatusCode: String): Unit = {
         doSetProductStatusCode_Equal(fRES(productStatusCode));
+    }
+
+    /**
+     * Equal(=). As ProductStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, no condition)
+     */
+    def setProductStatusCode_Equal_AsProductStatus(cdef: CDef.ProductStatus): Unit = {
+        doSetProductStatusCode_Equal(if (cdef != null) { cdef.code } else { null });
+    }
+
+    /**
+     * Equal(=). As ProductionSales (ONS). And OnlyOnceRegistered. <br />
+     * ProductionSales
+     */
+    def setProductStatusCode_Equal_ProductionSales(): Unit = {
+        setProductStatusCode_Equal_AsProductStatus(CDef.ProductStatus.ProductionSales);
+    }
+
+    /**
+     * Equal(=). As StopProduction (PST). And OnlyOnceRegistered. <br />
+     * StopProduction
+     */
+    def setProductStatusCode_Equal_StopProduction(): Unit = {
+        setProductStatusCode_Equal_AsProductStatus(CDef.ProductStatus.StopProduction);
+    }
+
+    /**
+     * Equal(=). As StopSales (SST). And OnlyOnceRegistered. <br />
+     * StopSales
+     */
+    def setProductStatusCode_Equal_StopSales(): Unit = {
+        setProductStatusCode_Equal_AsProductStatus(CDef.ProductStatus.StopSales);
     }
 
     protected def doSetProductStatusCode_Equal(productStatusCode: String): Unit = {
@@ -513,11 +547,45 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @param productStatusCode The value of productStatusCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductStatusCode_NotEqual(productStatusCode: String): Unit = {
+    protected def setProductStatusCode_NotEqual(productStatusCode: String): Unit = {
         doSetProductStatusCode_NotEqual(fRES(productStatusCode));
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ProductStatus. And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, no condition)
+     */
+    def setProductStatusCode_NotEqual_AsProductStatus(cdef: CDef.ProductStatus): Unit = {
+        doSetProductStatusCode_NotEqual(if (cdef != null) { cdef.code } else { null });
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ProductionSales (ONS). And OnlyOnceRegistered. <br />
+     * ProductionSales
+     */
+    def setProductStatusCode_NotEqual_ProductionSales(): Unit = {
+        setProductStatusCode_NotEqual_AsProductStatus(CDef.ProductStatus.ProductionSales);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As StopProduction (PST). And OnlyOnceRegistered. <br />
+     * StopProduction
+     */
+    def setProductStatusCode_NotEqual_StopProduction(): Unit = {
+        setProductStatusCode_NotEqual_AsProductStatus(CDef.ProductStatus.StopProduction);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As StopSales (SST). And OnlyOnceRegistered. <br />
+     * StopSales
+     */
+    def setProductStatusCode_NotEqual_StopSales(): Unit = {
+        setProductStatusCode_NotEqual_AsProductStatus(CDef.ProductStatus.StopSales);
     }
 
     protected def doSetProductStatusCode_NotEqual(productStatusCode: String): Unit = {
@@ -526,11 +594,21 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @param productStatusCodeList The collection of productStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_InScope(productStatusCodeList: List[String]): Unit = {
+    def setProductStatusCode_InScope(productStatusCodeList: List[CDef.ProductStatus]): Unit = {
         doSetProductStatusCode_InScope(toMutableValueCollectionImplicitly(productStatusCodeList));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. As ProductStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
+     */
+    def setProductStatusCode_InScope_AsProductStatus(cdefList: List[CDef.ProductStatus]): Unit = {
+        doSetProductStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
     def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
@@ -539,46 +617,25 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @param productStatusCodeList The collection of productStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_NotInScope(productStatusCodeList: List[String]): Unit = {
+    def setProductStatusCode_NotInScope(productStatusCodeList: List[CDef.ProductStatus]): Unit = {
         doSetProductStatusCode_NotInScope(if (productStatusCodeList != null) { productStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. As ProductStatus. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * @param cdefList The list of classification definition (as ENUM type). (NullAllowed: if null (or empty), no condition)
+     */
+    def setProductStatusCode_NotInScope_AsProductStatus(cdefList: List[CDef.ProductStatus]): Unit = {
+        doSetProductStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
     def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productStatusCodeList), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE");
-    }
-
-    /**
-     * PrefixSearch {like 'xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
-     * @param productStatusCode The value of productStatusCode as prefixSearch. (NullAllowed: if null (or empty), no condition)
-     */
-    def setProductStatusCode_PrefixSearch(productStatusCode: String): Unit = {
-        setProductStatusCode_LikeSearch(productStatusCode)(_.likePrefix);
-    }
-
-    /**
-     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
-     * <pre>e.g. setProductStatusCode_LikeSearch("xxx", new <span style="color: #DD4747">LikeSearchOption</span>().likeContain());</pre>
-     * @param productStatusCode The value of productStatusCode as likeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param optionCall The callback for option of like-search. (NotNull)
-     */
-    def setProductStatusCode_LikeSearch(productStatusCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
-        regLSQ(CK_LS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", callbackLSOP(optionCall));
-    }
-
-    /**
-     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br />
-     * And NullOrEmptyIgnored, SeveralRegistered. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
-     * @param productStatusCode The value of productStatusCode as notLikeSearch. (NullAllowed: if null (or empty), no condition)
-     * @param optionCall The callback for option of not-like-search. (NotNull)
-     */
-    def setProductStatusCode_NotLikeSearch(productStatusCode: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
-        regLSQ(CK_NLS, fRES(productStatusCode), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE", callbackLSOP(optionCall));
     }
 
     protected def regProductStatusCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductStatusCode(), "PRODUCT_STATUS_CODE"); }

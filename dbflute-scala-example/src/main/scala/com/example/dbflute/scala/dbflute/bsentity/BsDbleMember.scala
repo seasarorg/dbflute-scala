@@ -2,7 +2,10 @@ package com.example.dbflute.scala.dbflute.bsentity;
 
 import scala.collection.JavaConverters._;
 
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -43,16 +46,16 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     VERSION_NO
  * 
  * [foreign table]
- *     MEMBER_STATUS, MEMBER_SERVICE(AsOne)
+ *     MEMBER_STATUS, MEMBER_SECURITY(AsOne), MEMBER_SERVICE(AsOne), MEMBER_WITHDRAWAL(AsOne)
  * 
  * [referrer table]
- *     PURCHASE, MEMBER_SERVICE
+ *     MEMBER_ADDRESS, MEMBER_FOLLOWING, MEMBER_LOGIN, PURCHASE, MEMBER_SECURITY, MEMBER_SERVICE, MEMBER_WITHDRAWAL
  * 
  * [foreign property]
- *     memberStatus, memberServiceAsOne
+ *     memberStatus, memberSecurityAsOne, memberServiceAsOne, memberWithdrawalAsOne
  * 
  * [referrer property]
- *     purchaseList
+ *     memberAddressList, memberFollowingByMyMemberIdList, memberFollowingByYourMemberIdList, memberLoginList, purchaseList
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -160,7 +163,13 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         setUpdateUser(immu.updateUser);
         setVersionNo(immu.versionNo);
         setMemberStatus(immu.memberStatus.map(new DbleMemberStatus().acceptImmutable(_)))
+        setMemberSecurityAsOne(immu.memberSecurityAsOne.map(new DbleMemberSecurity().acceptImmutable(_)))
         setMemberServiceAsOne(immu.memberServiceAsOne.map(new DbleMemberService().acceptImmutable(_)))
+        setMemberWithdrawalAsOne(immu.memberWithdrawalAsOne.map(new DbleMemberWithdrawal().acceptImmutable(_)))
+        setMemberAddressList(immu.memberAddressList.map(new DbleMemberAddress().acceptImmutable(_)).asJava)
+        setMemberFollowingByMyMemberIdList(immu.memberFollowingByMyMemberIdList.map(new DbleMemberFollowing().acceptImmutable(_)).asJava)
+        setMemberFollowingByYourMemberIdList(immu.memberFollowingByYourMemberIdList.map(new DbleMemberFollowing().acceptImmutable(_)).asJava)
+        setMemberLoginList(immu.memberLoginList.map(new DbleMemberLogin().acceptImmutable(_)).asJava)
         setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
@@ -209,7 +218,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     /**
      * {@inheritDoc}
      */
-    def hasPrimaryKeyValue(): Boolean = {
+    def hasPrimaryKeyValue(): scala.Boolean = {
         if (getMemberId() == null) { return false; }
         return true;
     }
@@ -353,6 +362,33 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         return getMemberStatus().map(_.toImmutable());
     }
 
+    /** (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'. */
+    protected var _memberSecurityAsOne: Option[DbleMemberSecurity] = null;
+
+    /**
+     * [get] (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * @return the entity of foreign property(referrer-as-one) 'memberSecurityAsOne'. (EmptyAllowed: when e.g. no data, no setupSelect)
+     */
+    def getMemberSecurityAsOne(): Option[DbleMemberSecurity] = {
+        return if (_memberSecurityAsOne != null) { _memberSecurityAsOne; } else { Option.empty; }
+    }
+
+    /**
+     * [set] (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * @param memberSecurityAsOne The entity of foreign property(referrer-as-one) 'memberSecurityAsOne'. (EmptyAllowed)
+     */
+    def setMemberSecurityAsOne(memberSecurityAsOne: Option[DbleMemberSecurity]): Unit = {
+        _memberSecurityAsOne = memberSecurityAsOne;
+    }
+
+    /**
+     * [convert] (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * @return The new-created immutable entity of foreign property(referrer-as-one) 'memberSecurityAsOne'. (NotNull)
+     */
+    def toImmutableMemberSecurityAsOne(): Option[MemberSecurity] = {
+        return getMemberSecurityAsOne().map(_.toImmutable());
+    }
+
     /** (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'. */
     protected var _memberServiceAsOne: Option[DbleMemberService] = null;
 
@@ -380,9 +416,148 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         return getMemberServiceAsOne().map(_.toImmutable());
     }
 
+    /** (会員退会情報)MEMBER_WITHDRAWAL by MEMBER_ID, named 'memberWithdrawalAsOne'. */
+    protected var _memberWithdrawalAsOne: Option[DbleMemberWithdrawal] = null;
+
+    /**
+     * [get] (会員退会情報)MEMBER_WITHDRAWAL by MEMBER_ID, named 'memberWithdrawalAsOne'.
+     * @return the entity of foreign property(referrer-as-one) 'memberWithdrawalAsOne'. (EmptyAllowed: when e.g. no data, no setupSelect)
+     */
+    def getMemberWithdrawalAsOne(): Option[DbleMemberWithdrawal] = {
+        return if (_memberWithdrawalAsOne != null) { _memberWithdrawalAsOne; } else { Option.empty; }
+    }
+
+    /**
+     * [set] (会員退会情報)MEMBER_WITHDRAWAL by MEMBER_ID, named 'memberWithdrawalAsOne'.
+     * @param memberWithdrawalAsOne The entity of foreign property(referrer-as-one) 'memberWithdrawalAsOne'. (EmptyAllowed)
+     */
+    def setMemberWithdrawalAsOne(memberWithdrawalAsOne: Option[DbleMemberWithdrawal]): Unit = {
+        _memberWithdrawalAsOne = memberWithdrawalAsOne;
+    }
+
+    /**
+     * [convert] (会員退会情報)MEMBER_WITHDRAWAL by MEMBER_ID, named 'memberWithdrawalAsOne'.
+     * @return The new-created immutable entity of foreign property(referrer-as-one) 'memberWithdrawalAsOne'. (NotNull)
+     */
+    def toImmutableMemberWithdrawalAsOne(): Option[MemberWithdrawal] = {
+        return getMemberWithdrawalAsOne().map(_.toImmutable());
+    }
+
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'. */
+    protected var _memberAddressList: List[DbleMemberAddress] = null;
+
+    /**
+     * [get] (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
+     * @return The entity list of referrer property 'memberAddressList'. (NotNull: even if no loading, returns empty list)
+     */
+    def getMemberAddressList(): List[DbleMemberAddress] = {
+        if (_memberAddressList == null) { _memberAddressList = newReferrerList(); }
+        return _memberAddressList;
+    }
+
+    /**
+     * [set] (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
+     * @param memberAddressList The entity list of referrer property 'memberAddressList'. (NullAllowed)
+     */
+    def setMemberAddressList(memberAddressList: List[DbleMemberAddress]): Unit = {
+        _memberAddressList = memberAddressList;
+    }
+
+    /**
+     * [convert] (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
+     * @return The new-created immutable list of immutable entity of the referrer property 'memberAddressList'. (NotNull)
+     */
+    def toImmutableMemberAddressList(): scala.collection.immutable.List[MemberAddress] = {
+        return toScalaList(_memberAddressList).map(_.toImmutable());
+    }
+
+    /** (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'. */
+    protected var _memberFollowingByMyMemberIdList: List[DbleMemberFollowing] = null;
+
+    /**
+     * [get] (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
+     * @return The entity list of referrer property 'memberFollowingByMyMemberIdList'. (NotNull: even if no loading, returns empty list)
+     */
+    def getMemberFollowingByMyMemberIdList(): List[DbleMemberFollowing] = {
+        if (_memberFollowingByMyMemberIdList == null) { _memberFollowingByMyMemberIdList = newReferrerList(); }
+        return _memberFollowingByMyMemberIdList;
+    }
+
+    /**
+     * [set] (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
+     * @param memberFollowingByMyMemberIdList The entity list of referrer property 'memberFollowingByMyMemberIdList'. (NullAllowed)
+     */
+    def setMemberFollowingByMyMemberIdList(memberFollowingByMyMemberIdList: List[DbleMemberFollowing]): Unit = {
+        _memberFollowingByMyMemberIdList = memberFollowingByMyMemberIdList;
+    }
+
+    /**
+     * [convert] (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
+     * @return The new-created immutable list of immutable entity of the referrer property 'memberFollowingByMyMemberIdList'. (NotNull)
+     */
+    def toImmutableMemberFollowingByMyMemberIdList(): scala.collection.immutable.List[MemberFollowing] = {
+        return toScalaList(_memberFollowingByMyMemberIdList).map(_.toImmutable());
+    }
+
+    /** (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'. */
+    protected var _memberFollowingByYourMemberIdList: List[DbleMemberFollowing] = null;
+
+    /**
+     * [get] (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
+     * @return The entity list of referrer property 'memberFollowingByYourMemberIdList'. (NotNull: even if no loading, returns empty list)
+     */
+    def getMemberFollowingByYourMemberIdList(): List[DbleMemberFollowing] = {
+        if (_memberFollowingByYourMemberIdList == null) { _memberFollowingByYourMemberIdList = newReferrerList(); }
+        return _memberFollowingByYourMemberIdList;
+    }
+
+    /**
+     * [set] (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
+     * @param memberFollowingByYourMemberIdList The entity list of referrer property 'memberFollowingByYourMemberIdList'. (NullAllowed)
+     */
+    def setMemberFollowingByYourMemberIdList(memberFollowingByYourMemberIdList: List[DbleMemberFollowing]): Unit = {
+        _memberFollowingByYourMemberIdList = memberFollowingByYourMemberIdList;
+    }
+
+    /**
+     * [convert] (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
+     * @return The new-created immutable list of immutable entity of the referrer property 'memberFollowingByYourMemberIdList'. (NotNull)
+     */
+    def toImmutableMemberFollowingByYourMemberIdList(): scala.collection.immutable.List[MemberFollowing] = {
+        return toScalaList(_memberFollowingByYourMemberIdList).map(_.toImmutable());
+    }
+
+    /** (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'. */
+    protected var _memberLoginList: List[DbleMemberLogin] = null;
+
+    /**
+     * [get] (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
+     * @return The entity list of referrer property 'memberLoginList'. (NotNull: even if no loading, returns empty list)
+     */
+    def getMemberLoginList(): List[DbleMemberLogin] = {
+        if (_memberLoginList == null) { _memberLoginList = newReferrerList(); }
+        return _memberLoginList;
+    }
+
+    /**
+     * [set] (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
+     * @param memberLoginList The entity list of referrer property 'memberLoginList'. (NullAllowed)
+     */
+    def setMemberLoginList(memberLoginList: List[DbleMemberLogin]): Unit = {
+        _memberLoginList = memberLoginList;
+    }
+
+    /**
+     * [convert] (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
+     * @return The new-created immutable list of immutable entity of the referrer property 'memberLoginList'. (NotNull)
+     */
+    def toImmutableMemberLoginList(): scala.collection.immutable.List[MemberLogin] = {
+        return toScalaList(_memberLoginList).map(_.toImmutable());
+    }
+
     /** (購入)PURCHASE by MEMBER_ID, named 'purchaseList'. */
     protected var _purchaseList: List[DblePurchase] = null;
 
@@ -435,7 +610,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     /**
      * {@inheritDoc}
      */
-    def hasModification(): Boolean = {
+    def hasModification(): scala.Boolean = {
         return !__modifiedProperties.isEmpty();
     }
 
@@ -456,7 +631,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     /**
      * {@inheritDoc}
      */
-    def createdBySelect(): Boolean = {
+    def createdBySelect(): scala.Boolean = {
         return __createdBySelect;
     }
 
@@ -480,7 +655,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     /**
      * {@inheritDoc}
      */
-    def canCommonColumnAutoSetup(): Boolean = {
+    def canCommonColumnAutoSetup(): scala.Boolean = {
         return __canCommonColumnAutoSetup;
     }
 
@@ -538,7 +713,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): Boolean = {
+    protected def xSV(v1: Object, v2: Object): scala.Boolean = {
         return FunCustodial.isSameValue(v1, v2);
     }
 
@@ -580,8 +755,16 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         val li: String = "\n  ";
         if (_memberStatus != null)
         { sb.append(li).append(xbRDS(_memberStatus, "memberStatus")); }
+        if (_memberSecurityAsOne != null)
+        { sb.append(li).append(xbRDS(_memberSecurityAsOne, "memberSecurityAsOne")); }
         if (_memberServiceAsOne != null)
         { sb.append(li).append(xbRDS(_memberServiceAsOne, "memberServiceAsOne")); }
+        if (_memberWithdrawalAsOne != null)
+        { sb.append(li).append(xbRDS(_memberWithdrawalAsOne, "memberWithdrawalAsOne")); }
+        toScalaList(_memberAddressList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberAddressList")) } });
+        toScalaList(_memberFollowingByMyMemberIdList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberFollowingByMyMemberIdList")) } });
+        toScalaList(_memberFollowingByYourMemberIdList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberFollowingByYourMemberIdList")) } });
+        toScalaList(_memberLoginList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberLoginList")) } });
         toScalaList(_purchaseList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "purchaseList")) } });
         return sb.toString();
     }
@@ -595,7 +778,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     /**
      * {@inheritDoc}
      */
-    def buildDisplayString(name: String, column: Boolean, relation: Boolean): String = {
+    def buildDisplayString(name: String, column: scala.Boolean, relation: scala.Boolean): String = {
         val sb: StringBuilder = new StringBuilder();
         if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
         if (column) { sb.append(buildColumnString()); }
@@ -633,7 +816,17 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         val sb: StringBuilder = new StringBuilder();
         val cm: String = ",  ";
         if (_memberStatus != null) { sb.append(cm).append("memberStatus"); }
+        if (_memberSecurityAsOne != null) { sb.append(cm).append("memberSecurityAsOne"); }
         if (_memberServiceAsOne != null) { sb.append(cm).append("memberServiceAsOne"); }
+        if (_memberWithdrawalAsOne != null) { sb.append(cm).append("memberWithdrawalAsOne"); }
+        if (_memberAddressList != null && !_memberAddressList.isEmpty)
+        { sb.append(cm).append("memberAddressList"); }
+        if (_memberFollowingByMyMemberIdList != null && !_memberFollowingByMyMemberIdList.isEmpty)
+        { sb.append(cm).append("memberFollowingByMyMemberIdList"); }
+        if (_memberFollowingByYourMemberIdList != null && !_memberFollowingByYourMemberIdList.isEmpty)
+        { sb.append(cm).append("memberFollowingByYourMemberIdList"); }
+        if (_memberLoginList != null && !_memberLoginList.isEmpty)
+        { sb.append(cm).append("memberLoginList"); }
         if (_purchaseList != null && !_purchaseList.isEmpty)
         { sb.append(cm).append("purchaseList"); }
         if (sb.length() > cm.length()) {

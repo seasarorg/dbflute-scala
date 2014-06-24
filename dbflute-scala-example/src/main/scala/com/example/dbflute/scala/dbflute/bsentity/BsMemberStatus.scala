@@ -34,13 +34,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     
  * 
  * [referrer table]
- *     MEMBER
+ *     MEMBER, MEMBER_LOGIN
  * 
  * [foreign property]
  *     
  * 
  * [referrer property]
- *     memberList
+ *     memberList, memberLoginList
  * 
  * [get template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -134,6 +134,12 @@ abstract class BsMemberStatus(dble: DbleMemberStatus) extends Serializable {
      * @return The entity list of referrer property 'memberList'. (NotNull: even if no loading, returns empty list)
      */
     def memberList: List[Member] = { dble.toImmutableMemberList }
+
+    /**
+     * [get] (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginList'.
+     * @return The entity list of referrer property 'memberLoginList'. (NotNull: even if no loading, returns empty list)
+     */
+    def memberLoginList: List[MemberLogin] = { dble.toImmutableMemberLoginList }
 
     // ===================================================================================
     //                                                                    Derived Mappable

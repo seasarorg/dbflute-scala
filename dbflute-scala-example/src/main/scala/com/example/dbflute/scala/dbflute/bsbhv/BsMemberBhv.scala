@@ -42,16 +42,16 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     VERSION_NO
  *
  * [foreign table]
- *     MEMBER_STATUS, MEMBER_SERVICE(AsOne)
+ *     MEMBER_STATUS, MEMBER_SECURITY(AsOne), MEMBER_SERVICE(AsOne), MEMBER_WITHDRAWAL(AsOne)
  *
  * [referrer table]
- *     PURCHASE, MEMBER_SERVICE
+ *     MEMBER_ADDRESS, MEMBER_FOLLOWING, MEMBER_LOGIN, PURCHASE, MEMBER_SECURITY, MEMBER_SERVICE, MEMBER_WITHDRAWAL
  *
  * [foreign property]
- *     memberStatus, memberServiceAsOne
+ *     memberStatus, memberSecurityAsOne, memberServiceAsOne, memberWithdrawalAsOne
  *
  * [referrer property]
- *     purchaseList
+ *     memberAddressList, memberFollowingByMyMemberIdList, memberFollowingByYourMemberIdList, memberLoginList, purchaseList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -424,6 +424,286 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     //                                                                       Load Referrer
     //                                                                       =============
     /**
+     * Load referrer of memberAddressList by the set-upper of referrer. <br />
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberAddressList</span>(memberList, new ReferrerConditionSetupper&lt;MemberAddressCB&gt;() {
+     *     public void setup(MemberAddressCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * for (DbleMember member : memberList) {
+     *     ... = member.<span style="color: #DD4747">getMemberAddressList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setMemberId_InScope(pkList);
+     * cb.query().addOrderBy_MemberId_Asc();
+     * </pre>
+     * @param memberList The entity list of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberAddressList(memberList: List[DbleMember], setupCall: (MemberAddressCB) => Unit): NestedReferrerListGateway[DbleMemberAddress] = {
+        assertObjectNotNull("memberList", memberList); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberAddressCB]() { def setup(referrerCB: MemberAddressCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberAddressList(memberList, new LoadReferrerOption[MemberAddressCB, DbleMemberAddress]().xinit(setupper));
+    }
+
+    /**
+     * Load referrer of memberAddressList by the set-upper of referrer. <br />
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberAddressList</span>(memberList, new ReferrerConditionSetupper&lt;MemberAddressCB&gt;() {
+     *     public void setup(MemberAddressCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = member.<span style="color: #DD4747">getMemberAddressList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setMemberId_InScope(pkList);
+     * cb.query().addOrderBy_MemberId_Asc();
+     * </pre>
+     * @param member The entity of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberAddressList(member: DbleMember, setupCall: (MemberAddressCB) => Unit): NestedReferrerListGateway[DbleMemberAddress] = {
+        assertObjectNotNull("member", member); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberAddressCB]() { def setup(referrerCB: MemberAddressCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberAddressList(xnewLRLs(member), new LoadReferrerOption[MemberAddressCB, DbleMemberAddress]().xinit(setupper));
+    }
+
+    protected def doLoadMemberAddressList(memberList: List[DbleMember], option: LoadReferrerOption[MemberAddressCB, DbleMemberAddress]): NestedReferrerListGateway[DbleMemberAddress] = {
+        return helpLoadReferrerInternally(memberList, option, "memberAddressList");
+    }
+
+    /**
+     * Load referrer of memberFollowingByMyMemberIdList by the set-upper of referrer. <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberFollowingByMyMemberIdList</span>(memberList, new ReferrerConditionSetupper&lt;MemberFollowingCB&gt;() {
+     *     public void setup(MemberFollowingCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * for (DbleMember member : memberList) {
+     *     ... = member.<span style="color: #DD4747">getMemberFollowingByMyMemberIdList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setMyMemberId_InScope(pkList);
+     * cb.query().addOrderBy_MyMemberId_Asc();
+     * </pre>
+     * @param memberList The entity list of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberFollowingByMyMemberIdList(memberList: List[DbleMember], setupCall: (MemberFollowingCB) => Unit): NestedReferrerListGateway[DbleMemberFollowing] = {
+        assertObjectNotNull("memberList", memberList); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberFollowingCB]() { def setup(referrerCB: MemberFollowingCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberFollowingByMyMemberIdList(memberList, new LoadReferrerOption[MemberFollowingCB, DbleMemberFollowing]().xinit(setupper));
+    }
+
+    /**
+     * Load referrer of memberFollowingByMyMemberIdList by the set-upper of referrer. <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberFollowingByMyMemberIdList</span>(memberList, new ReferrerConditionSetupper&lt;MemberFollowingCB&gt;() {
+     *     public void setup(MemberFollowingCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = member.<span style="color: #DD4747">getMemberFollowingByMyMemberIdList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setMyMemberId_InScope(pkList);
+     * cb.query().addOrderBy_MyMemberId_Asc();
+     * </pre>
+     * @param member The entity of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberFollowingByMyMemberIdList(member: DbleMember, setupCall: (MemberFollowingCB) => Unit): NestedReferrerListGateway[DbleMemberFollowing] = {
+        assertObjectNotNull("member", member); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberFollowingCB]() { def setup(referrerCB: MemberFollowingCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberFollowingByMyMemberIdList(xnewLRLs(member), new LoadReferrerOption[MemberFollowingCB, DbleMemberFollowing]().xinit(setupper));
+    }
+
+    protected def doLoadMemberFollowingByMyMemberIdList(memberList: List[DbleMember], option: LoadReferrerOption[MemberFollowingCB, DbleMemberFollowing]): NestedReferrerListGateway[DbleMemberFollowing] = {
+        return helpLoadReferrerInternally(memberList, option, "memberFollowingByMyMemberIdList");
+    }
+
+    /**
+     * Load referrer of memberFollowingByYourMemberIdList by the set-upper of referrer. <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberFollowingByYourMemberIdList</span>(memberList, new ReferrerConditionSetupper&lt;MemberFollowingCB&gt;() {
+     *     public void setup(MemberFollowingCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * for (DbleMember member : memberList) {
+     *     ... = member.<span style="color: #DD4747">getMemberFollowingByYourMemberIdList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setYourMemberId_InScope(pkList);
+     * cb.query().addOrderBy_YourMemberId_Asc();
+     * </pre>
+     * @param memberList The entity list of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberFollowingByYourMemberIdList(memberList: List[DbleMember], setupCall: (MemberFollowingCB) => Unit): NestedReferrerListGateway[DbleMemberFollowing] = {
+        assertObjectNotNull("memberList", memberList); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberFollowingCB]() { def setup(referrerCB: MemberFollowingCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberFollowingByYourMemberIdList(memberList, new LoadReferrerOption[MemberFollowingCB, DbleMemberFollowing]().xinit(setupper));
+    }
+
+    /**
+     * Load referrer of memberFollowingByYourMemberIdList by the set-upper of referrer. <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberFollowingByYourMemberIdList</span>(memberList, new ReferrerConditionSetupper&lt;MemberFollowingCB&gt;() {
+     *     public void setup(MemberFollowingCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = member.<span style="color: #DD4747">getMemberFollowingByYourMemberIdList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setYourMemberId_InScope(pkList);
+     * cb.query().addOrderBy_YourMemberId_Asc();
+     * </pre>
+     * @param member The entity of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberFollowingByYourMemberIdList(member: DbleMember, setupCall: (MemberFollowingCB) => Unit): NestedReferrerListGateway[DbleMemberFollowing] = {
+        assertObjectNotNull("member", member); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberFollowingCB]() { def setup(referrerCB: MemberFollowingCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberFollowingByYourMemberIdList(xnewLRLs(member), new LoadReferrerOption[MemberFollowingCB, DbleMemberFollowing]().xinit(setupper));
+    }
+
+    protected def doLoadMemberFollowingByYourMemberIdList(memberList: List[DbleMember], option: LoadReferrerOption[MemberFollowingCB, DbleMemberFollowing]): NestedReferrerListGateway[DbleMemberFollowing] = {
+        return helpLoadReferrerInternally(memberList, option, "memberFollowingByYourMemberIdList");
+    }
+
+    /**
+     * Load referrer of memberLoginList by the set-upper of referrer. <br />
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberLoginList</span>(memberList, new ReferrerConditionSetupper&lt;MemberLoginCB&gt;() {
+     *     public void setup(MemberLoginCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * for (DbleMember member : memberList) {
+     *     ... = member.<span style="color: #DD4747">getMemberLoginList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setMemberId_InScope(pkList);
+     * cb.query().addOrderBy_MemberId_Asc();
+     * </pre>
+     * @param memberList The entity list of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberLoginList(memberList: List[DbleMember], setupCall: (MemberLoginCB) => Unit): NestedReferrerListGateway[DbleMemberLogin] = {
+        assertObjectNotNull("memberList", memberList); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberLoginCB]() { def setup(referrerCB: MemberLoginCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberLoginList(memberList, new LoadReferrerOption[MemberLoginCB, DbleMemberLogin]().xinit(setupper));
+    }
+
+    /**
+     * Load referrer of memberLoginList by the set-upper of referrer. <br />
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
+     * <pre>
+     * memberBhv.<span style="color: #DD4747">loadMemberLoginList</span>(memberList, new ReferrerConditionSetupper&lt;MemberLoginCB&gt;() {
+     *     public void setup(MemberLoginCB cb) {
+     *         cb.setupSelect...();
+     *         cb.query().setFoo...(value);
+     *         cb.query().addOrderBy_Bar...();
+     *     }
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedList(referrerList -&gt {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = member.<span style="color: #DD4747">getMemberLoginList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br />
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setMemberId_InScope(pkList);
+     * cb.query().addOrderBy_MemberId_Asc();
+     * </pre>
+     * @param member The entity of member. (NotNull)
+     * @param setupper The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    def loadMemberLoginList(member: DbleMember, setupCall: (MemberLoginCB) => Unit): NestedReferrerListGateway[DbleMemberLogin] = {
+        assertObjectNotNull("member", member); assertObjectNotNull("setupCall", setupCall);
+        val setupper = new ReferrerConditionSetupper[MemberLoginCB]() { def setup(referrerCB: MemberLoginCB): Unit = { setupCall(referrerCB); } }
+        return doLoadMemberLoginList(xnewLRLs(member), new LoadReferrerOption[MemberLoginCB, DbleMemberLogin]().xinit(setupper));
+    }
+
+    protected def doLoadMemberLoginList(memberList: List[DbleMember], option: LoadReferrerOption[MemberLoginCB, DbleMemberLogin]): NestedReferrerListGateway[DbleMemberLogin] = {
+        return helpLoadReferrerInternally(memberList, option, "memberLoginList");
+    }
+
+    /**
      * Load referrer of purchaseList by the set-upper of referrer. <br />
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * <pre>
@@ -507,6 +787,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     }
 
     /**
+     * Pull out the list of referrer-as-one table 'DbleMemberSecurity'.
+     * @param memberList The list of member. (NotNull, EmptyAllowed)
+     * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    def pulloutMemberSecurityAsOne(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberSecurity] = {
+        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), "memberSecurityAsOne");
+        return toScalaList(dbleList).map(new MemberSecurity(_));
+    }
+
+    /**
      * Pull out the list of referrer-as-one table 'DbleMemberService'.
      * @param memberList The list of member. (NotNull, EmptyAllowed)
      * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
@@ -514,6 +804,16 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable {
     def pulloutMemberServiceAsOne(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberService] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberList), "memberServiceAsOne");
         return toScalaList(dbleList).map(new MemberService(_));
+    }
+
+    /**
+     * Pull out the list of referrer-as-one table 'DbleMemberWithdrawal'.
+     * @param memberList The list of member. (NotNull, EmptyAllowed)
+     * @return The list of referrer-as-one table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    def pulloutMemberWithdrawalAsOne(memberList: scala.collection.immutable.List[Member]): scala.collection.immutable.List[MemberWithdrawal] = {
+        val dbleList = helpPulloutInternally(toDBableEntityList(memberList), "memberWithdrawalAsOne");
+        return toScalaList(dbleList).map(new MemberWithdrawal(_));
     }
 
     // ===================================================================================

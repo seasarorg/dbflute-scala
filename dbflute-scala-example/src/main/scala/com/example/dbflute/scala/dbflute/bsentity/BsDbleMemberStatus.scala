@@ -2,7 +2,10 @@ package com.example.dbflute.scala.dbflute.bsentity;
 
 import scala.collection.JavaConverters._;
 
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -44,13 +47,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     
  * 
  * [referrer table]
- *     MEMBER
+ *     MEMBER, MEMBER_LOGIN
  * 
  * [foreign property]
  *     
  * 
  * [referrer property]
- *     memberList
+ *     memberList, memberLoginList
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -113,6 +116,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
         setDescription(immu.description);
         setDisplayOrder(immu.displayOrder);
         setMemberList(immu.memberList.map(new DbleMember().acceptImmutable(_)).asJava)
+        setMemberLoginList(immu.memberLoginList.map(new DbleMemberLogin().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
@@ -160,7 +164,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
     /**
      * {@inheritDoc}
      */
-    def hasPrimaryKeyValue(): Boolean = {
+    def hasPrimaryKeyValue(): scala.Boolean = {
         if (getMemberStatusCode() == null) { return false; }
         return true;
     }
@@ -308,6 +312,34 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
         return toScalaList(_memberList).map(_.toImmutable());
     }
 
+    /** (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginList'. */
+    protected var _memberLoginList: List[DbleMemberLogin] = null;
+
+    /**
+     * [get] (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginList'.
+     * @return The entity list of referrer property 'memberLoginList'. (NotNull: even if no loading, returns empty list)
+     */
+    def getMemberLoginList(): List[DbleMemberLogin] = {
+        if (_memberLoginList == null) { _memberLoginList = newReferrerList(); }
+        return _memberLoginList;
+    }
+
+    /**
+     * [set] (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginList'.
+     * @param memberLoginList The entity list of referrer property 'memberLoginList'. (NullAllowed)
+     */
+    def setMemberLoginList(memberLoginList: List[DbleMemberLogin]): Unit = {
+        _memberLoginList = memberLoginList;
+    }
+
+    /**
+     * [convert] (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginList'.
+     * @return The new-created immutable list of immutable entity of the referrer property 'memberLoginList'. (NotNull)
+     */
+    def toImmutableMemberLoginList(): scala.collection.immutable.List[MemberLogin] = {
+        return toScalaList(_memberLoginList).map(_.toImmutable());
+    }
+
     protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
         return new ArrayList[ELEMENT]();
     }
@@ -332,7 +364,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
     /**
      * {@inheritDoc}
      */
-    def hasModification(): Boolean = {
+    def hasModification(): scala.Boolean = {
         return !__modifiedProperties.isEmpty();
     }
 
@@ -353,7 +385,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
     /**
      * {@inheritDoc}
      */
-    def createdBySelect(): Boolean = {
+    def createdBySelect(): scala.Boolean = {
         return __createdBySelect;
     }
 
@@ -411,7 +443,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): Boolean = {
+    protected def xSV(v1: Object, v2: Object): scala.Boolean = {
         return FunCustodial.isSameValue(v1, v2);
     }
 
@@ -452,6 +484,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
         sb.append(toString());
         val li: String = "\n  ";
         toScalaList(_memberList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberList")) } });
+        toScalaList(_memberLoginList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberLoginList")) } });
         return sb.toString();
     }
     protected def xbRDS(et: Entity, name: String): String = {
@@ -461,7 +494,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
     /**
      * {@inheritDoc}
      */
-    def buildDisplayString(name: String, column: Boolean, relation: Boolean): String = {
+    def buildDisplayString(name: String, column: scala.Boolean, relation: scala.Boolean): String = {
         val sb: StringBuilder = new StringBuilder();
         if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
         if (column) { sb.append(buildColumnString()); }
@@ -487,6 +520,8 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
         val cm: String = ",  ";
         if (_memberList != null && !_memberList.isEmpty)
         { sb.append(cm).append("memberList"); }
+        if (_memberLoginList != null && !_memberLoginList.isEmpty)
+        { sb.append(cm).append("memberLoginList"); }
         if (sb.length() > cm.length()) {
             sb.delete(0, cm.length()).insert(0, "(").append(")");
         }

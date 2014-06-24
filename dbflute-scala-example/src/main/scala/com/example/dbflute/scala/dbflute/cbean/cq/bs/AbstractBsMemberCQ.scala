@@ -148,6 +148,94 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br />
+     * {exists (select MEMBER_ID from MEMBER_ADDRESS where ...)} <br />
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">existsMemberAddressList</span>(new SubQuery&lt;MemberAddressCB&gt;() {
+     *     public void query(MemberAddressCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberAddressList for 'exists'. (NotNull)
+     */
+    def existsMemberAddressList(subQuery: (MemberAddressCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberAddressCB = new MemberAddressCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_ExistsReferrer_MemberAddressList(cb.query());
+        registerExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberAddressList");
+    }
+    def keepMemberId_ExistsReferrer_MemberAddressList(sq: MemberAddressCQ): String;
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br />
+     * {exists (select MY_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">existsMemberFollowingByMyMemberIdList</span>(new SubQuery&lt;MemberFollowingCB&gt;() {
+     *     public void query(MemberFollowingCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberFollowingByMyMemberIdList for 'exists'. (NotNull)
+     */
+    def existsMemberFollowingByMyMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_ExistsReferrer_MemberFollowingByMyMemberIdList(cb.query());
+        registerExistsReferrer(cb.query(), "MEMBER_ID", "MY_MEMBER_ID", pp, "memberFollowingByMyMemberIdList");
+    }
+    def keepMemberId_ExistsReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br />
+     * {exists (select YOUR_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">existsMemberFollowingByYourMemberIdList</span>(new SubQuery&lt;MemberFollowingCB&gt;() {
+     *     public void query(MemberFollowingCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberFollowingByYourMemberIdList for 'exists'. (NotNull)
+     */
+    def existsMemberFollowingByYourMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_ExistsReferrer_MemberFollowingByYourMemberIdList(cb.query());
+        registerExistsReferrer(cb.query(), "MEMBER_ID", "YOUR_MEMBER_ID", pp, "memberFollowingByYourMemberIdList");
+    }
+    def keepMemberId_ExistsReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br />
+     * {exists (select MEMBER_ID from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">existsMemberLoginList</span>(new SubQuery&lt;MemberLoginCB&gt;() {
+     *     public void query(MemberLoginCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberLoginList for 'exists'. (NotNull)
+     */
+    def existsMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_ExistsReferrer_MemberLoginList(cb.query());
+        registerExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberLoginList");
+    }
+    def keepMemberId_ExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String;
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br />
      * {exists (select MEMBER_ID from PURCHASE where ...)} <br />
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
      * <pre>
@@ -167,6 +255,94 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         registerExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
     }
     def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String;
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br />
+     * {not exists (select MEMBER_ID from MEMBER_ADDRESS where ...)} <br />
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">notExistsMemberAddressList</span>(new SubQuery&lt;MemberAddressCB&gt;() {
+     *     public void query(MemberAddressCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberId_NotExistsReferrer_MemberAddressList for 'not exists'. (NotNull)
+     */
+    def notExistsMemberAddressList(subQuery: (MemberAddressCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberAddressCB = new MemberAddressCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotExistsReferrer_MemberAddressList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberAddressList");
+    }
+    def keepMemberId_NotExistsReferrer_MemberAddressList(sq: MemberAddressCQ): String;
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br />
+     * {not exists (select MY_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">notExistsMemberFollowingByMyMemberIdList</span>(new SubQuery&lt;MemberFollowingCB&gt;() {
+     *     public void query(MemberFollowingCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberId_NotExistsReferrer_MemberFollowingByMyMemberIdList for 'not exists'. (NotNull)
+     */
+    def notExistsMemberFollowingByMyMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotExistsReferrer_MemberFollowingByMyMemberIdList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MEMBER_ID", "MY_MEMBER_ID", pp, "memberFollowingByMyMemberIdList");
+    }
+    def keepMemberId_NotExistsReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br />
+     * {not exists (select YOUR_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">notExistsMemberFollowingByYourMemberIdList</span>(new SubQuery&lt;MemberFollowingCB&gt;() {
+     *     public void query(MemberFollowingCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberId_NotExistsReferrer_MemberFollowingByYourMemberIdList for 'not exists'. (NotNull)
+     */
+    def notExistsMemberFollowingByYourMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotExistsReferrer_MemberFollowingByYourMemberIdList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MEMBER_ID", "YOUR_MEMBER_ID", pp, "memberFollowingByYourMemberIdList");
+    }
+    def keepMemberId_NotExistsReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br />
+     * {not exists (select MEMBER_ID from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">notExistsMemberLoginList</span>(new SubQuery&lt;MemberLoginCB&gt;() {
+     *     public void query(MemberLoginCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberId_NotExistsReferrer_MemberLoginList for 'not exists'. (NotNull)
+     */
+    def notExistsMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotExistsReferrer_MemberLoginList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberLoginList");
+    }
+    def keepMemberId_NotExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String;
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br />
@@ -192,6 +368,66 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
 
     /**
      * Set up InScopeRelation (sub-query). <br />
+     * {in (select MEMBER_ID from MEMBER_ADDRESS where ...)} <br />
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressAsOne'.
+     * @param subQuery The sub-query of MemberAddressList for 'in-scope'. (NotNull)
+     */
+    def inScopeMemberAddressList(subQuery: (MemberAddressCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberAddressCB = new MemberAddressCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_InScopeRelation_MemberAddressList(cb.query());
+        registerInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberAddressList");
+    }
+    def keepMemberId_InScopeRelation_MemberAddressList(sq: MemberAddressCQ): String;
+
+    /**
+     * Set up InScopeRelation (sub-query). <br />
+     * {in (select MY_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdAsOne'.
+     * @param subQuery The sub-query of MemberFollowingByMyMemberIdList for 'in-scope'. (NotNull)
+     */
+    def inScopeMemberFollowingByMyMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_InScopeRelation_MemberFollowingByMyMemberIdList(cb.query());
+        registerInScopeRelation(cb.query(), "MEMBER_ID", "MY_MEMBER_ID", pp, "memberFollowingByMyMemberIdList");
+    }
+    def keepMemberId_InScopeRelation_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up InScopeRelation (sub-query). <br />
+     * {in (select YOUR_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdAsOne'.
+     * @param subQuery The sub-query of MemberFollowingByYourMemberIdList for 'in-scope'. (NotNull)
+     */
+    def inScopeMemberFollowingByYourMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_InScopeRelation_MemberFollowingByYourMemberIdList(cb.query());
+        registerInScopeRelation(cb.query(), "MEMBER_ID", "YOUR_MEMBER_ID", pp, "memberFollowingByYourMemberIdList");
+    }
+    def keepMemberId_InScopeRelation_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up InScopeRelation (sub-query). <br />
+     * {in (select MEMBER_ID from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginAsOne'.
+     * @param subQuery The sub-query of MemberLoginList for 'in-scope'. (NotNull)
+     */
+    def inScopeMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_InScopeRelation_MemberLoginList(cb.query());
+        registerInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberLoginList");
+    }
+    def keepMemberId_InScopeRelation_MemberLoginList(sq: MemberLoginCQ): String;
+
+    /**
+     * Set up InScopeRelation (sub-query). <br />
      * {in (select MEMBER_ID from PURCHASE where ...)} <br />
      * (購入)PURCHASE by MEMBER_ID, named 'purchaseAsOne'.
      * @param subQuery The sub-query of PurchaseList for 'in-scope'. (NotNull)
@@ -204,6 +440,66 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         registerInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList");
     }
     def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String;
+
+    /**
+     * Set up NotInScopeRelation (sub-query). <br />
+     * {not in (select MEMBER_ID from MEMBER_ADDRESS where ...)} <br />
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressAsOne'.
+     * @param subQuery The sub-query of MemberAddressList for 'not in-scope'. (NotNull)
+     */
+    def notInScopeMemberAddressList(subQuery: (MemberAddressCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberAddressCB = new MemberAddressCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotInScopeRelation_MemberAddressList(cb.query());
+        registerNotInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberAddressList");
+    }
+    def keepMemberId_NotInScopeRelation_MemberAddressList(sq: MemberAddressCQ): String;
+
+    /**
+     * Set up NotInScopeRelation (sub-query). <br />
+     * {not in (select MY_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdAsOne'.
+     * @param subQuery The sub-query of MemberFollowingByMyMemberIdList for 'not in-scope'. (NotNull)
+     */
+    def notInScopeMemberFollowingByMyMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotInScopeRelation_MemberFollowingByMyMemberIdList(cb.query());
+        registerNotInScopeRelation(cb.query(), "MEMBER_ID", "MY_MEMBER_ID", pp, "memberFollowingByMyMemberIdList");
+    }
+    def keepMemberId_NotInScopeRelation_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up NotInScopeRelation (sub-query). <br />
+     * {not in (select YOUR_MEMBER_ID from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdAsOne'.
+     * @param subQuery The sub-query of MemberFollowingByYourMemberIdList for 'not in-scope'. (NotNull)
+     */
+    def notInScopeMemberFollowingByYourMemberIdList(subQuery: (MemberFollowingCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotInScopeRelation_MemberFollowingByYourMemberIdList(cb.query());
+        registerNotInScopeRelation(cb.query(), "MEMBER_ID", "YOUR_MEMBER_ID", pp, "memberFollowingByYourMemberIdList");
+    }
+    def keepMemberId_NotInScopeRelation_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String;
+
+    /**
+     * Set up NotInScopeRelation (sub-query). <br />
+     * {not in (select MEMBER_ID from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginAsOne'.
+     * @param subQuery The sub-query of MemberLoginList for 'not in-scope'. (NotNull)
+     */
+    def notInScopeMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_NotInScopeRelation_MemberLoginList(cb.query());
+        registerNotInScopeRelation(cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberLoginList");
+    }
+    def keepMemberId_NotInScopeRelation_MemberLoginList(sq: MemberLoginCQ): String;
 
     /**
      * Set up NotInScopeRelation (sub-query). <br />
@@ -220,6 +516,42 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     }
     def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String;
 
+    def xsderiveMemberAddressList(fn: String, sq: SubQuery[MemberAddressCB], al: String, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberAddressCB = new MemberAddressCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_SpecifyDerivedReferrer_MemberAddressList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberAddressList", al, op);
+    }
+    def keepMemberId_SpecifyDerivedReferrer_MemberAddressList(sq: MemberAddressCQ): String;
+
+    def xsderiveMemberFollowingByMyMemberIdList(fn: String, sq: SubQuery[MemberFollowingCB], al: String, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_SpecifyDerivedReferrer_MemberFollowingByMyMemberIdList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MY_MEMBER_ID", pp, "memberFollowingByMyMemberIdList", al, op);
+    }
+    def keepMemberId_SpecifyDerivedReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String;
+
+    def xsderiveMemberFollowingByYourMemberIdList(fn: String, sq: SubQuery[MemberFollowingCB], al: String, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_SpecifyDerivedReferrer_MemberFollowingByYourMemberIdList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_ID", "YOUR_MEMBER_ID", pp, "memberFollowingByYourMemberIdList", al, op);
+    }
+    def keepMemberId_SpecifyDerivedReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String;
+
+    def xsderiveMemberLoginList(fn: String, sq: SubQuery[MemberLoginCB], al: String, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberId_SpecifyDerivedReferrer_MemberLoginList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "memberLoginList", al, op);
+    }
+    def keepMemberId_SpecifyDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String;
+
     def xsderivePurchaseList(fn: String, sq: SubQuery[PurchaseCB], al: String, op: DerivedReferrerOption): Unit = {
         assertObjectNotNull("subQuery", sq);
         val cb: PurchaseCB = new PurchaseCB(); cb.xsetupForDerivedReferrer(this);
@@ -228,6 +560,146 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MEMBER_ID", pp, "purchaseList", al, op);
     }
     def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String;
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />
+     * {FOO &lt;= (select max(BAR) from MEMBER_ADDRESS where ...)} <br />
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">derivedMemberAddressList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;MemberAddressCB&gt;() {
+     *     public void query(MemberAddressCB subCB) {
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    def derivedMemberAddressList(): ScrHpQDRFunction[MemberAddressCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMemberAddressList());
+    }
+    protected def xcreateQDRFunctionMemberAddressList(): HpQDRFunction[MemberAddressCB] = {
+        return new HpQDRFunction[MemberAddressCB](new HpQDRSetupper[MemberAddressCB]() {
+            def setup(fn: String, sq: SubQuery[MemberAddressCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+                xqderiveMemberAddressList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    def xqderiveMemberAddressList(fn: String, sq: SubQuery[MemberAddressCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberAddressCB = new MemberAddressCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val sqpp: String = keepMemberId_QueryDerivedReferrer_MemberAddressList(cb.query());
+        val prpp: String = keepMemberId_QueryDerivedReferrer_MemberAddressListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MEMBER_ID", sqpp, "memberAddressList", rd, vl, prpp, op);
+    }
+    def keepMemberId_QueryDerivedReferrer_MemberAddressList(sq: MemberAddressCQ): String;
+    def keepMemberId_QueryDerivedReferrer_MemberAddressListParameter(vl: Object): String;
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />
+     * {FOO &lt;= (select max(BAR) from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">derivedMemberFollowingByMyMemberIdList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;MemberFollowingCB&gt;() {
+     *     public void query(MemberFollowingCB subCB) {
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    def derivedMemberFollowingByMyMemberIdList(): ScrHpQDRFunction[MemberFollowingCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMemberFollowingByMyMemberIdList());
+    }
+    protected def xcreateQDRFunctionMemberFollowingByMyMemberIdList(): HpQDRFunction[MemberFollowingCB] = {
+        return new HpQDRFunction[MemberFollowingCB](new HpQDRSetupper[MemberFollowingCB]() {
+            def setup(fn: String, sq: SubQuery[MemberFollowingCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+                xqderiveMemberFollowingByMyMemberIdList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    def xqderiveMemberFollowingByMyMemberIdList(fn: String, sq: SubQuery[MemberFollowingCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val sqpp: String = keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList(cb.query());
+        val prpp: String = keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MY_MEMBER_ID", sqpp, "memberFollowingByMyMemberIdList", rd, vl, prpp, op);
+    }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String;
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdListParameter(vl: Object): String;
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />
+     * {FOO &lt;= (select max(BAR) from MEMBER_FOLLOWING where ...)} <br />
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">derivedMemberFollowingByYourMemberIdList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;MemberFollowingCB&gt;() {
+     *     public void query(MemberFollowingCB subCB) {
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    def derivedMemberFollowingByYourMemberIdList(): ScrHpQDRFunction[MemberFollowingCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMemberFollowingByYourMemberIdList());
+    }
+    protected def xcreateQDRFunctionMemberFollowingByYourMemberIdList(): HpQDRFunction[MemberFollowingCB] = {
+        return new HpQDRFunction[MemberFollowingCB](new HpQDRSetupper[MemberFollowingCB]() {
+            def setup(fn: String, sq: SubQuery[MemberFollowingCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+                xqderiveMemberFollowingByYourMemberIdList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    def xqderiveMemberFollowingByYourMemberIdList(fn: String, sq: SubQuery[MemberFollowingCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberFollowingCB = new MemberFollowingCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val sqpp: String = keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList(cb.query());
+        val prpp: String = keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MEMBER_ID", "YOUR_MEMBER_ID", sqpp, "memberFollowingByYourMemberIdList", rd, vl, prpp, op);
+    }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String;
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdListParameter(vl: Object): String;
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />
+     * {FOO &lt;= (select max(BAR) from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">derivedMemberLoginList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;MemberLoginCB&gt;() {
+     *     public void query(MemberLoginCB subCB) {
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    def derivedMemberLoginList(): ScrHpQDRFunction[MemberLoginCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMemberLoginList());
+    }
+    protected def xcreateQDRFunctionMemberLoginList(): HpQDRFunction[MemberLoginCB] = {
+        return new HpQDRFunction[MemberLoginCB](new HpQDRSetupper[MemberLoginCB]() {
+            def setup(fn: String, sq: SubQuery[MemberLoginCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+                xqderiveMemberLoginList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    def xqderiveMemberLoginList(fn: String, sq: SubQuery[MemberLoginCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val sqpp: String = keepMemberId_QueryDerivedReferrer_MemberLoginList(cb.query());
+        val prpp: String = keepMemberId_QueryDerivedReferrer_MemberLoginListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MEMBER_ID", "MEMBER_ID", sqpp, "memberLoginList", rd, vl, prpp, op);
+    }
+    def keepMemberId_QueryDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String;
+    def keepMemberId_QueryDerivedReferrer_MemberLoginListParameter(vl: Object): String;
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />

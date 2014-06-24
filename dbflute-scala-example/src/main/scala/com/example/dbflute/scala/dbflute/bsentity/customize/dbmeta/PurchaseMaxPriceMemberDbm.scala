@@ -1,7 +1,8 @@
 package com.example.dbflute.scala.dbflute.bsentity.customize.dbmeta;
 
-// #avoided same name type
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -113,8 +114,8 @@ object PurchaseMaxPriceMemberDbm extends AbstractDBMeta {
     protected def cpui(): UniqueInfo = {
         throw new UnsupportedOperationException("The table does not have primary key: " + getTableDbName());
     }
-    def hasPrimaryKey(): Boolean = { return false; }
-    def hasCompoundPrimaryKey(): Boolean = { return false; }
+    def hasPrimaryKey(): scala.Boolean = { return false; }
+    def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================
     //                                                                       Relation Info

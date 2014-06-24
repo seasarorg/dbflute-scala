@@ -72,20 +72,100 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
       return _memberId; }
     protected def getCValueMemberId(): ConditionValue = { return getMemberId(); }
 
+    def getMemberId_ExistsReferrer_MemberAddressList(): Map[String, MemberAddressCQ] = { xgetSQueMap("memberId_ExistsReferrer_MemberAddressList") }
+    def keepMemberId_ExistsReferrer_MemberAddressList(sq: MemberAddressCQ): String = { xkeepSQue("memberId_ExistsReferrer_MemberAddressList", sq) }
+
+    def getMemberId_ExistsReferrer_MemberFollowingByMyMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_ExistsReferrer_MemberFollowingByMyMemberIdList") }
+    def keepMemberId_ExistsReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_ExistsReferrer_MemberFollowingByMyMemberIdList", sq) }
+
+    def getMemberId_ExistsReferrer_MemberFollowingByYourMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_ExistsReferrer_MemberFollowingByYourMemberIdList") }
+    def keepMemberId_ExistsReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_ExistsReferrer_MemberFollowingByYourMemberIdList", sq) }
+
+    def getMemberId_ExistsReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberId_ExistsReferrer_MemberLoginList") }
+    def keepMemberId_ExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberId_ExistsReferrer_MemberLoginList", sq) }
+
     def getMemberId_ExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_ExistsReferrer_PurchaseList") }
     def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_ExistsReferrer_PurchaseList", sq) }
+
+    def getMemberId_NotExistsReferrer_MemberAddressList(): Map[String, MemberAddressCQ] = { xgetSQueMap("memberId_NotExistsReferrer_MemberAddressList") }
+    def keepMemberId_NotExistsReferrer_MemberAddressList(sq: MemberAddressCQ): String = { xkeepSQue("memberId_NotExistsReferrer_MemberAddressList", sq) }
+
+    def getMemberId_NotExistsReferrer_MemberFollowingByMyMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_NotExistsReferrer_MemberFollowingByMyMemberIdList") }
+    def keepMemberId_NotExistsReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_NotExistsReferrer_MemberFollowingByMyMemberIdList", sq) }
+
+    def getMemberId_NotExistsReferrer_MemberFollowingByYourMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_NotExistsReferrer_MemberFollowingByYourMemberIdList") }
+    def keepMemberId_NotExistsReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_NotExistsReferrer_MemberFollowingByYourMemberIdList", sq) }
+
+    def getMemberId_NotExistsReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberId_NotExistsReferrer_MemberLoginList") }
+    def keepMemberId_NotExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberId_NotExistsReferrer_MemberLoginList", sq) }
 
     def getMemberId_NotExistsReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_NotExistsReferrer_PurchaseList") }
     def keepMemberId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_NotExistsReferrer_PurchaseList", sq) }
 
+    def getMemberId_SpecifyDerivedReferrer_MemberAddressList(): Map[String, MemberAddressCQ] = { xgetSQueMap("memberId_SpecifyDerivedReferrer_MemberAddressList") }
+    def keepMemberId_SpecifyDerivedReferrer_MemberAddressList(sq: MemberAddressCQ): String = { xkeepSQue("memberId_SpecifyDerivedReferrer_MemberAddressList", sq) }
+
+    def getMemberId_SpecifyDerivedReferrer_MemberFollowingByMyMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_SpecifyDerivedReferrer_MemberFollowingByMyMemberIdList") }
+    def keepMemberId_SpecifyDerivedReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_SpecifyDerivedReferrer_MemberFollowingByMyMemberIdList", sq) }
+
+    def getMemberId_SpecifyDerivedReferrer_MemberFollowingByYourMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_SpecifyDerivedReferrer_MemberFollowingByYourMemberIdList") }
+    def keepMemberId_SpecifyDerivedReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_SpecifyDerivedReferrer_MemberFollowingByYourMemberIdList", sq) }
+
+    def getMemberId_SpecifyDerivedReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberId_SpecifyDerivedReferrer_MemberLoginList") }
+    def keepMemberId_SpecifyDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberId_SpecifyDerivedReferrer_MemberLoginList", sq) }
+
     def getMemberId_SpecifyDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_SpecifyDerivedReferrer_PurchaseList") }
     def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_SpecifyDerivedReferrer_PurchaseList", sq) }
+
+    def getMemberId_InScopeRelation_MemberAddressList(): Map[String, MemberAddressCQ] = { xgetSQueMap("memberId_InScopeRelation_MemberAddressList") }
+    def keepMemberId_InScopeRelation_MemberAddressList(sq: MemberAddressCQ): String = { xkeepSQue("memberId_InScopeRelation_MemberAddressList", sq) }
+
+    def getMemberId_InScopeRelation_MemberFollowingByMyMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_InScopeRelation_MemberFollowingByMyMemberIdList") }
+    def keepMemberId_InScopeRelation_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_InScopeRelation_MemberFollowingByMyMemberIdList", sq) }
+
+    def getMemberId_InScopeRelation_MemberFollowingByYourMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_InScopeRelation_MemberFollowingByYourMemberIdList") }
+    def keepMemberId_InScopeRelation_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_InScopeRelation_MemberFollowingByYourMemberIdList", sq) }
+
+    def getMemberId_InScopeRelation_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberId_InScopeRelation_MemberLoginList") }
+    def keepMemberId_InScopeRelation_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberId_InScopeRelation_MemberLoginList", sq) }
 
     def getMemberId_InScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_InScopeRelation_PurchaseList") }
     def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_InScopeRelation_PurchaseList", sq) }
 
+    def getMemberId_NotInScopeRelation_MemberAddressList(): Map[String, MemberAddressCQ] = { xgetSQueMap("memberId_NotInScopeRelation_MemberAddressList") }
+    def keepMemberId_NotInScopeRelation_MemberAddressList(sq: MemberAddressCQ): String = { xkeepSQue("memberId_NotInScopeRelation_MemberAddressList", sq) }
+
+    def getMemberId_NotInScopeRelation_MemberFollowingByMyMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_NotInScopeRelation_MemberFollowingByMyMemberIdList") }
+    def keepMemberId_NotInScopeRelation_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_NotInScopeRelation_MemberFollowingByMyMemberIdList", sq) }
+
+    def getMemberId_NotInScopeRelation_MemberFollowingByYourMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_NotInScopeRelation_MemberFollowingByYourMemberIdList") }
+    def keepMemberId_NotInScopeRelation_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_NotInScopeRelation_MemberFollowingByYourMemberIdList", sq) }
+
+    def getMemberId_NotInScopeRelation_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberId_NotInScopeRelation_MemberLoginList") }
+    def keepMemberId_NotInScopeRelation_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberId_NotInScopeRelation_MemberLoginList", sq) }
+
     def getMemberId_NotInScopeRelation_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_NotInScopeRelation_PurchaseList") }
     def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_NotInScopeRelation_PurchaseList", sq) }
+
+    def getMemberId_QueryDerivedReferrer_MemberAddressList(): Map[String, MemberAddressCQ] = { xgetSQueMap("memberId_QueryDerivedReferrer_MemberAddressList") }
+    def keepMemberId_QueryDerivedReferrer_MemberAddressList(sq: MemberAddressCQ): String = { xkeepSQue("memberId_QueryDerivedReferrer_MemberAddressList", sq) }
+    def getMemberId_QueryDerivedReferrer_MemberAddressListParameter(): Map[String, Object] = { xgetSQuePmMap("memberId_QueryDerivedReferrer_MemberAddressList") }
+    def keepMemberId_QueryDerivedReferrer_MemberAddressListParameter(pm: Object): String = { xkeepSQuePm("memberId_QueryDerivedReferrer_MemberAddressList", pm) }
+
+    def getMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList") }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList", sq) }
+    def getMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdListParameter(): Map[String, Object] = { xgetSQuePmMap("memberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList") }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdListParameter(pm: Object): String = { xkeepSQuePm("memberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList", pm) }
+
+    def getMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList(): Map[String, MemberFollowingCQ] = { xgetSQueMap("memberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList") }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String = { xkeepSQue("memberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList", sq) }
+    def getMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdListParameter(): Map[String, Object] = { xgetSQuePmMap("memberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList") }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdListParameter(pm: Object): String = { xkeepSQuePm("memberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList", pm) }
+
+    def getMemberId_QueryDerivedReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberId_QueryDerivedReferrer_MemberLoginList") }
+    def keepMemberId_QueryDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberId_QueryDerivedReferrer_MemberLoginList", sq) }
+    def getMemberId_QueryDerivedReferrer_MemberLoginListParameter(): Map[String, Object] = { xgetSQuePmMap("memberId_QueryDerivedReferrer_MemberLoginList") }
+    def keepMemberId_QueryDerivedReferrer_MemberLoginListParameter(pm: Object): String = { xkeepSQuePm("memberId_QueryDerivedReferrer_MemberLoginList", pm) }
 
     def getMemberId_QueryDerivedReferrer_PurchaseList(): Map[String, PurchaseCQ] = { xgetSQueMap("memberId_QueryDerivedReferrer_PurchaseList") }
     def keepMemberId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String = { xkeepSQue("memberId_QueryDerivedReferrer_PurchaseList", sq) }
@@ -350,8 +430,12 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
         if (bq.hasConditionQueryMemberStatus()) {
             uq.queryMemberStatus().reflectRelationOnUnionQuery(bq.queryMemberStatus(), uq.queryMemberStatus());
         }
+        if (bq.hasConditionQueryMemberSecurityAsOne())
+        { uq.queryMemberSecurityAsOne().reflectRelationOnUnionQuery(bq.queryMemberSecurityAsOne(), uq.queryMemberSecurityAsOne()); }
         if (bq.hasConditionQueryMemberServiceAsOne())
         { uq.queryMemberServiceAsOne().reflectRelationOnUnionQuery(bq.queryMemberServiceAsOne(), uq.queryMemberServiceAsOne()); }
+        if (bq.hasConditionQueryMemberWithdrawalAsOne())
+        { uq.queryMemberWithdrawalAsOne().reflectRelationOnUnionQuery(bq.queryMemberWithdrawalAsOne(), uq.queryMemberWithdrawalAsOne()); }
     }
 
     // ===================================================================================
@@ -379,6 +463,24 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
 
     /**
      * Get the condition-query for relation table. <br />
+     * (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    def queryMemberSecurityAsOne(): MemberSecurityCQ = { getConditionQueryMemberSecurityAsOne() }
+    def getConditionQueryMemberSecurityAsOne(): MemberSecurityCQ = {
+        val prop = "memberSecurityAsOne";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryMemberSecurityAsOne()); xsetupOuterJoinMemberSecurityAsOne(); }
+        return xgetQueRlMap(prop);
+    }
+    protected def xcreateQueryMemberSecurityAsOne(): MemberSecurityCQ = {
+        val nrp = xresolveNRP("MEMBER",  "memberSecurityAsOne"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new MemberSecurityCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "memberSecurityAsOne", nrp);
+    }
+    protected def xsetupOuterJoinMemberSecurityAsOne(): Unit = { xregOutJo("memberSecurityAsOne") }
+    def hasConditionQueryMemberSecurityAsOne(): Boolean = { xhasQueRlMap("memberSecurityAsOne") }
+
+    /**
+     * Get the condition-query for relation table. <br />
      * (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @return The instance of condition-query. (NotNull)
      */
@@ -394,6 +496,24 @@ class BsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName:
     }
     protected def xsetupOuterJoinMemberServiceAsOne(): Unit = { xregOutJo("memberServiceAsOne") }
     def hasConditionQueryMemberServiceAsOne(): Boolean = { xhasQueRlMap("memberServiceAsOne") }
+
+    /**
+     * Get the condition-query for relation table. <br />
+     * (会員退会情報)MEMBER_WITHDRAWAL by MEMBER_ID, named 'memberWithdrawalAsOne'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    def queryMemberWithdrawalAsOne(): MemberWithdrawalCQ = { getConditionQueryMemberWithdrawalAsOne() }
+    def getConditionQueryMemberWithdrawalAsOne(): MemberWithdrawalCQ = {
+        val prop = "memberWithdrawalAsOne";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryMemberWithdrawalAsOne()); xsetupOuterJoinMemberWithdrawalAsOne(); }
+        return xgetQueRlMap(prop);
+    }
+    protected def xcreateQueryMemberWithdrawalAsOne(): MemberWithdrawalCQ = {
+        val nrp = xresolveNRP("MEMBER",  "memberWithdrawalAsOne"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new MemberWithdrawalCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "memberWithdrawalAsOne", nrp);
+    }
+    protected def xsetupOuterJoinMemberWithdrawalAsOne(): Unit = { xregOutJo("memberWithdrawalAsOne") }
+    def hasConditionQueryMemberWithdrawalAsOne(): Boolean = { xhasQueRlMap("memberWithdrawalAsOne") }
 
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;

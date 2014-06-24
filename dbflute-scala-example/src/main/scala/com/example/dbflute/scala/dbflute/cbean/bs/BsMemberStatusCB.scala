@@ -514,6 +514,26 @@ object HpMemberStatusCB {
                     cq.xsderiveMemberList(fn, sq, al, op); } }, _dbmetaProvider));
         }
         /**
+         * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br />
+         * {select max(FOO) from MEMBER_LOGIN where ...) as FOO_MAX} <br />
+         * (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginList'.
+         * <pre>
+         * cb.specify().<span style="color: #DD4747">derivedMemberLoginList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;MemberLoginCB&gt;() {
+         *     public void query(MemberLoginCB subCB) {
+         *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+         *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+         *     }
+         * }, DbleMemberLogin.<span style="color: #DD4747">ALIAS_foo...</span>);
+         * </pre>
+         * @return The object to set up a function for referrer table. (NotNull)
+         */
+        def derivedMemberLoginList(): ScrHpSDRFunction[MemberLoginCB, MemberStatusCQ] = {
+            assertDerived("memberLoginList"); if (xhasSyncQyCall()) { xsyncQyCall().qy(); } // for sync (for example, this in ColumnQuery)
+            return toScalaSDRFunction(new HpSDRFunction[MemberLoginCB, MemberStatusCQ](_baseCB, _qyCall.qy(), new HpSDRSetupper[MemberLoginCB, MemberStatusCQ]() {
+                def setup(fn: String, sq: SubQuery[MemberLoginCB], cq: MemberStatusCQ, al: String, op: DerivedReferrerOption): Unit = {
+                    cq.xsderiveMemberLoginList(fn, sq, al, op); } }, _dbmetaProvider));
+        }
+        /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)
          */

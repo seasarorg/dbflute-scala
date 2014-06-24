@@ -23,6 +23,7 @@ import com.example.dbflute.scala.dbflute.allcommon.ScrHpColQyOperand;
 import com.example.dbflute.scala.dbflute.allcommon.ScrHpSDRFunction;
 import com.example.dbflute.scala.dbflute.cbean._
 import com.example.dbflute.scala.dbflute.cbean.cq._
+import com.example.dbflute.scala.dbflute.cbean.nss._
 
 /**
  * The base condition-bean of PRODUCT.
@@ -267,6 +268,53 @@ class BsProductCB extends AbstractConditionBean {
     // ===================================================================================
     //                                                                         SetupSelect
     //                                                                         ===========
+    protected var _nssProductCategory: ProductCategoryNss = null;
+    def getNssProductCategory(): ProductCategoryNss = {
+        if (_nssProductCategory == null) { _nssProductCategory = new ProductCategoryNss(null); }
+        return _nssProductCategory;
+    }
+    /**
+     * Set up relation columns to select clause. <br />
+     * (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'.
+     * <pre>
+     * ProductCB cb = new ProductCB();
+     * cb.<span style="color: #DD4747">setupSelect_ProductCategory()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     * cb.query().setFoo...(value);
+     * DbleProduct product = productBhv.selectEntityWithDeletedCheck(cb);
+     * ... = product.<span style="color: #DD4747">getProductCategory()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * </pre>
+     * @return The set-upper of nested relation. {setupSelect...().with[nested-relation]} (NotNull)
+     */
+    def setupSelect_ProductCategory(): ProductCategoryNss = {
+        assertSetupSelectPurpose("productCategory");
+        if (hasSpecifiedColumn()) { // if reverse call
+            specify().columnProductCategoryCode();
+        }
+        doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryProductCategory(); } });
+        if (_nssProductCategory == null || !_nssProductCategory.hasConditionQuery())
+        { _nssProductCategory = new ProductCategoryNss(query().queryProductCategory()); }
+        return _nssProductCategory;
+    }
+
+    /**
+     * Set up relation columns to select clause. <br />
+     * (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'.
+     * <pre>
+     * ProductCB cb = new ProductCB();
+     * cb.<span style="color: #DD4747">setupSelect_ProductStatus()</span>; <span style="color: #3F7E5E">// ...().with[nested-relation]()</span>
+     * cb.query().setFoo...(value);
+     * DbleProduct product = productBhv.selectEntityWithDeletedCheck(cb);
+     * ... = product.<span style="color: #DD4747">getProductStatus()</span>; <span style="color: #3F7E5E">// you can get by using SetupSelect</span>
+     * </pre>
+     */
+    def setupSelect_ProductStatus(): Unit = {
+        assertSetupSelectPurpose("productStatus");
+        if (hasSpecifiedColumn()) { // if reverse call
+            specify().columnProductStatusCode();
+        }
+        doSetupSelect(new SsCall() { def qf(): ConditionQuery = { return query().queryProductStatus(); } });
+    }
+
     // [DBFlute-0.7.4]
     // ===================================================================================
     //                                                                             Specify
@@ -464,6 +512,8 @@ object HpProductCB {
 
     class HpSpecification(baseCB: ConditionBean, qyCall: HpSpQyCall[ProductCQ], purpose: HpCBPurpose, dbmetaProvider: DBMetaProvider)
             extends HpAbstractSpecification[ProductCQ](baseCB, qyCall, purpose, dbmetaProvider) {
+        protected var _productCategory: HpProductCategoryCB.HpSpecification = null;
+        protected var _productStatus: HpProductStatusCB.HpSpecification = null;
         /**
          * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
          * @return The information object of specified column. (NotNull)
@@ -480,12 +530,12 @@ object HpProductCB {
          */
         def columnProductHandleCode(): HpSpecifiedColumn = { return doColumn("PRODUCT_HANDLE_CODE"); }
         /**
-         * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+         * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
          * @return The information object of specified column. (NotNull)
          */
         def columnProductCategoryCode(): HpSpecifiedColumn = { return doColumn("PRODUCT_CATEGORY_CODE"); }
         /**
-         * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
+         * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
          * @return The information object of specified column. (NotNull)
          */
         def columnProductStatusCode(): HpSpecifiedColumn = { return doColumn("PRODUCT_STATUS_CODE"); }
@@ -524,9 +574,59 @@ object HpProductCB {
         @Override
         protected def doSpecifyRequiredColumn(): Unit = {
             columnProductId(); // PK
+            if (qyCall().qy().hasConditionQueryProductCategory()
+                    || qyCall().qy().xgetReferrerQuery().isInstanceOf[ProductCategoryCQ]) {
+                columnProductCategoryCode(); // FK or one-to-one referrer
+            }
+            if (qyCall().qy().hasConditionQueryProductStatus()
+                    || qyCall().qy().xgetReferrerQuery().isInstanceOf[ProductStatusCQ]) {
+                columnProductStatusCode(); // FK or one-to-one referrer
+            }
         }
         @Override
         protected def getTableDbName(): String = { return "PRODUCT"; }
+        /**
+         * Prepare to specify functions about relation table. <br />
+         * (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        def specifyProductCategory(): HpProductCategoryCB.HpSpecification = {
+            assertRelation("productCategory");
+            if (_productCategory == null) {
+                _productCategory = new HpProductCategoryCB.HpSpecification(_baseCB, new HpSpQyCall[ProductCategoryCQ]() {
+                    def has(): Boolean = { return _qyCall.has() && _qyCall.qy().hasConditionQueryProductCategory(); }
+                    def qy(): ProductCategoryCQ = { return _qyCall.qy().queryProductCategory(); } }
+                    , _purpose, _dbmetaProvider);
+                if (xhasSyncQyCall()) { // inherits it
+                    _productCategory.xsetSyncQyCall(new HpSpQyCall[ProductCategoryCQ]() {
+                        def has(): Boolean = { return xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryProductCategory(); }
+                        def qy(): ProductCategoryCQ = { return xsyncQyCall().qy().queryProductCategory(); }
+                    });
+                }
+            }
+            return _productCategory;
+        }
+        /**
+         * Prepare to specify functions about relation table. <br />
+         * (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'.
+         * @return The instance for specification for relation table to specify. (NotNull)
+         */
+        def specifyProductStatus(): HpProductStatusCB.HpSpecification = {
+            assertRelation("productStatus");
+            if (_productStatus == null) {
+                _productStatus = new HpProductStatusCB.HpSpecification(_baseCB, new HpSpQyCall[ProductStatusCQ]() {
+                    def has(): Boolean = { return _qyCall.has() && _qyCall.qy().hasConditionQueryProductStatus(); }
+                    def qy(): ProductStatusCQ = { return _qyCall.qy().queryProductStatus(); } }
+                    , _purpose, _dbmetaProvider);
+                if (xhasSyncQyCall()) { // inherits it
+                    _productStatus.xsetSyncQyCall(new HpSpQyCall[ProductStatusCQ]() {
+                        def has(): Boolean = { return xsyncQyCall().has() && xsyncQyCall().qy().hasConditionQueryProductStatus(); }
+                        def qy(): ProductStatusCQ = { return xsyncQyCall().qy().queryProductStatus(); }
+                    });
+                }
+            }
+            return _productStatus;
+        }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br />
          * {select max(FOO) from PURCHASE where ...) as FOO_MAX} <br />

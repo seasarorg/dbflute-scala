@@ -75,22 +75,42 @@ class BsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, alia
     def getMemberStatusCode_ExistsReferrer_MemberList(): Map[String, MemberCQ] = { xgetSQueMap("memberStatusCode_ExistsReferrer_MemberList") }
     def keepMemberStatusCode_ExistsReferrer_MemberList(sq: MemberCQ): String = { xkeepSQue("memberStatusCode_ExistsReferrer_MemberList", sq) }
 
+    def getMemberStatusCode_ExistsReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberStatusCode_ExistsReferrer_MemberLoginList") }
+    def keepMemberStatusCode_ExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberStatusCode_ExistsReferrer_MemberLoginList", sq) }
+
     def getMemberStatusCode_NotExistsReferrer_MemberList(): Map[String, MemberCQ] = { xgetSQueMap("memberStatusCode_NotExistsReferrer_MemberList") }
     def keepMemberStatusCode_NotExistsReferrer_MemberList(sq: MemberCQ): String = { xkeepSQue("memberStatusCode_NotExistsReferrer_MemberList", sq) }
+
+    def getMemberStatusCode_NotExistsReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberStatusCode_NotExistsReferrer_MemberLoginList") }
+    def keepMemberStatusCode_NotExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberStatusCode_NotExistsReferrer_MemberLoginList", sq) }
 
     def getMemberStatusCode_InScopeRelation_MemberList(): Map[String, MemberCQ] = { xgetSQueMap("memberStatusCode_InScopeRelation_MemberList") }
     def keepMemberStatusCode_InScopeRelation_MemberList(sq: MemberCQ): String = { xkeepSQue("memberStatusCode_InScopeRelation_MemberList", sq) }
 
+    def getMemberStatusCode_InScopeRelation_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberStatusCode_InScopeRelation_MemberLoginList") }
+    def keepMemberStatusCode_InScopeRelation_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberStatusCode_InScopeRelation_MemberLoginList", sq) }
+
     def getMemberStatusCode_NotInScopeRelation_MemberList(): Map[String, MemberCQ] = { xgetSQueMap("memberStatusCode_NotInScopeRelation_MemberList") }
     def keepMemberStatusCode_NotInScopeRelation_MemberList(sq: MemberCQ): String = { xkeepSQue("memberStatusCode_NotInScopeRelation_MemberList", sq) }
 
+    def getMemberStatusCode_NotInScopeRelation_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberStatusCode_NotInScopeRelation_MemberLoginList") }
+    def keepMemberStatusCode_NotInScopeRelation_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberStatusCode_NotInScopeRelation_MemberLoginList", sq) }
+
     def getMemberStatusCode_SpecifyDerivedReferrer_MemberList(): Map[String, MemberCQ] = { xgetSQueMap("memberStatusCode_SpecifyDerivedReferrer_MemberList") }
     def keepMemberStatusCode_SpecifyDerivedReferrer_MemberList(sq: MemberCQ): String = { xkeepSQue("memberStatusCode_SpecifyDerivedReferrer_MemberList", sq) }
+
+    def getMemberStatusCode_SpecifyDerivedReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberStatusCode_SpecifyDerivedReferrer_MemberLoginList") }
+    def keepMemberStatusCode_SpecifyDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberStatusCode_SpecifyDerivedReferrer_MemberLoginList", sq) }
 
     def getMemberStatusCode_QueryDerivedReferrer_MemberList(): Map[String, MemberCQ] = { xgetSQueMap("memberStatusCode_QueryDerivedReferrer_MemberList") }
     def keepMemberStatusCode_QueryDerivedReferrer_MemberList(sq: MemberCQ): String = { xkeepSQue("memberStatusCode_QueryDerivedReferrer_MemberList", sq) }
     def getMemberStatusCode_QueryDerivedReferrer_MemberListParameter(): Map[String, Object] = { xgetSQuePmMap("memberStatusCode_QueryDerivedReferrer_MemberList") }
     def keepMemberStatusCode_QueryDerivedReferrer_MemberListParameter(pm: Object): String = { xkeepSQuePm("memberStatusCode_QueryDerivedReferrer_MemberList", pm) }
+
+    def getMemberStatusCode_QueryDerivedReferrer_MemberLoginList(): Map[String, MemberLoginCQ] = { xgetSQueMap("memberStatusCode_QueryDerivedReferrer_MemberLoginList") }
+    def keepMemberStatusCode_QueryDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String = { xkeepSQue("memberStatusCode_QueryDerivedReferrer_MemberLoginList", sq) }
+    def getMemberStatusCode_QueryDerivedReferrer_MemberLoginListParameter(): Map[String, Object] = { xgetSQuePmMap("memberStatusCode_QueryDerivedReferrer_MemberLoginList") }
+    def keepMemberStatusCode_QueryDerivedReferrer_MemberLoginListParameter(pm: Object): String = { xkeepSQuePm("memberStatusCode_QueryDerivedReferrer_MemberLoginList", pm) }
 
     /** 
      * Add order-by as ascend. <br />

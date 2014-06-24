@@ -59,17 +59,31 @@ class MemberStatusCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasNam
     protected def getCValueMemberStatusCode(): ConditionValue = { return _myCQ.getMemberStatusCode(); }
     def keepMemberStatusCode_ExistsReferrer_MemberList(sq: MemberCQ): String =
     { throwIICBOE("ExistsReferrer"); return null; }
+    def keepMemberStatusCode_ExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String =
+    { throwIICBOE("ExistsReferrer"); return null; }
     def keepMemberStatusCode_NotExistsReferrer_MemberList(sq: MemberCQ): String =
+    { throwIICBOE("NotExistsReferrer"); return null; }
+    def keepMemberStatusCode_NotExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String =
     { throwIICBOE("NotExistsReferrer"); return null; }
     def keepMemberStatusCode_InScopeRelation_MemberList(sq: MemberCQ): String =
     { return _myCQ.keepMemberStatusCode_InScopeRelation_MemberList(sq); }
+    def keepMemberStatusCode_InScopeRelation_MemberLoginList(sq: MemberLoginCQ): String =
+    { return _myCQ.keepMemberStatusCode_InScopeRelation_MemberLoginList(sq); }
     def keepMemberStatusCode_NotInScopeRelation_MemberList(sq: MemberCQ): String =
     { return _myCQ.keepMemberStatusCode_NotInScopeRelation_MemberList(sq); }
+    def keepMemberStatusCode_NotInScopeRelation_MemberLoginList(sq: MemberLoginCQ): String =
+    { return _myCQ.keepMemberStatusCode_NotInScopeRelation_MemberLoginList(sq); }
     def keepMemberStatusCode_SpecifyDerivedReferrer_MemberList(sq: MemberCQ): String =
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    def keepMemberStatusCode_SpecifyDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String =
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     def keepMemberStatusCode_QueryDerivedReferrer_MemberList(sq: MemberCQ): String =
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     def keepMemberStatusCode_QueryDerivedReferrer_MemberListParameter(vl: Object): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberStatusCode_QueryDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberStatusCode_QueryDerivedReferrer_MemberLoginListParameter(vl: Object): String =
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     protected def getCValueMemberStatusName(): ConditionValue = { return _myCQ.getMemberStatusName(); }
     protected def getCValueDescription(): ConditionValue = { return _myCQ.getDescription(); }

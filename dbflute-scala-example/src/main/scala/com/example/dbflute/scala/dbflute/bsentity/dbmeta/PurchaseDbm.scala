@@ -1,7 +1,8 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
-// #avoided same name type
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -147,7 +148,7 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, classOf[Long], "purchaseId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_3AB05285_346C_498C_A8F0_9339E5D1AA69", false, null, null, null, "purchasePaymentList", null);
+    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, classOf[Long], "purchaseId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_BFCA843D_8BDB_4053_8CCF_751BDC9AD165", false, null, null, null, "purchasePaymentList", null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, "商品ID", classOf[Integer], "productId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "product", null, null);
     protected val _columnPurchaseDatetime: ColumnInfo = cci("PURCHASE_DATETIME", "PURCHASE_DATETIME", null, "購入日時", classOf[java.sql.Timestamp], "purchaseDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
@@ -199,8 +200,8 @@ object PurchaseDbm extends AbstractDBMeta {
     //                                       Primary Element
     //                                       ---------------
     protected def cpui(): UniqueInfo = { return hpcpui(columnPurchaseId()); }
-    def hasPrimaryKey(): Boolean = { return true; }
-    def hasCompoundPrimaryKey(): Boolean = { return false; }
+    def hasPrimaryKey(): scala.Boolean = { return true; }
+    def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================
     //                                                                       Relation Info
@@ -230,10 +231,10 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
-    override def hasIdentity(): Boolean = { return true; }
-    override def hasVersionNo(): Boolean = { return true; }
+    override def hasIdentity(): scala.Boolean = { return true; }
+    override def hasVersionNo(): scala.Boolean = { return true; }
     override def getVersionNoColumnInfo(): ColumnInfo = { return _columnVersionNo; }
-    override def hasCommonColumn(): Boolean = { return true; }
+    override def hasCommonColumn(): scala.Boolean = { return true; }
     override def getCommonColumnInfoList(): List[ColumnInfo] =
     { return newArrayList(columnRegisterDatetime(), columnRegisterUser(), columnUpdateDatetime(), columnUpdateUser()); }
     override def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =

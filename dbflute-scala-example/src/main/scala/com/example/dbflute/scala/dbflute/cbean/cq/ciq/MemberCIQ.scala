@@ -57,16 +57,72 @@ class MemberCIQ(childQuery: ConditionQuery, sqlClause: SqlClause, aliasName: Str
     //                                                                Override about Query
     //                                                                ====================
     protected def getCValueMemberId(): ConditionValue = { return _myCQ.getMemberId(); }
+    def keepMemberId_ExistsReferrer_MemberAddressList(sq: MemberAddressCQ): String =
+    { throwIICBOE("ExistsReferrer"); return null; }
+    def keepMemberId_ExistsReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("ExistsReferrer"); return null; }
+    def keepMemberId_ExistsReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("ExistsReferrer"); return null; }
+    def keepMemberId_ExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String =
+    { throwIICBOE("ExistsReferrer"); return null; }
     def keepMemberId_ExistsReferrer_PurchaseList(sq: PurchaseCQ): String =
     { throwIICBOE("ExistsReferrer"); return null; }
+    def keepMemberId_NotExistsReferrer_MemberAddressList(sq: MemberAddressCQ): String =
+    { throwIICBOE("NotExistsReferrer"); return null; }
+    def keepMemberId_NotExistsReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("NotExistsReferrer"); return null; }
+    def keepMemberId_NotExistsReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("NotExistsReferrer"); return null; }
+    def keepMemberId_NotExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String =
+    { throwIICBOE("NotExistsReferrer"); return null; }
     def keepMemberId_NotExistsReferrer_PurchaseList(sq: PurchaseCQ): String =
     { throwIICBOE("NotExistsReferrer"); return null; }
+    def keepMemberId_InScopeRelation_MemberAddressList(sq: MemberAddressCQ): String =
+    { return _myCQ.keepMemberId_InScopeRelation_MemberAddressList(sq); }
+    def keepMemberId_InScopeRelation_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String =
+    { return _myCQ.keepMemberId_InScopeRelation_MemberFollowingByMyMemberIdList(sq); }
+    def keepMemberId_InScopeRelation_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String =
+    { return _myCQ.keepMemberId_InScopeRelation_MemberFollowingByYourMemberIdList(sq); }
+    def keepMemberId_InScopeRelation_MemberLoginList(sq: MemberLoginCQ): String =
+    { return _myCQ.keepMemberId_InScopeRelation_MemberLoginList(sq); }
     def keepMemberId_InScopeRelation_PurchaseList(sq: PurchaseCQ): String =
     { return _myCQ.keepMemberId_InScopeRelation_PurchaseList(sq); }
+    def keepMemberId_NotInScopeRelation_MemberAddressList(sq: MemberAddressCQ): String =
+    { return _myCQ.keepMemberId_NotInScopeRelation_MemberAddressList(sq); }
+    def keepMemberId_NotInScopeRelation_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String =
+    { return _myCQ.keepMemberId_NotInScopeRelation_MemberFollowingByMyMemberIdList(sq); }
+    def keepMemberId_NotInScopeRelation_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String =
+    { return _myCQ.keepMemberId_NotInScopeRelation_MemberFollowingByYourMemberIdList(sq); }
+    def keepMemberId_NotInScopeRelation_MemberLoginList(sq: MemberLoginCQ): String =
+    { return _myCQ.keepMemberId_NotInScopeRelation_MemberLoginList(sq); }
     def keepMemberId_NotInScopeRelation_PurchaseList(sq: PurchaseCQ): String =
     { return _myCQ.keepMemberId_NotInScopeRelation_PurchaseList(sq); }
+    def keepMemberId_SpecifyDerivedReferrer_MemberAddressList(sq: MemberAddressCQ): String =
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    def keepMemberId_SpecifyDerivedReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    def keepMemberId_SpecifyDerivedReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    def keepMemberId_SpecifyDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String =
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     def keepMemberId_SpecifyDerivedReferrer_PurchaseList(sq: PurchaseCQ): String =
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberAddressList(sq: MemberAddressCQ): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberAddressListParameter(vl: Object): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByMyMemberIdListParameter(vl: Object): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdList(sq: MemberFollowingCQ): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberFollowingByYourMemberIdListParameter(vl: Object): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    def keepMemberId_QueryDerivedReferrer_MemberLoginListParameter(vl: Object): String =
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
     def keepMemberId_QueryDerivedReferrer_PurchaseList(sq: PurchaseCQ): String =
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     def keepMemberId_QueryDerivedReferrer_PurchaseListParameter(vl: Object): String =

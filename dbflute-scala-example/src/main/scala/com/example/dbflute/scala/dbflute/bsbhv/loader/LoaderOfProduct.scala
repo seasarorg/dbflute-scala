@@ -31,13 +31,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     VERSION_NO
  *
  * [foreign table]
- *     
+ *     PRODUCT_CATEGORY, PRODUCT_STATUS
  *
  * [referrer table]
  *     PURCHASE
  *
  * [foreign property]
- *     
+ *     productCategory, productStatus
  *
  * [referrer property]
  *     purchaseList
@@ -76,6 +76,22 @@ class LoaderOfProduct {
     // ===================================================================================
     //                                                                    Pull out Foreign
     //                                                                    ================
+    protected var _foreignProductCategoryLoader: LoaderOfProductCategory = null;
+    def pulloutProductCategory(): LoaderOfProductCategory = {
+        if (_foreignProductCategoryLoader != null) { return _foreignProductCategoryLoader; }
+        val pulledList = myBhv.pulloutProductCategory(toScalaList(_selectedList).map(new Product(_))).map(new DbleProductCategory().acceptImmutable(_)).asJava;
+        _foreignProductCategoryLoader = new LoaderOfProductCategory().ready(pulledList, _selector);
+        return _foreignProductCategoryLoader;
+    }
+
+    protected var _foreignProductStatusLoader: LoaderOfProductStatus = null;
+    def pulloutProductStatus(): LoaderOfProductStatus = {
+        if (_foreignProductStatusLoader != null) { return _foreignProductStatusLoader; }
+        val pulledList = myBhv.pulloutProductStatus(toScalaList(_selectedList).map(new Product(_))).map(new DbleProductStatus().acceptImmutable(_)).asJava;
+        _foreignProductStatusLoader = new LoaderOfProductStatus().ready(pulledList, _selector);
+        return _foreignProductStatusLoader;
+    }
+
     // ===================================================================================
     //                                                                       Assist Helper
     //                                                                       =============

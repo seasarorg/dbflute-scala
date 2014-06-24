@@ -118,12 +118,94 @@ p.tablecount {
 </div>
 
 <div class="section">
+	<h2><span class="dt">Diff Date: </span>2014/06/24 10:47:09</h2>
+
+	<h3>Change ProductStatus</h3>
+	<div class="table-content">
+		<h4>ONS</h4>
+		<div class="change-table-content">
+			<h5>Value</h5>
+			<div class="column-content">生産販売可能|1&nbsp;-&gt;&nbsp;ProductionSales|1</div>
+		</div>
+		<h4>PST</h4>
+		<div class="change-table-content">
+			<h5>Value</h5>
+			<div class="column-content">生産中止|2&nbsp;-&gt;&nbsp;StopProduction|2</div>
+		</div>
+		<h4>SST</h4>
+		<div class="change-table-content">
+			<h5>Value</h5>
+			<div class="column-content">販売中止|3&nbsp;-&gt;&nbsp;StopSales|3</div>
+		</div>
+	</div>
+	<h3>Change TableCls</h3>
+	<div class="table-content">
+		<h4>PRODUCT_STATUS::ONS</h4>
+		<div class="change-table-content">
+			<h5>Value</h5>
+			<div class="column-content">生産販売可能|1&nbsp;-&gt;&nbsp;ProductionSales|1</div>
+		</div>
+		<h4>PRODUCT_STATUS::PST</h4>
+		<div class="change-table-content">
+			<h5>Value</h5>
+			<div class="column-content">生産中止|2&nbsp;-&gt;&nbsp;StopProduction|2</div>
+		</div>
+		<h4>PRODUCT_STATUS::SST</h4>
+		<div class="change-table-content">
+			<h5>Value</h5>
+			<div class="column-content">販売中止|3&nbsp;-&gt;&nbsp;StopSales|3</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<h2><span class="dt">Diff Date: </span>2014/06/24 08:55:35</h2>
+	<p class="tablecount"><span class="dt">table count: </span>7&nbsp;-&gt;&nbsp;24</p>
+
+	<h3>Add Table</h3>
+	<ul class="table-content">
+		<li>MEMBER_ADDRESS</li>
+		<li>MEMBER_FOLLOWING</li>
+		<li>MEMBER_LOGIN</li>
+		<li>MEMBER_SECURITY</li>
+		<li>MEMBER_WITHDRAWAL</li>
+		<li>PRODUCT_CATEGORY</li>
+		<li>PRODUCT_STATUS</li>
+		<li>REGION</li>
+		<li>SUMMARY_PRODUCT</li>
+		<li>SUMMARY_WITHDRAWAL</li>
+		<li>VENDOR_$_DOLLAR</li>
+		<li>VENDOR_CHECK</li>
+		<li>VENDOR_IDENTITY_ONLY</li>
+		<li>VENDOR_PRIMARY_KEY_ONLY</li>
+		<li>VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN</li>
+		<li>VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF</li>
+		<li>WITHDRAWAL_REASON</li>
+	</ul>
+	<h3>Change Table</h3>
+	<div class="table-content">
+		<h4>PRODUCT</h4>
+		<div class="change-table-content">
+			<h5>Add FK</h5>
+			<ul class="column-content">
+				<li>FK_PRODUCT_PRODUCT_CATEGORY</li>
+				<li>FK_PRODUCT_PRODUCT_STATUS</li>
+			</ul>
+		</div>
+	</div>
+	<h3>Add TableCls</h3>
+	<ul class="table-content">
+		<li>PRODUCT_STATUS::ONS</li>
+		<li>PRODUCT_STATUS::PST</li>
+		<li>PRODUCT_STATUS::SST</li>
+	</ul>
+</div>
+<div class="section">
 	<h2><span class="dt">Diff Date: </span>2014/06/15 23:57:11</h2>
 	<p class="tablecount"><span class="dt">table count: </span>8&nbsp;-&gt;&nbsp;7</p>
 
 	<h3>Change Table</h3>
 	<div class="table-content">
-		<h4><a href="./schema-exampledb.html#product">PRODUCT</a></h4>
+		<h4>PRODUCT</h4>
 		<div class="change-table-content">
 			<h5>Delete FK</h5>
 			<ul class="column-content">

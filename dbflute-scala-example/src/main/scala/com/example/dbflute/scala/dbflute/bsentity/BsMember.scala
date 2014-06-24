@@ -32,16 +32,16 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     VERSION_NO
  * 
  * [foreign table]
- *     MEMBER_STATUS, MEMBER_SERVICE(AsOne)
+ *     MEMBER_STATUS, MEMBER_SECURITY(AsOne), MEMBER_SERVICE(AsOne), MEMBER_WITHDRAWAL(AsOne)
  * 
  * [referrer table]
- *     PURCHASE, MEMBER_SERVICE
+ *     MEMBER_ADDRESS, MEMBER_FOLLOWING, MEMBER_LOGIN, PURCHASE, MEMBER_SECURITY, MEMBER_SERVICE, MEMBER_WITHDRAWAL
  * 
  * [foreign property]
- *     memberStatus, memberServiceAsOne
+ *     memberStatus, memberSecurityAsOne, memberServiceAsOne, memberWithdrawalAsOne
  * 
  * [referrer property]
- *     purchaseList
+ *     memberAddressList, memberFollowingByMyMemberIdList, memberFollowingByYourMemberIdList, memberLoginList, purchaseList
  * 
  * [get template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -155,14 +155,50 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
     def memberStatus: Option[MemberStatus] = { dble.toImmutableMemberStatus }
 
     /**
+     * [get] (会員セキュリティ情報)MEMBER_SECURITY by MEMBER_ID, named 'memberSecurityAsOne'.
+     * @return the entity of foreign property(referrer-as-one) 'memberSecurityAsOne'. (EmptyAllowed: when e.g. no data, no setupSelect)
+     */
+    def memberSecurityAsOne: Option[MemberSecurity] = { dble.toImmutableMemberSecurityAsOne }
+
+    /**
      * [get] (会員サービス)MEMBER_SERVICE by MEMBER_ID, named 'memberServiceAsOne'.
      * @return the entity of foreign property(referrer-as-one) 'memberServiceAsOne'. (EmptyAllowed: when e.g. no data, no setupSelect)
      */
     def memberServiceAsOne: Option[MemberService] = { dble.toImmutableMemberServiceAsOne }
 
+    /**
+     * [get] (会員退会情報)MEMBER_WITHDRAWAL by MEMBER_ID, named 'memberWithdrawalAsOne'.
+     * @return the entity of foreign property(referrer-as-one) 'memberWithdrawalAsOne'. (EmptyAllowed: when e.g. no data, no setupSelect)
+     */
+    def memberWithdrawalAsOne: Option[MemberWithdrawal] = { dble.toImmutableMemberWithdrawalAsOne }
+
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /**
+     * [get] (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
+     * @return The entity list of referrer property 'memberAddressList'. (NotNull: even if no loading, returns empty list)
+     */
+    def memberAddressList: List[MemberAddress] = { dble.toImmutableMemberAddressList }
+
+    /**
+     * [get] (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
+     * @return The entity list of referrer property 'memberFollowingByMyMemberIdList'. (NotNull: even if no loading, returns empty list)
+     */
+    def memberFollowingByMyMemberIdList: List[MemberFollowing] = { dble.toImmutableMemberFollowingByMyMemberIdList }
+
+    /**
+     * [get] (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
+     * @return The entity list of referrer property 'memberFollowingByYourMemberIdList'. (NotNull: even if no loading, returns empty list)
+     */
+    def memberFollowingByYourMemberIdList: List[MemberFollowing] = { dble.toImmutableMemberFollowingByYourMemberIdList }
+
+    /**
+     * [get] (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
+     * @return The entity list of referrer property 'memberLoginList'. (NotNull: even if no loading, returns empty list)
+     */
+    def memberLoginList: List[MemberLogin] = { dble.toImmutableMemberLoginList }
+
     /**
      * [get] (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * @return The entity list of referrer property 'purchaseList'. (NotNull: even if no loading, returns empty list)

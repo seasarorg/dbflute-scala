@@ -1,7 +1,8 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
-// #avoided same name type
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -132,7 +133,7 @@ object MemberServiceDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberServiceId: ColumnInfo = cci("MEMBER_SERVICE_ID", "MEMBER_SERVICE_ID", null, "会員サービスID", classOf[Integer], "memberServiceId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_0B632640_F1AE_44D1_8EC9_A319E92013BB", false, null, null, null, null, null);
+    protected val _columnMemberServiceId: ColumnInfo = cci("MEMBER_SERVICE_ID", "MEMBER_SERVICE_ID", null, "会員サービスID", classOf[Integer], "memberServiceId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A3FB641A_00F0_434E_80D2_40A1A16199FE", false, null, null, null, null, null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnServicePointCount: ColumnInfo = cci("SERVICE_POINT_COUNT", "SERVICE_POINT_COUNT", null, "サービスポイント数", classOf[Integer], "servicePointCount", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
     protected val _columnServiceRankCode: ColumnInfo = cci("SERVICE_RANK_CODE", "SERVICE_RANK_CODE", null, "サービスランクコード", classOf[String], "serviceRankCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "serviceRank", null, CDef.DefMeta.ServiceRank);
@@ -175,8 +176,8 @@ object MemberServiceDbm extends AbstractDBMeta {
     //                                       Primary Element
     //                                       ---------------
     protected def cpui(): UniqueInfo = { return hpcpui(columnMemberServiceId()); }
-    def hasPrimaryKey(): Boolean = { return true; }
-    def hasCompoundPrimaryKey(): Boolean = { return false; }
+    def hasPrimaryKey(): scala.Boolean = { return true; }
+    def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================
     //                                                                       Relation Info
@@ -202,10 +203,10 @@ object MemberServiceDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
-    override def hasIdentity(): Boolean = { return true; }
-    override def hasVersionNo(): Boolean = { return true; }
+    override def hasIdentity(): scala.Boolean = { return true; }
+    override def hasVersionNo(): scala.Boolean = { return true; }
     override def getVersionNoColumnInfo(): ColumnInfo = { return _columnVersionNo; }
-    override def hasCommonColumn(): Boolean = { return true; }
+    override def hasCommonColumn(): scala.Boolean = { return true; }
     override def getCommonColumnInfoList(): List[ColumnInfo] =
     { return newArrayList(columnRegisterDatetime(), columnRegisterUser(), columnUpdateDatetime(), columnUpdateUser()); }
     override def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =

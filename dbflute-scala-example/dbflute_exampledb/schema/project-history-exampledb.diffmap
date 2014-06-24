@@ -1,4 +1,177 @@
 map:{
+    ; 2014/06/24 10:47:09 = map:{
+        ; diffDate = 2014/06/24 10:47:09
+        ; craftDiff = map:{
+            ; ProductStatus = map:{
+                ; craftTitle = ProductStatus
+                ; craftRowDiff = map:{
+                    ; ONS = map:{
+                        ; craftKeyName = ONS
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "ProductionSales|1"
+                            ; previous = "生産販売可能|1"
+                        }
+                    }
+                    ; PST = map:{
+                        ; craftKeyName = PST
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "StopProduction|2"
+                            ; previous = "生産中止|2"
+                        }
+                    }
+                    ; SST = map:{
+                        ; craftKeyName = SST
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "StopSales|3"
+                            ; previous = "販売中止|3"
+                        }
+                    }
+                }
+            }
+            ; TableCls = map:{
+                ; craftTitle = TableCls
+                ; craftRowDiff = map:{
+                    ; PRODUCT_STATUS::ONS = map:{
+                        ; craftKeyName = PRODUCT_STATUS::ONS
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "ProductionSales|1"
+                            ; previous = "生産販売可能|1"
+                        }
+                    }
+                    ; PRODUCT_STATUS::PST = map:{
+                        ; craftKeyName = PRODUCT_STATUS::PST
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "StopProduction|2"
+                            ; previous = "生産中止|2"
+                        }
+                    }
+                    ; PRODUCT_STATUS::SST = map:{
+                        ; craftKeyName = PRODUCT_STATUS::SST
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "StopSales|3"
+                            ; previous = "販売中止|3"
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ; 2014/06/24 08:55:35 = map:{
+        ; diffDate = 2014/06/24 08:55:35
+        ; tableCount = map:{
+            ; next = 24
+            ; previous = 7
+        }
+        ; tableDiff = map:{
+            ; MEMBER_ADDRESS = map:{
+                ; tableName = MEMBER_ADDRESS
+                ; diffType = ADD
+            }
+            ; MEMBER_FOLLOWING = map:{
+                ; tableName = MEMBER_FOLLOWING
+                ; diffType = ADD
+            }
+            ; MEMBER_LOGIN = map:{
+                ; tableName = MEMBER_LOGIN
+                ; diffType = ADD
+            }
+            ; MEMBER_SECURITY = map:{
+                ; tableName = MEMBER_SECURITY
+                ; diffType = ADD
+            }
+            ; MEMBER_WITHDRAWAL = map:{
+                ; tableName = MEMBER_WITHDRAWAL
+                ; diffType = ADD
+            }
+            ; PRODUCT_CATEGORY = map:{
+                ; tableName = PRODUCT_CATEGORY
+                ; diffType = ADD
+            }
+            ; PRODUCT_STATUS = map:{
+                ; tableName = PRODUCT_STATUS
+                ; diffType = ADD
+            }
+            ; REGION = map:{
+                ; tableName = REGION
+                ; diffType = ADD
+            }
+            ; SUMMARY_PRODUCT = map:{
+                ; tableName = SUMMARY_PRODUCT
+                ; diffType = ADD
+            }
+            ; SUMMARY_WITHDRAWAL = map:{
+                ; tableName = SUMMARY_WITHDRAWAL
+                ; diffType = ADD
+            }
+            ; VENDOR_$_DOLLAR = map:{
+                ; tableName = VENDOR_$_DOLLAR
+                ; diffType = ADD
+            }
+            ; VENDOR_CHECK = map:{
+                ; tableName = VENDOR_CHECK
+                ; diffType = ADD
+            }
+            ; VENDOR_IDENTITY_ONLY = map:{
+                ; tableName = VENDOR_IDENTITY_ONLY
+                ; diffType = ADD
+            }
+            ; VENDOR_PRIMARY_KEY_ONLY = map:{
+                ; tableName = VENDOR_PRIMARY_KEY_ONLY
+                ; diffType = ADD
+            }
+            ; VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN = map:{
+                ; tableName = VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN
+                ; diffType = ADD
+            }
+            ; VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF = map:{
+                ; tableName = VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF
+                ; diffType = ADD
+            }
+            ; WITHDRAWAL_REASON = map:{
+                ; tableName = WITHDRAWAL_REASON
+                ; diffType = ADD
+            }
+            ; PRODUCT = map:{
+                ; tableName = PRODUCT
+                ; diffType = CHANGE
+                ; foreignKeyDiff = map:{
+                    ; FK_PRODUCT_PRODUCT_CATEGORY = map:{
+                        ; constraintName = FK_PRODUCT_PRODUCT_CATEGORY
+                        ; diffType = ADD
+                    }
+                    ; FK_PRODUCT_PRODUCT_STATUS = map:{
+                        ; constraintName = FK_PRODUCT_PRODUCT_STATUS
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+        ; craftDiff = map:{
+            ; TableCls = map:{
+                ; craftTitle = TableCls
+                ; craftRowDiff = map:{
+                    ; PRODUCT_STATUS::ONS = map:{
+                        ; craftKeyName = PRODUCT_STATUS::ONS
+                        ; diffType = ADD
+                    }
+                    ; PRODUCT_STATUS::PST = map:{
+                        ; craftKeyName = PRODUCT_STATUS::PST
+                        ; diffType = ADD
+                    }
+                    ; PRODUCT_STATUS::SST = map:{
+                        ; craftKeyName = PRODUCT_STATUS::SST
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2014/06/15 23:57:11 = map:{
         ; diffDate = 2014/06/15 23:57:11
         ; tableCount = map:{

@@ -42,13 +42,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     VERSION_NO
  *
  * [foreign table]
- *     
+ *     PRODUCT_CATEGORY, PRODUCT_STATUS
  *
  * [referrer table]
  *     PURCHASE
  *
  * [foreign property]
- *     
+ *     productCategory, productStatus
  *
  * [referrer property]
  *     purchaseList
@@ -492,6 +492,26 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                   Pull out Relation
     //                                                                   =================
+    /**
+     * Pull out the list of foreign table 'DbleProductCategory'.
+     * @param productList The list of product. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    def pulloutProductCategory(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[ProductCategory] = {
+        val dbleList = helpPulloutInternally(toDBableEntityList(productList), "productCategory");
+        return toScalaList(dbleList).map(new ProductCategory(_));
+    }
+
+    /**
+     * Pull out the list of foreign table 'DbleProductStatus'.
+     * @param productList The list of product. (NotNull, EmptyAllowed)
+     * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
+     */
+    def pulloutProductStatus(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[ProductStatus] = {
+        val dbleList = helpPulloutInternally(toDBableEntityList(productList), "productStatus");
+        return toScalaList(dbleList).map(new ProductStatus(_));
+    }
+
     // ===================================================================================
     //                                                                      Extract Column
     //                                                                      ==============

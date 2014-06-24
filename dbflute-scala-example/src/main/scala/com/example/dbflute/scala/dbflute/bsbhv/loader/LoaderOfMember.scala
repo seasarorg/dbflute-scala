@@ -31,16 +31,16 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     VERSION_NO
  *
  * [foreign table]
- *     MEMBER_STATUS, MEMBER_SERVICE(AsOne)
+ *     MEMBER_STATUS, MEMBER_SECURITY(AsOne), MEMBER_SERVICE(AsOne), MEMBER_WITHDRAWAL(AsOne)
  *
  * [referrer table]
- *     PURCHASE, MEMBER_SERVICE
+ *     MEMBER_ADDRESS, MEMBER_FOLLOWING, MEMBER_LOGIN, PURCHASE, MEMBER_SECURITY, MEMBER_SERVICE, MEMBER_WITHDRAWAL
  *
  * [foreign property]
- *     memberStatus, memberServiceAsOne
+ *     memberStatus, memberSecurityAsOne, memberServiceAsOne, memberWithdrawalAsOne
  *
  * [referrer property]
- *     purchaseList
+ *     memberAddressList, memberFollowingByMyMemberIdList, memberFollowingByYourMemberIdList, memberLoginList, purchaseList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -65,6 +65,38 @@ class LoaderOfMember {
     // ===================================================================================
     //                                                                       Load Referrer
     //                                                                       =============
+    protected var _referrerMemberAddressList: List[DbleMemberAddress] = null;
+    def loadMemberAddressList(cbCall: (MemberAddressCB) => Unit): ScrNestedReferrerLoaderGateway[LoaderOfMemberAddress] = {
+        myBhv.loadMemberAddressList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMemberAddress]() {
+            def handle(referrerList: List[DbleMemberAddress]): Unit = { _referrerMemberAddressList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfMemberAddress().ready(_referrerMemberAddressList, _selector); });
+    }
+
+    protected var _referrerMemberFollowingByMyMemberIdList: List[DbleMemberFollowing] = null;
+    def loadMemberFollowingByMyMemberIdList(cbCall: (MemberFollowingCB) => Unit): ScrNestedReferrerLoaderGateway[LoaderOfMemberFollowing] = {
+        myBhv.loadMemberFollowingByMyMemberIdList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMemberFollowing]() {
+            def handle(referrerList: List[DbleMemberFollowing]): Unit = { _referrerMemberFollowingByMyMemberIdList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfMemberFollowing().ready(_referrerMemberFollowingByMyMemberIdList, _selector); });
+    }
+
+    protected var _referrerMemberFollowingByYourMemberIdList: List[DbleMemberFollowing] = null;
+    def loadMemberFollowingByYourMemberIdList(cbCall: (MemberFollowingCB) => Unit): ScrNestedReferrerLoaderGateway[LoaderOfMemberFollowing] = {
+        myBhv.loadMemberFollowingByYourMemberIdList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMemberFollowing]() {
+            def handle(referrerList: List[DbleMemberFollowing]): Unit = { _referrerMemberFollowingByYourMemberIdList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfMemberFollowing().ready(_referrerMemberFollowingByYourMemberIdList, _selector); });
+    }
+
+    protected var _referrerMemberLoginList: List[DbleMemberLogin] = null;
+    def loadMemberLoginList(cbCall: (MemberLoginCB) => Unit): ScrNestedReferrerLoaderGateway[LoaderOfMemberLogin] = {
+        myBhv.loadMemberLoginList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMemberLogin]() {
+            def handle(referrerList: List[DbleMemberLogin]): Unit = { _referrerMemberLoginList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfMemberLogin().ready(_referrerMemberLoginList, _selector); });
+    }
+
     protected var _referrerPurchaseList: List[DblePurchase] = null;
     def loadPurchaseList(cbCall: (PurchaseCB) => Unit): ScrNestedReferrerLoaderGateway[LoaderOfPurchase] = {
         myBhv.loadPurchaseList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DblePurchase]() {
@@ -84,12 +116,28 @@ class LoaderOfMember {
         return _foreignMemberStatusLoader;
     }
 
+    protected var _foreignMemberSecurityAsOneLoader: LoaderOfMemberSecurity = null;
+    def pulloutMemberSecurityAsOne(): LoaderOfMemberSecurity = {
+        if (_foreignMemberSecurityAsOneLoader != null) { return _foreignMemberSecurityAsOneLoader; }
+        val pulledList = myBhv.pulloutMemberSecurityAsOne(toScalaList(_selectedList).map(new Member(_))).map(new DbleMemberSecurity().acceptImmutable(_)).asJava;
+        _foreignMemberSecurityAsOneLoader = new LoaderOfMemberSecurity().ready(pulledList, _selector);
+        return _foreignMemberSecurityAsOneLoader;
+    }
+
     protected var _foreignMemberServiceAsOneLoader: LoaderOfMemberService = null;
     def pulloutMemberServiceAsOne(): LoaderOfMemberService = {
         if (_foreignMemberServiceAsOneLoader != null) { return _foreignMemberServiceAsOneLoader; }
         val pulledList = myBhv.pulloutMemberServiceAsOne(toScalaList(_selectedList).map(new Member(_))).map(new DbleMemberService().acceptImmutable(_)).asJava;
         _foreignMemberServiceAsOneLoader = new LoaderOfMemberService().ready(pulledList, _selector);
         return _foreignMemberServiceAsOneLoader;
+    }
+
+    protected var _foreignMemberWithdrawalAsOneLoader: LoaderOfMemberWithdrawal = null;
+    def pulloutMemberWithdrawalAsOne(): LoaderOfMemberWithdrawal = {
+        if (_foreignMemberWithdrawalAsOneLoader != null) { return _foreignMemberWithdrawalAsOneLoader; }
+        val pulledList = myBhv.pulloutMemberWithdrawalAsOne(toScalaList(_selectedList).map(new Member(_))).map(new DbleMemberWithdrawal().acceptImmutable(_)).asJava;
+        _foreignMemberWithdrawalAsOneLoader = new LoaderOfMemberWithdrawal().ready(pulledList, _selector);
+        return _foreignMemberWithdrawalAsOneLoader;
     }
 
     // ===================================================================================

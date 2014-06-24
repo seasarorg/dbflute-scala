@@ -2,7 +2,10 @@ package com.example.dbflute.scala.dbflute.bsentity;
 
 import scala.collection.JavaConverters._;
 
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -172,7 +175,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     /**
      * {@inheritDoc}
      */
-    def hasPrimaryKeyValue(): Boolean = {
+    def hasPrimaryKeyValue(): scala.Boolean = {
         if (getServiceRankCode() == null) { return false; }
         return true;
     }
@@ -462,7 +465,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     /**
      * {@inheritDoc}
      */
-    def hasModification(): Boolean = {
+    def hasModification(): scala.Boolean = {
         return !__modifiedProperties.isEmpty();
     }
 
@@ -483,7 +486,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     /**
      * {@inheritDoc}
      */
-    def createdBySelect(): Boolean = {
+    def createdBySelect(): scala.Boolean = {
         return __createdBySelect;
     }
 
@@ -541,7 +544,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): Boolean = {
+    protected def xSV(v1: Object, v2: Object): scala.Boolean = {
         return FunCustodial.isSameValue(v1, v2);
     }
 
@@ -591,7 +594,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     /**
      * {@inheritDoc}
      */
-    def buildDisplayString(name: String, column: Boolean, relation: Boolean): String = {
+    def buildDisplayString(name: String, column: scala.Boolean, relation: scala.Boolean): String = {
         val sb: StringBuilder = new StringBuilder();
         if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
         if (column) { sb.append(buildColumnString()); }

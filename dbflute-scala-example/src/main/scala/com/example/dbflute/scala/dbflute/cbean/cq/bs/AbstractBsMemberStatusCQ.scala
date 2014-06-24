@@ -208,6 +208,28 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
     def keepMemberStatusCode_ExistsReferrer_MemberList(sq: MemberCQ): String;
 
     /**
+     * Set up ExistsReferrer (correlated sub-query). <br />
+     * {exists (select LOGIN_MEMBER_STATUS_CODE from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">existsMemberLoginList</span>(new SubQuery&lt;MemberLoginCB&gt;() {
+     *     public void query(MemberLoginCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberLoginList for 'exists'. (NotNull)
+     */
+    def existsMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberStatusCode_ExistsReferrer_MemberLoginList(cb.query());
+        registerExistsReferrer(cb.query(), "MEMBER_STATUS_CODE", "LOGIN_MEMBER_STATUS_CODE", pp, "memberLoginList");
+    }
+    def keepMemberStatusCode_ExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String;
+
+    /**
      * Set up NotExistsReferrer (correlated sub-query). <br />
      * {not exists (select MEMBER_STATUS_CODE from MEMBER where ...)} <br />
      * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberAsOne'.
@@ -230,6 +252,28 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
     def keepMemberStatusCode_NotExistsReferrer_MemberList(sq: MemberCQ): String;
 
     /**
+     * Set up NotExistsReferrer (correlated sub-query). <br />
+     * {not exists (select LOGIN_MEMBER_STATUS_CODE from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">notExistsMemberLoginList</span>(new SubQuery&lt;MemberLoginCB&gt;() {
+     *     public void query(MemberLoginCB subCB) {
+     *         subCB.query().setXxx...
+     *     }
+     * });
+     * </pre>
+     * @param subQuery The sub-query of MemberStatusCode_NotExistsReferrer_MemberLoginList for 'not exists'. (NotNull)
+     */
+    def notExistsMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForExistsReferrer(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberStatusCode_NotExistsReferrer_MemberLoginList(cb.query());
+        registerNotExistsReferrer(cb.query(), "MEMBER_STATUS_CODE", "LOGIN_MEMBER_STATUS_CODE", pp, "memberLoginList");
+    }
+    def keepMemberStatusCode_NotExistsReferrer_MemberLoginList(sq: MemberLoginCQ): String;
+
+    /**
      * Set up InScopeRelation (sub-query). <br />
      * {in (select MEMBER_STATUS_CODE from MEMBER where ...)} <br />
      * (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberAsOne'.
@@ -243,6 +287,21 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         registerInScopeRelation(cb.query(), "MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", pp, "memberList");
     }
     def keepMemberStatusCode_InScopeRelation_MemberList(sq: MemberCQ): String;
+
+    /**
+     * Set up InScopeRelation (sub-query). <br />
+     * {in (select LOGIN_MEMBER_STATUS_CODE from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginAsOne'.
+     * @param subQuery The sub-query of MemberLoginList for 'in-scope'. (NotNull)
+     */
+    def inScopeMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberStatusCode_InScopeRelation_MemberLoginList(cb.query());
+        registerInScopeRelation(cb.query(), "MEMBER_STATUS_CODE", "LOGIN_MEMBER_STATUS_CODE", pp, "memberLoginList");
+    }
+    def keepMemberStatusCode_InScopeRelation_MemberLoginList(sq: MemberLoginCQ): String;
 
     /**
      * Set up NotInScopeRelation (sub-query). <br />
@@ -259,6 +318,21 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
     }
     def keepMemberStatusCode_NotInScopeRelation_MemberList(sq: MemberCQ): String;
 
+    /**
+     * Set up NotInScopeRelation (sub-query). <br />
+     * {not in (select LOGIN_MEMBER_STATUS_CODE from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginAsOne'.
+     * @param subQuery The sub-query of MemberLoginList for 'not in-scope'. (NotNull)
+     */
+    def notInScopeMemberLoginList(subQuery: (MemberLoginCB) => Unit): Unit = {
+        assertObjectNotNull("subQuery", subQuery);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForInScopeRelation(this);
+        try { lock(); subQuery(cb); } finally { unlock(); }
+        val pp: String = keepMemberStatusCode_NotInScopeRelation_MemberLoginList(cb.query());
+        registerNotInScopeRelation(cb.query(), "MEMBER_STATUS_CODE", "LOGIN_MEMBER_STATUS_CODE", pp, "memberLoginList");
+    }
+    def keepMemberStatusCode_NotInScopeRelation_MemberLoginList(sq: MemberLoginCQ): String;
+
     def xsderiveMemberList(fn: String, sq: SubQuery[MemberCB], al: String, op: DerivedReferrerOption): Unit = {
         assertObjectNotNull("subQuery", sq);
         val cb: MemberCB = new MemberCB(); cb.xsetupForDerivedReferrer(this);
@@ -267,6 +341,15 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", pp, "memberList", al, op);
     }
     def keepMemberStatusCode_SpecifyDerivedReferrer_MemberList(sq: MemberCQ): String;
+
+    def xsderiveMemberLoginList(fn: String, sq: SubQuery[MemberLoginCB], al: String, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val pp: String = keepMemberStatusCode_SpecifyDerivedReferrer_MemberLoginList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "MEMBER_STATUS_CODE", "LOGIN_MEMBER_STATUS_CODE", pp, "memberLoginList", al, op);
+    }
+    def keepMemberStatusCode_SpecifyDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String;
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />
@@ -302,6 +385,41 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
     }
     def keepMemberStatusCode_QueryDerivedReferrer_MemberList(sq: MemberCQ): String;
     def keepMemberStatusCode_QueryDerivedReferrer_MemberListParameter(vl: Object): String;
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br />
+     * {FOO &lt;= (select max(BAR) from MEMBER_LOGIN where ...)} <br />
+     * (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #DD4747">derivedMemberLoginList()</span>.<span style="color: #DD4747">max</span>(new SubQuery&lt;MemberLoginCB&gt;() {
+     *     public void query(MemberLoginCB subCB) {
+     *         subCB.specify().<span style="color: #DD4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *         subCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     *     }
+     * }).<span style="color: #DD4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    def derivedMemberLoginList(): ScrHpQDRFunction[MemberLoginCB] = {
+        return toScalaQDRFunction(xcreateQDRFunctionMemberLoginList());
+    }
+    protected def xcreateQDRFunctionMemberLoginList(): HpQDRFunction[MemberLoginCB] = {
+        return new HpQDRFunction[MemberLoginCB](new HpQDRSetupper[MemberLoginCB]() {
+            def setup(fn: String, sq: SubQuery[MemberLoginCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+                xqderiveMemberLoginList(fn, sq, rd, vl, op);
+            }
+        });
+    }
+    def xqderiveMemberLoginList(fn: String, sq: SubQuery[MemberLoginCB], rd: String, vl: Object, op: DerivedReferrerOption): Unit = {
+        assertObjectNotNull("subQuery", sq);
+        val cb: MemberLoginCB = new MemberLoginCB(); cb.xsetupForDerivedReferrer(this);
+        try { lock(); sq.query(cb); } finally { unlock(); }
+        val sqpp: String = keepMemberStatusCode_QueryDerivedReferrer_MemberLoginList(cb.query());
+        val prpp: String = keepMemberStatusCode_QueryDerivedReferrer_MemberLoginListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "MEMBER_STATUS_CODE", "LOGIN_MEMBER_STATUS_CODE", sqpp, "memberLoginList", rd, vl, prpp, op);
+    }
+    def keepMemberStatusCode_QueryDerivedReferrer_MemberLoginList(sq: MemberLoginCQ): String;
+    def keepMemberStatusCode_QueryDerivedReferrer_MemberLoginListParameter(vl: Object): String;
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br />

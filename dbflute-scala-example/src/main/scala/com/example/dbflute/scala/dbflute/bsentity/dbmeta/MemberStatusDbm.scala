@@ -1,7 +1,8 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
-// #avoided same name type
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -89,7 +90,7 @@ object MemberStatusDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", classOf[String], "memberStatusCode", null, true, false, true, "CHAR", 3, 0, null, false, null, null, null, "memberList", CDef.DefMeta.MemberStatus);
+    protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", classOf[String], "memberStatusCode", null, true, false, true, "CHAR", 3, 0, null, false, null, null, null, "memberList,memberLoginList", CDef.DefMeta.MemberStatus);
     protected val _columnMemberStatusName: ColumnInfo = cci("MEMBER_STATUS_NAME", "MEMBER_STATUS_NAME", null, "会員ステータス名称", classOf[String], "memberStatusName", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnDescription: ColumnInfo = cci("DESCRIPTION", "DESCRIPTION", null, "説明", classOf[String], "description", null, false, false, true, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnDisplayOrder: ColumnInfo = cci("DISPLAY_ORDER", "DISPLAY_ORDER", null, "表示順", classOf[Integer], "displayOrder", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
@@ -117,8 +118,8 @@ object MemberStatusDbm extends AbstractDBMeta {
     //                                       Primary Element
     //                                       ---------------
     protected def cpui(): UniqueInfo = { return hpcpui(columnMemberStatusCode()); }
-    def hasPrimaryKey(): Boolean = { return true; }
-    def hasCompoundPrimaryKey(): Boolean = { return false; }
+    def hasPrimaryKey(): scala.Boolean = { return true; }
+    def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================
     //                                                                       Relation Info
@@ -135,6 +136,10 @@ object MemberStatusDbm extends AbstractDBMeta {
     def referrerMemberList(): ReferrerInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberDbm.columnMemberStatusCode());
         return cri("FK_MEMBER_MEMBER_STATUS", "memberList", this, MemberDbm, mp, false, "memberStatus");
+    }
+    def referrerMemberLoginList(): ReferrerInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberLoginDbm.columnLoginMemberStatusCode());
+        return cri("FK_MEMBER_LOGIN_MEMBER_STATUS", "memberLoginList", this, MemberLoginDbm, mp, false, "memberStatus");
     }
 
     // ===================================================================================

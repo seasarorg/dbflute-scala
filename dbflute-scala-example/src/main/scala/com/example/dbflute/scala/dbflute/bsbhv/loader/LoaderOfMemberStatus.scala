@@ -34,13 +34,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  *     
  *
  * [referrer table]
- *     MEMBER
+ *     MEMBER, MEMBER_LOGIN
  *
  * [foreign property]
  *     
  *
  * [referrer property]
- *     memberList
+ *     memberList, memberLoginList
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
@@ -71,6 +71,14 @@ class LoaderOfMemberStatus {
             def handle(referrerList: List[DbleMember]): Unit = { _referrerMemberList = referrerList; }
         });
         return createNested(() => { new LoaderOfMember().ready(_referrerMemberList, _selector); });
+    }
+
+    protected var _referrerMemberLoginList: List[DbleMemberLogin] = null;
+    def loadMemberLoginList(cbCall: (MemberLoginCB) => Unit): ScrNestedReferrerLoaderGateway[LoaderOfMemberLogin] = {
+        myBhv.loadMemberLoginList(_selectedList, cbCall).withNestedReferrer(new ReferrerListHandler[DbleMemberLogin]() {
+            def handle(referrerList: List[DbleMemberLogin]): Unit = { _referrerMemberLoginList = referrerList; }
+        });
+        return createNested(() => { new LoaderOfMemberLogin().ready(_referrerMemberLoginList, _selector); });
     }
 
     // ===================================================================================

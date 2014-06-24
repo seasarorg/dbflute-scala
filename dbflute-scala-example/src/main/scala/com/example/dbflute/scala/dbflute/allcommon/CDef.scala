@@ -573,24 +573,24 @@ object CDef {
      */
     object ProductStatus {
 
-        /** 生産販売可能 */
-        case object 生産販売可能 extends ProductStatus("ONS", "生産販売可能", EMPTY_SISTERS);
-        /** 生産中止 */
-        case object 生産中止 extends ProductStatus("PST", "生産中止", EMPTY_SISTERS);
-        /** 販売中止 */
-        case object 販売中止 extends ProductStatus("SST", "販売中止", EMPTY_SISTERS);
+        /** ProductionSales */
+        case object ProductionSales extends ProductStatus("ONS", "ProductionSales", EMPTY_SISTERS);
+        /** StopProduction */
+        case object StopProduction extends ProductStatus("PST", "StopProduction", EMPTY_SISTERS);
+        /** StopSales */
+        case object StopSales extends ProductStatus("SST", "StopSales", EMPTY_SISTERS);
 
         private val _codeValueMap: Map[String, ProductStatus] = new HashMap();
         {
-            _codeValueMap.put("ONS".toLowerCase(), 生産販売可能);
-            _codeValueMap.put("PST".toLowerCase(), 生産中止);
-            _codeValueMap.put("SST".toLowerCase(), 販売中止);
+            _codeValueMap.put("ONS".toLowerCase(), ProductionSales);
+            _codeValueMap.put("PST".toLowerCase(), StopProduction);
+            _codeValueMap.put("SST".toLowerCase(), StopSales);
         }
         private val _nameValueMap: Map[String, ProductStatus] = new HashMap();
         {
-            _nameValueMap.put("生産販売可能", 生産販売可能);
-            _nameValueMap.put("生産中止", 生産中止);
-            _nameValueMap.put("販売中止", 販売中止);
+            _nameValueMap.put("ProductionSales", ProductionSales);
+            _nameValueMap.put("StopProduction", StopProduction);
+            _nameValueMap.put("StopSales", StopSales);
         }
 
         /**

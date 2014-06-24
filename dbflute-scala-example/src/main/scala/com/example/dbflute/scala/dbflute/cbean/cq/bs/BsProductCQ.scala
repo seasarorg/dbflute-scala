@@ -154,14 +154,14 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
 
     /** 
      * Add order-by as ascend. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @return this. (NotNull)
      */
     def addOrderBy_ProductCategoryCode_Asc(): BsProductCQ = { regOBA("PRODUCT_CATEGORY_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @return this. (NotNull)
      */
     def addOrderBy_ProductCategoryCode_Desc(): BsProductCQ = { regOBD("PRODUCT_CATEGORY_CODE"); return this; }
@@ -174,14 +174,14 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
 
     /** 
      * Add order-by as ascend. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @return this. (NotNull)
      */
     def addOrderBy_ProductStatusCode_Asc(): BsProductCQ = { regOBA("PRODUCT_STATUS_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br />
-     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)}
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @return this. (NotNull)
      */
     def addOrderBy_ProductStatusCode_Desc(): BsProductCQ = { regOBD("PRODUCT_STATUS_CODE"); return this; }
@@ -345,11 +345,59 @@ class BsProductCQ(referrerQuery: ConditionQuery, sqlClause: SqlClause, aliasName
     //                                                                         Union Query
     //                                                                         ===========
     def reflectRelationOnUnionQuery(bqs: ConditionQuery, uqs: ConditionQuery): Unit = {
+        val bq: ProductCQ = bqs.asInstanceOf[ProductCQ];
+        val uq: ProductCQ = uqs.asInstanceOf[ProductCQ];
+        if (bq.hasConditionQueryProductCategory()) {
+            uq.queryProductCategory().reflectRelationOnUnionQuery(bq.queryProductCategory(), uq.queryProductCategory());
+        }
+        if (bq.hasConditionQueryProductStatus()) {
+            uq.queryProductStatus().reflectRelationOnUnionQuery(bq.queryProductStatus(), uq.queryProductStatus());
+        }
     }
 
     // ===================================================================================
     //                                                                       Foreign Query
     //                                                                       =============
+    /**
+     * Get the condition-query for relation table. <br />
+     * (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    def queryProductCategory(): ProductCategoryCQ = {
+        return getConditionQueryProductCategory();
+    }
+    def getConditionQueryProductCategory(): ProductCategoryCQ = {
+        val prop = "productCategory";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryProductCategory()); xsetupOuterJoinProductCategory(); }
+        return xgetQueRlMap(prop);
+    }
+    protected def xcreateQueryProductCategory(): ProductCategoryCQ = {
+        val nrp = xresolveNRP("PRODUCT",  "productCategory"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new ProductCategoryCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "productCategory", nrp);
+    }
+    protected def xsetupOuterJoinProductCategory(): Unit = { xregOutJo("productCategory") }
+    def hasConditionQueryProductCategory(): Boolean = { xhasQueRlMap("productCategory") }
+
+    /**
+     * Get the condition-query for relation table. <br />
+     * (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'.
+     * @return The instance of condition-query. (NotNull)
+     */
+    def queryProductStatus(): ProductStatusCQ = {
+        return getConditionQueryProductStatus();
+    }
+    def getConditionQueryProductStatus(): ProductStatusCQ = {
+        val prop = "productStatus";
+        if (!xhasQueRlMap(prop)) { xregQueRl(prop, xcreateQueryProductStatus()); xsetupOuterJoinProductStatus(); }
+        return xgetQueRlMap(prop);
+    }
+    protected def xcreateQueryProductStatus(): ProductStatusCQ = {
+        val nrp = xresolveNRP("PRODUCT",  "productStatus"); val jan = xresolveJAN(nrp,  xgetNNLvl());
+        return xinitRelCQ(new ProductStatusCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "productStatus", nrp);
+    }
+    protected def xsetupOuterJoinProductStatus(): Unit = { xregOutJo("productStatus") }
+    def hasConditionQueryProductStatus(): Boolean = { xhasQueRlMap("productStatus") }
+
     protected def xfindFixedConditionDynamicParameterMap(property: String): Map[String, Object] = {
         return null;
     }

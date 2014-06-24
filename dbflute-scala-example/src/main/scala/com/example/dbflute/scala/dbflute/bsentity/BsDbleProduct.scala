@@ -2,7 +2,10 @@ package com.example.dbflute.scala.dbflute.bsentity;
 
 import scala.collection.JavaConverters._;
 
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -20,6 +23,7 @@ import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
+import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
@@ -41,13 +45,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     VERSION_NO
  * 
  * [foreign table]
- *     
+ *     PRODUCT_CATEGORY, PRODUCT_STATUS
  * 
  * [referrer table]
  *     PURCHASE
  * 
  * [foreign property]
- *     
+ *     productCategory, productStatus
  * 
  * [referrer property]
  *     purchaseList
@@ -97,10 +101,10 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     /** (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)} */
     protected var _productHandleCode: String = null;
 
-    /** PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} */
+    /** PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY} */
     protected var _productCategoryCode: String = null;
 
-    /** PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} */
+    /** PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} */
     protected var _productStatusCode: String = null;
 
     /** (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} */
@@ -150,13 +154,15 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
         setProductName(immu.productName);
         setProductHandleCode(immu.productHandleCode);
         setProductCategoryCode(immu.productCategoryCode);
-        setProductStatusCode(immu.productStatusCode);
+        setProductStatusCodeAsProductStatus(immu.productStatusCode);
         setRegularPrice(immu.regularPrice);
         setRegisterDatetime(immu.registerDatetime);
         setRegisterUser(immu.registerUser);
         setUpdateDatetime(immu.updateDatetime);
         setUpdateUser(immu.updateUser);
         setVersionNo(immu.versionNo);
+        setProductCategory(immu.productCategory.map(new DbleProductCategory().acceptImmutable(_)))
+        setProductStatus(immu.productStatus.map(new DbleProductStatus().acceptImmutable(_)))
         setPurchaseList(immu.purchaseList.map(new DblePurchase().acceptImmutable(_)).asJava)
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
@@ -205,7 +211,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     /**
      * {@inheritDoc}
      */
-    def hasPrimaryKeyValue(): Boolean = {
+    def hasPrimaryKeyValue(): scala.Boolean = {
         if (getProductId() == null) { return false; }
         return true;
     }
@@ -233,8 +239,149 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     }
 
     // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of productStatusCode as the classification of ProductStatus. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    def getProductStatusCodeAsProductStatus(): CDef.ProductStatus = {
+        return CDef.ProductStatus.codeOf(getProductStatusCode());
+    }
+
+    /**
+     * Set the value of productStatusCode as the classification of ProductStatus. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    def setProductStatusCodeAsProductStatus(cdef: CDef.ProductStatus): Unit = {
+        setProductStatusCode(if (cdef != null) { cdef.code } else { null });
+    }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of productStatusCode as ProductionSales (ONS). <br />
+     * ProductionSales
+     */
+    def setProductStatusCode_ProductionSales(): Unit = {
+        setProductStatusCodeAsProductStatus(CDef.ProductStatus.ProductionSales);
+    }
+
+    /**
+     * Set the value of productStatusCode as StopProduction (PST). <br />
+     * StopProduction
+     */
+    def setProductStatusCode_StopProduction(): Unit = {
+        setProductStatusCodeAsProductStatus(CDef.ProductStatus.StopProduction);
+    }
+
+    /**
+     * Set the value of productStatusCode as StopSales (SST). <br />
+     * StopSales
+     */
+    def setProductStatusCode_StopSales(): Unit = {
+        setProductStatusCodeAsProductStatus(CDef.ProductStatus.StopSales);
+    }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of productStatusCode ProductionSales? <br />
+     * ProductionSales
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_ProductionSales(): Boolean = {
+        val cdef: CDef.ProductStatus = getProductStatusCodeAsProductStatus();
+        return if (cdef != null) { cdef.equals(CDef.ProductStatus.ProductionSales) } else { false };
+    }
+
+    /**
+     * Is the value of productStatusCode StopProduction? <br />
+     * StopProduction
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_StopProduction(): Boolean = {
+        val cdef: CDef.ProductStatus = getProductStatusCodeAsProductStatus();
+        return if (cdef != null) { cdef.equals(CDef.ProductStatus.StopProduction) } else { false };
+    }
+
+    /**
+     * Is the value of productStatusCode StopSales? <br />
+     * StopSales
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_StopSales(): Boolean = {
+        val cdef: CDef.ProductStatus = getProductStatusCodeAsProductStatus();
+        return if (cdef != null) { cdef.equals(CDef.ProductStatus.StopSales) } else { false };
+    }
+
+    // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
+    /** (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'. */
+    protected var _productCategory: Option[DbleProductCategory] = null;
+
+    /**
+     * [get] (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'.
+     * @return The entity of foreign property 'productCategory'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    def getProductCategory(): Option[DbleProductCategory] = {
+        return if (_productCategory != null) { _productCategory; } else { Option.empty; }
+    }
+
+    /**
+     * [set] (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'.
+     * @param productCategory The entity of foreign property 'productCategory'. (EmptyAllowed)
+     */
+    def setProductCategory(productCategory: Option[DbleProductCategory]): Unit = {
+        _productCategory = productCategory;
+    }
+
+    /**
+     * [convert] (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'.
+     * @return The new-created immutable entity of foreign property 'productCategory'. (NotNull)
+     */
+    def toImmutableProductCategory(): Option[ProductCategory] = {
+        return getProductCategory().map(_.toImmutable());
+    }
+
+    /** (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'. */
+    protected var _productStatus: Option[DbleProductStatus] = null;
+
+    /**
+     * [get] (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'.
+     * @return The entity of foreign property 'productStatus'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    def getProductStatus(): Option[DbleProductStatus] = {
+        return if (_productStatus != null) { _productStatus; } else { Option.empty; }
+    }
+
+    /**
+     * [set] (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'.
+     * @param productStatus The entity of foreign property 'productStatus'. (EmptyAllowed)
+     */
+    def setProductStatus(productStatus: Option[DbleProductStatus]): Unit = {
+        _productStatus = productStatus;
+    }
+
+    /**
+     * [convert] (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'.
+     * @return The new-created immutable entity of foreign property 'productStatus'. (NotNull)
+     */
+    def toImmutableProductStatus(): Option[ProductStatus] = {
+        return getProductStatus().map(_.toImmutable());
+    }
+
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
@@ -290,7 +437,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     /**
      * {@inheritDoc}
      */
-    def hasModification(): Boolean = {
+    def hasModification(): scala.Boolean = {
         return !__modifiedProperties.isEmpty();
     }
 
@@ -311,7 +458,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     /**
      * {@inheritDoc}
      */
-    def createdBySelect(): Boolean = {
+    def createdBySelect(): scala.Boolean = {
         return __createdBySelect;
     }
 
@@ -335,7 +482,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     /**
      * {@inheritDoc}
      */
-    def canCommonColumnAutoSetup(): Boolean = {
+    def canCommonColumnAutoSetup(): scala.Boolean = {
         return __canCommonColumnAutoSetup;
     }
 
@@ -393,7 +540,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): Boolean = {
+    protected def xSV(v1: Object, v2: Object): scala.Boolean = {
         return FunCustodial.isSameValue(v1, v2);
     }
 
@@ -433,17 +580,24 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
         val sb: StringBuilder = new StringBuilder();
         sb.append(toString());
         val li: String = "\n  ";
+        if (_productCategory != null)
+        { sb.append(li).append(xbRDS(_productCategory, "productCategory")); }
+        if (_productStatus != null)
+        { sb.append(li).append(xbRDS(_productStatus, "productStatus")); }
         toScalaList(_purchaseList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "purchaseList")) } });
         return sb.toString();
     }
     protected def xbRDS(et: Entity, name: String): String = {
         return et.buildDisplayString(name, true, true);
     }
+    protected def xbRDS[ET <: Entity](et: Option[ET], name: String): String = {
+        return et.get.buildDisplayString(name, true, true);
+    }
 
     /**
      * {@inheritDoc}
      */
-    def buildDisplayString(name: String, column: Boolean, relation: Boolean): String = {
+    def buildDisplayString(name: String, column: scala.Boolean, relation: scala.Boolean): String = {
         val sb: StringBuilder = new StringBuilder();
         if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
         if (column) { sb.append(buildColumnString()); }
@@ -474,6 +628,8 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val cm: String = ",  ";
+        if (_productCategory != null) { sb.append(cm).append("productCategory"); }
+        if (_productStatus != null) { sb.append(cm).append("productStatus"); }
         if (_purchaseList != null && !_purchaseList.isEmpty)
         { sb.append(cm).append("purchaseList"); }
         if (sb.length() > cm.length()) {
@@ -551,7 +707,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     }
 
     /**
-     * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY} <br />
      * @return The value of the column 'PRODUCT_CATEGORY_CODE'. (basically NotNull if selected: for the constraint)
      */
     def getProductCategoryCode(): String = {
@@ -559,7 +715,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     }
 
     /**
-     * [set] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [set] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY} <br />
      * @param productCategoryCode The value of the column 'PRODUCT_CATEGORY_CODE'. (basically NotNull if update: for the constraint)
      */
     def setProductCategoryCode(productCategoryCode: String): Unit = {
@@ -568,7 +724,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     }
 
     /**
-     * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
      * @return The value of the column 'PRODUCT_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
     def getProductStatusCode(): String = {
@@ -576,10 +732,10 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     }
 
     /**
-     * [set] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [set] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
      * @param productStatusCode The value of the column 'PRODUCT_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
-    def setProductStatusCode(productStatusCode: String): Unit = {
+    protected def setProductStatusCode(productStatusCode: String): Unit = {
         __modifiedProperties.addPropertyName("productStatusCode");
         _productStatusCode = productStatusCode;
     }

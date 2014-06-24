@@ -1,7 +1,8 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
-// #avoided same name type
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -120,11 +121,21 @@ object MemberDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberStatus(vl.asInstanceOf[Option[DbleMemberStatus]]); }
     }
     {
+        setupEfpg(_efpgMap, new EfpgMemberSecurityAsOne(), "memberSecurityAsOne");
         setupEfpg(_efpgMap, new EfpgMemberServiceAsOne(), "memberServiceAsOne");
+        setupEfpg(_efpgMap, new EfpgMemberWithdrawalAsOne(), "memberWithdrawalAsOne");
+    }
+    class EfpgMemberSecurityAsOne extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberSecurityAsOne(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberSecurityAsOne(vl.asInstanceOf[Option[DbleMemberSecurity]]); }
     }
     class EfpgMemberServiceAsOne extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberServiceAsOne(); }
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberServiceAsOne(vl.asInstanceOf[Option[DbleMemberService]]); }
+    }
+    class EfpgMemberWithdrawalAsOne extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getMemberWithdrawalAsOne(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setMemberWithdrawalAsOne(vl.asInstanceOf[Option[DbleMemberWithdrawal]]); }
     }
     override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
 
@@ -144,7 +155,7 @@ object MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_3E88B709_A321_4B60_A3E0_A2FB46A8FED3", false, null, null, null, "purchaseList", null);
+    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_76E3C239_726C_4C53_8ABA_773F323D2A10", false, null, null, null, "memberAddressList,memberFollowingByMyMemberIdList,memberFollowingByYourMemberIdList,memberLoginList,purchaseList", null);
     protected val _columnMemberName: ColumnInfo = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", classOf[String], "memberName", null, false, false, true, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnMemberAccount: ColumnInfo = cci("MEMBER_ACCOUNT", "MEMBER_ACCOUNT", null, "会員アカウント", classOf[String], "memberAccount", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", classOf[String], "memberStatusCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "memberStatus", null, CDef.DefMeta.MemberStatus);
@@ -193,8 +204,8 @@ object MemberDbm extends AbstractDBMeta {
     //                                       Primary Element
     //                                       ---------------
     protected def cpui(): UniqueInfo = { return hpcpui(columnMemberId()); }
-    def hasPrimaryKey(): Boolean = { return true; }
-    def hasCompoundPrimaryKey(): Boolean = { return false; }
+    def hasPrimaryKey(): scala.Boolean = { return true; }
+    def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================
     //                                                                       Relation Info
@@ -208,14 +219,38 @@ object MemberDbm extends AbstractDBMeta {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberStatusCode(), MemberStatusDbm.columnMemberStatusCode());
         return cfi("FK_MEMBER_MEMBER_STATUS", "memberStatus", this, MemberStatusDbm, mp, 0, classOf[Option[_]], false, false, false, false, null, null, false, "memberList");
     }
+    def foreignMemberSecurityAsOne(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberSecurityDbm.columnMemberId());
+        return cfi("FK_MEMBER_SECURITY_MEMBER", "memberSecurityAsOne", this, MemberSecurityDbm, mp, 1, classOf[Option[_]], true, false, true, false, null, null, false, "member");
+    }
     def foreignMemberServiceAsOne(): ForeignInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberServiceDbm.columnMemberId());
-        return cfi("FK_MEMBER_SERVICE_MEMBER", "memberServiceAsOne", this, MemberServiceDbm, mp, 1, classOf[Option[_]], true, false, true, false, null, null, false, "member");
+        return cfi("FK_MEMBER_SERVICE_MEMBER", "memberServiceAsOne", this, MemberServiceDbm, mp, 2, classOf[Option[_]], true, false, true, false, null, null, false, "member");
+    }
+    def foreignMemberWithdrawalAsOne(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberWithdrawalDbm.columnMemberId());
+        return cfi("FK_MEMBER_WITHDRAWAL_MEMBER", "memberWithdrawalAsOne", this, MemberWithdrawalDbm, mp, 3, classOf[Option[_]], true, false, true, false, null, null, false, "member");
     }
 
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+    def referrerMemberAddressList(): ReferrerInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberAddressDbm.columnMemberId());
+        return cri("FK_MEMBER_ADDRESS_MEMBER", "memberAddressList", this, MemberAddressDbm, mp, false, "member");
+    }
+    def referrerMemberFollowingByMyMemberIdList(): ReferrerInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberFollowingDbm.columnMyMemberId());
+        return cri("FK_MEMBER_FOLLOWING_MY_MEMBER", "memberFollowingByMyMemberIdList", this, MemberFollowingDbm, mp, false, "memberByMyMemberId");
+    }
+    def referrerMemberFollowingByYourMemberIdList(): ReferrerInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberFollowingDbm.columnYourMemberId());
+        return cri("FK_MEMBER_FOLLOWING_YOUR_MEMBER", "memberFollowingByYourMemberIdList", this, MemberFollowingDbm, mp, false, "memberByYourMemberId");
+    }
+    def referrerMemberLoginList(): ReferrerInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), MemberLoginDbm.columnMemberId());
+        return cri("FK_MEMBER_LOGIN_MEMBER", "memberLoginList", this, MemberLoginDbm, mp, false, "member");
+    }
     def referrerPurchaseList(): ReferrerInfo = {
         val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnMemberId(), PurchaseDbm.columnMemberId());
         return cri("FK_PURCHASE_MEMBER", "purchaseList", this, PurchaseDbm, mp, false, "member");
@@ -224,10 +259,10 @@ object MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
-    override def hasIdentity(): Boolean = { return true; }
-    override def hasVersionNo(): Boolean = { return true; }
+    override def hasIdentity(): scala.Boolean = { return true; }
+    override def hasVersionNo(): scala.Boolean = { return true; }
     override def getVersionNoColumnInfo(): ColumnInfo = { return _columnVersionNo; }
-    override def hasCommonColumn(): Boolean = { return true; }
+    override def hasCommonColumn(): scala.Boolean = { return true; }
     override def getCommonColumnInfoList(): List[ColumnInfo] =
     { return newArrayList(columnRegisterDatetime(), columnRegisterUser(), columnUpdateDatetime(), columnUpdateUser()); }
     override def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =

@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
+import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
@@ -30,13 +31,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  *     VERSION_NO
  * 
  * [foreign table]
- *     
+ *     PRODUCT_CATEGORY, PRODUCT_STATUS
  * 
  * [referrer table]
  *     PURCHASE
  * 
  * [foreign property]
- *     
+ *     productCategory, productStatus
  * 
  * [referrer property]
  *     purchaseList
@@ -47,7 +48,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val productName: String = entity.productName
  * val productHandleCode: String = entity.productHandleCode
  * val productCategoryCode: String = entity.productCategoryCode
- * val productStatusCode: String = entity.productStatusCode
+ * val productStatusCode: CDef.ProductStatus = entity.productStatusCode
  * val regularPrice: Int = entity.regularPrice
  * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
  * val registerUser: String = entity.registerUser
@@ -68,7 +69,7 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
         , productName: String = productName
         , productHandleCode: String = productHandleCode
         , productCategoryCode: String = productCategoryCode
-        , productStatusCode: String = productStatusCode
+        , productStatusCode: CDef.ProductStatus = productStatusCode
         , regularPrice: Int = regularPrice
         , registerDatetime: java.sql.Timestamp = registerDatetime
         , registerUser: String = registerUser
@@ -83,7 +84,7 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
         if (!productName.equals(this.productName)) { newDble.setProductName(productName) }
         if (!productHandleCode.equals(this.productHandleCode)) { newDble.setProductHandleCode(productHandleCode) }
         if (!productCategoryCode.equals(this.productCategoryCode)) { newDble.setProductCategoryCode(productCategoryCode) }
-        if (!productStatusCode.equals(this.productStatusCode)) { newDble.setProductStatusCode(productStatusCode) }
+        if (!productStatusCode.equals(this.productStatusCode)) { newDble.setProductStatusCodeAsProductStatus(productStatusCode) }
         if (!regularPrice.equals(this.regularPrice)) { newDble.setRegularPrice(regularPrice) }
         if (!registerDatetime.equals(this.registerDatetime)) { newDble.setRegisterDatetime(registerDatetime) }
         if (!registerUser.equals(this.registerUser)) { newDble.setRegisterUser(registerUser) }
@@ -105,11 +106,59 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
     { Set(javaList.toArray).asInstanceOf[Set[String]] }
 
     // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of productStatusCode as the classification of ProductStatus. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    def productStatusCodeAsProductStatus: CDef.ProductStatus = { dble.getProductStatusCodeAsProductStatus }
+
+    // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
+    /**
+     * Is the value of productStatusCode ProductionSales? <br />
+     * ProductionSales
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_ProductionSales: Boolean = { dble.isProductStatusCode_ProductionSales }
+
+    /**
+     * Is the value of productStatusCode StopProduction? <br />
+     * StopProduction
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_StopProduction: Boolean = { dble.isProductStatusCode_StopProduction }
+
+    /**
+     * Is the value of productStatusCode StopSales? <br />
+     * StopSales
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_StopSales: Boolean = { dble.isProductStatusCode_StopSales }
+
     // ===================================================================================
     //                                                                    Foreign Property
     //                                                                    ================
+    /**
+     * [get] (商品カテゴリ)PRODUCT_CATEGORY by my PRODUCT_CATEGORY_CODE, named 'productCategory'.
+     * @return The entity of foreign property 'productCategory'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    def productCategory: Option[ProductCategory] = { dble.toImmutableProductCategory }
+
+    /**
+     * [get] (商品ステータス)PRODUCT_STATUS by my PRODUCT_STATUS_CODE, named 'productStatus'.
+     * @return The entity of foreign property 'productStatus'. (EmptyAllowed: when e.g. null FK column, no setupSelect)
+     */
+    def productStatus: Option[ProductStatus] = { dble.toImmutableProductStatus }
+
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
@@ -189,16 +238,16 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
     def productHandleCode: String = { dble.getProductHandleCode }
 
     /**
-     * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY} <br />
      * @return The value of the column 'PRODUCT_CATEGORY_CODE'. (NotNull but EmptyAllowed if null in database)
      */
     def productCategoryCode: String = { dble.getProductCategoryCode }
 
     /**
-     * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
      * @return The value of the column 'PRODUCT_STATUS_CODE'. (NotNull but EmptyAllowed if null in database)
      */
-    def productStatusCode: String = { dble.getProductStatusCode }
+    def productStatusCode: CDef.ProductStatus = { dble.getProductStatusCodeAsProductStatus }
 
     /**
      * [get] (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} <br />
@@ -255,7 +304,7 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
  * val productName: String = entity.productName
  * val productHandleCode: String = entity.productHandleCode
  * val productCategoryCode: String = entity.productCategoryCode
- * val productStatusCode: String = entity.productStatusCode
+ * val productStatusCode: CDef.ProductStatus = entity.productStatusCode
  * val regularPrice: Int = entity.regularPrice
  * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
  * val registerUser: String = entity.registerUser
@@ -299,6 +348,74 @@ abstract class BsMbleProduct {
     def uniqueBy(productHandleCode: String): Unit = { dble.setProductHandleCode(productHandleCode); }
 
     // ===================================================================================
+    //                                                             Classification Property
+    //                                                             =======================
+    /**
+     * Get the value of productStatusCode as the classification of ProductStatus. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
+     * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
+     */
+    def productStatusCodeAsProductStatus: CDef.ProductStatus = { dble.getProductStatusCodeAsProductStatus }
+
+    /**
+     * Set the value of productStatusCode as the classification of ProductStatus. <br />
+     * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
+     * status for product
+     * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
+     */
+    def productStatusCodeAsProductStatus_=(cdef: CDef.ProductStatus): Unit = { dble.setProductStatusCodeAsProductStatus(cdef) }
+
+    // ===================================================================================
+    //                                                              Classification Setting
+    //                                                              ======================
+    /**
+     * Set the value of productStatusCode as ProductionSales (ONS). <br />
+     * ProductionSales
+     */
+    def productStatusCode_ProductionSales: Unit = { dble.setProductStatusCode_ProductionSales }
+
+    /**
+     * Set the value of productStatusCode as StopProduction (PST). <br />
+     * StopProduction
+     */
+    def productStatusCode_StopProduction: Unit = { dble.setProductStatusCode_StopProduction }
+
+    /**
+     * Set the value of productStatusCode as StopSales (SST). <br />
+     * StopSales
+     */
+    def productStatusCode_StopSales: Unit = { dble.setProductStatusCode_StopSales }
+
+    // ===================================================================================
+    //                                                        Classification Determination
+    //                                                        ============================
+    /**
+     * Is the value of productStatusCode ProductionSales? <br />
+     * ProductionSales
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_ProductionSales: Boolean = { dble.isProductStatusCode_ProductionSales }
+
+    /**
+     * Is the value of productStatusCode StopProduction? <br />
+     * StopProduction
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_StopProduction: Boolean = { dble.isProductStatusCode_StopProduction }
+
+    /**
+     * Is the value of productStatusCode StopSales? <br />
+     * StopSales
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    def isProductStatusCode_StopSales: Boolean = { dble.isProductStatusCode_StopSales }
+
+    // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     /**
@@ -338,28 +455,28 @@ abstract class BsMbleProduct {
     def productHandleCode_=(productHandleCode: String) = { dble.setProductHandleCode(productHandleCode) }
 
     /**
-     * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [get] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY} <br />
      * @return The value of the column 'PRODUCT_CATEGORY_CODE'. (basically NotNull if selected: for the constraint)
      */
     def productCategoryCode: String = { dble.getProductCategoryCode }
 
     /**
-     * [set] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [set] PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY} <br />
      * @param productCategoryCode The value of the column 'PRODUCT_CATEGORY_CODE'. (NullAllowed: null update allowed for no constraint)
      */
     def productCategoryCode_=(productCategoryCode: String) = { dble.setProductCategoryCode(productCategoryCode) }
 
     /**
-     * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [get] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
      * @return The value of the column 'PRODUCT_STATUS_CODE'. (basically NotNull if selected: for the constraint)
      */
-    def productStatusCode: String = { dble.getProductStatusCode }
+    def productStatusCode: CDef.ProductStatus = { dble.getProductStatusCodeAsProductStatus }
 
     /**
-     * [set] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3)} <br />
+     * [set] PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus} <br />
      * @param productStatusCode The value of the column 'PRODUCT_STATUS_CODE'. (NullAllowed: null update allowed for no constraint)
      */
-    def productStatusCode_=(productStatusCode: String) = { dble.setProductStatusCode(productStatusCode) }
+    protected def productStatusCode_=(productStatusCode: CDef.ProductStatus) = { dble.setProductStatusCodeAsProductStatus(productStatusCode) }
 
     /**
      * [get] (定価)REGULAR_PRICE: {NotNull, INTEGER(10)} <br />

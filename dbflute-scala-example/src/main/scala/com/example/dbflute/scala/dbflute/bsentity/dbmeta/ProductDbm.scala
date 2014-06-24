@@ -1,7 +1,8 @@
 package com.example.dbflute.scala.dbflute.bsentity.dbmeta;
 
-// #avoided same name type
+// #avoided same name type in Java and Scala
 import java.lang.Long;
+import java.lang.Boolean;
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -69,7 +70,11 @@ object ProductDbm extends AbstractDBMeta {
     }
     class EpgProductStatusCode extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductStatusCode(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductStatusCode(vl.asInstanceOf[String]); }
+        def write(et: Entity, vl: Object): Unit = {
+            val col: ColumnInfo = columnProductStatusCode();
+            dgccls(col, vl);
+            et.asInstanceOf[DbleProduct].setProductStatusCodeAsProductStatus(dggcls(col, vl).asInstanceOf[CDef.ProductStatus]);
+        }
     }
     class EpgRegularPrice extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getRegularPrice(); }
@@ -104,6 +109,24 @@ object ProductDbm extends AbstractDBMeta {
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
 
+    // -----------------------------------------------------
+    //                                      Foreign Property
+    //                                      ----------------
+    protected val _efpgMap: Map[String, PropertyGateway] = newHashMap();
+    {
+        setupEfpg(_efpgMap, new EfpgProductCategory(), "productCategory");
+        setupEfpg(_efpgMap, new EfpgProductStatus(), "productStatus");
+    }
+    class EfpgProductCategory extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductCategory(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductCategory(vl.asInstanceOf[Option[DbleProductCategory]]); }
+    }
+    class EfpgProductStatus extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleProduct].getProductStatus(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleProduct].setProductStatus(vl.asInstanceOf[Option[DbleProductStatus]]); }
+    }
+    override def findForeignPropertyGateway(prop: String): PropertyGateway = { return doFindEfpg(_efpgMap, prop); }
+
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
@@ -120,11 +143,11 @@ object ProductDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, null, classOf[Integer], "productId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_5D75CAEE_BB49_4E7C_90A9_11AD3DCA95C5", false, null, null, null, "purchaseList", null);
+    protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, null, classOf[Integer], "productId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_F75BBA78_5285_49ED_94E6_F3013AAEAD69", false, null, null, null, "purchaseList", null);
     protected val _columnProductName: ColumnInfo = cci("PRODUCT_NAME", "PRODUCT_NAME", null, "商品名称", classOf[String], "productName", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnProductHandleCode: ColumnInfo = cci("PRODUCT_HANDLE_CODE", "PRODUCT_HANDLE_CODE", null, "商品ハンドルコード", classOf[String], "productHandleCode", null, false, false, true, "VARCHAR", 100, 0, null, false, null, null, null, null, null);
-    protected val _columnProductCategoryCode: ColumnInfo = cci("PRODUCT_CATEGORY_CODE", "PRODUCT_CATEGORY_CODE", null, null, classOf[String], "productCategoryCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, null, null, null);
-    protected val _columnProductStatusCode: ColumnInfo = cci("PRODUCT_STATUS_CODE", "PRODUCT_STATUS_CODE", null, null, classOf[String], "productStatusCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, null, null, null);
+    protected val _columnProductCategoryCode: ColumnInfo = cci("PRODUCT_CATEGORY_CODE", "PRODUCT_CATEGORY_CODE", null, null, classOf[String], "productCategoryCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "productCategory", null, null);
+    protected val _columnProductStatusCode: ColumnInfo = cci("PRODUCT_STATUS_CODE", "PRODUCT_STATUS_CODE", null, null, classOf[String], "productStatusCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "productStatus", null, CDef.DefMeta.ProductStatus);
     protected val _columnRegularPrice: ColumnInfo = cci("REGULAR_PRICE", "REGULAR_PRICE", null, "定価", classOf[Integer], "regularPrice", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
     protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
@@ -169,8 +192,8 @@ object ProductDbm extends AbstractDBMeta {
     //                                       Primary Element
     //                                       ---------------
     protected def cpui(): UniqueInfo = { return hpcpui(columnProductId()); }
-    def hasPrimaryKey(): Boolean = { return true; }
-    def hasCompoundPrimaryKey(): Boolean = { return false; }
+    def hasPrimaryKey(): scala.Boolean = { return true; }
+    def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================
     //                                                                       Relation Info
@@ -180,6 +203,14 @@ object ProductDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                      Foreign Property
     //                                      ----------------
+    def foreignProductCategory(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnProductCategoryCode(), ProductCategoryDbm.columnProductCategoryCode());
+        return cfi("FK_PRODUCT_PRODUCT_CATEGORY", "productCategory", this, ProductCategoryDbm, mp, 0, classOf[Option[_]], false, false, false, false, null, null, false, "productList");
+    }
+    def foreignProductStatus(): ForeignInfo = {
+        val mp: Map[ColumnInfo, ColumnInfo] = newLinkedHashMap(columnProductStatusCode(), ProductStatusDbm.columnProductStatusCode());
+        return cfi("FK_PRODUCT_PRODUCT_STATUS", "productStatus", this, ProductStatusDbm, mp, 1, classOf[Option[_]], false, false, false, false, null, null, false, "productList");
+    }
 
     // -----------------------------------------------------
     //                                     Referrer Property
@@ -192,10 +223,10 @@ object ProductDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                        Various Info
     //                                                                        ============
-    override def hasIdentity(): Boolean = { return true; }
-    override def hasVersionNo(): Boolean = { return true; }
+    override def hasIdentity(): scala.Boolean = { return true; }
+    override def hasVersionNo(): scala.Boolean = { return true; }
     override def getVersionNoColumnInfo(): ColumnInfo = { return _columnVersionNo; }
-    override def hasCommonColumn(): Boolean = { return true; }
+    override def hasCommonColumn(): scala.Boolean = { return true; }
     override def getCommonColumnInfoList(): List[ColumnInfo] =
     { return newArrayList(columnRegisterDatetime(), columnRegisterUser(), columnUpdateDatetime(), columnUpdateUser()); }
     override def getCommonColumnInfoBeforeInsertList(): List[ColumnInfo] =
