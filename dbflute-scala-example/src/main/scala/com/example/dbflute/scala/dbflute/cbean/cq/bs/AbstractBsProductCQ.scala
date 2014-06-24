@@ -518,11 +518,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     }
 
     /**
-     * Equal(=). As ProductionSales (ONS). And OnlyOnceRegistered. <br />
-     * ProductionSales
+     * Equal(=). As ProductionSale (ONS). And OnlyOnceRegistered. <br />
+     * ProductionSale
      */
-    def setProductStatusCode_Equal_ProductionSales(): Unit = {
-        setProductStatusCode_Equal_AsProductStatus(CDef.ProductStatus.ProductionSales);
+    def setProductStatusCode_Equal_ProductionSale(): Unit = {
+        setProductStatusCode_Equal_AsProductStatus(CDef.ProductStatus.ProductionSale);
     }
 
     /**
@@ -534,11 +534,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     }
 
     /**
-     * Equal(=). As StopSales (SST). And OnlyOnceRegistered. <br />
-     * StopSales
+     * Equal(=). As StopSale (SST). And OnlyOnceRegistered. <br />
+     * StopSale
      */
-    def setProductStatusCode_Equal_StopSales(): Unit = {
-        setProductStatusCode_Equal_AsProductStatus(CDef.ProductStatus.StopSales);
+    def setProductStatusCode_Equal_StopSale(): Unit = {
+        setProductStatusCode_Equal_AsProductStatus(CDef.ProductStatus.StopSale);
     }
 
     protected def doSetProductStatusCode_Equal(productStatusCode: String): Unit = {
@@ -565,11 +565,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     }
 
     /**
-     * NotEqual(&lt;&gt;). As ProductionSales (ONS). And OnlyOnceRegistered. <br />
-     * ProductionSales
+     * NotEqual(&lt;&gt;). As ProductionSale (ONS). And OnlyOnceRegistered. <br />
+     * ProductionSale
      */
-    def setProductStatusCode_NotEqual_ProductionSales(): Unit = {
-        setProductStatusCode_NotEqual_AsProductStatus(CDef.ProductStatus.ProductionSales);
+    def setProductStatusCode_NotEqual_ProductionSale(): Unit = {
+        setProductStatusCode_NotEqual_AsProductStatus(CDef.ProductStatus.ProductionSale);
     }
 
     /**
@@ -581,11 +581,11 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     }
 
     /**
-     * NotEqual(&lt;&gt;). As StopSales (SST). And OnlyOnceRegistered. <br />
-     * StopSales
+     * NotEqual(&lt;&gt;). As StopSale (SST). And OnlyOnceRegistered. <br />
+     * StopSale
      */
-    def setProductStatusCode_NotEqual_StopSales(): Unit = {
-        setProductStatusCode_NotEqual_AsProductStatus(CDef.ProductStatus.StopSales);
+    def setProductStatusCode_NotEqual_StopSale(): Unit = {
+        setProductStatusCode_NotEqual_AsProductStatus(CDef.ProductStatus.StopSale);
     }
 
     protected def doSetProductStatusCode_NotEqual(productStatusCode: String): Unit = {

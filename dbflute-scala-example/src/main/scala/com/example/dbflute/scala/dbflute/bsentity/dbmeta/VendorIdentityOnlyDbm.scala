@@ -69,7 +69,7 @@ object VendorIdentityOnlyDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnIdentityOnlyId: ColumnInfo = cci("IDENTITY_ONLY_ID", "IDENTITY_ONLY_ID", null, null, classOf[Long], "identityOnlyId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_6F6BFC6A_A804_4ADD_8432_AA6755A46068", false, null, null, null, null, null);
+    protected val _columnIdentityOnlyId: ColumnInfo = cci("IDENTITY_ONLY_ID", "IDENTITY_ONLY_ID", null, null, classOf[Long], "identityOnlyId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_B419584E_D26D_4C77_9920_DB8642FA4A25", false, null, null, null, null, null);
 
     def columnIdentityOnlyId(): ColumnInfo = { return _columnIdentityOnlyId; }
 

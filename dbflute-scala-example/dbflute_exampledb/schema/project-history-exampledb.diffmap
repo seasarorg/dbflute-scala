@@ -1,4 +1,51 @@
 map:{
+    ; 2014/06/24 13:48:45 = map:{
+        ; diffDate = 2014/06/24 13:48:45
+        ; craftDiff = map:{
+            ; ProductStatus = map:{
+                ; craftTitle = ProductStatus
+                ; craftRowDiff = map:{
+                    ; ONS = map:{
+                        ; craftKeyName = ONS
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "ProductionSale|1"
+                            ; previous = "ProductionSales|1"
+                        }
+                    }
+                    ; SST = map:{
+                        ; craftKeyName = SST
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "StopSale|3"
+                            ; previous = "StopSales|3"
+                        }
+                    }
+                }
+            }
+            ; TableCls = map:{
+                ; craftTitle = TableCls
+                ; craftRowDiff = map:{
+                    ; PRODUCT_STATUS::ONS = map:{
+                        ; craftKeyName = PRODUCT_STATUS::ONS
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "ProductionSale|1"
+                            ; previous = "ProductionSales|1"
+                        }
+                    }
+                    ; PRODUCT_STATUS::SST = map:{
+                        ; craftKeyName = PRODUCT_STATUS::SST
+                        ; diffType = CHANGE
+                        ; craftValueDiff = map:{
+                            ; next = "StopSale|3"
+                            ; previous = "StopSales|3"
+                        }
+                    }
+                }
+            }
+        }
+    }
     ; 2014/06/24 10:47:09 = map:{
         ; diffDate = 2014/06/24 10:47:09
         ; craftDiff = map:{

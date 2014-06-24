@@ -97,12 +97,12 @@ abstract class BsProductStatus(dble: DbleProductStatus) extends Serializable {
     //                                                        Classification Determination
     //                                                        ============================
     /**
-     * Is the value of productStatusCode ProductionSales? <br />
-     * ProductionSales
+     * Is the value of productStatusCode ProductionSale? <br />
+     * ProductionSale
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isProductStatusCode_ProductionSales: Boolean = { dble.isProductStatusCode_ProductionSales }
+    def isProductStatusCode_ProductionSale: Boolean = { dble.isProductStatusCode_ProductionSale }
 
     /**
      * Is the value of productStatusCode StopProduction? <br />
@@ -113,12 +113,12 @@ abstract class BsProductStatus(dble: DbleProductStatus) extends Serializable {
     def isProductStatusCode_StopProduction: Boolean = { dble.isProductStatusCode_StopProduction }
 
     /**
-     * Is the value of productStatusCode StopSales? <br />
-     * StopSales
+     * Is the value of productStatusCode StopSale? <br />
+     * StopSale
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isProductStatusCode_StopSales: Boolean = { dble.isProductStatusCode_StopSales }
+    def isProductStatusCode_StopSale: Boolean = { dble.isProductStatusCode_StopSale }
 
     // ===================================================================================
     //                                                                    Foreign Property
@@ -271,10 +271,10 @@ abstract class BsMbleProductStatus {
     //                                                              Classification Setting
     //                                                              ======================
     /**
-     * Set the value of productStatusCode as ProductionSales (ONS). <br />
-     * ProductionSales
+     * Set the value of productStatusCode as ProductionSale (ONS). <br />
+     * ProductionSale
      */
-    def productStatusCode_ProductionSales: Unit = { dble.setProductStatusCode_ProductionSales }
+    def productStatusCode_ProductionSale: Unit = { dble.setProductStatusCode_ProductionSale }
 
     /**
      * Set the value of productStatusCode as StopProduction (PST). <br />
@@ -283,21 +283,21 @@ abstract class BsMbleProductStatus {
     def productStatusCode_StopProduction: Unit = { dble.setProductStatusCode_StopProduction }
 
     /**
-     * Set the value of productStatusCode as StopSales (SST). <br />
-     * StopSales
+     * Set the value of productStatusCode as StopSale (SST). <br />
+     * StopSale
      */
-    def productStatusCode_StopSales: Unit = { dble.setProductStatusCode_StopSales }
+    def productStatusCode_StopSale: Unit = { dble.setProductStatusCode_StopSale }
 
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
     /**
-     * Is the value of productStatusCode ProductionSales? <br />
-     * ProductionSales
+     * Is the value of productStatusCode ProductionSale? <br />
+     * ProductionSale
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isProductStatusCode_ProductionSales: Boolean = { dble.isProductStatusCode_ProductionSales }
+    def isProductStatusCode_ProductionSale: Boolean = { dble.isProductStatusCode_ProductionSale }
 
     /**
      * Is the value of productStatusCode StopProduction? <br />
@@ -308,12 +308,12 @@ abstract class BsMbleProductStatus {
     def isProductStatusCode_StopProduction: Boolean = { dble.isProductStatusCode_StopProduction }
 
     /**
-     * Is the value of productStatusCode StopSales? <br />
-     * StopSales
+     * Is the value of productStatusCode StopSale? <br />
+     * StopSale
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isProductStatusCode_StopSales: Boolean = { dble.isProductStatusCode_StopSales }
+    def isProductStatusCode_StopSale: Boolean = { dble.isProductStatusCode_StopSale }
 
     // ===================================================================================
     //                                                                            Accessor

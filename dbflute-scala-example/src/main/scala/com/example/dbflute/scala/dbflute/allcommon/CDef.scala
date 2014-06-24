@@ -573,24 +573,24 @@ object CDef {
      */
     object ProductStatus {
 
-        /** ProductionSales */
-        case object ProductionSales extends ProductStatus("ONS", "ProductionSales", EMPTY_SISTERS);
+        /** ProductionSale */
+        case object ProductionSale extends ProductStatus("ONS", "ProductionSale", EMPTY_SISTERS);
         /** StopProduction */
         case object StopProduction extends ProductStatus("PST", "StopProduction", EMPTY_SISTERS);
-        /** StopSales */
-        case object StopSales extends ProductStatus("SST", "StopSales", EMPTY_SISTERS);
+        /** StopSale */
+        case object StopSale extends ProductStatus("SST", "StopSale", EMPTY_SISTERS);
 
         private val _codeValueMap: Map[String, ProductStatus] = new HashMap();
         {
-            _codeValueMap.put("ONS".toLowerCase(), ProductionSales);
+            _codeValueMap.put("ONS".toLowerCase(), ProductionSale);
             _codeValueMap.put("PST".toLowerCase(), StopProduction);
-            _codeValueMap.put("SST".toLowerCase(), StopSales);
+            _codeValueMap.put("SST".toLowerCase(), StopSale);
         }
         private val _nameValueMap: Map[String, ProductStatus] = new HashMap();
         {
-            _nameValueMap.put("ProductionSales", ProductionSales);
+            _nameValueMap.put("ProductionSale", ProductionSale);
             _nameValueMap.put("StopProduction", StopProduction);
-            _nameValueMap.put("StopSales", StopSales);
+            _nameValueMap.put("StopSale", StopSale);
         }
 
         /**

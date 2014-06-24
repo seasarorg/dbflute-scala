@@ -266,11 +266,11 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     //                                                              Classification Setting
     //                                                              ======================
     /**
-     * Set the value of productStatusCode as ProductionSales (ONS). <br />
-     * ProductionSales
+     * Set the value of productStatusCode as ProductionSale (ONS). <br />
+     * ProductionSale
      */
-    def setProductStatusCode_ProductionSales(): Unit = {
-        setProductStatusCodeAsProductStatus(CDef.ProductStatus.ProductionSales);
+    def setProductStatusCode_ProductionSale(): Unit = {
+        setProductStatusCodeAsProductStatus(CDef.ProductStatus.ProductionSale);
     }
 
     /**
@@ -282,25 +282,25 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     }
 
     /**
-     * Set the value of productStatusCode as StopSales (SST). <br />
-     * StopSales
+     * Set the value of productStatusCode as StopSale (SST). <br />
+     * StopSale
      */
-    def setProductStatusCode_StopSales(): Unit = {
-        setProductStatusCodeAsProductStatus(CDef.ProductStatus.StopSales);
+    def setProductStatusCode_StopSale(): Unit = {
+        setProductStatusCodeAsProductStatus(CDef.ProductStatus.StopSale);
     }
 
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
     /**
-     * Is the value of productStatusCode ProductionSales? <br />
-     * ProductionSales
+     * Is the value of productStatusCode ProductionSale? <br />
+     * ProductionSale
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isProductStatusCode_ProductionSales(): Boolean = {
+    def isProductStatusCode_ProductionSale(): Boolean = {
         val cdef: CDef.ProductStatus = getProductStatusCodeAsProductStatus();
-        return if (cdef != null) { cdef.equals(CDef.ProductStatus.ProductionSales) } else { false };
+        return if (cdef != null) { cdef.equals(CDef.ProductStatus.ProductionSale) } else { false };
     }
 
     /**
@@ -315,14 +315,14 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
     }
 
     /**
-     * Is the value of productStatusCode StopSales? <br />
-     * StopSales
+     * Is the value of productStatusCode StopSale? <br />
+     * StopSale
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
      * @return The determination, true or false.
      */
-    def isProductStatusCode_StopSales(): Boolean = {
+    def isProductStatusCode_StopSale(): Boolean = {
         val cdef: CDef.ProductStatus = getProductStatusCodeAsProductStatus();
-        return if (cdef != null) { cdef.equals(CDef.ProductStatus.StopSales) } else { false };
+        return if (cdef != null) { cdef.equals(CDef.ProductStatus.StopSale) } else { false };
     }
 
     // ===================================================================================

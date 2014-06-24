@@ -1,4 +1,4 @@
 "PRODUCT_STATUS_CODE"	"PRODUCT_STATUS_NAME"	"DISPLAY_ORDER"
-"ONS"	"ProductionSales"	"1"
+"ONS"	"ProductionSale"	"1"
 "PST"	"StopProduction"	"2"
-"SST"	"StopSales"	"3"
+"SST"	"StopSale"	"3"
