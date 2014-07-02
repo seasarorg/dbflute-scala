@@ -1,4 +1,4 @@
-package com.example.dbflute.scala.passed
+package com.example.dbflute.scala
 
 import java.io.File
 import java.io.IOException
@@ -10,7 +10,7 @@ import org.seasar.dbflute.util.DfResourceUtil;
  * This is NOT an important class as example. So you don't need to read this.
  * @author jflute
  */
-class PassedEmbeddedH2UrlFactoryBean {
+class EmbeddedH2UrlFactoryBean {
 
   // ===================================================================================
   //                                                                           Attribute
