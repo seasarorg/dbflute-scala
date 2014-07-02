@@ -52,9 +52,6 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
     }
 
     protected void migrateToScala(final String relativePath, final File templateFile) throws IOException {
-        if (relativePath.contains("allcommon")) { // #provisional
-            return;
-        }
         final StringBuilder sb = new StringBuilder();
         readLine(templateFile, "UTF-8", new FileLineHandler() {
             public void handle(String line) {
@@ -510,6 +507,6 @@ public class ToolsMigrationFirstStepTest extends PlainTestCase {
     }
 
     protected String getScalaExampleProjectName() {
-        return "dbflute-scala-example";
+        return "dbflute-scala-testlib"; // myself
     }
 }
