@@ -18,7 +18,7 @@ import org.scalatest.junit.JUnitRunner
  * @since 1.0.5J (2014/07/02 Wednesday)
  */
 @RunWith(classOf[JUnitRunner])
-class ScalaTest extends UnitContainerFunSuite {
+class OnParadeTest extends UnitContainerFunSuite {
 
   protected var memberBhv: MemberBhv = null;
   protected var purchaseBhv: PurchaseBhv = null;
