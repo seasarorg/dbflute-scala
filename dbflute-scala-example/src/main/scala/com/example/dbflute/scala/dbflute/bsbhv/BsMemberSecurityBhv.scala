@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -256,7 +257,7 @@ abstract class BsMemberSecurityBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (MemberSecurityCB) => Unit)(implicit loaderCall: (LoaderOfMemberSecurity) => Unit = null): scala.collection.immutable.List[MemberSecurity] = {
+    def selectList(cbCall: (MemberSecurityCB) => Unit)(implicit loaderCall: (LoaderOfMemberSecurity) => Unit = null): immutable.List[MemberSecurity] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -399,7 +400,7 @@ abstract class BsMemberSecurityBhv extends AbstractBehaviorWritable {
      * @param memberSecurityList The list of memberSecurity. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMember(memberSecurityList: scala.collection.immutable.List[MemberSecurity]): scala.collection.immutable.List[Member] = {
+    def pulloutMember(memberSecurityList: immutable.List[MemberSecurity]): immutable.List[Member] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberSecurityList), "member");
         return toScalaList(dbleList).map(new Member(_));
     }
@@ -412,7 +413,7 @@ abstract class BsMemberSecurityBhv extends AbstractBehaviorWritable {
      * @param memberSecurityList The list of memberSecurity. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberIdList(memberSecurityList: scala.collection.immutable.List[MemberSecurity]): scala.collection.immutable.List[Int] = {
+    def extractMemberIdList(memberSecurityList: immutable.List[MemberSecurity]): immutable.List[Int] = {
         val plainList = helpExtractListInternally(toDBableEntityList(memberSecurityList), "memberId");
         return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
@@ -1023,14 +1024,14 @@ abstract class BsMemberSecurityBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleMemberSecurity]): scala.collection.immutable.List[MemberSecurity] =
+    def toImmutableEntityList(dbleList: Collection[DbleMemberSecurity]): immutable.List[MemberSecurity] =
     { toScalaList(dbleList).map(new MemberSecurity(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[MemberSecurity]): List[DbleMemberSecurity] =
+    def toDBableEntityList(immuList: immutable.List[MemberSecurity]): List[DbleMemberSecurity] =
     { immuList.map(new DbleMemberSecurity().acceptImmutable(_)).asJava }
 }

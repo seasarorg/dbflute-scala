@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -282,7 +283,7 @@ abstract class BsMemberLoginBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (MemberLoginCB) => Unit)(implicit loaderCall: (LoaderOfMemberLogin) => Unit = null): scala.collection.immutable.List[MemberLogin] = {
+    def selectList(cbCall: (MemberLoginCB) => Unit)(implicit loaderCall: (LoaderOfMemberLogin) => Unit = null): immutable.List[MemberLogin] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -425,7 +426,7 @@ abstract class BsMemberLoginBhv extends AbstractBehaviorWritable {
      * @param memberLoginList The list of memberLogin. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMemberStatus(memberLoginList: scala.collection.immutable.List[MemberLogin]): scala.collection.immutable.List[MemberStatus] = {
+    def pulloutMemberStatus(memberLoginList: immutable.List[MemberLogin]): immutable.List[MemberStatus] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberLoginList), "memberStatus");
         return toScalaList(dbleList).map(new MemberStatus(_));
     }
@@ -435,7 +436,7 @@ abstract class BsMemberLoginBhv extends AbstractBehaviorWritable {
      * @param memberLoginList The list of memberLogin. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMember(memberLoginList: scala.collection.immutable.List[MemberLogin]): scala.collection.immutable.List[Member] = {
+    def pulloutMember(memberLoginList: immutable.List[MemberLogin]): immutable.List[Member] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberLoginList), "member");
         return toScalaList(dbleList).map(new Member(_));
     }
@@ -448,7 +449,7 @@ abstract class BsMemberLoginBhv extends AbstractBehaviorWritable {
      * @param memberLoginList The list of memberLogin. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberLoginIdList(memberLoginList: scala.collection.immutable.List[MemberLogin]): scala.collection.immutable.List[Long] = {
+    def extractMemberLoginIdList(memberLoginList: immutable.List[MemberLogin]): immutable.List[Long] = {
         val plainList = helpExtractListInternally(toDBableEntityList(memberLoginList), "memberLoginId");
         return toScalaList(plainList).map(_.asInstanceOf[Long]);
     }
@@ -930,14 +931,14 @@ abstract class BsMemberLoginBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleMemberLogin]): scala.collection.immutable.List[MemberLogin] =
+    def toImmutableEntityList(dbleList: Collection[DbleMemberLogin]): immutable.List[MemberLogin] =
     { toScalaList(dbleList).map(new MemberLogin(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[MemberLogin]): List[DbleMemberLogin] =
+    def toDBableEntityList(immuList: immutable.List[MemberLogin]): List[DbleMemberLogin] =
     { immuList.map(new DbleMemberLogin().acceptImmutable(_)).asJava }
 }

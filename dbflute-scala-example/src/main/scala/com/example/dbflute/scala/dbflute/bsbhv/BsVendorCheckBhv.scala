@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -256,7 +257,7 @@ abstract class BsVendorCheckBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (VendorCheckCB) => Unit)(implicit loaderCall: (LoaderOfVendorCheck) => Unit = null): scala.collection.immutable.List[VendorCheck] = {
+    def selectList(cbCall: (VendorCheckCB) => Unit)(implicit loaderCall: (LoaderOfVendorCheck) => Unit = null): immutable.List[VendorCheck] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -402,7 +403,7 @@ abstract class BsVendorCheckBhv extends AbstractBehaviorWritable {
      * @param vendorCheckList The list of vendorCheck. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractVendorCheckIdList(vendorCheckList: scala.collection.immutable.List[VendorCheck]): scala.collection.immutable.List[Long] = {
+    def extractVendorCheckIdList(vendorCheckList: immutable.List[VendorCheck]): immutable.List[Long] = {
         val plainList = helpExtractListInternally(toDBableEntityList(vendorCheckList), "vendorCheckId");
         return toScalaList(plainList).map(_.asInstanceOf[Long]);
     }
@@ -884,14 +885,14 @@ abstract class BsVendorCheckBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleVendorCheck]): scala.collection.immutable.List[VendorCheck] =
+    def toImmutableEntityList(dbleList: Collection[DbleVendorCheck]): immutable.List[VendorCheck] =
     { toScalaList(dbleList).map(new VendorCheck(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[VendorCheck]): List[DbleVendorCheck] =
+    def toDBableEntityList(immuList: immutable.List[VendorCheck]): List[DbleVendorCheck] =
     { immuList.map(new DbleVendorCheck().acceptImmutable(_)).asJava }
 }

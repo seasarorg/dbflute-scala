@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -231,7 +232,7 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (SummaryWithdrawalCB) => Unit)(implicit loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): scala.collection.immutable.List[SummaryWithdrawal] = {
+    def selectList(cbCall: (SummaryWithdrawalCB) => Unit)(implicit loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): immutable.List[SummaryWithdrawal] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -476,14 +477,14 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleSummaryWithdrawal]): scala.collection.immutable.List[SummaryWithdrawal] =
+    def toImmutableEntityList(dbleList: Collection[DbleSummaryWithdrawal]): immutable.List[SummaryWithdrawal] =
     { toScalaList(dbleList).map(new SummaryWithdrawal(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[SummaryWithdrawal]): List[DbleSummaryWithdrawal] =
+    def toDBableEntityList(immuList: immutable.List[SummaryWithdrawal]): List[DbleSummaryWithdrawal] =
     { immuList.map(new DbleSummaryWithdrawal().acceptImmutable(_)).asJava }
 }

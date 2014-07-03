@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 // #avoided same name type in Java and Scala
@@ -308,7 +309,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
      * [convert] (会員)MEMBER by MEMBER_STATUS_CODE, named 'memberList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberList'. (NotNull)
      */
-    def toImmutableMemberList(): scala.collection.immutable.List[Member] = {
+    def toImmutableMemberList(): immutable.List[Member] = {
         return toScalaList(_memberList).map(_.toImmutable());
     }
 
@@ -336,7 +337,7 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
      * [convert] (会員ログイン)MEMBER_LOGIN by LOGIN_MEMBER_STATUS_CODE, named 'memberLoginList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberLoginList'. (NotNull)
      */
-    def toImmutableMemberLoginList(): scala.collection.immutable.List[MemberLogin] = {
+    def toImmutableMemberLoginList(): immutable.List[MemberLogin] = {
         return toScalaList(_memberLoginList).map(_.toImmutable());
     }
 
@@ -418,9 +419,9 @@ abstract class BsDbleMemberStatus extends Entity with DBableEntity[MemberStatus]
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { return scala.collection.immutable.List(); }
-        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { return immutable.List(); }
+        return immutable.List.fromArray(javaList.toArray).asInstanceOf[immutable.List[ENTITY]];
     }
 
     // ===================================================================================

@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 // #avoided same name type in Java and Scala
@@ -320,7 +321,7 @@ abstract class BsDbleWithdrawalReason extends Entity with DBableEntity[Withdrawa
      * [convert] (会員退会情報)MEMBER_WITHDRAWAL by WITHDRAWAL_REASON_CODE, named 'memberWithdrawalList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberWithdrawalList'. (NotNull)
      */
-    def toImmutableMemberWithdrawalList(): scala.collection.immutable.List[MemberWithdrawal] = {
+    def toImmutableMemberWithdrawalList(): immutable.List[MemberWithdrawal] = {
         return toScalaList(_memberWithdrawalList).map(_.toImmutable());
     }
 
@@ -402,9 +403,9 @@ abstract class BsDbleWithdrawalReason extends Entity with DBableEntity[Withdrawa
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { return scala.collection.immutable.List(); }
-        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { return immutable.List(); }
+        return immutable.List.fromArray(javaList.toArray).asInstanceOf[immutable.List[ENTITY]];
     }
 
     // ===================================================================================

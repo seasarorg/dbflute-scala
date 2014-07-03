@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -231,7 +232,7 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (SummaryProductCB) => Unit)(implicit loaderCall: (LoaderOfSummaryProduct) => Unit = null): scala.collection.immutable.List[SummaryProduct] = {
+    def selectList(cbCall: (SummaryProductCB) => Unit)(implicit loaderCall: (LoaderOfSummaryProduct) => Unit = null): immutable.List[SummaryProduct] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -476,14 +477,14 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleSummaryProduct]): scala.collection.immutable.List[SummaryProduct] =
+    def toImmutableEntityList(dbleList: Collection[DbleSummaryProduct]): immutable.List[SummaryProduct] =
     { toScalaList(dbleList).map(new SummaryProduct(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[SummaryProduct]): List[DbleSummaryProduct] =
+    def toDBableEntityList(immuList: immutable.List[SummaryProduct]): List[DbleSummaryProduct] =
     { immuList.map(new DbleSummaryProduct().acceptImmutable(_)).asJava }
 }

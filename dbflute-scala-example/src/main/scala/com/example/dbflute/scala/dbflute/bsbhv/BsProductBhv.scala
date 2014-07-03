@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -281,7 +282,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (ProductCB) => Unit)(implicit loaderCall: (LoaderOfProduct) => Unit = null): scala.collection.immutable.List[Product] = {
+    def selectList(cbCall: (ProductCB) => Unit)(implicit loaderCall: (LoaderOfProduct) => Unit = null): immutable.List[Product] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -497,7 +498,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutProductCategory(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[ProductCategory] = {
+    def pulloutProductCategory(productList: immutable.List[Product]): immutable.List[ProductCategory] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(productList), "productCategory");
         return toScalaList(dbleList).map(new ProductCategory(_));
     }
@@ -507,7 +508,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutProductStatus(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[ProductStatus] = {
+    def pulloutProductStatus(productList: immutable.List[Product]): immutable.List[ProductStatus] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(productList), "productStatus");
         return toScalaList(dbleList).map(new ProductStatus(_));
     }
@@ -520,7 +521,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractProductIdList(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[Int] = {
+    def extractProductIdList(productList: immutable.List[Product]): immutable.List[Int] = {
         val plainList = helpExtractListInternally(toDBableEntityList(productList), "productId");
         return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
@@ -530,7 +531,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
      * @param productList The list of product. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractProductHandleCodeList(productList: scala.collection.immutable.List[Product]): scala.collection.immutable.List[String] = {
+    def extractProductHandleCodeList(productList: immutable.List[Product]): immutable.List[String] = {
         val plainList = helpExtractListInternally(toDBableEntityList(productList), "productHandleCode");
         return toScalaList(plainList).map(_.asInstanceOf[String]);
     }
@@ -1141,14 +1142,14 @@ abstract class BsProductBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleProduct]): scala.collection.immutable.List[Product] =
+    def toImmutableEntityList(dbleList: Collection[DbleProduct]): immutable.List[Product] =
     { toScalaList(dbleList).map(new Product(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[Product]): List[DbleProduct] =
+    def toDBableEntityList(immuList: immutable.List[Product]): List[DbleProduct] =
     { immuList.map(new DbleProduct().acceptImmutable(_)).asJava }
 }

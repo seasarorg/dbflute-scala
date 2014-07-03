@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -281,7 +282,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): scala.collection.immutable.List[ServiceRank] = {
+    def selectList(cbCall: (ServiceRankCB) => Unit)(implicit loaderCall: (LoaderOfServiceRank) => Unit = null): immutable.List[ServiceRank] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -500,7 +501,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param serviceRankList The list of serviceRank. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractServiceRankCodeList(serviceRankList: scala.collection.immutable.List[ServiceRank]): scala.collection.immutable.List[CDef.ServiceRank] = {
+    def extractServiceRankCodeList(serviceRankList: immutable.List[ServiceRank]): immutable.List[CDef.ServiceRank] = {
         val plainList = helpExtractListInternally(toDBableEntityList(serviceRankList), "serviceRankCode");
         return toScalaList(plainList).map(_.asInstanceOf[CDef.ServiceRank]);
     }
@@ -510,7 +511,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * @param serviceRankList The list of serviceRank. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractDisplayOrderList(serviceRankList: scala.collection.immutable.List[ServiceRank]): scala.collection.immutable.List[Int] = {
+    def extractDisplayOrderList(serviceRankList: immutable.List[ServiceRank]): immutable.List[Int] = {
         val plainList = helpExtractListInternally(toDBableEntityList(serviceRankList), "displayOrder");
         return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
@@ -992,14 +993,14 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleServiceRank]): scala.collection.immutable.List[ServiceRank] =
+    def toImmutableEntityList(dbleList: Collection[DbleServiceRank]): immutable.List[ServiceRank] =
     { toScalaList(dbleList).map(new ServiceRank(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[ServiceRank]): List[DbleServiceRank] =
+    def toDBableEntityList(immuList: immutable.List[ServiceRank]): List[DbleServiceRank] =
     { immuList.map(new DbleServiceRank().acceptImmutable(_)).asJava }
 }

@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -282,7 +283,7 @@ abstract class BsMemberFollowingBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (MemberFollowingCB) => Unit)(implicit loaderCall: (LoaderOfMemberFollowing) => Unit = null): scala.collection.immutable.List[MemberFollowing] = {
+    def selectList(cbCall: (MemberFollowingCB) => Unit)(implicit loaderCall: (LoaderOfMemberFollowing) => Unit = null): immutable.List[MemberFollowing] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -425,7 +426,7 @@ abstract class BsMemberFollowingBhv extends AbstractBehaviorWritable {
      * @param memberFollowingList The list of memberFollowing. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMemberByMyMemberId(memberFollowingList: scala.collection.immutable.List[MemberFollowing]): scala.collection.immutable.List[Member] = {
+    def pulloutMemberByMyMemberId(memberFollowingList: immutable.List[MemberFollowing]): immutable.List[Member] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberFollowingList), "memberByMyMemberId");
         return toScalaList(dbleList).map(new Member(_));
     }
@@ -435,7 +436,7 @@ abstract class BsMemberFollowingBhv extends AbstractBehaviorWritable {
      * @param memberFollowingList The list of memberFollowing. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMemberByYourMemberId(memberFollowingList: scala.collection.immutable.List[MemberFollowing]): scala.collection.immutable.List[Member] = {
+    def pulloutMemberByYourMemberId(memberFollowingList: immutable.List[MemberFollowing]): immutable.List[Member] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberFollowingList), "memberByYourMemberId");
         return toScalaList(dbleList).map(new Member(_));
     }
@@ -448,7 +449,7 @@ abstract class BsMemberFollowingBhv extends AbstractBehaviorWritable {
      * @param memberFollowingList The list of memberFollowing. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberFollowingIdList(memberFollowingList: scala.collection.immutable.List[MemberFollowing]): scala.collection.immutable.List[Long] = {
+    def extractMemberFollowingIdList(memberFollowingList: immutable.List[MemberFollowing]): immutable.List[Long] = {
         val plainList = helpExtractListInternally(toDBableEntityList(memberFollowingList), "memberFollowingId");
         return toScalaList(plainList).map(_.asInstanceOf[Long]);
     }
@@ -930,14 +931,14 @@ abstract class BsMemberFollowingBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleMemberFollowing]): scala.collection.immutable.List[MemberFollowing] =
+    def toImmutableEntityList(dbleList: Collection[DbleMemberFollowing]): immutable.List[MemberFollowing] =
     { toScalaList(dbleList).map(new MemberFollowing(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[MemberFollowing]): List[DbleMemberFollowing] =
+    def toDBableEntityList(immuList: immutable.List[MemberFollowing]): List[DbleMemberFollowing] =
     { immuList.map(new DbleMemberFollowing().acceptImmutable(_)).asJava }
 }

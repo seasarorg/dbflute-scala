@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 // #avoided same name type in Java and Scala
@@ -421,7 +422,7 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with DBableEntit
      * [convert] (購入支払)PURCHASE_PAYMENT by PURCHASE_ID, named 'purchasePaymentList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'purchasePaymentList'. (NotNull)
      */
-    def toImmutablePurchasePaymentList(): scala.collection.immutable.List[PurchasePayment] = {
+    def toImmutablePurchasePaymentList(): immutable.List[PurchasePayment] = {
         return toScalaList(_purchasePaymentList).map(_.toImmutable());
     }
 
@@ -527,9 +528,9 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with DBableEntit
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { return scala.collection.immutable.List(); }
-        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { return immutable.List(); }
+        return immutable.List.fromArray(javaList.toArray).asInstanceOf[immutable.List[ENTITY]];
     }
 
     // ===================================================================================

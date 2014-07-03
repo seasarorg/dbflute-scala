@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -283,7 +284,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (PurchaseCB) => Unit)(implicit loaderCall: (LoaderOfPurchase) => Unit = null): scala.collection.immutable.List[Purchase] = {
+    def selectList(cbCall: (PurchaseCB) => Unit)(implicit loaderCall: (LoaderOfPurchase) => Unit = null): immutable.List[Purchase] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -499,7 +500,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMember(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Member] = {
+    def pulloutMember(purchaseList: immutable.List[Purchase]): immutable.List[Member] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(purchaseList), "member");
         return toScalaList(dbleList).map(new Member(_));
     }
@@ -509,7 +510,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutProduct(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Product] = {
+    def pulloutProduct(purchaseList: immutable.List[Purchase]): immutable.List[Product] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(purchaseList), "product");
         return toScalaList(dbleList).map(new Product(_));
     }
@@ -522,7 +523,7 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
      * @param purchaseList The list of purchase. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractPurchaseIdList(purchaseList: scala.collection.immutable.List[Purchase]): scala.collection.immutable.List[Long] = {
+    def extractPurchaseIdList(purchaseList: immutable.List[Purchase]): immutable.List[Long] = {
         val plainList = helpExtractListInternally(toDBableEntityList(purchaseList), "purchaseId");
         return toScalaList(plainList).map(_.asInstanceOf[Long]);
     }
@@ -1133,14 +1134,14 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DblePurchase]): scala.collection.immutable.List[Purchase] =
+    def toImmutableEntityList(dbleList: Collection[DblePurchase]): immutable.List[Purchase] =
     { toScalaList(dbleList).map(new Purchase(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[Purchase]): List[DblePurchase] =
+    def toDBableEntityList(immuList: immutable.List[Purchase]): List[DblePurchase] =
     { immuList.map(new DblePurchase().acceptImmutable(_)).asJava }
 }

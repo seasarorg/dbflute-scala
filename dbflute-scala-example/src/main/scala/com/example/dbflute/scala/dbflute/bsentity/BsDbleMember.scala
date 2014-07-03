@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 // #avoided same name type in Java and Scala
@@ -470,7 +471,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [convert] (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberAddressList'. (NotNull)
      */
-    def toImmutableMemberAddressList(): scala.collection.immutable.List[MemberAddress] = {
+    def toImmutableMemberAddressList(): immutable.List[MemberAddress] = {
         return toScalaList(_memberAddressList).map(_.toImmutable());
     }
 
@@ -498,7 +499,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [convert] (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberFollowingByMyMemberIdList'. (NotNull)
      */
-    def toImmutableMemberFollowingByMyMemberIdList(): scala.collection.immutable.List[MemberFollowing] = {
+    def toImmutableMemberFollowingByMyMemberIdList(): immutable.List[MemberFollowing] = {
         return toScalaList(_memberFollowingByMyMemberIdList).map(_.toImmutable());
     }
 
@@ -526,7 +527,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [convert] (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberFollowingByYourMemberIdList'. (NotNull)
      */
-    def toImmutableMemberFollowingByYourMemberIdList(): scala.collection.immutable.List[MemberFollowing] = {
+    def toImmutableMemberFollowingByYourMemberIdList(): immutable.List[MemberFollowing] = {
         return toScalaList(_memberFollowingByYourMemberIdList).map(_.toImmutable());
     }
 
@@ -554,7 +555,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [convert] (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberLoginList'. (NotNull)
      */
-    def toImmutableMemberLoginList(): scala.collection.immutable.List[MemberLogin] = {
+    def toImmutableMemberLoginList(): immutable.List[MemberLogin] = {
         return toScalaList(_memberLoginList).map(_.toImmutable());
     }
 
@@ -582,7 +583,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [convert] (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'purchaseList'. (NotNull)
      */
-    def toImmutablePurchaseList(): scala.collection.immutable.List[Purchase] = {
+    def toImmutablePurchaseList(): immutable.List[Purchase] = {
         return toScalaList(_purchaseList).map(_.toImmutable());
     }
 
@@ -688,9 +689,9 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { return scala.collection.immutable.List(); }
-        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { return immutable.List(); }
+        return immutable.List.fromArray(javaList.toArray).asInstanceOf[immutable.List[ENTITY]];
     }
 
     // ===================================================================================

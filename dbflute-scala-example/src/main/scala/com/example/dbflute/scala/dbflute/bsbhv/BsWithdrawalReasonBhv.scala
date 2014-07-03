@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -281,7 +282,7 @@ abstract class BsWithdrawalReasonBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (WithdrawalReasonCB) => Unit)(implicit loaderCall: (LoaderOfWithdrawalReason) => Unit = null): scala.collection.immutable.List[WithdrawalReason] = {
+    def selectList(cbCall: (WithdrawalReasonCB) => Unit)(implicit loaderCall: (LoaderOfWithdrawalReason) => Unit = null): immutable.List[WithdrawalReason] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -500,7 +501,7 @@ abstract class BsWithdrawalReasonBhv extends AbstractBehaviorWritable {
      * @param withdrawalReasonList The list of withdrawalReason. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractWithdrawalReasonCodeList(withdrawalReasonList: scala.collection.immutable.List[WithdrawalReason]): scala.collection.immutable.List[CDef.WithdrawalReason] = {
+    def extractWithdrawalReasonCodeList(withdrawalReasonList: immutable.List[WithdrawalReason]): immutable.List[CDef.WithdrawalReason] = {
         val plainList = helpExtractListInternally(toDBableEntityList(withdrawalReasonList), "withdrawalReasonCode");
         return toScalaList(plainList).map(_.asInstanceOf[CDef.WithdrawalReason]);
     }
@@ -510,7 +511,7 @@ abstract class BsWithdrawalReasonBhv extends AbstractBehaviorWritable {
      * @param withdrawalReasonList The list of withdrawalReason. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractDisplayOrderList(withdrawalReasonList: scala.collection.immutable.List[WithdrawalReason]): scala.collection.immutable.List[Int] = {
+    def extractDisplayOrderList(withdrawalReasonList: immutable.List[WithdrawalReason]): immutable.List[Int] = {
         val plainList = helpExtractListInternally(toDBableEntityList(withdrawalReasonList), "displayOrder");
         return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
@@ -992,14 +993,14 @@ abstract class BsWithdrawalReasonBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleWithdrawalReason]): scala.collection.immutable.List[WithdrawalReason] =
+    def toImmutableEntityList(dbleList: Collection[DbleWithdrawalReason]): immutable.List[WithdrawalReason] =
     { toScalaList(dbleList).map(new WithdrawalReason(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[WithdrawalReason]): List[DbleWithdrawalReason] =
+    def toDBableEntityList(immuList: immutable.List[WithdrawalReason]): List[DbleWithdrawalReason] =
     { immuList.map(new DbleWithdrawalReason().acceptImmutable(_)).asJava }
 }

@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -256,7 +257,7 @@ abstract class BsRegionBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (RegionCB) => Unit)(implicit loaderCall: (LoaderOfRegion) => Unit = null): scala.collection.immutable.List[Region] = {
+    def selectList(cbCall: (RegionCB) => Unit)(implicit loaderCall: (LoaderOfRegion) => Unit = null): immutable.List[Region] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -475,7 +476,7 @@ abstract class BsRegionBhv extends AbstractBehaviorWritable {
      * @param regionList The list of region. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractRegionIdList(regionList: scala.collection.immutable.List[Region]): scala.collection.immutable.List[CDef.Region] = {
+    def extractRegionIdList(regionList: immutable.List[Region]): immutable.List[CDef.Region] = {
         val plainList = helpExtractListInternally(toDBableEntityList(regionList), "regionId");
         return toScalaList(plainList).map(_.asInstanceOf[CDef.Region]);
     }
@@ -957,14 +958,14 @@ abstract class BsRegionBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleRegion]): scala.collection.immutable.List[Region] =
+    def toImmutableEntityList(dbleList: Collection[DbleRegion]): immutable.List[Region] =
     { toScalaList(dbleList).map(new Region(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[Region]): List[DbleRegion] =
+    def toDBableEntityList(immuList: immutable.List[Region]): List[DbleRegion] =
     { immuList.map(new DbleRegion().acceptImmutable(_)).asJava }
 }

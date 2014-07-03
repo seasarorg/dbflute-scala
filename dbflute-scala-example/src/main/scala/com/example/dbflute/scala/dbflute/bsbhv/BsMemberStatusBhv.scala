@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -281,7 +282,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (MemberStatusCB) => Unit)(implicit loaderCall: (LoaderOfMemberStatus) => Unit = null): scala.collection.immutable.List[MemberStatus] = {
+    def selectList(cbCall: (MemberStatusCB) => Unit)(implicit loaderCall: (LoaderOfMemberStatus) => Unit = null): immutable.List[MemberStatus] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -570,7 +571,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param memberStatusList The list of memberStatus. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberStatusCodeList(memberStatusList: scala.collection.immutable.List[MemberStatus]): scala.collection.immutable.List[CDef.MemberStatus] = {
+    def extractMemberStatusCodeList(memberStatusList: immutable.List[MemberStatus]): immutable.List[CDef.MemberStatus] = {
         val plainList = helpExtractListInternally(toDBableEntityList(memberStatusList), "memberStatusCode");
         return toScalaList(plainList).map(_.asInstanceOf[CDef.MemberStatus]);
     }
@@ -580,7 +581,7 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
      * @param memberStatusList The list of memberStatus. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractDisplayOrderList(memberStatusList: scala.collection.immutable.List[MemberStatus]): scala.collection.immutable.List[Int] = {
+    def extractDisplayOrderList(memberStatusList: immutable.List[MemberStatus]): immutable.List[Int] = {
         val plainList = helpExtractListInternally(toDBableEntityList(memberStatusList), "displayOrder");
         return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
@@ -1062,14 +1063,14 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleMemberStatus]): scala.collection.immutable.List[MemberStatus] =
+    def toImmutableEntityList(dbleList: Collection[DbleMemberStatus]): immutable.List[MemberStatus] =
     { toScalaList(dbleList).map(new MemberStatus(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[MemberStatus]): List[DbleMemberStatus] =
+    def toDBableEntityList(immuList: immutable.List[MemberStatus]): List[DbleMemberStatus] =
     { immuList.map(new DbleMemberStatus().acceptImmutable(_)).asJava }
 }

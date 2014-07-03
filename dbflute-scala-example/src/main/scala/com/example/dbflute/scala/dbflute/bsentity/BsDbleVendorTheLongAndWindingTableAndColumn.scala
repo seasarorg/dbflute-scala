@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 // #avoided same name type in Java and Scala
@@ -219,7 +220,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumn extends Entity with D
      * [convert] VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF by THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID, named 'vendorTheLongAndWindingTableAndColumnRefList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'vendorTheLongAndWindingTableAndColumnRefList'. (NotNull)
      */
-    def toImmutableVendorTheLongAndWindingTableAndColumnRefList(): scala.collection.immutable.List[VendorTheLongAndWindingTableAndColumnRef] = {
+    def toImmutableVendorTheLongAndWindingTableAndColumnRefList(): immutable.List[VendorTheLongAndWindingTableAndColumnRef] = {
         return toScalaList(_vendorTheLongAndWindingTableAndColumnRefList).map(_.toImmutable());
     }
 
@@ -301,9 +302,9 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumn extends Entity with D
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { return scala.collection.immutable.List(); }
-        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { return immutable.List(); }
+        return immutable.List.fromArray(javaList.toArray).asInstanceOf[immutable.List[ENTITY]];
     }
 
     // ===================================================================================

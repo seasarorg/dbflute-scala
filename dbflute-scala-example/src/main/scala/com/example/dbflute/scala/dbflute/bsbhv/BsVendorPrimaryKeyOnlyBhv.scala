@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -256,7 +257,7 @@ abstract class BsVendorPrimaryKeyOnlyBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (VendorPrimaryKeyOnlyCB) => Unit)(implicit loaderCall: (LoaderOfVendorPrimaryKeyOnly) => Unit = null): scala.collection.immutable.List[VendorPrimaryKeyOnly] = {
+    def selectList(cbCall: (VendorPrimaryKeyOnlyCB) => Unit)(implicit loaderCall: (LoaderOfVendorPrimaryKeyOnly) => Unit = null): immutable.List[VendorPrimaryKeyOnly] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -402,7 +403,7 @@ abstract class BsVendorPrimaryKeyOnlyBhv extends AbstractBehaviorWritable {
      * @param vendorPrimaryKeyOnlyList The list of vendorPrimaryKeyOnly. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractPrimaryKeyOnlyIdList(vendorPrimaryKeyOnlyList: scala.collection.immutable.List[VendorPrimaryKeyOnly]): scala.collection.immutable.List[Long] = {
+    def extractPrimaryKeyOnlyIdList(vendorPrimaryKeyOnlyList: immutable.List[VendorPrimaryKeyOnly]): immutable.List[Long] = {
         val plainList = helpExtractListInternally(toDBableEntityList(vendorPrimaryKeyOnlyList), "primaryKeyOnlyId");
         return toScalaList(plainList).map(_.asInstanceOf[Long]);
     }
@@ -884,14 +885,14 @@ abstract class BsVendorPrimaryKeyOnlyBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleVendorPrimaryKeyOnly]): scala.collection.immutable.List[VendorPrimaryKeyOnly] =
+    def toImmutableEntityList(dbleList: Collection[DbleVendorPrimaryKeyOnly]): immutable.List[VendorPrimaryKeyOnly] =
     { toScalaList(dbleList).map(new VendorPrimaryKeyOnly(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[VendorPrimaryKeyOnly]): List[DbleVendorPrimaryKeyOnly] =
+    def toDBableEntityList(immuList: immutable.List[VendorPrimaryKeyOnly]): List[DbleVendorPrimaryKeyOnly] =
     { immuList.map(new DbleVendorPrimaryKeyOnly().acceptImmutable(_)).asJava }
 }

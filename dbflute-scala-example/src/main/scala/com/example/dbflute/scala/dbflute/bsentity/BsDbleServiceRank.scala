@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsentity;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 // #avoided same name type in Java and Scala
@@ -437,7 +438,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      * [convert] (会員サービス)MEMBER_SERVICE by SERVICE_RANK_CODE, named 'memberServiceList'.
      * @return The new-created immutable list of immutable entity of the referrer property 'memberServiceList'. (NotNull)
      */
-    def toImmutableMemberServiceList(): scala.collection.immutable.List[MemberService] = {
+    def toImmutableMemberServiceList(): immutable.List[MemberService] = {
         return toScalaList(_memberServiceList).map(_.toImmutable());
     }
 
@@ -519,9 +520,9 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { return scala.collection.immutable.List(); }
-        return scala.collection.immutable.List.fromArray(javaList.toArray).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { return immutable.List(); }
+        return immutable.List.fromArray(javaList.toArray).asInstanceOf[immutable.List[ENTITY]];
     }
 
     // ===================================================================================

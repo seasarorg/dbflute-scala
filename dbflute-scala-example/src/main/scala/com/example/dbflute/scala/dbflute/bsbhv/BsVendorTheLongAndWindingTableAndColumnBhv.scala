@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -281,7 +282,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (VendorTheLongAndWindingTableAndColumnCB) => Unit)(implicit loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): scala.collection.immutable.List[VendorTheLongAndWindingTableAndColumn] = {
+    def selectList(cbCall: (VendorTheLongAndWindingTableAndColumnCB) => Unit)(implicit loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): immutable.List[VendorTheLongAndWindingTableAndColumn] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -500,7 +501,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
      * @param vendorTheLongAndWindingTableAndColumnList The list of vendorTheLongAndWindingTableAndColumn. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractTheLongAndWindingTableAndColumnIdList(vendorTheLongAndWindingTableAndColumnList: scala.collection.immutable.List[VendorTheLongAndWindingTableAndColumn]): scala.collection.immutable.List[Long] = {
+    def extractTheLongAndWindingTableAndColumnIdList(vendorTheLongAndWindingTableAndColumnList: immutable.List[VendorTheLongAndWindingTableAndColumn]): immutable.List[Long] = {
         val plainList = helpExtractListInternally(toDBableEntityList(vendorTheLongAndWindingTableAndColumnList), "theLongAndWindingTableAndColumnId");
         return toScalaList(plainList).map(_.asInstanceOf[Long]);
     }
@@ -510,7 +511,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
      * @param vendorTheLongAndWindingTableAndColumnList The list of vendorTheLongAndWindingTableAndColumn. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractTheLongAndWindingTableAndColumnNameList(vendorTheLongAndWindingTableAndColumnList: scala.collection.immutable.List[VendorTheLongAndWindingTableAndColumn]): scala.collection.immutable.List[String] = {
+    def extractTheLongAndWindingTableAndColumnNameList(vendorTheLongAndWindingTableAndColumnList: immutable.List[VendorTheLongAndWindingTableAndColumn]): immutable.List[String] = {
         val plainList = helpExtractListInternally(toDBableEntityList(vendorTheLongAndWindingTableAndColumnList), "theLongAndWindingTableAndColumnName");
         return toScalaList(plainList).map(_.asInstanceOf[String]);
     }
@@ -992,14 +993,14 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleVendorTheLongAndWindingTableAndColumn]): scala.collection.immutable.List[VendorTheLongAndWindingTableAndColumn] =
+    def toImmutableEntityList(dbleList: Collection[DbleVendorTheLongAndWindingTableAndColumn]): immutable.List[VendorTheLongAndWindingTableAndColumn] =
     { toScalaList(dbleList).map(new VendorTheLongAndWindingTableAndColumn(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[VendorTheLongAndWindingTableAndColumn]): List[DbleVendorTheLongAndWindingTableAndColumn] =
+    def toDBableEntityList(immuList: immutable.List[VendorTheLongAndWindingTableAndColumn]): List[DbleVendorTheLongAndWindingTableAndColumn] =
     { immuList.map(new DbleVendorTheLongAndWindingTableAndColumn().acceptImmutable(_)).asJava }
 }

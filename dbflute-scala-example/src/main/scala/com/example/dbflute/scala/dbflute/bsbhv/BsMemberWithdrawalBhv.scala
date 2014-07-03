@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
@@ -256,7 +257,7 @@ abstract class BsMemberWithdrawalBhv extends AbstractBehaviorWritable {
      * @return The result bean of selected list. (NotNull: if no data, returns empty list)
      * @exception DangerousResultSizeException When the result size is over the specified safety size.
      */
-    def selectList(cbCall: (MemberWithdrawalCB) => Unit)(implicit loaderCall: (LoaderOfMemberWithdrawal) => Unit = null): scala.collection.immutable.List[MemberWithdrawal] = {
+    def selectList(cbCall: (MemberWithdrawalCB) => Unit)(implicit loaderCall: (LoaderOfMemberWithdrawal) => Unit = null): immutable.List[MemberWithdrawal] = {
         return toImmutableEntityList(facadeSelectList(callbackCB(cbCall))(loaderCall));
     }
 
@@ -399,7 +400,7 @@ abstract class BsMemberWithdrawalBhv extends AbstractBehaviorWritable {
      * @param memberWithdrawalList The list of memberWithdrawal. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutMember(memberWithdrawalList: scala.collection.immutable.List[MemberWithdrawal]): scala.collection.immutable.List[Member] = {
+    def pulloutMember(memberWithdrawalList: immutable.List[MemberWithdrawal]): immutable.List[Member] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberWithdrawalList), "member");
         return toScalaList(dbleList).map(new Member(_));
     }
@@ -409,7 +410,7 @@ abstract class BsMemberWithdrawalBhv extends AbstractBehaviorWritable {
      * @param memberWithdrawalList The list of memberWithdrawal. (NotNull, EmptyAllowed)
      * @return The list of foreign table. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def pulloutWithdrawalReason(memberWithdrawalList: scala.collection.immutable.List[MemberWithdrawal]): scala.collection.immutable.List[WithdrawalReason] = {
+    def pulloutWithdrawalReason(memberWithdrawalList: immutable.List[MemberWithdrawal]): immutable.List[WithdrawalReason] = {
         val dbleList = helpPulloutInternally(toDBableEntityList(memberWithdrawalList), "withdrawalReason");
         return toScalaList(dbleList).map(new WithdrawalReason(_));
     }
@@ -422,7 +423,7 @@ abstract class BsMemberWithdrawalBhv extends AbstractBehaviorWritable {
      * @param memberWithdrawalList The list of memberWithdrawal. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberIdList(memberWithdrawalList: scala.collection.immutable.List[MemberWithdrawal]): scala.collection.immutable.List[Int] = {
+    def extractMemberIdList(memberWithdrawalList: immutable.List[MemberWithdrawal]): immutable.List[Int] = {
         val plainList = helpExtractListInternally(toDBableEntityList(memberWithdrawalList), "memberId");
         return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
@@ -1033,14 +1034,14 @@ abstract class BsMemberWithdrawalBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    def toImmutableEntityList(dbleList: Collection[DbleMemberWithdrawal]): scala.collection.immutable.List[MemberWithdrawal] =
+    def toImmutableEntityList(dbleList: Collection[DbleMemberWithdrawal]): immutable.List[MemberWithdrawal] =
     { toScalaList(dbleList).map(new MemberWithdrawal(_)) }
 
-    def toDBableEntityList(immuList: scala.collection.immutable.List[MemberWithdrawal]): List[DbleMemberWithdrawal] =
+    def toDBableEntityList(immuList: immutable.List[MemberWithdrawal]): List[DbleMemberWithdrawal] =
     { immuList.map(new DbleMemberWithdrawal().acceptImmutable(_)).asJava }
 }
