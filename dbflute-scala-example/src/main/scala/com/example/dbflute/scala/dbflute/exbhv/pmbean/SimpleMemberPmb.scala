@@ -1,6 +1,14 @@
 package com.example.dbflute.scala.dbflute.exbhv.pmbean;
 
+import com.example.dbflute.scala.dbflute.bsbhv.pmbean.CponSimpleMemberPmb;
 import com.example.dbflute.scala.dbflute.bsbhv.pmbean.BsSimpleMemberPmb;
+
+/**
+ * The companion object to create SimpleMemberPmb by apply().
+ * @author DBFlute(AutoGenerator)
+ */
+object SimpleMemberPmb extends CponSimpleMemberPmb {
+}
 
 /**
  * <!-- df:beginClassDescription -->

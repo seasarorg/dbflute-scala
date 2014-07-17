@@ -12,6 +12,9 @@ import org.seasar.dbflute.util.DfTypeUtil
 import java.sql.Timestamp
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import com.example.dbflute.scala.dbflute.exentity.customize.SimpleMember
+import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
+import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 
 /**
  * @author jflute
@@ -134,9 +137,9 @@ class OnParadeTest extends UnitContainerFunSuite {
     //
     // <<< outsideSql() >>>
     //
-    val pmb = new SimpleMemberPmb
-    pmb.setMemberName_PrefixSearch("S")
-    val outsideList = memberBhv.outsideSql.selectList(pmb);
+    val outsideList = memberBhv.outsideSql.selectList(SimpleMemberPmb { pmb =>
+      pmb.setMemberName_PrefixSearch("S")
+    });
     outsideList.foreach(f => log(f.memberName, f.birthdate))
 
     //
@@ -190,7 +193,7 @@ class OnParadeTest extends UnitContainerFunSuite {
     // <<< small try >>>
     //
   }
-  
+
   // wall
   // wall
   // wall

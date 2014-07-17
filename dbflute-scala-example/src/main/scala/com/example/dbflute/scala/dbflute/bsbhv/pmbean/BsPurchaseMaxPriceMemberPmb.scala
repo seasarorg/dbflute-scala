@@ -13,8 +13,19 @@ import org.seasar.dbflute.util.DfCollectionUtil;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.util.DfTypeUtil;
 import com.example.dbflute.scala.dbflute.allcommon._;
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseMaxPriceMemberPmb;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity.customize._;
+
+/**
+ * The base class of companion object defined at extended class to create parameter-bean.
+ * @author DBFlute(AutoGenerator)
+ */
+abstract class CponPurchaseMaxPriceMemberPmb {
+    def apply(pmbCall: (PurchaseMaxPriceMemberPmb) => Unit): PurchaseMaxPriceMemberPmb =
+    { val pmb = newPmb(); pmbCall(pmb); return pmb; }
+    protected def newPmb(): PurchaseMaxPriceMemberPmb = { new PurchaseMaxPriceMemberPmb() }
+}
 
 /**
  * The base class for typed parameter-bean of PurchaseMaxPriceMember. <br />

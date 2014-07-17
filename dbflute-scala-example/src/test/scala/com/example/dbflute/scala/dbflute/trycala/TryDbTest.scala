@@ -140,10 +140,10 @@ class TryDbTest extends UnitContainerTestCase {
     //
     // <<< outsideSql() >>>
     //
-    val pmb = new SimpleMemberPmb
-    pmb.setMemberName_PrefixSearch("S")
-    val outsideList = memberBhv.outsideSql.selectList(pmb);
-    outsideList.foreach(f => log(f.memberName, f.birthdate))
+//    val pmb = new SimpleMemberPmb
+//    pmb.setMemberName_PrefixSearch("S")
+//    val outsideList = memberBhv.outsideSql.selectList(pmb);
+//    outsideList.foreach(f => log(f.memberName, f.birthdate))
 
     //
     // <<< CB: on parade >>>

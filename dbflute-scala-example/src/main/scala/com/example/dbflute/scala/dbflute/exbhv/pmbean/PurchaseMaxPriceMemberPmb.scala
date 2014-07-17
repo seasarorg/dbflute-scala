@@ -1,6 +1,14 @@
 package com.example.dbflute.scala.dbflute.exbhv.pmbean;
 
+import com.example.dbflute.scala.dbflute.bsbhv.pmbean.CponPurchaseMaxPriceMemberPmb;
 import com.example.dbflute.scala.dbflute.bsbhv.pmbean.BsPurchaseMaxPriceMemberPmb;
+
+/**
+ * The companion object to create PurchaseMaxPriceMemberPmb by apply().
+ * @author DBFlute(AutoGenerator)
+ */
+object PurchaseMaxPriceMemberPmb extends CponPurchaseMaxPriceMemberPmb {
+}
 
 /**
  * <!-- df:beginClassDescription -->

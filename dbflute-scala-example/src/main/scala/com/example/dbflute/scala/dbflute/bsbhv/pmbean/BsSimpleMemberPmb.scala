@@ -12,8 +12,19 @@ import org.seasar.dbflute.util.DfCollectionUtil;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.util.DfTypeUtil;
 import com.example.dbflute.scala.dbflute.allcommon._;
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.SimpleMemberPmb;
 import com.example.dbflute.scala.dbflute.exbhv._;
 import com.example.dbflute.scala.dbflute.exentity.customize._;
+
+/**
+ * The base class of companion object defined at extended class to create parameter-bean.
+ * @author DBFlute(AutoGenerator)
+ */
+abstract class CponSimpleMemberPmb {
+    def apply(pmbCall: (SimpleMemberPmb) => Unit): SimpleMemberPmb =
+    { val pmb = newPmb(); pmbCall(pmb); return pmb; }
+    protected def newPmb(): SimpleMemberPmb = { new SimpleMemberPmb() }
+}
 
 /**
  * The base class for typed parameter-bean of SimpleMember. <br />
