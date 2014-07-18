@@ -5,3 +5,6 @@
 /tm.out
 /tm.out.*
 /tm*.log
+/project/project
+/project/target
+/.history

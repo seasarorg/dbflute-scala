@@ -27,7 +27,7 @@ class OnParadeTest extends UnitContainerFunSuite {
   protected var memberBhv: MemberBhv = null;
   protected var purchaseBhv: PurchaseBhv = null;
 
-  test("OnParade") {
+  test("on_parade") {
     //
     // <<< selectEntity() >>>
     //
