@@ -1,13 +1,11 @@
-package com.example.dbflute.scala.utflute
+package org.dbflute.unit.core
 
 import java.io.File
 import java.sql.SQLException
 import java.sql.Timestamp
 import java.util.Collection
 import java.util.Date
-
 import scala.math.BigDecimal.javaBigDecimal2bigDecimal
-
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import org.scalatest.BeforeAndAfter
@@ -32,7 +30,6 @@ import org.seasar.dbflute.unit.core.transaction.TransactionResource
 import org.seasar.dbflute.util.DfResourceUtil
 import org.seasar.dbflute.util.DfTypeUtil
 import org.seasar.dbflute.util.Srl
-
 import javax.sql.DataSource
 
 /**

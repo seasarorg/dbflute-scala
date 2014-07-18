@@ -13,7 +13,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package com.example.dbflute.scala.utflute
+package org.dbflute.unit.guice
 
 import java.util.ArrayList
 import java.util.List
@@ -29,6 +29,9 @@ import com.google.inject.Module
 import com.google.inject.Inject
 import javax.inject.Inject
 import org.seasar.dbflute.unit.guice.GuiceTransactionResource
+import org.dbflute.unit.core.InjectionFunSuite
+import com.google.inject.Inject
+import javax.inject.Inject
 import java.lang.annotation.Annotation
 
 /**

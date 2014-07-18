@@ -66,6 +66,7 @@ class WxCBSetupSelectTest extends UnitContainerFunSuite {
 
   test("setupSelect_OneToOne_with_Nested") {
     val memberList = memberBhv.selectList { cb =>
+      cb.setupSelect_MemberStatus
       cb.setupSelect_MemberServiceAsOne.withServiceRank;
       cb.query().setMemberName_PrefixSearch("S");
     }
@@ -75,7 +76,7 @@ class WxCBSetupSelectTest extends UnitContainerFunSuite {
       val rank = service.get.serviceRank
       assert(rank != null);
       log(member.memberName, service.get.servicePointCount.toString, rank.get.serviceRankName)
-      assert(member.memberStatus.isEmpty);
+      assert(member.memberStatus.isDefined);
       assert(member.purchaseList.isEmpty);
     });
 

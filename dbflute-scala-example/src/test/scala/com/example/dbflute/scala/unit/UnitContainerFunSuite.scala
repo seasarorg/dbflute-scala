@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
 import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
 import com.example.dbflute.scala.EmbeddedH2UrlFactoryBean
-import com.example.dbflute.scala.utflute.ContainerFunSuite
+import org.dbflute.unit.guice.ContainerFunSuite
 
 /**
  * The fun suite with container.
