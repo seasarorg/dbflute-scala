@@ -15,6 +15,7 @@ import org.scalatest.junit.JUnitRunner
 import com.example.dbflute.scala.dbflute.exentity.customize.SimpleMember
 import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
+import com.example.dbflute.scala.unit.UnitContainerFunSuite
 
 /**
  * @author jflute
@@ -26,7 +27,7 @@ class OnParadeTest extends UnitContainerFunSuite {
   protected var memberBhv: MemberBhv = null;
   protected var purchaseBhv: PurchaseBhv = null;
 
-  test("on parade") {
+  test("OnParade") {
     //
     // <<< selectEntity() >>>
     //

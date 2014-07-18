@@ -17,7 +17,7 @@
 		<h2.jdbc.version>1.4.178</h2.jdbc.version>
 		<scala.version>2.10.4</scala.version>
 		<guice.version>3.0</guice.version>
-		<utflute.version>0.4.5</utflute.version>
+		<utflute.version>0.4.6</utflute.version>
 	</properties>
 
 	<licenses>
@@ -211,13 +211,16 @@
 			<version>${h2.jdbc.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.dbflute.scala</groupId>
-			<artifactId>dbflute-scala-testlib</artifactId>
-			<version>1.0.0</version>
-		</dependency>
 
-		<!-- scala -->
+		<!-- scala compiler -->
+        <dependency>
+	       	<!-- basically for IntelliJ IDEA (Eclipse uses ScalaIDE) -->
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-compiler</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+		<!-- scala library -->
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>

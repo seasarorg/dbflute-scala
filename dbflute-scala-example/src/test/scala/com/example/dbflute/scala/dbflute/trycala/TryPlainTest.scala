@@ -2,13 +2,17 @@ package com.example.dbflute.scala.dbflute.trycala
 
 import org.seasar.dbflute.helper.HandyDate
 import org.seasar.dbflute.unit.core.PlainTestCase
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
+import com.example.dbflute.scala.utflute.PlainFunSuite
 
 /**
  * @author jflute
  */
-class TryPlainTest extends PlainTestCase {
+@RunWith(classOf[JUnitRunner])
+class TryPlainTest extends PlainFunSuite {
 
-  def test_asInstanceOf_null() {
+  test("asInstanceOf_null") {
     val str: HandyDate = null;
     log(str.asInstanceOf[String]);
 

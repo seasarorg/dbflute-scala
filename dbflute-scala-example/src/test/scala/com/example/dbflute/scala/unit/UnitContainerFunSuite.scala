@@ -1,4 +1,4 @@
-package com.example.dbflute.scala.dbflute.whitebox
+package com.example.dbflute.scala.unit
 
 import java.util.Date
 import java.util.List
@@ -22,7 +22,7 @@ import com.example.dbflute.scala.EmbeddedH2UrlFactoryBean
 import com.example.dbflute.scala.utflute.ContainerFunSuite
 
 /**
- * The test case with container.
+ * The fun suite with container.
  * @author jflute
  * @since 1.0.5J (2014/07/02 Wednesday)
  */

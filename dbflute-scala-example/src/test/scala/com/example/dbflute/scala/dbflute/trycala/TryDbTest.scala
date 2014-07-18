@@ -1,6 +1,5 @@
 package com.example.dbflute.scala.dbflute.trycala
 
-import org.dbflute.scala.testlib.unit.UnitContainerTestCase
 import com.example.dbflute.scala.dbflute.exbhv.MemberBhv
 import com.example.dbflute.scala.dbflute.cbean.MemberCB
 import javax.sql.DataSource
@@ -10,26 +9,18 @@ import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
 import com.example.dbflute.scala.dbflute.exbhv.PurchaseBhv
 import com.example.dbflute.scala.dbflute.exbhv.pmbean.SimpleMemberPmb
 import java.util.Date
+import com.example.dbflute.scala.unit.UnitContainerFunSuite
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
 /**
  * @author jflute
  * @since 1.0.5G (2014/05/17 Saturday)
  */
-class TryDbTest extends UnitContainerTestCase {
+@RunWith(classOf[JUnitRunner])
+class TryDbTest extends UnitContainerFunSuite {
 
-  protected var memberBhv: MemberBhv = null;
-  protected var purchaseBhv: PurchaseBhv = null;
-
-  def prepareDBFluteModule(dataSource: DataSource): Module = {
-    return new DBFluteModule(dataSource);
-  }
-
-  override def setUp(): Unit = {
-    super.setUp();
-    DBFlutist.play(_xcurrentActiveInjector);
-  }
-
-  def test_demo(): Unit = {
+  test("TryDB") {
     //
     // <<< selectEntity() >>>
     //
@@ -62,7 +53,7 @@ class TryDbTest extends UnitContainerTestCase {
     }
     memberList.foreach { member =>
       log(member.memberName, member.memberStatus.get.memberStatusName)
-      assertTrueAll(member.memberName.startsWith("S"));
+      assert(member.memberName.startsWith("S"));
     }
 
     //
@@ -113,7 +104,7 @@ class TryDbTest extends UnitContainerTestCase {
     //
     // <<< insert() >>>
     //
-    memberBhv.insert { mb =>
+    DBFlutist.memberBhv.insert { mb =>
       mb.memberName = "Xavi";
       mb.memberAccount = "Passer"
       mb.memberStatusCode_Provisional
@@ -123,19 +114,19 @@ class TryDbTest extends UnitContainerTestCase {
     //
     // <<< update() >>>
     //
-    memberBhv.update { mb =>
+    DBFlutist.memberBhv.update { mb =>
       mb.memberId = 1
       mb.memberAccount = "foo"
       mb.birthdate = Option(currentDate());
       mb.versionNo = 0
     }
-    memberBhv.updateNonstrict { mb =>
+    DBFlutist.memberBhv.updateNonstrict { mb =>
       mb.memberId = 1
       mb.memberAccount = "foo"
       mb.birthdate = Option(currentDate());
     }
-    memberBhv.updateNonstrict(_.memberId = 7)(_.self(_.specify.columnBirthdate).convert(_.addDay(3)))
-    purchaseBhv.updateNonstrict(_.purchaseId = 3)(_.self(_.specify.columnPurchaseCount).plus(1))
+    DBFlutist.memberBhv.updateNonstrict(_.memberId = 7)(_.self(_.specify.columnBirthdate).convert(_.addDay(3)))
+    DBFlutist.purchaseBhv.updateNonstrict(_.purchaseId = 3)(_.self(_.specify.columnPurchaseCount).plus(1))
 
     //
     // <<< outsideSql() >>>
@@ -182,7 +173,7 @@ class TryDbTest extends UnitContainerTestCase {
       val fooDate = member.derived[Date](keyOfFooDate);
       val price = member.highestPurchasePrice
       log(member.memberName, member.memberStatus.get.memberStatusName, fooDate, price.toString)
-      assertTrueAll(member.memberName.startsWith("S"));
+      assert(member.memberName.startsWith("S"));
     };
 
     //
