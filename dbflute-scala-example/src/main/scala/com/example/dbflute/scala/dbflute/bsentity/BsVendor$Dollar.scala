@@ -176,12 +176,17 @@ abstract class BsMbleVendor$Dollar {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleVendor$Dollar = new DbleVendor$Dollar();
+    protected val dble: DbleVendor$Dollar = new DbleVendor$Dollar();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleVendor$Dollar = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): Vendor$Dollar = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

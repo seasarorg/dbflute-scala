@@ -56,19 +56,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
+abstract class BsProductStatusBhv extends AbstractBehaviorWritable[DbleProductStatus, ProductStatusCB] {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
     /*df:endQueryPath*/
-
-    // ===================================================================================
-    //                                                                          Table name
-    //                                                                          ==========
-    /** @return The name on database of table. (NotNull) */
-    def getTableDbName(): String = { return "PRODUCT_STATUS"; }
 
     // ===================================================================================
     //                                                                              DBMeta
@@ -79,9 +73,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
-    /** {@inheritDoc} */
-    def newEntity(): DbleProductStatus = { return new DbleProductStatus(); }
-
     /** {@inheritDoc} */
     def newConditionBean(): ProductStatusCB = { return new ProductStatusCB(); }
 
@@ -101,24 +92,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
      */
     def selectCount(cbCall: (ProductStatusCB) => Unit): Int = {
         return facadeSelectCount(callbackCB(cbCall));
-    }
-
-    protected def facadeSelectCount(cb: ProductStatusCB): Int = {
-        return doSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountUniquely(cb: ProductStatusCB): Int = { // called by selectCount(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountPlainly(cb: ProductStatusCB): Int = { // called by selectPage(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountPlainly(cb);
-    }
-
-    override protected def doReadCount(cb: ConditionBean): Int = {
-        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -165,7 +138,7 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectEntity[ENTITY <: DbleProductStatus](cb: ProductStatusCB, tp: Class[ENTITY])(loaderCall: (LoaderOfProductStatus) => Unit = null): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleProductStatus](cb: ProductStatusCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfProductStatus) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         val dble = helpSelectEntityInternally(cb, tp);
         if (dble != null) {
@@ -174,11 +147,11 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleProductStatus](cb: ProductStatusCB, tp: Class[ENTITY])(loaderCall: (LoaderOfProductStatus) => Unit = null): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DbleProductStatus](cb: ProductStatusCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfProductStatus) => Unit = null): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
-    protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
+    override protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
 
     /**
      * Select the entity by the condition-bean with deleted check. <br />
@@ -211,7 +184,7 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return dble;
     }
 
-    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
+    override protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
 
     /**
      * Select the entity by the primary-key value.
@@ -229,7 +202,7 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doSelectByPK(productStatusCode, typeOfSelectedEntity());
     }
 
-    protected def doSelectByPK[ENTITY <: DbleProductStatus](productStatusCode: CDef.ProductStatus, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByPK[ENTITY <: DbleProductStatus](productStatusCode: CDef.ProductStatus, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsPK(productStatusCode), tp)());
     }
 
@@ -254,7 +227,7 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doSelectByUniqueOf(displayOrder, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DbleProductStatus](displayOrder: Integer, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DbleProductStatus](displayOrder: Integer, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), tp)());
     }
 
@@ -290,13 +263,13 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doSelectList(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectList[ENTITY <: DbleProductStatus](cb: ProductStatusCB, tp: Class[ENTITY])(loaderCall: (LoaderOfProductStatus) => Unit = null): ListResultBean[ENTITY] = {
+    protected def doSelectList[RESULT <: DbleProductStatus](cb: ProductStatusCB, tp: Class[RESULT])(loaderCall: (LoaderOfProductStatus) => Unit = null): ListResultBean[RESULT] = {
         val dbleList = helpSelectListInternally(cb, tp);
         callbackLoader(dbleList.asInstanceOf[List[DbleProductStatus]], loaderCall);
         return dbleList;
     }
 
-    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
+    override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
     override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
 
@@ -334,11 +307,13 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleProductStatus](cb: ProductStatusCB, tp: Class[ENTITY])(loaderCall: (LoaderOfProductStatus) => Unit = null): PagingResultBean[ENTITY] = {
-        return helpSelectPageInternally(cb, tp);
+    protected def doSelectPage[RESULT <: DbleProductStatus](cb: ProductStatusCB, tp: Class[RESULT])(loaderCall: (LoaderOfProductStatus) => Unit = null): PagingResultBean[RESULT] = {
+        val dbleList = helpSelectPageInternally(cb, tp);
+        callbackLoader(dbleList.asInstanceOf[List[DbleProductStatus]], loaderCall);
+        return dbleList;
     }
 
-    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
+    override protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
 
     // ===================================================================================
     //                                                                       Cursor Select
@@ -361,14 +336,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         facadeSelectCursor(callbackCB(cbCall), new EntityRowHandler[DbleProductStatus]() {
             def handle(entity: DbleProductStatus): Unit = { rowCall(entity.toImmutable) }
         });
-    }
-
-    protected def facadeSelectCursor(cb: ProductStatusCB, handler: EntityRowHandler[DbleProductStatus]): Unit = {
-        doSelectCursor(cb, handler, typeOfSelectedEntity());
-    }
-
-    protected def doSelectCursor[ENTITY <: DbleProductStatus](cb: ProductStatusCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
-        helpSelectCursorInternally(cb, handler, tp);
     }
 
     // ===================================================================================
@@ -396,23 +363,10 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
     protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[ProductStatusCB, RESULT]): ScrHpSLSFunction[ProductStatusCB, RESULT] =
     { new ScrHpSLSFunction[ProductStatusCB, RESULT](function) }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[ProductStatusCB, RESULT] = {
-        return doScalarSelect(resultType, newConditionBean());
-    }
-
-    protected def doScalarSelect[RESULT, CB <: ProductStatusCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
-        assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
-        cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = { facadeScalarSelect(tp) }
-
     // ===================================================================================
     //                                                                            Sequence
     //                                                                            ========
-    @Override
-    protected def doReadNextVal(): Number = {
+    override protected def doReadNextVal(): Number = {
         val msg: String = "This table is NOT related to sequence: " + getTableDbName();
         throw new UnsupportedOperationException(msg);
     }
@@ -542,23 +496,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
 
-    protected def doInsert(et: DbleProductStatus, op: InsertOption[ProductStatusCB]): Unit = {
-        assertObjectNotNull("productStatus", et); prepareInsertOption(op); delegateInsert(et, op);
-    }
-
-    protected def prepareInsertOption(op: InsertOption[ProductStatusCB]): Unit = {
-        if (op == null) { return; }
-        assertInsertOptionStatus(op);
-        if (op.hasSpecifiedInsertColumn()) {
-            op.resolveInsertColumnSpecification(createCBForSpecifiedUpdate());
-        }
-    }
-
-    @Override
-    protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        doInsert(downcast(et), downcast(op));
-    }
-
     /**
      * Update the entity modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
@@ -587,28 +524,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doUpdate(et: DbleProductStatus, op: UpdateOption[ProductStatusCB]): Unit = {
-        assertObjectNotNull("productStatus", et); prepareUpdateOption(op); helpUpdateInternally(et, op);
-    }
-
-    protected def prepareUpdateOption(op: UpdateOption[ProductStatusCB]): Unit = {
-        if (op == null) { return; }
-        assertUpdateOptionStatus(op);
-        if (op.hasSelfSpecification()) { op.resolveSelfSpecification(createCBForVaryingUpdate()); }
-        if (op.hasSpecifiedUpdateColumn()) { op.resolveUpdateColumnSpecification(createCBForSpecifiedUpdate()); }
-    }
-
-    protected def createCBForVaryingUpdate(): ProductStatusCB =
-    { val cb: ProductStatusCB = newConditionBean(); cb.xsetupForVaryingUpdate(); return cb; }
-
-    protected def createCBForSpecifiedUpdate(): ProductStatusCB =
-    { val cb: ProductStatusCB = newConditionBean(); cb.xsetupForSpecifiedUpdate(); return cb; }
-
-    protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = { doUpdate(downcast(et), downcast(op)) }
-
-    protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit =
-    { doModify(et, op) }
-
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
@@ -622,18 +537,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
      */
     def insertOrUpdate(entityCall: (MbleProductStatus) => Unit)(implicit insertOptionCall: (ScrInsertOption[ProductStatusCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[ProductStatusCB]) => Unit = null): Unit = {
         doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
-    }
-
-    protected def doInsertOrUpdate(et: DbleProductStatus, iop: InsertOption[ProductStatusCB], uop: UpdateOption[ProductStatusCB]): Unit = {
-        assertObjectNotNull("productStatus", et); helpInsertOrUpdateInternally(et, iop, uop);
-    }
-
-    protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit =
-    { doInsertOrUpdate(downcast(et), downcast(iop), downcast(uop)) }
-
-    @Override
-    protected def doCreateOrModifyNonstrict(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        doCreateOrModify(et, iop, uop);
     }
 
     /**
@@ -657,17 +560,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
     def delete(entityCall: (MbleProductStatus) => Unit)(implicit optionCall: (ScrDeleteOption[ProductStatusCB]) => Unit = null): Unit = {
         doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
-
-    protected def doDelete(et: DbleProductStatus, op: DeleteOption[ProductStatusCB]): Unit = {
-        assertObjectNotNull("productStatus", et); prepareDeleteOption(op); helpDeleteInternally(et, op);
-    }
-
-    protected def prepareDeleteOption(op: DeleteOption[ProductStatusCB]): Unit = { if (op != null) { assertDeleteOptionStatus(op); } }
-
-    protected def doRemove(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = { doDelete(downcast(et), downcast(op)) }
-
-    protected def doRemoveNonstrict(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit =
-    { doRemove(et, op) }
 
     // ===================================================================================
     //                                                                        Batch Update
@@ -700,21 +592,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
-    protected def doBatchInsert(ls: List[DbleProductStatus], op: InsertOption[ProductStatusCB]): Array[Int] = {
-        assertObjectNotNull("productStatusList", ls);
-        val rlop: InsertOption[ProductStatusCB] = if (op != null) { op } else { createPlainInsertOption() }
-        prepareBatchInsertOption(ls, op); // required
-        return delegateBatchInsert(ls, op);
-    }
-
-    protected def prepareBatchInsertOption(ls: List[DbleProductStatus], op: InsertOption[ProductStatusCB]): Unit = {
-        op.xallowInsertColumnModifiedPropertiesFragmented();
-        op.xacceptInsertColumnModifiedPropertiesIfNeeds(ls);
-        prepareInsertOption(op);
-    }
-
-    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = { doBatchInsert(downcast(ls), downcast(op)) }
-
     /**
      * Batch-update the entity list modified-only of same-set columns. (NonExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement. <br />
@@ -743,23 +620,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doBatchUpdate(ls: List[DbleProductStatus], op: UpdateOption[ProductStatusCB]): Array[Int] = {
-        assertObjectNotNull("productStatusList", ls);
-        val rlop: UpdateOption[ProductStatusCB] = if (op != null) { op } else { createPlainUpdateOption() }
-        prepareBatchUpdateOption(ls, rlop); // required
-        return delegateBatchUpdate(ls, rlop);
-    }
-
-    protected def prepareBatchUpdateOption(ls: List[DbleProductStatus], op: UpdateOption[ProductStatusCB]): Unit = {
-        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(ls);
-        prepareUpdateOption(op);
-    }
-
-    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = { doBatchUpdate(downcast(ls), downcast(op)) }
-
-    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] =
-    { doLumpModify(ls, op) }
-
     /**
      * Batch-delete the entity list. (NonExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement.
@@ -771,16 +631,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
-    protected def doBatchDelete(ls: List[DbleProductStatus], op: DeleteOption[ProductStatusCB]): Array[Int] = {
-        assertObjectNotNull("productStatusList", ls); prepareDeleteOption(op);
-        return delegateBatchDelete(ls, op);
-    }
-
-    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = { doBatchDelete(downcast(ls), downcast(op)) }
-
-    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] =
-    { return doLumpRemove(ls, op); }
-
     // ===================================================================================
     //                                                                        Query Update
     //                                                                        ============
@@ -788,7 +638,7 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
      * productStatusBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;DbleProductStatus, ProductStatusCB&gt;() {
-     *     public ConditionBean setup(productStatus entity, ProductStatusCB intoCB) {
+     *     public ConditionBean setup(DbleProductStatus entity, ProductStatusCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
      *
@@ -807,25 +657,12 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
      *     }
      * });
      * </pre>
-     * @param setupper The setup-per of query-insert. (NotNull)
+     * @param setupperCall The callback for set-upper of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[DbleProductStatus, ProductStatusCB]): Int = {
-        return doQueryInsert(setupper, null);
+    def queryInsert(setupperCall: (MbleProductStatus, ProductStatusCB) => ConditionBean): Int = {
+        return doQueryInsert(callbackQueryInsertSetupper(setupperCall), null);
     }
-
-    protected def doQueryInsert(sp: QueryInsertSetupper[DbleProductStatus, ProductStatusCB], op: InsertOption[ProductStatusCB]): Int = {
-        assertObjectNotNull("setupper", sp); prepareInsertOption(op);
-        val et: DbleProductStatus = newEntity();
-        val cb: ProductStatusCB = createCBForQueryInsert();
-        return delegateQueryInsert(et, cb, sp.setup(et, cb), op);
-    }
-
-    protected def createCBForQueryInsert(): ProductStatusCB =
-    { val cb: ProductStatusCB = newConditionBean(); cb.xsetupForQueryInsert(); return cb; }
-
-    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int =
-    { doQueryInsert(downcast(setupper), downcast(option)) }
 
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
@@ -854,14 +691,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         return doQueryUpdate(callbackMbleEntityToDBable(entityCall), callbackCB(cbCall), null);
     }
 
-    protected def doQueryUpdate(productStatus: DbleProductStatus, cb: ProductStatusCB, op: UpdateOption[ProductStatusCB]): Int = {
-        assertObjectNotNull("productStatus", productStatus); assertCBStateValid(cb); prepareUpdateOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(productStatus, cb, op) } else { 0 };
-    }
-
-    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int =
-    { doQueryUpdate(downcast(et), downcast(cb), downcast(op)) }
-
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
@@ -877,13 +706,6 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("cbCall", cbCall);
         return doQueryDelete(callbackCB(cbCall), null);
     }
-
-    protected def doQueryDelete(cb: ProductStatusCB, op: DeleteOption[ProductStatusCB]): Int = {
-        assertCBStateValid(cb); prepareDeleteOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryDelete(cb, op) } else { 0 };
-    }
-
-    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = { doQueryDelete(downcast(cb), downcast(op)) }
 
     // ===================================================================================
     //                                                                          OutsideSql
@@ -927,8 +749,8 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
     { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
-    //                                                                       Assist Helper
-    //                                                                       =============
+    //                                                                     Callback Helper
+    //                                                                     ===============
     protected def callbackCB(cbCall: (ProductStatusCB) => Unit): ProductStatusCB = {
         assertObjectNotNull("cbCall", cbCall);
         val cb = newConditionBean(); cbCall(cb); return cb;
@@ -969,6 +791,18 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         val option = new ScrDeleteOption[ProductStatusCB](new DeleteOption[ProductStatusCB]()); optionCall(option); return option.toNative;
     }
 
+    protected def callbackQueryInsertSetupper(setupperCall: (MbleProductStatus, ProductStatusCB) => ConditionBean): QueryInsertSetupper[DbleProductStatus, ProductStatusCB] = {
+        assertObjectNotNull("setupperCall", setupperCall);
+        return new QueryInsertSetupper[DbleProductStatus, ProductStatusCB]() {
+            def setup(entity: DbleProductStatus, intoCB: ProductStatusCB): ConditionBean = {
+                val mble = newMbleEntity();
+                val resultCB = setupperCall(mble, intoCB);
+                entity.acceptImmutable(mble.toImmutable());
+                return resultCB;
+            }
+        };
+    }
+
     protected def callbackLoader(dbleList: List[DbleProductStatus], loaderCall: (LoaderOfProductStatus) => Unit = null): Unit = {
         if (loaderCall == null) { return; }
         val loader = new LoaderOfProductStatus();
@@ -976,19 +810,15 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable {
         loaderCall(loader);
     }
 
+    // ===================================================================================
+    //                                                                         Type Helper
+    //                                                                         ===========
+    override protected def typeOfSelectedEntity(): Class[DbleProductStatus] = { classOf[DbleProductStatus] }
+    override protected def typeOfHandlingEntity(): Class[DbleProductStatus] = { classOf[DbleProductStatus] }
+    override protected def typeOfHandlingConditionBean(): Class[ProductStatusCB] = { classOf[ProductStatusCB] }
     protected def newMbleEntity(): MbleProductStatus = { new MbleProductStatus() }
     protected def newPagingView(rb: PagingResultBean[DbleProductStatus]): ScrPagingView[ProductStatus] =
     { new ScrPagingView(toImmutableEntityList(rb), rb) }
-
-    protected def typeOfSelectedEntity(): Class[DbleProductStatus] = { classOf[DbleProductStatus] }
-    protected def downcast(et: Entity): DbleProductStatus = { helpEntityDowncastInternally(et, classOf[DbleProductStatus]) }
-    protected def downcast(cb: ConditionBean): ProductStatusCB = { helpConditionBeanDowncastInternally(cb, classOf[ProductStatusCB]) }
-    protected def downcast(ls: List[_ <: Entity]): List[DbleProductStatus] = { ls.asInstanceOf[List[DbleProductStatus]] }
-    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[ProductStatusCB] = { op.asInstanceOf[InsertOption[ProductStatusCB]] }
-    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[ProductStatusCB] = { op.asInstanceOf[UpdateOption[ProductStatusCB]] }
-    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[ProductStatusCB] = { op.asInstanceOf[DeleteOption[ProductStatusCB]] }
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleProductStatus, ProductStatusCB] =
-    { sp.asInstanceOf[QueryInsertSetupper[DbleProductStatus, ProductStatusCB]] }
 
     // ===================================================================================
     //                                                                        Scala Helper

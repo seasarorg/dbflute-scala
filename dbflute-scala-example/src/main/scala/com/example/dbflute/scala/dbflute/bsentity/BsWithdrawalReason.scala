@@ -238,12 +238,17 @@ abstract class BsMbleWithdrawalReason {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleWithdrawalReason = new DbleWithdrawalReason();
+    protected val dble: DbleWithdrawalReason = new DbleWithdrawalReason();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleWithdrawalReason = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): WithdrawalReason = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

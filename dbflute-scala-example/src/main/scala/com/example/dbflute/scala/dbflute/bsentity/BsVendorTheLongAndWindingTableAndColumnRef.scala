@@ -205,12 +205,17 @@ abstract class BsMbleVendorTheLongAndWindingTableAndColumnRef {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleVendorTheLongAndWindingTableAndColumnRef = new DbleVendorTheLongAndWindingTableAndColumnRef();
+    protected val dble: DbleVendorTheLongAndWindingTableAndColumnRef = new DbleVendorTheLongAndWindingTableAndColumnRef();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleVendorTheLongAndWindingTableAndColumnRef = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): VendorTheLongAndWindingTableAndColumnRef = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

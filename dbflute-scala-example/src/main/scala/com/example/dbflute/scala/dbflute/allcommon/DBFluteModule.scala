@@ -9,6 +9,8 @@ import org.seasar.dbflute.bhv.core.BehaviorCommandInvoker;
 import org.seasar.dbflute.bhv.core.CommonColumnAutoSetupper;
 import org.seasar.dbflute.bhv.core.InvokerAssistant;
 import com.example.dbflute.scala.dbflute.exbhv._;
+import com.example.dbflute.scala.dbflute.cbean._;
+import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
  * @author DBFlute(AutoGenerator)
@@ -61,122 +63,122 @@ class DBFluteModule(dataSource: DataSource) extends AbstractModule {
         // #avoided unknown compile error 'illegal cyclic reference'
         // if directly create the behaviors so use reflection here
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMember, MemberCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberBhv]).toInstance(bhv.asInstanceOf[MemberBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberAddressBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberAddressBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMemberAddress, MemberAddressCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberAddressBhv]).toInstance(bhv.asInstanceOf[MemberAddressBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberFollowingBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberFollowingBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMemberFollowing, MemberFollowingCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberFollowingBhv]).toInstance(bhv.asInstanceOf[MemberFollowingBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberLoginBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberLoginBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMemberLogin, MemberLoginCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberLoginBhv]).toInstance(bhv.asInstanceOf[MemberLoginBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberSecurityBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberSecurityBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMemberSecurity, MemberSecurityCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberSecurityBhv]).toInstance(bhv.asInstanceOf[MemberSecurityBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberServiceBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberServiceBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMemberService, MemberServiceCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberServiceBhv]).toInstance(bhv.asInstanceOf[MemberServiceBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberStatusBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberStatusBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMemberStatus, MemberStatusCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberStatusBhv]).toInstance(bhv.asInstanceOf[MemberStatusBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberWithdrawalBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.MemberWithdrawalBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleMemberWithdrawal, MemberWithdrawalCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[MemberWithdrawalBhv]).toInstance(bhv.asInstanceOf[MemberWithdrawalBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ProductBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ProductBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleProduct, ProductCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[ProductBhv]).toInstance(bhv.asInstanceOf[ProductBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ProductCategoryBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ProductCategoryBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleProductCategory, ProductCategoryCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[ProductCategoryBhv]).toInstance(bhv.asInstanceOf[ProductCategoryBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ProductStatusBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ProductStatusBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleProductStatus, ProductStatusCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[ProductStatusBhv]).toInstance(bhv.asInstanceOf[ProductStatusBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.PurchaseBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.PurchaseBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DblePurchase, PurchaseCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[PurchaseBhv]).toInstance(bhv.asInstanceOf[PurchaseBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.PurchasePaymentBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.PurchasePaymentBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DblePurchasePayment, PurchasePaymentCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[PurchasePaymentBhv]).toInstance(bhv.asInstanceOf[PurchasePaymentBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.RegionBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.RegionBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleRegion, RegionCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[RegionBhv]).toInstance(bhv.asInstanceOf[RegionBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ServiceRankBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.ServiceRankBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleServiceRank, ServiceRankCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[ServiceRankBhv]).toInstance(bhv.asInstanceOf[ServiceRankBhv]);
         }
         {
-            val bhv: AbstractBehaviorReadable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.SummaryProductBhv").newInstance().asInstanceOf[AbstractBehaviorReadable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.SummaryProductBhv").newInstance().asInstanceOf[AbstractBehaviorReadable[DbleSummaryProduct, SummaryProductCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor);
             bind(classOf[SummaryProductBhv]).toInstance(bhv.asInstanceOf[SummaryProductBhv]);
         }
         {
-            val bhv: AbstractBehaviorReadable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.SummaryWithdrawalBhv").newInstance().asInstanceOf[AbstractBehaviorReadable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.SummaryWithdrawalBhv").newInstance().asInstanceOf[AbstractBehaviorReadable[DbleSummaryWithdrawal, SummaryWithdrawalCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor);
             bind(classOf[SummaryWithdrawalBhv]).toInstance(bhv.asInstanceOf[SummaryWithdrawalBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.Vendor$DollarBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.Vendor$DollarBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleVendor$Dollar, Vendor$DollarCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[Vendor$DollarBhv]).toInstance(bhv.asInstanceOf[Vendor$DollarBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorCheckBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorCheckBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleVendorCheck, VendorCheckCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[VendorCheckBhv]).toInstance(bhv.asInstanceOf[VendorCheckBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorIdentityOnlyBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorIdentityOnlyBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleVendorIdentityOnly, VendorIdentityOnlyCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[VendorIdentityOnlyBhv]).toInstance(bhv.asInstanceOf[VendorIdentityOnlyBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorPrimaryKeyOnlyBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorPrimaryKeyOnlyBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleVendorPrimaryKeyOnly, VendorPrimaryKeyOnlyCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[VendorPrimaryKeyOnlyBhv]).toInstance(bhv.asInstanceOf[VendorPrimaryKeyOnlyBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorTheLongAndWindingTableAndColumnBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorTheLongAndWindingTableAndColumnBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[VendorTheLongAndWindingTableAndColumnBhv]).toInstance(bhv.asInstanceOf[VendorTheLongAndWindingTableAndColumnBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorTheLongAndWindingTableAndColumnRefBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.VendorTheLongAndWindingTableAndColumnRefBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleVendorTheLongAndWindingTableAndColumnRef, VendorTheLongAndWindingTableAndColumnRefCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[VendorTheLongAndWindingTableAndColumnRefBhv]).toInstance(bhv.asInstanceOf[VendorTheLongAndWindingTableAndColumnRefBhv]);
         }
         {
-            val bhv: AbstractBehaviorWritable = Class.forName("com.example.dbflute.scala.dbflute.exbhv.WithdrawalReasonBhv").newInstance().asInstanceOf[AbstractBehaviorWritable];
+            val bhv = Class.forName("com.example.dbflute.scala.dbflute.exbhv.WithdrawalReasonBhv").newInstance().asInstanceOf[AbstractBehaviorWritable[DbleWithdrawalReason, WithdrawalReasonCB]];
             bhv.setBehaviorCommandInvoker(ker); bhv.setBehaviorSelector(tor); bhv.setCommonColumnAutoSetupper(per);
             bind(classOf[WithdrawalReasonBhv]).toInstance(bhv.asInstanceOf[WithdrawalReasonBhv]);
         }

@@ -210,12 +210,17 @@ abstract class BsMbleMemberFollowing {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleMemberFollowing = new DbleMemberFollowing();
+    protected val dble: DbleMemberFollowing = new DbleMemberFollowing();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleMemberFollowing = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): MemberFollowing = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

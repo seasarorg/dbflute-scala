@@ -298,12 +298,17 @@ abstract class BsMbleMemberLogin {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleMemberLogin = new DbleMemberLogin();
+    protected val dble: DbleMemberLogin = new DbleMemberLogin();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleMemberLogin = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): MemberLogin = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

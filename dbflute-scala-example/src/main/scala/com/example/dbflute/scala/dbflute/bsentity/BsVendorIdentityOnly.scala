@@ -165,12 +165,17 @@ abstract class BsMbleVendorIdentityOnly {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleVendorIdentityOnly = new DbleVendorIdentityOnly();
+    protected val dble: DbleVendorIdentityOnly = new DbleVendorIdentityOnly();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleVendorIdentityOnly = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): VendorIdentityOnly = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

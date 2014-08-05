@@ -56,19 +56,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
+abstract class BsServiceRankBhv extends AbstractBehaviorWritable[DbleServiceRank, ServiceRankCB] {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
     /*df:endQueryPath*/
-
-    // ===================================================================================
-    //                                                                          Table name
-    //                                                                          ==========
-    /** @return The name on database of table. (NotNull) */
-    def getTableDbName(): String = { return "SERVICE_RANK"; }
 
     // ===================================================================================
     //                                                                              DBMeta
@@ -79,9 +73,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
-    /** {@inheritDoc} */
-    def newEntity(): DbleServiceRank = { return new DbleServiceRank(); }
-
     /** {@inheritDoc} */
     def newConditionBean(): ServiceRankCB = { return new ServiceRankCB(); }
 
@@ -101,24 +92,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      */
     def selectCount(cbCall: (ServiceRankCB) => Unit): Int = {
         return facadeSelectCount(callbackCB(cbCall));
-    }
-
-    protected def facadeSelectCount(cb: ServiceRankCB): Int = {
-        return doSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountUniquely(cb: ServiceRankCB): Int = { // called by selectCount(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountPlainly(cb: ServiceRankCB): Int = { // called by selectPage(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountPlainly(cb);
-    }
-
-    override protected def doReadCount(cb: ConditionBean): Int = {
-        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -165,7 +138,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         val dble = helpSelectEntityInternally(cb, tp);
         if (dble != null) {
@@ -174,11 +147,11 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
-    protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
+    override protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
 
     /**
      * Select the entity by the condition-bean with deleted check. <br />
@@ -211,7 +184,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return dble;
     }
 
-    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
+    override protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
 
     /**
      * Select the entity by the primary-key value.
@@ -229,7 +202,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doSelectByPK(serviceRankCode, typeOfSelectedEntity());
     }
 
-    protected def doSelectByPK[ENTITY <: DbleServiceRank](serviceRankCode: CDef.ServiceRank, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByPK[ENTITY <: DbleServiceRank](serviceRankCode: CDef.ServiceRank, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsPK(serviceRankCode), tp)());
     }
 
@@ -254,7 +227,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doSelectByUniqueOf(displayOrder, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DbleServiceRank](displayOrder: Integer, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DbleServiceRank](displayOrder: Integer, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(displayOrder), tp)());
     }
 
@@ -290,13 +263,13 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doSelectList(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectList[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): ListResultBean[ENTITY] = {
+    protected def doSelectList[RESULT <: DbleServiceRank](cb: ServiceRankCB, tp: Class[RESULT])(loaderCall: (LoaderOfServiceRank) => Unit = null): ListResultBean[RESULT] = {
         val dbleList = helpSelectListInternally(cb, tp);
         callbackLoader(dbleList.asInstanceOf[List[DbleServiceRank]], loaderCall);
         return dbleList;
     }
 
-    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
+    override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
     override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
 
@@ -334,11 +307,13 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleServiceRank](cb: ServiceRankCB, tp: Class[ENTITY])(loaderCall: (LoaderOfServiceRank) => Unit = null): PagingResultBean[ENTITY] = {
-        return helpSelectPageInternally(cb, tp);
+    protected def doSelectPage[RESULT <: DbleServiceRank](cb: ServiceRankCB, tp: Class[RESULT])(loaderCall: (LoaderOfServiceRank) => Unit = null): PagingResultBean[RESULT] = {
+        val dbleList = helpSelectPageInternally(cb, tp);
+        callbackLoader(dbleList.asInstanceOf[List[DbleServiceRank]], loaderCall);
+        return dbleList;
     }
 
-    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
+    override protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
 
     // ===================================================================================
     //                                                                       Cursor Select
@@ -361,14 +336,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         facadeSelectCursor(callbackCB(cbCall), new EntityRowHandler[DbleServiceRank]() {
             def handle(entity: DbleServiceRank): Unit = { rowCall(entity.toImmutable) }
         });
-    }
-
-    protected def facadeSelectCursor(cb: ServiceRankCB, handler: EntityRowHandler[DbleServiceRank]): Unit = {
-        doSelectCursor(cb, handler, typeOfSelectedEntity());
-    }
-
-    protected def doSelectCursor[ENTITY <: DbleServiceRank](cb: ServiceRankCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
-        helpSelectCursorInternally(cb, handler, tp);
     }
 
     // ===================================================================================
@@ -396,23 +363,10 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[ServiceRankCB, RESULT]): ScrHpSLSFunction[ServiceRankCB, RESULT] =
     { new ScrHpSLSFunction[ServiceRankCB, RESULT](function) }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[ServiceRankCB, RESULT] = {
-        return doScalarSelect(resultType, newConditionBean());
-    }
-
-    protected def doScalarSelect[RESULT, CB <: ServiceRankCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
-        assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
-        cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = { facadeScalarSelect(tp) }
-
     // ===================================================================================
     //                                                                            Sequence
     //                                                                            ========
-    @Override
-    protected def doReadNextVal(): Number = {
+    override protected def doReadNextVal(): Number = {
         val msg: String = "This table is NOT related to sequence: " + getTableDbName();
         throw new UnsupportedOperationException(msg);
     }
@@ -542,23 +496,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
 
-    protected def doInsert(et: DbleServiceRank, op: InsertOption[ServiceRankCB]): Unit = {
-        assertObjectNotNull("serviceRank", et); prepareInsertOption(op); delegateInsert(et, op);
-    }
-
-    protected def prepareInsertOption(op: InsertOption[ServiceRankCB]): Unit = {
-        if (op == null) { return; }
-        assertInsertOptionStatus(op);
-        if (op.hasSpecifiedInsertColumn()) {
-            op.resolveInsertColumnSpecification(createCBForSpecifiedUpdate());
-        }
-    }
-
-    @Override
-    protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        doInsert(downcast(et), downcast(op));
-    }
-
     /**
      * Update the entity modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
@@ -587,28 +524,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doUpdate(et: DbleServiceRank, op: UpdateOption[ServiceRankCB]): Unit = {
-        assertObjectNotNull("serviceRank", et); prepareUpdateOption(op); helpUpdateInternally(et, op);
-    }
-
-    protected def prepareUpdateOption(op: UpdateOption[ServiceRankCB]): Unit = {
-        if (op == null) { return; }
-        assertUpdateOptionStatus(op);
-        if (op.hasSelfSpecification()) { op.resolveSelfSpecification(createCBForVaryingUpdate()); }
-        if (op.hasSpecifiedUpdateColumn()) { op.resolveUpdateColumnSpecification(createCBForSpecifiedUpdate()); }
-    }
-
-    protected def createCBForVaryingUpdate(): ServiceRankCB =
-    { val cb: ServiceRankCB = newConditionBean(); cb.xsetupForVaryingUpdate(); return cb; }
-
-    protected def createCBForSpecifiedUpdate(): ServiceRankCB =
-    { val cb: ServiceRankCB = newConditionBean(); cb.xsetupForSpecifiedUpdate(); return cb; }
-
-    protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = { doUpdate(downcast(et), downcast(op)) }
-
-    protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit =
-    { doModify(et, op) }
-
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
@@ -622,18 +537,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      */
     def insertOrUpdate(entityCall: (MbleServiceRank) => Unit)(implicit insertOptionCall: (ScrInsertOption[ServiceRankCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[ServiceRankCB]) => Unit = null): Unit = {
         doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
-    }
-
-    protected def doInsertOrUpdate(et: DbleServiceRank, iop: InsertOption[ServiceRankCB], uop: UpdateOption[ServiceRankCB]): Unit = {
-        assertObjectNotNull("serviceRank", et); helpInsertOrUpdateInternally(et, iop, uop);
-    }
-
-    protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit =
-    { doInsertOrUpdate(downcast(et), downcast(iop), downcast(uop)) }
-
-    @Override
-    protected def doCreateOrModifyNonstrict(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        doCreateOrModify(et, iop, uop);
     }
 
     /**
@@ -657,17 +560,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     def delete(entityCall: (MbleServiceRank) => Unit)(implicit optionCall: (ScrDeleteOption[ServiceRankCB]) => Unit = null): Unit = {
         doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
-
-    protected def doDelete(et: DbleServiceRank, op: DeleteOption[ServiceRankCB]): Unit = {
-        assertObjectNotNull("serviceRank", et); prepareDeleteOption(op); helpDeleteInternally(et, op);
-    }
-
-    protected def prepareDeleteOption(op: DeleteOption[ServiceRankCB]): Unit = { if (op != null) { assertDeleteOptionStatus(op); } }
-
-    protected def doRemove(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = { doDelete(downcast(et), downcast(op)) }
-
-    protected def doRemoveNonstrict(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit =
-    { doRemove(et, op) }
 
     // ===================================================================================
     //                                                                        Batch Update
@@ -700,21 +592,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
-    protected def doBatchInsert(ls: List[DbleServiceRank], op: InsertOption[ServiceRankCB]): Array[Int] = {
-        assertObjectNotNull("serviceRankList", ls);
-        val rlop: InsertOption[ServiceRankCB] = if (op != null) { op } else { createPlainInsertOption() }
-        prepareBatchInsertOption(ls, op); // required
-        return delegateBatchInsert(ls, op);
-    }
-
-    protected def prepareBatchInsertOption(ls: List[DbleServiceRank], op: InsertOption[ServiceRankCB]): Unit = {
-        op.xallowInsertColumnModifiedPropertiesFragmented();
-        op.xacceptInsertColumnModifiedPropertiesIfNeeds(ls);
-        prepareInsertOption(op);
-    }
-
-    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = { doBatchInsert(downcast(ls), downcast(op)) }
-
     /**
      * Batch-update the entity list modified-only of same-set columns. (NonExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement. <br />
@@ -743,23 +620,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doBatchUpdate(ls: List[DbleServiceRank], op: UpdateOption[ServiceRankCB]): Array[Int] = {
-        assertObjectNotNull("serviceRankList", ls);
-        val rlop: UpdateOption[ServiceRankCB] = if (op != null) { op } else { createPlainUpdateOption() }
-        prepareBatchUpdateOption(ls, rlop); // required
-        return delegateBatchUpdate(ls, rlop);
-    }
-
-    protected def prepareBatchUpdateOption(ls: List[DbleServiceRank], op: UpdateOption[ServiceRankCB]): Unit = {
-        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(ls);
-        prepareUpdateOption(op);
-    }
-
-    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = { doBatchUpdate(downcast(ls), downcast(op)) }
-
-    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] =
-    { doLumpModify(ls, op) }
-
     /**
      * Batch-delete the entity list. (NonExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement.
@@ -771,16 +631,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
-    protected def doBatchDelete(ls: List[DbleServiceRank], op: DeleteOption[ServiceRankCB]): Array[Int] = {
-        assertObjectNotNull("serviceRankList", ls); prepareDeleteOption(op);
-        return delegateBatchDelete(ls, op);
-    }
-
-    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = { doBatchDelete(downcast(ls), downcast(op)) }
-
-    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] =
-    { return doLumpRemove(ls, op); }
-
     // ===================================================================================
     //                                                                        Query Update
     //                                                                        ============
@@ -788,7 +638,7 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
      * serviceRankBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;DbleServiceRank, ServiceRankCB&gt;() {
-     *     public ConditionBean setup(serviceRank entity, ServiceRankCB intoCB) {
+     *     public ConditionBean setup(DbleServiceRank entity, ServiceRankCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
      *
@@ -807,25 +657,12 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
      *     }
      * });
      * </pre>
-     * @param setupper The setup-per of query-insert. (NotNull)
+     * @param setupperCall The callback for set-upper of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[DbleServiceRank, ServiceRankCB]): Int = {
-        return doQueryInsert(setupper, null);
+    def queryInsert(setupperCall: (MbleServiceRank, ServiceRankCB) => ConditionBean): Int = {
+        return doQueryInsert(callbackQueryInsertSetupper(setupperCall), null);
     }
-
-    protected def doQueryInsert(sp: QueryInsertSetupper[DbleServiceRank, ServiceRankCB], op: InsertOption[ServiceRankCB]): Int = {
-        assertObjectNotNull("setupper", sp); prepareInsertOption(op);
-        val et: DbleServiceRank = newEntity();
-        val cb: ServiceRankCB = createCBForQueryInsert();
-        return delegateQueryInsert(et, cb, sp.setup(et, cb), op);
-    }
-
-    protected def createCBForQueryInsert(): ServiceRankCB =
-    { val cb: ServiceRankCB = newConditionBean(); cb.xsetupForQueryInsert(); return cb; }
-
-    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int =
-    { doQueryInsert(downcast(setupper), downcast(option)) }
 
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
@@ -854,14 +691,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         return doQueryUpdate(callbackMbleEntityToDBable(entityCall), callbackCB(cbCall), null);
     }
 
-    protected def doQueryUpdate(serviceRank: DbleServiceRank, cb: ServiceRankCB, op: UpdateOption[ServiceRankCB]): Int = {
-        assertObjectNotNull("serviceRank", serviceRank); assertCBStateValid(cb); prepareUpdateOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(serviceRank, cb, op) } else { 0 };
-    }
-
-    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int =
-    { doQueryUpdate(downcast(et), downcast(cb), downcast(op)) }
-
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
@@ -877,13 +706,6 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("cbCall", cbCall);
         return doQueryDelete(callbackCB(cbCall), null);
     }
-
-    protected def doQueryDelete(cb: ServiceRankCB, op: DeleteOption[ServiceRankCB]): Int = {
-        assertCBStateValid(cb); prepareDeleteOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryDelete(cb, op) } else { 0 };
-    }
-
-    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = { doQueryDelete(downcast(cb), downcast(op)) }
 
     // ===================================================================================
     //                                                                          OutsideSql
@@ -927,8 +749,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
     { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
-    //                                                                       Assist Helper
-    //                                                                       =============
+    //                                                                     Callback Helper
+    //                                                                     ===============
     protected def callbackCB(cbCall: (ServiceRankCB) => Unit): ServiceRankCB = {
         assertObjectNotNull("cbCall", cbCall);
         val cb = newConditionBean(); cbCall(cb); return cb;
@@ -969,6 +791,18 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         val option = new ScrDeleteOption[ServiceRankCB](new DeleteOption[ServiceRankCB]()); optionCall(option); return option.toNative;
     }
 
+    protected def callbackQueryInsertSetupper(setupperCall: (MbleServiceRank, ServiceRankCB) => ConditionBean): QueryInsertSetupper[DbleServiceRank, ServiceRankCB] = {
+        assertObjectNotNull("setupperCall", setupperCall);
+        return new QueryInsertSetupper[DbleServiceRank, ServiceRankCB]() {
+            def setup(entity: DbleServiceRank, intoCB: ServiceRankCB): ConditionBean = {
+                val mble = newMbleEntity();
+                val resultCB = setupperCall(mble, intoCB);
+                entity.acceptImmutable(mble.toImmutable());
+                return resultCB;
+            }
+        };
+    }
+
     protected def callbackLoader(dbleList: List[DbleServiceRank], loaderCall: (LoaderOfServiceRank) => Unit = null): Unit = {
         if (loaderCall == null) { return; }
         val loader = new LoaderOfServiceRank();
@@ -976,19 +810,15 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable {
         loaderCall(loader);
     }
 
+    // ===================================================================================
+    //                                                                         Type Helper
+    //                                                                         ===========
+    override protected def typeOfSelectedEntity(): Class[DbleServiceRank] = { classOf[DbleServiceRank] }
+    override protected def typeOfHandlingEntity(): Class[DbleServiceRank] = { classOf[DbleServiceRank] }
+    override protected def typeOfHandlingConditionBean(): Class[ServiceRankCB] = { classOf[ServiceRankCB] }
     protected def newMbleEntity(): MbleServiceRank = { new MbleServiceRank() }
     protected def newPagingView(rb: PagingResultBean[DbleServiceRank]): ScrPagingView[ServiceRank] =
     { new ScrPagingView(toImmutableEntityList(rb), rb) }
-
-    protected def typeOfSelectedEntity(): Class[DbleServiceRank] = { classOf[DbleServiceRank] }
-    protected def downcast(et: Entity): DbleServiceRank = { helpEntityDowncastInternally(et, classOf[DbleServiceRank]) }
-    protected def downcast(cb: ConditionBean): ServiceRankCB = { helpConditionBeanDowncastInternally(cb, classOf[ServiceRankCB]) }
-    protected def downcast(ls: List[_ <: Entity]): List[DbleServiceRank] = { ls.asInstanceOf[List[DbleServiceRank]] }
-    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[ServiceRankCB] = { op.asInstanceOf[InsertOption[ServiceRankCB]] }
-    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[ServiceRankCB] = { op.asInstanceOf[UpdateOption[ServiceRankCB]] }
-    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[ServiceRankCB] = { op.asInstanceOf[DeleteOption[ServiceRankCB]] }
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleServiceRank, ServiceRankCB] =
-    { sp.asInstanceOf[QueryInsertSetupper[DbleServiceRank, ServiceRankCB]] }
 
     // ===================================================================================
     //                                                                        Scala Helper

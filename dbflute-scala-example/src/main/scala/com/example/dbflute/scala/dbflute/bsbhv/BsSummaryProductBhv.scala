@@ -56,19 +56,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
+abstract class BsSummaryProductBhv extends AbstractBehaviorReadable[DbleSummaryProduct, SummaryProductCB] {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
     /*df:endQueryPath*/
-
-    // ===================================================================================
-    //                                                                          Table name
-    //                                                                          ==========
-    /** @return The name on database of table. (NotNull) */
-    def getTableDbName(): String = { return "SUMMARY_PRODUCT"; }
 
     // ===================================================================================
     //                                                                              DBMeta
@@ -79,9 +73,6 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
-    /** {@inheritDoc} */
-    def newEntity(): DbleSummaryProduct = { return new DbleSummaryProduct(); }
-
     /** {@inheritDoc} */
     def newConditionBean(): SummaryProductCB = { return new SummaryProductCB(); }
 
@@ -101,24 +92,6 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
      */
     def selectCount(cbCall: (SummaryProductCB) => Unit): Int = {
         return facadeSelectCount(callbackCB(cbCall));
-    }
-
-    protected def facadeSelectCount(cb: SummaryProductCB): Int = {
-        return doSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountUniquely(cb: SummaryProductCB): Int = { // called by selectCount(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountPlainly(cb: SummaryProductCB): Int = { // called by selectPage(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountPlainly(cb);
-    }
-
-    override protected def doReadCount(cb: ConditionBean): Int = {
-        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -165,7 +138,7 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectEntity[ENTITY <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         val dble = helpSelectEntityInternally(cb, tp);
         if (dble != null) {
@@ -174,11 +147,11 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
-    protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
+    override protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
 
     /**
      * Select the entity by the condition-bean with deleted check. <br />
@@ -211,7 +184,7 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         return dble;
     }
 
-    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
+    override protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
 
     // ===================================================================================
     //                                                                         List Select
@@ -240,13 +213,13 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         return doSelectList(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectList[ENTITY <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): ListResultBean[ENTITY] = {
+    protected def doSelectList[RESULT <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[RESULT])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): ListResultBean[RESULT] = {
         val dbleList = helpSelectListInternally(cb, tp);
         callbackLoader(dbleList.asInstanceOf[List[DbleSummaryProduct]], loaderCall);
         return dbleList;
     }
 
-    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
+    override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
     override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
 
@@ -284,11 +257,13 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): PagingResultBean[ENTITY] = {
-        return helpSelectPageInternally(cb, tp);
+    protected def doSelectPage[RESULT <: DbleSummaryProduct](cb: SummaryProductCB, tp: Class[RESULT])(loaderCall: (LoaderOfSummaryProduct) => Unit = null): PagingResultBean[RESULT] = {
+        val dbleList = helpSelectPageInternally(cb, tp);
+        callbackLoader(dbleList.asInstanceOf[List[DbleSummaryProduct]], loaderCall);
+        return dbleList;
     }
 
-    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
+    override protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
 
     // ===================================================================================
     //                                                                       Cursor Select
@@ -311,14 +286,6 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         facadeSelectCursor(callbackCB(cbCall), new EntityRowHandler[DbleSummaryProduct]() {
             def handle(entity: DbleSummaryProduct): Unit = { rowCall(entity.toImmutable) }
         });
-    }
-
-    protected def facadeSelectCursor(cb: SummaryProductCB, handler: EntityRowHandler[DbleSummaryProduct]): Unit = {
-        doSelectCursor(cb, handler, typeOfSelectedEntity());
-    }
-
-    protected def doSelectCursor[ENTITY <: DbleSummaryProduct](cb: SummaryProductCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
-        helpSelectCursorInternally(cb, handler, tp);
     }
 
     // ===================================================================================
@@ -346,23 +313,10 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
     protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[SummaryProductCB, RESULT]): ScrHpSLSFunction[SummaryProductCB, RESULT] =
     { new ScrHpSLSFunction[SummaryProductCB, RESULT](function) }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[SummaryProductCB, RESULT] = {
-        return doScalarSelect(resultType, newConditionBean());
-    }
-
-    protected def doScalarSelect[RESULT, CB <: SummaryProductCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
-        assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
-        cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = { facadeScalarSelect(tp) }
-
     // ===================================================================================
     //                                                                            Sequence
     //                                                                            ========
-    @Override
-    protected def doReadNextVal(): Number = {
+    override protected def doReadNextVal(): Number = {
         val msg: String = "This table is NOT related to sequence: " + getTableDbName();
         throw new UnsupportedOperationException(msg);
     }
@@ -416,8 +370,8 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
     { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
-    //                                                                       Assist Helper
-    //                                                                       =============
+    //                                                                     Callback Helper
+    //                                                                     ===============
     protected def callbackCB(cbCall: (SummaryProductCB) => Unit): SummaryProductCB = {
         assertObjectNotNull("cbCall", cbCall);
         val cb = newConditionBean(); cbCall(cb); return cb;
@@ -458,6 +412,18 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         val option = new ScrDeleteOption[SummaryProductCB](new DeleteOption[SummaryProductCB]()); optionCall(option); return option.toNative;
     }
 
+    protected def callbackQueryInsertSetupper(setupperCall: (MbleSummaryProduct, SummaryProductCB) => ConditionBean): QueryInsertSetupper[DbleSummaryProduct, SummaryProductCB] = {
+        assertObjectNotNull("setupperCall", setupperCall);
+        return new QueryInsertSetupper[DbleSummaryProduct, SummaryProductCB]() {
+            def setup(entity: DbleSummaryProduct, intoCB: SummaryProductCB): ConditionBean = {
+                val mble = newMbleEntity();
+                val resultCB = setupperCall(mble, intoCB);
+                entity.acceptImmutable(mble.toImmutable());
+                return resultCB;
+            }
+        };
+    }
+
     protected def callbackLoader(dbleList: List[DbleSummaryProduct], loaderCall: (LoaderOfSummaryProduct) => Unit = null): Unit = {
         if (loaderCall == null) { return; }
         val loader = new LoaderOfSummaryProduct();
@@ -465,14 +431,15 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable {
         loaderCall(loader);
     }
 
+    // ===================================================================================
+    //                                                                         Type Helper
+    //                                                                         ===========
+    override protected def typeOfSelectedEntity(): Class[DbleSummaryProduct] = { classOf[DbleSummaryProduct] }
+    override protected def typeOfHandlingEntity(): Class[DbleSummaryProduct] = { classOf[DbleSummaryProduct] }
+    override protected def typeOfHandlingConditionBean(): Class[SummaryProductCB] = { classOf[SummaryProductCB] }
     protected def newMbleEntity(): MbleSummaryProduct = { new MbleSummaryProduct() }
     protected def newPagingView(rb: PagingResultBean[DbleSummaryProduct]): ScrPagingView[SummaryProduct] =
     { new ScrPagingView(toImmutableEntityList(rb), rb) }
-
-    protected def typeOfSelectedEntity(): Class[DbleSummaryProduct] = { classOf[DbleSummaryProduct] }
-    protected def downcast(et: Entity): DbleSummaryProduct = { helpEntityDowncastInternally(et, classOf[DbleSummaryProduct]) }
-    protected def downcast(cb: ConditionBean): SummaryProductCB = { helpConditionBeanDowncastInternally(cb, classOf[SummaryProductCB]) }
-    protected def downcast(ls: List[_ <: Entity]): List[DbleSummaryProduct] = { ls.asInstanceOf[List[DbleSummaryProduct]] }
 
     // ===================================================================================
     //                                                                        Scala Helper

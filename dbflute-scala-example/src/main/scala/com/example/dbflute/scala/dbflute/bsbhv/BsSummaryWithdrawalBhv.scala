@@ -56,19 +56,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
+abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable[DbleSummaryWithdrawal, SummaryWithdrawalCB] {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
     /*df:endQueryPath*/
-
-    // ===================================================================================
-    //                                                                          Table name
-    //                                                                          ==========
-    /** @return The name on database of table. (NotNull) */
-    def getTableDbName(): String = { return "SUMMARY_WITHDRAWAL"; }
 
     // ===================================================================================
     //                                                                              DBMeta
@@ -79,9 +73,6 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
-    /** {@inheritDoc} */
-    def newEntity(): DbleSummaryWithdrawal = { return new DbleSummaryWithdrawal(); }
-
     /** {@inheritDoc} */
     def newConditionBean(): SummaryWithdrawalCB = { return new SummaryWithdrawalCB(); }
 
@@ -101,24 +92,6 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
      */
     def selectCount(cbCall: (SummaryWithdrawalCB) => Unit): Int = {
         return facadeSelectCount(callbackCB(cbCall));
-    }
-
-    protected def facadeSelectCount(cb: SummaryWithdrawalCB): Int = {
-        return doSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountUniquely(cb: SummaryWithdrawalCB): Int = { // called by selectCount(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountPlainly(cb: SummaryWithdrawalCB): Int = { // called by selectPage(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountPlainly(cb);
-    }
-
-    override protected def doReadCount(cb: ConditionBean): Int = {
-        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -165,7 +138,7 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectEntity[ENTITY <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         val dble = helpSelectEntityInternally(cb, tp);
         if (dble != null) {
@@ -174,11 +147,11 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
-    protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
+    override protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
 
     /**
      * Select the entity by the condition-bean with deleted check. <br />
@@ -211,7 +184,7 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         return dble;
     }
 
-    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
+    override protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
 
     // ===================================================================================
     //                                                                         List Select
@@ -240,13 +213,13 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         return doSelectList(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectList[ENTITY <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): ListResultBean[ENTITY] = {
+    protected def doSelectList[RESULT <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[RESULT])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): ListResultBean[RESULT] = {
         val dbleList = helpSelectListInternally(cb, tp);
         callbackLoader(dbleList.asInstanceOf[List[DbleSummaryWithdrawal]], loaderCall);
         return dbleList;
     }
 
-    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
+    override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
     override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
 
@@ -284,11 +257,13 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[ENTITY])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): PagingResultBean[ENTITY] = {
-        return helpSelectPageInternally(cb, tp);
+    protected def doSelectPage[RESULT <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, tp: Class[RESULT])(loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): PagingResultBean[RESULT] = {
+        val dbleList = helpSelectPageInternally(cb, tp);
+        callbackLoader(dbleList.asInstanceOf[List[DbleSummaryWithdrawal]], loaderCall);
+        return dbleList;
     }
 
-    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
+    override protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
 
     // ===================================================================================
     //                                                                       Cursor Select
@@ -311,14 +286,6 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         facadeSelectCursor(callbackCB(cbCall), new EntityRowHandler[DbleSummaryWithdrawal]() {
             def handle(entity: DbleSummaryWithdrawal): Unit = { rowCall(entity.toImmutable) }
         });
-    }
-
-    protected def facadeSelectCursor(cb: SummaryWithdrawalCB, handler: EntityRowHandler[DbleSummaryWithdrawal]): Unit = {
-        doSelectCursor(cb, handler, typeOfSelectedEntity());
-    }
-
-    protected def doSelectCursor[ENTITY <: DbleSummaryWithdrawal](cb: SummaryWithdrawalCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
-        helpSelectCursorInternally(cb, handler, tp);
     }
 
     // ===================================================================================
@@ -346,23 +313,10 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
     protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[SummaryWithdrawalCB, RESULT]): ScrHpSLSFunction[SummaryWithdrawalCB, RESULT] =
     { new ScrHpSLSFunction[SummaryWithdrawalCB, RESULT](function) }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[SummaryWithdrawalCB, RESULT] = {
-        return doScalarSelect(resultType, newConditionBean());
-    }
-
-    protected def doScalarSelect[RESULT, CB <: SummaryWithdrawalCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
-        assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
-        cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = { facadeScalarSelect(tp) }
-
     // ===================================================================================
     //                                                                            Sequence
     //                                                                            ========
-    @Override
-    protected def doReadNextVal(): Number = {
+    override protected def doReadNextVal(): Number = {
         val msg: String = "This table is NOT related to sequence: " + getTableDbName();
         throw new UnsupportedOperationException(msg);
     }
@@ -416,8 +370,8 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
     { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
-    //                                                                       Assist Helper
-    //                                                                       =============
+    //                                                                     Callback Helper
+    //                                                                     ===============
     protected def callbackCB(cbCall: (SummaryWithdrawalCB) => Unit): SummaryWithdrawalCB = {
         assertObjectNotNull("cbCall", cbCall);
         val cb = newConditionBean(); cbCall(cb); return cb;
@@ -458,6 +412,18 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         val option = new ScrDeleteOption[SummaryWithdrawalCB](new DeleteOption[SummaryWithdrawalCB]()); optionCall(option); return option.toNative;
     }
 
+    protected def callbackQueryInsertSetupper(setupperCall: (MbleSummaryWithdrawal, SummaryWithdrawalCB) => ConditionBean): QueryInsertSetupper[DbleSummaryWithdrawal, SummaryWithdrawalCB] = {
+        assertObjectNotNull("setupperCall", setupperCall);
+        return new QueryInsertSetupper[DbleSummaryWithdrawal, SummaryWithdrawalCB]() {
+            def setup(entity: DbleSummaryWithdrawal, intoCB: SummaryWithdrawalCB): ConditionBean = {
+                val mble = newMbleEntity();
+                val resultCB = setupperCall(mble, intoCB);
+                entity.acceptImmutable(mble.toImmutable());
+                return resultCB;
+            }
+        };
+    }
+
     protected def callbackLoader(dbleList: List[DbleSummaryWithdrawal], loaderCall: (LoaderOfSummaryWithdrawal) => Unit = null): Unit = {
         if (loaderCall == null) { return; }
         val loader = new LoaderOfSummaryWithdrawal();
@@ -465,14 +431,15 @@ abstract class BsSummaryWithdrawalBhv extends AbstractBehaviorReadable {
         loaderCall(loader);
     }
 
+    // ===================================================================================
+    //                                                                         Type Helper
+    //                                                                         ===========
+    override protected def typeOfSelectedEntity(): Class[DbleSummaryWithdrawal] = { classOf[DbleSummaryWithdrawal] }
+    override protected def typeOfHandlingEntity(): Class[DbleSummaryWithdrawal] = { classOf[DbleSummaryWithdrawal] }
+    override protected def typeOfHandlingConditionBean(): Class[SummaryWithdrawalCB] = { classOf[SummaryWithdrawalCB] }
     protected def newMbleEntity(): MbleSummaryWithdrawal = { new MbleSummaryWithdrawal() }
     protected def newPagingView(rb: PagingResultBean[DbleSummaryWithdrawal]): ScrPagingView[SummaryWithdrawal] =
     { new ScrPagingView(toImmutableEntityList(rb), rb) }
-
-    protected def typeOfSelectedEntity(): Class[DbleSummaryWithdrawal] = { classOf[DbleSummaryWithdrawal] }
-    protected def downcast(et: Entity): DbleSummaryWithdrawal = { helpEntityDowncastInternally(et, classOf[DbleSummaryWithdrawal]) }
-    protected def downcast(cb: ConditionBean): SummaryWithdrawalCB = { helpConditionBeanDowncastInternally(cb, classOf[SummaryWithdrawalCB]) }
-    protected def downcast(ls: List[_ <: Entity]): List[DbleSummaryWithdrawal] = { ls.asInstanceOf[List[DbleSummaryWithdrawal]] }
 
     // ===================================================================================
     //                                                                        Scala Helper

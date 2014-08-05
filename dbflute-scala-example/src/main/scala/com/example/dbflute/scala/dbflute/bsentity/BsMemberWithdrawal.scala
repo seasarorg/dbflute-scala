@@ -310,12 +310,17 @@ abstract class BsMbleMemberWithdrawal {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleMemberWithdrawal = new DbleMemberWithdrawal();
+    protected val dble: DbleMemberWithdrawal = new DbleMemberWithdrawal();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleMemberWithdrawal = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): MemberWithdrawal = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

@@ -348,12 +348,17 @@ abstract class BsMblePurchase {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DblePurchase = new DblePurchase();
+    protected val dble: DblePurchase = new DblePurchase();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DblePurchase = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): Purchase = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

@@ -56,19 +56,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
+abstract class BsMemberAddressBhv extends AbstractBehaviorWritable[DbleMemberAddress, MemberAddressCB] {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
     /*df:endQueryPath*/
-
-    // ===================================================================================
-    //                                                                          Table name
-    //                                                                          ==========
-    /** @return The name on database of table. (NotNull) */
-    def getTableDbName(): String = { return "MEMBER_ADDRESS"; }
 
     // ===================================================================================
     //                                                                              DBMeta
@@ -79,9 +73,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
-    /** {@inheritDoc} */
-    def newEntity(): DbleMemberAddress = { return new DbleMemberAddress(); }
-
     /** {@inheritDoc} */
     def newConditionBean(): MemberAddressCB = { return new MemberAddressCB(); }
 
@@ -101,24 +92,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
      */
     def selectCount(cbCall: (MemberAddressCB) => Unit): Int = {
         return facadeSelectCount(callbackCB(cbCall));
-    }
-
-    protected def facadeSelectCount(cb: MemberAddressCB): Int = {
-        return doSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountUniquely(cb: MemberAddressCB): Int = { // called by selectCount(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountPlainly(cb: MemberAddressCB): Int = { // called by selectPage(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountPlainly(cb);
-    }
-
-    override protected def doReadCount(cb: ConditionBean): Int = {
-        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -165,7 +138,7 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectEntity[ENTITY <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberAddress) => Unit = null): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfMemberAddress) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         val dble = helpSelectEntityInternally(cb, tp);
         if (dble != null) {
@@ -174,11 +147,11 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberAddress) => Unit = null): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfMemberAddress) => Unit = null): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
-    protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
+    override protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
 
     /**
      * Select the entity by the condition-bean with deleted check. <br />
@@ -211,7 +184,7 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return dble;
     }
 
-    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
+    override protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
 
     /**
      * Select the entity by the primary-key value.
@@ -229,7 +202,7 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doSelectByPK(memberAddressId, typeOfSelectedEntity());
     }
 
-    protected def doSelectByPK[ENTITY <: DbleMemberAddress](memberAddressId: Integer, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByPK[ENTITY <: DbleMemberAddress](memberAddressId: Integer, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsPK(memberAddressId), tp)());
     }
 
@@ -255,7 +228,7 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doSelectByUniqueOf(memberId, validBeginDate, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DbleMemberAddress](memberId: Integer, validBeginDate: java.util.Date, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DbleMemberAddress](memberId: Integer, validBeginDate: java.util.Date, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId, validBeginDate), tp)());
     }
 
@@ -291,13 +264,13 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doSelectList(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectList[ENTITY <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberAddress) => Unit = null): ListResultBean[ENTITY] = {
+    protected def doSelectList[RESULT <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[RESULT])(loaderCall: (LoaderOfMemberAddress) => Unit = null): ListResultBean[RESULT] = {
         val dbleList = helpSelectListInternally(cb, tp);
         callbackLoader(dbleList.asInstanceOf[List[DbleMemberAddress]], loaderCall);
         return dbleList;
     }
 
-    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
+    override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
     override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
 
@@ -335,11 +308,13 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[ENTITY])(loaderCall: (LoaderOfMemberAddress) => Unit = null): PagingResultBean[ENTITY] = {
-        return helpSelectPageInternally(cb, tp);
+    protected def doSelectPage[RESULT <: DbleMemberAddress](cb: MemberAddressCB, tp: Class[RESULT])(loaderCall: (LoaderOfMemberAddress) => Unit = null): PagingResultBean[RESULT] = {
+        val dbleList = helpSelectPageInternally(cb, tp);
+        callbackLoader(dbleList.asInstanceOf[List[DbleMemberAddress]], loaderCall);
+        return dbleList;
     }
 
-    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
+    override protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
 
     // ===================================================================================
     //                                                                       Cursor Select
@@ -362,14 +337,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         facadeSelectCursor(callbackCB(cbCall), new EntityRowHandler[DbleMemberAddress]() {
             def handle(entity: DbleMemberAddress): Unit = { rowCall(entity.toImmutable) }
         });
-    }
-
-    protected def facadeSelectCursor(cb: MemberAddressCB, handler: EntityRowHandler[DbleMemberAddress]): Unit = {
-        doSelectCursor(cb, handler, typeOfSelectedEntity());
-    }
-
-    protected def doSelectCursor[ENTITY <: DbleMemberAddress](cb: MemberAddressCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
-        helpSelectCursorInternally(cb, handler, tp);
     }
 
     // ===================================================================================
@@ -397,23 +364,10 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
     protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[MemberAddressCB, RESULT]): ScrHpSLSFunction[MemberAddressCB, RESULT] =
     { new ScrHpSLSFunction[MemberAddressCB, RESULT](function) }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[MemberAddressCB, RESULT] = {
-        return doScalarSelect(resultType, newConditionBean());
-    }
-
-    protected def doScalarSelect[RESULT, CB <: MemberAddressCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
-        assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
-        cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = { facadeScalarSelect(tp) }
-
     // ===================================================================================
     //                                                                            Sequence
     //                                                                            ========
-    @Override
-    protected def doReadNextVal(): Number = {
+    override protected def doReadNextVal(): Number = {
         val msg: String = "This table is NOT related to sequence: " + getTableDbName();
         throw new UnsupportedOperationException(msg);
     }
@@ -480,23 +434,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
 
-    protected def doInsert(et: DbleMemberAddress, op: InsertOption[MemberAddressCB]): Unit = {
-        assertObjectNotNull("memberAddress", et); prepareInsertOption(op); delegateInsert(et, op);
-    }
-
-    protected def prepareInsertOption(op: InsertOption[MemberAddressCB]): Unit = {
-        if (op == null) { return; }
-        assertInsertOptionStatus(op);
-        if (op.hasSpecifiedInsertColumn()) {
-            op.resolveInsertColumnSpecification(createCBForSpecifiedUpdate());
-        }
-    }
-
-    @Override
-    protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        doInsert(downcast(et), downcast(op));
-    }
-
     /**
      * Update the entity modified-only. (ZeroUpdateException, ExclusiveControl)
      * <pre>
@@ -525,25 +462,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doUpdate(et: DbleMemberAddress, op: UpdateOption[MemberAddressCB]): Unit = {
-        assertObjectNotNull("memberAddress", et); prepareUpdateOption(op); helpUpdateInternally(et, op);
-    }
-
-    protected def prepareUpdateOption(op: UpdateOption[MemberAddressCB]): Unit = {
-        if (op == null) { return; }
-        assertUpdateOptionStatus(op);
-        if (op.hasSelfSpecification()) { op.resolveSelfSpecification(createCBForVaryingUpdate()); }
-        if (op.hasSpecifiedUpdateColumn()) { op.resolveUpdateColumnSpecification(createCBForSpecifiedUpdate()); }
-    }
-
-    protected def createCBForVaryingUpdate(): MemberAddressCB =
-    { val cb: MemberAddressCB = newConditionBean(); cb.xsetupForVaryingUpdate(); return cb; }
-
-    protected def createCBForSpecifiedUpdate(): MemberAddressCB =
-    { val cb: MemberAddressCB = newConditionBean(); cb.xsetupForSpecifiedUpdate(); return cb; }
-
-    protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = { doUpdate(downcast(et), downcast(op)) }
-
     /**
      * Update the entity non-strictly modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
@@ -568,13 +486,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         doUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doUpdateNonstrict(et: DbleMemberAddress, op: UpdateOption[MemberAddressCB]): Unit = {
-        assertObjectNotNull("memberAddress", et); prepareUpdateOption(op); helpUpdateNonstrictInternally(et, op);
-    }
-
-    protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit =
-    { doUpdateNonstrict(downcast(et), downcast(op)) }
-
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, ExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
@@ -590,13 +501,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
     }
 
-    protected def doInsertOrUpdate(et: DbleMemberAddress, iop: InsertOption[MemberAddressCB], uop: UpdateOption[MemberAddressCB]): Unit = {
-        assertObjectNotNull("memberAddress", et); helpInsertOrUpdateInternally(et, iop, uop);
-    }
-
-    protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit =
-    { doInsertOrUpdate(downcast(et), downcast(iop), downcast(uop)) }
-
     /**
      * Insert or update the entity non-strictly modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() }
@@ -610,15 +514,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
      */
     def insertOrUpdateNonstrict(entityCall: (MbleMemberAddress) => Unit)(implicit insertOptionCall: (ScrInsertOption[MemberAddressCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[MemberAddressCB]) => Unit = null): Unit = {
         doInsertOrUpdateNonstrict(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
-    }
-
-    protected def doInsertOrUpdateNonstrict(et: DbleMemberAddress, iop: InsertOption[MemberAddressCB], uop: UpdateOption[MemberAddressCB]): Unit = {
-        assertObjectNotNull("memberAddress", et); helpInsertOrUpdateInternally(et, iop, uop);
-    }
-
-    @Override
-    protected def doCreateOrModifyNonstrict(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        doInsertOrUpdateNonstrict(downcast(et), downcast(iop), downcast(uop));
     }
 
     /**
@@ -643,14 +538,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
 
-    protected def doDelete(et: DbleMemberAddress, op: DeleteOption[MemberAddressCB]): Unit = {
-        assertObjectNotNull("memberAddress", et); prepareDeleteOption(op); helpDeleteInternally(et, op);
-    }
-
-    protected def prepareDeleteOption(op: DeleteOption[MemberAddressCB]): Unit = { if (op != null) { assertDeleteOptionStatus(op); } }
-
-    protected def doRemove(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = { doDelete(downcast(et), downcast(op)) }
-
     /**
      * Delete the entity non-strictly. {ZeroUpdateException, NonExclusiveControl}
      * <pre>
@@ -669,13 +556,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
     def deleteNonstrict(entityCall: (MbleMemberAddress) => Unit)(implicit optionCall: (ScrDeleteOption[MemberAddressCB]) => Unit = null): Unit = {
         doDeleteNonstrict(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
-
-    protected def doDeleteNonstrict(et: DbleMemberAddress, op: DeleteOption[MemberAddressCB]): Unit = {
-        assertObjectNotNull("memberAddress", et); prepareDeleteOption(op); helpDeleteNonstrictInternally(et, op);
-    }
-
-    protected def doRemoveNonstrict(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit =
-    { doDeleteNonstrict(downcast(et), downcast(op)) }
 
     // ===================================================================================
     //                                                                        Batch Update
@@ -708,21 +588,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
-    protected def doBatchInsert(ls: List[DbleMemberAddress], op: InsertOption[MemberAddressCB]): Array[Int] = {
-        assertObjectNotNull("memberAddressList", ls);
-        val rlop: InsertOption[MemberAddressCB] = if (op != null) { op } else { createPlainInsertOption() }
-        prepareBatchInsertOption(ls, op); // required
-        return delegateBatchInsert(ls, op);
-    }
-
-    protected def prepareBatchInsertOption(ls: List[DbleMemberAddress], op: InsertOption[MemberAddressCB]): Unit = {
-        op.xallowInsertColumnModifiedPropertiesFragmented();
-        op.xacceptInsertColumnModifiedPropertiesIfNeeds(ls);
-        prepareInsertOption(op);
-    }
-
-    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = { doBatchInsert(downcast(ls), downcast(op)) }
-
     /**
      * Batch-update the entity list modified-only of same-set columns. (ExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement. <br />
@@ -750,20 +615,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
     def batchUpdate(batchCall: (ScrBatchEntityList[MbleMemberAddress]) => Unit)(implicit optionCall: (ScrUpdateOption[MemberAddressCB]) => Unit = null): Array[Int] = {
         return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
-
-    protected def doBatchUpdate(ls: List[DbleMemberAddress], op: UpdateOption[MemberAddressCB]): Array[Int] = {
-        assertObjectNotNull("memberAddressList", ls);
-        val rlop: UpdateOption[MemberAddressCB] = if (op != null) { op } else { createPlainUpdateOption() }
-        prepareBatchUpdateOption(ls, rlop); // required
-        return delegateBatchUpdate(ls, rlop);
-    }
-
-    protected def prepareBatchUpdateOption(ls: List[DbleMemberAddress], op: UpdateOption[MemberAddressCB]): Unit = {
-        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(ls);
-        prepareUpdateOption(op);
-    }
-
-    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = { doBatchUpdate(downcast(ls), downcast(op)) }
 
     /**
      * Batch-update the entity list non-strictly modified-only of same-set columns. (NonExclusiveControl) <br />
@@ -793,16 +644,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doBatchUpdateNonstrict(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doBatchUpdateNonstrict(ls: List[DbleMemberAddress], op: UpdateOption[MemberAddressCB]): Array[Int] = {
-        assertObjectNotNull("memberAddressList", ls);
-        val rlop: UpdateOption[MemberAddressCB] = if (op != null) { op } else { createPlainUpdateOption() }
-        prepareBatchUpdateOption(ls, rlop);
-        return delegateBatchUpdateNonstrict(ls, rlop);
-    }
-
-    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] =
-    { doBatchUpdateNonstrict(downcast(ls), downcast(op)) }
-
     /**
      * Batch-delete the entity list. (ExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement.
@@ -813,13 +654,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
     def batchDelete(batchCall: (ScrBatchEntityList[MbleMemberAddress]) => Unit)(implicit optionCall: (ScrDeleteOption[MemberAddressCB]) => Unit = null): Array[Int] = {
         return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
-
-    protected def doBatchDelete(ls: List[DbleMemberAddress], op: DeleteOption[MemberAddressCB]): Array[Int] = {
-        assertObjectNotNull("memberAddressList", ls); prepareDeleteOption(op);
-        return delegateBatchDelete(ls, op);
-    }
-
-    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = { doBatchDelete(downcast(ls), downcast(op)) }
 
     /**
      * Batch-delete the entity list non-strictly. {NonExclusiveControl} <br />
@@ -832,15 +666,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doBatchDeleteNonstrict(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
-    protected def doBatchDeleteNonstrict(ls: List[DbleMemberAddress], op: DeleteOption[MemberAddressCB]): Array[Int] = {
-        assertObjectNotNull("memberAddressList", ls);
-        prepareDeleteOption(op);
-        return delegateBatchDeleteNonstrict(ls, op);
-    }
-
-    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] =
-    { return doBatchDeleteNonstrict(downcast(ls), downcast(op)); }
-
     // ===================================================================================
     //                                                                        Query Update
     //                                                                        ============
@@ -848,7 +673,7 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
      * memberAddressBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;DbleMemberAddress, MemberAddressCB&gt;() {
-     *     public ConditionBean setup(memberAddress entity, MemberAddressCB intoCB) {
+     *     public ConditionBean setup(DbleMemberAddress entity, MemberAddressCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
      *
@@ -867,25 +692,12 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
      *     }
      * });
      * </pre>
-     * @param setupper The setup-per of query-insert. (NotNull)
+     * @param setupperCall The callback for set-upper of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[DbleMemberAddress, MemberAddressCB]): Int = {
-        return doQueryInsert(setupper, null);
+    def queryInsert(setupperCall: (MbleMemberAddress, MemberAddressCB) => ConditionBean): Int = {
+        return doQueryInsert(callbackQueryInsertSetupper(setupperCall), null);
     }
-
-    protected def doQueryInsert(sp: QueryInsertSetupper[DbleMemberAddress, MemberAddressCB], op: InsertOption[MemberAddressCB]): Int = {
-        assertObjectNotNull("setupper", sp); prepareInsertOption(op);
-        val et: DbleMemberAddress = newEntity();
-        val cb: MemberAddressCB = createCBForQueryInsert();
-        return delegateQueryInsert(et, cb, sp.setup(et, cb), op);
-    }
-
-    protected def createCBForQueryInsert(): MemberAddressCB =
-    { val cb: MemberAddressCB = newConditionBean(); cb.xsetupForQueryInsert(); return cb; }
-
-    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int =
-    { doQueryInsert(downcast(setupper), downcast(option)) }
 
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
@@ -914,14 +726,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         return doQueryUpdate(callbackMbleEntityToDBable(entityCall), callbackCB(cbCall), null);
     }
 
-    protected def doQueryUpdate(memberAddress: DbleMemberAddress, cb: MemberAddressCB, op: UpdateOption[MemberAddressCB]): Int = {
-        assertObjectNotNull("memberAddress", memberAddress); assertCBStateValid(cb); prepareUpdateOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(memberAddress, cb, op) } else { 0 };
-    }
-
-    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int =
-    { doQueryUpdate(downcast(et), downcast(cb), downcast(op)) }
-
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
@@ -937,13 +741,6 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         assertObjectNotNull("cbCall", cbCall);
         return doQueryDelete(callbackCB(cbCall), null);
     }
-
-    protected def doQueryDelete(cb: MemberAddressCB, op: DeleteOption[MemberAddressCB]): Int = {
-        assertCBStateValid(cb); prepareDeleteOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryDelete(cb, op) } else { 0 };
-    }
-
-    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = { doQueryDelete(downcast(cb), downcast(op)) }
 
     // ===================================================================================
     //                                                                          OutsideSql
@@ -994,8 +791,8 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
     }
 
     // ===================================================================================
-    //                                                                       Assist Helper
-    //                                                                       =============
+    //                                                                     Callback Helper
+    //                                                                     ===============
     protected def callbackCB(cbCall: (MemberAddressCB) => Unit): MemberAddressCB = {
         assertObjectNotNull("cbCall", cbCall);
         val cb = newConditionBean(); cbCall(cb); return cb;
@@ -1036,6 +833,18 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         val option = new ScrDeleteOption[MemberAddressCB](new DeleteOption[MemberAddressCB]()); optionCall(option); return option.toNative;
     }
 
+    protected def callbackQueryInsertSetupper(setupperCall: (MbleMemberAddress, MemberAddressCB) => ConditionBean): QueryInsertSetupper[DbleMemberAddress, MemberAddressCB] = {
+        assertObjectNotNull("setupperCall", setupperCall);
+        return new QueryInsertSetupper[DbleMemberAddress, MemberAddressCB]() {
+            def setup(entity: DbleMemberAddress, intoCB: MemberAddressCB): ConditionBean = {
+                val mble = newMbleEntity();
+                val resultCB = setupperCall(mble, intoCB);
+                entity.acceptImmutable(mble.toImmutable());
+                return resultCB;
+            }
+        };
+    }
+
     protected def callbackLoader(dbleList: List[DbleMemberAddress], loaderCall: (LoaderOfMemberAddress) => Unit = null): Unit = {
         if (loaderCall == null) { return; }
         val loader = new LoaderOfMemberAddress();
@@ -1043,19 +852,15 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable {
         loaderCall(loader);
     }
 
+    // ===================================================================================
+    //                                                                         Type Helper
+    //                                                                         ===========
+    override protected def typeOfSelectedEntity(): Class[DbleMemberAddress] = { classOf[DbleMemberAddress] }
+    override protected def typeOfHandlingEntity(): Class[DbleMemberAddress] = { classOf[DbleMemberAddress] }
+    override protected def typeOfHandlingConditionBean(): Class[MemberAddressCB] = { classOf[MemberAddressCB] }
     protected def newMbleEntity(): MbleMemberAddress = { new MbleMemberAddress() }
     protected def newPagingView(rb: PagingResultBean[DbleMemberAddress]): ScrPagingView[MemberAddress] =
     { new ScrPagingView(toImmutableEntityList(rb), rb) }
-
-    protected def typeOfSelectedEntity(): Class[DbleMemberAddress] = { classOf[DbleMemberAddress] }
-    protected def downcast(et: Entity): DbleMemberAddress = { helpEntityDowncastInternally(et, classOf[DbleMemberAddress]) }
-    protected def downcast(cb: ConditionBean): MemberAddressCB = { helpConditionBeanDowncastInternally(cb, classOf[MemberAddressCB]) }
-    protected def downcast(ls: List[_ <: Entity]): List[DbleMemberAddress] = { ls.asInstanceOf[List[DbleMemberAddress]] }
-    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[MemberAddressCB] = { op.asInstanceOf[InsertOption[MemberAddressCB]] }
-    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[MemberAddressCB] = { op.asInstanceOf[UpdateOption[MemberAddressCB]] }
-    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[MemberAddressCB] = { op.asInstanceOf[DeleteOption[MemberAddressCB]] }
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleMemberAddress, MemberAddressCB] =
-    { sp.asInstanceOf[QueryInsertSetupper[DbleMemberAddress, MemberAddressCB]] }
 
     // ===================================================================================
     //                                                                        Scala Helper

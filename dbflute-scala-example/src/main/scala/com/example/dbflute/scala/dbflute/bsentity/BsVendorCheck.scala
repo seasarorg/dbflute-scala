@@ -463,12 +463,17 @@ abstract class BsMbleVendorCheck {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleVendorCheck = new DbleVendorCheck();
+    protected val dble: DbleVendorCheck = new DbleVendorCheck();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleVendorCheck = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): VendorCheck = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

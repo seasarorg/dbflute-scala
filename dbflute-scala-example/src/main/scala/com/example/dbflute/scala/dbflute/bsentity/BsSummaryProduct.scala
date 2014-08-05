@@ -213,12 +213,17 @@ abstract class BsMbleSummaryProduct {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleSummaryProduct = new DbleSummaryProduct();
+    protected val dble: DbleSummaryProduct = new DbleSummaryProduct();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleSummaryProduct = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): SummaryProduct = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

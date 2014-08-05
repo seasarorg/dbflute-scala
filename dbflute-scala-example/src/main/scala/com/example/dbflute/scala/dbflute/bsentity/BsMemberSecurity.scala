@@ -270,12 +270,17 @@ abstract class BsMbleMemberSecurity {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleMemberSecurity = new DbleMemberSecurity();
+    protected val dble: DbleMemberSecurity = new DbleMemberSecurity();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleMemberSecurity = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): MemberSecurity = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

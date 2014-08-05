@@ -45,8 +45,8 @@ class BsSummaryWithdrawalCB extends AbstractConditionBean {
         if (DBFluteConfig.isPagingCountLeastJoin()) {
             enablePagingCountLeastJoin();
         }
-        if (DBFluteConfig.isCheckCountBeforeQueryUpdate()) {
-            enableCheckCountBeforeQueryUpdate();
+        if (DBFluteConfig.isQueryUpdateCountPreCheck()) {
+            enableQueryUpdateCountPreCheck();
         }
     }
 

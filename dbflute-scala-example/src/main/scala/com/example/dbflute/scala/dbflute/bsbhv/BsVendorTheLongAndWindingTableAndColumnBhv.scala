@@ -56,19 +56,13 @@ import com.example.dbflute.scala.dbflute.cbean._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehaviorWritable {
+abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehaviorWritable[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB] {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     /*df:beginQueryPath*/
     /*df:endQueryPath*/
-
-    // ===================================================================================
-    //                                                                          Table name
-    //                                                                          ==========
-    /** @return The name on database of table. (NotNull) */
-    def getTableDbName(): String = { return "VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN"; }
 
     // ===================================================================================
     //                                                                              DBMeta
@@ -79,9 +73,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
     // ===================================================================================
     //                                                                        New Instance
     //                                                                        ============
-    /** {@inheritDoc} */
-    def newEntity(): DbleVendorTheLongAndWindingTableAndColumn = { return new DbleVendorTheLongAndWindingTableAndColumn(); }
-
     /** {@inheritDoc} */
     def newConditionBean(): VendorTheLongAndWindingTableAndColumnCB = { return new VendorTheLongAndWindingTableAndColumnCB(); }
 
@@ -101,24 +92,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
      */
     def selectCount(cbCall: (VendorTheLongAndWindingTableAndColumnCB) => Unit): Int = {
         return facadeSelectCount(callbackCB(cbCall));
-    }
-
-    protected def facadeSelectCount(cb: VendorTheLongAndWindingTableAndColumnCB): Int = {
-        return doSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountUniquely(cb: VendorTheLongAndWindingTableAndColumnCB): Int = { // called by selectCount(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountUniquely(cb);
-    }
-
-    protected def doSelectCountPlainly(cb: VendorTheLongAndWindingTableAndColumnCB): Int = { // called by selectPage(cb)
-        assertCBStateValid(cb);
-        return delegateSelectCountPlainly(cb);
-    }
-
-    override protected def doReadCount(cb: ConditionBean): Int = {
-        return facadeSelectCount(downcast(cb));
     }
 
     // ===================================================================================
@@ -165,7 +138,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doSelectOptionalEntity(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectEntity[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[ENTITY])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): ENTITY = {
+    protected def doSelectEntity[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): ENTITY = {
         assertCBStateValid(cb); assertObjectNotNull("entityType", tp);
         val dble = helpSelectEntityInternally(cb, tp);
         if (dble != null) {
@@ -174,11 +147,11 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return dble;
     }
 
-    protected def doSelectOptionalEntity[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[ENTITY])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): Option[ENTITY] = {
+    protected def doSelectOptionalEntity[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[_ <: ENTITY])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): Option[ENTITY] = {
         return Option.apply(doSelectEntity(cb, tp)(loaderCall));
     }
 
-    protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
+    override protected def doReadEntity(cb: ConditionBean): Entity = { facadeSelectEntity(downcast(cb))().orNull }
 
     /**
      * Select the entity by the condition-bean with deleted check. <br />
@@ -211,7 +184,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return dble;
     }
 
-    protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
+    override protected def doReadEntityWithDeletedCheck(cb: ConditionBean): Entity = { facadeSelectEntityWithDeletedCheck(downcast(cb))() }
 
     /**
      * Select the entity by the primary-key value.
@@ -229,7 +202,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doSelectByPK(theLongAndWindingTableAndColumnId, typeOfSelectedEntity());
     }
 
-    protected def doSelectByPK[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](theLongAndWindingTableAndColumnId: Long, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByPK[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](theLongAndWindingTableAndColumnId: Long, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsPK(theLongAndWindingTableAndColumnId), tp)());
     }
 
@@ -254,7 +227,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doSelectByUniqueOf(theLongAndWindingTableAndColumnName, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](theLongAndWindingTableAndColumnName: String, tp: Class[ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](theLongAndWindingTableAndColumnName: String, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(theLongAndWindingTableAndColumnName), tp)());
     }
 
@@ -290,13 +263,13 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doSelectList(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectList[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[ENTITY])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): ListResultBean[ENTITY] = {
+    protected def doSelectList[RESULT <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[RESULT])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): ListResultBean[RESULT] = {
         val dbleList = helpSelectListInternally(cb, tp);
         callbackLoader(dbleList.asInstanceOf[List[DbleVendorTheLongAndWindingTableAndColumn]], loaderCall);
         return dbleList;
     }
 
-    protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
+    override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
     override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
 
@@ -334,11 +307,13 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doSelectPage(cb, typeOfSelectedEntity())(loaderCall);
     }
 
-    protected def doSelectPage[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[ENTITY])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): PagingResultBean[ENTITY] = {
-        return helpSelectPageInternally(cb, tp);
+    protected def doSelectPage[RESULT <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, tp: Class[RESULT])(loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): PagingResultBean[RESULT] = {
+        val dbleList = helpSelectPageInternally(cb, tp);
+        callbackLoader(dbleList.asInstanceOf[List[DbleVendorTheLongAndWindingTableAndColumn]], loaderCall);
+        return dbleList;
     }
 
-    protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
+    override protected def doReadPage(cb: ConditionBean): PagingResultBean[_ <: Entity] = { facadeSelectPage(downcast(cb))() }
 
     // ===================================================================================
     //                                                                       Cursor Select
@@ -361,14 +336,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         facadeSelectCursor(callbackCB(cbCall), new EntityRowHandler[DbleVendorTheLongAndWindingTableAndColumn]() {
             def handle(entity: DbleVendorTheLongAndWindingTableAndColumn): Unit = { rowCall(entity.toImmutable) }
         });
-    }
-
-    protected def facadeSelectCursor(cb: VendorTheLongAndWindingTableAndColumnCB, handler: EntityRowHandler[DbleVendorTheLongAndWindingTableAndColumn]): Unit = {
-        doSelectCursor(cb, handler, typeOfSelectedEntity());
-    }
-
-    protected def doSelectCursor[ENTITY <: DbleVendorTheLongAndWindingTableAndColumn](cb: VendorTheLongAndWindingTableAndColumnCB, handler: EntityRowHandler[ENTITY], tp: Class[ENTITY]): Unit = {
-        helpSelectCursorInternally(cb, handler, tp);
     }
 
     // ===================================================================================
@@ -396,23 +363,10 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
     protected def toScalaSLSFunction[RESULT](function: HpSLSFunction[VendorTheLongAndWindingTableAndColumnCB, RESULT]): ScrHpSLSFunction[VendorTheLongAndWindingTableAndColumnCB, RESULT] =
     { new ScrHpSLSFunction[VendorTheLongAndWindingTableAndColumnCB, RESULT](function) }
 
-    protected def facadeScalarSelect[RESULT](resultType: Class[RESULT]): HpSLSFunction[VendorTheLongAndWindingTableAndColumnCB, RESULT] = {
-        return doScalarSelect(resultType, newConditionBean());
-    }
-
-    protected def doScalarSelect[RESULT, CB <: VendorTheLongAndWindingTableAndColumnCB](tp: Class[RESULT], cb: CB): HpSLSFunction[CB, RESULT] = {
-        assertObjectNotNull("resultType", tp); assertCBStateValid(cb);
-        cb.xsetupForScalarSelect(); cb.getSqlClause().disableSelectIndex(); // for when you use union
-        return createSLSFunction[CB, RESULT](cb, tp, createHpSLSExecutor());
-    }
-
-    protected def doReadScalar[RESULT](tp: Class[RESULT]): HpSLSFunction[_ <: ConditionBean, RESULT] = { facadeScalarSelect(tp) }
-
     // ===================================================================================
     //                                                                            Sequence
     //                                                                            ========
-    @Override
-    protected def doReadNextVal(): Number = {
+    override protected def doReadNextVal(): Number = {
         val msg: String = "This table is NOT related to sequence: " + getTableDbName();
         throw new UnsupportedOperationException(msg);
     }
@@ -542,23 +496,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         doInsert(callbackMbleEntityToDBable(entityCall), callbackInsertOption(optionCall));
     }
 
-    protected def doInsert(et: DbleVendorTheLongAndWindingTableAndColumn, op: InsertOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumn", et); prepareInsertOption(op); delegateInsert(et, op);
-    }
-
-    protected def prepareInsertOption(op: InsertOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        if (op == null) { return; }
-        assertInsertOptionStatus(op);
-        if (op.hasSpecifiedInsertColumn()) {
-            op.resolveInsertColumnSpecification(createCBForSpecifiedUpdate());
-        }
-    }
-
-    @Override
-    protected def doCreate(et: Entity, op: InsertOption[_ <: ConditionBean]): Unit = {
-        doInsert(downcast(et), downcast(op));
-    }
-
     /**
      * Update the entity modified-only. (ZeroUpdateException, NonExclusiveControl)
      * <pre>
@@ -587,28 +524,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         doUpdate(callbackMbleEntityToDBable(entityCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doUpdate(et: DbleVendorTheLongAndWindingTableAndColumn, op: UpdateOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumn", et); prepareUpdateOption(op); helpUpdateInternally(et, op);
-    }
-
-    protected def prepareUpdateOption(op: UpdateOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        if (op == null) { return; }
-        assertUpdateOptionStatus(op);
-        if (op.hasSelfSpecification()) { op.resolveSelfSpecification(createCBForVaryingUpdate()); }
-        if (op.hasSpecifiedUpdateColumn()) { op.resolveUpdateColumnSpecification(createCBForSpecifiedUpdate()); }
-    }
-
-    protected def createCBForVaryingUpdate(): VendorTheLongAndWindingTableAndColumnCB =
-    { val cb: VendorTheLongAndWindingTableAndColumnCB = newConditionBean(); cb.xsetupForVaryingUpdate(); return cb; }
-
-    protected def createCBForSpecifiedUpdate(): VendorTheLongAndWindingTableAndColumnCB =
-    { val cb: VendorTheLongAndWindingTableAndColumnCB = newConditionBean(); cb.xsetupForSpecifiedUpdate(); return cb; }
-
-    protected def doModify(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit = { doUpdate(downcast(et), downcast(op)) }
-
-    protected def doModifyNonstrict(et: Entity, op: UpdateOption[_ <: ConditionBean]): Unit =
-    { doModify(et, op) }
-
     /**
      * Insert or update the entity modified-only. (DefaultConstraintsEnabled, NonExclusiveControl) <br />
      * if (the entity has no PK) { insert() } else { update(), but no data, insert() } <br />
@@ -622,18 +537,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
      */
     def insertOrUpdate(entityCall: (MbleVendorTheLongAndWindingTableAndColumn) => Unit)(implicit insertOptionCall: (ScrInsertOption[VendorTheLongAndWindingTableAndColumnCB]) => Unit = null, updateOptionCall: (ScrUpdateOption[VendorTheLongAndWindingTableAndColumnCB]) => Unit = null): Unit = {
         doInsertOrUpdate(callbackMbleEntityToDBable(entityCall), callbackInsertOption(insertOptionCall), callbackUpdateOption(updateOptionCall));
-    }
-
-    protected def doInsertOrUpdate(et: DbleVendorTheLongAndWindingTableAndColumn, iop: InsertOption[VendorTheLongAndWindingTableAndColumnCB], uop: UpdateOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumn", et); helpInsertOrUpdateInternally(et, iop, uop);
-    }
-
-    protected def doCreateOrModify(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit =
-    { doInsertOrUpdate(downcast(et), downcast(iop), downcast(uop)) }
-
-    @Override
-    protected def doCreateOrModifyNonstrict(et: Entity, iop: InsertOption[_ <: ConditionBean], uop: UpdateOption[_ <: ConditionBean]): Unit = {
-        doCreateOrModify(et, iop, uop);
     }
 
     /**
@@ -657,17 +560,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
     def delete(entityCall: (MbleVendorTheLongAndWindingTableAndColumn) => Unit)(implicit optionCall: (ScrDeleteOption[VendorTheLongAndWindingTableAndColumnCB]) => Unit = null): Unit = {
         doDelete(callbackMbleEntityToDBable(entityCall), callbackDeleteOption(optionCall));
     }
-
-    protected def doDelete(et: DbleVendorTheLongAndWindingTableAndColumn, op: DeleteOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumn", et); prepareDeleteOption(op); helpDeleteInternally(et, op);
-    }
-
-    protected def prepareDeleteOption(op: DeleteOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = { if (op != null) { assertDeleteOptionStatus(op); } }
-
-    protected def doRemove(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit = { doDelete(downcast(et), downcast(op)) }
-
-    protected def doRemoveNonstrict(et: Entity, op: DeleteOption[_ <: ConditionBean]): Unit =
-    { doRemove(et, op) }
 
     // ===================================================================================
     //                                                                        Batch Update
@@ -700,21 +592,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doBatchInsert(callbackBatch(batchCall), callbackInsertOption(optionCall));
     }
 
-    protected def doBatchInsert(ls: List[DbleVendorTheLongAndWindingTableAndColumn], op: InsertOption[VendorTheLongAndWindingTableAndColumnCB]): Array[Int] = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumnList", ls);
-        val rlop: InsertOption[VendorTheLongAndWindingTableAndColumnCB] = if (op != null) { op } else { createPlainInsertOption() }
-        prepareBatchInsertOption(ls, op); // required
-        return delegateBatchInsert(ls, op);
-    }
-
-    protected def prepareBatchInsertOption(ls: List[DbleVendorTheLongAndWindingTableAndColumn], op: InsertOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        op.xallowInsertColumnModifiedPropertiesFragmented();
-        op.xacceptInsertColumnModifiedPropertiesIfNeeds(ls);
-        prepareInsertOption(op);
-    }
-
-    protected def doLumpCreate(ls: List[Entity], op: InsertOption[_ <: ConditionBean]): Array[Int] = { doBatchInsert(downcast(ls), downcast(op)) }
-
     /**
      * Batch-update the entity list modified-only of same-set columns. (NonExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement. <br />
@@ -743,23 +620,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doBatchUpdate(callbackBatch(batchCall), callbackUpdateOption(optionCall));
     }
 
-    protected def doBatchUpdate(ls: List[DbleVendorTheLongAndWindingTableAndColumn], op: UpdateOption[VendorTheLongAndWindingTableAndColumnCB]): Array[Int] = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumnList", ls);
-        val rlop: UpdateOption[VendorTheLongAndWindingTableAndColumnCB] = if (op != null) { op } else { createPlainUpdateOption() }
-        prepareBatchUpdateOption(ls, rlop); // required
-        return delegateBatchUpdate(ls, rlop);
-    }
-
-    protected def prepareBatchUpdateOption(ls: List[DbleVendorTheLongAndWindingTableAndColumn], op: UpdateOption[VendorTheLongAndWindingTableAndColumnCB]): Unit = {
-        op.xacceptUpdateColumnModifiedPropertiesIfNeeds(ls);
-        prepareUpdateOption(op);
-    }
-
-    protected def doLumpModify(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] = { doBatchUpdate(downcast(ls), downcast(op)) }
-
-    protected def doLumpModifyNonstrict(ls: List[Entity], op: UpdateOption[_ <: ConditionBean]): Array[Int] =
-    { doLumpModify(ls, op) }
-
     /**
      * Batch-delete the entity list. (NonExclusiveControl) <br />
      * This method uses executeBatch() of java.sql.PreparedStatement.
@@ -771,16 +631,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doBatchDelete(callbackBatch(batchCall), callbackDeleteOption(optionCall));
     }
 
-    protected def doBatchDelete(ls: List[DbleVendorTheLongAndWindingTableAndColumn], op: DeleteOption[VendorTheLongAndWindingTableAndColumnCB]): Array[Int] = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumnList", ls); prepareDeleteOption(op);
-        return delegateBatchDelete(ls, op);
-    }
-
-    protected def doLumpRemove(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] = { doBatchDelete(downcast(ls), downcast(op)) }
-
-    protected def doLumpRemoveNonstrict(ls: List[Entity], op: DeleteOption[_ <: ConditionBean]): Array[Int] =
-    { return doLumpRemove(ls, op); }
-
     // ===================================================================================
     //                                                                        Query Update
     //                                                                        ============
@@ -788,7 +638,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
      * Insert the several entities by query (modified-only for fixed value).
      * <pre>
      * vendorTheLongAndWindingTableAndColumnBhv.<span style="color: #DD4747">queryInsert</span>(new QueryInsertSetupper&lt;DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB&gt;() {
-     *     public ConditionBean setup(vendorTheLongAndWindingTableAndColumn entity, VendorTheLongAndWindingTableAndColumnCB intoCB) {
+     *     public ConditionBean setup(DbleVendorTheLongAndWindingTableAndColumn entity, VendorTheLongAndWindingTableAndColumnCB intoCB) {
      *         FooCB cb = FooCB();
      *         cb.setupSelect_Bar();
      *
@@ -807,25 +657,12 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
      *     }
      * });
      * </pre>
-     * @param setupper The setup-per of query-insert. (NotNull)
+     * @param setupperCall The callback for set-upper of query-insert. (NotNull)
      * @return The inserted count.
      */
-    def queryInsert(setupper: QueryInsertSetupper[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB]): Int = {
-        return doQueryInsert(setupper, null);
+    def queryInsert(setupperCall: (MbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB) => ConditionBean): Int = {
+        return doQueryInsert(callbackQueryInsertSetupper(setupperCall), null);
     }
-
-    protected def doQueryInsert(sp: QueryInsertSetupper[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB], op: InsertOption[VendorTheLongAndWindingTableAndColumnCB]): Int = {
-        assertObjectNotNull("setupper", sp); prepareInsertOption(op);
-        val et: DbleVendorTheLongAndWindingTableAndColumn = newEntity();
-        val cb: VendorTheLongAndWindingTableAndColumnCB = createCBForQueryInsert();
-        return delegateQueryInsert(et, cb, sp.setup(et, cb), op);
-    }
-
-    protected def createCBForQueryInsert(): VendorTheLongAndWindingTableAndColumnCB =
-    { val cb: VendorTheLongAndWindingTableAndColumnCB = newConditionBean(); cb.xsetupForQueryInsert(); return cb; }
-
-    protected def doRangeCreate(setupper: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean], option: InsertOption[_ <: ConditionBean]): Int =
-    { doQueryInsert(downcast(setupper), downcast(option)) }
 
     /**
      * Update the several entities by query non-strictly modified-only. (NonExclusiveControl)
@@ -854,14 +691,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         return doQueryUpdate(callbackMbleEntityToDBable(entityCall), callbackCB(cbCall), null);
     }
 
-    protected def doQueryUpdate(vendorTheLongAndWindingTableAndColumn: DbleVendorTheLongAndWindingTableAndColumn, cb: VendorTheLongAndWindingTableAndColumnCB, op: UpdateOption[VendorTheLongAndWindingTableAndColumnCB]): Int = {
-        assertObjectNotNull("vendorTheLongAndWindingTableAndColumn", vendorTheLongAndWindingTableAndColumn); assertCBStateValid(cb); prepareUpdateOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryUpdate(vendorTheLongAndWindingTableAndColumn, cb, op) } else { 0 };
-    }
-
-    protected def doRangeModify(et: Entity, cb: ConditionBean, op: UpdateOption[_ <: ConditionBean]): Int =
-    { doQueryUpdate(downcast(et), downcast(cb), downcast(op)) }
-
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
@@ -877,13 +706,6 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         assertObjectNotNull("cbCall", cbCall);
         return doQueryDelete(callbackCB(cbCall), null);
     }
-
-    protected def doQueryDelete(cb: VendorTheLongAndWindingTableAndColumnCB, op: DeleteOption[VendorTheLongAndWindingTableAndColumnCB]): Int = {
-        assertCBStateValid(cb); prepareDeleteOption(op);
-        return if (checkCountBeforeQueryUpdateIfNeeds(cb)) { delegateQueryDelete(cb, op) } else { 0 };
-    }
-
-    protected def doRangeRemove(cb: ConditionBean, op: DeleteOption[_ <: ConditionBean]): Int = { doQueryDelete(downcast(cb), downcast(op)) }
 
     // ===================================================================================
     //                                                                          OutsideSql
@@ -927,8 +749,8 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
     { new ScrOutsideSqlBasicExecutor(executor) }
 
     // ===================================================================================
-    //                                                                       Assist Helper
-    //                                                                       =============
+    //                                                                     Callback Helper
+    //                                                                     ===============
     protected def callbackCB(cbCall: (VendorTheLongAndWindingTableAndColumnCB) => Unit): VendorTheLongAndWindingTableAndColumnCB = {
         assertObjectNotNull("cbCall", cbCall);
         val cb = newConditionBean(); cbCall(cb); return cb;
@@ -969,6 +791,18 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         val option = new ScrDeleteOption[VendorTheLongAndWindingTableAndColumnCB](new DeleteOption[VendorTheLongAndWindingTableAndColumnCB]()); optionCall(option); return option.toNative;
     }
 
+    protected def callbackQueryInsertSetupper(setupperCall: (MbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB) => ConditionBean): QueryInsertSetupper[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB] = {
+        assertObjectNotNull("setupperCall", setupperCall);
+        return new QueryInsertSetupper[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB]() {
+            def setup(entity: DbleVendorTheLongAndWindingTableAndColumn, intoCB: VendorTheLongAndWindingTableAndColumnCB): ConditionBean = {
+                val mble = newMbleEntity();
+                val resultCB = setupperCall(mble, intoCB);
+                entity.acceptImmutable(mble.toImmutable());
+                return resultCB;
+            }
+        };
+    }
+
     protected def callbackLoader(dbleList: List[DbleVendorTheLongAndWindingTableAndColumn], loaderCall: (LoaderOfVendorTheLongAndWindingTableAndColumn) => Unit = null): Unit = {
         if (loaderCall == null) { return; }
         val loader = new LoaderOfVendorTheLongAndWindingTableAndColumn();
@@ -976,19 +810,15 @@ abstract class BsVendorTheLongAndWindingTableAndColumnBhv extends AbstractBehavi
         loaderCall(loader);
     }
 
+    // ===================================================================================
+    //                                                                         Type Helper
+    //                                                                         ===========
+    override protected def typeOfSelectedEntity(): Class[DbleVendorTheLongAndWindingTableAndColumn] = { classOf[DbleVendorTheLongAndWindingTableAndColumn] }
+    override protected def typeOfHandlingEntity(): Class[DbleVendorTheLongAndWindingTableAndColumn] = { classOf[DbleVendorTheLongAndWindingTableAndColumn] }
+    override protected def typeOfHandlingConditionBean(): Class[VendorTheLongAndWindingTableAndColumnCB] = { classOf[VendorTheLongAndWindingTableAndColumnCB] }
     protected def newMbleEntity(): MbleVendorTheLongAndWindingTableAndColumn = { new MbleVendorTheLongAndWindingTableAndColumn() }
     protected def newPagingView(rb: PagingResultBean[DbleVendorTheLongAndWindingTableAndColumn]): ScrPagingView[VendorTheLongAndWindingTableAndColumn] =
     { new ScrPagingView(toImmutableEntityList(rb), rb) }
-
-    protected def typeOfSelectedEntity(): Class[DbleVendorTheLongAndWindingTableAndColumn] = { classOf[DbleVendorTheLongAndWindingTableAndColumn] }
-    protected def downcast(et: Entity): DbleVendorTheLongAndWindingTableAndColumn = { helpEntityDowncastInternally(et, classOf[DbleVendorTheLongAndWindingTableAndColumn]) }
-    protected def downcast(cb: ConditionBean): VendorTheLongAndWindingTableAndColumnCB = { helpConditionBeanDowncastInternally(cb, classOf[VendorTheLongAndWindingTableAndColumnCB]) }
-    protected def downcast(ls: List[_ <: Entity]): List[DbleVendorTheLongAndWindingTableAndColumn] = { ls.asInstanceOf[List[DbleVendorTheLongAndWindingTableAndColumn]] }
-    protected def downcast(op: InsertOption[_ <: ConditionBean]): InsertOption[VendorTheLongAndWindingTableAndColumnCB] = { op.asInstanceOf[InsertOption[VendorTheLongAndWindingTableAndColumnCB]] }
-    protected def downcast(op: UpdateOption[_ <: ConditionBean]): UpdateOption[VendorTheLongAndWindingTableAndColumnCB] = { op.asInstanceOf[UpdateOption[VendorTheLongAndWindingTableAndColumnCB]] }
-    protected def downcast(op: DeleteOption[_ <: ConditionBean]): DeleteOption[VendorTheLongAndWindingTableAndColumnCB] = { op.asInstanceOf[DeleteOption[VendorTheLongAndWindingTableAndColumnCB]] }
-    protected def downcast(sp: QueryInsertSetupper[_ <: Entity, _ <: ConditionBean]): QueryInsertSetupper[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB] =
-    { sp.asInstanceOf[QueryInsertSetupper[DbleVendorTheLongAndWindingTableAndColumn, VendorTheLongAndWindingTableAndColumnCB]] }
 
     // ===================================================================================
     //                                                                        Scala Helper

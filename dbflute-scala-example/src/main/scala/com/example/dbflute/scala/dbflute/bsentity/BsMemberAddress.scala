@@ -333,12 +333,17 @@ abstract class BsMbleMemberAddress {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleMemberAddress = new DbleMemberAddress();
+    protected val dble: DbleMemberAddress = new DbleMemberAddress();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleMemberAddress = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): MemberAddress = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

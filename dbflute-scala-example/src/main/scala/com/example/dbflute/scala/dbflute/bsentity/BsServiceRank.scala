@@ -319,12 +319,17 @@ abstract class BsMbleServiceRank {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleServiceRank = new DbleServiceRank();
+    protected val dble: DbleServiceRank = new DbleServiceRank();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleServiceRank = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): ServiceRank = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

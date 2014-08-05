@@ -227,12 +227,17 @@ abstract class BsMbleRegion {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleRegion = new DbleRegion();
+    protected val dble: DbleRegion = new DbleRegion();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleRegion = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): Region = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

@@ -230,12 +230,17 @@ abstract class BsMbleProductStatus {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleProductStatus = new DbleProductStatus();
+    protected val dble: DbleProductStatus = new DbleProductStatus();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleProductStatus = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): ProductStatus = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key
