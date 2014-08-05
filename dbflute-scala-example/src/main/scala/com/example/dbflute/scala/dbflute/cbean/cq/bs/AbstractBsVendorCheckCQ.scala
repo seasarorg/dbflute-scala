@@ -44,13 +44,12 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * VENDOR_CHECK_ID: {PK, NotNull, DECIMAL(16)}
      * @param vendorCheckId The value of vendorCheckId as equal. (NullAllowed: if null, no condition)
      */
-     def setVendorCheckId_Equal(vendorCheckId: Long): Unit = {
+    def setVendorCheckId_Equal(vendorCheckId: Long): Unit = {
         doSetVendorCheckId_Equal(vendorCheckId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * VENDOR_CHECK_ID: {PK, NotNull, DECIMAL(16)}
      * @param vendorCheckId The value of vendorCheckId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setVendorCheckId_NotEqual(vendorCheckId: Long): Unit = {
+    def setVendorCheckId_NotEqual(vendorCheckId: Long): Unit = {
         doSetVendorCheckId_NotEqual(vendorCheckId);
     }
 
@@ -166,7 +165,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_CHAR: {CHAR(3)}
      * @param typeOfChar The value of typeOfChar as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfChar_Equal(typeOfChar: String): Unit = {
+    def setTypeOfChar_Equal(typeOfChar: String): Unit = {
         doSetTypeOfChar_Equal(fRES(typeOfChar));
     }
 
@@ -179,7 +178,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_CHAR: {CHAR(3)}
      * @param typeOfChar The value of typeOfChar as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfChar_NotEqual(typeOfChar: String): Unit = {
+    def setTypeOfChar_NotEqual(typeOfChar: String): Unit = {
         doSetTypeOfChar_NotEqual(fRES(typeOfChar));
     }
 
@@ -270,7 +269,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_VARCHAR: {VARCHAR(32)}
      * @param typeOfVarchar The value of typeOfVarchar as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfVarchar_Equal(typeOfVarchar: String): Unit = {
+    def setTypeOfVarchar_Equal(typeOfVarchar: String): Unit = {
         doSetTypeOfVarchar_Equal(fRES(typeOfVarchar));
     }
 
@@ -283,7 +282,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_VARCHAR: {VARCHAR(32)}
      * @param typeOfVarchar The value of typeOfVarchar as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfVarchar_NotEqual(typeOfVarchar: String): Unit = {
+    def setTypeOfVarchar_NotEqual(typeOfVarchar: String): Unit = {
         doSetTypeOfVarchar_NotEqual(fRES(typeOfVarchar));
     }
 
@@ -374,7 +373,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_CLOB: {CLOB(2147483647)}
      * @param typeOfClob The value of typeOfClob as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfClob_Equal(typeOfClob: String): Unit = {
+    def setTypeOfClob_Equal(typeOfClob: String): Unit = {
         doSetTypeOfClob_Equal(fRES(typeOfClob));
     }
 
@@ -430,7 +429,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TEXT: {CLOB(2147483647)}
      * @param typeOfText The value of typeOfText as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfText_Equal(typeOfText: String): Unit = {
+    def setTypeOfText_Equal(typeOfText: String): Unit = {
         doSetTypeOfText_Equal(fRES(typeOfText));
     }
 
@@ -480,13 +479,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfText(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfText(), "TYPE_OF_TEXT"); }
     protected def getCValueTypeOfText(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericInteger_Equal(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_Equal(typeOfNumericInteger: Integer): Unit = {
         doSetTypeOfNumericInteger_Equal(typeOfNumericInteger);
     }
 
@@ -499,7 +498,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericInteger_NotEqual(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_NotEqual(typeOfNumericInteger: Integer): Unit = {
         doSetTypeOfNumericInteger_NotEqual(typeOfNumericInteger);
     }
 
@@ -596,13 +595,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericInteger(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericInteger(), "TYPE_OF_NUMERIC_INTEGER"); }
     protected def getCValueTypeOfNumericInteger(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_BIGINT: {DECIMAL(12)}
      * @param typeOfNumericBigint The value of typeOfNumericBigint as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericBigint_Equal(typeOfNumericBigint: Long): Unit = {
+    def setTypeOfNumericBigint_Equal(typeOfNumericBigint: Long): Unit = {
         doSetTypeOfNumericBigint_Equal(typeOfNumericBigint);
     }
 
@@ -615,7 +614,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_BIGINT: {DECIMAL(12)}
      * @param typeOfNumericBigint The value of typeOfNumericBigint as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericBigint_NotEqual(typeOfNumericBigint: Long): Unit = {
+    def setTypeOfNumericBigint_NotEqual(typeOfNumericBigint: Long): Unit = {
         doSetTypeOfNumericBigint_NotEqual(typeOfNumericBigint);
     }
 
@@ -712,13 +711,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericBigint(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericBigint(), "TYPE_OF_NUMERIC_BIGINT"); }
     protected def getCValueTypeOfNumericBigint(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericDecimal_Equal(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericDecimal_Equal(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericDecimal_Equal(typeOfNumericDecimal);
     }
 
@@ -731,7 +730,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal);
     }
 
@@ -828,13 +827,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericDecimal(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericDecimal(), "TYPE_OF_NUMERIC_DECIMAL"); }
     protected def getCValueTypeOfNumericDecimal(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericIntegerMin_Equal(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_Equal(typeOfNumericIntegerMin: Integer): Unit = {
         doSetTypeOfNumericIntegerMin_Equal(typeOfNumericIntegerMin);
     }
 
@@ -847,7 +846,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericIntegerMin_NotEqual(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_NotEqual(typeOfNumericIntegerMin: Integer): Unit = {
         doSetTypeOfNumericIntegerMin_NotEqual(typeOfNumericIntegerMin);
     }
 
@@ -944,13 +943,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericIntegerMin(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericIntegerMin(), "TYPE_OF_NUMERIC_INTEGER_MIN"); }
     protected def getCValueTypeOfNumericIntegerMin(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericIntegerMax_Equal(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_Equal(typeOfNumericIntegerMax: Integer): Unit = {
         doSetTypeOfNumericIntegerMax_Equal(typeOfNumericIntegerMax);
     }
 
@@ -963,7 +962,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericIntegerMax_NotEqual(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_NotEqual(typeOfNumericIntegerMax: Integer): Unit = {
         doSetTypeOfNumericIntegerMax_NotEqual(typeOfNumericIntegerMax);
     }
 
@@ -1060,13 +1059,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericIntegerMax(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericIntegerMax(), "TYPE_OF_NUMERIC_INTEGER_MAX"); }
     protected def getCValueTypeOfNumericIntegerMax(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_BIGINT_MIN: {DECIMAL(10)}
      * @param typeOfNumericBigintMin The value of typeOfNumericBigintMin as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericBigintMin_Equal(typeOfNumericBigintMin: Long): Unit = {
+    def setTypeOfNumericBigintMin_Equal(typeOfNumericBigintMin: Long): Unit = {
         doSetTypeOfNumericBigintMin_Equal(typeOfNumericBigintMin);
     }
 
@@ -1079,7 +1078,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_BIGINT_MIN: {DECIMAL(10)}
      * @param typeOfNumericBigintMin The value of typeOfNumericBigintMin as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericBigintMin_NotEqual(typeOfNumericBigintMin: Long): Unit = {
+    def setTypeOfNumericBigintMin_NotEqual(typeOfNumericBigintMin: Long): Unit = {
         doSetTypeOfNumericBigintMin_NotEqual(typeOfNumericBigintMin);
     }
 
@@ -1176,13 +1175,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericBigintMin(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericBigintMin(), "TYPE_OF_NUMERIC_BIGINT_MIN"); }
     protected def getCValueTypeOfNumericBigintMin(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_BIGINT_MAX: {DECIMAL(18)}
      * @param typeOfNumericBigintMax The value of typeOfNumericBigintMax as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericBigintMax_Equal(typeOfNumericBigintMax: Long): Unit = {
+    def setTypeOfNumericBigintMax_Equal(typeOfNumericBigintMax: Long): Unit = {
         doSetTypeOfNumericBigintMax_Equal(typeOfNumericBigintMax);
     }
 
@@ -1195,7 +1194,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_BIGINT_MAX: {DECIMAL(18)}
      * @param typeOfNumericBigintMax The value of typeOfNumericBigintMax as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericBigintMax_NotEqual(typeOfNumericBigintMax: Long): Unit = {
+    def setTypeOfNumericBigintMax_NotEqual(typeOfNumericBigintMax: Long): Unit = {
         doSetTypeOfNumericBigintMax_NotEqual(typeOfNumericBigintMax);
     }
 
@@ -1292,13 +1291,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericBigintMax(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericBigintMax(), "TYPE_OF_NUMERIC_BIGINT_MAX"); }
     protected def getCValueTypeOfNumericBigintMax(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin);
     }
 
@@ -1311,7 +1310,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin);
     }
 
@@ -1408,13 +1407,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericSuperintMin(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericSuperintMin(), "TYPE_OF_NUMERIC_SUPERINT_MIN"); }
     protected def getCValueTypeOfNumericSuperintMin(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax);
     }
 
@@ -1427,7 +1426,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax);
     }
 
@@ -1524,13 +1523,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericSuperintMax(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericSuperintMax(), "TYPE_OF_NUMERIC_SUPERINT_MAX"); }
     protected def getCValueTypeOfNumericSuperintMax(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal);
     }
 
@@ -1543,7 +1542,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
+    def setTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
         doSetTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal);
     }
 
@@ -1640,13 +1639,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfNumericMaxdecimal(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfNumericMaxdecimal(), "TYPE_OF_NUMERIC_MAXDECIMAL"); }
     protected def getCValueTypeOfNumericMaxdecimal(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfInteger_Equal(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_Equal(typeOfInteger: Integer): Unit = {
         doSetTypeOfInteger_Equal(typeOfInteger);
     }
 
@@ -1659,7 +1658,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfInteger_NotEqual(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_NotEqual(typeOfInteger: Integer): Unit = {
         doSetTypeOfInteger_NotEqual(typeOfInteger);
     }
 
@@ -1756,13 +1755,13 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfInteger(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfInteger(), "TYPE_OF_INTEGER"); }
     protected def getCValueTypeOfInteger(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * TYPE_OF_BIGINT: {BIGINT(19)}
      * @param typeOfBigint The value of typeOfBigint as equal. (NullAllowed: if null, no condition)
      */
-     def setTypeOfBigint_Equal(typeOfBigint: Long): Unit = {
+    def setTypeOfBigint_Equal(typeOfBigint: Long): Unit = {
         doSetTypeOfBigint_Equal(typeOfBigint);
     }
 
@@ -1775,7 +1774,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_BIGINT: {BIGINT(19)}
      * @param typeOfBigint The value of typeOfBigint as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTypeOfBigint_NotEqual(typeOfBigint: Long): Unit = {
+    def setTypeOfBigint_NotEqual(typeOfBigint: Long): Unit = {
         doSetTypeOfBigint_NotEqual(typeOfBigint);
     }
 
@@ -2133,6 +2132,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
     protected def regTypeOfBoolean(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfBoolean(), "TYPE_OF_BOOLEAN"); }
     protected def getCValueTypeOfBoolean(): ConditionValue;
 
+
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br />
      * TYPE_OF_BINARY: {VARBINARY(2147483647)}
@@ -2148,6 +2148,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
     protected def regTypeOfBinary(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfBinary(), "TYPE_OF_BINARY"); }
     protected def getCValueTypeOfBinary(): ConditionValue;
 
+
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br />
      * TYPE_OF_BLOB: {BLOB(2147483647)}
@@ -2162,6 +2163,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regTypeOfBlob(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueTypeOfBlob(), "TYPE_OF_BLOB"); }
     protected def getCValueTypeOfBlob(): ConditionValue;
+
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br />
@@ -2183,7 +2185,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_ARRAY: {ARRAY}
      * @param typeOfArray The value of typeOfArray as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfArray_Equal(typeOfArray: String): Unit = {
+    def setTypeOfArray_Equal(typeOfArray: String): Unit = {
         doSetTypeOfArray_Equal(fRES(typeOfArray));
     }
 
@@ -2196,7 +2198,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_ARRAY: {ARRAY}
      * @param typeOfArray The value of typeOfArray as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfArray_NotEqual(typeOfArray: String): Unit = {
+    def setTypeOfArray_NotEqual(typeOfArray: String): Unit = {
         doSetTypeOfArray_NotEqual(fRES(typeOfArray));
     }
 
@@ -2287,7 +2289,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_OTHER: {OTHER(2147483647)}
      * @param typeOfOther The value of typeOfOther as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfOther_Equal(typeOfOther: String): Unit = {
+    def setTypeOfOther_Equal(typeOfOther: String): Unit = {
         doSetTypeOfOther_Equal(fRES(typeOfOther));
     }
 
@@ -2300,7 +2302,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_OTHER: {OTHER(2147483647)}
      * @param typeOfOther The value of typeOfOther as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setTypeOfOther_NotEqual(typeOfOther: String): Unit = {
+    def setTypeOfOther_NotEqual(typeOfOther: String): Unit = {
         doSetTypeOfOther_NotEqual(fRES(typeOfOther));
     }
 
@@ -2391,7 +2393,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * J_A_V_A_BEANS_PROPERTY: {VARCHAR(10)}
      * @param jAVABeansProperty The value of jAVABeansProperty as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setJAVABeansProperty_Equal(jAVABeansProperty: String): Unit = {
+    def setJAVABeansProperty_Equal(jAVABeansProperty: String): Unit = {
         doSetJAVABeansProperty_Equal(fRES(jAVABeansProperty));
     }
 
@@ -2404,7 +2406,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * J_A_V_A_BEANS_PROPERTY: {VARCHAR(10)}
      * @param jAVABeansProperty The value of jAVABeansProperty as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setJAVABeansProperty_NotEqual(jAVABeansProperty: String): Unit = {
+    def setJAVABeansProperty_NotEqual(jAVABeansProperty: String): Unit = {
         doSetJAVABeansProperty_NotEqual(fRES(jAVABeansProperty));
     }
 
@@ -2495,7 +2497,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * J_POP_BEANS_PROPERTY: {VARCHAR(10)}
      * @param jPopBeansProperty The value of jPopBeansProperty as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setJPopBeansProperty_Equal(jPopBeansProperty: String): Unit = {
+    def setJPopBeansProperty_Equal(jPopBeansProperty: String): Unit = {
         doSetJPopBeansProperty_Equal(fRES(jPopBeansProperty));
     }
 
@@ -2508,7 +2510,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * J_POP_BEANS_PROPERTY: {VARCHAR(10)}
      * @param jPopBeansProperty The value of jPopBeansProperty as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setJPopBeansProperty_NotEqual(jPopBeansProperty: String): Unit = {
+    def setJPopBeansProperty_NotEqual(jPopBeansProperty: String): Unit = {
         doSetJPopBeansProperty_NotEqual(fRES(jPopBeansProperty));
     }
 

@@ -44,13 +44,12 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Integer): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Integer): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -166,7 +165,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_NAME: {VARCHAR(200)}
      * @param memberName The value of memberName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberName_Equal(memberName: String): Unit = {
+    def setMemberName_Equal(memberName: String): Unit = {
         doSetMemberName_Equal(fRES(memberName));
     }
 
@@ -231,7 +230,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * WITHDRAWAL_REASON_CODE: {CHAR(3)}
      * @param withdrawalReasonCode The value of withdrawalReasonCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setWithdrawalReasonCode_Equal(withdrawalReasonCode: String): Unit = {
+    def setWithdrawalReasonCode_Equal(withdrawalReasonCode: String): Unit = {
         doSetWithdrawalReasonCode_Equal(fRES(withdrawalReasonCode));
     }
 
@@ -244,7 +243,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * WITHDRAWAL_REASON_CODE: {CHAR(3)}
      * @param withdrawalReasonCode The value of withdrawalReasonCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setWithdrawalReasonCode_NotEqual(withdrawalReasonCode: String): Unit = {
+    def setWithdrawalReasonCode_NotEqual(withdrawalReasonCode: String): Unit = {
         doSetWithdrawalReasonCode_NotEqual(fRES(withdrawalReasonCode));
     }
 
@@ -335,7 +334,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * WITHDRAWAL_REASON_TEXT: {CLOB(2147483647)}
      * @param withdrawalReasonText The value of withdrawalReasonText as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setWithdrawalReasonText_Equal(withdrawalReasonText: String): Unit = {
+    def setWithdrawalReasonText_Equal(withdrawalReasonText: String): Unit = {
         doSetWithdrawalReasonText_Equal(fRES(withdrawalReasonText));
     }
 
@@ -391,7 +390,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * WITHDRAWAL_REASON_INPUT_TEXT: {CLOB(2147483647)}
      * @param withdrawalReasonInputText The value of withdrawalReasonInputText as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setWithdrawalReasonInputText_Equal(withdrawalReasonInputText: String): Unit = {
+    def setWithdrawalReasonInputText_Equal(withdrawalReasonInputText: String): Unit = {
         doSetWithdrawalReasonInputText_Equal(fRES(withdrawalReasonInputText));
     }
 
@@ -535,7 +534,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_STATUS_CODE: {CHAR(3)}
      * @param memberStatusCode The value of memberStatusCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberStatusCode_Equal(memberStatusCode: String): Unit = {
+    def setMemberStatusCode_Equal(memberStatusCode: String): Unit = {
         doSetMemberStatusCode_Equal(fRES(memberStatusCode));
     }
 
@@ -548,7 +547,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_STATUS_CODE: {CHAR(3)}
      * @param memberStatusCode The value of memberStatusCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberStatusCode_NotEqual(memberStatusCode: String): Unit = {
+    def setMemberStatusCode_NotEqual(memberStatusCode: String): Unit = {
         doSetMemberStatusCode_NotEqual(fRES(memberStatusCode));
     }
 
@@ -639,7 +638,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_STATUS_NAME: {VARCHAR(50)}
      * @param memberStatusName The value of memberStatusName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberStatusName_Equal(memberStatusName: String): Unit = {
+    def setMemberStatusName_Equal(memberStatusName: String): Unit = {
         doSetMemberStatusName_Equal(fRES(memberStatusName));
     }
 
@@ -698,13 +697,13 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
 
     protected def regMemberStatusName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberStatusName(), "MEMBER_STATUS_NAME"); }
     protected def getCValueMemberStatusName(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as equal. (NullAllowed: if null, no condition)
      */
-     def setMaxPurchasePrice_Equal(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_Equal(maxPurchasePrice: Integer): Unit = {
         doSetMaxPurchasePrice_Equal(maxPurchasePrice);
     }
 
@@ -717,7 +716,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMaxPurchasePrice_NotEqual(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_NotEqual(maxPurchasePrice: Integer): Unit = {
         doSetMaxPurchasePrice_NotEqual(maxPurchasePrice);
     }
 

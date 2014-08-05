@@ -44,13 +44,12 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param purchaseId The value of purchaseId as equal. (NullAllowed: if null, no condition)
      */
-     def setPurchaseId_Equal(purchaseId: Long): Unit = {
+    def setPurchaseId_Equal(purchaseId: Long): Unit = {
         doSetPurchaseId_Equal(purchaseId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * PURCHASE_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param purchaseId The value of purchaseId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPurchaseId_NotEqual(purchaseId: Long): Unit = {
+    def setPurchaseId_NotEqual(purchaseId: Long): Unit = {
         doSetPurchaseId_NotEqual(purchaseId);
     }
 
@@ -278,13 +277,13 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     protected def regPurchaseId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchaseId(), "PURCHASE_ID"); }
     protected def getCValuePurchaseId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Integer): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -297,7 +296,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Integer): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -382,13 +381,13 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     protected def regMemberId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
     protected def getCValueMemberId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as equal. (NullAllowed: if null, no condition)
      */
-     def setProductId_Equal(productId: Integer): Unit = {
+    def setProductId_Equal(productId: Integer): Unit = {
         doSetProductId_Equal(productId);
     }
 
@@ -401,7 +400,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setProductId_NotEqual(productId: Integer): Unit = {
+    def setProductId_NotEqual(productId: Integer): Unit = {
         doSetProductId_NotEqual(productId);
     }
 
@@ -562,13 +561,13 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     protected def regPurchaseDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchaseDatetime(), "PURCHASE_DATETIME"); }
     protected def getCValuePurchaseDatetime(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as equal. (NullAllowed: if null, no condition)
      */
-     def setPurchaseCount_Equal(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_Equal(purchaseCount: Integer): Unit = {
         doSetPurchaseCount_Equal(purchaseCount);
     }
 
@@ -581,7 +580,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPurchaseCount_NotEqual(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_NotEqual(purchaseCount: Integer): Unit = {
         doSetPurchaseCount_NotEqual(purchaseCount);
     }
 
@@ -666,13 +665,13 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     protected def regPurchaseCount(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchaseCount(), "PURCHASE_COUNT"); }
     protected def getCValuePurchaseCount(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as equal. (NullAllowed: if null, no condition)
      */
-     def setPurchasePrice_Equal(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_Equal(purchasePrice: Integer): Unit = {
         doSetPurchasePrice_Equal(purchasePrice);
     }
 
@@ -685,7 +684,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPurchasePrice_NotEqual(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_NotEqual(purchasePrice: Integer): Unit = {
         doSetPurchasePrice_NotEqual(purchasePrice);
     }
 
@@ -770,7 +769,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     protected def regPurchasePrice(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchasePrice(), "PURCHASE_PRICE"); }
     protected def getCValuePurchasePrice(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
@@ -915,7 +914,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @param registerUser The value of registerUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegisterUser_Equal(registerUser: String): Unit = {
+    def setRegisterUser_Equal(registerUser: String): Unit = {
         doSetRegisterUser_Equal(fRES(registerUser));
     }
 
@@ -943,7 +942,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @param updateUser The value of updateUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setUpdateUser_Equal(updateUser: String): Unit = {
+    def setUpdateUser_Equal(updateUser: String): Unit = {
         doSetUpdateUser_Equal(fRES(updateUser));
     }
 
@@ -953,13 +952,13 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
 
     protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param versionNo The value of versionNo as equal. (NullAllowed: if null, no condition)
      */
-     def setVersionNo_Equal(versionNo: Long): Unit = {
+    def setVersionNo_Equal(versionNo: Long): Unit = {
         doSetVersionNo_Equal(versionNo);
     }
 

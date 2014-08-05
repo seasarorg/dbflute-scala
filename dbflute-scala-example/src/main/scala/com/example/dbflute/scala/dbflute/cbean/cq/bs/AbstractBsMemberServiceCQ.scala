@@ -44,13 +44,12 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberServiceId_Equal(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_Equal(memberServiceId: Integer): Unit = {
         doSetMemberServiceId_Equal(memberServiceId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberServiceId_NotEqual(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_NotEqual(memberServiceId: Integer): Unit = {
         doSetMemberServiceId_NotEqual(memberServiceId);
     }
 
@@ -160,13 +159,13 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
 
     protected def regMemberServiceId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberServiceId(), "MEMBER_SERVICE_ID"); }
     protected def getCValueMemberServiceId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Integer): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -179,7 +178,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Integer): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -264,13 +263,13 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
 
     protected def regMemberId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberId(), "MEMBER_ID"); }
     protected def getCValueMemberId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as equal. (NullAllowed: if null, no condition)
      */
-     def setServicePointCount_Equal(servicePointCount: Integer): Unit = {
+    def setServicePointCount_Equal(servicePointCount: Integer): Unit = {
         doSetServicePointCount_Equal(servicePointCount);
     }
 
@@ -283,7 +282,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as notEqual. (NullAllowed: if null, no condition)
      */
-     def setServicePointCount_NotEqual(servicePointCount: Integer): Unit = {
+    def setServicePointCount_NotEqual(servicePointCount: Integer): Unit = {
         doSetServicePointCount_NotEqual(servicePointCount);
     }
 
@@ -561,7 +560,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @param registerUser The value of registerUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegisterUser_Equal(registerUser: String): Unit = {
+    def setRegisterUser_Equal(registerUser: String): Unit = {
         doSetRegisterUser_Equal(fRES(registerUser));
     }
 
@@ -589,7 +588,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @param updateUser The value of updateUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setUpdateUser_Equal(updateUser: String): Unit = {
+    def setUpdateUser_Equal(updateUser: String): Unit = {
         doSetUpdateUser_Equal(fRES(updateUser));
     }
 
@@ -599,13 +598,13 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
 
     protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param versionNo The value of versionNo as equal. (NullAllowed: if null, no condition)
      */
-     def setVersionNo_Equal(versionNo: Long): Unit = {
+    def setVersionNo_Equal(versionNo: Long): Unit = {
         doSetVersionNo_Equal(versionNo);
     }
 

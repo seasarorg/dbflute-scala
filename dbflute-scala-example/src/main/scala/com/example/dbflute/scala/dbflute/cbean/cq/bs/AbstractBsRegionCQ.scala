@@ -44,7 +44,6 @@ abstract class AbstractBsRegionCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (地域ID)REGION_ID: {PK, NotNull, INTEGER(10), classification=Region}
@@ -339,7 +338,7 @@ abstract class AbstractBsRegionCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (地域名称)REGION_NAME: {NotNull, VARCHAR(50)}
      * @param regionName The value of regionName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegionName_Equal(regionName: String): Unit = {
+    def setRegionName_Equal(regionName: String): Unit = {
         doSetRegionName_Equal(fRES(regionName));
     }
 

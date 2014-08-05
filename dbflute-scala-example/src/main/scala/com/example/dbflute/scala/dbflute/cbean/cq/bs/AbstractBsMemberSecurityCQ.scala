@@ -44,13 +44,12 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Integer): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Integer): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -166,7 +165,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (ログインパスワード)LOGIN_PASSWORD: {NotNull, VARCHAR(50)}
      * @param loginPassword The value of loginPassword as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setLoginPassword_Equal(loginPassword: String): Unit = {
+    def setLoginPassword_Equal(loginPassword: String): Unit = {
         doSetLoginPassword_Equal(fRES(loginPassword));
     }
 
@@ -179,7 +178,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (ログインパスワード)LOGIN_PASSWORD: {NotNull, VARCHAR(50)}
      * @param loginPassword The value of loginPassword as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setLoginPassword_NotEqual(loginPassword: String): Unit = {
+    def setLoginPassword_NotEqual(loginPassword: String): Unit = {
         doSetLoginPassword_NotEqual(fRES(loginPassword));
     }
 
@@ -252,7 +251,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ質問)REMINDER_QUESTION: {NotNull, VARCHAR(50)}
      * @param reminderQuestion The value of reminderQuestion as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setReminderQuestion_Equal(reminderQuestion: String): Unit = {
+    def setReminderQuestion_Equal(reminderQuestion: String): Unit = {
         doSetReminderQuestion_Equal(fRES(reminderQuestion));
     }
 
@@ -265,7 +264,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ質問)REMINDER_QUESTION: {NotNull, VARCHAR(50)}
      * @param reminderQuestion The value of reminderQuestion as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setReminderQuestion_NotEqual(reminderQuestion: String): Unit = {
+    def setReminderQuestion_NotEqual(reminderQuestion: String): Unit = {
         doSetReminderQuestion_NotEqual(fRES(reminderQuestion));
     }
 
@@ -338,7 +337,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ回答)REMINDER_ANSWER: {NotNull, VARCHAR(50)}
      * @param reminderAnswer The value of reminderAnswer as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setReminderAnswer_Equal(reminderAnswer: String): Unit = {
+    def setReminderAnswer_Equal(reminderAnswer: String): Unit = {
         doSetReminderAnswer_Equal(fRES(reminderAnswer));
     }
 
@@ -351,7 +350,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ回答)REMINDER_ANSWER: {NotNull, VARCHAR(50)}
      * @param reminderAnswer The value of reminderAnswer as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setReminderAnswer_NotEqual(reminderAnswer: String): Unit = {
+    def setReminderAnswer_NotEqual(reminderAnswer: String): Unit = {
         doSetReminderAnswer_NotEqual(fRES(reminderAnswer));
     }
 
@@ -418,13 +417,13 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
 
     protected def regReminderAnswer(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueReminderAnswer(), "REMINDER_ANSWER"); }
     protected def getCValueReminderAnswer(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as equal. (NullAllowed: if null, no condition)
      */
-     def setReminderUseCount_Equal(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_Equal(reminderUseCount: Integer): Unit = {
         doSetReminderUseCount_Equal(reminderUseCount);
     }
 
@@ -437,7 +436,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as notEqual. (NullAllowed: if null, no condition)
      */
-     def setReminderUseCount_NotEqual(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_NotEqual(reminderUseCount: Integer): Unit = {
         doSetReminderUseCount_NotEqual(reminderUseCount);
     }
 
@@ -540,7 +539,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @param registerUser The value of registerUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegisterUser_Equal(registerUser: String): Unit = {
+    def setRegisterUser_Equal(registerUser: String): Unit = {
         doSetRegisterUser_Equal(fRES(registerUser));
     }
 
@@ -568,7 +567,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @param updateUser The value of updateUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setUpdateUser_Equal(updateUser: String): Unit = {
+    def setUpdateUser_Equal(updateUser: String): Unit = {
         doSetUpdateUser_Equal(fRES(updateUser));
     }
 
@@ -578,13 +577,13 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
 
     protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param versionNo The value of versionNo as equal. (NullAllowed: if null, no condition)
      */
-     def setVersionNo_Equal(versionNo: Long): Unit = {
+    def setVersionNo_Equal(versionNo: Long): Unit = {
         doSetVersionNo_Equal(versionNo);
     }
 

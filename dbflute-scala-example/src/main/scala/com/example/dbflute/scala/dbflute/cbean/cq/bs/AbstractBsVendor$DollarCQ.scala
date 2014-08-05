@@ -44,13 +44,12 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as equal. (NullAllowed: if null, no condition)
      */
-     def setVendor$DollarId_Equal(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_Equal(vendor$DollarId: Integer): Unit = {
         doSetVendor$DollarId_Equal(vendor$DollarId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setVendor$DollarId_NotEqual(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_NotEqual(vendor$DollarId: Integer): Unit = {
         doSetVendor$DollarId_NotEqual(vendor$DollarId);
     }
 
@@ -166,7 +165,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_NAME: {VARCHAR(32)}
      * @param vendor$DollarName The value of vendor$DollarName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setVendor$DollarName_Equal(vendor$DollarName: String): Unit = {
+    def setVendor$DollarName_Equal(vendor$DollarName: String): Unit = {
         doSetVendor$DollarName_Equal(fRES(vendor$DollarName));
     }
 

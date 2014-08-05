@@ -44,13 +44,12 @@ abstract class AbstractBsMemberWithdrawalCQ(referrerQuery: ConditionQuery, sqlCl
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Integer): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsMemberWithdrawalCQ(referrerQuery: ConditionQuery, sqlCl
      * MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Integer): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -343,7 +342,7 @@ abstract class AbstractBsMemberWithdrawalCQ(referrerQuery: ConditionQuery, sqlCl
      * (退会理由入力テキスト)WITHDRAWAL_REASON_INPUT_TEXT: {CLOB(2147483647)}
      * @param withdrawalReasonInputText The value of withdrawalReasonInputText as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setWithdrawalReasonInputText_Equal(withdrawalReasonInputText: String): Unit = {
+    def setWithdrawalReasonInputText_Equal(withdrawalReasonInputText: String): Unit = {
         doSetWithdrawalReasonInputText_Equal(fRES(withdrawalReasonInputText));
     }
 
@@ -487,7 +486,7 @@ abstract class AbstractBsMemberWithdrawalCQ(referrerQuery: ConditionQuery, sqlCl
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @param registerUser The value of registerUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegisterUser_Equal(registerUser: String): Unit = {
+    def setRegisterUser_Equal(registerUser: String): Unit = {
         doSetRegisterUser_Equal(fRES(registerUser));
     }
 
@@ -515,7 +514,7 @@ abstract class AbstractBsMemberWithdrawalCQ(referrerQuery: ConditionQuery, sqlCl
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @param updateUser The value of updateUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setUpdateUser_Equal(updateUser: String): Unit = {
+    def setUpdateUser_Equal(updateUser: String): Unit = {
         doSetUpdateUser_Equal(fRES(updateUser));
     }
 
@@ -525,13 +524,13 @@ abstract class AbstractBsMemberWithdrawalCQ(referrerQuery: ConditionQuery, sqlCl
 
     protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param versionNo The value of versionNo as equal. (NullAllowed: if null, no condition)
      */
-     def setVersionNo_Equal(versionNo: Long): Unit = {
+    def setVersionNo_Equal(versionNo: Long): Unit = {
         doSetVersionNo_Equal(versionNo);
     }
 

@@ -44,13 +44,12 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID: {PK, NotNull, BIGINT(19)}
      * @param theLongAndWindingTableAndColumnId The value of theLongAndWindingTableAndColumnId as equal. (NullAllowed: if null, no condition)
      */
-     def setTheLongAndWindingTableAndColumnId_Equal(theLongAndWindingTableAndColumnId: Long): Unit = {
+    def setTheLongAndWindingTableAndColumnId_Equal(theLongAndWindingTableAndColumnId: Long): Unit = {
         doSetTheLongAndWindingTableAndColumnId_Equal(theLongAndWindingTableAndColumnId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID: {PK, NotNull, BIGINT(19)}
      * @param theLongAndWindingTableAndColumnId The value of theLongAndWindingTableAndColumnId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setTheLongAndWindingTableAndColumnId_NotEqual(theLongAndWindingTableAndColumnId: Long): Unit = {
+    def setTheLongAndWindingTableAndColumnId_NotEqual(theLongAndWindingTableAndColumnId: Long): Unit = {
         doSetTheLongAndWindingTableAndColumnId_NotEqual(theLongAndWindingTableAndColumnId);
     }
 
@@ -284,7 +283,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_NAME: {UQ, NotNull, VARCHAR(200)}
      * @param theLongAndWindingTableAndColumnName The value of theLongAndWindingTableAndColumnName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setTheLongAndWindingTableAndColumnName_Equal(theLongAndWindingTableAndColumnName: String): Unit = {
+    def setTheLongAndWindingTableAndColumnName_Equal(theLongAndWindingTableAndColumnName: String): Unit = {
         doSetTheLongAndWindingTableAndColumnName_Equal(fRES(theLongAndWindingTableAndColumnName));
     }
 
@@ -331,7 +330,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_NAME: {NotNull, VARCHAR(200)}
      * @param shortName The value of shortName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setShortName_Equal(shortName: String): Unit = {
+    def setShortName_Equal(shortName: String): Unit = {
         doSetShortName_Equal(fRES(shortName));
     }
 
@@ -372,13 +371,13 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
 
     protected def regShortName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueShortName(), "SHORT_NAME"); }
     protected def getCValueShortName(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as equal. (NullAllowed: if null, no condition)
      */
-     def setShortSize_Equal(shortSize: Integer): Unit = {
+    def setShortSize_Equal(shortSize: Integer): Unit = {
         doSetShortSize_Equal(shortSize);
     }
 
@@ -391,7 +390,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as notEqual. (NullAllowed: if null, no condition)
      */
-     def setShortSize_NotEqual(shortSize: Integer): Unit = {
+    def setShortSize_NotEqual(shortSize: Integer): Unit = {
         doSetShortSize_NotEqual(shortSize);
     }
 

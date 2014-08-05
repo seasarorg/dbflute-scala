@@ -44,13 +44,12 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員フォローイングID)MEMBER_FOLLOWING_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param memberFollowingId The value of memberFollowingId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberFollowingId_Equal(memberFollowingId: Long): Unit = {
+    def setMemberFollowingId_Equal(memberFollowingId: Long): Unit = {
         doSetMemberFollowingId_Equal(memberFollowingId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (会員フォローイングID)MEMBER_FOLLOWING_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param memberFollowingId The value of memberFollowingId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberFollowingId_NotEqual(memberFollowingId: Long): Unit = {
+    def setMemberFollowingId_NotEqual(memberFollowingId: Long): Unit = {
         doSetMemberFollowingId_NotEqual(memberFollowingId);
     }
 
@@ -160,13 +159,13 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
 
     protected def regMemberFollowingId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberFollowingId(), "MEMBER_FOLLOWING_ID"); }
     protected def getCValueMemberFollowingId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMyMemberId_Equal(myMemberId: Integer): Unit = {
+    def setMyMemberId_Equal(myMemberId: Integer): Unit = {
         doSetMyMemberId_Equal(myMemberId);
     }
 
@@ -179,7 +178,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMyMemberId_NotEqual(myMemberId: Integer): Unit = {
+    def setMyMemberId_NotEqual(myMemberId: Integer): Unit = {
         doSetMyMemberId_NotEqual(myMemberId);
     }
 
@@ -264,13 +263,13 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
 
     protected def regMyMemberId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMyMemberId(), "MY_MEMBER_ID"); }
     protected def getCValueMyMemberId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as equal. (NullAllowed: if null, no condition)
      */
-     def setYourMemberId_Equal(yourMemberId: Integer): Unit = {
+    def setYourMemberId_Equal(yourMemberId: Integer): Unit = {
         doSetYourMemberId_Equal(yourMemberId);
     }
 
@@ -283,7 +282,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setYourMemberId_NotEqual(yourMemberId: Integer): Unit = {
+    def setYourMemberId_NotEqual(yourMemberId: Integer): Unit = {
         doSetYourMemberId_NotEqual(yourMemberId);
     }
 

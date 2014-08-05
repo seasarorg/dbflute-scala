@@ -44,7 +44,6 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
      * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank}
@@ -355,7 +354,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスランク名称)SERVICE_RANK_NAME: {NotNull, VARCHAR(50)}
      * @param serviceRankName The value of serviceRankName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setServiceRankName_Equal(serviceRankName: String): Unit = {
+    def setServiceRankName_Equal(serviceRankName: String): Unit = {
         doSetServiceRankName_Equal(fRES(serviceRankName));
     }
 
@@ -396,13 +395,13 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regServiceRankName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueServiceRankName(), "SERVICE_RANK_NAME"); }
     protected def getCValueServiceRankName(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as equal. (NullAllowed: if null, no condition)
      */
-     def setServicePointIncidence_Equal(servicePointIncidence: java.math.BigDecimal): Unit = {
+    def setServicePointIncidence_Equal(servicePointIncidence: java.math.BigDecimal): Unit = {
         doSetServicePointIncidence_Equal(servicePointIncidence);
     }
 
@@ -415,7 +414,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as notEqual. (NullAllowed: if null, no condition)
      */
-     def setServicePointIncidence_NotEqual(servicePointIncidence: java.math.BigDecimal): Unit = {
+    def setServicePointIncidence_NotEqual(servicePointIncidence: java.math.BigDecimal): Unit = {
         doSetServicePointIncidence_NotEqual(servicePointIncidence);
     }
 
@@ -500,7 +499,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regServicePointIncidence(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueServicePointIncidence(), "SERVICE_POINT_INCIDENCE"); }
     protected def getCValueServicePointIncidence(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
@@ -633,7 +632,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (説明)DESCRIPTION: {NotNull, VARCHAR(200)}
      * @param description The value of description as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setDescription_Equal(description: String): Unit = {
+    def setDescription_Equal(description: String): Unit = {
         doSetDescription_Equal(fRES(description));
     }
 
@@ -643,13 +642,13 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regDescription(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueDescription(), "DESCRIPTION"); }
     protected def getCValueDescription(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-     def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 

@@ -44,13 +44,12 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員ログインID)MEMBER_LOGIN_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param memberLoginId The value of memberLoginId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberLoginId_Equal(memberLoginId: Long): Unit = {
+    def setMemberLoginId_Equal(memberLoginId: Long): Unit = {
         doSetMemberLoginId_Equal(memberLoginId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ログインID)MEMBER_LOGIN_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param memberLoginId The value of memberLoginId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberLoginId_NotEqual(memberLoginId: Long): Unit = {
+    def setMemberLoginId_NotEqual(memberLoginId: Long): Unit = {
         doSetMemberLoginId_NotEqual(memberLoginId);
     }
 
@@ -160,13 +159,13 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regMemberLoginId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueMemberLoginId(), "MEMBER_LOGIN_ID"); }
     protected def getCValueMemberLoginId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Integer): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -179,7 +178,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Integer): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -340,7 +339,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
 
     protected def regLoginDatetime(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueLoginDatetime(), "LOGIN_DATETIME"); }
     protected def getCValueLoginDatetime(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (モバイルログインフラグ)MOBILE_LOGIN_FLG: {NotNull, INTEGER(10), classification=Flg}

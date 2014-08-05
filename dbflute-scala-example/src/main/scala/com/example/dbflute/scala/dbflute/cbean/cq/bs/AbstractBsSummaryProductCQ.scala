@@ -44,13 +44,12 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as equal. (NullAllowed: if null, no condition)
      */
-     def setProductId_Equal(productId: Integer): Unit = {
+    def setProductId_Equal(productId: Integer): Unit = {
         doSetProductId_Equal(productId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setProductId_NotEqual(productId: Integer): Unit = {
+    def setProductId_NotEqual(productId: Integer): Unit = {
         doSetProductId_NotEqual(productId);
     }
 
@@ -166,7 +165,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_NAME: {VARCHAR(50)}
      * @param productName The value of productName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductName_Equal(productName: String): Unit = {
+    def setProductName_Equal(productName: String): Unit = {
         doSetProductName_Equal(fRES(productName));
     }
 
@@ -231,7 +230,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_HANDLE_CODE: {VARCHAR(100)}
      * @param productHandleCode The value of productHandleCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductHandleCode_Equal(productHandleCode: String): Unit = {
+    def setProductHandleCode_Equal(productHandleCode: String): Unit = {
         doSetProductHandleCode_Equal(fRES(productHandleCode));
     }
 
@@ -244,7 +243,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_HANDLE_CODE: {VARCHAR(100)}
      * @param productHandleCode The value of productHandleCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductHandleCode_NotEqual(productHandleCode: String): Unit = {
+    def setProductHandleCode_NotEqual(productHandleCode: String): Unit = {
         doSetProductHandleCode_NotEqual(fRES(productHandleCode));
     }
 
@@ -335,7 +334,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_STATUS_CODE: {CHAR(3)}
      * @param productStatusCode The value of productStatusCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductStatusCode_Equal(productStatusCode: String): Unit = {
+    def setProductStatusCode_Equal(productStatusCode: String): Unit = {
         doSetProductStatusCode_Equal(fRES(productStatusCode));
     }
 
@@ -348,7 +347,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_STATUS_CODE: {CHAR(3)}
      * @param productStatusCode The value of productStatusCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductStatusCode_NotEqual(productStatusCode: String): Unit = {
+    def setProductStatusCode_NotEqual(productStatusCode: String): Unit = {
         doSetProductStatusCode_NotEqual(fRES(productStatusCode));
     }
 

@@ -44,7 +44,6 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
      * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus}
@@ -441,7 +440,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * (会員ステータス名称)MEMBER_STATUS_NAME: {NotNull, VARCHAR(50)}
      * @param memberStatusName The value of memberStatusName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberStatusName_Equal(memberStatusName: String): Unit = {
+    def setMemberStatusName_Equal(memberStatusName: String): Unit = {
         doSetMemberStatusName_Equal(fRES(memberStatusName));
     }
 
@@ -488,7 +487,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * (説明)DESCRIPTION: {NotNull, VARCHAR(200)}
      * @param description The value of description as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setDescription_Equal(description: String): Unit = {
+    def setDescription_Equal(description: String): Unit = {
         doSetDescription_Equal(fRES(description));
     }
 
@@ -498,13 +497,13 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
 
     protected def regDescription(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueDescription(), "DESCRIPTION"); }
     protected def getCValueDescription(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-     def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 

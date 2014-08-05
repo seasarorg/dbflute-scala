@@ -44,13 +44,12 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-     def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Integer): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Integer): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -756,7 +755,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員名称)MEMBER_NAME: {IX, NotNull, VARCHAR(200)}
      * @param memberName The value of memberName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberName_Equal(memberName: String): Unit = {
+    def setMemberName_Equal(memberName: String): Unit = {
         doSetMemberName_Equal(fRES(memberName));
     }
 
@@ -803,7 +802,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)}
      * @param memberAccount The value of memberAccount as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberAccount_Equal(memberAccount: String): Unit = {
+    def setMemberAccount_Equal(memberAccount: String): Unit = {
         doSetMemberAccount_Equal(fRES(memberAccount));
     }
 
@@ -816,7 +815,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員アカウント)MEMBER_ACCOUNT: {UQ, NotNull, VARCHAR(50)}
      * @param memberAccount The value of memberAccount as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setMemberAccount_NotEqual(memberAccount: String): Unit = {
+    def setMemberAccount_NotEqual(memberAccount: String): Unit = {
         doSetMemberAccount_NotEqual(fRES(memberAccount));
     }
 
@@ -1220,7 +1219,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)}
      * @param registerUser The value of registerUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegisterUser_Equal(registerUser: String): Unit = {
+    def setRegisterUser_Equal(registerUser: String): Unit = {
         doSetRegisterUser_Equal(fRES(registerUser));
     }
 
@@ -1248,7 +1247,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)}
      * @param updateUser The value of updateUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setUpdateUser_Equal(updateUser: String): Unit = {
+    def setUpdateUser_Equal(updateUser: String): Unit = {
         doSetUpdateUser_Equal(fRES(updateUser));
     }
 
@@ -1258,13 +1257,13 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
 
     protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (バージョンNO)VERSION_NO: {NotNull, BIGINT(19)}
      * @param versionNo The value of versionNo as equal. (NullAllowed: if null, no condition)
      */
-     def setVersionNo_Equal(versionNo: Long): Unit = {
+    def setVersionNo_Equal(versionNo: Long): Unit = {
         doSetVersionNo_Equal(versionNo);
     }
 

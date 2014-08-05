@@ -44,13 +44,12 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
      * (商品カテゴリコード)PRODUCT_CATEGORY_CODE: {PK, NotNull, CHAR(3)}
      * @param productCategoryCode The value of productCategoryCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductCategoryCode_Equal(productCategoryCode: String): Unit = {
+    def setProductCategoryCode_Equal(productCategoryCode: String): Unit = {
         doSetProductCategoryCode_Equal(fRES(productCategoryCode));
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
      * (商品カテゴリコード)PRODUCT_CATEGORY_CODE: {PK, NotNull, CHAR(3)}
      * @param productCategoryCode The value of productCategoryCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductCategoryCode_NotEqual(productCategoryCode: String): Unit = {
+    def setProductCategoryCode_NotEqual(productCategoryCode: String): Unit = {
         doSetProductCategoryCode_NotEqual(fRES(productCategoryCode));
     }
 
@@ -384,7 +383,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
      * (商品カテゴリ名称)PRODUCT_CATEGORY_NAME: {NotNull, VARCHAR(50)}
      * @param productCategoryName The value of productCategoryName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductCategoryName_Equal(productCategoryName: String): Unit = {
+    def setProductCategoryName_Equal(productCategoryName: String): Unit = {
         doSetProductCategoryName_Equal(fRES(productCategoryName));
     }
 
@@ -431,7 +430,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
      * (親カテゴリコード)PARENT_CATEGORY_CODE: {IX, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param parentCategoryCode The value of parentCategoryCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setParentCategoryCode_Equal(parentCategoryCode: String): Unit = {
+    def setParentCategoryCode_Equal(parentCategoryCode: String): Unit = {
         doSetParentCategoryCode_Equal(fRES(parentCategoryCode));
     }
 
@@ -444,7 +443,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
      * (親カテゴリコード)PARENT_CATEGORY_CODE: {IX, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param parentCategoryCode The value of parentCategoryCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setParentCategoryCode_NotEqual(parentCategoryCode: String): Unit = {
+    def setParentCategoryCode_NotEqual(parentCategoryCode: String): Unit = {
         doSetParentCategoryCode_NotEqual(fRES(parentCategoryCode));
     }
 

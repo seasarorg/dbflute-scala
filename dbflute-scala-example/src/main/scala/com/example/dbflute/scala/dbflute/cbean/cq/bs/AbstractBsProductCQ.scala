@@ -44,13 +44,12 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as equal. (NullAllowed: if null, no condition)
      */
-     def setProductId_Equal(productId: Integer): Unit = {
+    def setProductId_Equal(productId: Integer): Unit = {
         doSetProductId_Equal(productId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setProductId_NotEqual(productId: Integer): Unit = {
+    def setProductId_NotEqual(productId: Integer): Unit = {
         doSetProductId_NotEqual(productId);
     }
 
@@ -284,7 +283,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (商品名称)PRODUCT_NAME: {IX, NotNull, VARCHAR(50)}
      * @param productName The value of productName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductName_Equal(productName: String): Unit = {
+    def setProductName_Equal(productName: String): Unit = {
         doSetProductName_Equal(fRES(productName));
     }
 
@@ -331,7 +330,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)}
      * @param productHandleCode The value of productHandleCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductHandleCode_Equal(productHandleCode: String): Unit = {
+    def setProductHandleCode_Equal(productHandleCode: String): Unit = {
         doSetProductHandleCode_Equal(fRES(productHandleCode));
     }
 
@@ -344,7 +343,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (商品ハンドルコード)PRODUCT_HANDLE_CODE: {UQ, NotNull, VARCHAR(100)}
      * @param productHandleCode The value of productHandleCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductHandleCode_NotEqual(productHandleCode: String): Unit = {
+    def setProductHandleCode_NotEqual(productHandleCode: String): Unit = {
         doSetProductHandleCode_NotEqual(fRES(productHandleCode));
     }
 
@@ -417,7 +416,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCode The value of productCategoryCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductCategoryCode_Equal(productCategoryCode: String): Unit = {
+    def setProductCategoryCode_Equal(productCategoryCode: String): Unit = {
         doSetProductCategoryCode_Equal(fRES(productCategoryCode));
     }
 
@@ -430,7 +429,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_CATEGORY_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_CATEGORY}
      * @param productCategoryCode The value of productCategoryCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductCategoryCode_NotEqual(productCategoryCode: String): Unit = {
+    def setProductCategoryCode_NotEqual(productCategoryCode: String): Unit = {
         doSetProductCategoryCode_NotEqual(fRES(productCategoryCode));
     }
 
@@ -640,13 +639,13 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     protected def regProductStatusCode(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductStatusCode(), "PRODUCT_STATUS_CODE"); }
     protected def getCValueProductStatusCode(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as equal. (NullAllowed: if null, no condition)
      */
-     def setRegularPrice_Equal(regularPrice: Integer): Unit = {
+    def setRegularPrice_Equal(regularPrice: Integer): Unit = {
         doSetRegularPrice_Equal(regularPrice);
     }
 
@@ -659,7 +658,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as notEqual. (NullAllowed: if null, no condition)
      */
-     def setRegularPrice_NotEqual(regularPrice: Integer): Unit = {
+    def setRegularPrice_NotEqual(regularPrice: Integer): Unit = {
         doSetRegularPrice_NotEqual(regularPrice);
     }
 
@@ -762,7 +761,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @param registerUser The value of registerUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegisterUser_Equal(registerUser: String): Unit = {
+    def setRegisterUser_Equal(registerUser: String): Unit = {
         doSetRegisterUser_Equal(fRES(registerUser));
     }
 
@@ -790,7 +789,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @param updateUser The value of updateUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setUpdateUser_Equal(updateUser: String): Unit = {
+    def setUpdateUser_Equal(updateUser: String): Unit = {
         doSetUpdateUser_Equal(fRES(updateUser));
     }
 
@@ -800,13 +799,13 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
 
     protected def regUpdateUser(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueUpdateUser(), "UPDATE_USER"); }
     protected def getCValueUpdateUser(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * VERSION_NO: {NotNull, BIGINT(19)}
      * @param versionNo The value of versionNo as equal. (NullAllowed: if null, no condition)
      */
-     def setVersionNo_Equal(versionNo: Long): Unit = {
+    def setVersionNo_Equal(versionNo: Long): Unit = {
         doSetVersionNo_Equal(versionNo);
     }
 

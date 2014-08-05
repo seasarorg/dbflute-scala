@@ -44,13 +44,12 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param purchasePaymentId The value of purchasePaymentId as equal. (NullAllowed: if null, no condition)
      */
-     def setPurchasePaymentId_Equal(purchasePaymentId: Long): Unit = {
+    def setPurchasePaymentId_Equal(purchasePaymentId: Long): Unit = {
         doSetPurchasePaymentId_Equal(purchasePaymentId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (購入支払ID)PURCHASE_PAYMENT_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param purchasePaymentId The value of purchasePaymentId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPurchasePaymentId_NotEqual(purchasePaymentId: Long): Unit = {
+    def setPurchasePaymentId_NotEqual(purchasePaymentId: Long): Unit = {
         doSetPurchasePaymentId_NotEqual(purchasePaymentId);
     }
 
@@ -160,13 +159,13 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
 
     protected def regPurchasePaymentId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchasePaymentId(), "PURCHASE_PAYMENT_ID"); }
     protected def getCValuePurchasePaymentId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE}
      * @param purchaseId The value of purchaseId as equal. (NullAllowed: if null, no condition)
      */
-     def setPurchaseId_Equal(purchaseId: Long): Unit = {
+    def setPurchaseId_Equal(purchaseId: Long): Unit = {
         doSetPurchaseId_Equal(purchaseId);
     }
 
@@ -179,7 +178,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (購入ID)PURCHASE_ID: {IX, NotNull, BIGINT(19), FK to PURCHASE}
      * @param purchaseId The value of purchaseId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPurchaseId_NotEqual(purchaseId: Long): Unit = {
+    def setPurchaseId_NotEqual(purchaseId: Long): Unit = {
         doSetPurchaseId_NotEqual(purchaseId);
     }
 
@@ -264,13 +263,13 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
 
     protected def regPurchaseId(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValuePurchaseId(), "PURCHASE_ID"); }
     protected def getCValuePurchaseId(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as equal. (NullAllowed: if null, no condition)
      */
-     def setPaymentAmount_Equal(paymentAmount: java.math.BigDecimal): Unit = {
+    def setPaymentAmount_Equal(paymentAmount: java.math.BigDecimal): Unit = {
         doSetPaymentAmount_Equal(paymentAmount);
     }
 
@@ -283,7 +282,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPaymentAmount_NotEqual(paymentAmount: java.math.BigDecimal): Unit = {
+    def setPaymentAmount_NotEqual(paymentAmount: java.math.BigDecimal): Unit = {
         doSetPaymentAmount_NotEqual(paymentAmount);
     }
 
@@ -450,7 +449,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払方法コード)PAYMENT_METHOD_CODE: {NotNull, CHAR(3)}
      * @param paymentMethodCode The value of paymentMethodCode as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setPaymentMethodCode_Equal(paymentMethodCode: String): Unit = {
+    def setPaymentMethodCode_Equal(paymentMethodCode: String): Unit = {
         doSetPaymentMethodCode_Equal(fRES(paymentMethodCode));
     }
 
@@ -463,7 +462,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払方法コード)PAYMENT_METHOD_CODE: {NotNull, CHAR(3)}
      * @param paymentMethodCode The value of paymentMethodCode as notEqual. (NullAllowed: if null (or empty), no condition)
      */
-     def setPaymentMethodCode_NotEqual(paymentMethodCode: String): Unit = {
+    def setPaymentMethodCode_NotEqual(paymentMethodCode: String): Unit = {
         doSetPaymentMethodCode_NotEqual(fRES(paymentMethodCode));
     }
 
@@ -548,7 +547,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * REGISTER_USER: {NotNull, VARCHAR(200)}
      * @param registerUser The value of registerUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setRegisterUser_Equal(registerUser: String): Unit = {
+    def setRegisterUser_Equal(registerUser: String): Unit = {
         doSetRegisterUser_Equal(fRES(registerUser));
     }
 
@@ -576,7 +575,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * UPDATE_USER: {NotNull, VARCHAR(200)}
      * @param updateUser The value of updateUser as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setUpdateUser_Equal(updateUser: String): Unit = {
+    def setUpdateUser_Equal(updateUser: String): Unit = {
         doSetUpdateUser_Equal(fRES(updateUser));
     }
 

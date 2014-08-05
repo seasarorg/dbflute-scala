@@ -145,11 +145,18 @@ class ImplementedSqlClauseCreator extends SqlClauseCreator {
         if (isThatsBadTimingDetect()) {
             sqlClause.enableThatsBadTimingDetect();
         }
+        if (isNullOrEmptyQueryAllowed()) {
+            sqlClause.ignoreNullOrEmptyQuery();
+        } else { // mainly here on Scala
+            sqlClause.checkNullOrEmptyQuery();
+        }
         if (isEmptyStringQueryAllowed()) {
             sqlClause.enableEmptyStringQuery();
         }
-        if (isNullOrEmptyQueryChecked()) {
-            sqlClause.checkNullOrEmptyQuery();
+        if (isOverridingQueryAllowed()) {
+            sqlClause.enableOverridingQuery();
+        } else { // mainly here on Scala
+            sqlClause.disableOverridingQuery();
         }
         if (isDisableSelectIndex()) {
             sqlClause.disableSelectIndex();
@@ -171,12 +178,16 @@ class ImplementedSqlClauseCreator extends SqlClauseCreator {
 	    return DBFluteConfig.isThatsBadTimingDetect();
     }
 
+    protected def isNullOrEmptyQueryAllowed(): Boolean = {
+	    return DBFluteConfig.isNullOrEmptyQueryAllowed();
+    }
+
     protected def isEmptyStringQueryAllowed(): Boolean = {
 	    return DBFluteConfig.isEmptyStringQueryAllowed();
     }
 
-    protected def isNullOrEmptyQueryChecked(): Boolean = {
-	    return DBFluteConfig.isNullOrEmptyQueryChecked();
+    protected def isOverridingQueryAllowed(): Boolean = {
+	    return DBFluteConfig.isOverridingQueryAllowed();
     }
 
     protected def isDisableSelectIndex(): Boolean = {

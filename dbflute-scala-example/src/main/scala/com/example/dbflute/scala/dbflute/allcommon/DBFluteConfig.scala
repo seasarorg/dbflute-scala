@@ -53,9 +53,10 @@ object DBFluteConfig {
     protected var _pagingCountLeastJoin: Boolean = true;
     protected var _innerJoinAutoDetect: Boolean = true;
     protected var _thatsBadTimingDetect: Boolean = true;
+    protected var _nullOrEmptyQueryAllowed: Boolean = false;
     protected var _emptyStringQueryAllowed: Boolean = false;
     protected var _emptyStringParameterAllowed: Boolean = false;
-    protected var _nullOrEmptyChecked: Boolean = false;
+    protected var _overridingQueryAllowed: Boolean = false;
     protected var _disableSelectIndex: Boolean = false;
     protected var _queryUpdateCountPreCheck: Boolean = false;
 
@@ -168,12 +169,29 @@ object DBFluteConfig {
     // ===================================================================================
     //                                                                       Invalid Query
     //                                                                       =============
+    def isNullOrEmptyQueryAllowed(): Boolean = {
+        return _nullOrEmptyQueryAllowed;
+    }
+
+    /**
+     * Set whether null-or-empty query is allowed or not. <br />
+     * This configuration is only for ConditionBean.
+     * @param nullOrEmptyQueryAllowed The determination, true or false.
+     */
+    def setNullOrEmptyQueryAllowed(nullOrEmptyQueryAllowed: Boolean): Unit = {
+        assertNotLocked();
+        if (_log.isInfoEnabled()) {
+            _log.info("...Setting nullOrEmptyQueryAllowed: " + nullOrEmptyQueryAllowed);
+        }
+        _nullOrEmptyQueryAllowed = nullOrEmptyQueryAllowed;
+    }
+
     def isEmptyStringQueryAllowed(): Boolean = {
         return _emptyStringQueryAllowed;
     }
 
     /**
-     * Set whether an empty string for query is allowed or not. {default: false}<br />
+     * Set whether an empty string for query is allowed or not. <br />
      * This configuration is only for ConditionBean.
      * @param emptyStringQueryAllowed The determination, true or false.
      */
@@ -190,7 +208,7 @@ object DBFluteConfig {
     }
 
     /**
-     * Set whether an empty string for parameter is allowed or not. {default: false}<br />
+     * Set whether an empty string for parameter is allowed or not. <br />
      * This configuration is only for ParameterBean.
      * @param emptyStringParameterAllowed The determination, true or false.
      */
@@ -202,21 +220,21 @@ object DBFluteConfig {
         _emptyStringParameterAllowed = emptyStringParameterAllowed;
     }
 
-    def isNullOrEmptyQueryChecked(): Boolean = {
-        return _nullOrEmptyChecked;
+    def isOverridingQueryAllowed(): Boolean = {
+        return _overridingQueryAllowed;
     }
 
     /**
-     * Set whether an invalid query is checked or not. {default: false}<br />
+     * Set whether overriding query is allowed or not. <br />
      * This configuration is only for ConditionBean.
-     * @param nullOrEmptyChecked The determination, true or false.
+     * @param overridingQueryAllowed The determination, true or false.
      */
-    def setNullOrEmptyQueryChecked(nullOrEmptyChecked: Boolean): Unit = {
+    def setOverridingQueryAllowed(overridingQueryAllowed: Boolean): Unit = {
         assertNotLocked();
         if (_log.isInfoEnabled()) {
-            _log.info("...Setting nullOrEmptyChecked: " + nullOrEmptyChecked);
+            _log.info("...Setting overridingQueryAllowed: " + overridingQueryAllowed);
         }
-        _nullOrEmptyChecked = nullOrEmptyChecked;
+        _overridingQueryAllowed = overridingQueryAllowed;
     }
 
     // ===================================================================================

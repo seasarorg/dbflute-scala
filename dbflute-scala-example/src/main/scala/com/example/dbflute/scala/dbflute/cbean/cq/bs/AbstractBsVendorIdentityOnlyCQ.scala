@@ -44,13 +44,12 @@ abstract class AbstractBsVendorIdentityOnlyCQ(referrerQuery: ConditionQuery, sql
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * IDENTITY_ONLY_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param identityOnlyId The value of identityOnlyId as equal. (NullAllowed: if null, no condition)
      */
-     def setIdentityOnlyId_Equal(identityOnlyId: Long): Unit = {
+    def setIdentityOnlyId_Equal(identityOnlyId: Long): Unit = {
         doSetIdentityOnlyId_Equal(identityOnlyId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsVendorIdentityOnlyCQ(referrerQuery: ConditionQuery, sql
      * IDENTITY_ONLY_ID: {PK, ID, NotNull, BIGINT(19)}
      * @param identityOnlyId The value of identityOnlyId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setIdentityOnlyId_NotEqual(identityOnlyId: Long): Unit = {
+    def setIdentityOnlyId_NotEqual(identityOnlyId: Long): Unit = {
         doSetIdentityOnlyId_NotEqual(identityOnlyId);
     }
 

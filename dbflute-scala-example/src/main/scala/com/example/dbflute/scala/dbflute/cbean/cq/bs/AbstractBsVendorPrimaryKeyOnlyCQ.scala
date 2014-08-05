@@ -44,13 +44,12 @@ abstract class AbstractBsVendorPrimaryKeyOnlyCQ(referrerQuery: ConditionQuery, s
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-    
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * PRIMARY_KEY_ONLY_ID: {PK, NotNull, BIGINT(19)}
      * @param primaryKeyOnlyId The value of primaryKeyOnlyId as equal. (NullAllowed: if null, no condition)
      */
-     def setPrimaryKeyOnlyId_Equal(primaryKeyOnlyId: Long): Unit = {
+    def setPrimaryKeyOnlyId_Equal(primaryKeyOnlyId: Long): Unit = {
         doSetPrimaryKeyOnlyId_Equal(primaryKeyOnlyId);
     }
 
@@ -63,7 +62,7 @@ abstract class AbstractBsVendorPrimaryKeyOnlyCQ(referrerQuery: ConditionQuery, s
      * PRIMARY_KEY_ONLY_ID: {PK, NotNull, BIGINT(19)}
      * @param primaryKeyOnlyId The value of primaryKeyOnlyId as notEqual. (NullAllowed: if null, no condition)
      */
-     def setPrimaryKeyOnlyId_NotEqual(primaryKeyOnlyId: Long): Unit = {
+    def setPrimaryKeyOnlyId_NotEqual(primaryKeyOnlyId: Long): Unit = {
         doSetPrimaryKeyOnlyId_NotEqual(primaryKeyOnlyId);
     }
 

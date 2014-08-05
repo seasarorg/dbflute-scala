@@ -44,7 +44,6 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
      * (商品ステータスコード)PRODUCT_STATUS_CODE: {PK, NotNull, CHAR(3), classification=ProductStatus}
@@ -323,7 +322,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
      * (商品ステータス名称)PRODUCT_STATUS_NAME: {NotNull, VARCHAR(50)}
      * @param productStatusName The value of productStatusName as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setProductStatusName_Equal(productStatusName: String): Unit = {
+    def setProductStatusName_Equal(productStatusName: String): Unit = {
         doSetProductStatusName_Equal(fRES(productStatusName));
     }
 
@@ -364,13 +363,13 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
 
     protected def regProductStatusName(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueProductStatusName(), "PRODUCT_STATUS_NAME"); }
     protected def getCValueProductStatusName(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-     def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 

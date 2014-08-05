@@ -44,7 +44,6 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
     // ===================================================================================
     //                                                                               Query
     //                                                                               =====
-
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br />
      * (退会理由コード)WITHDRAWAL_REASON_CODE: {PK, NotNull, CHAR(3), classification=WithdrawalReason}
@@ -339,7 +338,7 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
      * (退会理由テキスト)WITHDRAWAL_REASON_TEXT: {NotNull, CLOB(2147483647)}
      * @param withdrawalReasonText The value of withdrawalReasonText as equal. (NullAllowed: if null (or empty), no condition)
      */
-     def setWithdrawalReasonText_Equal(withdrawalReasonText: String): Unit = {
+    def setWithdrawalReasonText_Equal(withdrawalReasonText: String): Unit = {
         doSetWithdrawalReasonText_Equal(fRES(withdrawalReasonText));
     }
 
@@ -371,13 +370,13 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
 
     protected def regWithdrawalReasonText(ky: ConditionKey, vl: Any): Unit = { regQ(ky, vl, getCValueWithdrawalReasonText(), "WITHDRAWAL_REASON_TEXT"); }
     protected def getCValueWithdrawalReasonText(): ConditionValue;
-    
+
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br />
      * DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-     def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 
