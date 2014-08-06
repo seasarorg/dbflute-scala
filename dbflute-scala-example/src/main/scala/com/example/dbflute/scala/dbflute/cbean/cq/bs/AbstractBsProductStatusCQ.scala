@@ -1,11 +1,10 @@
 package com.example.dbflute.scala.dbflute.cbean.cq.bs;
 
-import scala.collection.immutable._;
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util.Collection;
 import java.util.Date;
-import java.sql.Timestamp;
 
 import org.seasar.dbflute.cbean._;
 import org.seasar.dbflute.cbean.AbstractConditionQuery._;
@@ -651,12 +650,12 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
     // ===================================================================================
     //                                                                        Scala Helper
     //                                                                        ============
-    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
-        if (javaList == null) { scala.collection.immutable.List() }
-        return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
+        if (javaList == null) { immutable.List() }
+        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
     }
 
-    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: List[SCALA]): Collection[JAVA] =
+    protected def toMutableValueCollectionImplicitly[SCALA, JAVA](ls: immutable.List[SCALA]): Collection[JAVA] =
     { if (ls != null) { ls.map(_.asInstanceOf[JAVA]).asJava } else { null } }
 
     protected def toScalaQDRFunction[CB <: ConditionBean](function: HpQDRFunction[CB]): ScrHpQDRFunction[CB] =
@@ -669,6 +668,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
         return new ProductStatusCB();
     }
     // very internal (for suppressing warn about 'Not Use Import')
+    protected def xabUDT(): String = { return classOf[Date].getName(); }
     protected def xabCQ(): String = { return classOf[ProductStatusCQ].getName(); }
     protected def xabLSO(): String = { return classOf[LikeSearchOption].getName(); }
     protected def xabSSQS(): String = { return classOf[HpSSQSetupper[_]].getName(); }
