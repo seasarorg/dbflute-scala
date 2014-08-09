@@ -538,7 +538,7 @@ dl.procedurelist dd.column pre {
 
   <h2 id="member" title="type=TABLE, primaryKey={MEMBER_ID}, nameLength=6, columnCount=11">
 (会員)MEMBER
-&nbsp;<span class="bqpcount"><a href="#member_sql">(outsideSql=2)</a></span>
+&nbsp;<span class="bqpcount"><a href="#member_sql">(outsideSql=5)</a></span>
 </h2>
 <p class="tablecomment">会員のプロフィールやアカウントなどの基本情報を保持する。<br />基本的に物理削除はなく、退会したらステータスが退会会員になる。<br />ライフサイクルやカテゴリの違う会員情報は、one-to-oneなどの関連テーブルにて。</p>
 <table summary="Columns in MEMBER">
@@ -4334,6 +4334,12 @@ SUMMARY_WITHDRAWAL
 <h2 id="outsidesql">OutsideSql List</h2>
 <h3 id="member_sql"><a href="#member">MEMBER</a></h3>
 <dl class="bqplist">
+	<dt>&nbsp;selectOptionMember</dt>
+	<dd class="subinfo">
+		<span class="file">MemberBhv_selectOptionMember.sql</span>
+		<span class="ctet">(df:entity)</span>
+		<span class="pmb">(df:pmb)</span>
+	</dd>
 	<dt>(Example&nbsp;for&nbsp;ManualPaging)selectPurchaseMaxPriceMember</dt>
 	<dd>
 		<pre class="commentdesc"> This SQL is an example for manual-paging of outside-SQL
@@ -4347,6 +4353,12 @@ SUMMARY_WITHDRAWAL
 		<span class="ctet">(df:entity)</span>
 		<span class="pmb">(df:pmb extends Paging)</span>
 	</dd>
+	<dt>&nbsp;selectPurchaseSummaryMember</dt>
+	<dd class="subinfo">
+		<span class="file">MemberBhv_selectPurchaseSummaryMember.sql</span>
+		<span class="ctet">(df:entity *cursor)</span>
+		<span class="pmb">(df:pmb)</span>
+	</dd>
 	<dt>(Simple&nbsp;Member&nbsp;Select)selectSimpleMember</dt>
 	<dd>
 		<pre class="commentdesc"> This SQL is the most basic example for outsideSql.
@@ -4356,6 +4368,12 @@ SUMMARY_WITHDRAWAL
 		<span class="file">MemberBhv_selectSimpleMember.sql</span>
 		<span class="ctet">(df:entity)</span>
 		<span class="pmb">(df:pmb)</span>
+	</dd>
+	<dt>&nbsp;selectUnpaidSummaryMember</dt>
+	<dd class="subinfo">
+		<span class="file">MemberBhv_selectUnpaidSummaryMember.sql</span>
+		<span class="ctet">(UnpaidSummaryMember)</span>
+		<span class="pmb">(UnpaidSummaryMemberPmb extends SPB)</span>
 	</dd>
 </dl>
 <script>

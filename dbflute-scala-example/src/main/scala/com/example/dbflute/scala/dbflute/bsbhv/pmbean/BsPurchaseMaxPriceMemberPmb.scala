@@ -141,7 +141,7 @@ abstract class CponPurchaseMaxPriceMemberPmb {
     }
 
     protected def assertLikeSearchOptionValid(name: String, option: LikeSearchOption): Unit = {
-        if (option == null) {
+        if (option == null) { // relic
             val msg: String = "The like-search option is required!";
             throw new RequiredOptionNotFoundException(msg);
         }
@@ -151,6 +151,10 @@ abstract class CponPurchaseMaxPriceMemberPmb {
             throw new IllegalOutsideSqlOperationException(msg);
         }
     }
+
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
+    { val op = createLikeSearchOption(); optionCall(op); return op; }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -208,7 +212,7 @@ abstract class CponPurchaseMaxPriceMemberPmb {
      */
     def setMemberNameList_PrefixSearch(memberNameList: List[String]): Unit = {
         _memberNameList = memberNameList;
-        _memberNameListInternalLikeSearchOption = new LikeSearchOption().likePrefix();
+        _memberNameListInternalLikeSearchOption = createLikeSearchOption().likePrefix();
     }
 
     /**

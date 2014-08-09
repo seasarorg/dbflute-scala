@@ -147,7 +147,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_InScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+    def setMemberStatusCode_InScope(memberStatusCodeList: List[String]): Unit = {
         doSetMemberStatusCode_InScope(toMutableValueCollectionImplicitly(memberStatusCodeList));
     }
 
@@ -161,7 +161,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         doSetMemberStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
@@ -170,7 +170,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * (会員ステータスコード)MEMBER_STATUS_CODE: {PK, NotNull, CHAR(3), classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_NotInScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+    def setMemberStatusCode_NotInScope(memberStatusCodeList: List[String]): Unit = {
         doSetMemberStatusCode_NotInScope(if (memberStatusCodeList != null) { memberStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -184,7 +184,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
         doSetMemberStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
@@ -507,7 +507,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Int): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 
@@ -524,7 +524,7 @@ abstract class AbstractBsMemberStatusCQ(referrerQuery: ConditionQuery, sqlClause
      * @param maxNumber The max number of displayOrder. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setDisplayOrder_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setDisplayOrder_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueDisplayOrder(), "DISPLAY_ORDER", callbackROOP(optionCall));
     }
 

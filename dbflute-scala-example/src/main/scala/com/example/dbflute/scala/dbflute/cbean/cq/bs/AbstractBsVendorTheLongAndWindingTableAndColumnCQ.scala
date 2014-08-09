@@ -381,7 +381,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as equal. (NullAllowed: if null, no condition)
      */
-    def setShortSize_Equal(shortSize: Integer): Unit = {
+    def setShortSize_Equal(shortSize: Int): Unit = {
         doSetShortSize_Equal(shortSize);
     }
 
@@ -394,7 +394,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as notEqual. (NullAllowed: if null, no condition)
      */
-    def setShortSize_NotEqual(shortSize: Integer): Unit = {
+    def setShortSize_NotEqual(shortSize: Int): Unit = {
         doSetShortSize_NotEqual(shortSize);
     }
 
@@ -407,7 +407,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setShortSize_GreaterThan(shortSize: Integer): Unit = {
+    def setShortSize_GreaterThan(shortSize: Int): Unit = {
         regShortSize(CK_GT, shortSize);
     }
 
@@ -416,7 +416,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as lessThan. (NullAllowed: if null, no condition)
      */
-    def setShortSize_LessThan(shortSize: Integer): Unit = {
+    def setShortSize_LessThan(shortSize: Int): Unit = {
         regShortSize(CK_LT, shortSize);
     }
 
@@ -425,7 +425,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setShortSize_GreaterEqual(shortSize: Integer): Unit = {
+    def setShortSize_GreaterEqual(shortSize: Int): Unit = {
         regShortSize(CK_GE, shortSize);
     }
 
@@ -434,7 +434,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSize The value of shortSize as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setShortSize_LessEqual(shortSize: Integer): Unit = {
+    def setShortSize_LessEqual(shortSize: Int): Unit = {
         regShortSize(CK_LE, shortSize);
     }
 
@@ -447,7 +447,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * @param maxNumber The max number of shortSize. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setShortSize_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setShortSize_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueShortSize(), "SHORT_SIZE", callbackROOP(optionCall));
     }
 
@@ -469,7 +469,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnCQ(referrerQuery: 
      * SHORT_SIZE: {NotNull, INTEGER(10)}
      * @param shortSizeList The collection of shortSize as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setShortSize_NotInScope(shortSizeList: List[Integer]): Unit = {
+    def setShortSize_NotInScope(shortSizeList: List[Int]): Unit = {
         doSetShortSize_NotInScope(if (shortSizeList != null) { shortSizeList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 

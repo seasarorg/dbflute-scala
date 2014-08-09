@@ -169,7 +169,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMyMemberId_Equal(myMemberId: Integer): Unit = {
+    def setMyMemberId_Equal(myMemberId: Int): Unit = {
         doSetMyMemberId_Equal(myMemberId);
     }
 
@@ -182,7 +182,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMyMemberId_NotEqual(myMemberId: Integer): Unit = {
+    def setMyMemberId_NotEqual(myMemberId: Int): Unit = {
         doSetMyMemberId_NotEqual(myMemberId);
     }
 
@@ -195,7 +195,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMyMemberId_GreaterThan(myMemberId: Integer): Unit = {
+    def setMyMemberId_GreaterThan(myMemberId: Int): Unit = {
         regMyMemberId(CK_GT, myMemberId);
     }
 
@@ -204,7 +204,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMyMemberId_LessThan(myMemberId: Integer): Unit = {
+    def setMyMemberId_LessThan(myMemberId: Int): Unit = {
         regMyMemberId(CK_LT, myMemberId);
     }
 
@@ -213,7 +213,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMyMemberId_GreaterEqual(myMemberId: Integer): Unit = {
+    def setMyMemberId_GreaterEqual(myMemberId: Int): Unit = {
         regMyMemberId(CK_GE, myMemberId);
     }
 
@@ -222,7 +222,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberId The value of myMemberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMyMemberId_LessEqual(myMemberId: Integer): Unit = {
+    def setMyMemberId_LessEqual(myMemberId: Int): Unit = {
         regMyMemberId(CK_LE, myMemberId);
     }
 
@@ -235,7 +235,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * @param maxNumber The max number of myMemberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMyMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMyMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMyMemberId(), "MY_MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -257,7 +257,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (わたし)MY_MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param myMemberIdList The collection of myMemberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMyMemberId_NotInScope(myMemberIdList: List[Integer]): Unit = {
+    def setMyMemberId_NotInScope(myMemberIdList: List[Int]): Unit = {
         doSetMyMemberId_NotInScope(if (myMemberIdList != null) { myMemberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -273,7 +273,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as equal. (NullAllowed: if null, no condition)
      */
-    def setYourMemberId_Equal(yourMemberId: Integer): Unit = {
+    def setYourMemberId_Equal(yourMemberId: Int): Unit = {
         doSetYourMemberId_Equal(yourMemberId);
     }
 
@@ -286,7 +286,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setYourMemberId_NotEqual(yourMemberId: Integer): Unit = {
+    def setYourMemberId_NotEqual(yourMemberId: Int): Unit = {
         doSetYourMemberId_NotEqual(yourMemberId);
     }
 
@@ -299,7 +299,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setYourMemberId_GreaterThan(yourMemberId: Integer): Unit = {
+    def setYourMemberId_GreaterThan(yourMemberId: Int): Unit = {
         regYourMemberId(CK_GT, yourMemberId);
     }
 
@@ -308,7 +308,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setYourMemberId_LessThan(yourMemberId: Integer): Unit = {
+    def setYourMemberId_LessThan(yourMemberId: Int): Unit = {
         regYourMemberId(CK_LT, yourMemberId);
     }
 
@@ -317,7 +317,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setYourMemberId_GreaterEqual(yourMemberId: Integer): Unit = {
+    def setYourMemberId_GreaterEqual(yourMemberId: Int): Unit = {
         regYourMemberId(CK_GE, yourMemberId);
     }
 
@@ -326,7 +326,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberId The value of yourMemberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setYourMemberId_LessEqual(yourMemberId: Integer): Unit = {
+    def setYourMemberId_LessEqual(yourMemberId: Int): Unit = {
         regYourMemberId(CK_LE, yourMemberId);
     }
 
@@ -339,7 +339,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * @param maxNumber The max number of yourMemberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setYourMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setYourMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueYourMemberId(), "YOUR_MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -361,7 +361,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (あなた)YOUR_MEMBER_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param yourMemberIdList The collection of yourMemberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setYourMemberId_NotInScope(yourMemberIdList: List[Integer]): Unit = {
+    def setYourMemberId_NotInScope(yourMemberIdList: List[Int]): Unit = {
         doSetYourMemberId_NotInScope(if (yourMemberIdList != null) { yourMemberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -426,7 +426,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of followDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setFollowDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setFollowDatetime_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueFollowDatetime(), "FOLLOW_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -441,7 +441,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * @param fromDate The from-date(yyyy/MM/dd) of followDatetime. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of followDatetime. (NullAllowed: if null, no to-condition)
      */
-    def setFollowDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setFollowDatetime_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setFollowDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 

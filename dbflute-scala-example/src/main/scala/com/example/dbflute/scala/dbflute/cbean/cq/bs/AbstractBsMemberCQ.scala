@@ -53,7 +53,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Int): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Int): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterThan(memberId: Integer): Unit = {
+    def setMemberId_GreaterThan(memberId: Int): Unit = {
         regMemberId(CK_GT, memberId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessThan(memberId: Integer): Unit = {
+    def setMemberId_LessThan(memberId: Int): Unit = {
         regMemberId(CK_LT, memberId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterEqual(memberId: Integer): Unit = {
+    def setMemberId_GreaterEqual(memberId: Int): Unit = {
         regMemberId(CK_GE, memberId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessEqual(memberId: Integer): Unit = {
+    def setMemberId_LessEqual(memberId: Int): Unit = {
         regMemberId(CK_LE, memberId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ID)MEMBER_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+    def setMemberId_NotInScope(memberIdList: List[Int]): Unit = {
         doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -836,7 +836,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         doSetMemberAccount_InScope(toMutableValueCollectionImplicitly(memberAccountList));
     }
 
-    def doSetMemberAccount_InScope(memberAccountList: Collection[String]): Unit = {
+    protected def doSetMemberAccount_InScope(memberAccountList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(memberAccountList), getCValueMemberAccount(), "MEMBER_ACCOUNT");
     }
 
@@ -849,7 +849,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         doSetMemberAccount_NotInScope(if (memberAccountList != null) { memberAccountList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetMemberAccount_NotInScope(memberAccountList: Collection[String]): Unit = {
+    protected def doSetMemberAccount_NotInScope(memberAccountList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(memberAccountList), getCValueMemberAccount(), "MEMBER_ACCOUNT");
     }
 
@@ -986,7 +986,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_InScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+    def setMemberStatusCode_InScope(memberStatusCodeList: List[String]): Unit = {
         doSetMemberStatusCode_InScope(toMutableValueCollectionImplicitly(memberStatusCodeList));
     }
 
@@ -1000,7 +1000,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         doSetMemberStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
@@ -1009,7 +1009,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param memberStatusCodeList The collection of memberStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberStatusCode_NotInScope(memberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+    def setMemberStatusCode_NotInScope(memberStatusCodeList: List[String]): Unit = {
         doSetMemberStatusCode_NotInScope(if (memberStatusCodeList != null) { memberStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -1023,7 +1023,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
         doSetMemberStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
@@ -1084,7 +1084,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of formalizedDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setFormalizedDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setFormalizedDatetime_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueFormalizedDatetime(), "FORMALIZED_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -1099,7 +1099,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param fromDate The from-date(yyyy/MM/dd) of formalizedDatetime. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of formalizedDatetime. (NullAllowed: if null, no to-condition)
      */
-    def setFormalizedDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setFormalizedDatetime_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setFormalizedDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -1172,7 +1172,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of birthdate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setBirthdate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setBirthdate_FromTo(fromDatetime: org.joda.time.LocalDate, toDatetime: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueBirthdate(), "BIRTHDATE", callbackFTOP(optionCall));
     }
 
@@ -1187,7 +1187,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param fromDate The from-date(yyyy/MM/dd) of birthdate. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of birthdate. (NullAllowed: if null, no to-condition)
      */
-    def setBirthdate_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setBirthdate_DateFromTo(fromDate: org.joda.time.LocalDate, toDate: org.joda.time.LocalDate): Unit = {
         setBirthdate_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 

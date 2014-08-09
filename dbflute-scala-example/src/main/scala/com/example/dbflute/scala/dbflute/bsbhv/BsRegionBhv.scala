@@ -430,9 +430,9 @@ abstract class BsRegionBhv extends AbstractBehaviorWritable[DbleRegion, RegionCB
      * @param regionList The list of region. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractRegionIdList(regionList: immutable.List[Region]): immutable.List[CDef.Region] = {
+    def extractRegionIdList(regionList: immutable.List[Region]): immutable.List[Int] = {
         val plainList = helpExtractListInternally(toDBableEntityList(regionList), "regionId");
-        return toScalaList(plainList).map(_.asInstanceOf[CDef.Region]);
+        return toScalaList(plainList).map(_.asInstanceOf[Int]);
     }
 
     // ===================================================================================

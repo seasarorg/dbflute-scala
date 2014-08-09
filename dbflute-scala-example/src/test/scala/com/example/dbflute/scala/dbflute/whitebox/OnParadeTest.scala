@@ -1,21 +1,25 @@
 package com.example.dbflute.scala.dbflute.whitebox
 
+import java.sql.Timestamp
 import java.util.Date
-import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
+import org.joda.time.LocalDate
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
 import com.example.dbflute.scala.dbflute.exbhv.MemberBhv
 import com.example.dbflute.scala.dbflute.exbhv.PurchaseBhv
 import com.example.dbflute.scala.dbflute.exbhv.pmbean.SimpleMemberPmb
-import com.google.inject.Module
-import javax.sql.DataSource
-import org.seasar.dbflute.util.DfTypeUtil
-import java.sql.Timestamp
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
+import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
+import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 import com.example.dbflute.scala.dbflute.exentity.customize.SimpleMember
-import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
-import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 import com.example.dbflute.scala.unit.UnitContainerFunSuite
+import com.github.nscala_time.time.Imports._
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.OptionMemberPmb
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseSummaryMemberPmb
+import com.example.dbflute.scala.dbflute.exbhv.cursor.PurchaseSummaryMemberCursorHandler
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseMaxPriceMemberPmb
+import java.util.Arrays
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.UnpaidSummaryMemberPmb
 
 /**
  * @author jflute
@@ -138,11 +142,44 @@ class OnParadeTest extends UnitContainerFunSuite {
     //
     // <<< outsideSql() >>>
     //
-    val outsideList = memberBhv.outsideSql.selectList(SimpleMemberPmb { pmb =>
+    val outsideSimpleList = memberBhv.outsideSql.selectList(SimpleMemberPmb { pmb =>
       pmb.setMemberName_PrefixSearch("S")
     });
-    outsideList.foreach(f => log(f.memberName, f.birthdate))
+    outsideSimpleList.foreach(f => log(f.memberName, f.birthdate))
+    
+    val outsideSimpleEntity = memberBhv.outsideSql.entityHandling.selectEntity(SimpleMemberPmb { pmb =>
+      pmb.setMemberId(3)
+    });
+    outsideSimpleEntity.foreach(f => log(f.memberName, f.birthdate))
 
+    val outsidePage = memberBhv.outsideSql.paging.selectPage(PurchaseMaxPriceMemberPmb { pmb =>
+      pmb.paging(3, 2)
+      pmb.setMemberNameList_PrefixSearch(Arrays.asList("S", "M"))
+    });
+    outsidePage.selectedList.foreach(f => log(f.memberName, f.purchaseMaxPrice))
+    
+    val outsidePageByCursorSkip = memberBhv.outsideSql.pagingByCursorSkip.selectPage(UnpaidSummaryMemberPmb { pmb =>
+      pmb.paging(3, 2)
+      pmb.setUnpaidMemberOnly(true)
+    });
+    outsidePageByCursorSkip.selectedList.foreach(f => log(f.memberName, f.memberStatusName))
+    
+    memberBhv.outsideSql.cursorHandling.selectCursor { PurchaseSummaryMemberPmb { pmb =>
+      pmb.setMemberStatusCode_Formalized
+    }} { PurchaseSummaryMemberCursorHandler { cursor =>
+      while (cursor.next) {
+    	log(cursor.memberName, cursor.birthdate)
+      }
+    }}
+    
+    val outsideOptionList = memberBhv.outsideSql.selectList(OptionMemberPmb { pmb =>
+      pmb.setMemberName_PrefixSearch("S")
+      pmb.setFromFormalizedOptionDate_FromDate(currentLocalDate)(_.compareAsDate())
+      pmb.setMemberStatusCode_Formalized
+      pmb.setToFormalizedDate_ToDate(currentLocalDate)
+    });
+    outsideOptionList.foreach(f => log(f.memberName, f.birthdate))
+    
     //
     // <<< CB: on parade >>>
     //
@@ -174,7 +211,7 @@ class OnParadeTest extends UnitContainerFunSuite {
       }(_.addDay(3)).fromTo(toTimestamp("2000/01/01"), toTimestamp("2014/01/01"))(_.compareAsDate())
 
       cb.query.notExistsPurchaseList { purchaseCB =>
-        purchaseCB.query.setPurchasePrice_GreaterEqual(200)
+        purchaseCB.query.setPurchasePrice_LessEqual(1)
         purchaseCB.query.setPaymentCompleteFlg_Equal_True
         purchaseCB.columnQuery(_.specify.columnPurchasePrice)
           .lessThan(_.specify.derivedPurchasePaymentList.sum(_.specify.columnPaymentAmount)());
@@ -184,7 +221,7 @@ class OnParadeTest extends UnitContainerFunSuite {
       cb.query.addOrderBy_MemberId_Asc.withManualOrder(_.plus(1))
     }
     onparadeList.foreach { member =>
-      val fooDate = member.derived[Date](keyOfFooDate);
+      val fooDate = member.derived[LocalDateTime](keyOfFooDate);
       val price = member.highestPurchasePrice
       log(member.memberName, member.memberStatus.get.memberStatusName, fooDate, price.toString)
       assert(member.memberName.startsWith("S"));

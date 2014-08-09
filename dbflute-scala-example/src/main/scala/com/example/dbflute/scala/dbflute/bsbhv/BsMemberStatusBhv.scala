@@ -525,9 +525,9 @@ abstract class BsMemberStatusBhv extends AbstractBehaviorWritable[DbleMemberStat
      * @param memberStatusList The list of memberStatus. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractMemberStatusCodeList(memberStatusList: immutable.List[MemberStatus]): immutable.List[CDef.MemberStatus] = {
+    def extractMemberStatusCodeList(memberStatusList: immutable.List[MemberStatus]): immutable.List[String] = {
         val plainList = helpExtractListInternally(toDBableEntityList(memberStatusList), "memberStatusCode");
-        return toScalaList(plainList).map(_.asInstanceOf[CDef.MemberStatus]);
+        return toScalaList(plainList).map(_.asInstanceOf[String]);
     }
 
     /**

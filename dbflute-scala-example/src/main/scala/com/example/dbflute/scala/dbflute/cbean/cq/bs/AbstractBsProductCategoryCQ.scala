@@ -83,7 +83,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
         doSetProductCategoryCode_InScope(toMutableValueCollectionImplicitly(productCategoryCodeList));
     }
 
-    def doSetProductCategoryCode_InScope(productCategoryCodeList: Collection[String]): Unit = {
+    protected def doSetProductCategoryCode_InScope(productCategoryCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(productCategoryCodeList), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE");
     }
 
@@ -96,7 +96,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
         doSetProductCategoryCode_NotInScope(if (productCategoryCodeList != null) { productCategoryCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetProductCategoryCode_NotInScope(productCategoryCodeList: Collection[String]): Unit = {
+    protected def doSetProductCategoryCode_NotInScope(productCategoryCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productCategoryCodeList), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE");
     }
 
@@ -464,7 +464,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
         doSetParentCategoryCode_InScope(toMutableValueCollectionImplicitly(parentCategoryCodeList));
     }
 
-    def doSetParentCategoryCode_InScope(parentCategoryCodeList: Collection[String]): Unit = {
+    protected def doSetParentCategoryCode_InScope(parentCategoryCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(parentCategoryCodeList), getCValueParentCategoryCode(), "PARENT_CATEGORY_CODE");
     }
 
@@ -477,7 +477,7 @@ abstract class AbstractBsProductCategoryCQ(referrerQuery: ConditionQuery, sqlCla
         doSetParentCategoryCode_NotInScope(if (parentCategoryCodeList != null) { parentCategoryCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetParentCategoryCode_NotInScope(parentCategoryCodeList: Collection[String]): Unit = {
+    protected def doSetParentCategoryCode_NotInScope(parentCategoryCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(parentCategoryCodeList), getCValueParentCategoryCode(), "PARENT_CATEGORY_CODE");
     }
 

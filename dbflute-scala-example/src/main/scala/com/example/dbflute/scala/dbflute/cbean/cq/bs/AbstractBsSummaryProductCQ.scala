@@ -53,7 +53,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as equal. (NullAllowed: if null, no condition)
      */
-    def setProductId_Equal(productId: Integer): Unit = {
+    def setProductId_Equal(productId: Int): Unit = {
         doSetProductId_Equal(productId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_NotEqual(productId: Integer): Unit = {
+    def setProductId_NotEqual(productId: Int): Unit = {
         doSetProductId_NotEqual(productId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setProductId_GreaterThan(productId: Integer): Unit = {
+    def setProductId_GreaterThan(productId: Int): Unit = {
         regProductId(CK_GT, productId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setProductId_LessThan(productId: Integer): Unit = {
+    def setProductId_LessThan(productId: Int): Unit = {
         regProductId(CK_LT, productId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_GreaterEqual(productId: Integer): Unit = {
+    def setProductId_GreaterEqual(productId: Int): Unit = {
         regProductId(CK_GE, productId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productId The value of productId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_LessEqual(productId: Integer): Unit = {
+    def setProductId_LessEqual(productId: Int): Unit = {
         regProductId(CK_LE, productId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * @param maxNumber The max number of productId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setProductId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setProductId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueProductId(), "PRODUCT_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * PRODUCT_ID: {INTEGER(10)}
      * @param productIdList The collection of productId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductId_NotInScope(productIdList: List[Integer]): Unit = {
+    def setProductId_NotInScope(productIdList: List[Int]): Unit = {
         doSetProductId_NotInScope(if (productIdList != null) { productIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -264,7 +264,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
         doSetProductHandleCode_InScope(toMutableValueCollectionImplicitly(productHandleCodeList));
     }
 
-    def doSetProductHandleCode_InScope(productHandleCodeList: Collection[String]): Unit = {
+    protected def doSetProductHandleCode_InScope(productHandleCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(productHandleCodeList), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE");
     }
 
@@ -277,7 +277,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
         doSetProductHandleCode_NotInScope(if (productHandleCodeList != null) { productHandleCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetProductHandleCode_NotInScope(productHandleCodeList: Collection[String]): Unit = {
+    protected def doSetProductHandleCode_NotInScope(productHandleCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productHandleCodeList), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE");
     }
 
@@ -368,7 +368,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
         doSetProductStatusCode_InScope(toMutableValueCollectionImplicitly(productStatusCodeList));
     }
 
-    def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
+    protected def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(productStatusCodeList), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE");
     }
 
@@ -381,7 +381,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
         doSetProductStatusCode_NotInScope(if (productStatusCodeList != null) { productStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
+    protected def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productStatusCodeList), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE");
     }
 
@@ -491,7 +491,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of latestPurchaseDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setLatestPurchaseDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setLatestPurchaseDatetime_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueLatestPurchaseDatetime(), "LATEST_PURCHASE_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -506,7 +506,7 @@ abstract class AbstractBsSummaryProductCQ(referrerQuery: ConditionQuery, sqlClau
      * @param fromDate The from-date(yyyy/MM/dd) of latestPurchaseDatetime. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of latestPurchaseDatetime. (NullAllowed: if null, no to-condition)
      */
-    def setLatestPurchaseDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setLatestPurchaseDatetime_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setLatestPurchaseDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 

@@ -455,9 +455,9 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable[DbleServiceRank
      * @param serviceRankList The list of serviceRank. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractServiceRankCodeList(serviceRankList: immutable.List[ServiceRank]): immutable.List[CDef.ServiceRank] = {
+    def extractServiceRankCodeList(serviceRankList: immutable.List[ServiceRank]): immutable.List[String] = {
         val plainList = helpExtractListInternally(toDBableEntityList(serviceRankList), "serviceRankCode");
-        return toScalaList(plainList).map(_.asInstanceOf[CDef.ServiceRank]);
+        return toScalaList(plainList).map(_.asInstanceOf[String]);
     }
 
     /**

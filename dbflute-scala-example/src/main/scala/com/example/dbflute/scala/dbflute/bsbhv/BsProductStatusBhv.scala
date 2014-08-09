@@ -455,9 +455,9 @@ abstract class BsProductStatusBhv extends AbstractBehaviorWritable[DbleProductSt
      * @param productStatusList The list of productStatus. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractProductStatusCodeList(productStatusList: immutable.List[ProductStatus]): immutable.List[CDef.ProductStatus] = {
+    def extractProductStatusCodeList(productStatusList: immutable.List[ProductStatus]): immutable.List[String] = {
         val plainList = helpExtractListInternally(toDBableEntityList(productStatusList), "productStatusCode");
-        return toScalaList(plainList).map(_.asInstanceOf[CDef.ProductStatus]);
+        return toScalaList(plainList).map(_.asInstanceOf[String]);
     }
 
     /**

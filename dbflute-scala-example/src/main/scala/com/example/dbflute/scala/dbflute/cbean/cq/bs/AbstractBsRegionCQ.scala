@@ -53,7 +53,7 @@ abstract class AbstractBsRegionCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (地域ID)REGION_ID: {PK, NotNull, INTEGER(10), classification=Region}
      * @param regionId The value of regionId as equal. (NullAllowed: if null, no condition)
      */
-    protected def setRegionId_Equal(regionId: Integer): Unit = {
+    protected def setRegionId_Equal(regionId: Int): Unit = {
         doSetRegionId_Equal(regionId);
     }
 
@@ -108,7 +108,7 @@ abstract class AbstractBsRegionCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (地域ID)REGION_ID: {PK, NotNull, INTEGER(10), classification=Region}
      * @param regionId The value of regionId as notEqual. (NullAllowed: if null, no condition)
      */
-    protected def setRegionId_NotEqual(regionId: Integer): Unit = {
+    protected def setRegionId_NotEqual(regionId: Int): Unit = {
         doSetRegionId_NotEqual(regionId);
     }
 
@@ -163,7 +163,7 @@ abstract class AbstractBsRegionCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (地域ID)REGION_ID: {PK, NotNull, INTEGER(10), classification=Region}
      * @param regionIdList The collection of regionId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setRegionId_InScope(regionIdList: List[CDef.Region]): Unit = {
+    def setRegionId_InScope(regionIdList: List[Int]): Unit = {
         doSetRegionId_InScope(toMutableValueCollectionImplicitly(regionIdList));
     }
 
@@ -186,7 +186,7 @@ abstract class AbstractBsRegionCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (地域ID)REGION_ID: {PK, NotNull, INTEGER(10), classification=Region}
      * @param regionIdList The collection of regionId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setRegionId_NotInScope(regionIdList: List[Integer]): Unit = {
+    def setRegionId_NotInScope(regionIdList: List[Int]): Unit = {
         doSetRegionId_NotInScope(if (regionIdList != null) { regionIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 

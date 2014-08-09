@@ -199,7 +199,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfChar_InScope(toMutableValueCollectionImplicitly(typeOfCharList));
     }
 
-    def doSetTypeOfChar_InScope(typeOfCharList: Collection[String]): Unit = {
+    protected def doSetTypeOfChar_InScope(typeOfCharList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(typeOfCharList), getCValueTypeOfChar(), "TYPE_OF_CHAR");
     }
 
@@ -212,7 +212,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfChar_NotInScope(if (typeOfCharList != null) { typeOfCharList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetTypeOfChar_NotInScope(typeOfCharList: Collection[String]): Unit = {
+    protected def doSetTypeOfChar_NotInScope(typeOfCharList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(typeOfCharList), getCValueTypeOfChar(), "TYPE_OF_CHAR");
     }
 
@@ -303,7 +303,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfVarchar_InScope(toMutableValueCollectionImplicitly(typeOfVarcharList));
     }
 
-    def doSetTypeOfVarchar_InScope(typeOfVarcharList: Collection[String]): Unit = {
+    protected def doSetTypeOfVarchar_InScope(typeOfVarcharList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(typeOfVarcharList), getCValueTypeOfVarchar(), "TYPE_OF_VARCHAR");
     }
 
@@ -316,7 +316,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfVarchar_NotInScope(if (typeOfVarcharList != null) { typeOfVarcharList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetTypeOfVarchar_NotInScope(typeOfVarcharList: Collection[String]): Unit = {
+    protected def doSetTypeOfVarchar_NotInScope(typeOfVarcharList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(typeOfVarcharList), getCValueTypeOfVarchar(), "TYPE_OF_VARCHAR");
     }
 
@@ -489,7 +489,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericInteger_Equal(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_Equal(typeOfNumericInteger: Int): Unit = {
         doSetTypeOfNumericInteger_Equal(typeOfNumericInteger);
     }
 
@@ -502,7 +502,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericInteger_NotEqual(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_NotEqual(typeOfNumericInteger: Int): Unit = {
         doSetTypeOfNumericInteger_NotEqual(typeOfNumericInteger);
     }
 
@@ -515,7 +515,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericInteger_GreaterThan(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_GreaterThan(typeOfNumericInteger: Int): Unit = {
         regTypeOfNumericInteger(CK_GT, typeOfNumericInteger);
     }
 
@@ -524,7 +524,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericInteger_LessThan(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_LessThan(typeOfNumericInteger: Int): Unit = {
         regTypeOfNumericInteger(CK_LT, typeOfNumericInteger);
     }
 
@@ -533,7 +533,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericInteger_GreaterEqual(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_GreaterEqual(typeOfNumericInteger: Int): Unit = {
         regTypeOfNumericInteger(CK_GE, typeOfNumericInteger);
     }
 
@@ -542,7 +542,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericInteger The value of typeOfNumericInteger as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericInteger_LessEqual(typeOfNumericInteger: Integer): Unit = {
+    def setTypeOfNumericInteger_LessEqual(typeOfNumericInteger: Int): Unit = {
         regTypeOfNumericInteger(CK_LE, typeOfNumericInteger);
     }
 
@@ -555,7 +555,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfNumericInteger. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfNumericInteger_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfNumericInteger_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfNumericInteger(), "TYPE_OF_NUMERIC_INTEGER", callbackROOP(optionCall));
     }
 
@@ -577,7 +577,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER: {DECIMAL(5)}
      * @param typeOfNumericIntegerList The collection of typeOfNumericInteger as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfNumericInteger_NotInScope(typeOfNumericIntegerList: List[Integer]): Unit = {
+    def setTypeOfNumericInteger_NotInScope(typeOfNumericIntegerList: List[Int]): Unit = {
         doSetTypeOfNumericInteger_NotInScope(if (typeOfNumericIntegerList != null) { typeOfNumericIntegerList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -721,8 +721,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericDecimal_Equal(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericDecimal_Equal(typeOfNumericDecimal);
+    def setTypeOfNumericDecimal_Equal(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericDecimal_Equal(typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericDecimal_Equal(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
@@ -734,8 +734,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal);
+    def setTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
@@ -747,8 +747,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericDecimal_GreaterThan(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_GT, typeOfNumericDecimal);
+    def setTypeOfNumericDecimal_GreaterThan(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericDecimal(CK_GT, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -756,8 +756,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericDecimal_LessThan(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_LT, typeOfNumericDecimal);
+    def setTypeOfNumericDecimal_LessThan(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericDecimal(CK_LT, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -765,8 +765,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericDecimal_GreaterEqual(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_GE, typeOfNumericDecimal);
+    def setTypeOfNumericDecimal_GreaterEqual(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericDecimal(CK_GE, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -774,8 +774,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericDecimal_LessEqual(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_LE, typeOfNumericDecimal);
+    def setTypeOfNumericDecimal_LessEqual(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericDecimal(CK_LE, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -787,7 +787,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfNumericDecimal. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfNumericDecimal_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfNumericDecimal_RangeOf(minNumber: scala.math.BigDecimal, maxNumber: scala.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfNumericDecimal(), "TYPE_OF_NUMERIC_DECIMAL", callbackROOP(optionCall));
     }
 
@@ -809,7 +809,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)}
      * @param typeOfNumericDecimalList The collection of typeOfNumericDecimal as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfNumericDecimal_NotInScope(typeOfNumericDecimalList: List[java.math.BigDecimal]): Unit = {
+    def setTypeOfNumericDecimal_NotInScope(typeOfNumericDecimalList: List[scala.math.BigDecimal]): Unit = {
         doSetTypeOfNumericDecimal_NotInScope(if (typeOfNumericDecimalList != null) { typeOfNumericDecimalList.map(_.asInstanceOf[java.math.BigDecimal]).asJava } else { null });
     }
 
@@ -837,7 +837,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMin_Equal(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_Equal(typeOfNumericIntegerMin: Int): Unit = {
         doSetTypeOfNumericIntegerMin_Equal(typeOfNumericIntegerMin);
     }
 
@@ -850,7 +850,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMin_NotEqual(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_NotEqual(typeOfNumericIntegerMin: Int): Unit = {
         doSetTypeOfNumericIntegerMin_NotEqual(typeOfNumericIntegerMin);
     }
 
@@ -863,7 +863,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMin_GreaterThan(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_GreaterThan(typeOfNumericIntegerMin: Int): Unit = {
         regTypeOfNumericIntegerMin(CK_GT, typeOfNumericIntegerMin);
     }
 
@@ -872,7 +872,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMin_LessThan(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_LessThan(typeOfNumericIntegerMin: Int): Unit = {
         regTypeOfNumericIntegerMin(CK_LT, typeOfNumericIntegerMin);
     }
 
@@ -881,7 +881,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMin_GreaterEqual(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_GreaterEqual(typeOfNumericIntegerMin: Int): Unit = {
         regTypeOfNumericIntegerMin(CK_GE, typeOfNumericIntegerMin);
     }
 
@@ -890,7 +890,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMin The value of typeOfNumericIntegerMin as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMin_LessEqual(typeOfNumericIntegerMin: Integer): Unit = {
+    def setTypeOfNumericIntegerMin_LessEqual(typeOfNumericIntegerMin: Int): Unit = {
         regTypeOfNumericIntegerMin(CK_LE, typeOfNumericIntegerMin);
     }
 
@@ -903,7 +903,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfNumericIntegerMin. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfNumericIntegerMin_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfNumericIntegerMin_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfNumericIntegerMin(), "TYPE_OF_NUMERIC_INTEGER_MIN", callbackROOP(optionCall));
     }
 
@@ -925,7 +925,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)}
      * @param typeOfNumericIntegerMinList The collection of typeOfNumericIntegerMin as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfNumericIntegerMin_NotInScope(typeOfNumericIntegerMinList: List[Integer]): Unit = {
+    def setTypeOfNumericIntegerMin_NotInScope(typeOfNumericIntegerMinList: List[Int]): Unit = {
         doSetTypeOfNumericIntegerMin_NotInScope(if (typeOfNumericIntegerMinList != null) { typeOfNumericIntegerMinList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -953,7 +953,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMax_Equal(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_Equal(typeOfNumericIntegerMax: Int): Unit = {
         doSetTypeOfNumericIntegerMax_Equal(typeOfNumericIntegerMax);
     }
 
@@ -966,7 +966,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMax_NotEqual(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_NotEqual(typeOfNumericIntegerMax: Int): Unit = {
         doSetTypeOfNumericIntegerMax_NotEqual(typeOfNumericIntegerMax);
     }
 
@@ -979,7 +979,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMax_GreaterThan(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_GreaterThan(typeOfNumericIntegerMax: Int): Unit = {
         regTypeOfNumericIntegerMax(CK_GT, typeOfNumericIntegerMax);
     }
 
@@ -988,7 +988,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMax_LessThan(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_LessThan(typeOfNumericIntegerMax: Int): Unit = {
         regTypeOfNumericIntegerMax(CK_LT, typeOfNumericIntegerMax);
     }
 
@@ -997,7 +997,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMax_GreaterEqual(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_GreaterEqual(typeOfNumericIntegerMax: Int): Unit = {
         regTypeOfNumericIntegerMax(CK_GE, typeOfNumericIntegerMax);
     }
 
@@ -1006,7 +1006,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMax The value of typeOfNumericIntegerMax as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericIntegerMax_LessEqual(typeOfNumericIntegerMax: Integer): Unit = {
+    def setTypeOfNumericIntegerMax_LessEqual(typeOfNumericIntegerMax: Int): Unit = {
         regTypeOfNumericIntegerMax(CK_LE, typeOfNumericIntegerMax);
     }
 
@@ -1019,7 +1019,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfNumericIntegerMax. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfNumericIntegerMax_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfNumericIntegerMax_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfNumericIntegerMax(), "TYPE_OF_NUMERIC_INTEGER_MAX", callbackROOP(optionCall));
     }
 
@@ -1041,7 +1041,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_INTEGER_MAX: {DECIMAL(9)}
      * @param typeOfNumericIntegerMaxList The collection of typeOfNumericIntegerMax as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfNumericIntegerMax_NotInScope(typeOfNumericIntegerMaxList: List[Integer]): Unit = {
+    def setTypeOfNumericIntegerMax_NotInScope(typeOfNumericIntegerMaxList: List[Int]): Unit = {
         doSetTypeOfNumericIntegerMax_NotInScope(if (typeOfNumericIntegerMaxList != null) { typeOfNumericIntegerMaxList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -1301,8 +1301,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin);
+    def setTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
@@ -1314,8 +1314,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin);
+    def setTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
@@ -1327,8 +1327,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMin_GreaterThan(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_GT, typeOfNumericSuperintMin);
+    def setTypeOfNumericSuperintMin_GreaterThan(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMin(CK_GT, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1336,8 +1336,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMin_LessThan(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_LT, typeOfNumericSuperintMin);
+    def setTypeOfNumericSuperintMin_LessThan(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMin(CK_LT, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1345,8 +1345,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMin_GreaterEqual(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_GE, typeOfNumericSuperintMin);
+    def setTypeOfNumericSuperintMin_GreaterEqual(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMin(CK_GE, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1354,8 +1354,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMin_LessEqual(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_LE, typeOfNumericSuperintMin);
+    def setTypeOfNumericSuperintMin_LessEqual(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMin(CK_LE, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1367,7 +1367,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfNumericSuperintMin. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfNumericSuperintMin_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfNumericSuperintMin_RangeOf(minNumber: scala.math.BigDecimal, maxNumber: scala.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfNumericSuperintMin(), "TYPE_OF_NUMERIC_SUPERINT_MIN", callbackROOP(optionCall));
     }
 
@@ -1389,7 +1389,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)}
      * @param typeOfNumericSuperintMinList The collection of typeOfNumericSuperintMin as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfNumericSuperintMin_NotInScope(typeOfNumericSuperintMinList: List[java.math.BigDecimal]): Unit = {
+    def setTypeOfNumericSuperintMin_NotInScope(typeOfNumericSuperintMinList: List[scala.math.BigDecimal]): Unit = {
         doSetTypeOfNumericSuperintMin_NotInScope(if (typeOfNumericSuperintMinList != null) { typeOfNumericSuperintMinList.map(_.asInstanceOf[java.math.BigDecimal]).asJava } else { null });
     }
 
@@ -1417,8 +1417,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax);
+    def setTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
@@ -1430,8 +1430,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax);
+    def setTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
@@ -1443,8 +1443,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMax_GreaterThan(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_GT, typeOfNumericSuperintMax);
+    def setTypeOfNumericSuperintMax_GreaterThan(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMax(CK_GT, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1452,8 +1452,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMax_LessThan(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_LT, typeOfNumericSuperintMax);
+    def setTypeOfNumericSuperintMax_LessThan(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMax(CK_LT, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1461,8 +1461,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMax_GreaterEqual(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_GE, typeOfNumericSuperintMax);
+    def setTypeOfNumericSuperintMax_GreaterEqual(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMax(CK_GE, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1470,8 +1470,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericSuperintMax_LessEqual(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_LE, typeOfNumericSuperintMax);
+    def setTypeOfNumericSuperintMax_LessEqual(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericSuperintMax(CK_LE, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1483,7 +1483,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfNumericSuperintMax. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfNumericSuperintMax_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfNumericSuperintMax_RangeOf(minNumber: scala.math.BigDecimal, maxNumber: scala.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfNumericSuperintMax(), "TYPE_OF_NUMERIC_SUPERINT_MAX", callbackROOP(optionCall));
     }
 
@@ -1505,7 +1505,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)}
      * @param typeOfNumericSuperintMaxList The collection of typeOfNumericSuperintMax as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfNumericSuperintMax_NotInScope(typeOfNumericSuperintMaxList: List[java.math.BigDecimal]): Unit = {
+    def setTypeOfNumericSuperintMax_NotInScope(typeOfNumericSuperintMaxList: List[scala.math.BigDecimal]): Unit = {
         doSetTypeOfNumericSuperintMax_NotInScope(if (typeOfNumericSuperintMaxList != null) { typeOfNumericSuperintMaxList.map(_.asInstanceOf[java.math.BigDecimal]).asJava } else { null });
     }
 
@@ -1533,8 +1533,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal);
+    def setTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
@@ -1546,8 +1546,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
-        doSetTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal);
+    def setTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
+        doSetTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
@@ -1559,8 +1559,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericMaxdecimal_GreaterThan(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_GT, typeOfNumericMaxdecimal);
+    def setTypeOfNumericMaxdecimal_GreaterThan(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericMaxdecimal(CK_GT, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1568,8 +1568,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericMaxdecimal_LessThan(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_LT, typeOfNumericMaxdecimal);
+    def setTypeOfNumericMaxdecimal_LessThan(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericMaxdecimal(CK_LT, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1577,8 +1577,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericMaxdecimal_GreaterEqual(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_GE, typeOfNumericMaxdecimal);
+    def setTypeOfNumericMaxdecimal_GreaterEqual(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericMaxdecimal(CK_GE, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1586,8 +1586,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfNumericMaxdecimal_LessEqual(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_LE, typeOfNumericMaxdecimal);
+    def setTypeOfNumericMaxdecimal_LessEqual(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
+        regTypeOfNumericMaxdecimal(CK_LE, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -1599,7 +1599,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfNumericMaxdecimal. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfNumericMaxdecimal_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfNumericMaxdecimal_RangeOf(minNumber: scala.math.BigDecimal, maxNumber: scala.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfNumericMaxdecimal(), "TYPE_OF_NUMERIC_MAXDECIMAL", callbackROOP(optionCall));
     }
 
@@ -1621,7 +1621,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)}
      * @param typeOfNumericMaxdecimalList The collection of typeOfNumericMaxdecimal as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfNumericMaxdecimal_NotInScope(typeOfNumericMaxdecimalList: List[java.math.BigDecimal]): Unit = {
+    def setTypeOfNumericMaxdecimal_NotInScope(typeOfNumericMaxdecimalList: List[scala.math.BigDecimal]): Unit = {
         doSetTypeOfNumericMaxdecimal_NotInScope(if (typeOfNumericMaxdecimalList != null) { typeOfNumericMaxdecimalList.map(_.asInstanceOf[java.math.BigDecimal]).asJava } else { null });
     }
 
@@ -1649,7 +1649,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfInteger_Equal(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_Equal(typeOfInteger: Int): Unit = {
         doSetTypeOfInteger_Equal(typeOfInteger);
     }
 
@@ -1662,7 +1662,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as notEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfInteger_NotEqual(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_NotEqual(typeOfInteger: Int): Unit = {
         doSetTypeOfInteger_NotEqual(typeOfInteger);
     }
 
@@ -1675,7 +1675,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfInteger_GreaterThan(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_GreaterThan(typeOfInteger: Int): Unit = {
         regTypeOfInteger(CK_GT, typeOfInteger);
     }
 
@@ -1684,7 +1684,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfInteger_LessThan(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_LessThan(typeOfInteger: Int): Unit = {
         regTypeOfInteger(CK_LT, typeOfInteger);
     }
 
@@ -1693,7 +1693,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfInteger_GreaterEqual(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_GreaterEqual(typeOfInteger: Int): Unit = {
         regTypeOfInteger(CK_GE, typeOfInteger);
     }
 
@@ -1702,7 +1702,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfInteger The value of typeOfInteger as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfInteger_LessEqual(typeOfInteger: Integer): Unit = {
+    def setTypeOfInteger_LessEqual(typeOfInteger: Int): Unit = {
         regTypeOfInteger(CK_LE, typeOfInteger);
     }
 
@@ -1715,7 +1715,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of typeOfInteger. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setTypeOfInteger_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setTypeOfInteger_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueTypeOfInteger(), "TYPE_OF_INTEGER", callbackROOP(optionCall));
     }
 
@@ -1737,7 +1737,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_INTEGER: {INTEGER(10)}
      * @param typeOfIntegerList The collection of typeOfInteger as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setTypeOfInteger_NotInScope(typeOfIntegerList: List[Integer]): Unit = {
+    def setTypeOfInteger_NotInScope(typeOfIntegerList: List[Int]): Unit = {
         doSetTypeOfInteger_NotInScope(if (typeOfIntegerList != null) { typeOfIntegerList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -1930,7 +1930,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of typeOfDate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setTypeOfDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setTypeOfDate_FromTo(fromDatetime: org.joda.time.LocalDate, toDatetime: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueTypeOfDate(), "TYPE_OF_DATE", callbackFTOP(optionCall));
     }
 
@@ -1945,7 +1945,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param fromDate The from-date(yyyy/MM/dd) of typeOfDate. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of typeOfDate. (NullAllowed: if null, no to-condition)
      */
-    def setTypeOfDate_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setTypeOfDate_DateFromTo(fromDate: org.joda.time.LocalDate, toDate: org.joda.time.LocalDate): Unit = {
         setTypeOfDate_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -2018,7 +2018,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of typeOfTimestamp. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setTypeOfTimestamp_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setTypeOfTimestamp_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueTypeOfTimestamp(), "TYPE_OF_TIMESTAMP", callbackFTOP(optionCall));
     }
 
@@ -2033,7 +2033,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param fromDate The from-date(yyyy/MM/dd) of typeOfTimestamp. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of typeOfTimestamp. (NullAllowed: if null, no to-condition)
      */
-    def setTypeOfTimestamp_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setTypeOfTimestamp_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setTypeOfTimestamp_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -2219,7 +2219,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfArray_InScope(toMutableValueCollectionImplicitly(typeOfArrayList));
     }
 
-    def doSetTypeOfArray_InScope(typeOfArrayList: Collection[String]): Unit = {
+    protected def doSetTypeOfArray_InScope(typeOfArrayList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(typeOfArrayList), getCValueTypeOfArray(), "TYPE_OF_ARRAY");
     }
 
@@ -2232,7 +2232,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfArray_NotInScope(if (typeOfArrayList != null) { typeOfArrayList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetTypeOfArray_NotInScope(typeOfArrayList: Collection[String]): Unit = {
+    protected def doSetTypeOfArray_NotInScope(typeOfArrayList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(typeOfArrayList), getCValueTypeOfArray(), "TYPE_OF_ARRAY");
     }
 
@@ -2323,7 +2323,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfOther_InScope(toMutableValueCollectionImplicitly(typeOfOtherList));
     }
 
-    def doSetTypeOfOther_InScope(typeOfOtherList: Collection[String]): Unit = {
+    protected def doSetTypeOfOther_InScope(typeOfOtherList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(typeOfOtherList), getCValueTypeOfOther(), "TYPE_OF_OTHER");
     }
 
@@ -2336,7 +2336,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetTypeOfOther_NotInScope(if (typeOfOtherList != null) { typeOfOtherList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetTypeOfOther_NotInScope(typeOfOtherList: Collection[String]): Unit = {
+    protected def doSetTypeOfOther_NotInScope(typeOfOtherList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(typeOfOtherList), getCValueTypeOfOther(), "TYPE_OF_OTHER");
     }
 
@@ -2427,7 +2427,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetJAVABeansProperty_InScope(toMutableValueCollectionImplicitly(jAVABeansPropertyList));
     }
 
-    def doSetJAVABeansProperty_InScope(jAVABeansPropertyList: Collection[String]): Unit = {
+    protected def doSetJAVABeansProperty_InScope(jAVABeansPropertyList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(jAVABeansPropertyList), getCValueJAVABeansProperty(), "J_A_V_A_BEANS_PROPERTY");
     }
 
@@ -2440,7 +2440,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetJAVABeansProperty_NotInScope(if (jAVABeansPropertyList != null) { jAVABeansPropertyList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetJAVABeansProperty_NotInScope(jAVABeansPropertyList: Collection[String]): Unit = {
+    protected def doSetJAVABeansProperty_NotInScope(jAVABeansPropertyList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(jAVABeansPropertyList), getCValueJAVABeansProperty(), "J_A_V_A_BEANS_PROPERTY");
     }
 
@@ -2531,7 +2531,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetJPopBeansProperty_InScope(toMutableValueCollectionImplicitly(jPopBeansPropertyList));
     }
 
-    def doSetJPopBeansProperty_InScope(jPopBeansPropertyList: Collection[String]): Unit = {
+    protected def doSetJPopBeansProperty_InScope(jPopBeansPropertyList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(jPopBeansPropertyList), getCValueJPopBeansProperty(), "J_POP_BEANS_PROPERTY");
     }
 
@@ -2544,7 +2544,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetJPopBeansProperty_NotInScope(if (jPopBeansPropertyList != null) { jPopBeansPropertyList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetJPopBeansProperty_NotInScope(jPopBeansPropertyList: Collection[String]): Unit = {
+    protected def doSetJPopBeansProperty_NotInScope(jPopBeansPropertyList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(jPopBeansPropertyList), getCValueJPopBeansProperty(), "J_POP_BEANS_PROPERTY");
     }
 

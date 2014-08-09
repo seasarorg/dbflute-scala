@@ -53,7 +53,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Int): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Int): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterThan(memberId: Integer): Unit = {
+    def setMemberId_GreaterThan(memberId: Int): Unit = {
         regMemberId(CK_GT, memberId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessThan(memberId: Integer): Unit = {
+    def setMemberId_LessThan(memberId: Int): Unit = {
         regMemberId(CK_LT, memberId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterEqual(memberId: Integer): Unit = {
+    def setMemberId_GreaterEqual(memberId: Int): Unit = {
         regMemberId(CK_GE, memberId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessEqual(memberId: Integer): Unit = {
+    def setMemberId_LessEqual(memberId: Int): Unit = {
         regMemberId(CK_LE, memberId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MEMBER_ID: {INTEGER(10)}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+    def setMemberId_NotInScope(memberIdList: List[Int]): Unit = {
         doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -264,7 +264,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
         doSetWithdrawalReasonCode_InScope(toMutableValueCollectionImplicitly(withdrawalReasonCodeList));
     }
 
-    def doSetWithdrawalReasonCode_InScope(withdrawalReasonCodeList: Collection[String]): Unit = {
+    protected def doSetWithdrawalReasonCode_InScope(withdrawalReasonCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(withdrawalReasonCodeList), getCValueWithdrawalReasonCode(), "WITHDRAWAL_REASON_CODE");
     }
 
@@ -277,7 +277,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
         doSetWithdrawalReasonCode_NotInScope(if (withdrawalReasonCodeList != null) { withdrawalReasonCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetWithdrawalReasonCode_NotInScope(withdrawalReasonCodeList: Collection[String]): Unit = {
+    protected def doSetWithdrawalReasonCode_NotInScope(withdrawalReasonCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(withdrawalReasonCodeList), getCValueWithdrawalReasonCode(), "WITHDRAWAL_REASON_CODE");
     }
 
@@ -499,7 +499,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of withdrawalDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setWithdrawalDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setWithdrawalDatetime_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueWithdrawalDatetime(), "WITHDRAWAL_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -514,7 +514,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * @param fromDate The from-date(yyyy/MM/dd) of withdrawalDatetime. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of withdrawalDatetime. (NullAllowed: if null, no to-condition)
      */
-    def setWithdrawalDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setWithdrawalDatetime_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setWithdrawalDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -568,7 +568,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
         doSetMemberStatusCode_InScope(toMutableValueCollectionImplicitly(memberStatusCodeList));
     }
 
-    def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetMemberStatusCode_InScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
@@ -581,7 +581,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
         doSetMemberStatusCode_NotInScope(if (memberStatusCodeList != null) { memberStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetMemberStatusCode_NotInScope(memberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(memberStatusCodeList), getCValueMemberStatusCode(), "MEMBER_STATUS_CODE");
     }
 
@@ -707,7 +707,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as equal. (NullAllowed: if null, no condition)
      */
-    def setMaxPurchasePrice_Equal(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_Equal(maxPurchasePrice: Int): Unit = {
         doSetMaxPurchasePrice_Equal(maxPurchasePrice);
     }
 
@@ -720,7 +720,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMaxPurchasePrice_NotEqual(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_NotEqual(maxPurchasePrice: Int): Unit = {
         doSetMaxPurchasePrice_NotEqual(maxPurchasePrice);
     }
 
@@ -733,7 +733,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMaxPurchasePrice_GreaterThan(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_GreaterThan(maxPurchasePrice: Int): Unit = {
         regMaxPurchasePrice(CK_GT, maxPurchasePrice);
     }
 
@@ -742,7 +742,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMaxPurchasePrice_LessThan(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_LessThan(maxPurchasePrice: Int): Unit = {
         regMaxPurchasePrice(CK_LT, maxPurchasePrice);
     }
 
@@ -751,7 +751,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMaxPurchasePrice_GreaterEqual(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_GreaterEqual(maxPurchasePrice: Int): Unit = {
         regMaxPurchasePrice(CK_GE, maxPurchasePrice);
     }
 
@@ -760,7 +760,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePrice The value of maxPurchasePrice as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMaxPurchasePrice_LessEqual(maxPurchasePrice: Integer): Unit = {
+    def setMaxPurchasePrice_LessEqual(maxPurchasePrice: Int): Unit = {
         regMaxPurchasePrice(CK_LE, maxPurchasePrice);
     }
 
@@ -773,7 +773,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * @param maxNumber The max number of maxPurchasePrice. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMaxPurchasePrice_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMaxPurchasePrice_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMaxPurchasePrice(), "MAX_PURCHASE_PRICE", callbackROOP(optionCall));
     }
 
@@ -795,7 +795,7 @@ abstract class AbstractBsSummaryWithdrawalCQ(referrerQuery: ConditionQuery, sqlC
      * MAX_PURCHASE_PRICE: {INTEGER(10)}
      * @param maxPurchasePriceList The collection of maxPurchasePrice as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMaxPurchasePrice_NotInScope(maxPurchasePriceList: List[Integer]): Unit = {
+    def setMaxPurchasePrice_NotInScope(maxPurchasePriceList: List[Int]): Unit = {
         doSetMaxPurchasePrice_NotInScope(if (maxPurchasePriceList != null) { maxPurchasePriceList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 

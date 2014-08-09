@@ -322,7 +322,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of theLongAndWindingTableAndColumnRefDate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setTheLongAndWindingTableAndColumnRefDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setTheLongAndWindingTableAndColumnRefDate_FromTo(fromDatetime: org.joda.time.LocalDate, toDatetime: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueTheLongAndWindingTableAndColumnRefDate(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE", callbackFTOP(optionCall));
     }
 
@@ -337,7 +337,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * @param fromDate The from-date(yyyy/MM/dd) of theLongAndWindingTableAndColumnRefDate. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of theLongAndWindingTableAndColumnRefDate. (NullAllowed: if null, no to-condition)
      */
-    def setTheLongAndWindingTableAndColumnRefDate_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setTheLongAndWindingTableAndColumnRefDate_DateFromTo(fromDate: org.joda.time.LocalDate, toDate: org.joda.time.LocalDate): Unit = {
         setTheLongAndWindingTableAndColumnRefDate_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -398,7 +398,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of shortDate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setShortDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setShortDate_FromTo(fromDatetime: org.joda.time.LocalDate, toDatetime: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueShortDate(), "SHORT_DATE", callbackFTOP(optionCall));
     }
 
@@ -413,7 +413,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * @param fromDate The from-date(yyyy/MM/dd) of shortDate. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of shortDate. (NullAllowed: if null, no to-condition)
      */
-    def setShortDate_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setShortDate_DateFromTo(fromDate: org.joda.time.LocalDate, toDate: org.joda.time.LocalDate): Unit = {
         setShortDate_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 

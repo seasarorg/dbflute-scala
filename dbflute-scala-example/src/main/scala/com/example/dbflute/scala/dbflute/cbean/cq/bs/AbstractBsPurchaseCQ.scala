@@ -287,7 +287,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Int): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -300,7 +300,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Int): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -313,7 +313,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterThan(memberId: Integer): Unit = {
+    def setMemberId_GreaterThan(memberId: Int): Unit = {
         regMemberId(CK_GT, memberId);
     }
 
@@ -322,7 +322,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessThan(memberId: Integer): Unit = {
+    def setMemberId_LessThan(memberId: Int): Unit = {
         regMemberId(CK_LT, memberId);
     }
 
@@ -331,7 +331,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterEqual(memberId: Integer): Unit = {
+    def setMemberId_GreaterEqual(memberId: Int): Unit = {
         regMemberId(CK_GE, memberId);
     }
 
@@ -340,7 +340,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessEqual(memberId: Integer): Unit = {
+    def setMemberId_LessEqual(memberId: Int): Unit = {
         regMemberId(CK_LE, memberId);
     }
 
@@ -353,7 +353,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -375,7 +375,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (会員ID)MEMBER_ID: {UQ+, IX+, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+    def setMemberId_NotInScope(memberIdList: List[Int]): Unit = {
         doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -391,7 +391,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as equal. (NullAllowed: if null, no condition)
      */
-    def setProductId_Equal(productId: Integer): Unit = {
+    def setProductId_Equal(productId: Int): Unit = {
         doSetProductId_Equal(productId);
     }
 
@@ -404,7 +404,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_NotEqual(productId: Integer): Unit = {
+    def setProductId_NotEqual(productId: Int): Unit = {
         doSetProductId_NotEqual(productId);
     }
 
@@ -417,7 +417,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setProductId_GreaterThan(productId: Integer): Unit = {
+    def setProductId_GreaterThan(productId: Int): Unit = {
         regProductId(CK_GT, productId);
     }
 
@@ -426,7 +426,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setProductId_LessThan(productId: Integer): Unit = {
+    def setProductId_LessThan(productId: Int): Unit = {
         regProductId(CK_LT, productId);
     }
 
@@ -435,7 +435,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_GreaterEqual(productId: Integer): Unit = {
+    def setProductId_GreaterEqual(productId: Int): Unit = {
         regProductId(CK_GE, productId);
     }
 
@@ -444,7 +444,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productId The value of productId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_LessEqual(productId: Integer): Unit = {
+    def setProductId_LessEqual(productId: Int): Unit = {
         regProductId(CK_LE, productId);
     }
 
@@ -457,7 +457,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param maxNumber The max number of productId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setProductId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setProductId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueProductId(), "PRODUCT_ID", callbackROOP(optionCall));
     }
 
@@ -479,7 +479,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (商品ID)PRODUCT_ID: {+UQ, IX+, NotNull, INTEGER(10), FK to PRODUCT}
      * @param productIdList The collection of productId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductId_NotInScope(productIdList: List[Integer]): Unit = {
+    def setProductId_NotInScope(productIdList: List[Int]): Unit = {
         doSetProductId_NotInScope(if (productIdList != null) { productIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -544,7 +544,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of purchaseDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setPurchaseDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setPurchaseDatetime_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValuePurchaseDatetime(), "PURCHASE_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -559,7 +559,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param fromDate The from-date(yyyy/MM/dd) of purchaseDatetime. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of purchaseDatetime. (NullAllowed: if null, no to-condition)
      */
-    def setPurchaseDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setPurchaseDatetime_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setPurchaseDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -571,7 +571,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as equal. (NullAllowed: if null, no condition)
      */
-    def setPurchaseCount_Equal(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_Equal(purchaseCount: Int): Unit = {
         doSetPurchaseCount_Equal(purchaseCount);
     }
 
@@ -584,7 +584,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as notEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchaseCount_NotEqual(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_NotEqual(purchaseCount: Int): Unit = {
         doSetPurchaseCount_NotEqual(purchaseCount);
     }
 
@@ -597,7 +597,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setPurchaseCount_GreaterThan(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_GreaterThan(purchaseCount: Int): Unit = {
         regPurchaseCount(CK_GT, purchaseCount);
     }
 
@@ -606,7 +606,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as lessThan. (NullAllowed: if null, no condition)
      */
-    def setPurchaseCount_LessThan(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_LessThan(purchaseCount: Int): Unit = {
         regPurchaseCount(CK_LT, purchaseCount);
     }
 
@@ -615,7 +615,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchaseCount_GreaterEqual(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_GreaterEqual(purchaseCount: Int): Unit = {
         regPurchaseCount(CK_GE, purchaseCount);
     }
 
@@ -624,7 +624,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCount The value of purchaseCount as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchaseCount_LessEqual(purchaseCount: Integer): Unit = {
+    def setPurchaseCount_LessEqual(purchaseCount: Int): Unit = {
         regPurchaseCount(CK_LE, purchaseCount);
     }
 
@@ -637,7 +637,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param maxNumber The max number of purchaseCount. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPurchaseCount_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setPurchaseCount_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValuePurchaseCount(), "PURCHASE_COUNT", callbackROOP(optionCall));
     }
 
@@ -659,7 +659,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入数量)PURCHASE_COUNT: {NotNull, INTEGER(10)}
      * @param purchaseCountList The collection of purchaseCount as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchaseCount_NotInScope(purchaseCountList: List[Integer]): Unit = {
+    def setPurchaseCount_NotInScope(purchaseCountList: List[Int]): Unit = {
         doSetPurchaseCount_NotInScope(if (purchaseCountList != null) { purchaseCountList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -675,7 +675,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as equal. (NullAllowed: if null, no condition)
      */
-    def setPurchasePrice_Equal(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_Equal(purchasePrice: Int): Unit = {
         doSetPurchasePrice_Equal(purchasePrice);
     }
 
@@ -688,7 +688,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as notEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchasePrice_NotEqual(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_NotEqual(purchasePrice: Int): Unit = {
         doSetPurchasePrice_NotEqual(purchasePrice);
     }
 
@@ -701,7 +701,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setPurchasePrice_GreaterThan(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_GreaterThan(purchasePrice: Int): Unit = {
         regPurchasePrice(CK_GT, purchasePrice);
     }
 
@@ -710,7 +710,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as lessThan. (NullAllowed: if null, no condition)
      */
-    def setPurchasePrice_LessThan(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_LessThan(purchasePrice: Int): Unit = {
         regPurchasePrice(CK_LT, purchasePrice);
     }
 
@@ -719,7 +719,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchasePrice_GreaterEqual(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_GreaterEqual(purchasePrice: Int): Unit = {
         regPurchasePrice(CK_GE, purchasePrice);
     }
 
@@ -728,7 +728,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePrice The value of purchasePrice as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchasePrice_LessEqual(purchasePrice: Integer): Unit = {
+    def setPurchasePrice_LessEqual(purchasePrice: Int): Unit = {
         regPurchasePrice(CK_LE, purchasePrice);
     }
 
@@ -741,7 +741,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param maxNumber The max number of purchasePrice. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPurchasePrice_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setPurchasePrice_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValuePurchasePrice(), "PURCHASE_PRICE", callbackROOP(optionCall));
     }
 
@@ -763,7 +763,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入価格)PURCHASE_PRICE: {IX, NotNull, INTEGER(10)}
      * @param purchasePriceList The collection of purchasePrice as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPurchasePrice_NotInScope(purchasePriceList: List[Integer]): Unit = {
+    def setPurchasePrice_NotInScope(purchasePriceList: List[Int]): Unit = {
         doSetPurchasePrice_NotInScope(if (purchasePriceList != null) { purchasePriceList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -779,7 +779,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlg The value of paymentCompleteFlg as equal. (NullAllowed: if null, no condition)
      */
-    protected def setPaymentCompleteFlg_Equal(paymentCompleteFlg: Integer): Unit = {
+    protected def setPaymentCompleteFlg_Equal(paymentCompleteFlg: Int): Unit = {
         doSetPaymentCompleteFlg_Equal(paymentCompleteFlg);
     }
 
@@ -818,7 +818,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlg The value of paymentCompleteFlg as notEqual. (NullAllowed: if null, no condition)
      */
-    protected def setPaymentCompleteFlg_NotEqual(paymentCompleteFlg: Integer): Unit = {
+    protected def setPaymentCompleteFlg_NotEqual(paymentCompleteFlg: Int): Unit = {
         doSetPaymentCompleteFlg_NotEqual(paymentCompleteFlg);
     }
 
@@ -857,7 +857,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlgList The collection of paymentCompleteFlg as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentCompleteFlg_InScope(paymentCompleteFlgList: List[CDef.Flg]): Unit = {
+    def setPaymentCompleteFlg_InScope(paymentCompleteFlgList: List[Int]): Unit = {
         doSetPaymentCompleteFlg_InScope(toMutableValueCollectionImplicitly(paymentCompleteFlgList));
     }
 
@@ -880,7 +880,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (支払完了フラグ)PAYMENT_COMPLETE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param paymentCompleteFlgList The collection of paymentCompleteFlg as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentCompleteFlg_NotInScope(paymentCompleteFlgList: List[Integer]): Unit = {
+    def setPaymentCompleteFlg_NotInScope(paymentCompleteFlgList: List[Int]): Unit = {
         doSetPaymentCompleteFlg_NotInScope(if (paymentCompleteFlgList != null) { paymentCompleteFlgList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 

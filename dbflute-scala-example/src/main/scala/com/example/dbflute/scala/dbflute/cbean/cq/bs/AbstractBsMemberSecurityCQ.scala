@@ -53,7 +53,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Int): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Int): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterThan(memberId: Integer): Unit = {
+    def setMemberId_GreaterThan(memberId: Int): Unit = {
         regMemberId(CK_GT, memberId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessThan(memberId: Integer): Unit = {
+    def setMemberId_LessThan(memberId: Int): Unit = {
         regMemberId(CK_LT, memberId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterEqual(memberId: Integer): Unit = {
+    def setMemberId_GreaterEqual(memberId: Int): Unit = {
         regMemberId(CK_GE, memberId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessEqual(memberId: Integer): Unit = {
+    def setMemberId_LessEqual(memberId: Int): Unit = {
         regMemberId(CK_LE, memberId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (会員ID)MEMBER_ID: {PK, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+    def setMemberId_NotInScope(memberIdList: List[Int]): Unit = {
         doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -199,7 +199,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
         doSetLoginPassword_InScope(toMutableValueCollectionImplicitly(loginPasswordList));
     }
 
-    def doSetLoginPassword_InScope(loginPasswordList: Collection[String]): Unit = {
+    protected def doSetLoginPassword_InScope(loginPasswordList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(loginPasswordList), getCValueLoginPassword(), "LOGIN_PASSWORD");
     }
 
@@ -212,7 +212,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
         doSetLoginPassword_NotInScope(if (loginPasswordList != null) { loginPasswordList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetLoginPassword_NotInScope(loginPasswordList: Collection[String]): Unit = {
+    protected def doSetLoginPassword_NotInScope(loginPasswordList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(loginPasswordList), getCValueLoginPassword(), "LOGIN_PASSWORD");
     }
 
@@ -285,7 +285,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
         doSetReminderQuestion_InScope(toMutableValueCollectionImplicitly(reminderQuestionList));
     }
 
-    def doSetReminderQuestion_InScope(reminderQuestionList: Collection[String]): Unit = {
+    protected def doSetReminderQuestion_InScope(reminderQuestionList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(reminderQuestionList), getCValueReminderQuestion(), "REMINDER_QUESTION");
     }
 
@@ -298,7 +298,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
         doSetReminderQuestion_NotInScope(if (reminderQuestionList != null) { reminderQuestionList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetReminderQuestion_NotInScope(reminderQuestionList: Collection[String]): Unit = {
+    protected def doSetReminderQuestion_NotInScope(reminderQuestionList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(reminderQuestionList), getCValueReminderQuestion(), "REMINDER_QUESTION");
     }
 
@@ -371,7 +371,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
         doSetReminderAnswer_InScope(toMutableValueCollectionImplicitly(reminderAnswerList));
     }
 
-    def doSetReminderAnswer_InScope(reminderAnswerList: Collection[String]): Unit = {
+    protected def doSetReminderAnswer_InScope(reminderAnswerList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(reminderAnswerList), getCValueReminderAnswer(), "REMINDER_ANSWER");
     }
 
@@ -384,7 +384,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
         doSetReminderAnswer_NotInScope(if (reminderAnswerList != null) { reminderAnswerList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetReminderAnswer_NotInScope(reminderAnswerList: Collection[String]): Unit = {
+    protected def doSetReminderAnswer_NotInScope(reminderAnswerList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(reminderAnswerList), getCValueReminderAnswer(), "REMINDER_ANSWER");
     }
 
@@ -427,7 +427,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as equal. (NullAllowed: if null, no condition)
      */
-    def setReminderUseCount_Equal(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_Equal(reminderUseCount: Int): Unit = {
         doSetReminderUseCount_Equal(reminderUseCount);
     }
 
@@ -440,7 +440,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as notEqual. (NullAllowed: if null, no condition)
      */
-    def setReminderUseCount_NotEqual(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_NotEqual(reminderUseCount: Int): Unit = {
         doSetReminderUseCount_NotEqual(reminderUseCount);
     }
 
@@ -453,7 +453,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setReminderUseCount_GreaterThan(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_GreaterThan(reminderUseCount: Int): Unit = {
         regReminderUseCount(CK_GT, reminderUseCount);
     }
 
@@ -462,7 +462,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as lessThan. (NullAllowed: if null, no condition)
      */
-    def setReminderUseCount_LessThan(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_LessThan(reminderUseCount: Int): Unit = {
         regReminderUseCount(CK_LT, reminderUseCount);
     }
 
@@ -471,7 +471,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setReminderUseCount_GreaterEqual(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_GreaterEqual(reminderUseCount: Int): Unit = {
         regReminderUseCount(CK_GE, reminderUseCount);
     }
 
@@ -480,7 +480,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCount The value of reminderUseCount as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setReminderUseCount_LessEqual(reminderUseCount: Integer): Unit = {
+    def setReminderUseCount_LessEqual(reminderUseCount: Int): Unit = {
         regReminderUseCount(CK_LE, reminderUseCount);
     }
 
@@ -493,7 +493,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * @param maxNumber The max number of reminderUseCount. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setReminderUseCount_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setReminderUseCount_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueReminderUseCount(), "REMINDER_USE_COUNT", callbackROOP(optionCall));
     }
 
@@ -515,7 +515,7 @@ abstract class AbstractBsMemberSecurityCQ(referrerQuery: ConditionQuery, sqlClau
      * (リマインダ利用回数)REMINDER_USE_COUNT: {NotNull, INTEGER(10)}
      * @param reminderUseCountList The collection of reminderUseCount as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setReminderUseCount_NotInScope(reminderUseCountList: List[Integer]): Unit = {
+    def setReminderUseCount_NotInScope(reminderUseCountList: List[Int]): Unit = {
         doSetReminderUseCount_NotInScope(if (reminderUseCountList != null) { reminderUseCountList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 

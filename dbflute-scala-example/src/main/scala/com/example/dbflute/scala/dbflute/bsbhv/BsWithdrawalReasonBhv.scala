@@ -455,9 +455,9 @@ abstract class BsWithdrawalReasonBhv extends AbstractBehaviorWritable[DbleWithdr
      * @param withdrawalReasonList The list of withdrawalReason. (NotNull, EmptyAllowed)
      * @return The list of the column value. (NotNull, EmptyAllowed, NotNullElement)
      */
-    def extractWithdrawalReasonCodeList(withdrawalReasonList: immutable.List[WithdrawalReason]): immutable.List[CDef.WithdrawalReason] = {
+    def extractWithdrawalReasonCodeList(withdrawalReasonList: immutable.List[WithdrawalReason]): immutable.List[String] = {
         val plainList = helpExtractListInternally(toDBableEntityList(withdrawalReasonList), "withdrawalReasonCode");
-        return toScalaList(plainList).map(_.asInstanceOf[CDef.WithdrawalReason]);
+        return toScalaList(plainList).map(_.asInstanceOf[String]);
     }
 
     /**

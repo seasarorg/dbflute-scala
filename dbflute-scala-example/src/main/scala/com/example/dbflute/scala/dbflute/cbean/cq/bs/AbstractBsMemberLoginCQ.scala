@@ -169,7 +169,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Int): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -182,7 +182,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Int): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -195,7 +195,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterThan(memberId: Integer): Unit = {
+    def setMemberId_GreaterThan(memberId: Int): Unit = {
         regMemberId(CK_GT, memberId);
     }
 
@@ -204,7 +204,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessThan(memberId: Integer): Unit = {
+    def setMemberId_LessThan(memberId: Int): Unit = {
         regMemberId(CK_LT, memberId);
     }
 
@@ -213,7 +213,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterEqual(memberId: Integer): Unit = {
+    def setMemberId_GreaterEqual(memberId: Int): Unit = {
         regMemberId(CK_GE, memberId);
     }
 
@@ -222,7 +222,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessEqual(memberId: Integer): Unit = {
+    def setMemberId_LessEqual(memberId: Int): Unit = {
         regMemberId(CK_LE, memberId);
     }
 
@@ -235,7 +235,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -257,7 +257,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+    def setMemberId_NotInScope(memberIdList: List[Int]): Unit = {
         doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -322,7 +322,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of loginDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setLoginDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setLoginDatetime_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueLoginDatetime(), "LOGIN_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -337,7 +337,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param fromDate The from-date(yyyy/MM/dd) of loginDatetime. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of loginDatetime. (NullAllowed: if null, no to-condition)
      */
-    def setLoginDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setLoginDatetime_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setLoginDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -349,7 +349,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (モバイルログインフラグ)MOBILE_LOGIN_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param mobileLoginFlg The value of mobileLoginFlg as equal. (NullAllowed: if null, no condition)
      */
-    protected def setMobileLoginFlg_Equal(mobileLoginFlg: Integer): Unit = {
+    protected def setMobileLoginFlg_Equal(mobileLoginFlg: Int): Unit = {
         doSetMobileLoginFlg_Equal(mobileLoginFlg);
     }
 
@@ -388,7 +388,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (モバイルログインフラグ)MOBILE_LOGIN_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param mobileLoginFlg The value of mobileLoginFlg as notEqual. (NullAllowed: if null, no condition)
      */
-    protected def setMobileLoginFlg_NotEqual(mobileLoginFlg: Integer): Unit = {
+    protected def setMobileLoginFlg_NotEqual(mobileLoginFlg: Int): Unit = {
         doSetMobileLoginFlg_NotEqual(mobileLoginFlg);
     }
 
@@ -427,7 +427,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (モバイルログインフラグ)MOBILE_LOGIN_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param mobileLoginFlgList The collection of mobileLoginFlg as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMobileLoginFlg_InScope(mobileLoginFlgList: List[CDef.Flg]): Unit = {
+    def setMobileLoginFlg_InScope(mobileLoginFlgList: List[Int]): Unit = {
         doSetMobileLoginFlg_InScope(toMutableValueCollectionImplicitly(mobileLoginFlgList));
     }
 
@@ -450,7 +450,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (モバイルログインフラグ)MOBILE_LOGIN_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param mobileLoginFlgList The collection of mobileLoginFlg as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMobileLoginFlg_NotInScope(mobileLoginFlgList: List[Integer]): Unit = {
+    def setMobileLoginFlg_NotInScope(mobileLoginFlgList: List[Int]): Unit = {
         doSetMobileLoginFlg_NotInScope(if (mobileLoginFlgList != null) { mobileLoginFlgList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -570,7 +570,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (ログイン時会員ステータスコード)LOGIN_MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param loginMemberStatusCodeList The collection of loginMemberStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setLoginMemberStatusCode_InScope(loginMemberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+    def setLoginMemberStatusCode_InScope(loginMemberStatusCodeList: List[String]): Unit = {
         doSetLoginMemberStatusCode_InScope(toMutableValueCollectionImplicitly(loginMemberStatusCodeList));
     }
 
@@ -584,7 +584,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetLoginMemberStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetLoginMemberStatusCode_InScope(loginMemberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetLoginMemberStatusCode_InScope(loginMemberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(loginMemberStatusCodeList), getCValueLoginMemberStatusCode(), "LOGIN_MEMBER_STATUS_CODE");
     }
 
@@ -593,7 +593,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (ログイン時会員ステータスコード)LOGIN_MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}
      * @param loginMemberStatusCodeList The collection of loginMemberStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setLoginMemberStatusCode_NotInScope(loginMemberStatusCodeList: List[CDef.MemberStatus]): Unit = {
+    def setLoginMemberStatusCode_NotInScope(loginMemberStatusCodeList: List[String]): Unit = {
         doSetLoginMemberStatusCode_NotInScope(if (loginMemberStatusCodeList != null) { loginMemberStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -607,7 +607,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetLoginMemberStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetLoginMemberStatusCode_NotInScope(loginMemberStatusCodeList: Collection[String]): Unit = {
+    protected def doSetLoginMemberStatusCode_NotInScope(loginMemberStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(loginMemberStatusCodeList), getCValueLoginMemberStatusCode(), "LOGIN_MEMBER_STATUS_CODE");
     }
 

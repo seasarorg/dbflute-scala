@@ -53,7 +53,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as equal. (NullAllowed: if null, no condition)
      */
-    def setProductId_Equal(productId: Integer): Unit = {
+    def setProductId_Equal(productId: Int): Unit = {
         doSetProductId_Equal(productId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_NotEqual(productId: Integer): Unit = {
+    def setProductId_NotEqual(productId: Int): Unit = {
         doSetProductId_NotEqual(productId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setProductId_GreaterThan(productId: Integer): Unit = {
+    def setProductId_GreaterThan(productId: Int): Unit = {
         regProductId(CK_GT, productId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setProductId_LessThan(productId: Integer): Unit = {
+    def setProductId_LessThan(productId: Int): Unit = {
         regProductId(CK_LT, productId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_GreaterEqual(productId: Integer): Unit = {
+    def setProductId_GreaterEqual(productId: Int): Unit = {
         regProductId(CK_GE, productId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productId The value of productId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setProductId_LessEqual(productId: Integer): Unit = {
+    def setProductId_LessEqual(productId: Int): Unit = {
         regProductId(CK_LE, productId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param maxNumber The max number of productId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setProductId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setProductId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueProductId(), "PRODUCT_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param productIdList The collection of productId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductId_NotInScope(productIdList: List[Integer]): Unit = {
+    def setProductId_NotInScope(productIdList: List[Int]): Unit = {
         doSetProductId_NotInScope(if (productIdList != null) { productIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -364,7 +364,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         doSetProductHandleCode_InScope(toMutableValueCollectionImplicitly(productHandleCodeList));
     }
 
-    def doSetProductHandleCode_InScope(productHandleCodeList: Collection[String]): Unit = {
+    protected def doSetProductHandleCode_InScope(productHandleCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(productHandleCodeList), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE");
     }
 
@@ -377,7 +377,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         doSetProductHandleCode_NotInScope(if (productHandleCodeList != null) { productHandleCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetProductHandleCode_NotInScope(productHandleCodeList: Collection[String]): Unit = {
+    protected def doSetProductHandleCode_NotInScope(productHandleCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productHandleCodeList), getCValueProductHandleCode(), "PRODUCT_HANDLE_CODE");
     }
 
@@ -450,7 +450,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         doSetProductCategoryCode_InScope(toMutableValueCollectionImplicitly(productCategoryCodeList));
     }
 
-    def doSetProductCategoryCode_InScope(productCategoryCodeList: Collection[String]): Unit = {
+    protected def doSetProductCategoryCode_InScope(productCategoryCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(productCategoryCodeList), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE");
     }
 
@@ -463,7 +463,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         doSetProductCategoryCode_NotInScope(if (productCategoryCodeList != null) { productCategoryCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetProductCategoryCode_NotInScope(productCategoryCodeList: Collection[String]): Unit = {
+    protected def doSetProductCategoryCode_NotInScope(productCategoryCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productCategoryCodeList), getCValueProductCategoryCode(), "PRODUCT_CATEGORY_CODE");
     }
 
@@ -600,7 +600,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @param productStatusCodeList The collection of productStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_InScope(productStatusCodeList: List[CDef.ProductStatus]): Unit = {
+    def setProductStatusCode_InScope(productStatusCodeList: List[String]): Unit = {
         doSetProductStatusCode_InScope(toMutableValueCollectionImplicitly(productStatusCodeList));
     }
 
@@ -614,7 +614,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         doSetProductStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
+    protected def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(productStatusCodeList), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE");
     }
 
@@ -623,7 +623,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * PRODUCT_STATUS_CODE: {IX, NotNull, CHAR(3), FK to PRODUCT_STATUS, classification=ProductStatus}
      * @param productStatusCodeList The collection of productStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_NotInScope(productStatusCodeList: List[CDef.ProductStatus]): Unit = {
+    def setProductStatusCode_NotInScope(productStatusCodeList: List[String]): Unit = {
         doSetProductStatusCode_NotInScope(if (productStatusCodeList != null) { productStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -637,7 +637,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
         doSetProductStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
+    protected def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productStatusCodeList), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE");
     }
 
@@ -649,7 +649,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as equal. (NullAllowed: if null, no condition)
      */
-    def setRegularPrice_Equal(regularPrice: Integer): Unit = {
+    def setRegularPrice_Equal(regularPrice: Int): Unit = {
         doSetRegularPrice_Equal(regularPrice);
     }
 
@@ -662,7 +662,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as notEqual. (NullAllowed: if null, no condition)
      */
-    def setRegularPrice_NotEqual(regularPrice: Integer): Unit = {
+    def setRegularPrice_NotEqual(regularPrice: Int): Unit = {
         doSetRegularPrice_NotEqual(regularPrice);
     }
 
@@ -675,7 +675,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setRegularPrice_GreaterThan(regularPrice: Integer): Unit = {
+    def setRegularPrice_GreaterThan(regularPrice: Int): Unit = {
         regRegularPrice(CK_GT, regularPrice);
     }
 
@@ -684,7 +684,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as lessThan. (NullAllowed: if null, no condition)
      */
-    def setRegularPrice_LessThan(regularPrice: Integer): Unit = {
+    def setRegularPrice_LessThan(regularPrice: Int): Unit = {
         regRegularPrice(CK_LT, regularPrice);
     }
 
@@ -693,7 +693,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setRegularPrice_GreaterEqual(regularPrice: Integer): Unit = {
+    def setRegularPrice_GreaterEqual(regularPrice: Int): Unit = {
         regRegularPrice(CK_GE, regularPrice);
     }
 
@@ -702,7 +702,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPrice The value of regularPrice as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setRegularPrice_LessEqual(regularPrice: Integer): Unit = {
+    def setRegularPrice_LessEqual(regularPrice: Int): Unit = {
         regRegularPrice(CK_LE, regularPrice);
     }
 
@@ -715,7 +715,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * @param maxNumber The max number of regularPrice. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setRegularPrice_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setRegularPrice_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueRegularPrice(), "REGULAR_PRICE", callbackROOP(optionCall));
     }
 
@@ -737,7 +737,7 @@ abstract class AbstractBsProductCQ(referrerQuery: ConditionQuery, sqlClause: Sql
      * (定価)REGULAR_PRICE: {NotNull, INTEGER(10)}
      * @param regularPriceList The collection of regularPrice as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setRegularPrice_NotInScope(regularPriceList: List[Integer]): Unit = {
+    def setRegularPrice_NotInScope(regularPriceList: List[Int]): Unit = {
         doSetRegularPrice_NotInScope(if (regularPriceList != null) { regularPriceList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 

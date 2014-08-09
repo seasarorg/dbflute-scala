@@ -163,7 +163,7 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
      * (退会理由コード)WITHDRAWAL_REASON_CODE: {PK, NotNull, CHAR(3), classification=WithdrawalReason}
      * @param withdrawalReasonCodeList The collection of withdrawalReasonCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setWithdrawalReasonCode_InScope(withdrawalReasonCodeList: List[CDef.WithdrawalReason]): Unit = {
+    def setWithdrawalReasonCode_InScope(withdrawalReasonCodeList: List[String]): Unit = {
         doSetWithdrawalReasonCode_InScope(toMutableValueCollectionImplicitly(withdrawalReasonCodeList));
     }
 
@@ -177,7 +177,7 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
         doSetWithdrawalReasonCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetWithdrawalReasonCode_InScope(withdrawalReasonCodeList: Collection[String]): Unit = {
+    protected def doSetWithdrawalReasonCode_InScope(withdrawalReasonCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(withdrawalReasonCodeList), getCValueWithdrawalReasonCode(), "WITHDRAWAL_REASON_CODE");
     }
 
@@ -186,7 +186,7 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
      * (退会理由コード)WITHDRAWAL_REASON_CODE: {PK, NotNull, CHAR(3), classification=WithdrawalReason}
      * @param withdrawalReasonCodeList The collection of withdrawalReasonCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setWithdrawalReasonCode_NotInScope(withdrawalReasonCodeList: List[CDef.WithdrawalReason]): Unit = {
+    def setWithdrawalReasonCode_NotInScope(withdrawalReasonCodeList: List[String]): Unit = {
         doSetWithdrawalReasonCode_NotInScope(if (withdrawalReasonCodeList != null) { withdrawalReasonCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -200,7 +200,7 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
         doSetWithdrawalReasonCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetWithdrawalReasonCode_NotInScope(withdrawalReasonCodeList: Collection[String]): Unit = {
+    protected def doSetWithdrawalReasonCode_NotInScope(withdrawalReasonCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(withdrawalReasonCodeList), getCValueWithdrawalReasonCode(), "WITHDRAWAL_REASON_CODE");
     }
 
@@ -380,7 +380,7 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
      * DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Int): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 
@@ -397,7 +397,7 @@ abstract class AbstractBsWithdrawalReasonCQ(referrerQuery: ConditionQuery, sqlCl
      * @param maxNumber The max number of displayOrder. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setDisplayOrder_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setDisplayOrder_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueDisplayOrder(), "DISPLAY_ORDER", callbackROOP(optionCall));
     }
 

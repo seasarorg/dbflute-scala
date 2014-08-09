@@ -273,8 +273,8 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as equal. (NullAllowed: if null, no condition)
      */
-    def setPaymentAmount_Equal(paymentAmount: java.math.BigDecimal): Unit = {
-        doSetPaymentAmount_Equal(paymentAmount);
+    def setPaymentAmount_Equal(paymentAmount: scala.math.BigDecimal): Unit = {
+        doSetPaymentAmount_Equal(paymentAmount.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetPaymentAmount_Equal(paymentAmount: java.math.BigDecimal): Unit = {
@@ -286,8 +286,8 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as notEqual. (NullAllowed: if null, no condition)
      */
-    def setPaymentAmount_NotEqual(paymentAmount: java.math.BigDecimal): Unit = {
-        doSetPaymentAmount_NotEqual(paymentAmount);
+    def setPaymentAmount_NotEqual(paymentAmount: scala.math.BigDecimal): Unit = {
+        doSetPaymentAmount_NotEqual(paymentAmount.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetPaymentAmount_NotEqual(paymentAmount: java.math.BigDecimal): Unit = {
@@ -299,8 +299,8 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setPaymentAmount_GreaterThan(paymentAmount: java.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_GT, paymentAmount);
+    def setPaymentAmount_GreaterThan(paymentAmount: scala.math.BigDecimal): Unit = {
+        regPaymentAmount(CK_GT, paymentAmount.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -308,8 +308,8 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as lessThan. (NullAllowed: if null, no condition)
      */
-    def setPaymentAmount_LessThan(paymentAmount: java.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_LT, paymentAmount);
+    def setPaymentAmount_LessThan(paymentAmount: scala.math.BigDecimal): Unit = {
+        regPaymentAmount(CK_LT, paymentAmount.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -317,8 +317,8 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setPaymentAmount_GreaterEqual(paymentAmount: java.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_GE, paymentAmount);
+    def setPaymentAmount_GreaterEqual(paymentAmount: scala.math.BigDecimal): Unit = {
+        regPaymentAmount(CK_GE, paymentAmount.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -326,8 +326,8 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmount The value of paymentAmount as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setPaymentAmount_LessEqual(paymentAmount: java.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_LE, paymentAmount);
+    def setPaymentAmount_LessEqual(paymentAmount: scala.math.BigDecimal): Unit = {
+        regPaymentAmount(CK_LE, paymentAmount.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -339,7 +339,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param maxNumber The max number of paymentAmount. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setPaymentAmount_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setPaymentAmount_RangeOf(minNumber: scala.math.BigDecimal, maxNumber: scala.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValuePaymentAmount(), "PAYMENT_AMOUNT", callbackROOP(optionCall));
     }
 
@@ -361,7 +361,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * (支払金額)PAYMENT_AMOUNT: {NotNull, DECIMAL(10, 2)}
      * @param paymentAmountList The collection of paymentAmount as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setPaymentAmount_NotInScope(paymentAmountList: List[java.math.BigDecimal]): Unit = {
+    def setPaymentAmount_NotInScope(paymentAmountList: List[scala.math.BigDecimal]): Unit = {
         doSetPaymentAmount_NotInScope(if (paymentAmountList != null) { paymentAmountList.map(_.asInstanceOf[java.math.BigDecimal]).asJava } else { null });
     }
 
@@ -426,7 +426,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of paymentDatetime. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setPaymentDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setPaymentDatetime_FromTo(fromDatetime: org.joda.time.LocalDateTime, toDatetime: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValuePaymentDatetime(), "PAYMENT_DATETIME", callbackFTOP(optionCall));
     }
 
@@ -441,7 +441,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param fromDate The from-date(yyyy/MM/dd) of paymentDatetime. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of paymentDatetime. (NullAllowed: if null, no to-condition)
      */
-    def setPaymentDatetime_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setPaymentDatetime_DateFromTo(fromDate: org.joda.time.LocalDateTime, toDate: org.joda.time.LocalDateTime): Unit = {
         setPaymentDatetime_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -483,7 +483,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
         doSetPaymentMethodCode_InScope(toMutableValueCollectionImplicitly(paymentMethodCodeList));
     }
 
-    def doSetPaymentMethodCode_InScope(paymentMethodCodeList: Collection[String]): Unit = {
+    protected def doSetPaymentMethodCode_InScope(paymentMethodCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(paymentMethodCodeList), getCValuePaymentMethodCode(), "PAYMENT_METHOD_CODE");
     }
 
@@ -496,7 +496,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
         doSetPaymentMethodCode_NotInScope(if (paymentMethodCodeList != null) { paymentMethodCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetPaymentMethodCode_NotInScope(paymentMethodCodeList: Collection[String]): Unit = {
+    protected def doSetPaymentMethodCode_NotInScope(paymentMethodCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(paymentMethodCodeList), getCValuePaymentMethodCode(), "PAYMENT_METHOD_CODE");
     }
 

@@ -147,7 +147,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
      * (商品ステータスコード)PRODUCT_STATUS_CODE: {PK, NotNull, CHAR(3), classification=ProductStatus}
      * @param productStatusCodeList The collection of productStatusCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_InScope(productStatusCodeList: List[CDef.ProductStatus]): Unit = {
+    def setProductStatusCode_InScope(productStatusCodeList: List[String]): Unit = {
         doSetProductStatusCode_InScope(toMutableValueCollectionImplicitly(productStatusCodeList));
     }
 
@@ -161,7 +161,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
         doSetProductStatusCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
+    protected def doSetProductStatusCode_InScope(productStatusCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(productStatusCodeList), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE");
     }
 
@@ -170,7 +170,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
      * (商品ステータスコード)PRODUCT_STATUS_CODE: {PK, NotNull, CHAR(3), classification=ProductStatus}
      * @param productStatusCodeList The collection of productStatusCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setProductStatusCode_NotInScope(productStatusCodeList: List[CDef.ProductStatus]): Unit = {
+    def setProductStatusCode_NotInScope(productStatusCodeList: List[String]): Unit = {
         doSetProductStatusCode_NotInScope(if (productStatusCodeList != null) { productStatusCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -184,7 +184,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
         doSetProductStatusCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
+    protected def doSetProductStatusCode_NotInScope(productStatusCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(productStatusCodeList), getCValueProductStatusCode(), "PRODUCT_STATUS_CODE");
     }
 
@@ -373,7 +373,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
      * (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Int): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 
@@ -390,7 +390,7 @@ abstract class AbstractBsProductStatusCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param maxNumber The max number of displayOrder. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setDisplayOrder_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setDisplayOrder_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueDisplayOrder(), "DISPLAY_ORDER", callbackROOP(optionCall));
     }
 

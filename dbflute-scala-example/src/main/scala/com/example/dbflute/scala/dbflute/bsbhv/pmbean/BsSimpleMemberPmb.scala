@@ -151,7 +151,7 @@ abstract class CponSimpleMemberPmb {
     }
 
     protected def assertLikeSearchOptionValid(name: String, option: LikeSearchOption): Unit = {
-        if (option == null) {
+        if (option == null) { // relic
             val msg: String = "The like-search option is required!";
             throw new RequiredOptionNotFoundException(msg);
         }
@@ -161,6 +161,10 @@ abstract class CponSimpleMemberPmb {
             throw new IllegalOutsideSqlOperationException(msg);
         }
     }
+
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
+    { val op = createLikeSearchOption(); optionCall(op); return op; }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
     // ===================================================================================
     //                                                                      Basic Override
@@ -218,7 +222,7 @@ abstract class CponSimpleMemberPmb {
      */
     def setMemberName_PrefixSearch(memberName: String): Unit = {
         _memberName = memberName;
-        _memberNameInternalLikeSearchOption = new LikeSearchOption().likePrefix();
+        _memberNameInternalLikeSearchOption = createLikeSearchOption().likePrefix();
     }
 
     /**

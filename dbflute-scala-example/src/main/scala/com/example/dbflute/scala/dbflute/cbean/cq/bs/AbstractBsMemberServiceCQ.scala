@@ -53,7 +53,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberServiceId_Equal(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_Equal(memberServiceId: Int): Unit = {
         doSetMemberServiceId_Equal(memberServiceId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberServiceId_NotEqual(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_NotEqual(memberServiceId: Int): Unit = {
         doSetMemberServiceId_NotEqual(memberServiceId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberServiceId_GreaterThan(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_GreaterThan(memberServiceId: Int): Unit = {
         regMemberServiceId(CK_GT, memberServiceId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberServiceId_LessThan(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_LessThan(memberServiceId: Int): Unit = {
         regMemberServiceId(CK_LT, memberServiceId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberServiceId_GreaterEqual(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_GreaterEqual(memberServiceId: Int): Unit = {
         regMemberServiceId(CK_GE, memberServiceId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceId The value of memberServiceId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberServiceId_LessEqual(memberServiceId: Integer): Unit = {
+    def setMemberServiceId_LessEqual(memberServiceId: Int): Unit = {
         regMemberServiceId(CK_LE, memberServiceId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param maxNumber The max number of memberServiceId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberServiceId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberServiceId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberServiceId(), "MEMBER_SERVICE_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員サービスID)MEMBER_SERVICE_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberServiceIdList The collection of memberServiceId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberServiceId_NotInScope(memberServiceIdList: List[Integer]): Unit = {
+    def setMemberServiceId_NotInScope(memberServiceIdList: List[Int]): Unit = {
         doSetMemberServiceId_NotInScope(if (memberServiceIdList != null) { memberServiceIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -169,7 +169,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Int): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -182,7 +182,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Int): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -195,7 +195,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterThan(memberId: Integer): Unit = {
+    def setMemberId_GreaterThan(memberId: Int): Unit = {
         regMemberId(CK_GT, memberId);
     }
 
@@ -204,7 +204,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessThan(memberId: Integer): Unit = {
+    def setMemberId_LessThan(memberId: Int): Unit = {
         regMemberId(CK_LT, memberId);
     }
 
@@ -213,7 +213,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterEqual(memberId: Integer): Unit = {
+    def setMemberId_GreaterEqual(memberId: Int): Unit = {
         regMemberId(CK_GE, memberId);
     }
 
@@ -222,7 +222,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessEqual(memberId: Integer): Unit = {
+    def setMemberId_LessEqual(memberId: Int): Unit = {
         regMemberId(CK_LE, memberId);
     }
 
@@ -235,7 +235,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -257,7 +257,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+    def setMemberId_NotInScope(memberIdList: List[Int]): Unit = {
         doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -273,7 +273,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as equal. (NullAllowed: if null, no condition)
      */
-    def setServicePointCount_Equal(servicePointCount: Integer): Unit = {
+    def setServicePointCount_Equal(servicePointCount: Int): Unit = {
         doSetServicePointCount_Equal(servicePointCount);
     }
 
@@ -286,7 +286,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as notEqual. (NullAllowed: if null, no condition)
      */
-    def setServicePointCount_NotEqual(servicePointCount: Integer): Unit = {
+    def setServicePointCount_NotEqual(servicePointCount: Int): Unit = {
         doSetServicePointCount_NotEqual(servicePointCount);
     }
 
@@ -299,7 +299,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setServicePointCount_GreaterThan(servicePointCount: Integer): Unit = {
+    def setServicePointCount_GreaterThan(servicePointCount: Int): Unit = {
         regServicePointCount(CK_GT, servicePointCount);
     }
 
@@ -308,7 +308,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as lessThan. (NullAllowed: if null, no condition)
      */
-    def setServicePointCount_LessThan(servicePointCount: Integer): Unit = {
+    def setServicePointCount_LessThan(servicePointCount: Int): Unit = {
         regServicePointCount(CK_LT, servicePointCount);
     }
 
@@ -317,7 +317,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setServicePointCount_GreaterEqual(servicePointCount: Integer): Unit = {
+    def setServicePointCount_GreaterEqual(servicePointCount: Int): Unit = {
         regServicePointCount(CK_GE, servicePointCount);
     }
 
@@ -326,7 +326,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCount The value of servicePointCount as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setServicePointCount_LessEqual(servicePointCount: Integer): Unit = {
+    def setServicePointCount_LessEqual(servicePointCount: Int): Unit = {
         regServicePointCount(CK_LE, servicePointCount);
     }
 
@@ -339,7 +339,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param maxNumber The max number of servicePointCount. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setServicePointCount_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setServicePointCount_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueServicePointCount(), "SERVICE_POINT_COUNT", callbackROOP(optionCall));
     }
 
@@ -361,7 +361,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスポイント数)SERVICE_POINT_COUNT: {IX, NotNull, INTEGER(10)}
      * @param servicePointCountList The collection of servicePointCount as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServicePointCount_NotInScope(servicePointCountList: List[Integer]): Unit = {
+    def setServicePointCount_NotInScope(servicePointCountList: List[Int]): Unit = {
         doSetServicePointCount_NotInScope(if (servicePointCountList != null) { servicePointCountList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -503,7 +503,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_InScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+    def setServiceRankCode_InScope(serviceRankCodeList: List[String]): Unit = {
         doSetServiceRankCode_InScope(toMutableValueCollectionImplicitly(serviceRankCodeList));
     }
 
@@ -517,7 +517,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         doSetServiceRankCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
+    protected def doSetServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(serviceRankCodeList), getCValueServiceRankCode(), "SERVICE_RANK_CODE");
     }
 
@@ -526,7 +526,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
      * (サービスランクコード)SERVICE_RANK_CODE: {IX, NotNull, CHAR(3), FK to SERVICE_RANK, classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_NotInScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+    def setServiceRankCode_NotInScope(serviceRankCodeList: List[String]): Unit = {
         doSetServiceRankCode_NotInScope(if (serviceRankCodeList != null) { serviceRankCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -540,7 +540,7 @@ abstract class AbstractBsMemberServiceCQ(referrerQuery: ConditionQuery, sqlClaus
         doSetServiceRankCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
+    protected def doSetServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(serviceRankCodeList), getCValueServiceRankCode(), "SERVICE_RANK_CODE");
     }
 

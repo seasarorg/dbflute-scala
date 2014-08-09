@@ -179,7 +179,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_InScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+    def setServiceRankCode_InScope(serviceRankCodeList: List[String]): Unit = {
         doSetServiceRankCode_InScope(toMutableValueCollectionImplicitly(serviceRankCodeList));
     }
 
@@ -193,7 +193,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetServiceRankCode_InScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
+    protected def doSetServiceRankCode_InScope(serviceRankCodeList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(serviceRankCodeList), getCValueServiceRankCode(), "SERVICE_RANK_CODE");
     }
 
@@ -202,7 +202,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスランクコード)SERVICE_RANK_CODE: {PK, NotNull, CHAR(3), classification=ServiceRank}
      * @param serviceRankCodeList The collection of serviceRankCode as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServiceRankCode_NotInScope(serviceRankCodeList: List[CDef.ServiceRank]): Unit = {
+    def setServiceRankCode_NotInScope(serviceRankCodeList: List[String]): Unit = {
         doSetServiceRankCode_NotInScope(if (serviceRankCodeList != null) { serviceRankCodeList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
@@ -216,7 +216,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
         doSetServiceRankCode_NotInScope(cTStrL(cdefList.asJava));
     }
 
-    def doSetServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
+    protected def doSetServiceRankCode_NotInScope(serviceRankCodeList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(serviceRankCodeList), getCValueServiceRankCode(), "SERVICE_RANK_CODE");
     }
 
@@ -405,8 +405,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as equal. (NullAllowed: if null, no condition)
      */
-    def setServicePointIncidence_Equal(servicePointIncidence: java.math.BigDecimal): Unit = {
-        doSetServicePointIncidence_Equal(servicePointIncidence);
+    def setServicePointIncidence_Equal(servicePointIncidence: scala.math.BigDecimal): Unit = {
+        doSetServicePointIncidence_Equal(servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetServicePointIncidence_Equal(servicePointIncidence: java.math.BigDecimal): Unit = {
@@ -418,8 +418,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as notEqual. (NullAllowed: if null, no condition)
      */
-    def setServicePointIncidence_NotEqual(servicePointIncidence: java.math.BigDecimal): Unit = {
-        doSetServicePointIncidence_NotEqual(servicePointIncidence);
+    def setServicePointIncidence_NotEqual(servicePointIncidence: scala.math.BigDecimal): Unit = {
+        doSetServicePointIncidence_NotEqual(servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
     }
 
     protected def doSetServicePointIncidence_NotEqual(servicePointIncidence: java.math.BigDecimal): Unit = {
@@ -431,8 +431,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setServicePointIncidence_GreaterThan(servicePointIncidence: java.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_GT, servicePointIncidence);
+    def setServicePointIncidence_GreaterThan(servicePointIncidence: scala.math.BigDecimal): Unit = {
+        regServicePointIncidence(CK_GT, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -440,8 +440,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as lessThan. (NullAllowed: if null, no condition)
      */
-    def setServicePointIncidence_LessThan(servicePointIncidence: java.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_LT, servicePointIncidence);
+    def setServicePointIncidence_LessThan(servicePointIncidence: scala.math.BigDecimal): Unit = {
+        regServicePointIncidence(CK_LT, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -449,8 +449,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setServicePointIncidence_GreaterEqual(servicePointIncidence: java.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_GE, servicePointIncidence);
+    def setServicePointIncidence_GreaterEqual(servicePointIncidence: scala.math.BigDecimal): Unit = {
+        regServicePointIncidence(CK_GE, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -458,8 +458,8 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidence The value of servicePointIncidence as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setServicePointIncidence_LessEqual(servicePointIncidence: java.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_LE, servicePointIncidence);
+    def setServicePointIncidence_LessEqual(servicePointIncidence: scala.math.BigDecimal): Unit = {
+        regServicePointIncidence(CK_LE, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
     }
 
     /**
@@ -471,7 +471,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of servicePointIncidence. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setServicePointIncidence_RangeOf(minNumber: java.math.BigDecimal, maxNumber: java.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setServicePointIncidence_RangeOf(minNumber: scala.math.BigDecimal, maxNumber: scala.math.BigDecimal)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueServicePointIncidence(), "SERVICE_POINT_INCIDENCE", callbackROOP(optionCall));
     }
 
@@ -493,7 +493,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (サービスポイント発生率)SERVICE_POINT_INCIDENCE: {NotNull, DECIMAL(5, 3)}
      * @param servicePointIncidenceList The collection of servicePointIncidence as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setServicePointIncidence_NotInScope(servicePointIncidenceList: List[java.math.BigDecimal]): Unit = {
+    def setServicePointIncidence_NotInScope(servicePointIncidenceList: List[scala.math.BigDecimal]): Unit = {
         doSetServicePointIncidence_NotInScope(if (servicePointIncidenceList != null) { servicePointIncidenceList.map(_.asInstanceOf[java.math.BigDecimal]).asJava } else { null });
     }
 
@@ -509,7 +509,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlg The value of newAcceptableFlg as equal. (NullAllowed: if null, no condition)
      */
-    protected def setNewAcceptableFlg_Equal(newAcceptableFlg: Integer): Unit = {
+    protected def setNewAcceptableFlg_Equal(newAcceptableFlg: Int): Unit = {
         doSetNewAcceptableFlg_Equal(newAcceptableFlg);
     }
 
@@ -548,7 +548,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlg The value of newAcceptableFlg as notEqual. (NullAllowed: if null, no condition)
      */
-    protected def setNewAcceptableFlg_NotEqual(newAcceptableFlg: Integer): Unit = {
+    protected def setNewAcceptableFlg_NotEqual(newAcceptableFlg: Int): Unit = {
         doSetNewAcceptableFlg_NotEqual(newAcceptableFlg);
     }
 
@@ -587,7 +587,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlgList The collection of newAcceptableFlg as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setNewAcceptableFlg_InScope(newAcceptableFlgList: List[CDef.Flg]): Unit = {
+    def setNewAcceptableFlg_InScope(newAcceptableFlgList: List[Int]): Unit = {
         doSetNewAcceptableFlg_InScope(toMutableValueCollectionImplicitly(newAcceptableFlgList));
     }
 
@@ -610,7 +610,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (新規受け入れ可能フラグ)NEW_ACCEPTABLE_FLG: {NotNull, INTEGER(10), classification=Flg}
      * @param newAcceptableFlgList The collection of newAcceptableFlg as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setNewAcceptableFlg_NotInScope(newAcceptableFlgList: List[Integer]): Unit = {
+    def setNewAcceptableFlg_NotInScope(newAcceptableFlgList: List[Int]): Unit = {
         doSetNewAcceptableFlg_NotInScope(if (newAcceptableFlgList != null) { newAcceptableFlgList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -652,7 +652,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)}
      * @param displayOrder The value of displayOrder as equal. (NullAllowed: if null, no condition)
      */
-    def setDisplayOrder_Equal(displayOrder: Integer): Unit = {
+    def setDisplayOrder_Equal(displayOrder: Int): Unit = {
         doSetDisplayOrder_Equal(displayOrder);
     }
 
@@ -669,7 +669,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param maxNumber The max number of displayOrder. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setDisplayOrder_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setDisplayOrder_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueDisplayOrder(), "DISPLAY_ORDER", callbackROOP(optionCall));
     }
 

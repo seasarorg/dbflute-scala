@@ -53,7 +53,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員住所ID)MEMBER_ADDRESS_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberAddressId The value of memberAddressId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberAddressId_Equal(memberAddressId: Integer): Unit = {
+    def setMemberAddressId_Equal(memberAddressId: Int): Unit = {
         doSetMemberAddressId_Equal(memberAddressId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員住所ID)MEMBER_ADDRESS_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberAddressId The value of memberAddressId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberAddressId_NotEqual(memberAddressId: Integer): Unit = {
+    def setMemberAddressId_NotEqual(memberAddressId: Int): Unit = {
         doSetMemberAddressId_NotEqual(memberAddressId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員住所ID)MEMBER_ADDRESS_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberAddressId The value of memberAddressId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberAddressId_GreaterThan(memberAddressId: Integer): Unit = {
+    def setMemberAddressId_GreaterThan(memberAddressId: Int): Unit = {
         regMemberAddressId(CK_GT, memberAddressId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員住所ID)MEMBER_ADDRESS_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberAddressId The value of memberAddressId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberAddressId_LessThan(memberAddressId: Integer): Unit = {
+    def setMemberAddressId_LessThan(memberAddressId: Int): Unit = {
         regMemberAddressId(CK_LT, memberAddressId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員住所ID)MEMBER_ADDRESS_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberAddressId The value of memberAddressId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberAddressId_GreaterEqual(memberAddressId: Integer): Unit = {
+    def setMemberAddressId_GreaterEqual(memberAddressId: Int): Unit = {
         regMemberAddressId(CK_GE, memberAddressId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員住所ID)MEMBER_ADDRESS_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberAddressId The value of memberAddressId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberAddressId_LessEqual(memberAddressId: Integer): Unit = {
+    def setMemberAddressId_LessEqual(memberAddressId: Int): Unit = {
         regMemberAddressId(CK_LE, memberAddressId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param maxNumber The max number of memberAddressId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberAddressId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberAddressId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberAddressId(), "MEMBER_ADDRESS_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員住所ID)MEMBER_ADDRESS_ID: {PK, ID, NotNull, INTEGER(10)}
      * @param memberAddressIdList The collection of memberAddressId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberAddressId_NotInScope(memberAddressIdList: List[Integer]): Unit = {
+    def setMemberAddressId_NotInScope(memberAddressIdList: List[Int]): Unit = {
         doSetMemberAddressId_NotInScope(if (memberAddressIdList != null) { memberAddressIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -169,7 +169,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as equal. (NullAllowed: if null, no condition)
      */
-    def setMemberId_Equal(memberId: Integer): Unit = {
+    def setMemberId_Equal(memberId: Int): Unit = {
         doSetMemberId_Equal(memberId);
     }
 
@@ -182,7 +182,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_NotEqual(memberId: Integer): Unit = {
+    def setMemberId_NotEqual(memberId: Int): Unit = {
         doSetMemberId_NotEqual(memberId);
     }
 
@@ -195,7 +195,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterThan(memberId: Integer): Unit = {
+    def setMemberId_GreaterThan(memberId: Int): Unit = {
         regMemberId(CK_GT, memberId);
     }
 
@@ -204,7 +204,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessThan(memberId: Integer): Unit = {
+    def setMemberId_LessThan(memberId: Int): Unit = {
         regMemberId(CK_LT, memberId);
     }
 
@@ -213,7 +213,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_GreaterEqual(memberId: Integer): Unit = {
+    def setMemberId_GreaterEqual(memberId: Int): Unit = {
         regMemberId(CK_GE, memberId);
     }
 
@@ -222,7 +222,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberId The value of memberId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setMemberId_LessEqual(memberId: Integer): Unit = {
+    def setMemberId_LessEqual(memberId: Int): Unit = {
         regMemberId(CK_LE, memberId);
     }
 
@@ -235,7 +235,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param maxNumber The max number of memberId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setMemberId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setMemberId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueMemberId(), "MEMBER_ID", callbackROOP(optionCall));
     }
 
@@ -257,7 +257,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (会員ID)MEMBER_ID: {UQ+, IX, NotNull, INTEGER(10), FK to MEMBER}
      * @param memberIdList The collection of memberId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setMemberId_NotInScope(memberIdList: List[Integer]): Unit = {
+    def setMemberId_NotInScope(memberIdList: List[Int]): Unit = {
         doSetMemberId_NotInScope(if (memberIdList != null) { memberIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
@@ -322,7 +322,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of validBeginDate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setValidBeginDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setValidBeginDate_FromTo(fromDatetime: org.joda.time.LocalDate, toDatetime: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueValidBeginDate(), "VALID_BEGIN_DATE", callbackFTOP(optionCall));
     }
 
@@ -337,7 +337,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param fromDate The from-date(yyyy/MM/dd) of validBeginDate. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of validBeginDate. (NullAllowed: if null, no to-condition)
      */
-    def setValidBeginDate_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setValidBeginDate_DateFromTo(fromDate: org.joda.time.LocalDate, toDate: org.joda.time.LocalDate): Unit = {
         setValidBeginDate_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -398,7 +398,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of validEndDate. (NullAllowed: if null, no to-condition)
      * @param fromToOption The option of from-to. (NotNull)
      */
-    def setValidEndDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setValidEndDate_FromTo(fromDatetime: org.joda.time.LocalDate, toDatetime: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
         regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueValidEndDate(), "VALID_END_DATE", callbackFTOP(optionCall));
     }
 
@@ -413,7 +413,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param fromDate The from-date(yyyy/MM/dd) of validEndDate. (NullAllowed: if null, no from-condition)
      * @param toDate The to-date(yyyy/MM/dd) of validEndDate. (NullAllowed: if null, no to-condition)
      */
-    def setValidEndDate_DateFromTo(fromDate: Date, toDate: Date): Unit = {
+    def setValidEndDate_DateFromTo(fromDate: org.joda.time.LocalDate, toDate: org.joda.time.LocalDate): Unit = {
         setValidEndDate_FromTo(fromDate, toDate)(_.compareAsDate);
     }
 
@@ -455,7 +455,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
         doSetAddress_InScope(toMutableValueCollectionImplicitly(addressList));
     }
 
-    def doSetAddress_InScope(addressList: Collection[String]): Unit = {
+    protected def doSetAddress_InScope(addressList: Collection[String]): Unit = {
         regINS(CK_INS, cTL(addressList), getCValueAddress(), "ADDRESS");
     }
 
@@ -468,7 +468,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
         doSetAddress_NotInScope(if (addressList != null) { addressList.map(_.asInstanceOf[String]).asJava } else { null });
     }
 
-    def doSetAddress_NotInScope(addressList: Collection[String]): Unit = {
+    protected def doSetAddress_NotInScope(addressList: Collection[String]): Unit = {
         regINS(CK_NINS, cTL(addressList), getCValueAddress(), "ADDRESS");
     }
 
@@ -511,7 +511,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (地域ID)REGION_ID: {IX, NotNull, INTEGER(10), FK to REGION, classification=Region}
      * @param regionId The value of regionId as equal. (NullAllowed: if null, no condition)
      */
-    protected def setRegionId_Equal(regionId: Integer): Unit = {
+    protected def setRegionId_Equal(regionId: Int): Unit = {
         doSetRegionId_Equal(regionId);
     }
 
@@ -566,7 +566,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (地域ID)REGION_ID: {IX, NotNull, INTEGER(10), FK to REGION, classification=Region}
      * @param regionId The value of regionId as notEqual. (NullAllowed: if null, no condition)
      */
-    protected def setRegionId_NotEqual(regionId: Integer): Unit = {
+    protected def setRegionId_NotEqual(regionId: Int): Unit = {
         doSetRegionId_NotEqual(regionId);
     }
 
@@ -621,7 +621,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (地域ID)REGION_ID: {IX, NotNull, INTEGER(10), FK to REGION, classification=Region}
      * @param regionIdList The collection of regionId as inScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setRegionId_InScope(regionIdList: List[CDef.Region]): Unit = {
+    def setRegionId_InScope(regionIdList: List[Int]): Unit = {
         doSetRegionId_InScope(toMutableValueCollectionImplicitly(regionIdList));
     }
 
@@ -644,7 +644,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (地域ID)REGION_ID: {IX, NotNull, INTEGER(10), FK to REGION, classification=Region}
      * @param regionIdList The collection of regionId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setRegionId_NotInScope(regionIdList: List[Integer]): Unit = {
+    def setRegionId_NotInScope(regionIdList: List[Int]): Unit = {
         doSetRegionId_NotInScope(if (regionIdList != null) { regionIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 

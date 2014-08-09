@@ -53,7 +53,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as equal. (NullAllowed: if null, no condition)
      */
-    def setVendor$DollarId_Equal(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_Equal(vendor$DollarId: Int): Unit = {
         doSetVendor$DollarId_Equal(vendor$DollarId);
     }
 
@@ -66,7 +66,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as notEqual. (NullAllowed: if null, no condition)
      */
-    def setVendor$DollarId_NotEqual(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_NotEqual(vendor$DollarId: Int): Unit = {
         doSetVendor$DollarId_NotEqual(vendor$DollarId);
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setVendor$DollarId_GreaterThan(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_GreaterThan(vendor$DollarId: Int): Unit = {
         regVendor$DollarId(CK_GT, vendor$DollarId);
     }
 
@@ -88,7 +88,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as lessThan. (NullAllowed: if null, no condition)
      */
-    def setVendor$DollarId_LessThan(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_LessThan(vendor$DollarId: Int): Unit = {
         regVendor$DollarId(CK_LT, vendor$DollarId);
     }
 
@@ -97,7 +97,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setVendor$DollarId_GreaterEqual(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_GreaterEqual(vendor$DollarId: Int): Unit = {
         regVendor$DollarId(CK_GE, vendor$DollarId);
     }
 
@@ -106,7 +106,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarId The value of vendor$DollarId as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setVendor$DollarId_LessEqual(vendor$DollarId: Integer): Unit = {
+    def setVendor$DollarId_LessEqual(vendor$DollarId: Int): Unit = {
         regVendor$DollarId(CK_LE, vendor$DollarId);
     }
 
@@ -119,7 +119,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param maxNumber The max number of vendor$DollarId. (NullAllowed: if null, no to-condition)
      * @param optionCall The callback for option of range-of. (NotNull)
      */
-    def setVendor$DollarId_RangeOf(minNumber: Integer, maxNumber: Integer)(optionCall: (RangeOfOption) => Unit): Unit = {
+    def setVendor$DollarId_RangeOf(minNumber: Int, maxNumber: Int)(optionCall: (RangeOfOption) => Unit): Unit = {
         regROO(minNumber, maxNumber, getCValueVendor$DollarId(), "VENDOR_$_DOLLAR_ID", callbackROOP(optionCall));
     }
 
@@ -141,7 +141,7 @@ abstract class AbstractBsVendor$DollarCQ(referrerQuery: ConditionQuery, sqlClaus
      * VENDOR_$_DOLLAR_ID: {PK, NotNull, INTEGER(10)}
      * @param vendor$DollarIdList The collection of vendor$DollarId as notInScope. (NullAllowed: if null (or empty), no condition)
      */
-    def setVendor$DollarId_NotInScope(vendor$DollarIdList: List[Integer]): Unit = {
+    def setVendor$DollarId_NotInScope(vendor$DollarIdList: List[Int]): Unit = {
         doSetVendor$DollarId_NotInScope(if (vendor$DollarIdList != null) { vendor$DollarIdList.map(_.asInstanceOf[Integer]).asJava } else { null });
     }
 
