@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -268,8 +273,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)}
      * @param validBeginDate The value of validBeginDate as equal. (NullAllowed: if null, no condition)
      */
-    def setValidBeginDate_Equal(validBeginDate: java.util.Date): Unit = {
-        regValidBeginDate(CK_EQ,  fCTPD(validBeginDate));
+    def setValidBeginDate_Equal(validBeginDate: org.joda.time.LocalDate): Unit = {
+        regValidBeginDate(CK_EQ,  validBeginDate);
     }
 
     /**
@@ -277,8 +282,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)}
      * @param validBeginDate The value of validBeginDate as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setValidBeginDate_GreaterThan(validBeginDate: java.util.Date): Unit = {
-        regValidBeginDate(CK_GT,  fCTPD(validBeginDate));
+    def setValidBeginDate_GreaterThan(validBeginDate: org.joda.time.LocalDate): Unit = {
+        regValidBeginDate(CK_GT,  validBeginDate);
     }
 
     /**
@@ -286,8 +291,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)}
      * @param validBeginDate The value of validBeginDate as lessThan. (NullAllowed: if null, no condition)
      */
-    def setValidBeginDate_LessThan(validBeginDate: java.util.Date): Unit = {
-        regValidBeginDate(CK_LT,  fCTPD(validBeginDate));
+    def setValidBeginDate_LessThan(validBeginDate: org.joda.time.LocalDate): Unit = {
+        regValidBeginDate(CK_LT,  validBeginDate);
     }
 
     /**
@@ -295,8 +300,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)}
      * @param validBeginDate The value of validBeginDate as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setValidBeginDate_GreaterEqual(validBeginDate: java.util.Date): Unit = {
-        regValidBeginDate(CK_GE,  fCTPD(validBeginDate));
+    def setValidBeginDate_GreaterEqual(validBeginDate: org.joda.time.LocalDate): Unit = {
+        regValidBeginDate(CK_GE,  validBeginDate);
     }
 
     /**
@@ -304,8 +309,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)}
      * @param validBeginDate The value of validBeginDate as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setValidBeginDate_LessEqual(validBeginDate: java.util.Date): Unit = {
-        regValidBeginDate(CK_LE, fCTPD(validBeginDate));
+    def setValidBeginDate_LessEqual(validBeginDate: org.joda.time.LocalDate): Unit = {
+        regValidBeginDate(CK_LE, validBeginDate);
     }
 
     /**
@@ -318,7 +323,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setValidBeginDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueValidBeginDate(), "VALID_BEGIN_DATE", callbackFTOP(optionCall));
+        regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueValidBeginDate(), "VALID_BEGIN_DATE", callbackFTOP(optionCall));
     }
 
     /**
@@ -344,8 +349,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効終了日)VALID_END_DATE: {NotNull, DATE(8)}
      * @param validEndDate The value of validEndDate as equal. (NullAllowed: if null, no condition)
      */
-    def setValidEndDate_Equal(validEndDate: java.util.Date): Unit = {
-        regValidEndDate(CK_EQ,  fCTPD(validEndDate));
+    def setValidEndDate_Equal(validEndDate: org.joda.time.LocalDate): Unit = {
+        regValidEndDate(CK_EQ,  validEndDate);
     }
 
     /**
@@ -353,8 +358,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効終了日)VALID_END_DATE: {NotNull, DATE(8)}
      * @param validEndDate The value of validEndDate as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setValidEndDate_GreaterThan(validEndDate: java.util.Date): Unit = {
-        regValidEndDate(CK_GT,  fCTPD(validEndDate));
+    def setValidEndDate_GreaterThan(validEndDate: org.joda.time.LocalDate): Unit = {
+        regValidEndDate(CK_GT,  validEndDate);
     }
 
     /**
@@ -362,8 +367,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効終了日)VALID_END_DATE: {NotNull, DATE(8)}
      * @param validEndDate The value of validEndDate as lessThan. (NullAllowed: if null, no condition)
      */
-    def setValidEndDate_LessThan(validEndDate: java.util.Date): Unit = {
-        regValidEndDate(CK_LT,  fCTPD(validEndDate));
+    def setValidEndDate_LessThan(validEndDate: org.joda.time.LocalDate): Unit = {
+        regValidEndDate(CK_LT,  validEndDate);
     }
 
     /**
@@ -371,8 +376,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効終了日)VALID_END_DATE: {NotNull, DATE(8)}
      * @param validEndDate The value of validEndDate as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setValidEndDate_GreaterEqual(validEndDate: java.util.Date): Unit = {
-        regValidEndDate(CK_GE,  fCTPD(validEndDate));
+    def setValidEndDate_GreaterEqual(validEndDate: org.joda.time.LocalDate): Unit = {
+        regValidEndDate(CK_GE,  validEndDate);
     }
 
     /**
@@ -380,8 +385,8 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * (有効終了日)VALID_END_DATE: {NotNull, DATE(8)}
      * @param validEndDate The value of validEndDate as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setValidEndDate_LessEqual(validEndDate: java.util.Date): Unit = {
-        regValidEndDate(CK_LE, fCTPD(validEndDate));
+    def setValidEndDate_LessEqual(validEndDate: org.joda.time.LocalDate): Unit = {
+        regValidEndDate(CK_LE, validEndDate);
     }
 
     /**
@@ -394,7 +399,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setValidEndDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueValidEndDate(), "VALID_END_DATE", callbackFTOP(optionCall));
+        regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueValidEndDate(), "VALID_END_DATE", callbackFTOP(optionCall));
     }
 
     /**
@@ -665,7 +670,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @param registerDatetime The value of registerDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setRegisterDatetime_Equal(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime_Equal(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
@@ -693,7 +698,7 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
      * UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @param updateDatetime The value of updateDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setUpdateDatetime_Equal(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime_Equal(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
@@ -970,6 +975,32 @@ abstract class AbstractBsMemberAddressCQ(referrerQuery: ConditionQuery, sqlClaus
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

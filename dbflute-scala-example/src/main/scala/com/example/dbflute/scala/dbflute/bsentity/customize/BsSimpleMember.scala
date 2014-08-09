@@ -5,7 +5,6 @@ import scala.collection.JavaConverters._;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity.FunCustodial;
@@ -45,7 +44,7 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val memberId: Option[Int] = entity.memberId
  * val memberName: Option[String] = entity.memberName
- * val birthdate: Option[java.util.Date] = entity.birthdate
+ * val birthdate: Option[org.joda.time.LocalDate] = entity.birthdate
  * val memberStatusName: Option[String] = entity.memberStatusName
  * = = = = = = = = = =/
  * </pre>
@@ -59,7 +58,7 @@ abstract class BsSimpleMember(dble: DbleSimpleMember) extends Serializable {
     def copy(
          memberId: Option[Int] = memberId
         , memberName: Option[String] = memberName
-        , birthdate: Option[java.util.Date] = birthdate
+        , birthdate: Option[org.joda.time.LocalDate] = birthdate
         , memberStatusName: Option[String] = memberStatusName
     ): SimpleMember = {
         val newDble = new DbleSimpleMember
@@ -162,7 +161,7 @@ abstract class BsSimpleMember(dble: DbleSimpleMember) extends Serializable {
      * [get] (生年月日)BIRTHDATE: {DATE(8), refers to MEMBER.BIRTHDATE} <br />
      * @return The value of the column 'BIRTHDATE'. (basically NotNull if selected: for the constraint)
      */
-    def birthdate: Option[java.util.Date] = { Option(dble.getBirthdate) }
+    def birthdate: Option[org.joda.time.LocalDate] = { Option(dble.getBirthdate) }
 
     /**
      * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
@@ -187,7 +186,7 @@ abstract class BsSimpleMember(dble: DbleSimpleMember) extends Serializable {
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val memberId: Option[Int] = entity.memberId
  * val memberName: Option[String] = entity.memberName
- * val birthdate: Option[java.util.Date] = entity.birthdate
+ * val birthdate: Option[org.joda.time.LocalDate] = entity.birthdate
  * val memberStatusName: Option[String] = entity.memberStatusName
  * entity.memberId = memberId
  * entity.memberName = memberName
@@ -201,12 +200,17 @@ abstract class BsMbleSimpleMember {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DbleSimpleMember = new DbleSimpleMember();
+    protected val dble: DbleSimpleMember = new DbleSimpleMember();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DbleSimpleMember = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): SimpleMember = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key
@@ -242,13 +246,13 @@ abstract class BsMbleSimpleMember {
      * [get] (生年月日)BIRTHDATE: {DATE(8), refers to MEMBER.BIRTHDATE} <br />
      * @return The value of the column 'BIRTHDATE'. (NotNull but EmptyAllowed if null in database)
      */
-    def birthdate: Option[java.util.Date] = { Option(dble.getBirthdate) }
+    def birthdate: Option[org.joda.time.LocalDate] = { Option(dble.getBirthdate) }
 
     /**
      * [set] (生年月日)BIRTHDATE: {DATE(8), refers to MEMBER.BIRTHDATE} <br />
      * @param birthdate The value of the column 'BIRTHDATE'. (basically NotNull if update: for the constraint)
      */
-    def birthdate_=(birthdate: Option[java.util.Date]) = { dble.setBirthdate(birthdate.orNull) }
+    def birthdate_=(birthdate: Option[org.joda.time.LocalDate]) = { dble.setBirthdate(birthdate.orNull) }
 
     /**
      * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />

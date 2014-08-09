@@ -139,15 +139,15 @@ object VendorCheckDbm extends AbstractDBMeta {
     }
     class EpgTypeOfDate extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleVendorCheck].getTypeOfDate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorCheck].setTypeOfDate(vl.asInstanceOf[java.util.Date]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorCheck].setTypeOfDate(vl.asInstanceOf[org.joda.time.LocalDate]); }
     }
     class EpgTypeOfTimestamp extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleVendorCheck].getTypeOfTimestamp(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorCheck].setTypeOfTimestamp(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorCheck].setTypeOfTimestamp(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgTypeOfTime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleVendorCheck].getTypeOfTime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorCheck].setTypeOfTime(vl.asInstanceOf[java.sql.Time]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorCheck].setTypeOfTime(vl.asInstanceOf[org.joda.time.LocalTime]); }
     }
     class EpgTypeOfBoolean extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleVendorCheck].getTypeOfBoolean(); }
@@ -221,9 +221,9 @@ object VendorCheckDbm extends AbstractDBMeta {
     protected val _columnTypeOfNumericMaxdecimal: ColumnInfo = cci("TYPE_OF_NUMERIC_MAXDECIMAL", "TYPE_OF_NUMERIC_MAXDECIMAL", null, null, classOf[java.math.BigDecimal], "typeOfNumericMaxdecimal", null, false, false, false, "DECIMAL", 38, 38, null, false, null, null, null, null, null);
     protected val _columnTypeOfInteger: ColumnInfo = cci("TYPE_OF_INTEGER", "TYPE_OF_INTEGER", null, null, classOf[Integer], "typeOfInteger", null, false, false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
     protected val _columnTypeOfBigint: ColumnInfo = cci("TYPE_OF_BIGINT", "TYPE_OF_BIGINT", null, null, classOf[Long], "typeOfBigint", null, false, false, false, "BIGINT", 19, 0, null, false, null, null, null, null, null);
-    protected val _columnTypeOfDate: ColumnInfo = cci("TYPE_OF_DATE", "TYPE_OF_DATE", null, null, classOf[java.util.Date], "typeOfDate", null, false, false, false, "DATE", 8, 0, null, false, null, null, null, null, null);
-    protected val _columnTypeOfTimestamp: ColumnInfo = cci("TYPE_OF_TIMESTAMP", "TYPE_OF_TIMESTAMP", null, null, classOf[java.sql.Timestamp], "typeOfTimestamp", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
-    protected val _columnTypeOfTime: ColumnInfo = cci("TYPE_OF_TIME", "TYPE_OF_TIME", null, null, classOf[java.sql.Time], "typeOfTime", null, false, false, false, "TIME", 6, 0, null, false, null, null, null, null, null);
+    protected val _columnTypeOfDate: ColumnInfo = cci("TYPE_OF_DATE", "TYPE_OF_DATE", null, null, classOf[org.joda.time.LocalDate], "typeOfDate", null, false, false, false, "DATE", 8, 0, null, false, null, null, null, null, null);
+    protected val _columnTypeOfTimestamp: ColumnInfo = cci("TYPE_OF_TIMESTAMP", "TYPE_OF_TIMESTAMP", null, null, classOf[org.joda.time.LocalDateTime], "typeOfTimestamp", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnTypeOfTime: ColumnInfo = cci("TYPE_OF_TIME", "TYPE_OF_TIME", null, null, classOf[org.joda.time.LocalTime], "typeOfTime", null, false, false, false, "TIME", 6, 0, null, false, null, null, null, null, null);
     protected val _columnTypeOfBoolean: ColumnInfo = cci("TYPE_OF_BOOLEAN", "TYPE_OF_BOOLEAN", null, null, classOf[Boolean], "typeOfBoolean", null, false, false, false, "BOOLEAN", 1, 0, null, false, null, null, null, null, null);
     protected val _columnTypeOfBinary: ColumnInfo = cci("TYPE_OF_BINARY", "TYPE_OF_BINARY", null, null, classOf[Array[Byte]], "typeOfBinary", null, false, false, false, "VARBINARY", 2147483647, 0, null, false, null, null, null, null, null);
     protected val _columnTypeOfBlob: ColumnInfo = cci("TYPE_OF_BLOB", "TYPE_OF_BLOB", null, null, classOf[Array[Byte]], "typeOfBlob", null, false, false, false, "BLOB", 2147483647, 0, null, false, null, null, null, null, null);

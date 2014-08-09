@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Date;
 
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -62,13 +61,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer memberAddressId = entity.getMemberAddressId();
  * Integer memberId = entity.getMemberId();
- * java.util.Date validBeginDate = entity.getValidBeginDate();
- * java.util.Date validEndDate = entity.getValidEndDate();
+ * org.joda.time.LocalDate validBeginDate = entity.getValidBeginDate();
+ * org.joda.time.LocalDate validEndDate = entity.getValidEndDate();
  * String address = entity.getAddress();
  * Integer regionId = entity.getRegionId();
- * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
+ * org.joda.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
- * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
+ * org.joda.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * Long versionNo = entity.getVersionNo();
  * entity.setMemberAddressId(memberAddressId);
@@ -101,10 +100,10 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
     protected var _memberId: Integer = null;
 
     /** (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)} */
-    protected var _validBeginDate: java.util.Date = null;
+    protected var _validBeginDate: org.joda.time.LocalDate = null;
 
     /** (有効終了日)VALID_END_DATE: {NotNull, DATE(8)} */
-    protected var _validEndDate: java.util.Date = null;
+    protected var _validEndDate: org.joda.time.LocalDate = null;
 
     /** (住所)ADDRESS: {NotNull, VARCHAR(200)} */
     protected var _address: String = null;
@@ -113,13 +112,13 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
     protected var _regionId: Integer = null;
 
     /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _registerDatetime: java.sql.Timestamp = null;
+    protected var _registerDatetime: org.joda.time.LocalDateTime = null;
 
     /** REGISTER_USER: {NotNull, VARCHAR(200)} */
     protected var _registerUser: String = null;
 
     /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _updateDatetime: java.sql.Timestamp = null;
+    protected var _updateDatetime: org.joda.time.LocalDateTime = null;
 
     /** UPDATE_USER: {NotNull, VARCHAR(200)} */
     protected var _updateUser: String = null;
@@ -223,7 +222,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * @param memberId (会員ID): UQ+, IX, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
      * @param validBeginDate (有効開始日): +UQ, NotNull, DATE(8). (NotNull)
      */
-    def uniqueBy(memberId: Integer, validBeginDate: java.util.Date): Unit = {
+    def uniqueBy(memberId: Integer, validBeginDate: org.joda.time.LocalDate): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("memberId");
         __uniqueDrivenProperties.addPropertyName("validBeginDate");
@@ -603,8 +602,8 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
         val dm: String = ", ";
         sb.append(dm).append(getMemberAddressId());
         sb.append(dm).append(getMemberId());
-        sb.append(dm).append(xfUD(getValidBeginDate()));
-        sb.append(dm).append(xfUD(getValidEndDate()));
+        sb.append(dm).append(getValidBeginDate());
+        sb.append(dm).append(getValidEndDate());
         sb.append(dm).append(getAddress());
         sb.append(dm).append(getRegionId());
         sb.append(dm).append(getRegisterDatetime());
@@ -617,12 +616,6 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
-    }
-    protected def xfUD(date: Date): String = { // formatUtilDate()
-        return FunCustodial.toString(date, xgDP());
-    }
-    protected def xgDP(): String = { // getDatePattern
-        return "yyyy-MM-dd";
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
@@ -690,7 +683,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [get] (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)} <br />
      * @return The value of the column 'VALID_BEGIN_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def getValidBeginDate(): java.util.Date = {
+    def getValidBeginDate(): org.joda.time.LocalDate = {
         return _validBeginDate;
     }
 
@@ -698,7 +691,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [set] (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)} <br />
      * @param validBeginDate The value of the column 'VALID_BEGIN_DATE'. (basically NotNull if update: for the constraint)
      */
-    def setValidBeginDate(validBeginDate: java.util.Date): Unit = {
+    def setValidBeginDate(validBeginDate: org.joda.time.LocalDate): Unit = {
         __modifiedProperties.addPropertyName("validBeginDate");
         _validBeginDate = validBeginDate;
     }
@@ -707,7 +700,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [get] (有効終了日)VALID_END_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'VALID_END_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def getValidEndDate(): java.util.Date = {
+    def getValidEndDate(): org.joda.time.LocalDate = {
         return _validEndDate;
     }
 
@@ -715,7 +708,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [set] (有効終了日)VALID_END_DATE: {NotNull, DATE(8)} <br />
      * @param validEndDate The value of the column 'VALID_END_DATE'. (basically NotNull if update: for the constraint)
      */
-    def setValidEndDate(validEndDate: java.util.Date): Unit = {
+    def setValidEndDate(validEndDate: org.joda.time.LocalDate): Unit = {
         __modifiedProperties.addPropertyName("validEndDate");
         _validEndDate = validEndDate;
     }
@@ -758,7 +751,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
+    def getRegisterDatetime(): org.joda.time.LocalDateTime = {
         return _registerDatetime;
     }
 
@@ -766,7 +759,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         _registerDatetime = registerDatetime;
     }
@@ -792,7 +785,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateDatetime(): java.sql.Timestamp = {
+    def getUpdateDatetime(): org.joda.time.LocalDateTime = {
         return _updateDatetime;
     }
 
@@ -800,7 +793,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         _updateDatetime = updateDatetime;
     }

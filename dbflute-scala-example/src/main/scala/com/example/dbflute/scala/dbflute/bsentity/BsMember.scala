@@ -5,7 +5,6 @@ import scala.collection.JavaConverters._;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity.FunCustodial;
@@ -49,11 +48,11 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val memberName: String = entity.memberName
  * val memberAccount: String = entity.memberAccount
  * val memberStatusCode: CDef.MemberStatus = entity.memberStatusCode
- * val formalizedDatetime: Option[java.sql.Timestamp] = entity.formalizedDatetime
- * val birthdate: Option[java.util.Date] = entity.birthdate
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val formalizedDatetime: Option[org.joda.time.LocalDateTime] = entity.formalizedDatetime
+ * val birthdate: Option[org.joda.time.LocalDate] = entity.birthdate
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * = = = = = = = = = =/
@@ -70,11 +69,11 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
         , memberName: String = memberName
         , memberAccount: String = memberAccount
         , memberStatusCode: CDef.MemberStatus = memberStatusCode
-        , formalizedDatetime: Option[java.sql.Timestamp] = formalizedDatetime
-        , birthdate: Option[java.util.Date] = birthdate
-        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , formalizedDatetime: Option[org.joda.time.LocalDateTime] = formalizedDatetime
+        , birthdate: Option[org.joda.time.LocalDate] = birthdate
+        , registerDatetime: org.joda.time.LocalDateTime = registerDatetime
         , registerUser: String = registerUser
-        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateDatetime: org.joda.time.LocalDateTime = updateDatetime
         , updateUser: String = updateUser
         , versionNo: Long = versionNo
     ): Member = {
@@ -284,19 +283,19 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
      * [get] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FORMALIZED_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def formalizedDatetime: Option[java.sql.Timestamp] = { Option(dble.getFormalizedDatetime) }
+    def formalizedDatetime: Option[org.joda.time.LocalDateTime] = { Option(dble.getFormalizedDatetime) }
 
     /**
      * [get] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @return The value of the column 'BIRTHDATE'. (basically NotNull if selected: for the constraint)
      */
-    def birthdate: Option[java.util.Date] = { Option(dble.getBirthdate) }
+    def birthdate: Option[org.joda.time.LocalDate] = { Option(dble.getBirthdate) }
 
     /**
      * [get] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [get] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -308,7 +307,7 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
      * [get] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [get] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />
@@ -341,11 +340,11 @@ abstract class BsMember(dble: DbleMember) extends Serializable {
  * val memberName: String = entity.memberName
  * val memberAccount: String = entity.memberAccount
  * val memberStatusCode: CDef.MemberStatus = entity.memberStatusCode
- * val formalizedDatetime: Option[java.sql.Timestamp] = entity.formalizedDatetime
- * val birthdate: Option[java.util.Date] = entity.birthdate
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val formalizedDatetime: Option[org.joda.time.LocalDateTime] = entity.formalizedDatetime
+ * val birthdate: Option[org.joda.time.LocalDate] = entity.birthdate
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * entity.memberId = memberId
@@ -512,37 +511,37 @@ abstract class BsMbleMember {
      * [get] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FORMALIZED_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def formalizedDatetime: Option[java.sql.Timestamp] = { Option(dble.getFormalizedDatetime) }
+    def formalizedDatetime: Option[org.joda.time.LocalDateTime] = { Option(dble.getFormalizedDatetime) }
 
     /**
      * [set] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def formalizedDatetime_=(formalizedDatetime: Option[java.sql.Timestamp]) = { dble.setFormalizedDatetime(formalizedDatetime.orNull) }
+    def formalizedDatetime_=(formalizedDatetime: Option[org.joda.time.LocalDateTime]) = { dble.setFormalizedDatetime(formalizedDatetime.orNull) }
 
     /**
      * [get] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @return The value of the column 'BIRTHDATE'. (NotNull but EmptyAllowed if null in database)
      */
-    def birthdate: Option[java.util.Date] = { Option(dble.getBirthdate) }
+    def birthdate: Option[org.joda.time.LocalDate] = { Option(dble.getBirthdate) }
 
     /**
      * [set] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @param birthdate The value of the column 'BIRTHDATE'. (basically NotNull if update: for the constraint)
      */
-    def birthdate_=(birthdate: Option[java.util.Date]) = { dble.setBirthdate(birthdate.orNull) }
+    def birthdate_=(birthdate: Option[org.joda.time.LocalDate]) = { dble.setBirthdate(birthdate.orNull) }
 
     /**
      * [get] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [set] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def registerDatetime_=(registerDatetime: java.sql.Timestamp) = { dble.setRegisterDatetime(registerDatetime) }
+    def registerDatetime_=(registerDatetime: org.joda.time.LocalDateTime) = { dble.setRegisterDatetime(registerDatetime) }
 
     /**
      * [get] (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -560,13 +559,13 @@ abstract class BsMbleMember {
      * [get] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [set] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def updateDatetime_=(updateDatetime: java.sql.Timestamp) = { dble.setUpdateDatetime(updateDatetime) }
+    def updateDatetime_=(updateDatetime: org.joda.time.LocalDateTime) = { dble.setUpdateDatetime(updateDatetime) }
 
     /**
      * [get] (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} <br />

@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Date;
 
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -59,7 +58,7 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Integer memberId = entity.getMemberId();
  * String memberName = entity.getMemberName();
- * java.util.Date birthdate = entity.getBirthdate();
+ * org.joda.time.LocalDate birthdate = entity.getBirthdate();
  * String memberStatusName = entity.getMemberStatusName();
  * entity.setMemberId(memberId);
  * entity.setMemberName(memberName);
@@ -84,7 +83,7 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
     protected var _memberName: String = null;
 
     /** (生年月日)BIRTHDATE: {DATE(8), refers to MEMBER.BIRTHDATE} */
-    protected var _birthdate: java.util.Date = null;
+    protected var _birthdate: org.joda.time.LocalDate = null;
 
     /** (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} */
     protected var _memberStatusName: String = null;
@@ -350,19 +349,13 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
         val dm: String = ", ";
         sb.append(dm).append(getMemberId());
         sb.append(dm).append(getMemberName());
-        sb.append(dm).append(xfUD(getBirthdate()));
+        sb.append(dm).append(getBirthdate());
         sb.append(dm).append(getMemberStatusName());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
-    }
-    protected def xfUD(date: Date): String = { // formatUtilDate()
-        return FunCustodial.toString(date, xgDP());
-    }
-    protected def xgDP(): String = { // getDatePattern
-        return "yyyy-MM-dd";
     }
     protected def buildRelationString(): String = {
         return "";
@@ -423,7 +416,7 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
      * [get] (生年月日)BIRTHDATE: {DATE(8), refers to MEMBER.BIRTHDATE} <br />
      * @return The value of the column 'BIRTHDATE'. (NullAllowed even if selected: for no constraint)
      */
-    def getBirthdate(): java.util.Date = {
+    def getBirthdate(): org.joda.time.LocalDate = {
         return _birthdate;
     }
 
@@ -431,7 +424,7 @@ abstract class BsDbleSimpleMember extends Entity with DBableEntity[SimpleMember]
      * [set] (生年月日)BIRTHDATE: {DATE(8), refers to MEMBER.BIRTHDATE} <br />
      * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def setBirthdate(birthdate: java.util.Date): Unit = {
+    def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
         __modifiedProperties.addPropertyName("birthdate");
         _birthdate = birthdate;
     }

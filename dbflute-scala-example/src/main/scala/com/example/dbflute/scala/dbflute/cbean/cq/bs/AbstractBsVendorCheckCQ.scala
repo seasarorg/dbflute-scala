@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -1876,8 +1881,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_DATE: {DATE(8)}
      * @param typeOfDate The value of typeOfDate as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfDate_Equal(typeOfDate: java.util.Date): Unit = {
-        regTypeOfDate(CK_EQ,  fCTPD(typeOfDate));
+    def setTypeOfDate_Equal(typeOfDate: org.joda.time.LocalDate): Unit = {
+        regTypeOfDate(CK_EQ,  typeOfDate);
     }
 
     /**
@@ -1885,8 +1890,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_DATE: {DATE(8)}
      * @param typeOfDate The value of typeOfDate as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfDate_GreaterThan(typeOfDate: java.util.Date): Unit = {
-        regTypeOfDate(CK_GT,  fCTPD(typeOfDate));
+    def setTypeOfDate_GreaterThan(typeOfDate: org.joda.time.LocalDate): Unit = {
+        regTypeOfDate(CK_GT,  typeOfDate);
     }
 
     /**
@@ -1894,8 +1899,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_DATE: {DATE(8)}
      * @param typeOfDate The value of typeOfDate as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfDate_LessThan(typeOfDate: java.util.Date): Unit = {
-        regTypeOfDate(CK_LT,  fCTPD(typeOfDate));
+    def setTypeOfDate_LessThan(typeOfDate: org.joda.time.LocalDate): Unit = {
+        regTypeOfDate(CK_LT,  typeOfDate);
     }
 
     /**
@@ -1903,8 +1908,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_DATE: {DATE(8)}
      * @param typeOfDate The value of typeOfDate as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfDate_GreaterEqual(typeOfDate: java.util.Date): Unit = {
-        regTypeOfDate(CK_GE,  fCTPD(typeOfDate));
+    def setTypeOfDate_GreaterEqual(typeOfDate: org.joda.time.LocalDate): Unit = {
+        regTypeOfDate(CK_GE,  typeOfDate);
     }
 
     /**
@@ -1912,8 +1917,8 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_DATE: {DATE(8)}
      * @param typeOfDate The value of typeOfDate as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfDate_LessEqual(typeOfDate: java.util.Date): Unit = {
-        regTypeOfDate(CK_LE, fCTPD(typeOfDate));
+    def setTypeOfDate_LessEqual(typeOfDate: org.joda.time.LocalDate): Unit = {
+        regTypeOfDate(CK_LE, typeOfDate);
     }
 
     /**
@@ -1926,7 +1931,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setTypeOfDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueTypeOfDate(), "TYPE_OF_DATE", callbackFTOP(optionCall));
+        regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueTypeOfDate(), "TYPE_OF_DATE", callbackFTOP(optionCall));
     }
 
     /**
@@ -1964,7 +1969,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)}
      * @param typeOfTimestamp The value of typeOfTimestamp as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTimestamp_Equal(typeOfTimestamp: java.sql.Timestamp): Unit = {
+    def setTypeOfTimestamp_Equal(typeOfTimestamp: org.joda.time.LocalDateTime): Unit = {
         regTypeOfTimestamp(CK_EQ,  typeOfTimestamp);
     }
 
@@ -1973,7 +1978,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)}
      * @param typeOfTimestamp The value of typeOfTimestamp as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTimestamp_GreaterThan(typeOfTimestamp: java.sql.Timestamp): Unit = {
+    def setTypeOfTimestamp_GreaterThan(typeOfTimestamp: org.joda.time.LocalDateTime): Unit = {
         regTypeOfTimestamp(CK_GT,  typeOfTimestamp);
     }
 
@@ -1982,7 +1987,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)}
      * @param typeOfTimestamp The value of typeOfTimestamp as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTimestamp_LessThan(typeOfTimestamp: java.sql.Timestamp): Unit = {
+    def setTypeOfTimestamp_LessThan(typeOfTimestamp: org.joda.time.LocalDateTime): Unit = {
         regTypeOfTimestamp(CK_LT,  typeOfTimestamp);
     }
 
@@ -1991,7 +1996,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)}
      * @param typeOfTimestamp The value of typeOfTimestamp as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTimestamp_GreaterEqual(typeOfTimestamp: java.sql.Timestamp): Unit = {
+    def setTypeOfTimestamp_GreaterEqual(typeOfTimestamp: org.joda.time.LocalDateTime): Unit = {
         regTypeOfTimestamp(CK_GE,  typeOfTimestamp);
     }
 
@@ -2000,7 +2005,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)}
      * @param typeOfTimestamp The value of typeOfTimestamp as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTimestamp_LessEqual(typeOfTimestamp: java.sql.Timestamp): Unit = {
+    def setTypeOfTimestamp_LessEqual(typeOfTimestamp: org.joda.time.LocalDateTime): Unit = {
         regTypeOfTimestamp(CK_LE, typeOfTimestamp);
     }
 
@@ -2014,7 +2019,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setTypeOfTimestamp_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValueTypeOfTimestamp(), "TYPE_OF_TIMESTAMP", callbackFTOP(optionCall));
+        regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueTypeOfTimestamp(), "TYPE_OF_TIMESTAMP", callbackFTOP(optionCall));
     }
 
     /**
@@ -2052,7 +2057,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIME: {TIME(6)}
      * @param typeOfTime The value of typeOfTime as equal. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTime_Equal(typeOfTime: java.sql.Time): Unit = {
+    def setTypeOfTime_Equal(typeOfTime: org.joda.time.LocalTime): Unit = {
         regTypeOfTime(CK_EQ,  typeOfTime);
     }
 
@@ -2061,7 +2066,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIME: {TIME(6)}
      * @param typeOfTime The value of typeOfTime as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTime_GreaterThan(typeOfTime: java.sql.Time): Unit = {
+    def setTypeOfTime_GreaterThan(typeOfTime: org.joda.time.LocalTime): Unit = {
         regTypeOfTime(CK_GT,  typeOfTime);
     }
 
@@ -2070,7 +2075,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIME: {TIME(6)}
      * @param typeOfTime The value of typeOfTime as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTime_LessThan(typeOfTime: java.sql.Time): Unit = {
+    def setTypeOfTime_LessThan(typeOfTime: org.joda.time.LocalTime): Unit = {
         regTypeOfTime(CK_LT,  typeOfTime);
     }
 
@@ -2079,7 +2084,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIME: {TIME(6)}
      * @param typeOfTime The value of typeOfTime as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTime_GreaterEqual(typeOfTime: java.sql.Time): Unit = {
+    def setTypeOfTime_GreaterEqual(typeOfTime: org.joda.time.LocalTime): Unit = {
         regTypeOfTime(CK_GE,  typeOfTime);
     }
 
@@ -2088,7 +2093,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * TYPE_OF_TIME: {TIME(6)}
      * @param typeOfTime The value of typeOfTime as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTypeOfTime_LessEqual(typeOfTime: java.sql.Time): Unit = {
+    def setTypeOfTime_LessEqual(typeOfTime: org.joda.time.LocalTime): Unit = {
         regTypeOfTime(CK_LE, typeOfTime);
     }
 
@@ -2820,6 +2825,32 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

@@ -73,7 +73,7 @@ object MemberSecurityDbm extends AbstractDBMeta {
     }
     class EpgRegisterDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberSecurity].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberSecurity].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberSecurity].setRegisterDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgRegisterUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberSecurity].getRegisterUser(); }
@@ -81,7 +81,7 @@ object MemberSecurityDbm extends AbstractDBMeta {
     }
     class EpgUpdateDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberSecurity].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberSecurity].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberSecurity].setUpdateDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgUpdateUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberSecurity].getUpdateUser(); }
@@ -134,9 +134,9 @@ object MemberSecurityDbm extends AbstractDBMeta {
     protected val _columnReminderQuestion: ColumnInfo = cci("REMINDER_QUESTION", "REMINDER_QUESTION", null, "リマインダ質問", classOf[String], "reminderQuestion", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnReminderAnswer: ColumnInfo = cci("REMINDER_ANSWER", "REMINDER_ANSWER", null, "リマインダ回答", classOf[String], "reminderAnswer", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnReminderUseCount: ColumnInfo = cci("REMINDER_USE_COUNT", "REMINDER_USE_COUNT", null, "リマインダ利用回数", classOf[Integer], "reminderUseCount", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
-    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[java.sql.Timestamp], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, null, classOf[String], "updateUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
     protected val _columnVersionNo: ColumnInfo = cci("VERSION_NO", "VERSION_NO", null, null, classOf[Long], "versionNo", null, false, false, true, "BIGINT", 19, 0, null, false, OptimisticLockType.VERSION_NO, null, null, null, null);
 

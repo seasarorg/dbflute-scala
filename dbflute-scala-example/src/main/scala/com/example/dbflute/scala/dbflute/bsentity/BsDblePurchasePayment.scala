@@ -61,11 +61,11 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * Long purchasePaymentId = entity.getPurchasePaymentId();
  * Long purchaseId = entity.getPurchaseId();
  * java.math.BigDecimal paymentAmount = entity.getPaymentAmount();
- * java.sql.Timestamp paymentDatetime = entity.getPaymentDatetime();
+ * org.joda.time.LocalDateTime paymentDatetime = entity.getPaymentDatetime();
  * String paymentMethodCode = entity.getPaymentMethodCode();
- * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
+ * org.joda.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
- * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
+ * org.joda.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * entity.setPurchasePaymentId(purchasePaymentId);
  * entity.setPurchaseId(purchaseId);
@@ -98,19 +98,19 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
     protected var _paymentAmount: java.math.BigDecimal = null;
 
     /** (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)} */
-    protected var _paymentDatetime: java.sql.Timestamp = null;
+    protected var _paymentDatetime: org.joda.time.LocalDateTime = null;
 
     /** (支払方法コード)PAYMENT_METHOD_CODE: {NotNull, CHAR(3)} */
     protected var _paymentMethodCode: String = null;
 
     /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _registerDatetime: java.sql.Timestamp = null;
+    protected var _registerDatetime: org.joda.time.LocalDateTime = null;
 
     /** REGISTER_USER: {NotNull, VARCHAR(200)} */
     protected var _registerUser: String = null;
 
     /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _updateDatetime: java.sql.Timestamp = null;
+    protected var _updateDatetime: org.joda.time.LocalDateTime = null;
 
     /** UPDATE_USER: {NotNull, VARCHAR(200)} */
     protected var _updateUser: String = null;
@@ -535,7 +535,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      * [get] (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'PAYMENT_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getPaymentDatetime(): java.sql.Timestamp = {
+    def getPaymentDatetime(): org.joda.time.LocalDateTime = {
         return _paymentDatetime;
     }
 
@@ -543,7 +543,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      * [set] (支払日時)PAYMENT_DATETIME: {IX+, NotNull, TIMESTAMP(23, 10)} <br />
      * @param paymentDatetime The value of the column 'PAYMENT_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setPaymentDatetime(paymentDatetime: java.sql.Timestamp): Unit = {
+    def setPaymentDatetime(paymentDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("paymentDatetime");
         _paymentDatetime = paymentDatetime;
     }
@@ -569,7 +569,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
+    def getRegisterDatetime(): org.joda.time.LocalDateTime = {
         return _registerDatetime;
     }
 
@@ -577,7 +577,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         _registerDatetime = registerDatetime;
     }
@@ -603,7 +603,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateDatetime(): java.sql.Timestamp = {
+    def getUpdateDatetime(): org.joda.time.LocalDateTime = {
         return _updateDatetime;
     }
 
@@ -611,7 +611,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         _updateDatetime = updateDatetime;
     }

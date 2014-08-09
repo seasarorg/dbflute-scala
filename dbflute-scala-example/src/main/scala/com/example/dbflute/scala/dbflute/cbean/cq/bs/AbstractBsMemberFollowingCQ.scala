@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -372,7 +377,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)}
      * @param followDatetime The value of followDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setFollowDatetime_Equal(followDatetime: java.sql.Timestamp): Unit = {
+    def setFollowDatetime_Equal(followDatetime: org.joda.time.LocalDateTime): Unit = {
         regFollowDatetime(CK_EQ,  followDatetime);
     }
 
@@ -381,7 +386,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)}
      * @param followDatetime The value of followDatetime as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setFollowDatetime_GreaterThan(followDatetime: java.sql.Timestamp): Unit = {
+    def setFollowDatetime_GreaterThan(followDatetime: org.joda.time.LocalDateTime): Unit = {
         regFollowDatetime(CK_GT,  followDatetime);
     }
 
@@ -390,7 +395,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)}
      * @param followDatetime The value of followDatetime as lessThan. (NullAllowed: if null, no condition)
      */
-    def setFollowDatetime_LessThan(followDatetime: java.sql.Timestamp): Unit = {
+    def setFollowDatetime_LessThan(followDatetime: org.joda.time.LocalDateTime): Unit = {
         regFollowDatetime(CK_LT,  followDatetime);
     }
 
@@ -399,7 +404,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)}
      * @param followDatetime The value of followDatetime as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setFollowDatetime_GreaterEqual(followDatetime: java.sql.Timestamp): Unit = {
+    def setFollowDatetime_GreaterEqual(followDatetime: org.joda.time.LocalDateTime): Unit = {
         regFollowDatetime(CK_GE,  followDatetime);
     }
 
@@ -408,7 +413,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)}
      * @param followDatetime The value of followDatetime as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setFollowDatetime_LessEqual(followDatetime: java.sql.Timestamp): Unit = {
+    def setFollowDatetime_LessEqual(followDatetime: org.joda.time.LocalDateTime): Unit = {
         regFollowDatetime(CK_LE, followDatetime);
     }
 
@@ -422,7 +427,7 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setFollowDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValueFollowDatetime(), "FOLLOW_DATETIME", callbackFTOP(optionCall));
+        regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueFollowDatetime(), "FOLLOW_DATETIME", callbackFTOP(optionCall));
     }
 
     /**
@@ -668,6 +673,32 @@ abstract class AbstractBsMemberFollowingCQ(referrerQuery: ConditionQuery, sqlCla
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

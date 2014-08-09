@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Date;
 
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -75,9 +74,9 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * java.math.BigDecimal typeOfNumericMaxdecimal = entity.getTypeOfNumericMaxdecimal();
  * Integer typeOfInteger = entity.getTypeOfInteger();
  * Long typeOfBigint = entity.getTypeOfBigint();
- * java.util.Date typeOfDate = entity.getTypeOfDate();
- * java.sql.Timestamp typeOfTimestamp = entity.getTypeOfTimestamp();
- * java.sql.Time typeOfTime = entity.getTypeOfTime();
+ * org.joda.time.LocalDate typeOfDate = entity.getTypeOfDate();
+ * org.joda.time.LocalDateTime typeOfTimestamp = entity.getTypeOfTimestamp();
+ * org.joda.time.LocalTime typeOfTime = entity.getTypeOfTime();
  * Boolean typeOfBoolean = entity.getTypeOfBoolean();
  * Array[Byte] typeOfBinary = entity.getTypeOfBinary();
  * Array[Byte] typeOfBlob = entity.getTypeOfBlob();
@@ -178,13 +177,13 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
     protected var _typeOfBigint: Long = null;
 
     /** TYPE_OF_DATE: {DATE(8)} */
-    protected var _typeOfDate: java.util.Date = null;
+    protected var _typeOfDate: org.joda.time.LocalDate = null;
 
     /** TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)} */
-    protected var _typeOfTimestamp: java.sql.Timestamp = null;
+    protected var _typeOfTimestamp: org.joda.time.LocalDateTime = null;
 
     /** TYPE_OF_TIME: {TIME(6)} */
-    protected var _typeOfTime: java.sql.Time = null;
+    protected var _typeOfTime: org.joda.time.LocalTime = null;
 
     /** TYPE_OF_BOOLEAN: {BOOLEAN(1)} */
     protected var _typeOfBoolean: Boolean = false;
@@ -505,7 +504,7 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
         sb.append(dm).append(getTypeOfNumericMaxdecimal());
         sb.append(dm).append(getTypeOfInteger());
         sb.append(dm).append(getTypeOfBigint());
-        sb.append(dm).append(xfUD(getTypeOfDate()));
+        sb.append(dm).append(getTypeOfDate());
         sb.append(dm).append(getTypeOfTimestamp());
         sb.append(dm).append(getTypeOfTime());
         sb.append(dm).append(getTypeOfBoolean());
@@ -521,12 +520,6 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
-    }
-    protected def xfUD(date: Date): String = { // formatUtilDate()
-        return FunCustodial.toString(date, xgDP());
-    }
-    protected def xgDP(): String = { // getDatePattern
-        return "yyyy-MM-dd";
     }
     protected def buildRelationString(): String = {
         return "";
@@ -842,7 +835,7 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
      * [get] TYPE_OF_DATE: {DATE(8)} <br />
      * @return The value of the column 'TYPE_OF_DATE'. (NullAllowed even if selected: for no constraint)
      */
-    def getTypeOfDate(): java.util.Date = {
+    def getTypeOfDate(): org.joda.time.LocalDate = {
         return _typeOfDate;
     }
 
@@ -850,7 +843,7 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
      * [set] TYPE_OF_DATE: {DATE(8)} <br />
      * @param typeOfDate The value of the column 'TYPE_OF_DATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def setTypeOfDate(typeOfDate: java.util.Date): Unit = {
+    def setTypeOfDate(typeOfDate: org.joda.time.LocalDate): Unit = {
         __modifiedProperties.addPropertyName("typeOfDate");
         _typeOfDate = typeOfDate;
     }
@@ -859,7 +852,7 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
      * [get] TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'TYPE_OF_TIMESTAMP'. (NullAllowed even if selected: for no constraint)
      */
-    def getTypeOfTimestamp(): java.sql.Timestamp = {
+    def getTypeOfTimestamp(): org.joda.time.LocalDateTime = {
         return _typeOfTimestamp;
     }
 
@@ -867,7 +860,7 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
      * [set] TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)} <br />
      * @param typeOfTimestamp The value of the column 'TYPE_OF_TIMESTAMP'. (NullAllowed: null update allowed for no constraint)
      */
-    def setTypeOfTimestamp(typeOfTimestamp: java.sql.Timestamp): Unit = {
+    def setTypeOfTimestamp(typeOfTimestamp: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("typeOfTimestamp");
         _typeOfTimestamp = typeOfTimestamp;
     }
@@ -876,7 +869,7 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
      * [get] TYPE_OF_TIME: {TIME(6)} <br />
      * @return The value of the column 'TYPE_OF_TIME'. (NullAllowed even if selected: for no constraint)
      */
-    def getTypeOfTime(): java.sql.Time = {
+    def getTypeOfTime(): org.joda.time.LocalTime = {
         return _typeOfTime;
     }
 
@@ -884,7 +877,7 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
      * [set] TYPE_OF_TIME: {TIME(6)} <br />
      * @param typeOfTime The value of the column 'TYPE_OF_TIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def setTypeOfTime(typeOfTime: java.sql.Time): Unit = {
+    def setTypeOfTime(typeOfTime: org.joda.time.LocalTime): Unit = {
         __modifiedProperties.addPropertyName("typeOfTime");
         _typeOfTime = typeOfTime;
     }

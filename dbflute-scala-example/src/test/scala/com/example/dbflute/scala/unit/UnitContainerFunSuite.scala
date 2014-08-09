@@ -1,25 +1,24 @@
 package com.example.dbflute.scala.unit
 
-import java.util.Date
-import java.util.List
 import java.util.ArrayList
+import java.util.List
 
-import javax.sql.DataSource
-import javax.transaction.UserTransaction
-import javax.transaction.TransactionManager
+import org.dbflute.unit.guice.ContainerFunSuite
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
-import com.google.inject.Module
-import com.google.inject.AbstractModule
 import com.atomikos.icatch.jta.UserTransactionImp
 import com.atomikos.icatch.jta.UserTransactionManager
 import com.atomikos.jdbc.nonxa.AtomikosNonXADataSourceBean
-import org.scalatest.junit.JUnitRunner
-import org.junit.runner.RunWith
-
+import com.example.dbflute.scala.EmbeddedH2UrlFactoryBean
 import com.example.dbflute.scala.dbflute.allcommon.DBFluteModule
 import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
-import com.example.dbflute.scala.EmbeddedH2UrlFactoryBean
-import org.dbflute.unit.guice.ContainerFunSuite
+import com.google.inject.AbstractModule
+import com.google.inject.Module
+
+import javax.sql.DataSource
+import javax.transaction.TransactionManager
+import javax.transaction.UserTransaction
 
 /**
  * The fun suite with container.
@@ -28,6 +27,9 @@ import org.dbflute.unit.guice.ContainerFunSuite
  */
 abstract class UnitContainerFunSuite extends ContainerFunSuite {
 
+  // ===================================================================================
+  //                                                                            Settings
+  //                                                                            ========
   override protected def setUp() {
     super.setUp();
     DBFlutist.play(_xcurrentActiveInjector);
@@ -44,6 +46,9 @@ abstract class UnitContainerFunSuite extends ContainerFunSuite {
     return moduleList;
   }
 
+  // ===================================================================================
+  //                                                                          DataSource
+  //                                                                          ==========
   def createDataSource(): DataSource = {
     val bean = new AtomikosNonXADataSourceBean();
     bean.setUniqueResourceName("NONXADBMS");
@@ -90,5 +95,24 @@ abstract class UnitContainerFunSuite extends ContainerFunSuite {
         }
       }
     }
+  }
+
+  // ===================================================================================
+  //                                                                       Assist Helper
+  //                                                                       =============
+  protected def toLocalDate(exp: String): LocalDate = {
+    return LocalDate.fromDateFields(toDate(exp));
+  }
+
+  protected def toLocalDateTime(exp: String): LocalDateTime = {
+    return LocalDateTime.fromDateFields(toTimestamp(exp));
+  }
+
+  protected def currentLocalDate(): LocalDate = {
+    return LocalDate.now();
+  }
+
+  protected def currentLocalDateTime(): LocalDateTime = {
+    return LocalDateTime.now();
   }
 }

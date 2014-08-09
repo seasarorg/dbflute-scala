@@ -220,19 +220,19 @@ abstract class BsMemberAddressBhv extends AbstractBehaviorWritable[DbleMemberAdd
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberId: Integer, validBeginDate: java.util.Date): Option[MemberAddress] = {
+    def selectByUniqueOf(memberId: Integer, validBeginDate: org.joda.time.LocalDate): Option[MemberAddress] = {
         return facadeSelectByUniqueOf(memberId, validBeginDate).map(_.toImmutable);
     }
 
-    protected def facadeSelectByUniqueOf(memberId: Integer, validBeginDate: java.util.Date): Option[DbleMemberAddress] = {
+    protected def facadeSelectByUniqueOf(memberId: Integer, validBeginDate: org.joda.time.LocalDate): Option[DbleMemberAddress] = {
         return doSelectByUniqueOf(memberId, validBeginDate, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DbleMemberAddress](memberId: Integer, validBeginDate: java.util.Date, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DbleMemberAddress](memberId: Integer, validBeginDate: org.joda.time.LocalDate, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId, validBeginDate), tp)());
     }
 
-    protected def xprepareCBAsUniqueOf(memberId: Integer, validBeginDate: java.util.Date): MemberAddressCB = {
+    protected def xprepareCBAsUniqueOf(memberId: Integer, validBeginDate: org.joda.time.LocalDate): MemberAddressCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("validBeginDate", validBeginDate);
         return newConditionBean().acceptUniqueOf(memberId, validBeginDate);
     }

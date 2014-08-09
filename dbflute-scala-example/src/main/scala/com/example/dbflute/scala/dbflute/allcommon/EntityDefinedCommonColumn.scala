@@ -12,13 +12,13 @@ trait EntityDefinedCommonColumn extends Entity {
      * Get the value of registerDatetime.
      * @return The instance of the property type. (NullAllowed)
      */
-    def getRegisterDatetime(): java.sql.Timestamp;
+    def getRegisterDatetime(): org.joda.time.LocalDateTime;
 
     /**
      * Set the value of registerDatetime.
      * @param registerDatetime The instance of the property type. (NullAllowed)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit;
+    def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit;
 
     /**
      * Get the value of registerUser.
@@ -36,13 +36,13 @@ trait EntityDefinedCommonColumn extends Entity {
      * Get the value of updateDatetime.
      * @return The instance of the property type. (NullAllowed)
      */
-    def getUpdateDatetime(): java.sql.Timestamp;
+    def getUpdateDatetime(): org.joda.time.LocalDateTime;
 
     /**
      * Set the value of updateDatetime.
      * @param updateDatetime The instance of the property type. (NullAllowed)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit;
+    def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit;
 
     /**
      * Get the value of updateUser.

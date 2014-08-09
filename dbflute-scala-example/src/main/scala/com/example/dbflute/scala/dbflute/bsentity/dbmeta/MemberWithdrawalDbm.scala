@@ -68,11 +68,11 @@ object MemberWithdrawalDbm extends AbstractDBMeta {
     }
     class EpgWithdrawalDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberWithdrawal].getWithdrawalDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberWithdrawal].setWithdrawalDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberWithdrawal].setWithdrawalDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberWithdrawal].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberWithdrawal].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberWithdrawal].setRegisterDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgRegisterUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberWithdrawal].getRegisterUser(); }
@@ -80,7 +80,7 @@ object MemberWithdrawalDbm extends AbstractDBMeta {
     }
     class EpgUpdateDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberWithdrawal].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberWithdrawal].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberWithdrawal].setUpdateDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgUpdateUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberWithdrawal].getUpdateUser(); }
@@ -136,10 +136,10 @@ object MemberWithdrawalDbm extends AbstractDBMeta {
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, null, classOf[Integer], "memberId", null, true, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnWithdrawalReasonCode: ColumnInfo = cci("WITHDRAWAL_REASON_CODE", "WITHDRAWAL_REASON_CODE", null, "退会理由コード", classOf[String], "withdrawalReasonCode", null, false, false, false, "CHAR", 3, 0, null, false, null, null, "withdrawalReason", null, CDef.DefMeta.WithdrawalReason);
     protected val _columnWithdrawalReasonInputText: ColumnInfo = cci("WITHDRAWAL_REASON_INPUT_TEXT", "WITHDRAWAL_REASON_INPUT_TEXT", null, "退会理由入力テキスト", classOf[String], "withdrawalReasonInputText", null, false, false, false, "CLOB", 2147483647, 0, null, false, null, null, null, null, null);
-    protected val _columnWithdrawalDatetime: ColumnInfo = cci("WITHDRAWAL_DATETIME", "WITHDRAWAL_DATETIME", null, "退会日時", classOf[java.sql.Timestamp], "withdrawalDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
-    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnWithdrawalDatetime: ColumnInfo = cci("WITHDRAWAL_DATETIME", "WITHDRAWAL_DATETIME", null, "退会日時", classOf[org.joda.time.LocalDateTime], "withdrawalDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[java.sql.Timestamp], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, null, classOf[String], "updateUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
     protected val _columnVersionNo: ColumnInfo = cci("VERSION_NO", "VERSION_NO", null, null, classOf[Long], "versionNo", null, false, false, true, "BIGINT", 19, 0, null, false, OptimisticLockType.VERSION_NO, null, null, null, null);
 

@@ -5,7 +5,6 @@ import scala.collection.JavaConverters._;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity.FunCustodial;
@@ -46,8 +45,8 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val theLongAndWindingTableAndColumnRefId: Long = entity.theLongAndWindingTableAndColumnRefId
  * val theLongAndWindingTableAndColumnId: Long = entity.theLongAndWindingTableAndColumnId
- * val theLongAndWindingTableAndColumnRefDate: java.util.Date = entity.theLongAndWindingTableAndColumnRefDate
- * val shortDate: java.util.Date = entity.shortDate
+ * val theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate = entity.theLongAndWindingTableAndColumnRefDate
+ * val shortDate: org.joda.time.LocalDate = entity.shortDate
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
@@ -60,8 +59,8 @@ abstract class BsVendorTheLongAndWindingTableAndColumnRef(dble: DbleVendorTheLon
     def copy(
          theLongAndWindingTableAndColumnRefId: Long = theLongAndWindingTableAndColumnRefId
         , theLongAndWindingTableAndColumnId: Long = theLongAndWindingTableAndColumnId
-        , theLongAndWindingTableAndColumnRefDate: java.util.Date = theLongAndWindingTableAndColumnRefDate
-        , shortDate: java.util.Date = shortDate
+        , theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate = theLongAndWindingTableAndColumnRefDate
+        , shortDate: org.joda.time.LocalDate = shortDate
     ): VendorTheLongAndWindingTableAndColumnRef = {
         val newDble = new DbleVendorTheLongAndWindingTableAndColumnRef
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
@@ -166,13 +165,13 @@ abstract class BsVendorTheLongAndWindingTableAndColumnRef(dble: DbleVendorTheLon
      * [get] THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE'. (NotNull but EmptyAllowed if null in database)
      */
-    def theLongAndWindingTableAndColumnRefDate: java.util.Date = { dble.getTheLongAndWindingTableAndColumnRefDate }
+    def theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate = { dble.getTheLongAndWindingTableAndColumnRefDate }
 
     /**
      * [get] SHORT_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'SHORT_DATE'. (NotNull but EmptyAllowed if null in database)
      */
-    def shortDate: java.util.Date = { dble.getShortDate }
+    def shortDate: org.joda.time.LocalDate = { dble.getShortDate }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
@@ -191,8 +190,8 @@ abstract class BsVendorTheLongAndWindingTableAndColumnRef(dble: DbleVendorTheLon
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val theLongAndWindingTableAndColumnRefId: Long = entity.theLongAndWindingTableAndColumnRefId
  * val theLongAndWindingTableAndColumnId: Long = entity.theLongAndWindingTableAndColumnId
- * val theLongAndWindingTableAndColumnRefDate: java.util.Date = entity.theLongAndWindingTableAndColumnRefDate
- * val shortDate: java.util.Date = entity.shortDate
+ * val theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate = entity.theLongAndWindingTableAndColumnRefDate
+ * val shortDate: org.joda.time.LocalDate = entity.shortDate
  * entity.theLongAndWindingTableAndColumnRefId = theLongAndWindingTableAndColumnRefId
  * entity.theLongAndWindingTableAndColumnId = theLongAndWindingTableAndColumnId
  * entity.theLongAndWindingTableAndColumnRefDate = theLongAndWindingTableAndColumnRefDate
@@ -251,23 +250,23 @@ abstract class BsMbleVendorTheLongAndWindingTableAndColumnRef {
      * [get] THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def theLongAndWindingTableAndColumnRefDate: java.util.Date = { dble.getTheLongAndWindingTableAndColumnRefDate }
+    def theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate = { dble.getTheLongAndWindingTableAndColumnRefDate }
 
     /**
      * [set] THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)} <br />
      * @param theLongAndWindingTableAndColumnRefDate The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def theLongAndWindingTableAndColumnRefDate_=(theLongAndWindingTableAndColumnRefDate: java.util.Date) = { dble.setTheLongAndWindingTableAndColumnRefDate(theLongAndWindingTableAndColumnRefDate) }
+    def theLongAndWindingTableAndColumnRefDate_=(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate) = { dble.setTheLongAndWindingTableAndColumnRefDate(theLongAndWindingTableAndColumnRefDate) }
 
     /**
      * [get] SHORT_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'SHORT_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def shortDate: java.util.Date = { dble.getShortDate }
+    def shortDate: org.joda.time.LocalDate = { dble.getShortDate }
 
     /**
      * [set] SHORT_DATE: {NotNull, DATE(8)} <br />
      * @param shortDate The value of the column 'SHORT_DATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def shortDate_=(shortDate: java.util.Date) = { dble.setShortDate(shortDate) }
+    def shortDate_=(shortDate: org.joda.time.LocalDate) = { dble.setShortDate(shortDate) }
 }

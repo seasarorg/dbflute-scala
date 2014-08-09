@@ -39,11 +39,11 @@ class ImplementedCommonColumnAutoSetupper extends CommonColumnAutoSetupper {
     }
 
     protected def doHandleCommonColumnOfInsertIfNeeds(entity: EntityDefinedCommonColumn): Unit = {
-        val registerDatetime: java.sql.Timestamp = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
+        val registerDatetime: org.joda.time.LocalDateTime = org.joda.time.LocalDateTime.fromDateFields(org.seasar.dbflute.AccessContext.getAccessTimestampOnThread());
         entity.setRegisterDatetime(registerDatetime);
         val registerUser: String = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
         entity.setRegisterUser(registerUser);
-        val updateDatetime: java.sql.Timestamp = entity.getRegisterDatetime();
+        val updateDatetime: org.joda.time.LocalDateTime = entity.getRegisterDatetime();
         entity.setUpdateDatetime(updateDatetime);
         val updateUser: String = entity.getRegisterUser();
         entity.setUpdateUser(updateUser);
@@ -64,7 +64,7 @@ class ImplementedCommonColumnAutoSetupper extends CommonColumnAutoSetupper {
     }
 
     protected def doHandleCommonColumnOfUpdateIfNeeds(entity: EntityDefinedCommonColumn): Unit = {
-        val updateDatetime: java.sql.Timestamp = org.seasar.dbflute.AccessContext.getAccessTimestampOnThread();
+        val updateDatetime: org.joda.time.LocalDateTime = org.joda.time.LocalDateTime.fromDateFields(org.seasar.dbflute.AccessContext.getAccessTimestampOnThread());
         entity.setUpdateDatetime(updateDatetime);
         val updateUser: String = org.seasar.dbflute.AccessContext.getAccessUserOnThread();
         entity.setUpdateUser(updateUser);

@@ -12,6 +12,10 @@ import org.seasar.dbflute.cbean.coption.LikeSearchOption;
 import org.seasar.dbflute.util.DfCollectionUtil;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseMaxPriceMemberPmb;
 import com.example.dbflute.scala.dbflute.exbhv._;
@@ -109,8 +113,22 @@ abstract class CponPurchaseMaxPriceMemberPmb {
         return DfTypeUtil.toBoolean(obj);
     }
 
-    protected def toUtilDate(date: Date): Date = {
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
         return DfTypeUtil.toDate(date); // if sub class, re-create as pure date
+    }
+
+    protected def toLocalDate[DATE](date: Date, localType: Class[DATE]): DATE = {
+        if (classOf[LocalDate].isAssignableFrom(localType)) {
+            return LocalDate.fromDateFields(date).asInstanceOf[DATE];
+        } else if (classOf[LocalDateTime].isAssignableFrom(localType)) {
+            return LocalDateTime.fromDateFields(date).asInstanceOf[DATE];
+        }
+        return null.asInstanceOf[DATE]; // unreachable
     }
 
     protected def formatUtilDate(date: Date): String = {

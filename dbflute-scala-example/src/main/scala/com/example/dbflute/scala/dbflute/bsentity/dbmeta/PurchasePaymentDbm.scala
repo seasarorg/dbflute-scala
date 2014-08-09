@@ -64,7 +64,7 @@ object PurchasePaymentDbm extends AbstractDBMeta {
     }
     class EpgPaymentDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPaymentDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPaymentDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setPaymentDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgPaymentMethodCode extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getPaymentMethodCode(); }
@@ -72,7 +72,7 @@ object PurchasePaymentDbm extends AbstractDBMeta {
     }
     class EpgRegisterDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setRegisterDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgRegisterUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getRegisterUser(); }
@@ -80,7 +80,7 @@ object PurchasePaymentDbm extends AbstractDBMeta {
     }
     class EpgUpdateDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DblePurchasePayment].setUpdateDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgUpdateUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DblePurchasePayment].getUpdateUser(); }
@@ -127,11 +127,11 @@ object PurchasePaymentDbm extends AbstractDBMeta {
     protected val _columnPurchasePaymentId: ColumnInfo = cci("PURCHASE_PAYMENT_ID", "PURCHASE_PAYMENT_ID", null, "購入支払ID", classOf[Long], "purchasePaymentId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_84140A08_5F07_4FAE_80D7_E684F36FB960", false, null, null, null, null, null);
     protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, "購入ID", classOf[Long], "purchaseId", null, false, false, true, "BIGINT", 19, 0, null, false, null, null, "purchase", null, null);
     protected val _columnPaymentAmount: ColumnInfo = cci("PAYMENT_AMOUNT", "PAYMENT_AMOUNT", null, "支払金額", classOf[java.math.BigDecimal], "paymentAmount", null, false, false, true, "DECIMAL", 10, 2, null, false, null, null, null, null, null);
-    protected val _columnPaymentDatetime: ColumnInfo = cci("PAYMENT_DATETIME", "PAYMENT_DATETIME", null, "支払日時", classOf[java.sql.Timestamp], "paymentDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnPaymentDatetime: ColumnInfo = cci("PAYMENT_DATETIME", "PAYMENT_DATETIME", null, "支払日時", classOf[org.joda.time.LocalDateTime], "paymentDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
     protected val _columnPaymentMethodCode: ColumnInfo = cci("PAYMENT_METHOD_CODE", "PAYMENT_METHOD_CODE", null, "支払方法コード", classOf[String], "paymentMethodCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, null, null, null);
-    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[java.sql.Timestamp], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, null, classOf[String], "updateUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
 
     def columnPurchasePaymentId(): ColumnInfo = { return _columnPurchasePaymentId; }

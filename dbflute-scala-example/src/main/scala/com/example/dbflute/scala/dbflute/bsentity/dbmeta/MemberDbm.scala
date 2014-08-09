@@ -74,15 +74,15 @@ object MemberDbm extends AbstractDBMeta {
     }
     class EpgFormalizedDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getFormalizedDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setFormalizedDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setFormalizedDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgBirthdate extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getBirthdate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setBirthdate(vl.asInstanceOf[java.util.Date]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setBirthdate(vl.asInstanceOf[org.joda.time.LocalDate]); }
     }
     class EpgRegisterDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setRegisterDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgRegisterUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getRegisterUser(); }
@@ -90,7 +90,7 @@ object MemberDbm extends AbstractDBMeta {
     }
     class EpgUpdateDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMember].setUpdateDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgUpdateUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMember].getUpdateUser(); }
@@ -159,11 +159,11 @@ object MemberDbm extends AbstractDBMeta {
     protected val _columnMemberName: ColumnInfo = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", classOf[String], "memberName", null, false, false, true, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnMemberAccount: ColumnInfo = cci("MEMBER_ACCOUNT", "MEMBER_ACCOUNT", null, "会員アカウント", classOf[String], "memberAccount", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", classOf[String], "memberStatusCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "memberStatus", null, CDef.DefMeta.MemberStatus);
-    protected val _columnFormalizedDatetime: ColumnInfo = cci("FORMALIZED_DATETIME", "FORMALIZED_DATETIME", null, "正式会員日時", classOf[java.sql.Timestamp], "formalizedDatetime", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
-    protected val _columnBirthdate: ColumnInfo = cci("BIRTHDATE", "BIRTHDATE", null, "生年月日", classOf[java.util.Date], "birthdate", null, false, false, false, "DATE", 8, 0, null, false, null, null, null, null, null);
-    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, "登録日時", classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnFormalizedDatetime: ColumnInfo = cci("FORMALIZED_DATETIME", "FORMALIZED_DATETIME", null, "正式会員日時", classOf[org.joda.time.LocalDateTime], "formalizedDatetime", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnBirthdate: ColumnInfo = cci("BIRTHDATE", "BIRTHDATE", null, "生年月日", classOf[org.joda.time.LocalDate], "birthdate", null, false, false, false, "DATE", 8, 0, null, false, null, null, null, null, null);
+    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, "登録日時", classOf[org.joda.time.LocalDateTime], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, "登録ユーザ", classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, "更新日時", classOf[java.sql.Timestamp], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, "更新日時", classOf[org.joda.time.LocalDateTime], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, "更新ユーザ", classOf[String], "updateUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
     protected val _columnVersionNo: ColumnInfo = cci("VERSION_NO", "VERSION_NO", null, "バージョンNO", classOf[Long], "versionNo", null, false, false, true, "BIGINT", 19, 0, null, false, OptimisticLockType.VERSION_NO, null, null, null, null);
 

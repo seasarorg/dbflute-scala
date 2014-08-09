@@ -48,9 +48,9 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val memberId: Int = entity.memberId
  * val servicePointCount: Int = entity.servicePointCount
  * val serviceRankCode: CDef.ServiceRank = entity.serviceRankCode
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * = = = = = = = = = =/
@@ -67,9 +67,9 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
         , memberId: Int = memberId
         , servicePointCount: Int = servicePointCount
         , serviceRankCode: CDef.ServiceRank = serviceRankCode
-        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , registerDatetime: org.joda.time.LocalDateTime = registerDatetime
         , registerUser: String = registerUser
-        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateDatetime: org.joda.time.LocalDateTime = updateDatetime
         , updateUser: String = updateUser
         , versionNo: Long = versionNo
     ): MemberService = {
@@ -251,7 +251,7 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -263,7 +263,7 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
@@ -296,9 +296,9 @@ abstract class BsMemberService(dble: DbleMemberService) extends Serializable {
  * val memberId: Int = entity.memberId
  * val servicePointCount: Int = entity.servicePointCount
  * val serviceRankCode: CDef.ServiceRank = entity.serviceRankCode
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * entity.memberServiceId = memberServiceId
@@ -491,13 +491,13 @@ abstract class BsMbleMemberService {
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def registerDatetime_=(registerDatetime: java.sql.Timestamp) = { dble.setRegisterDatetime(registerDatetime) }
+    def registerDatetime_=(registerDatetime: org.joda.time.LocalDateTime) = { dble.setRegisterDatetime(registerDatetime) }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -515,13 +515,13 @@ abstract class BsMbleMemberService {
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def updateDatetime_=(updateDatetime: java.sql.Timestamp) = { dble.setUpdateDatetime(updateDatetime) }
+    def updateDatetime_=(updateDatetime: org.joda.time.LocalDateTime) = { dble.setUpdateDatetime(updateDatetime) }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />

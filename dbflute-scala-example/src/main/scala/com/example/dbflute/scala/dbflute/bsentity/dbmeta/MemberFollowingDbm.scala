@@ -59,7 +59,7 @@ object MemberFollowingDbm extends AbstractDBMeta {
     }
     class EpgFollowDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberFollowing].getFollowDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberFollowing].setFollowDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberFollowing].setFollowDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -107,7 +107,7 @@ object MemberFollowingDbm extends AbstractDBMeta {
     protected val _columnMemberFollowingId: ColumnInfo = cci("MEMBER_FOLLOWING_ID", "MEMBER_FOLLOWING_ID", null, "会員フォローイングID", classOf[Long], "memberFollowingId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_362F2295_5606_4611_A1B1_2EC783C4A3F1", false, null, null, null, null, null);
     protected val _columnMyMemberId: ColumnInfo = cci("MY_MEMBER_ID", "MY_MEMBER_ID", null, "わたし", classOf[Integer], "myMemberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "memberByMyMemberId", null, null);
     protected val _columnYourMemberId: ColumnInfo = cci("YOUR_MEMBER_ID", "YOUR_MEMBER_ID", null, "あなた", classOf[Integer], "yourMemberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "memberByYourMemberId", null, null);
-    protected val _columnFollowDatetime: ColumnInfo = cci("FOLLOW_DATETIME", "FOLLOW_DATETIME", null, "その瞬間", classOf[java.sql.Timestamp], "followDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnFollowDatetime: ColumnInfo = cci("FOLLOW_DATETIME", "FOLLOW_DATETIME", null, "その瞬間", classOf[org.joda.time.LocalDateTime], "followDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
 
     def columnMemberFollowingId(): ColumnInfo = { return _columnMemberFollowingId; }
     def columnMyMemberId(): ColumnInfo = { return _columnMyMemberId; }

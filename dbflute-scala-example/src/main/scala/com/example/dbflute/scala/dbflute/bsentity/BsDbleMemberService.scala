@@ -63,9 +63,9 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * Integer memberId = entity.getMemberId();
  * Integer servicePointCount = entity.getServicePointCount();
  * String serviceRankCode = entity.getServiceRankCode();
- * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
+ * org.joda.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
- * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
+ * org.joda.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * Long versionNo = entity.getVersionNo();
  * entity.setMemberServiceId(memberServiceId);
@@ -102,13 +102,13 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBable
     protected var _serviceRankCode: String = null;
 
     /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _registerDatetime: java.sql.Timestamp = null;
+    protected var _registerDatetime: org.joda.time.LocalDateTime = null;
 
     /** REGISTER_USER: {NotNull, VARCHAR(200)} */
     protected var _registerUser: String = null;
 
     /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _updateDatetime: java.sql.Timestamp = null;
+    protected var _updateDatetime: org.joda.time.LocalDateTime = null;
 
     /** UPDATE_USER: {NotNull, VARCHAR(200)} */
     protected var _updateUser: String = null;
@@ -720,7 +720,7 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBable
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
+    def getRegisterDatetime(): org.joda.time.LocalDateTime = {
         return _registerDatetime;
     }
 
@@ -728,7 +728,7 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBable
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         _registerDatetime = registerDatetime;
     }
@@ -754,7 +754,7 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBable
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateDatetime(): java.sql.Timestamp = {
+    def getUpdateDatetime(): org.joda.time.LocalDateTime = {
         return _updateDatetime;
     }
 
@@ -762,7 +762,7 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBable
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         _updateDatetime = updateDatetime;
     }

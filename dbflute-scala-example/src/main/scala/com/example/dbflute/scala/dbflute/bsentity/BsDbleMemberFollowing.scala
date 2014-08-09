@@ -60,7 +60,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * Long memberFollowingId = entity.getMemberFollowingId();
  * Integer myMemberId = entity.getMyMemberId();
  * Integer yourMemberId = entity.getYourMemberId();
- * java.sql.Timestamp followDatetime = entity.getFollowDatetime();
+ * org.joda.time.LocalDateTime followDatetime = entity.getFollowDatetime();
  * entity.setMemberFollowingId(memberFollowingId);
  * entity.setMyMemberId(myMemberId);
  * entity.setYourMemberId(yourMemberId);
@@ -87,7 +87,7 @@ abstract class BsDbleMemberFollowing extends Entity with DBableEntity[MemberFoll
     protected var _yourMemberId: Integer = null;
 
     /** (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)} */
-    protected var _followDatetime: java.sql.Timestamp = null;
+    protected var _followDatetime: org.joda.time.LocalDateTime = null;
 
     // -----------------------------------------------------
     //                                              Internal
@@ -516,7 +516,7 @@ abstract class BsDbleMemberFollowing extends Entity with DBableEntity[MemberFoll
      * [get] (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FOLLOW_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getFollowDatetime(): java.sql.Timestamp = {
+    def getFollowDatetime(): org.joda.time.LocalDateTime = {
         return _followDatetime;
     }
 
@@ -524,7 +524,7 @@ abstract class BsDbleMemberFollowing extends Entity with DBableEntity[MemberFoll
      * [set] (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)} <br />
      * @param followDatetime The value of the column 'FOLLOW_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setFollowDatetime(followDatetime: java.sql.Timestamp): Unit = {
+    def setFollowDatetime(followDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("followDatetime");
         _followDatetime = followDatetime;
     }

@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Date;
 
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -60,8 +59,8 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Long theLongAndWindingTableAndColumnRefId = entity.getTheLongAndWindingTableAndColumnRefId();
  * Long theLongAndWindingTableAndColumnId = entity.getTheLongAndWindingTableAndColumnId();
- * java.util.Date theLongAndWindingTableAndColumnRefDate = entity.getTheLongAndWindingTableAndColumnRefDate();
- * java.util.Date shortDate = entity.getShortDate();
+ * org.joda.time.LocalDate theLongAndWindingTableAndColumnRefDate = entity.getTheLongAndWindingTableAndColumnRefDate();
+ * org.joda.time.LocalDate shortDate = entity.getShortDate();
  * entity.setTheLongAndWindingTableAndColumnRefId(theLongAndWindingTableAndColumnRefId);
  * entity.setTheLongAndWindingTableAndColumnId(theLongAndWindingTableAndColumnId);
  * entity.setTheLongAndWindingTableAndColumnRefDate(theLongAndWindingTableAndColumnRefDate);
@@ -85,10 +84,10 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends Entity wit
     protected var _theLongAndWindingTableAndColumnId: Long = null;
 
     /** THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)} */
-    protected var _theLongAndWindingTableAndColumnRefDate: java.util.Date = null;
+    protected var _theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate = null;
 
     /** SHORT_DATE: {NotNull, DATE(8)} */
-    protected var _shortDate: java.util.Date = null;
+    protected var _shortDate: org.joda.time.LocalDate = null;
 
     // -----------------------------------------------------
     //                                              Internal
@@ -383,19 +382,13 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends Entity wit
         val dm: String = ", ";
         sb.append(dm).append(getTheLongAndWindingTableAndColumnRefId());
         sb.append(dm).append(getTheLongAndWindingTableAndColumnId());
-        sb.append(dm).append(xfUD(getTheLongAndWindingTableAndColumnRefDate()));
-        sb.append(dm).append(xfUD(getShortDate()));
+        sb.append(dm).append(getTheLongAndWindingTableAndColumnRefDate());
+        sb.append(dm).append(getShortDate());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
-    }
-    protected def xfUD(date: Date): String = { // formatUtilDate()
-        return FunCustodial.toString(date, xgDP());
-    }
-    protected def xgDP(): String = { // getDatePattern
-        return "yyyy-MM-dd";
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
@@ -462,7 +455,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends Entity wit
      * [get] THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def getTheLongAndWindingTableAndColumnRefDate(): java.util.Date = {
+    def getTheLongAndWindingTableAndColumnRefDate(): org.joda.time.LocalDate = {
         return _theLongAndWindingTableAndColumnRefDate;
     }
 
@@ -470,7 +463,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends Entity wit
      * [set] THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)} <br />
      * @param theLongAndWindingTableAndColumnRefDate The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE'. (basically NotNull if update: for the constraint)
      */
-    def setTheLongAndWindingTableAndColumnRefDate(theLongAndWindingTableAndColumnRefDate: java.util.Date): Unit = {
+    def setTheLongAndWindingTableAndColumnRefDate(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate): Unit = {
         __modifiedProperties.addPropertyName("theLongAndWindingTableAndColumnRefDate");
         _theLongAndWindingTableAndColumnRefDate = theLongAndWindingTableAndColumnRefDate;
     }
@@ -479,7 +472,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends Entity wit
      * [get] SHORT_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'SHORT_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def getShortDate(): java.util.Date = {
+    def getShortDate(): org.joda.time.LocalDate = {
         return _shortDate;
     }
 
@@ -487,7 +480,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends Entity wit
      * [set] SHORT_DATE: {NotNull, DATE(8)} <br />
      * @param shortDate The value of the column 'SHORT_DATE'. (basically NotNull if update: for the constraint)
      */
-    def setShortDate(shortDate: java.util.Date): Unit = {
+    def setShortDate(shortDate: org.joda.time.LocalDate): Unit = {
         __modifiedProperties.addPropertyName("shortDate");
         _shortDate = shortDate;
     }

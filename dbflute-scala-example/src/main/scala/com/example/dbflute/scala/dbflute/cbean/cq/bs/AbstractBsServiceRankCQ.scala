@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -896,6 +901,32 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

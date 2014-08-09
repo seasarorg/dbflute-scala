@@ -220,19 +220,19 @@ abstract class BsMemberLoginBhv extends AbstractBehaviorWritable[DbleMemberLogin
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberId: Integer, loginDatetime: java.sql.Timestamp): Option[MemberLogin] = {
+    def selectByUniqueOf(memberId: Integer, loginDatetime: org.joda.time.LocalDateTime): Option[MemberLogin] = {
         return facadeSelectByUniqueOf(memberId, loginDatetime).map(_.toImmutable);
     }
 
-    protected def facadeSelectByUniqueOf(memberId: Integer, loginDatetime: java.sql.Timestamp): Option[DbleMemberLogin] = {
+    protected def facadeSelectByUniqueOf(memberId: Integer, loginDatetime: org.joda.time.LocalDateTime): Option[DbleMemberLogin] = {
         return doSelectByUniqueOf(memberId, loginDatetime, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DbleMemberLogin](memberId: Integer, loginDatetime: java.sql.Timestamp, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DbleMemberLogin](memberId: Integer, loginDatetime: org.joda.time.LocalDateTime, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId, loginDatetime), tp)());
     }
 
-    protected def xprepareCBAsUniqueOf(memberId: Integer, loginDatetime: java.sql.Timestamp): MemberLoginCB = {
+    protected def xprepareCBAsUniqueOf(memberId: Integer, loginDatetime: org.joda.time.LocalDateTime): MemberLoginCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("loginDatetime", loginDatetime);
         return newConditionBean().acceptUniqueOf(memberId, loginDatetime);
     }

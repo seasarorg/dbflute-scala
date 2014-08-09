@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -1030,7 +1035,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)}
      * @param formalizedDatetime The value of formalizedDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setFormalizedDatetime_Equal(formalizedDatetime: java.sql.Timestamp): Unit = {
+    def setFormalizedDatetime_Equal(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
         regFormalizedDatetime(CK_EQ,  formalizedDatetime);
     }
 
@@ -1039,7 +1044,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)}
      * @param formalizedDatetime The value of formalizedDatetime as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setFormalizedDatetime_GreaterThan(formalizedDatetime: java.sql.Timestamp): Unit = {
+    def setFormalizedDatetime_GreaterThan(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
         regFormalizedDatetime(CK_GT,  formalizedDatetime);
     }
 
@@ -1048,7 +1053,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)}
      * @param formalizedDatetime The value of formalizedDatetime as lessThan. (NullAllowed: if null, no condition)
      */
-    def setFormalizedDatetime_LessThan(formalizedDatetime: java.sql.Timestamp): Unit = {
+    def setFormalizedDatetime_LessThan(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
         regFormalizedDatetime(CK_LT,  formalizedDatetime);
     }
 
@@ -1057,7 +1062,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)}
      * @param formalizedDatetime The value of formalizedDatetime as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setFormalizedDatetime_GreaterEqual(formalizedDatetime: java.sql.Timestamp): Unit = {
+    def setFormalizedDatetime_GreaterEqual(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
         regFormalizedDatetime(CK_GE,  formalizedDatetime);
     }
 
@@ -1066,7 +1071,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)}
      * @param formalizedDatetime The value of formalizedDatetime as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setFormalizedDatetime_LessEqual(formalizedDatetime: java.sql.Timestamp): Unit = {
+    def setFormalizedDatetime_LessEqual(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
         regFormalizedDatetime(CK_LE, formalizedDatetime);
     }
 
@@ -1080,7 +1085,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setFormalizedDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValueFormalizedDatetime(), "FORMALIZED_DATETIME", callbackFTOP(optionCall));
+        regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueFormalizedDatetime(), "FORMALIZED_DATETIME", callbackFTOP(optionCall));
     }
 
     /**
@@ -1118,8 +1123,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (生年月日)BIRTHDATE: {DATE(8)}
      * @param birthdate The value of birthdate as equal. (NullAllowed: if null, no condition)
      */
-    def setBirthdate_Equal(birthdate: java.util.Date): Unit = {
-        regBirthdate(CK_EQ,  fCTPD(birthdate));
+    def setBirthdate_Equal(birthdate: org.joda.time.LocalDate): Unit = {
+        regBirthdate(CK_EQ,  birthdate);
     }
 
     /**
@@ -1127,8 +1132,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (生年月日)BIRTHDATE: {DATE(8)}
      * @param birthdate The value of birthdate as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setBirthdate_GreaterThan(birthdate: java.util.Date): Unit = {
-        regBirthdate(CK_GT,  fCTPD(birthdate));
+    def setBirthdate_GreaterThan(birthdate: org.joda.time.LocalDate): Unit = {
+        regBirthdate(CK_GT,  birthdate);
     }
 
     /**
@@ -1136,8 +1141,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (生年月日)BIRTHDATE: {DATE(8)}
      * @param birthdate The value of birthdate as lessThan. (NullAllowed: if null, no condition)
      */
-    def setBirthdate_LessThan(birthdate: java.util.Date): Unit = {
-        regBirthdate(CK_LT,  fCTPD(birthdate));
+    def setBirthdate_LessThan(birthdate: org.joda.time.LocalDate): Unit = {
+        regBirthdate(CK_LT,  birthdate);
     }
 
     /**
@@ -1145,8 +1150,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (生年月日)BIRTHDATE: {DATE(8)}
      * @param birthdate The value of birthdate as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setBirthdate_GreaterEqual(birthdate: java.util.Date): Unit = {
-        regBirthdate(CK_GE,  fCTPD(birthdate));
+    def setBirthdate_GreaterEqual(birthdate: org.joda.time.LocalDate): Unit = {
+        regBirthdate(CK_GE,  birthdate);
     }
 
     /**
@@ -1154,8 +1159,8 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (生年月日)BIRTHDATE: {DATE(8)}
      * @param birthdate The value of birthdate as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setBirthdate_LessEqual(birthdate: java.util.Date): Unit = {
-        regBirthdate(CK_LE, fCTPD(birthdate));
+    def setBirthdate_LessEqual(birthdate: org.joda.time.LocalDate): Unit = {
+        regBirthdate(CK_LE, birthdate);
     }
 
     /**
@@ -1168,7 +1173,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setBirthdate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueBirthdate(), "BIRTHDATE", callbackFTOP(optionCall));
+        regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueBirthdate(), "BIRTHDATE", callbackFTOP(optionCall));
     }
 
     /**
@@ -1206,7 +1211,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @param registerDatetime The value of registerDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setRegisterDatetime_Equal(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime_Equal(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
@@ -1234,7 +1239,7 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
      * (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @param updateDatetime The value of updateDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setUpdateDatetime_Equal(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime_Equal(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
@@ -1511,6 +1516,32 @@ abstract class AbstractBsMemberCQ(referrerQuery: ConditionQuery, sqlClause: SqlC
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

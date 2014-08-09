@@ -55,11 +55,11 @@ object VendorTheLongAndWindingTableAndColumnRefDbm extends AbstractDBMeta {
     }
     class EpgTheLongAndWindingTableAndColumnRefDate extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleVendorTheLongAndWindingTableAndColumnRef].getTheLongAndWindingTableAndColumnRefDate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorTheLongAndWindingTableAndColumnRef].setTheLongAndWindingTableAndColumnRefDate(vl.asInstanceOf[java.util.Date]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorTheLongAndWindingTableAndColumnRef].setTheLongAndWindingTableAndColumnRefDate(vl.asInstanceOf[org.joda.time.LocalDate]); }
     }
     class EpgShortDate extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleVendorTheLongAndWindingTableAndColumnRef].getShortDate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorTheLongAndWindingTableAndColumnRef].setShortDate(vl.asInstanceOf[java.util.Date]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleVendorTheLongAndWindingTableAndColumnRef].setShortDate(vl.asInstanceOf[org.joda.time.LocalDate]); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -99,8 +99,8 @@ object VendorTheLongAndWindingTableAndColumnRefDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected val _columnTheLongAndWindingTableAndColumnRefId: ColumnInfo = cci("THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_ID", null, null, classOf[Long], "theLongAndWindingTableAndColumnRefId", null, true, false, true, "BIGINT", 19, 0, null, false, null, null, null, null, null);
     protected val _columnTheLongAndWindingTableAndColumnId: ColumnInfo = cci("THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID", null, null, classOf[Long], "theLongAndWindingTableAndColumnId", null, false, false, true, "BIGINT", 19, 0, null, false, null, null, "vendorTheLongAndWindingTableAndColumn", null, null);
-    protected val _columnTheLongAndWindingTableAndColumnRefDate: ColumnInfo = cci("THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE", null, null, classOf[java.util.Date], "theLongAndWindingTableAndColumnRefDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
-    protected val _columnShortDate: ColumnInfo = cci("SHORT_DATE", "SHORT_DATE", null, null, classOf[java.util.Date], "shortDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
+    protected val _columnTheLongAndWindingTableAndColumnRefDate: ColumnInfo = cci("THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE", "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE", null, null, classOf[org.joda.time.LocalDate], "theLongAndWindingTableAndColumnRefDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
+    protected val _columnShortDate: ColumnInfo = cci("SHORT_DATE", "SHORT_DATE", null, null, classOf[org.joda.time.LocalDate], "shortDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
 
     def columnTheLongAndWindingTableAndColumnRefId(): ColumnInfo = { return _columnTheLongAndWindingTableAndColumnRefId; }
     def columnTheLongAndWindingTableAndColumnId(): ColumnInfo = { return _columnTheLongAndWindingTableAndColumnId; }

@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -268,7 +273,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)}
      * @param loginDatetime The value of loginDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setLoginDatetime_Equal(loginDatetime: java.sql.Timestamp): Unit = {
+    def setLoginDatetime_Equal(loginDatetime: org.joda.time.LocalDateTime): Unit = {
         regLoginDatetime(CK_EQ,  loginDatetime);
     }
 
@@ -277,7 +282,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)}
      * @param loginDatetime The value of loginDatetime as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setLoginDatetime_GreaterThan(loginDatetime: java.sql.Timestamp): Unit = {
+    def setLoginDatetime_GreaterThan(loginDatetime: org.joda.time.LocalDateTime): Unit = {
         regLoginDatetime(CK_GT,  loginDatetime);
     }
 
@@ -286,7 +291,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)}
      * @param loginDatetime The value of loginDatetime as lessThan. (NullAllowed: if null, no condition)
      */
-    def setLoginDatetime_LessThan(loginDatetime: java.sql.Timestamp): Unit = {
+    def setLoginDatetime_LessThan(loginDatetime: org.joda.time.LocalDateTime): Unit = {
         regLoginDatetime(CK_LT,  loginDatetime);
     }
 
@@ -295,7 +300,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)}
      * @param loginDatetime The value of loginDatetime as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setLoginDatetime_GreaterEqual(loginDatetime: java.sql.Timestamp): Unit = {
+    def setLoginDatetime_GreaterEqual(loginDatetime: org.joda.time.LocalDateTime): Unit = {
         regLoginDatetime(CK_GE,  loginDatetime);
     }
 
@@ -304,7 +309,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)}
      * @param loginDatetime The value of loginDatetime as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setLoginDatetime_LessEqual(loginDatetime: java.sql.Timestamp): Unit = {
+    def setLoginDatetime_LessEqual(loginDatetime: org.joda.time.LocalDateTime): Unit = {
         regLoginDatetime(CK_LE, loginDatetime);
     }
 
@@ -318,7 +323,7 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setLoginDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValueLoginDatetime(), "LOGIN_DATETIME", callbackFTOP(optionCall));
+        regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValueLoginDatetime(), "LOGIN_DATETIME", callbackFTOP(optionCall));
     }
 
     /**
@@ -834,6 +839,32 @@ abstract class AbstractBsMemberLoginCQ(referrerQuery: ConditionQuery, sqlClause:
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

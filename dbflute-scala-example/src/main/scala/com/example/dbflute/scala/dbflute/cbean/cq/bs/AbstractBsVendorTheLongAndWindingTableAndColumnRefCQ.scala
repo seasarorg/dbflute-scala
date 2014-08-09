@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -268,8 +273,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)}
      * @param theLongAndWindingTableAndColumnRefDate The value of theLongAndWindingTableAndColumnRefDate as equal. (NullAllowed: if null, no condition)
      */
-    def setTheLongAndWindingTableAndColumnRefDate_Equal(theLongAndWindingTableAndColumnRefDate: java.util.Date): Unit = {
-        regTheLongAndWindingTableAndColumnRefDate(CK_EQ,  fCTPD(theLongAndWindingTableAndColumnRefDate));
+    def setTheLongAndWindingTableAndColumnRefDate_Equal(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate): Unit = {
+        regTheLongAndWindingTableAndColumnRefDate(CK_EQ,  theLongAndWindingTableAndColumnRefDate);
     }
 
     /**
@@ -277,8 +282,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)}
      * @param theLongAndWindingTableAndColumnRefDate The value of theLongAndWindingTableAndColumnRefDate as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setTheLongAndWindingTableAndColumnRefDate_GreaterThan(theLongAndWindingTableAndColumnRefDate: java.util.Date): Unit = {
-        regTheLongAndWindingTableAndColumnRefDate(CK_GT,  fCTPD(theLongAndWindingTableAndColumnRefDate));
+    def setTheLongAndWindingTableAndColumnRefDate_GreaterThan(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate): Unit = {
+        regTheLongAndWindingTableAndColumnRefDate(CK_GT,  theLongAndWindingTableAndColumnRefDate);
     }
 
     /**
@@ -286,8 +291,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)}
      * @param theLongAndWindingTableAndColumnRefDate The value of theLongAndWindingTableAndColumnRefDate as lessThan. (NullAllowed: if null, no condition)
      */
-    def setTheLongAndWindingTableAndColumnRefDate_LessThan(theLongAndWindingTableAndColumnRefDate: java.util.Date): Unit = {
-        regTheLongAndWindingTableAndColumnRefDate(CK_LT,  fCTPD(theLongAndWindingTableAndColumnRefDate));
+    def setTheLongAndWindingTableAndColumnRefDate_LessThan(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate): Unit = {
+        regTheLongAndWindingTableAndColumnRefDate(CK_LT,  theLongAndWindingTableAndColumnRefDate);
     }
 
     /**
@@ -295,8 +300,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)}
      * @param theLongAndWindingTableAndColumnRefDate The value of theLongAndWindingTableAndColumnRefDate as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setTheLongAndWindingTableAndColumnRefDate_GreaterEqual(theLongAndWindingTableAndColumnRefDate: java.util.Date): Unit = {
-        regTheLongAndWindingTableAndColumnRefDate(CK_GE,  fCTPD(theLongAndWindingTableAndColumnRefDate));
+    def setTheLongAndWindingTableAndColumnRefDate_GreaterEqual(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate): Unit = {
+        regTheLongAndWindingTableAndColumnRefDate(CK_GE,  theLongAndWindingTableAndColumnRefDate);
     }
 
     /**
@@ -304,8 +309,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE: {NotNull, DATE(8)}
      * @param theLongAndWindingTableAndColumnRefDate The value of theLongAndWindingTableAndColumnRefDate as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setTheLongAndWindingTableAndColumnRefDate_LessEqual(theLongAndWindingTableAndColumnRefDate: java.util.Date): Unit = {
-        regTheLongAndWindingTableAndColumnRefDate(CK_LE, fCTPD(theLongAndWindingTableAndColumnRefDate));
+    def setTheLongAndWindingTableAndColumnRefDate_LessEqual(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate): Unit = {
+        regTheLongAndWindingTableAndColumnRefDate(CK_LE, theLongAndWindingTableAndColumnRefDate);
     }
 
     /**
@@ -318,7 +323,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setTheLongAndWindingTableAndColumnRefDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueTheLongAndWindingTableAndColumnRefDate(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE", callbackFTOP(optionCall));
+        regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueTheLongAndWindingTableAndColumnRefDate(), "THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE", callbackFTOP(optionCall));
     }
 
     /**
@@ -344,8 +349,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * SHORT_DATE: {NotNull, DATE(8)}
      * @param shortDate The value of shortDate as equal. (NullAllowed: if null, no condition)
      */
-    def setShortDate_Equal(shortDate: java.util.Date): Unit = {
-        regShortDate(CK_EQ,  fCTPD(shortDate));
+    def setShortDate_Equal(shortDate: org.joda.time.LocalDate): Unit = {
+        regShortDate(CK_EQ,  shortDate);
     }
 
     /**
@@ -353,8 +358,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * SHORT_DATE: {NotNull, DATE(8)}
      * @param shortDate The value of shortDate as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setShortDate_GreaterThan(shortDate: java.util.Date): Unit = {
-        regShortDate(CK_GT,  fCTPD(shortDate));
+    def setShortDate_GreaterThan(shortDate: org.joda.time.LocalDate): Unit = {
+        regShortDate(CK_GT,  shortDate);
     }
 
     /**
@@ -362,8 +367,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * SHORT_DATE: {NotNull, DATE(8)}
      * @param shortDate The value of shortDate as lessThan. (NullAllowed: if null, no condition)
      */
-    def setShortDate_LessThan(shortDate: java.util.Date): Unit = {
-        regShortDate(CK_LT,  fCTPD(shortDate));
+    def setShortDate_LessThan(shortDate: org.joda.time.LocalDate): Unit = {
+        regShortDate(CK_LT,  shortDate);
     }
 
     /**
@@ -371,8 +376,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * SHORT_DATE: {NotNull, DATE(8)}
      * @param shortDate The value of shortDate as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setShortDate_GreaterEqual(shortDate: java.util.Date): Unit = {
-        regShortDate(CK_GE,  fCTPD(shortDate));
+    def setShortDate_GreaterEqual(shortDate: org.joda.time.LocalDate): Unit = {
+        regShortDate(CK_GE,  shortDate);
     }
 
     /**
@@ -380,8 +385,8 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * SHORT_DATE: {NotNull, DATE(8)}
      * @param shortDate The value of shortDate as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setShortDate_LessEqual(shortDate: java.util.Date): Unit = {
-        regShortDate(CK_LE, fCTPD(shortDate));
+    def setShortDate_LessEqual(shortDate: org.joda.time.LocalDate): Unit = {
+        regShortDate(CK_LE, shortDate);
     }
 
     /**
@@ -394,7 +399,7 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setShortDate_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(fCTPD(fromDatetime), fCTPD(toDatetime), getCValueShortDate(), "SHORT_DATE", callbackFTOP(optionCall));
+        regFTQ(toUtilDate(fromDatetime), toUtilDate(toDatetime), getCValueShortDate(), "SHORT_DATE", callbackFTOP(optionCall));
     }
 
     /**
@@ -640,6 +645,32 @@ abstract class AbstractBsVendorTheLongAndWindingTableAndColumnRefCQ(referrerQuer
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

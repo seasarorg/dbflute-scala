@@ -99,7 +99,7 @@ class BsMemberLoginCB extends AbstractConditionBean {
      * @param loginDatetime (ログイン日時): +UQ, IX, NotNull, TIMESTAMP(23, 10). (NotNull)
      * @return this. (NotNull)
      */
-    def acceptUniqueOf(memberId: Integer, loginDatetime: java.sql.Timestamp): MemberLoginCB = {
+    def acceptUniqueOf(memberId: Integer, loginDatetime: org.joda.time.LocalDateTime): MemberLoginCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("loginDatetime", loginDatetime);
         val cb: BsMemberLoginCB = this;
         cb.query().setMemberId_Equal(memberId);cb.query().setLoginDatetime_Equal(loginDatetime);

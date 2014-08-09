@@ -48,7 +48,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val withdrawalReasonCode: Option[String] = entity.withdrawalReasonCode
  * val withdrawalReasonText: Option[String] = entity.withdrawalReasonText
  * val withdrawalReasonInputText: Option[String] = entity.withdrawalReasonInputText
- * val withdrawalDatetime: Option[java.sql.Timestamp] = entity.withdrawalDatetime
+ * val withdrawalDatetime: Option[org.joda.time.LocalDateTime] = entity.withdrawalDatetime
  * val memberStatusCode: Option[String] = entity.memberStatusCode
  * val memberStatusName: Option[String] = entity.memberStatusName
  * val maxPurchasePrice: Option[Int] = entity.maxPurchasePrice
@@ -67,7 +67,7 @@ abstract class BsSummaryWithdrawal(dble: DbleSummaryWithdrawal) extends Serializ
         , withdrawalReasonCode: Option[String] = withdrawalReasonCode
         , withdrawalReasonText: Option[String] = withdrawalReasonText
         , withdrawalReasonInputText: Option[String] = withdrawalReasonInputText
-        , withdrawalDatetime: Option[java.sql.Timestamp] = withdrawalDatetime
+        , withdrawalDatetime: Option[org.joda.time.LocalDateTime] = withdrawalDatetime
         , memberStatusCode: Option[String] = memberStatusCode
         , memberStatusName: Option[String] = memberStatusName
         , maxPurchasePrice: Option[Int] = maxPurchasePrice
@@ -200,7 +200,7 @@ abstract class BsSummaryWithdrawal(dble: DbleSummaryWithdrawal) extends Serializ
      * [get] WITHDRAWAL_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'WITHDRAWAL_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def withdrawalDatetime: Option[java.sql.Timestamp] = { Option(dble.getWithdrawalDatetime) }
+    def withdrawalDatetime: Option[org.joda.time.LocalDateTime] = { Option(dble.getWithdrawalDatetime) }
 
     /**
      * [get] MEMBER_STATUS_CODE: {CHAR(3)} <br />
@@ -240,7 +240,7 @@ abstract class BsSummaryWithdrawal(dble: DbleSummaryWithdrawal) extends Serializ
  * val withdrawalReasonCode: Option[String] = entity.withdrawalReasonCode
  * val withdrawalReasonText: Option[String] = entity.withdrawalReasonText
  * val withdrawalReasonInputText: Option[String] = entity.withdrawalReasonInputText
- * val withdrawalDatetime: Option[java.sql.Timestamp] = entity.withdrawalDatetime
+ * val withdrawalDatetime: Option[org.joda.time.LocalDateTime] = entity.withdrawalDatetime
  * val memberStatusCode: Option[String] = entity.memberStatusCode
  * val memberStatusName: Option[String] = entity.memberStatusName
  * val maxPurchasePrice: Option[Int] = entity.maxPurchasePrice
@@ -343,13 +343,13 @@ abstract class BsMbleSummaryWithdrawal {
      * [get] WITHDRAWAL_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'WITHDRAWAL_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def withdrawalDatetime: Option[java.sql.Timestamp] = { Option(dble.getWithdrawalDatetime) }
+    def withdrawalDatetime: Option[org.joda.time.LocalDateTime] = { Option(dble.getWithdrawalDatetime) }
 
     /**
      * [set] WITHDRAWAL_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @param withdrawalDatetime The value of the column 'WITHDRAWAL_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def withdrawalDatetime_=(withdrawalDatetime: Option[java.sql.Timestamp]) = { dble.setWithdrawalDatetime(withdrawalDatetime.orNull) }
+    def withdrawalDatetime_=(withdrawalDatetime: Option[org.joda.time.LocalDateTime]) = { dble.setWithdrawalDatetime(withdrawalDatetime.orNull) }
 
     /**
      * [get] MEMBER_STATUS_CODE: {CHAR(3)} <br />

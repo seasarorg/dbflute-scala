@@ -5,7 +5,6 @@ import scala.collection.JavaConverters._;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity.FunCustodial;
@@ -61,9 +60,9 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val typeOfNumericMaxdecimal: Option[scala.math.BigDecimal] = entity.typeOfNumericMaxdecimal
  * val typeOfInteger: Option[Int] = entity.typeOfInteger
  * val typeOfBigint: Option[Long] = entity.typeOfBigint
- * val typeOfDate: Option[java.util.Date] = entity.typeOfDate
- * val typeOfTimestamp: Option[java.sql.Timestamp] = entity.typeOfTimestamp
- * val typeOfTime: Option[java.sql.Time] = entity.typeOfTime
+ * val typeOfDate: Option[org.joda.time.LocalDate] = entity.typeOfDate
+ * val typeOfTimestamp: Option[org.joda.time.LocalDateTime] = entity.typeOfTimestamp
+ * val typeOfTime: Option[org.joda.time.LocalTime] = entity.typeOfTime
  * val typeOfBoolean: Option[Boolean] = entity.typeOfBoolean
  * val typeOfBinary: Option[Array[Byte]] = entity.typeOfBinary
  * val typeOfBlob: Option[Array[Byte]] = entity.typeOfBlob
@@ -99,9 +98,9 @@ abstract class BsVendorCheck(dble: DbleVendorCheck) extends Serializable {
         , typeOfNumericMaxdecimal: Option[scala.math.BigDecimal] = typeOfNumericMaxdecimal
         , typeOfInteger: Option[Int] = typeOfInteger
         , typeOfBigint: Option[Long] = typeOfBigint
-        , typeOfDate: Option[java.util.Date] = typeOfDate
-        , typeOfTimestamp: Option[java.sql.Timestamp] = typeOfTimestamp
-        , typeOfTime: Option[java.sql.Time] = typeOfTime
+        , typeOfDate: Option[org.joda.time.LocalDate] = typeOfDate
+        , typeOfTimestamp: Option[org.joda.time.LocalDateTime] = typeOfTimestamp
+        , typeOfTime: Option[org.joda.time.LocalTime] = typeOfTime
         , typeOfBoolean: Option[Boolean] = typeOfBoolean
         , typeOfBinary: Option[Array[Byte]] = typeOfBinary
         , typeOfBlob: Option[Array[Byte]] = typeOfBlob
@@ -322,19 +321,19 @@ abstract class BsVendorCheck(dble: DbleVendorCheck) extends Serializable {
      * [get] TYPE_OF_DATE: {DATE(8)} <br />
      * @return The value of the column 'TYPE_OF_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def typeOfDate: Option[java.util.Date] = { Option(dble.getTypeOfDate) }
+    def typeOfDate: Option[org.joda.time.LocalDate] = { Option(dble.getTypeOfDate) }
 
     /**
      * [get] TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'TYPE_OF_TIMESTAMP'. (basically NotNull if selected: for the constraint)
      */
-    def typeOfTimestamp: Option[java.sql.Timestamp] = { Option(dble.getTypeOfTimestamp) }
+    def typeOfTimestamp: Option[org.joda.time.LocalDateTime] = { Option(dble.getTypeOfTimestamp) }
 
     /**
      * [get] TYPE_OF_TIME: {TIME(6)} <br />
      * @return The value of the column 'TYPE_OF_TIME'. (basically NotNull if selected: for the constraint)
      */
-    def typeOfTime: Option[java.sql.Time] = { Option(dble.getTypeOfTime) }
+    def typeOfTime: Option[org.joda.time.LocalTime] = { Option(dble.getTypeOfTime) }
 
     /**
      * [get] TYPE_OF_BOOLEAN: {BOOLEAN(1)} <br />
@@ -416,9 +415,9 @@ abstract class BsVendorCheck(dble: DbleVendorCheck) extends Serializable {
  * val typeOfNumericMaxdecimal: Option[scala.math.BigDecimal] = entity.typeOfNumericMaxdecimal
  * val typeOfInteger: Option[Int] = entity.typeOfInteger
  * val typeOfBigint: Option[Long] = entity.typeOfBigint
- * val typeOfDate: Option[java.util.Date] = entity.typeOfDate
- * val typeOfTimestamp: Option[java.sql.Timestamp] = entity.typeOfTimestamp
- * val typeOfTime: Option[java.sql.Time] = entity.typeOfTime
+ * val typeOfDate: Option[org.joda.time.LocalDate] = entity.typeOfDate
+ * val typeOfTimestamp: Option[org.joda.time.LocalDateTime] = entity.typeOfTimestamp
+ * val typeOfTime: Option[org.joda.time.LocalTime] = entity.typeOfTime
  * val typeOfBoolean: Option[Boolean] = entity.typeOfBoolean
  * val typeOfBinary: Option[Array[Byte]] = entity.typeOfBinary
  * val typeOfBlob: Option[Array[Byte]] = entity.typeOfBlob
@@ -689,37 +688,37 @@ abstract class BsMbleVendorCheck {
      * [get] TYPE_OF_DATE: {DATE(8)} <br />
      * @return The value of the column 'TYPE_OF_DATE'. (NotNull but EmptyAllowed if null in database)
      */
-    def typeOfDate: Option[java.util.Date] = { Option(dble.getTypeOfDate) }
+    def typeOfDate: Option[org.joda.time.LocalDate] = { Option(dble.getTypeOfDate) }
 
     /**
      * [set] TYPE_OF_DATE: {DATE(8)} <br />
      * @param typeOfDate The value of the column 'TYPE_OF_DATE'. (basically NotNull if update: for the constraint)
      */
-    def typeOfDate_=(typeOfDate: Option[java.util.Date]) = { dble.setTypeOfDate(typeOfDate.orNull) }
+    def typeOfDate_=(typeOfDate: Option[org.joda.time.LocalDate]) = { dble.setTypeOfDate(typeOfDate.orNull) }
 
     /**
      * [get] TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'TYPE_OF_TIMESTAMP'. (NotNull but EmptyAllowed if null in database)
      */
-    def typeOfTimestamp: Option[java.sql.Timestamp] = { Option(dble.getTypeOfTimestamp) }
+    def typeOfTimestamp: Option[org.joda.time.LocalDateTime] = { Option(dble.getTypeOfTimestamp) }
 
     /**
      * [set] TYPE_OF_TIMESTAMP: {TIMESTAMP(23, 10)} <br />
      * @param typeOfTimestamp The value of the column 'TYPE_OF_TIMESTAMP'. (basically NotNull if update: for the constraint)
      */
-    def typeOfTimestamp_=(typeOfTimestamp: Option[java.sql.Timestamp]) = { dble.setTypeOfTimestamp(typeOfTimestamp.orNull) }
+    def typeOfTimestamp_=(typeOfTimestamp: Option[org.joda.time.LocalDateTime]) = { dble.setTypeOfTimestamp(typeOfTimestamp.orNull) }
 
     /**
      * [get] TYPE_OF_TIME: {TIME(6)} <br />
      * @return The value of the column 'TYPE_OF_TIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def typeOfTime: Option[java.sql.Time] = { Option(dble.getTypeOfTime) }
+    def typeOfTime: Option[org.joda.time.LocalTime] = { Option(dble.getTypeOfTime) }
 
     /**
      * [set] TYPE_OF_TIME: {TIME(6)} <br />
      * @param typeOfTime The value of the column 'TYPE_OF_TIME'. (basically NotNull if update: for the constraint)
      */
-    def typeOfTime_=(typeOfTime: Option[java.sql.Time]) = { dble.setTypeOfTime(typeOfTime.orNull) }
+    def typeOfTime_=(typeOfTime: Option[org.joda.time.LocalTime]) = { dble.setTypeOfTime(typeOfTime.orNull) }
 
     /**
      * [get] TYPE_OF_BOOLEAN: {BOOLEAN(1)} <br />

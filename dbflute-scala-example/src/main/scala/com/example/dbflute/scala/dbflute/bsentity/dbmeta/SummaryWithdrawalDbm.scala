@@ -72,7 +72,7 @@ object SummaryWithdrawalDbm extends AbstractDBMeta {
     }
     class EpgWithdrawalDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleSummaryWithdrawal].getWithdrawalDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleSummaryWithdrawal].setWithdrawalDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleSummaryWithdrawal].setWithdrawalDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgMemberStatusCode extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleSummaryWithdrawal].getMemberStatusCode(); }
@@ -114,7 +114,7 @@ object SummaryWithdrawalDbm extends AbstractDBMeta {
     protected val _columnWithdrawalReasonCode: ColumnInfo = cci("WITHDRAWAL_REASON_CODE", "WITHDRAWAL_REASON_CODE", null, null, classOf[String], "withdrawalReasonCode", null, false, false, false, "CHAR", 3, 0, null, false, null, null, null, null, null);
     protected val _columnWithdrawalReasonText: ColumnInfo = cci("WITHDRAWAL_REASON_TEXT", "WITHDRAWAL_REASON_TEXT", null, null, classOf[String], "withdrawalReasonText", null, false, false, false, "CLOB", 2147483647, 0, null, false, null, null, null, null, null);
     protected val _columnWithdrawalReasonInputText: ColumnInfo = cci("WITHDRAWAL_REASON_INPUT_TEXT", "WITHDRAWAL_REASON_INPUT_TEXT", null, null, classOf[String], "withdrawalReasonInputText", null, false, false, false, "CLOB", 2147483647, 0, null, false, null, null, null, null, null);
-    protected val _columnWithdrawalDatetime: ColumnInfo = cci("WITHDRAWAL_DATETIME", "WITHDRAWAL_DATETIME", null, null, classOf[java.sql.Timestamp], "withdrawalDatetime", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnWithdrawalDatetime: ColumnInfo = cci("WITHDRAWAL_DATETIME", "WITHDRAWAL_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "withdrawalDatetime", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
     protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, null, classOf[String], "memberStatusCode", null, false, false, false, "CHAR", 3, 0, null, false, null, null, null, null, null);
     protected val _columnMemberStatusName: ColumnInfo = cci("MEMBER_STATUS_NAME", "MEMBER_STATUS_NAME", null, null, classOf[String], "memberStatusName", null, false, false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnMaxPurchasePrice: ColumnInfo = cci("MAX_PURCHASE_PRICE", "MAX_PURCHASE_PRICE", null, null, classOf[Integer], "maxPurchasePrice", null, false, false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);

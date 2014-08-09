@@ -47,7 +47,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val productName: Option[String] = entity.productName
  * val productHandleCode: Option[String] = entity.productHandleCode
  * val productStatusCode: Option[String] = entity.productStatusCode
- * val latestPurchaseDatetime: Option[java.sql.Timestamp] = entity.latestPurchaseDatetime
+ * val latestPurchaseDatetime: Option[org.joda.time.LocalDateTime] = entity.latestPurchaseDatetime
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
@@ -62,7 +62,7 @@ abstract class BsSummaryProduct(dble: DbleSummaryProduct) extends Serializable {
         , productName: Option[String] = productName
         , productHandleCode: Option[String] = productHandleCode
         , productStatusCode: Option[String] = productStatusCode
-        , latestPurchaseDatetime: Option[java.sql.Timestamp] = latestPurchaseDatetime
+        , latestPurchaseDatetime: Option[org.joda.time.LocalDateTime] = latestPurchaseDatetime
     ): SummaryProduct = {
         val newDble = new DbleSummaryProduct
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
@@ -178,7 +178,7 @@ abstract class BsSummaryProduct(dble: DbleSummaryProduct) extends Serializable {
      * [get] LATEST_PURCHASE_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'LATEST_PURCHASE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def latestPurchaseDatetime: Option[java.sql.Timestamp] = { Option(dble.getLatestPurchaseDatetime) }
+    def latestPurchaseDatetime: Option[org.joda.time.LocalDateTime] = { Option(dble.getLatestPurchaseDatetime) }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
@@ -199,7 +199,7 @@ abstract class BsSummaryProduct(dble: DbleSummaryProduct) extends Serializable {
  * val productName: Option[String] = entity.productName
  * val productHandleCode: Option[String] = entity.productHandleCode
  * val productStatusCode: Option[String] = entity.productStatusCode
- * val latestPurchaseDatetime: Option[java.sql.Timestamp] = entity.latestPurchaseDatetime
+ * val latestPurchaseDatetime: Option[org.joda.time.LocalDateTime] = entity.latestPurchaseDatetime
  * entity.productId = productId
  * entity.productName = productName
  * entity.productHandleCode = productHandleCode
@@ -283,11 +283,11 @@ abstract class BsMbleSummaryProduct {
      * [get] LATEST_PURCHASE_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'LATEST_PURCHASE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def latestPurchaseDatetime: Option[java.sql.Timestamp] = { Option(dble.getLatestPurchaseDatetime) }
+    def latestPurchaseDatetime: Option[org.joda.time.LocalDateTime] = { Option(dble.getLatestPurchaseDatetime) }
 
     /**
      * [set] LATEST_PURCHASE_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @param latestPurchaseDatetime The value of the column 'LATEST_PURCHASE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def latestPurchaseDatetime_=(latestPurchaseDatetime: Option[java.sql.Timestamp]) = { dble.setLatestPurchaseDatetime(latestPurchaseDatetime.orNull) }
+    def latestPurchaseDatetime_=(latestPurchaseDatetime: Option[org.joda.time.LocalDateTime]) = { dble.setLatestPurchaseDatetime(latestPurchaseDatetime.orNull) }
 }

@@ -60,7 +60,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * Long memberLoginId = entity.getMemberLoginId();
  * Integer memberId = entity.getMemberId();
- * java.sql.Timestamp loginDatetime = entity.getLoginDatetime();
+ * org.joda.time.LocalDateTime loginDatetime = entity.getLoginDatetime();
  * Integer mobileLoginFlg = entity.getMobileLoginFlg();
  * String loginMemberStatusCode = entity.getLoginMemberStatusCode();
  * entity.setMemberLoginId(memberLoginId);
@@ -87,7 +87,7 @@ abstract class BsDbleMemberLogin extends Entity with DBableEntity[MemberLogin] w
     protected var _memberId: Integer = null;
 
     /** (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)} */
-    protected var _loginDatetime: java.sql.Timestamp = null;
+    protected var _loginDatetime: org.joda.time.LocalDateTime = null;
 
     /** (モバイルログインフラグ)MOBILE_LOGIN_FLG: {NotNull, INTEGER(10), classification=Flg} */
     protected var _mobileLoginFlg: Integer = null;
@@ -182,7 +182,7 @@ abstract class BsDbleMemberLogin extends Entity with DBableEntity[MemberLogin] w
      * @param memberId (会員ID): UQ+, IX, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
      * @param loginDatetime (ログイン日時): +UQ, IX, NotNull, TIMESTAMP(23, 10). (NotNull)
      */
-    def uniqueBy(memberId: Integer, loginDatetime: java.sql.Timestamp): Unit = {
+    def uniqueBy(memberId: Integer, loginDatetime: org.joda.time.LocalDateTime): Unit = {
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("memberId");
         __uniqueDrivenProperties.addPropertyName("loginDatetime");
@@ -674,7 +674,7 @@ abstract class BsDbleMemberLogin extends Entity with DBableEntity[MemberLogin] w
      * [get] (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'LOGIN_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getLoginDatetime(): java.sql.Timestamp = {
+    def getLoginDatetime(): org.joda.time.LocalDateTime = {
         return _loginDatetime;
     }
 
@@ -682,7 +682,7 @@ abstract class BsDbleMemberLogin extends Entity with DBableEntity[MemberLogin] w
      * [set] (ログイン日時)LOGIN_DATETIME: {+UQ, IX, NotNull, TIMESTAMP(23, 10)} <br />
      * @param loginDatetime The value of the column 'LOGIN_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setLoginDatetime(loginDatetime: java.sql.Timestamp): Unit = {
+    def setLoginDatetime(loginDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("loginDatetime");
         _loginDatetime = loginDatetime;
     }

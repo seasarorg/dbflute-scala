@@ -11,6 +11,10 @@ import org.seasar.dbflute.cbean.coption.LikeSearchOption;
 import org.seasar.dbflute.util.DfCollectionUtil;
 import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.exbhv.pmbean.SimpleMemberPmb;
 import com.example.dbflute.scala.dbflute.exbhv._;
@@ -46,7 +50,7 @@ abstract class CponSimpleMemberPmb {
     protected var _memberNameInternalLikeSearchOption: LikeSearchOption = null;
 
     /** The parameter of birthdate. */
-    protected var _birthdate: Date = null;
+    protected var _birthdate: org.joda.time.LocalDate = null;
 
     /** The max size of safety result. */
     protected var _safetyMaxResultSize: Int = 0;
@@ -119,8 +123,22 @@ abstract class CponSimpleMemberPmb {
         return DfTypeUtil.toBoolean(obj);
     }
 
-    protected def toUtilDate(date: Date): Date = {
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
         return DfTypeUtil.toDate(date); // if sub class, re-create as pure date
+    }
+
+    protected def toLocalDate[DATE](date: Date, localType: Class[DATE]): DATE = {
+        if (classOf[LocalDate].isAssignableFrom(localType)) {
+            return LocalDate.fromDateFields(date).asInstanceOf[DATE];
+        } else if (classOf[LocalDateTime].isAssignableFrom(localType)) {
+            return LocalDateTime.fromDateFields(date).asInstanceOf[DATE];
+        }
+        return null.asInstanceOf[DATE]; // unreachable
     }
 
     protected def formatUtilDate(date: Date): String = {
@@ -161,7 +179,7 @@ abstract class CponSimpleMemberPmb {
         val sb: StringBuilder = new StringBuilder();
         sb.append(dm).append(_memberId);
         sb.append(dm).append(_memberName);
-        sb.append(dm).append(formatUtilDate(_birthdate));
+        sb.append(dm).append(_birthdate);
         if (sb.length() > 0) { sb.delete(0, dm.length()); }
         sb.insert(0, "{").append("}");
         return sb.toString();
@@ -215,15 +233,15 @@ abstract class CponSimpleMemberPmb {
      * [get] birthdate <br />
      * @return The value of birthdate. (Nullable, NotEmptyString(when String): if empty string, returns null)
      */
-    def getBirthdate(): Date = {
-        return toUtilDate(_birthdate);
+    def getBirthdate(): org.joda.time.LocalDate = {
+        return _birthdate;
     }
 
     /**
      * [set] birthdate <br />
      * @param birthdate The value of birthdate. (NullAllowed)
      */
-    def setBirthdate(birthdate: Date): Unit = {
+    def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
         _birthdate = birthdate;
     }
 }

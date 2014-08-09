@@ -56,7 +56,7 @@ object MemberLoginDbm extends AbstractDBMeta {
     }
     class EpgLoginDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberLogin].getLoginDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberLogin].setLoginDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberLogin].setLoginDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgMobileLoginFlg extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberLogin].getMobileLoginFlg(); }
@@ -119,7 +119,7 @@ object MemberLoginDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected val _columnMemberLoginId: ColumnInfo = cci("MEMBER_LOGIN_ID", "MEMBER_LOGIN_ID", null, "会員ログインID", classOf[Long], "memberLoginId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_EDC8A7B3_7F2B_4E41_9940_BE24DD93E6FF", false, null, null, null, null, null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
-    protected val _columnLoginDatetime: ColumnInfo = cci("LOGIN_DATETIME", "LOGIN_DATETIME", null, "ログイン日時", classOf[java.sql.Timestamp], "loginDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnLoginDatetime: ColumnInfo = cci("LOGIN_DATETIME", "LOGIN_DATETIME", null, "ログイン日時", classOf[org.joda.time.LocalDateTime], "loginDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
     protected val _columnMobileLoginFlg: ColumnInfo = cci("MOBILE_LOGIN_FLG", "MOBILE_LOGIN_FLG", null, "モバイルログインフラグ", classOf[Integer], "mobileLoginFlg", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, CDef.DefMeta.Flg);
     protected val _columnLoginMemberStatusCode: ColumnInfo = cci("LOGIN_MEMBER_STATUS_CODE", "LOGIN_MEMBER_STATUS_CODE", null, "ログイン時会員ステータスコード", classOf[String], "loginMemberStatusCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "memberStatus", null, CDef.DefMeta.MemberStatus);
 

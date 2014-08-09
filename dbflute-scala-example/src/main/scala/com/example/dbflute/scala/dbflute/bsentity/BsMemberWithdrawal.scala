@@ -47,10 +47,10 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val memberId: Int = entity.memberId
  * val withdrawalReasonCode: Option[CDef.WithdrawalReason] = entity.withdrawalReasonCode
  * val withdrawalReasonInputText: Option[String] = entity.withdrawalReasonInputText
- * val withdrawalDatetime: java.sql.Timestamp = entity.withdrawalDatetime
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val withdrawalDatetime: org.joda.time.LocalDateTime = entity.withdrawalDatetime
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * = = = = = = = = = =/
@@ -66,10 +66,10 @@ abstract class BsMemberWithdrawal(dble: DbleMemberWithdrawal) extends Serializab
          memberId: Int = memberId
         , withdrawalReasonCode: Option[CDef.WithdrawalReason] = withdrawalReasonCode
         , withdrawalReasonInputText: Option[String] = withdrawalReasonInputText
-        , withdrawalDatetime: java.sql.Timestamp = withdrawalDatetime
-        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , withdrawalDatetime: org.joda.time.LocalDateTime = withdrawalDatetime
+        , registerDatetime: org.joda.time.LocalDateTime = registerDatetime
         , registerUser: String = registerUser
-        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateDatetime: org.joda.time.LocalDateTime = updateDatetime
         , updateUser: String = updateUser
         , versionNo: Long = versionNo
     ): MemberWithdrawal = {
@@ -237,13 +237,13 @@ abstract class BsMemberWithdrawal(dble: DbleMemberWithdrawal) extends Serializab
      * [get] (退会日時)WITHDRAWAL_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'WITHDRAWAL_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def withdrawalDatetime: java.sql.Timestamp = { dble.getWithdrawalDatetime }
+    def withdrawalDatetime: org.joda.time.LocalDateTime = { dble.getWithdrawalDatetime }
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -255,7 +255,7 @@ abstract class BsMemberWithdrawal(dble: DbleMemberWithdrawal) extends Serializab
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
@@ -287,10 +287,10 @@ abstract class BsMemberWithdrawal(dble: DbleMemberWithdrawal) extends Serializab
  * val memberId: Int = entity.memberId
  * val withdrawalReasonCode: Option[CDef.WithdrawalReason] = entity.withdrawalReasonCode
  * val withdrawalReasonInputText: Option[String] = entity.withdrawalReasonInputText
- * val withdrawalDatetime: java.sql.Timestamp = entity.withdrawalDatetime
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val withdrawalDatetime: org.joda.time.LocalDateTime = entity.withdrawalDatetime
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * entity.memberId = memberId
@@ -450,25 +450,25 @@ abstract class BsMbleMemberWithdrawal {
      * [get] (退会日時)WITHDRAWAL_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'WITHDRAWAL_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def withdrawalDatetime: java.sql.Timestamp = { dble.getWithdrawalDatetime }
+    def withdrawalDatetime: org.joda.time.LocalDateTime = { dble.getWithdrawalDatetime }
 
     /**
      * [set] (退会日時)WITHDRAWAL_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param withdrawalDatetime The value of the column 'WITHDRAWAL_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def withdrawalDatetime_=(withdrawalDatetime: java.sql.Timestamp) = { dble.setWithdrawalDatetime(withdrawalDatetime) }
+    def withdrawalDatetime_=(withdrawalDatetime: org.joda.time.LocalDateTime) = { dble.setWithdrawalDatetime(withdrawalDatetime) }
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def registerDatetime_=(registerDatetime: java.sql.Timestamp) = { dble.setRegisterDatetime(registerDatetime) }
+    def registerDatetime_=(registerDatetime: org.joda.time.LocalDateTime) = { dble.setRegisterDatetime(registerDatetime) }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -486,13 +486,13 @@ abstract class BsMbleMemberWithdrawal {
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def updateDatetime_=(updateDatetime: java.sql.Timestamp) = { dble.setUpdateDatetime(updateDatetime) }
+    def updateDatetime_=(updateDatetime: org.joda.time.LocalDateTime) = { dble.setUpdateDatetime(updateDatetime) }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />

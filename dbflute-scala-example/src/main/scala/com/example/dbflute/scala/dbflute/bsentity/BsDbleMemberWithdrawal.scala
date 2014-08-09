@@ -62,10 +62,10 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * Integer memberId = entity.getMemberId();
  * String withdrawalReasonCode = entity.getWithdrawalReasonCode();
  * String withdrawalReasonInputText = entity.getWithdrawalReasonInputText();
- * java.sql.Timestamp withdrawalDatetime = entity.getWithdrawalDatetime();
- * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
+ * org.joda.time.LocalDateTime withdrawalDatetime = entity.getWithdrawalDatetime();
+ * org.joda.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
- * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
+ * org.joda.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * Long versionNo = entity.getVersionNo();
  * entity.setMemberId(memberId);
@@ -99,16 +99,16 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
     protected var _withdrawalReasonInputText: String = null;
 
     /** (退会日時)WITHDRAWAL_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _withdrawalDatetime: java.sql.Timestamp = null;
+    protected var _withdrawalDatetime: org.joda.time.LocalDateTime = null;
 
     /** REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _registerDatetime: java.sql.Timestamp = null;
+    protected var _registerDatetime: org.joda.time.LocalDateTime = null;
 
     /** REGISTER_USER: {NotNull, VARCHAR(200)} */
     protected var _registerUser: String = null;
 
     /** UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _updateDatetime: java.sql.Timestamp = null;
+    protected var _updateDatetime: org.joda.time.LocalDateTime = null;
 
     /** UPDATE_USER: {NotNull, VARCHAR(200)} */
     protected var _updateUser: String = null;
@@ -673,7 +673,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      * [get] (退会日時)WITHDRAWAL_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'WITHDRAWAL_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getWithdrawalDatetime(): java.sql.Timestamp = {
+    def getWithdrawalDatetime(): org.joda.time.LocalDateTime = {
         return _withdrawalDatetime;
     }
 
@@ -681,7 +681,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      * [set] (退会日時)WITHDRAWAL_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param withdrawalDatetime The value of the column 'WITHDRAWAL_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setWithdrawalDatetime(withdrawalDatetime: java.sql.Timestamp): Unit = {
+    def setWithdrawalDatetime(withdrawalDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("withdrawalDatetime");
         _withdrawalDatetime = withdrawalDatetime;
     }
@@ -690,7 +690,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
+    def getRegisterDatetime(): org.joda.time.LocalDateTime = {
         return _registerDatetime;
     }
 
@@ -698,7 +698,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         _registerDatetime = registerDatetime;
     }
@@ -724,7 +724,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateDatetime(): java.sql.Timestamp = {
+    def getUpdateDatetime(): org.joda.time.LocalDateTime = {
         return _updateDatetime;
     }
 
@@ -732,7 +732,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         _updateDatetime = updateDatetime;
     }

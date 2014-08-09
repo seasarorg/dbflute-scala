@@ -221,19 +221,19 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable[DblePurchase, Purc
      * @exception EntityDuplicatedException When the entity has been duplicated.
      * @exception SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
-    def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Option[Purchase] = {
+    def selectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: org.joda.time.LocalDateTime): Option[Purchase] = {
         return facadeSelectByUniqueOf(memberId, productId, purchaseDatetime).map(_.toImmutable);
     }
 
-    protected def facadeSelectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): Option[DblePurchase] = {
+    protected def facadeSelectByUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: org.joda.time.LocalDateTime): Option[DblePurchase] = {
         return doSelectByUniqueOf(memberId, productId, purchaseDatetime, typeOfSelectedEntity());
     }
 
-    protected def doSelectByUniqueOf[ENTITY <: DblePurchase](memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
+    protected def doSelectByUniqueOf[ENTITY <: DblePurchase](memberId: Integer, productId: Integer, purchaseDatetime: org.joda.time.LocalDateTime, tp: Class[_ <: ENTITY]): Option[ENTITY] = {
         return Option.apply(doSelectEntity(xprepareCBAsUniqueOf(memberId, productId, purchaseDatetime), tp)());
     }
 
-    protected def xprepareCBAsUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): PurchaseCB = {
+    protected def xprepareCBAsUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: org.joda.time.LocalDateTime): PurchaseCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
         return newConditionBean().acceptUniqueOf(memberId, productId, purchaseDatetime);
     }

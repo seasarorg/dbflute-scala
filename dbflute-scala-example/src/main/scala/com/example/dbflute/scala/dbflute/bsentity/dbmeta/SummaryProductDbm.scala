@@ -64,7 +64,7 @@ object SummaryProductDbm extends AbstractDBMeta {
     }
     class EpgLatestPurchaseDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleSummaryProduct].getLatestPurchaseDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleSummaryProduct].setLatestPurchaseDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleSummaryProduct].setLatestPurchaseDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -93,7 +93,7 @@ object SummaryProductDbm extends AbstractDBMeta {
     protected val _columnProductName: ColumnInfo = cci("PRODUCT_NAME", "PRODUCT_NAME", null, null, classOf[String], "productName", null, false, false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnProductHandleCode: ColumnInfo = cci("PRODUCT_HANDLE_CODE", "PRODUCT_HANDLE_CODE", null, null, classOf[String], "productHandleCode", null, false, false, false, "VARCHAR", 100, 0, null, false, null, null, null, null, null);
     protected val _columnProductStatusCode: ColumnInfo = cci("PRODUCT_STATUS_CODE", "PRODUCT_STATUS_CODE", null, null, classOf[String], "productStatusCode", null, false, false, false, "CHAR", 3, 0, null, false, null, null, null, null, null);
-    protected val _columnLatestPurchaseDatetime: ColumnInfo = cci("LATEST_PURCHASE_DATETIME", "LATEST_PURCHASE_DATETIME", null, null, classOf[java.sql.Timestamp], "latestPurchaseDatetime", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
+    protected val _columnLatestPurchaseDatetime: ColumnInfo = cci("LATEST_PURCHASE_DATETIME", "LATEST_PURCHASE_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "latestPurchaseDatetime", null, false, false, false, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
 
     def columnProductId(): ColumnInfo = { return _columnProductId; }
     def columnProductName(): ColumnInfo = { return _columnProductName; }

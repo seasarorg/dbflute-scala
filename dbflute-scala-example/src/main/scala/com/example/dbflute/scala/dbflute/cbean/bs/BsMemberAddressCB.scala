@@ -99,7 +99,7 @@ class BsMemberAddressCB extends AbstractConditionBean {
      * @param validBeginDate (有効開始日): +UQ, NotNull, DATE(8). (NotNull)
      * @return this. (NotNull)
      */
-    def acceptUniqueOf(memberId: Integer, validBeginDate: java.util.Date): MemberAddressCB = {
+    def acceptUniqueOf(memberId: Integer, validBeginDate: org.joda.time.LocalDate): MemberAddressCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("validBeginDate", validBeginDate);
         val cb: BsMemberAddressCB = this;
         cb.query().setMemberId_Equal(memberId);cb.query().setValidBeginDate_Equal(validBeginDate);

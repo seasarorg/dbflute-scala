@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Date;
 
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.DBMeta;
@@ -64,11 +63,11 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * String memberName = entity.getMemberName();
  * String memberAccount = entity.getMemberAccount();
  * String memberStatusCode = entity.getMemberStatusCode();
- * java.sql.Timestamp formalizedDatetime = entity.getFormalizedDatetime();
- * java.util.Date birthdate = entity.getBirthdate();
- * java.sql.Timestamp registerDatetime = entity.getRegisterDatetime();
+ * org.joda.time.LocalDateTime formalizedDatetime = entity.getFormalizedDatetime();
+ * org.joda.time.LocalDate birthdate = entity.getBirthdate();
+ * org.joda.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerUser = entity.getRegisterUser();
- * java.sql.Timestamp updateDatetime = entity.getUpdateDatetime();
+ * org.joda.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
  * String updateUser = entity.getUpdateUser();
  * Long versionNo = entity.getVersionNo();
  * entity.setMemberId(memberId);
@@ -107,19 +106,19 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
     protected var _memberStatusCode: String = null;
 
     /** (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} */
-    protected var _formalizedDatetime: java.sql.Timestamp = null;
+    protected var _formalizedDatetime: org.joda.time.LocalDateTime = null;
 
     /** (生年月日)BIRTHDATE: {DATE(8)} */
-    protected var _birthdate: java.util.Date = null;
+    protected var _birthdate: org.joda.time.LocalDate = null;
 
     /** (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _registerDatetime: java.sql.Timestamp = null;
+    protected var _registerDatetime: org.joda.time.LocalDateTime = null;
 
     /** (登録ユーザ)REGISTER_USER: {NotNull, VARCHAR(200)} */
     protected var _registerUser: String = null;
 
     /** (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} */
-    protected var _updateDatetime: java.sql.Timestamp = null;
+    protected var _updateDatetime: org.joda.time.LocalDateTime = null;
 
     /** (更新ユーザ)UPDATE_USER: {NotNull, VARCHAR(200)} */
     protected var _updateUser: String = null;
@@ -795,7 +794,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         sb.append(dm).append(getMemberAccount());
         sb.append(dm).append(getMemberStatusCode());
         sb.append(dm).append(getFormalizedDatetime());
-        sb.append(dm).append(xfUD(getBirthdate()));
+        sb.append(dm).append(getBirthdate());
         sb.append(dm).append(getRegisterDatetime());
         sb.append(dm).append(getRegisterUser());
         sb.append(dm).append(getUpdateDatetime());
@@ -806,12 +805,6 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         }
         sb.insert(0, "{").append("}");
         return sb.toString();
-    }
-    protected def xfUD(date: Date): String = { // formatUtilDate()
-        return FunCustodial.toString(date, xgDP());
-    }
-    protected def xgDP(): String = { // getDatePattern
-        return "yyyy-MM-dd";
     }
     protected def buildRelationString(): String = {
         val sb: StringBuilder = new StringBuilder();
@@ -925,7 +918,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [get] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FORMALIZED_DATETIME'. (NullAllowed even if selected: for no constraint)
      */
-    def getFormalizedDatetime(): java.sql.Timestamp = {
+    def getFormalizedDatetime(): org.joda.time.LocalDateTime = {
         return _formalizedDatetime;
     }
 
@@ -933,7 +926,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [set] (正式会員日時)FORMALIZED_DATETIME: {IX, TIMESTAMP(23, 10)} <br />
      * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def setFormalizedDatetime(formalizedDatetime: java.sql.Timestamp): Unit = {
+    def setFormalizedDatetime(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("formalizedDatetime");
         _formalizedDatetime = formalizedDatetime;
     }
@@ -942,7 +935,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [get] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @return The value of the column 'BIRTHDATE'. (NullAllowed even if selected: for no constraint)
      */
-    def getBirthdate(): java.util.Date = {
+    def getBirthdate(): org.joda.time.LocalDate = {
         return _birthdate;
     }
 
@@ -950,7 +943,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [set] (生年月日)BIRTHDATE: {DATE(8)} <br />
      * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def setBirthdate(birthdate: java.util.Date): Unit = {
+    def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
         __modifiedProperties.addPropertyName("birthdate");
         _birthdate = birthdate;
     }
@@ -959,7 +952,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [get] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getRegisterDatetime(): java.sql.Timestamp = {
+    def getRegisterDatetime(): org.joda.time.LocalDateTime = {
         return _registerDatetime;
     }
 
@@ -967,7 +960,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [set] (登録日時)REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setRegisterDatetime(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("registerDatetime");
         _registerDatetime = registerDatetime;
     }
@@ -993,7 +986,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [get] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def getUpdateDatetime(): java.sql.Timestamp = {
+    def getUpdateDatetime(): org.joda.time.LocalDateTime = {
         return _updateDatetime;
     }
 
@@ -1001,7 +994,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * [set] (更新日時)UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
-    def setUpdateDatetime(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("updateDatetime");
         _updateDatetime = updateDatetime;
     }

@@ -5,7 +5,6 @@ import scala.collection.JavaConverters._;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity.FunCustodial;
@@ -47,13 +46,13 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val memberAddressId: Int = entity.memberAddressId
  * val memberId: Int = entity.memberId
- * val validBeginDate: java.util.Date = entity.validBeginDate
- * val validEndDate: java.util.Date = entity.validEndDate
+ * val validBeginDate: org.joda.time.LocalDate = entity.validBeginDate
+ * val validEndDate: org.joda.time.LocalDate = entity.validEndDate
  * val address: String = entity.address
  * val regionId: CDef.Region = entity.regionId
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * = = = = = = = = = =/
@@ -68,13 +67,13 @@ abstract class BsMemberAddress(dble: DbleMemberAddress) extends Serializable {
     def copy(
          memberAddressId: Int = memberAddressId
         , memberId: Int = memberId
-        , validBeginDate: java.util.Date = validBeginDate
-        , validEndDate: java.util.Date = validEndDate
+        , validBeginDate: org.joda.time.LocalDate = validBeginDate
+        , validEndDate: org.joda.time.LocalDate = validEndDate
         , address: String = address
         , regionId: CDef.Region = regionId
-        , registerDatetime: java.sql.Timestamp = registerDatetime
+        , registerDatetime: org.joda.time.LocalDateTime = registerDatetime
         , registerUser: String = registerUser
-        , updateDatetime: java.sql.Timestamp = updateDatetime
+        , updateDatetime: org.joda.time.LocalDateTime = updateDatetime
         , updateUser: String = updateUser
         , versionNo: Long = versionNo
     ): MemberAddress = {
@@ -238,13 +237,13 @@ abstract class BsMemberAddress(dble: DbleMemberAddress) extends Serializable {
      * [get] (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)} <br />
      * @return The value of the column 'VALID_BEGIN_DATE'. (NotNull but EmptyAllowed if null in database)
      */
-    def validBeginDate: java.util.Date = { dble.getValidBeginDate }
+    def validBeginDate: org.joda.time.LocalDate = { dble.getValidBeginDate }
 
     /**
      * [get] (有効終了日)VALID_END_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'VALID_END_DATE'. (NotNull but EmptyAllowed if null in database)
      */
-    def validEndDate: java.util.Date = { dble.getValidEndDate }
+    def validEndDate: org.joda.time.LocalDate = { dble.getValidEndDate }
 
     /**
      * [get] (住所)ADDRESS: {NotNull, VARCHAR(200)} <br />
@@ -262,7 +261,7 @@ abstract class BsMemberAddress(dble: DbleMemberAddress) extends Serializable {
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -274,7 +273,7 @@ abstract class BsMemberAddress(dble: DbleMemberAddress) extends Serializable {
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />
@@ -305,13 +304,13 @@ abstract class BsMemberAddress(dble: DbleMemberAddress) extends Serializable {
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * val memberAddressId: Int = entity.memberAddressId
  * val memberId: Int = entity.memberId
- * val validBeginDate: java.util.Date = entity.validBeginDate
- * val validEndDate: java.util.Date = entity.validEndDate
+ * val validBeginDate: org.joda.time.LocalDate = entity.validBeginDate
+ * val validEndDate: org.joda.time.LocalDate = entity.validEndDate
  * val address: String = entity.address
  * val regionId: CDef.Region = entity.regionId
- * val registerDatetime: java.sql.Timestamp = entity.registerDatetime
+ * val registerDatetime: org.joda.time.LocalDateTime = entity.registerDatetime
  * val registerUser: String = entity.registerUser
- * val updateDatetime: java.sql.Timestamp = entity.updateDatetime
+ * val updateDatetime: org.joda.time.LocalDateTime = entity.updateDatetime
  * val updateUser: String = entity.updateUser
  * val versionNo: Long = entity.versionNo
  * entity.memberAddressId = memberAddressId
@@ -354,7 +353,7 @@ abstract class BsMbleMemberAddress {
      * @param memberId (会員ID): UQ+, IX, NotNull, INTEGER(10), FK to MEMBER. (NotNull)
      * @param validBeginDate (有効開始日): +UQ, NotNull, DATE(8). (NotNull)
      */
-    def uniqueBy(memberId: Integer, validBeginDate: java.util.Date): Unit = { dble.setMemberId(memberId);dble.setValidBeginDate(validBeginDate); }
+    def uniqueBy(memberId: Integer, validBeginDate: org.joda.time.LocalDate): Unit = { dble.setMemberId(memberId);dble.setValidBeginDate(validBeginDate); }
 
     // ===================================================================================
     //                                                             Classification Property
@@ -469,25 +468,25 @@ abstract class BsMbleMemberAddress {
      * [get] (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)} <br />
      * @return The value of the column 'VALID_BEGIN_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def validBeginDate: java.util.Date = { dble.getValidBeginDate }
+    def validBeginDate: org.joda.time.LocalDate = { dble.getValidBeginDate }
 
     /**
      * [set] (有効開始日)VALID_BEGIN_DATE: {+UQ, NotNull, DATE(8)} <br />
      * @param validBeginDate The value of the column 'VALID_BEGIN_DATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def validBeginDate_=(validBeginDate: java.util.Date) = { dble.setValidBeginDate(validBeginDate) }
+    def validBeginDate_=(validBeginDate: org.joda.time.LocalDate) = { dble.setValidBeginDate(validBeginDate) }
 
     /**
      * [get] (有効終了日)VALID_END_DATE: {NotNull, DATE(8)} <br />
      * @return The value of the column 'VALID_END_DATE'. (basically NotNull if selected: for the constraint)
      */
-    def validEndDate: java.util.Date = { dble.getValidEndDate }
+    def validEndDate: org.joda.time.LocalDate = { dble.getValidEndDate }
 
     /**
      * [set] (有効終了日)VALID_END_DATE: {NotNull, DATE(8)} <br />
      * @param validEndDate The value of the column 'VALID_END_DATE'. (NullAllowed: null update allowed for no constraint)
      */
-    def validEndDate_=(validEndDate: java.util.Date) = { dble.setValidEndDate(validEndDate) }
+    def validEndDate_=(validEndDate: org.joda.time.LocalDate) = { dble.setValidEndDate(validEndDate) }
 
     /**
      * [get] (住所)ADDRESS: {NotNull, VARCHAR(200)} <br />
@@ -517,13 +516,13 @@ abstract class BsMbleMemberAddress {
      * [get] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def registerDatetime: java.sql.Timestamp = { dble.getRegisterDatetime }
+    def registerDatetime: org.joda.time.LocalDateTime = { dble.getRegisterDatetime }
 
     /**
      * [set] REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def registerDatetime_=(registerDatetime: java.sql.Timestamp) = { dble.setRegisterDatetime(registerDatetime) }
+    def registerDatetime_=(registerDatetime: org.joda.time.LocalDateTime) = { dble.setRegisterDatetime(registerDatetime) }
 
     /**
      * [get] REGISTER_USER: {NotNull, VARCHAR(200)} <br />
@@ -541,13 +540,13 @@ abstract class BsMbleMemberAddress {
      * [get] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def updateDatetime: java.sql.Timestamp = { dble.getUpdateDatetime }
+    def updateDatetime: org.joda.time.LocalDateTime = { dble.getUpdateDatetime }
 
     /**
      * [set] UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)} <br />
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def updateDatetime_=(updateDatetime: java.sql.Timestamp) = { dble.setUpdateDatetime(updateDatetime) }
+    def updateDatetime_=(updateDatetime: org.joda.time.LocalDateTime) = { dble.setUpdateDatetime(updateDatetime) }
 
     /**
      * [get] UPDATE_USER: {NotNull, VARCHAR(200)} <br />

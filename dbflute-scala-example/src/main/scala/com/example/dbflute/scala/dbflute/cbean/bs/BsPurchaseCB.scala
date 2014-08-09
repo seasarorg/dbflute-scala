@@ -100,7 +100,7 @@ class BsPurchaseCB extends AbstractConditionBean {
      * @param purchaseDatetime (購入日時): +UQ, IX+, NotNull, TIMESTAMP(23, 10). (NotNull)
      * @return this. (NotNull)
      */
-    def acceptUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: java.sql.Timestamp): PurchaseCB = {
+    def acceptUniqueOf(memberId: Integer, productId: Integer, purchaseDatetime: org.joda.time.LocalDateTime): PurchaseCB = {
         assertObjectNotNull("memberId", memberId);assertObjectNotNull("productId", productId);assertObjectNotNull("purchaseDatetime", purchaseDatetime);
         val cb: BsPurchaseCB = this;
         cb.query().setMemberId_Equal(memberId);cb.query().setProductId_Equal(productId);cb.query().setPurchaseDatetime_Equal(purchaseDatetime);

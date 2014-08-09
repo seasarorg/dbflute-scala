@@ -38,7 +38,7 @@ class OnParadeTest extends UnitContainerFunSuite {
     member.foreach { mb =>
       log(mb.memberName, mb.memberStatusCodeAsMemberStatus.alias)
       if (mb.isMemberStatusCode_Formalized) {
-        val copied = mb.copy(birthdate = Option(currentDate))
+        val copied = mb.copy(birthdate = Option(currentLocalDate))
         log("*Formalized : immutable=" + mb.birthdate + ", copied=" + copied.birthdate)
       }
     }
@@ -115,7 +115,7 @@ class OnParadeTest extends UnitContainerFunSuite {
       mb.memberName = "Xavi";
       mb.memberAccount = "Passer"
       mb.memberStatusCode_Provisional
-      mb.birthdate = Option(currentDate());
+      mb.birthdate = Option(currentLocalDate());
     }
 
     //
@@ -124,13 +124,13 @@ class OnParadeTest extends UnitContainerFunSuite {
     memberBhv.update { mb =>
       mb.memberId = 1
       mb.memberAccount = "foo"
-      mb.birthdate = Option(currentDate());
+      mb.birthdate = Option(currentLocalDate());
       mb.versionNo = 0
     }
     memberBhv.updateNonstrict { mb =>
       mb.memberId = 1
       mb.memberAccount = "foo"
-      mb.birthdate = Option(currentDate());
+      mb.birthdate = Option(currentLocalDate());
     }
     memberBhv.updateNonstrict(_.memberId = 7)(_.self(_.specify.columnBirthdate).convert(_.addDay(3)))
     purchaseBhv.updateNonstrict(_.purchaseId = 3)(_.self(_.specify.columnPurchaseCount).plus(1))

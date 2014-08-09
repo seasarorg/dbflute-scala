@@ -46,7 +46,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * val memberFollowingId: Long = entity.memberFollowingId
  * val myMemberId: Int = entity.myMemberId
  * val yourMemberId: Int = entity.yourMemberId
- * val followDatetime: java.sql.Timestamp = entity.followDatetime
+ * val followDatetime: org.joda.time.LocalDateTime = entity.followDatetime
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
@@ -60,7 +60,7 @@ abstract class BsMemberFollowing(dble: DbleMemberFollowing) extends Serializable
          memberFollowingId: Long = memberFollowingId
         , myMemberId: Int = myMemberId
         , yourMemberId: Int = yourMemberId
-        , followDatetime: java.sql.Timestamp = followDatetime
+        , followDatetime: org.joda.time.LocalDateTime = followDatetime
     ): MemberFollowing = {
         val newDble = new DbleMemberFollowing
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
@@ -177,7 +177,7 @@ abstract class BsMemberFollowing(dble: DbleMemberFollowing) extends Serializable
      * [get] (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FOLLOW_DATETIME'. (NotNull but EmptyAllowed if null in database)
      */
-    def followDatetime: java.sql.Timestamp = { dble.getFollowDatetime }
+    def followDatetime: org.joda.time.LocalDateTime = { dble.getFollowDatetime }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
@@ -197,7 +197,7 @@ abstract class BsMemberFollowing(dble: DbleMemberFollowing) extends Serializable
  * val memberFollowingId: Long = entity.memberFollowingId
  * val myMemberId: Int = entity.myMemberId
  * val yourMemberId: Int = entity.yourMemberId
- * val followDatetime: java.sql.Timestamp = entity.followDatetime
+ * val followDatetime: org.joda.time.LocalDateTime = entity.followDatetime
  * entity.memberFollowingId = memberFollowingId
  * entity.myMemberId = myMemberId
  * entity.yourMemberId = yourMemberId
@@ -276,11 +276,11 @@ abstract class BsMbleMemberFollowing {
      * [get] (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'FOLLOW_DATETIME'. (basically NotNull if selected: for the constraint)
      */
-    def followDatetime: java.sql.Timestamp = { dble.getFollowDatetime }
+    def followDatetime: org.joda.time.LocalDateTime = { dble.getFollowDatetime }
 
     /**
      * [set] (その瞬間)FOLLOW_DATETIME: {IX, NotNull, TIMESTAMP(23, 10)} <br />
      * @param followDatetime The value of the column 'FOLLOW_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def followDatetime_=(followDatetime: java.sql.Timestamp) = { dble.setFollowDatetime(followDatetime) }
+    def followDatetime_=(followDatetime: org.joda.time.LocalDateTime) = { dble.setFollowDatetime(followDatetime) }
 }

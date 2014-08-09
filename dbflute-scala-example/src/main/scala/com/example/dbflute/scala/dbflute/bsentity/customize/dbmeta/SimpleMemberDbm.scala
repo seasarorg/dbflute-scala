@@ -55,7 +55,7 @@ object SimpleMemberDbm extends AbstractDBMeta {
     }
     class EpgBirthdate extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleSimpleMember].getBirthdate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleSimpleMember].setBirthdate(vl.asInstanceOf[java.util.Date]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleSimpleMember].setBirthdate(vl.asInstanceOf[org.joda.time.LocalDate]); }
     }
     class EpgMemberStatusName extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleSimpleMember].getMemberStatusName(); }
@@ -86,7 +86,7 @@ object SimpleMemberDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
     protected val _columnMemberName: ColumnInfo = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", classOf[String], "memberName", null, false, false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
-    protected val _columnBirthdate: ColumnInfo = cci("BIRTHDATE", "BIRTHDATE", null, "生年月日", classOf[java.util.Date], "birthdate", null, false, false, false, "DATE", 8, 0, null, false, null, null, null, null, null);
+    protected val _columnBirthdate: ColumnInfo = cci("BIRTHDATE", "BIRTHDATE", null, "生年月日", classOf[org.joda.time.LocalDate], "birthdate", null, false, false, false, "DATE", 8, 0, null, false, null, null, null, null, null);
     protected val _columnMemberStatusName: ColumnInfo = cci("MEMBER_STATUS_NAME", "MEMBER_STATUS_NAME", null, "会員ステータス名称", classOf[String], "memberStatusName", null, false, false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
 
     def columnMemberId(): ColumnInfo = { return _columnMemberId; }

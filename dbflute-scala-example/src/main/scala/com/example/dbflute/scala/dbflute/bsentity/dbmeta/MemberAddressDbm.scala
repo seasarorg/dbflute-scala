@@ -62,11 +62,11 @@ object MemberAddressDbm extends AbstractDBMeta {
     }
     class EpgValidBeginDate extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberAddress].getValidBeginDate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setValidBeginDate(vl.asInstanceOf[java.util.Date]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setValidBeginDate(vl.asInstanceOf[org.joda.time.LocalDate]); }
     }
     class EpgValidEndDate extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberAddress].getValidEndDate(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setValidEndDate(vl.asInstanceOf[java.util.Date]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setValidEndDate(vl.asInstanceOf[org.joda.time.LocalDate]); }
     }
     class EpgAddress extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberAddress].getAddress(); }
@@ -82,7 +82,7 @@ object MemberAddressDbm extends AbstractDBMeta {
     }
     class EpgRegisterDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberAddress].getRegisterDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setRegisterDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setRegisterDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgRegisterUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberAddress].getRegisterUser(); }
@@ -90,7 +90,7 @@ object MemberAddressDbm extends AbstractDBMeta {
     }
     class EpgUpdateDatetime extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberAddress].getUpdateDatetime(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setUpdateDatetime(vl.asInstanceOf[java.sql.Timestamp]); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleMemberAddress].setUpdateDatetime(vl.asInstanceOf[org.joda.time.LocalDateTime]); }
     }
     class EpgUpdateUser extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleMemberAddress].getUpdateUser(); }
@@ -145,13 +145,13 @@ object MemberAddressDbm extends AbstractDBMeta {
     //                                                                         ===========
     protected val _columnMemberAddressId: ColumnInfo = cci("MEMBER_ADDRESS_ID", "MEMBER_ADDRESS_ID", null, "会員住所ID", classOf[Integer], "memberAddressId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_EB339422_502D_49A4_A830_60D343D420F4", false, null, null, null, null, null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
-    protected val _columnValidBeginDate: ColumnInfo = cci("VALID_BEGIN_DATE", "VALID_BEGIN_DATE", null, "有効開始日", classOf[java.util.Date], "validBeginDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
-    protected val _columnValidEndDate: ColumnInfo = cci("VALID_END_DATE", "VALID_END_DATE", null, "有効終了日", classOf[java.util.Date], "validEndDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
+    protected val _columnValidBeginDate: ColumnInfo = cci("VALID_BEGIN_DATE", "VALID_BEGIN_DATE", null, "有効開始日", classOf[org.joda.time.LocalDate], "validBeginDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
+    protected val _columnValidEndDate: ColumnInfo = cci("VALID_END_DATE", "VALID_END_DATE", null, "有効終了日", classOf[org.joda.time.LocalDate], "validEndDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
     protected val _columnAddress: ColumnInfo = cci("ADDRESS", "ADDRESS", null, "住所", classOf[String], "address", null, false, false, true, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnRegionId: ColumnInfo = cci("REGION_ID", "REGION_ID", null, "地域ID", classOf[Integer], "regionId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "region", null, CDef.DefMeta.Region);
-    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[java.sql.Timestamp], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnRegisterDatetime: ColumnInfo = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "registerDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnRegisterUser: ColumnInfo = cci("REGISTER_USER", "REGISTER_USER", null, null, classOf[String], "registerUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
-    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[java.sql.Timestamp], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
+    protected val _columnUpdateDatetime: ColumnInfo = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, classOf[org.joda.time.LocalDateTime], "updateDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, true, null, null, null, null, null);
     protected val _columnUpdateUser: ColumnInfo = cci("UPDATE_USER", "UPDATE_USER", null, null, classOf[String], "updateUser", null, false, false, true, "VARCHAR", 200, 0, null, true, null, null, null, null, null);
     protected val _columnVersionNo: ColumnInfo = cci("VERSION_NO", "VERSION_NO", null, null, classOf[Long], "versionNo", null, false, false, true, "BIGINT", 19, 0, null, false, OptimisticLockType.VERSION_NO, null, null, null, null);
 

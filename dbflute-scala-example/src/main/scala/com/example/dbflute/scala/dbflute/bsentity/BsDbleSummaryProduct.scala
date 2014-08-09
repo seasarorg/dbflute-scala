@@ -61,7 +61,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * String productName = entity.getProductName();
  * String productHandleCode = entity.getProductHandleCode();
  * String productStatusCode = entity.getProductStatusCode();
- * java.sql.Timestamp latestPurchaseDatetime = entity.getLatestPurchaseDatetime();
+ * org.joda.time.LocalDateTime latestPurchaseDatetime = entity.getLatestPurchaseDatetime();
  * entity.setProductId(productId);
  * entity.setProductName(productName);
  * entity.setProductHandleCode(productHandleCode);
@@ -92,7 +92,7 @@ abstract class BsDbleSummaryProduct extends Entity with DBableEntity[SummaryProd
     protected var _productStatusCode: String = null;
 
     /** LATEST_PURCHASE_DATETIME: {TIMESTAMP(23, 10)} */
-    protected var _latestPurchaseDatetime: java.sql.Timestamp = null;
+    protected var _latestPurchaseDatetime: org.joda.time.LocalDateTime = null;
 
     // -----------------------------------------------------
     //                                              Internal
@@ -460,7 +460,7 @@ abstract class BsDbleSummaryProduct extends Entity with DBableEntity[SummaryProd
      * [get] LATEST_PURCHASE_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'LATEST_PURCHASE_DATETIME'. (NullAllowed even if selected: for no constraint)
      */
-    def getLatestPurchaseDatetime(): java.sql.Timestamp = {
+    def getLatestPurchaseDatetime(): org.joda.time.LocalDateTime = {
         return _latestPurchaseDatetime;
     }
 
@@ -468,7 +468,7 @@ abstract class BsDbleSummaryProduct extends Entity with DBableEntity[SummaryProd
      * [set] LATEST_PURCHASE_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @param latestPurchaseDatetime The value of the column 'LATEST_PURCHASE_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def setLatestPurchaseDatetime(latestPurchaseDatetime: java.sql.Timestamp): Unit = {
+    def setLatestPurchaseDatetime(latestPurchaseDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("latestPurchaseDatetime");
         _latestPurchaseDatetime = latestPurchaseDatetime;
     }

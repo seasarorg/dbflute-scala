@@ -200,12 +200,17 @@ abstract class BsMblePurchaseMaxPriceMember {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    val dble: DblePurchaseMaxPriceMember = new DblePurchaseMaxPriceMember();
+    protected val dble: DblePurchaseMaxPriceMember = new DblePurchaseMaxPriceMember();
 
     // ===================================================================================
     //                                                                      DB-able Entity
     //                                                                      ==============
     def toDBable(): DblePurchaseMaxPriceMember = { dble }
+
+    // ===================================================================================
+    //                                                                    Immutable Entity
+    //                                                                    ================
+    def toImmutable(): PurchaseMaxPriceMember = { dble.toImmutable() }
 
     // ===================================================================================
     //                                                                          Unique Key

@@ -14,6 +14,11 @@ import org.seasar.dbflute.cbean.coption._;
 import org.seasar.dbflute.cbean.cvalue.ConditionValue;
 import org.seasar.dbflute.cbean.sqlclause.SqlClause;
 import org.seasar.dbflute.dbmeta.DBMetaProvider;
+import org.seasar.dbflute.util.DfTypeUtil;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePartial;
 import com.example.dbflute.scala.dbflute.allcommon._;
 import com.example.dbflute.scala.dbflute.cbean._;
 import com.example.dbflute.scala.dbflute.cbean.cq._;
@@ -490,7 +495,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
      * @param purchaseDatetime The value of purchaseDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setPurchaseDatetime_Equal(purchaseDatetime: java.sql.Timestamp): Unit = {
+    def setPurchaseDatetime_Equal(purchaseDatetime: org.joda.time.LocalDateTime): Unit = {
         regPurchaseDatetime(CK_EQ,  purchaseDatetime);
     }
 
@@ -499,7 +504,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
      * @param purchaseDatetime The value of purchaseDatetime as greaterThan. (NullAllowed: if null, no condition)
      */
-    def setPurchaseDatetime_GreaterThan(purchaseDatetime: java.sql.Timestamp): Unit = {
+    def setPurchaseDatetime_GreaterThan(purchaseDatetime: org.joda.time.LocalDateTime): Unit = {
         regPurchaseDatetime(CK_GT,  purchaseDatetime);
     }
 
@@ -508,7 +513,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
      * @param purchaseDatetime The value of purchaseDatetime as lessThan. (NullAllowed: if null, no condition)
      */
-    def setPurchaseDatetime_LessThan(purchaseDatetime: java.sql.Timestamp): Unit = {
+    def setPurchaseDatetime_LessThan(purchaseDatetime: org.joda.time.LocalDateTime): Unit = {
         regPurchaseDatetime(CK_LT,  purchaseDatetime);
     }
 
@@ -517,7 +522,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
      * @param purchaseDatetime The value of purchaseDatetime as greaterEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchaseDatetime_GreaterEqual(purchaseDatetime: java.sql.Timestamp): Unit = {
+    def setPurchaseDatetime_GreaterEqual(purchaseDatetime: org.joda.time.LocalDateTime): Unit = {
         regPurchaseDatetime(CK_GE,  purchaseDatetime);
     }
 
@@ -526,7 +531,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * (購入日時)PURCHASE_DATETIME: {+UQ, IX+, NotNull, TIMESTAMP(23, 10)}
      * @param purchaseDatetime The value of purchaseDatetime as lessEqual. (NullAllowed: if null, no condition)
      */
-    def setPurchaseDatetime_LessEqual(purchaseDatetime: java.sql.Timestamp): Unit = {
+    def setPurchaseDatetime_LessEqual(purchaseDatetime: org.joda.time.LocalDateTime): Unit = {
         regPurchaseDatetime(CK_LE, purchaseDatetime);
     }
 
@@ -540,7 +545,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * @param fromToOption The option of from-to. (NotNull)
      */
     def setPurchaseDatetime_FromTo(fromDatetime: Date, toDatetime: Date)(optionCall: (ScrFromToOption) => Unit): Unit = {
-        regFTQ(if (fromDatetime != null) { new java.sql.Timestamp(fromDatetime.getTime()) } else { null }, if (toDatetime != null) { new java.sql.Timestamp(toDatetime.getTime()) } else { null }, getCValuePurchaseDatetime(), "PURCHASE_DATETIME", callbackFTOP(optionCall));
+        regFTQ(toTimestamp(fromDatetime), toTimestamp(toDatetime), getCValuePurchaseDatetime(), "PURCHASE_DATETIME", callbackFTOP(optionCall));
     }
 
     /**
@@ -901,7 +906,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * REGISTER_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @param registerDatetime The value of registerDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setRegisterDatetime_Equal(registerDatetime: java.sql.Timestamp): Unit = {
+    def setRegisterDatetime_Equal(registerDatetime: org.joda.time.LocalDateTime): Unit = {
         regRegisterDatetime(CK_EQ,  registerDatetime);
     }
 
@@ -929,7 +934,7 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
      * UPDATE_DATETIME: {NotNull, TIMESTAMP(23, 10)}
      * @param updateDatetime The value of updateDatetime as equal. (NullAllowed: if null, no condition)
      */
-    def setUpdateDatetime_Equal(updateDatetime: java.sql.Timestamp): Unit = {
+    def setUpdateDatetime_Equal(updateDatetime: org.joda.time.LocalDateTime): Unit = {
         regUpdateDatetime(CK_EQ,  updateDatetime);
     }
 
@@ -1206,6 +1211,32 @@ abstract class AbstractBsPurchaseCQ(referrerQuery: ConditionQuery, sqlClause: Sq
     def withManualOrder(mobCall: (ScrManualOrderBean) => Unit): Unit = { // is user public!
         assertObjectNotNull("withManualOrder(mobCall)", mobCall);
         xdoWithManualOrder(callbackMOB(mobCall));
+    }
+
+    protected def toUtilDate(date: Object): Date = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new Date(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new Date(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toDate(date);
+    }
+
+    protected def toTimestamp(date: Object): java.sql.Timestamp = {
+        if (date != null && date.isInstanceOf[ReadablePartial]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadablePartial].toDateTime(null).getMillis());
+        } else if (date != null && date.isInstanceOf[ReadableInstant]) {
+            return new java.sql.Timestamp(date.asInstanceOf[ReadableInstant].getMillis());
+        }
+        return DfTypeUtil.toTimestamp(date);
+    }
+
+    override protected def filterFromToRegisteredDate(date: Date, columnDbName: String): Object = {
+        if (date.isInstanceOf[java.sql.Timestamp]) {
+            return LocalDateTime.fromDateFields(date);
+        } else { // basically pure Date
+            return LocalDate.fromDateFields(date);
+        }
     }
 
     // ===================================================================================

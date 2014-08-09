@@ -62,7 +62,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * String withdrawalReasonCode = entity.getWithdrawalReasonCode();
  * String withdrawalReasonText = entity.getWithdrawalReasonText();
  * String withdrawalReasonInputText = entity.getWithdrawalReasonInputText();
- * java.sql.Timestamp withdrawalDatetime = entity.getWithdrawalDatetime();
+ * org.joda.time.LocalDateTime withdrawalDatetime = entity.getWithdrawalDatetime();
  * String memberStatusCode = entity.getMemberStatusCode();
  * String memberStatusName = entity.getMemberStatusName();
  * Integer maxPurchasePrice = entity.getMaxPurchasePrice();
@@ -103,7 +103,7 @@ abstract class BsDbleSummaryWithdrawal extends Entity with DBableEntity[SummaryW
     protected var _withdrawalReasonInputText: String = null;
 
     /** WITHDRAWAL_DATETIME: {TIMESTAMP(23, 10)} */
-    protected var _withdrawalDatetime: java.sql.Timestamp = null;
+    protected var _withdrawalDatetime: org.joda.time.LocalDateTime = null;
 
     /** MEMBER_STATUS_CODE: {CHAR(3)} */
     protected var _memberStatusCode: String = null;
@@ -513,7 +513,7 @@ abstract class BsDbleSummaryWithdrawal extends Entity with DBableEntity[SummaryW
      * [get] WITHDRAWAL_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @return The value of the column 'WITHDRAWAL_DATETIME'. (NullAllowed even if selected: for no constraint)
      */
-    def getWithdrawalDatetime(): java.sql.Timestamp = {
+    def getWithdrawalDatetime(): org.joda.time.LocalDateTime = {
         return _withdrawalDatetime;
     }
 
@@ -521,7 +521,7 @@ abstract class BsDbleSummaryWithdrawal extends Entity with DBableEntity[SummaryW
      * [set] WITHDRAWAL_DATETIME: {TIMESTAMP(23, 10)} <br />
      * @param withdrawalDatetime The value of the column 'WITHDRAWAL_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
-    def setWithdrawalDatetime(withdrawalDatetime: java.sql.Timestamp): Unit = {
+    def setWithdrawalDatetime(withdrawalDatetime: org.joda.time.LocalDateTime): Unit = {
         __modifiedProperties.addPropertyName("withdrawalDatetime");
         _withdrawalDatetime = withdrawalDatetime;
     }
