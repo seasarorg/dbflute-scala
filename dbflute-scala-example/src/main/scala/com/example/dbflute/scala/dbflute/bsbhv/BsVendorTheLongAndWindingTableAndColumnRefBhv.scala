@@ -643,12 +643,12 @@ abstract class BsVendorTheLongAndWindingTableAndColumnRefBhv extends AbstractBeh
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): ScrOutsideSqlBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv] = {
-        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    def outsideSql(): ScrOutsideSqlTypedBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv] = {
+        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
     }
 
-    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv]): ScrOutsideSqlBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv] =
-    { new ScrOutsideSqlBasicExecutor(executor) }
+    protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv]): ScrOutsideSqlTypedBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv] =
+    { new ScrOutsideSqlTypedBasicExecutor(executor) }
 
     // ===================================================================================
     //                                                                     Callback Helper

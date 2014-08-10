@@ -1165,12 +1165,12 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable[DbleMember, MemberCB
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): ScrOutsideSqlBasicExecutor[MemberBhv] = {
-        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    def outsideSql(): ScrOutsideSqlTypedBasicExecutor[MemberBhv] = {
+        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
     }
 
-    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[MemberBhv]): ScrOutsideSqlBasicExecutor[MemberBhv] =
-    { new ScrOutsideSqlBasicExecutor(executor) }
+    protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[MemberBhv]): ScrOutsideSqlTypedBasicExecutor[MemberBhv] =
+    { new ScrOutsideSqlTypedBasicExecutor(executor) }
 
     // ===================================================================================
     //                                                                Optimistic Lock Info

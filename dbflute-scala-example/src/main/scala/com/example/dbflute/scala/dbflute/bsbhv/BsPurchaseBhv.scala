@@ -850,12 +850,12 @@ abstract class BsPurchaseBhv extends AbstractBehaviorWritable[DblePurchase, Purc
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): ScrOutsideSqlBasicExecutor[PurchaseBhv] = {
-        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    def outsideSql(): ScrOutsideSqlTypedBasicExecutor[PurchaseBhv] = {
+        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
     }
 
-    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[PurchaseBhv]): ScrOutsideSqlBasicExecutor[PurchaseBhv] =
-    { new ScrOutsideSqlBasicExecutor(executor) }
+    protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[PurchaseBhv]): ScrOutsideSqlTypedBasicExecutor[PurchaseBhv] =
+    { new ScrOutsideSqlTypedBasicExecutor(executor) }
 
     // ===================================================================================
     //                                                                Optimistic Lock Info

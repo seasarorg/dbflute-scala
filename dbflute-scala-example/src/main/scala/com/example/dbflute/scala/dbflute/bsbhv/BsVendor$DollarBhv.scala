@@ -633,12 +633,12 @@ abstract class BsVendor$DollarBhv extends AbstractBehaviorWritable[DbleVendor$Do
      * </pre>
      * @return The basic executor of outside-SQL. (NotNull)
      */
-    def outsideSql(): ScrOutsideSqlBasicExecutor[Vendor$DollarBhv] = {
-        return toImmutableOutsideSqlBasicExecutor(doOutsideSql());
+    def outsideSql(): ScrOutsideSqlTypedBasicExecutor[Vendor$DollarBhv] = {
+        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
     }
 
-    protected def toImmutableOutsideSqlBasicExecutor(executor: OutsideSqlBasicExecutor[Vendor$DollarBhv]): ScrOutsideSqlBasicExecutor[Vendor$DollarBhv] =
-    { new ScrOutsideSqlBasicExecutor(executor) }
+    protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[Vendor$DollarBhv]): ScrOutsideSqlTypedBasicExecutor[Vendor$DollarBhv] =
+    { new ScrOutsideSqlTypedBasicExecutor(executor) }
 
     // ===================================================================================
     //                                                                     Callback Helper

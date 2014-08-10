@@ -146,25 +146,25 @@ class OnParadeTest extends UnitContainerFunSuite {
       pmb.setMemberName_PrefixSearch("S")
     });
     outsideSimpleList.foreach(f => log(f.memberName, f.birthdate))
-    
-    val outsideSimpleEntity = memberBhv.outsideSql.entityHandling.selectEntity(SimpleMemberPmb { pmb =>
+
+    val outsideSimpleEntity = memberBhv.outsideSql.selectEntity(SimpleMemberPmb { pmb =>
       pmb.setMemberId(3)
     });
     outsideSimpleEntity.foreach(f => log(f.memberName, f.birthdate))
 
-    val outsidePage = memberBhv.outsideSql.paging.selectPage(PurchaseMaxPriceMemberPmb { pmb =>
+    val outsidePage = memberBhv.outsideSql.selectPage(PurchaseMaxPriceMemberPmb { pmb =>
       pmb.paging(3, 2)
       pmb.setMemberNameList_PrefixSearch(Arrays.asList("S", "M"))
     });
     outsidePage.selectedList.foreach(f => log(f.memberName, f.purchaseMaxPrice))
-    
+
     val outsidePageByCursorSkip = memberBhv.outsideSql.pagingByCursorSkip.selectPage(UnpaidSummaryMemberPmb { pmb =>
       pmb.paging(3, 2)
       pmb.setUnpaidMemberOnly(true)
     });
     outsidePageByCursorSkip.selectedList.foreach(f => log(f.memberName, f.memberStatusName))
     
-    memberBhv.outsideSql.cursorHandling.selectCursor { PurchaseSummaryMemberPmb { pmb =>
+    memberBhv.outsideSql.selectCursor { PurchaseSummaryMemberPmb { pmb =>
       pmb.setMemberStatusCode_Formalized
     }} { PurchaseSummaryMemberCursorHandler { cursor =>
       while (cursor.next) {
