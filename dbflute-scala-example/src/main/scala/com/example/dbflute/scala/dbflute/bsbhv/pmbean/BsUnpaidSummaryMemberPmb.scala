@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv.pmbean;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util._;
@@ -138,6 +139,14 @@ abstract class CponUnpaidSummaryMemberPmb {
         return "byte[" + (if (bytes != null) { String.valueOf(bytes.length) } else { "null" }) + "]";
     }
 
+    protected def toBindingType[PROP](obj: Any): PROP = { // except from-to Date
+        return if (obj.isInstanceOf[immutable.List[_]]) {
+            obj.asInstanceOf[immutable.List[_]].asJava.asInstanceOf[PROP]
+        } else {
+            obj.asInstanceOf[PROP]
+        }
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
@@ -178,7 +187,7 @@ abstract class CponUnpaidSummaryMemberPmb {
      * @param memberId The value of memberId. (NullAllowed)
      */
     def setMemberId(memberId: Integer): Unit = {
-        _memberId = memberId;
+        _memberId = toBindingType(memberId);
     }
 
     /**
@@ -194,7 +203,7 @@ abstract class CponUnpaidSummaryMemberPmb {
      * @param memberName The value of memberName. (NullAllowed)
      */
     def setMemberName(memberName: String): Unit = {
-        _memberName = memberName;
+        _memberName = toBindingType(memberName);
     }
 
     /**
@@ -242,6 +251,6 @@ abstract class CponUnpaidSummaryMemberPmb {
      * @param unpaidMemberOnly The value of unpaidMemberOnly. (NullAllowed)
      */
     def setUnpaidMemberOnly(unpaidMemberOnly: Boolean): Unit = {
-        _unpaidMemberOnly = unpaidMemberOnly;
+        _unpaidMemberOnly = toBindingType(unpaidMemberOnly);
     }
 }

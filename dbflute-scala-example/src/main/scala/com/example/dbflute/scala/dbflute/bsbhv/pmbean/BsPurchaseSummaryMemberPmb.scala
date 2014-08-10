@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv.pmbean;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util._;
@@ -142,6 +143,14 @@ abstract class CponPurchaseSummaryMemberPmb {
         return "byte[" + (if (bytes != null) { String.valueOf(bytes.length) } else { "null" }) + "]";
     }
 
+    protected def toBindingType[PROP](obj: Any): PROP = { // except from-to Date
+        return if (obj.isInstanceOf[immutable.List[_]]) {
+            obj.asInstanceOf[immutable.List[_]].asJava.asInstanceOf[PROP]
+        } else {
+            obj.asInstanceOf[PROP]
+        }
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
@@ -212,6 +221,6 @@ abstract class CponPurchaseSummaryMemberPmb {
      * @param formalizedDatetime The value of formalizedDatetime. (NullAllowed)
      */
     def setFormalizedDatetime(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
-        _formalizedDatetime = formalizedDatetime;
+        _formalizedDatetime = toBindingType(formalizedDatetime);
     }
 }

@@ -6,8 +6,8 @@
 -- !!String memberAccount:like!!
 -- !!Date fromFormalizedDate:fromDate!!
 -- !!Date toFormalizedDate:toDate!!
--- !!Date fromFormalizedOptionDate:fromDate(option)!!
--- !!Date toFormalizedOptionDate:toDate(option)!!
+-- !!Timestamp fromFormalizedOptionDate:fromDate(option)!!
+-- !!Timestamp toFormalizedOptionDate:toDate(option)!!
 -- !!String memberStatusCode:cls(MemberStatus)!!
 -- !!Integer displayOrder:ref(MemberStatus)!!
 -- !!Date birthdate:fromDate|ref(Member)!!

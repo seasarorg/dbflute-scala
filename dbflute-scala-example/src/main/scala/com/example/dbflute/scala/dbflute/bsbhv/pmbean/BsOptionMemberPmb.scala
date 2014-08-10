@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv.pmbean;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util._;
@@ -63,10 +64,10 @@ abstract class CponOptionMemberPmb {
     protected var _toFormalizedDate: org.joda.time.LocalDate = null;
 
     /** The parameter of fromFormalizedOptionDate:fromDate(option). */
-    protected var _fromFormalizedOptionDate: org.joda.time.LocalDate = null;
+    protected var _fromFormalizedOptionDate: org.joda.time.LocalDateTime = null;
 
     /** The parameter of toFormalizedOptionDate:toDate(option). */
-    protected var _toFormalizedOptionDate: org.joda.time.LocalDate = null;
+    protected var _toFormalizedOptionDate: org.joda.time.LocalDateTime = null;
 
     /** The parameter of memberStatusCode:cls(MemberStatus). */
     protected var _memberStatusCode: String = null;
@@ -205,6 +206,14 @@ abstract class CponOptionMemberPmb {
     { val op = createFromToOption(); optionCall(op); return op; }
     protected def createFromToOption(): ScrFromToOption = { new ScrFromToOption() }
 
+    protected def toBindingType[PROP](obj: Any): PROP = { // except from-to Date
+        return if (obj.isInstanceOf[immutable.List[_]]) {
+            obj.asInstanceOf[immutable.List[_]].asJava.asInstanceOf[PROP]
+        } else {
+            obj.asInstanceOf[PROP]
+        }
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
@@ -252,7 +261,7 @@ abstract class CponOptionMemberPmb {
      * @param memberId The value of memberId. (NullAllowed)
      */
     def setMemberId(memberId: Integer): Unit = {
-        _memberId = memberId;
+        _memberId = toBindingType(memberId);
     }
 
     /**
@@ -268,7 +277,7 @@ abstract class CponOptionMemberPmb {
      * @param memberName The value of memberName. (NullAllowed)
      */
     def setMemberName_PrefixSearch(memberName: String): Unit = {
-        _memberName = memberName;
+        _memberName = toBindingType(memberName);
         _memberNameInternalLikeSearchOption = createLikeSearchOption().likePrefix();
     }
 
@@ -296,7 +305,7 @@ abstract class CponOptionMemberPmb {
     def setMemberAccount(memberAccount: String)(optionCall: (ScrLikeSearchOption) => Unit): Unit = {
         val option = callbackLSOP(optionCall);
         assertLikeSearchOptionValid("option for memberAccount", option);
-        _memberAccount = memberAccount;
+        _memberAccount = toBindingType(memberAccount);
         _memberAccountInternalLikeSearchOption = option;
     }
 
@@ -344,7 +353,7 @@ abstract class CponOptionMemberPmb {
      * [get] fromFormalizedOptionDate:fromDate(option) <br />
      * @return The value of fromFormalizedOptionDate. (Nullable, NotEmptyString(when String): if empty string, returns null)
      */
-    def getFromFormalizedOptionDate(): org.joda.time.LocalDate = {
+    def getFromFormalizedOptionDate(): org.joda.time.LocalDateTime = {
         return _fromFormalizedOptionDate;
     }
 
@@ -353,17 +362,17 @@ abstract class CponOptionMemberPmb {
      * @param fromFormalizedOptionDate The value of fromFormalizedOptionDate. (NullAllowed)
      * @param optionCall The callback for option of from-to scope for fromFormalizedOptionDate. (NotNull)
      */
-    def setFromFormalizedOptionDate_FromDate(fromFormalizedOptionDate: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setFromFormalizedOptionDate_FromDate(fromFormalizedOptionDate: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         val option = callbackFTOP(optionCall);
         assertFromToOptionValid("option for fromFormalizedOptionDate", option);
-        _fromFormalizedOptionDate = toLocalDate(option.filterFromDate(toUtilDate(fromFormalizedOptionDate)), classOf[org.joda.time.LocalDate]);
+        _fromFormalizedOptionDate = toLocalDate(option.filterFromDate(toUtilDate(fromFormalizedOptionDate)), classOf[org.joda.time.LocalDateTime]);
     }
 
     /**
      * [get] toFormalizedOptionDate:toDate(option) <br />
      * @return The value of toFormalizedOptionDate. (Nullable, NotEmptyString(when String): if empty string, returns null)
      */
-    def getToFormalizedOptionDate(): org.joda.time.LocalDate = {
+    def getToFormalizedOptionDate(): org.joda.time.LocalDateTime = {
         return _toFormalizedOptionDate;
     }
 
@@ -372,10 +381,10 @@ abstract class CponOptionMemberPmb {
      * @param toFormalizedOptionDate The value of toFormalizedOptionDate. (NullAllowed)
      * @param optionCall The callback for option of from-to scope for toFormalizedOptionDate. (NotNull)
      */
-    def setToFormalizedOptionDate_ToDate(toFormalizedOptionDate: org.joda.time.LocalDate)(optionCall: (ScrFromToOption) => Unit): Unit = {
+    def setToFormalizedOptionDate_ToDate(toFormalizedOptionDate: org.joda.time.LocalDateTime)(optionCall: (ScrFromToOption) => Unit): Unit = {
         val option = callbackFTOP(optionCall);
         assertFromToOptionValid("option for toFormalizedOptionDate", option);
-        _toFormalizedOptionDate = toLocalDate(option.filterToDate(toUtilDate(toFormalizedOptionDate)), classOf[org.joda.time.LocalDate]);
+        _toFormalizedOptionDate = toLocalDate(option.filterToDate(toUtilDate(toFormalizedOptionDate)), classOf[org.joda.time.LocalDateTime]);
     }
 
     /**
@@ -423,7 +432,7 @@ abstract class CponOptionMemberPmb {
      * @param displayOrder The value of displayOrder. (NullAllowed)
      */
     def setDisplayOrder(displayOrder: Integer): Unit = {
-        _displayOrder = displayOrder;
+        _displayOrder = toBindingType(displayOrder);
     }
 
     /**

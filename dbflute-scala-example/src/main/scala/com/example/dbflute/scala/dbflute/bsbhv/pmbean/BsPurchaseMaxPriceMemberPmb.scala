@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv.pmbean;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util._;
@@ -156,6 +157,14 @@ abstract class CponPurchaseMaxPriceMemberPmb {
     { val op = createLikeSearchOption(); optionCall(op); return op; }
     protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
+    protected def toBindingType[PROP](obj: Any): PROP = { // except from-to Date
+        return if (obj.isInstanceOf[immutable.List[_]]) {
+            obj.asInstanceOf[immutable.List[_]].asJava.asInstanceOf[PROP]
+        } else {
+            obj.asInstanceOf[PROP]
+        }
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
@@ -195,7 +204,7 @@ abstract class CponPurchaseMaxPriceMemberPmb {
      * @param memberId The value of memberId. (NullAllowed)
      */
     def setMemberId(memberId: Integer): Unit = {
-        _memberId = memberId;
+        _memberId = toBindingType(memberId);
     }
 
     /**
@@ -210,8 +219,8 @@ abstract class CponPurchaseMaxPriceMemberPmb {
      * [set as prefixSearch] memberNameList:likePrefix <br />
      * @param memberNameList The value of memberNameList. (NullAllowed)
      */
-    def setMemberNameList_PrefixSearch(memberNameList: List[String]): Unit = {
-        _memberNameList = memberNameList;
+    def setMemberNameList_PrefixSearch(memberNameList: immutable.List[String]): Unit = {
+        _memberNameList = toBindingType(memberNameList);
         _memberNameListInternalLikeSearchOption = createLikeSearchOption().likePrefix();
     }
 

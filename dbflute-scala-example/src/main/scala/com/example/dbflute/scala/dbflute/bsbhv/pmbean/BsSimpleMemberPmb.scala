@@ -1,5 +1,6 @@
 package com.example.dbflute.scala.dbflute.bsbhv.pmbean;
 
+import scala.collection.immutable;
 import scala.collection.JavaConverters._;
 
 import java.util._;
@@ -166,6 +167,14 @@ abstract class CponSimpleMemberPmb {
     { val op = createLikeSearchOption(); optionCall(op); return op; }
     protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
 
+    protected def toBindingType[PROP](obj: Any): PROP = { // except from-to Date
+        return if (obj.isInstanceOf[immutable.List[_]]) {
+            obj.asInstanceOf[immutable.List[_]].asJava.asInstanceOf[PROP]
+        } else {
+            obj.asInstanceOf[PROP]
+        }
+    }
+
     // ===================================================================================
     //                                                                      Basic Override
     //                                                                      ==============
@@ -205,7 +214,7 @@ abstract class CponSimpleMemberPmb {
      * @param memberId The value of memberId. (NullAllowed)
      */
     def setMemberId(memberId: Integer): Unit = {
-        _memberId = memberId;
+        _memberId = toBindingType(memberId);
     }
 
     /**
@@ -221,7 +230,7 @@ abstract class CponSimpleMemberPmb {
      * @param memberName The value of memberName. (NullAllowed)
      */
     def setMemberName_PrefixSearch(memberName: String): Unit = {
-        _memberName = memberName;
+        _memberName = toBindingType(memberName);
         _memberNameInternalLikeSearchOption = createLikeSearchOption().likePrefix();
     }
 
@@ -246,6 +255,6 @@ abstract class CponSimpleMemberPmb {
      * @param birthdate The value of birthdate. (NullAllowed)
      */
     def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
-        _birthdate = birthdate;
+        _birthdate = toBindingType(birthdate);
     }
 }

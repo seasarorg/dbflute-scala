@@ -20,6 +20,7 @@ import com.example.dbflute.scala.dbflute.exbhv.cursor.PurchaseSummaryMemberCurso
 import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseMaxPriceMemberPmb
 import java.util.Arrays
 import com.example.dbflute.scala.dbflute.exbhv.pmbean.UnpaidSummaryMemberPmb
+import scala.collection.immutable.List
 
 /**
  * @author jflute
@@ -154,7 +155,7 @@ class OnParadeTest extends UnitContainerFunSuite {
 
     val outsidePage = memberBhv.outsideSql.selectPage(PurchaseMaxPriceMemberPmb { pmb =>
       pmb.paging(3, 2)
-      pmb.setMemberNameList_PrefixSearch(Arrays.asList("S", "M"))
+      pmb.setMemberNameList_PrefixSearch(List("S", "M"))
     });
     outsidePage.selectedList.foreach(f => log(f.memberName, f.purchaseMaxPrice))
 
@@ -171,10 +172,10 @@ class OnParadeTest extends UnitContainerFunSuite {
     	log(cursor.memberName, cursor.birthdate)
       }
     }}
-    
+
     val outsideOptionList = memberBhv.outsideSql.selectList(OptionMemberPmb { pmb =>
       pmb.setMemberName_PrefixSearch("S")
-      pmb.setFromFormalizedOptionDate_FromDate(currentLocalDate)(_.compareAsDate())
+      pmb.setFromFormalizedOptionDate_FromDate(currentLocalDateTime)(_.compareAsDate())
       pmb.setMemberStatusCode_Formalized
       pmb.setToFormalizedDate_ToDate(currentLocalDate)
     });
