@@ -1,39 +1,60 @@
--- #UnpaidSummaryMember#
+/*
+ [df:title]
+ Example for AutoPaging
+ 
+ [df:description]
+ This SQL is an example for auto-paging of outside-SQL
+ and also for the following functions:
+  o auto-detection for parameter-bean's properties
+  o primary key setting for LoadReferrer
+*/
+-- #df:entity#
+-- *UNPAID_MAN_ID*
 
--- !UnpaidSummaryMemberPmb extends SPB!
--- !!Integer memberId!!
--- !!String memberName!!
--- !!String memberStatusCode:cls(MemberStatus)!!
--- !!boolean unpaidMemberOnly!!
+-- !df:pmb extends Paging!
+-- !!AutoDetect!!
 
 /*IF pmb.isPaging()*/
-select member.MEMBER_ID
-     , member.MEMBER_NAME
-     , (select sum(purchase.PURCHASE_PRICE)
-          from PURCHASE purchase
-         where purchase.MEMBER_ID = member.MEMBER_ID
-           and purchase.PAYMENT_COMPLETE_FLG = 0
+select mb.MEMBER_ID as UNPAID_MAN_ID
+     , mb.MEMBER_NAME as UNPAID_MAN_NAME
+     , (select sum(purc.PURCHASE_PRICE)
+          from PURCHASE purc
+         where purc.MEMBER_ID = mb.MEMBER_ID
+           and purc.PAYMENT_COMPLETE_FLG = 0
        ) as UNPAID_PRICE_SUMMARY
-     , memberStatus.MEMBER_STATUS_NAME
+     , stat.MEMBER_STATUS_NAME as STATUS_NAME
 -- ELSE select count(*)
 /*END*/
-  from MEMBER member
+  from MEMBER mb
     /*IF pmb.isPaging()*/
-    left outer join MEMBER_STATUS memberStatus
-      on member.MEMBER_STATUS_CODE = memberStatus.MEMBER_STATUS_CODE
+    left outer join MEMBER_STATUS stat
+      on mb.MEMBER_STATUS_CODE = stat.MEMBER_STATUS_CODE
     /*END*/
  /*BEGIN*/where
-   /*IF pmb.memberId != null*/member.MEMBER_ID = /*pmb.memberId*/3/*END*/
-   /*IF pmb.memberName != null*/and member.MEMBER_NAME like /*pmb.memberName*/'ス' || '%'/*END*/
-   /*IF pmb.memberStatusCode != null*/and member.MEMBER_STATUS_CODE = /*pmb.memberStatusCode*/'FML'/*END*/
+   /*IF pmb.memberId != null*/
+   mb.MEMBER_ID = /*pmb.memberId*/3
+   /*END*/
+   /*IF pmb.memberName != null*/
+   and mb.MEMBER_NAME like /*pmb.memberName*/'S%'
+   /*END*/
+   /*IF pmb.memberStatusCode != null*/
+   and mb.MEMBER_STATUS_CODE = /*pmb.memberStatusCode:ref(MEMBER)*/'FML'
+   /*END*/
    /*IF pmb.unpaidMemberOnly*/
    and exists (select 'yes'
                  from PURCHASE purchase
-                where purchase.MEMBER_ID = member.MEMBER_ID
+                where purchase.MEMBER_ID = mb.MEMBER_ID
                   and purchase.PAYMENT_COMPLETE_FLG = 0
+                  /*IF pmb.unpaidSmallPaymentAmount != null*/
+                  and not exists (select 'yes-yes'
+                                    from PURCHASE_PAYMENT payment
+                                   where payment.PURCHASE_ID = purchase.PURCHASE_ID
+                                     and payment.PAYMENT_AMOUNT <= /*pmb.unpaidSmallPaymentAmount*/2.3
+                      )
+                  /*END*/
        )
    /*END*/
  /*END*/
  /*IF pmb.isPaging()*/
- order by UNPAID_PRICE_SUMMARY desc, member.MEMBER_ID asc
+ order by UNPAID_PRICE_SUMMARY desc, mb.MEMBER_ID asc
  /*END*/

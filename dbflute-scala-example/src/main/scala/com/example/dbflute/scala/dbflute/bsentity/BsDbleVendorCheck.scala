@@ -238,14 +238,14 @@ abstract class BsDbleVendorCheck extends Entity with DBableEntity[VendorCheck] w
         setTypeOfText(immu.typeOfText.orNull);
         setTypeOfNumericInteger(immu.typeOfNumericInteger.map(int2Integer(_)).orNull);
         setTypeOfNumericBigint(immu.typeOfNumericBigint.map(long2Long(_)).orNull);
-        setTypeOfNumericDecimal(immu.typeOfNumericDecimal.orNull.asInstanceOf[java.math.BigDecimal]);
+        setTypeOfNumericDecimal(immu.typeOfNumericDecimal.orNull.underlying);
         setTypeOfNumericIntegerMin(immu.typeOfNumericIntegerMin.map(int2Integer(_)).orNull);
         setTypeOfNumericIntegerMax(immu.typeOfNumericIntegerMax.map(int2Integer(_)).orNull);
         setTypeOfNumericBigintMin(immu.typeOfNumericBigintMin.map(long2Long(_)).orNull);
         setTypeOfNumericBigintMax(immu.typeOfNumericBigintMax.map(long2Long(_)).orNull);
-        setTypeOfNumericSuperintMin(immu.typeOfNumericSuperintMin.orNull.asInstanceOf[java.math.BigDecimal]);
-        setTypeOfNumericSuperintMax(immu.typeOfNumericSuperintMax.orNull.asInstanceOf[java.math.BigDecimal]);
-        setTypeOfNumericMaxdecimal(immu.typeOfNumericMaxdecimal.orNull.asInstanceOf[java.math.BigDecimal]);
+        setTypeOfNumericSuperintMin(immu.typeOfNumericSuperintMin.orNull.underlying);
+        setTypeOfNumericSuperintMax(immu.typeOfNumericSuperintMax.orNull.underlying);
+        setTypeOfNumericMaxdecimal(immu.typeOfNumericMaxdecimal.orNull.underlying);
         setTypeOfInteger(immu.typeOfInteger.map(int2Integer(_)).orNull);
         setTypeOfBigint(immu.typeOfBigint.map(long2Long(_)).orNull);
         setTypeOfDate(immu.typeOfDate.orNull);

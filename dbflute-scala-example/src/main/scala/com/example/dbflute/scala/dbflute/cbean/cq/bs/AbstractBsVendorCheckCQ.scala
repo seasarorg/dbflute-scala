@@ -722,7 +722,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as equal. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericDecimal_Equal(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericDecimal_Equal(typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericDecimal_Equal(typeOfNumericDecimal.underlying);
     }
 
     protected def doSetTypeOfNumericDecimal_Equal(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
@@ -735,7 +735,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as notEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal.underlying);
     }
 
     protected def doSetTypeOfNumericDecimal_NotEqual(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
@@ -748,7 +748,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as greaterThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericDecimal_GreaterThan(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_GT, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericDecimal(CK_GT, typeOfNumericDecimal.underlying);
     }
 
     /**
@@ -757,7 +757,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as lessThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericDecimal_LessThan(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_LT, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericDecimal(CK_LT, typeOfNumericDecimal.underlying);
     }
 
     /**
@@ -766,7 +766,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericDecimal_GreaterEqual(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_GE, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericDecimal(CK_GE, typeOfNumericDecimal.underlying);
     }
 
     /**
@@ -775,7 +775,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericDecimal The value of typeOfNumericDecimal as lessEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericDecimal_LessEqual(typeOfNumericDecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericDecimal(CK_LE, typeOfNumericDecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericDecimal(CK_LE, typeOfNumericDecimal.underlying);
     }
 
     /**
@@ -1302,7 +1302,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as equal. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin.underlying);
     }
 
     protected def doSetTypeOfNumericSuperintMin_Equal(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
@@ -1315,7 +1315,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as notEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin.underlying);
     }
 
     protected def doSetTypeOfNumericSuperintMin_NotEqual(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
@@ -1328,7 +1328,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as greaterThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMin_GreaterThan(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_GT, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMin(CK_GT, typeOfNumericSuperintMin.underlying);
     }
 
     /**
@@ -1337,7 +1337,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as lessThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMin_LessThan(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_LT, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMin(CK_LT, typeOfNumericSuperintMin.underlying);
     }
 
     /**
@@ -1346,7 +1346,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMin_GreaterEqual(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_GE, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMin(CK_GE, typeOfNumericSuperintMin.underlying);
     }
 
     /**
@@ -1355,7 +1355,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMin The value of typeOfNumericSuperintMin as lessEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMin_LessEqual(typeOfNumericSuperintMin: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMin(CK_LE, typeOfNumericSuperintMin.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMin(CK_LE, typeOfNumericSuperintMin.underlying);
     }
 
     /**
@@ -1418,7 +1418,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as equal. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax.underlying);
     }
 
     protected def doSetTypeOfNumericSuperintMax_Equal(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
@@ -1431,7 +1431,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as notEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax.underlying);
     }
 
     protected def doSetTypeOfNumericSuperintMax_NotEqual(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
@@ -1444,7 +1444,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as greaterThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMax_GreaterThan(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_GT, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMax(CK_GT, typeOfNumericSuperintMax.underlying);
     }
 
     /**
@@ -1453,7 +1453,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as lessThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMax_LessThan(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_LT, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMax(CK_LT, typeOfNumericSuperintMax.underlying);
     }
 
     /**
@@ -1462,7 +1462,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMax_GreaterEqual(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_GE, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMax(CK_GE, typeOfNumericSuperintMax.underlying);
     }
 
     /**
@@ -1471,7 +1471,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericSuperintMax The value of typeOfNumericSuperintMax as lessEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericSuperintMax_LessEqual(typeOfNumericSuperintMax: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericSuperintMax(CK_LE, typeOfNumericSuperintMax.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericSuperintMax(CK_LE, typeOfNumericSuperintMax.underlying);
     }
 
     /**
@@ -1534,7 +1534,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as equal. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal.underlying);
     }
 
     protected def doSetTypeOfNumericMaxdecimal_Equal(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
@@ -1547,7 +1547,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as notEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
-        doSetTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
+        doSetTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal.underlying);
     }
 
     protected def doSetTypeOfNumericMaxdecimal_NotEqual(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
@@ -1560,7 +1560,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as greaterThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericMaxdecimal_GreaterThan(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_GT, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericMaxdecimal(CK_GT, typeOfNumericMaxdecimal.underlying);
     }
 
     /**
@@ -1569,7 +1569,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as lessThan. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericMaxdecimal_LessThan(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_LT, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericMaxdecimal(CK_LT, typeOfNumericMaxdecimal.underlying);
     }
 
     /**
@@ -1578,7 +1578,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericMaxdecimal_GreaterEqual(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_GE, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericMaxdecimal(CK_GE, typeOfNumericMaxdecimal.underlying);
     }
 
     /**
@@ -1587,7 +1587,7 @@ abstract class AbstractBsVendorCheckCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param typeOfNumericMaxdecimal The value of typeOfNumericMaxdecimal as lessEqual. (NullAllowed: if null, no condition)
      */
     def setTypeOfNumericMaxdecimal_LessEqual(typeOfNumericMaxdecimal: scala.math.BigDecimal): Unit = {
-        regTypeOfNumericMaxdecimal(CK_LE, typeOfNumericMaxdecimal.asInstanceOf[java.math.BigDecimal]);
+        regTypeOfNumericMaxdecimal(CK_LE, typeOfNumericMaxdecimal.underlying);
     }
 
     /**

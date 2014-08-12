@@ -40,26 +40,26 @@ object UnpaidSummaryMemberDbm extends AbstractDBMeta {
     //                                       ---------------
     protected val _epgMap: Map[String, PropertyGateway] = newHashMap();
     {
-        setupEpg(_epgMap, new EpgMemberId(), "memberId");
-        setupEpg(_epgMap, new EpgMemberName(), "memberName");
+        setupEpg(_epgMap, new EpgUnpaidManId(), "unpaidManId");
+        setupEpg(_epgMap, new EpgUnpaidManName(), "unpaidManName");
         setupEpg(_epgMap, new EpgUnpaidPriceSummary(), "unpaidPriceSummary");
-        setupEpg(_epgMap, new EpgMemberStatusName(), "memberStatusName");
+        setupEpg(_epgMap, new EpgStatusName(), "statusName");
     }
-    class EpgMemberId extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleUnpaidSummaryMember].getMemberId(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleUnpaidSummaryMember].setMemberId(dgcti(vl)); }
+    class EpgUnpaidManId extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleUnpaidSummaryMember].getUnpaidManId(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleUnpaidSummaryMember].setUnpaidManId(dgcti(vl)); }
     }
-    class EpgMemberName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleUnpaidSummaryMember].getMemberName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleUnpaidSummaryMember].setMemberName(vl.asInstanceOf[String]); }
+    class EpgUnpaidManName extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleUnpaidSummaryMember].getUnpaidManName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleUnpaidSummaryMember].setUnpaidManName(vl.asInstanceOf[String]); }
     }
     class EpgUnpaidPriceSummary extends PropertyGateway {
         def read(et: Entity): Object = { return et.asInstanceOf[DbleUnpaidSummaryMember].getUnpaidPriceSummary(); }
         def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleUnpaidSummaryMember].setUnpaidPriceSummary(dgctl(vl)); }
     }
-    class EpgMemberStatusName extends PropertyGateway {
-        def read(et: Entity): Object = { return et.asInstanceOf[DbleUnpaidSummaryMember].getMemberStatusName(); }
-        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleUnpaidSummaryMember].setMemberStatusName(vl.asInstanceOf[String]); }
+    class EpgStatusName extends PropertyGateway {
+        def read(et: Entity): Object = { return et.asInstanceOf[DbleUnpaidSummaryMember].getStatusName(); }
+        def write(et: Entity, vl: Object): Unit = { et.asInstanceOf[DbleUnpaidSummaryMember].setStatusName(vl.asInstanceOf[String]); }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
@@ -84,22 +84,22 @@ object UnpaidSummaryMemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
-    protected val _columnMemberName: ColumnInfo = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", classOf[String], "memberName", null, false, false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
+    protected val _columnUnpaidManId: ColumnInfo = cci("UNPAID_MAN_ID", "UNPAID_MAN_ID", null, "会員ID", classOf[Integer], "unpaidManId", null, true, false, false, "INTEGER", 10, 0, null, false, null, null, null, null, null);
+    protected val _columnUnpaidManName: ColumnInfo = cci("UNPAID_MAN_NAME", "UNPAID_MAN_NAME", null, "会員名称", classOf[String], "unpaidManName", null, false, false, false, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnUnpaidPriceSummary: ColumnInfo = cci("UNPAID_PRICE_SUMMARY", "UNPAID_PRICE_SUMMARY", null, null, classOf[Long], "unpaidPriceSummary", null, false, false, false, "BIGINT", 10, 0, null, false, null, null, null, null, null);
-    protected val _columnMemberStatusName: ColumnInfo = cci("MEMBER_STATUS_NAME", "MEMBER_STATUS_NAME", null, "会員ステータス名称", classOf[String], "memberStatusName", null, false, false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
+    protected val _columnStatusName: ColumnInfo = cci("STATUS_NAME", "STATUS_NAME", null, "会員ステータス名称", classOf[String], "statusName", null, false, false, false, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
 
-    def columnMemberId(): ColumnInfo = { return _columnMemberId; }
-    def columnMemberName(): ColumnInfo = { return _columnMemberName; }
+    def columnUnpaidManId(): ColumnInfo = { return _columnUnpaidManId; }
+    def columnUnpaidManName(): ColumnInfo = { return _columnUnpaidManName; }
     def columnUnpaidPriceSummary(): ColumnInfo = { return _columnUnpaidPriceSummary; }
-    def columnMemberStatusName(): ColumnInfo = { return _columnMemberStatusName; }
+    def columnStatusName(): ColumnInfo = { return _columnStatusName; }
 
     protected def ccil(): List[ColumnInfo] = {
         val ls: List[ColumnInfo] = newArrayList();
-        ls.add(columnMemberId());
-        ls.add(columnMemberName());
+        ls.add(columnUnpaidManId());
+        ls.add(columnUnpaidManName());
         ls.add(columnUnpaidPriceSummary());
-        ls.add(columnMemberStatusName());
+        ls.add(columnStatusName());
         return ls;
     }
 
@@ -111,10 +111,8 @@ object UnpaidSummaryMemberDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected def cpui(): UniqueInfo = {
-        throw new UnsupportedOperationException("The table does not have primary key: " + getTableDbName());
-    }
-    def hasPrimaryKey(): scala.Boolean = { return false; }
+    protected def cpui(): UniqueInfo = { return hpcpui(columnUnpaidManId()); }
+    def hasPrimaryKey(): scala.Boolean = { return true; }
     def hasCompoundPrimaryKey(): scala.Boolean = { return false; }
 
     // ===================================================================================

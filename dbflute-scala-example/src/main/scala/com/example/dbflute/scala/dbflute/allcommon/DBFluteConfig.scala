@@ -120,6 +120,9 @@ object DBFluteConfig {
         _logTimestampFormat = "timestamp $df:{" + DisplaySqlBuilder.DEFAULT_TIMESTAMP_FORMAT + "}";
     }
 
+    // for Scala type mapping (e.g. ParameterBean)
+    TnValueTypes.registerBasicValueType(currentDBDef(), classOf[scala.math.BigDecimal], new ScalaBigDecimalType());
+
     // uses JodaTime
     TnValueTypes.registerBasicValueType(currentDBDef(), classOf[LocalDate], new JodaLocalDateType());
     TnValueTypes.registerBasicValueType(currentDBDef(), classOf[LocalDateTime], new JodaLocalDateTimeType());
@@ -847,8 +850,57 @@ object DBFluteConfig {
     }
 
     // ===================================================================================
-    //                                                                      JodaTime Class
-    //                                                                      ==============
+    //                                                                          Scala Type
+    //                                                                          ==========
+    class ScalaBigDecimalType extends TnAbstractValueType(Types.DECIMAL) {
+
+        def getValue(rs: ResultSet, index: Int): Object = {
+            return toScalaBigDecimal(rs.getBigDecimal(index));
+        }
+
+        def getValue(rs: ResultSet, columnName: String ): Object = {
+            return toScalaBigDecimal(rs.getBigDecimal(columnName));
+        }
+
+        def getValue(cs: CallableStatement, index: Int): Object = {
+            return toScalaBigDecimal(cs.getBigDecimal(index));
+        }
+
+        def getValue(cs: CallableStatement, parameterName: String): Object = {
+            return toScalaBigDecimal(cs.getBigDecimal(parameterName));
+        }
+
+        def bindValue(conn: Connection, ps: PreparedStatement, index: Int, value: Object): Unit = {
+            if (value == null) {
+                setNull(ps, index);
+            } else {
+                ps.setBigDecimal(index, toJavaBigDecimal(value));
+            }
+        }
+
+        def bindValue(conn: Connection, cs: CallableStatement, parameterName: String, value: Object): Unit = {
+            if (value == null) {
+                setNull(cs, parameterName);
+            } else {
+                cs.setBigDecimal(parameterName, toJavaBigDecimal(value));
+            }
+        }
+
+        protected def toScalaBigDecimal(decimal: java.math.BigDecimal): scala.math.BigDecimal = {
+            return if (decimal != null) { scala.math.BigDecimal(decimal) } else { null };
+        }
+
+        protected def toJavaBigDecimal(decimal: Object): java.math.BigDecimal = {
+            if (decimal != null && decimal.isInstanceOf[scala.math.BigDecimal]) {
+                return decimal.asInstanceOf[scala.math.BigDecimal].underlying;
+            }
+            return DfTypeUtil.toBigDecimal(decimal);
+        }
+    }
+
+    // ===================================================================================
+    //                                                                       JodaTime Type
+    //                                                                       =============
     class JodaLocalDateType extends TnAbstractValueType(Types.DATE) {
 
         def getValue(rs: ResultSet, index: Int): Object = {

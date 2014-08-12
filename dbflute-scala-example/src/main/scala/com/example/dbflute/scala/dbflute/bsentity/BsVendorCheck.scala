@@ -120,14 +120,14 @@ abstract class BsVendorCheck(dble: DbleVendorCheck) extends Serializable {
         if (!typeOfText.equals(this.typeOfText)) { newDble.setTypeOfText(typeOfText.orNull) }
         if (!typeOfNumericInteger.equals(this.typeOfNumericInteger)) { newDble.setTypeOfNumericInteger(typeOfNumericInteger.map(int2Integer(_)).orNull) }
         if (!typeOfNumericBigint.equals(this.typeOfNumericBigint)) { newDble.setTypeOfNumericBigint(typeOfNumericBigint.map(long2Long(_)).orNull) }
-        if (!typeOfNumericDecimal.equals(this.typeOfNumericDecimal)) { newDble.setTypeOfNumericDecimal(typeOfNumericDecimal.orNull.asInstanceOf[java.math.BigDecimal]) }
+        if (!typeOfNumericDecimal.equals(this.typeOfNumericDecimal)) { newDble.setTypeOfNumericDecimal(typeOfNumericDecimal.orNull.underlying) }
         if (!typeOfNumericIntegerMin.equals(this.typeOfNumericIntegerMin)) { newDble.setTypeOfNumericIntegerMin(typeOfNumericIntegerMin.map(int2Integer(_)).orNull) }
         if (!typeOfNumericIntegerMax.equals(this.typeOfNumericIntegerMax)) { newDble.setTypeOfNumericIntegerMax(typeOfNumericIntegerMax.map(int2Integer(_)).orNull) }
         if (!typeOfNumericBigintMin.equals(this.typeOfNumericBigintMin)) { newDble.setTypeOfNumericBigintMin(typeOfNumericBigintMin.map(long2Long(_)).orNull) }
         if (!typeOfNumericBigintMax.equals(this.typeOfNumericBigintMax)) { newDble.setTypeOfNumericBigintMax(typeOfNumericBigintMax.map(long2Long(_)).orNull) }
-        if (!typeOfNumericSuperintMin.equals(this.typeOfNumericSuperintMin)) { newDble.setTypeOfNumericSuperintMin(typeOfNumericSuperintMin.orNull.asInstanceOf[java.math.BigDecimal]) }
-        if (!typeOfNumericSuperintMax.equals(this.typeOfNumericSuperintMax)) { newDble.setTypeOfNumericSuperintMax(typeOfNumericSuperintMax.orNull.asInstanceOf[java.math.BigDecimal]) }
-        if (!typeOfNumericMaxdecimal.equals(this.typeOfNumericMaxdecimal)) { newDble.setTypeOfNumericMaxdecimal(typeOfNumericMaxdecimal.orNull.asInstanceOf[java.math.BigDecimal]) }
+        if (!typeOfNumericSuperintMin.equals(this.typeOfNumericSuperintMin)) { newDble.setTypeOfNumericSuperintMin(typeOfNumericSuperintMin.orNull.underlying) }
+        if (!typeOfNumericSuperintMax.equals(this.typeOfNumericSuperintMax)) { newDble.setTypeOfNumericSuperintMax(typeOfNumericSuperintMax.orNull.underlying) }
+        if (!typeOfNumericMaxdecimal.equals(this.typeOfNumericMaxdecimal)) { newDble.setTypeOfNumericMaxdecimal(typeOfNumericMaxdecimal.orNull.underlying) }
         if (!typeOfInteger.equals(this.typeOfInteger)) { newDble.setTypeOfInteger(typeOfInteger.map(int2Integer(_)).orNull) }
         if (!typeOfBigint.equals(this.typeOfBigint)) { newDble.setTypeOfBigint(typeOfBigint.map(long2Long(_)).orNull) }
         if (!typeOfDate.equals(this.typeOfDate)) { newDble.setTypeOfDate(typeOfDate.orNull) }
@@ -574,7 +574,7 @@ abstract class BsMbleVendorCheck {
      * [set] TYPE_OF_NUMERIC_DECIMAL: {DECIMAL(5, 3)} <br />
      * @param typeOfNumericDecimal The value of the column 'TYPE_OF_NUMERIC_DECIMAL'. (basically NotNull if update: for the constraint)
      */
-    def typeOfNumericDecimal_=(typeOfNumericDecimal: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericDecimal(typeOfNumericDecimal.orNull.asInstanceOf[java.math.BigDecimal]) }
+    def typeOfNumericDecimal_=(typeOfNumericDecimal: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericDecimal(typeOfNumericDecimal.orNull.underlying) }
 
     /**
      * [get] TYPE_OF_NUMERIC_INTEGER_MIN: {DECIMAL(1)} <br />
@@ -634,7 +634,7 @@ abstract class BsMbleVendorCheck {
      * [set] TYPE_OF_NUMERIC_SUPERINT_MIN: {DECIMAL(19)} <br />
      * @param typeOfNumericSuperintMin The value of the column 'TYPE_OF_NUMERIC_SUPERINT_MIN'. (basically NotNull if update: for the constraint)
      */
-    def typeOfNumericSuperintMin_=(typeOfNumericSuperintMin: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericSuperintMin(typeOfNumericSuperintMin.orNull.asInstanceOf[java.math.BigDecimal]) }
+    def typeOfNumericSuperintMin_=(typeOfNumericSuperintMin: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericSuperintMin(typeOfNumericSuperintMin.orNull.underlying) }
 
     /**
      * [get] TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)} <br />
@@ -646,7 +646,7 @@ abstract class BsMbleVendorCheck {
      * [set] TYPE_OF_NUMERIC_SUPERINT_MAX: {DECIMAL(38)} <br />
      * @param typeOfNumericSuperintMax The value of the column 'TYPE_OF_NUMERIC_SUPERINT_MAX'. (basically NotNull if update: for the constraint)
      */
-    def typeOfNumericSuperintMax_=(typeOfNumericSuperintMax: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericSuperintMax(typeOfNumericSuperintMax.orNull.asInstanceOf[java.math.BigDecimal]) }
+    def typeOfNumericSuperintMax_=(typeOfNumericSuperintMax: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericSuperintMax(typeOfNumericSuperintMax.orNull.underlying) }
 
     /**
      * [get] TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)} <br />
@@ -658,7 +658,7 @@ abstract class BsMbleVendorCheck {
      * [set] TYPE_OF_NUMERIC_MAXDECIMAL: {DECIMAL(38, 38)} <br />
      * @param typeOfNumericMaxdecimal The value of the column 'TYPE_OF_NUMERIC_MAXDECIMAL'. (basically NotNull if update: for the constraint)
      */
-    def typeOfNumericMaxdecimal_=(typeOfNumericMaxdecimal: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericMaxdecimal(typeOfNumericMaxdecimal.orNull.asInstanceOf[java.math.BigDecimal]) }
+    def typeOfNumericMaxdecimal_=(typeOfNumericMaxdecimal: Option[scala.math.BigDecimal]) = { dble.setTypeOfNumericMaxdecimal(typeOfNumericMaxdecimal.orNull.underlying) }
 
     /**
      * [get] TYPE_OF_INTEGER: {INTEGER(10)} <br />

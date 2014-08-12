@@ -2,25 +2,25 @@ package com.example.dbflute.scala.dbflute.whitebox
 
 import java.sql.Timestamp
 import java.util.Date
+import scala.collection.immutable.List
 import org.joda.time.LocalDate
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import com.example.dbflute.scala.dbflute.allcommon.DBFlutist
 import com.example.dbflute.scala.dbflute.exbhv.MemberBhv
 import com.example.dbflute.scala.dbflute.exbhv.PurchaseBhv
+import com.example.dbflute.scala.dbflute.exbhv.cursor.PurchaseSummaryMemberCursorHandler
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.OptionMemberPmb
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseMaxPriceMemberPmb
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseSummaryMemberPmb
 import com.example.dbflute.scala.dbflute.exbhv.pmbean.SimpleMemberPmb
+import com.example.dbflute.scala.dbflute.exbhv.pmbean.UnpaidSummaryMemberPmb
 import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 import com.example.dbflute.scala.dbflute.exentity.customize.SimpleMember
 import com.example.dbflute.scala.unit.UnitContainerFunSuite
 import com.github.nscala_time.time.Imports._
-import com.example.dbflute.scala.dbflute.exbhv.pmbean.OptionMemberPmb
-import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseSummaryMemberPmb
-import com.example.dbflute.scala.dbflute.exbhv.cursor.PurchaseSummaryMemberCursorHandler
-import com.example.dbflute.scala.dbflute.exbhv.pmbean.PurchaseMaxPriceMemberPmb
 import java.util.Arrays
-import com.example.dbflute.scala.dbflute.exbhv.pmbean.UnpaidSummaryMemberPmb
-import scala.collection.immutable.List
 
 /**
  * @author jflute
@@ -155,15 +155,16 @@ class OnParadeTest extends UnitContainerFunSuite {
 
     val outsidePage = memberBhv.outsideSql.selectPage(PurchaseMaxPriceMemberPmb { pmb =>
       pmb.paging(3, 2)
-      pmb.setMemberNameList_PrefixSearch(List("S", "M"))
+      pmb.setMemberNameList_PrefixSearch(Arrays.asList("S", "M"))
     });
     outsidePage.selectedList.foreach(f => log(f.memberName, f.purchaseMaxPrice))
 
     val outsidePageByCursorSkip = memberBhv.outsideSql.pagingByCursorSkip.selectPage(UnpaidSummaryMemberPmb { pmb =>
       pmb.paging(3, 2)
       pmb.setUnpaidMemberOnly(true)
+      pmb.setUnpaidSmallPaymentAmount(BigDecimal(123.56))
     });
-    outsidePageByCursorSkip.selectedList.foreach(f => log(f.memberName, f.memberStatusName))
+    outsidePageByCursorSkip.selectedList.foreach(f => log(f.unpaidManName, f.statusName))
     
     memberBhv.outsideSql.selectCursor { PurchaseSummaryMemberPmb { pmb =>
       pmb.setMemberStatusCode_Formalized
@@ -216,6 +217,9 @@ class OnParadeTest extends UnitContainerFunSuite {
         purchaseCB.query.setPaymentCompleteFlg_Equal_True
         purchaseCB.columnQuery(_.specify.columnPurchasePrice)
           .lessThan(_.specify.derivedPurchasePaymentList.sum(_.specify.columnPaymentAmount)());
+        purchaseCB.query.notExistsPurchasePaymentList { paymentCB =>
+          paymentCB.query.setPaymentAmount_LessThan(0.3);
+        }
       }
 
       cb.query.addOrderBy_Birthdate_Desc.withNullsLast
@@ -231,6 +235,8 @@ class OnParadeTest extends UnitContainerFunSuite {
     //
     // <<< small try >>>
     //
+    log(BigDecimal(0.3).underlying)
+    log(BigDecimal(new java.math.BigDecimal("0.3")))
   }
 
   // wall

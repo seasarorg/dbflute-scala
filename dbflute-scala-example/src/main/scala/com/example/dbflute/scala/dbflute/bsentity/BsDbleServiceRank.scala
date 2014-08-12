@@ -124,7 +124,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
     def acceptImmutable(immu: ServiceRank): DbleServiceRank = {
         setServiceRankCodeAsServiceRank(immu.serviceRankCode);
         setServiceRankName(immu.serviceRankName);
-        setServicePointIncidence(immu.servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
+        setServicePointIncidence(immu.servicePointIncidence.underlying);
         setNewAcceptableFlgAsFlg(immu.newAcceptableFlg);
         setDescription(immu.description);
         setDisplayOrder(immu.displayOrder);

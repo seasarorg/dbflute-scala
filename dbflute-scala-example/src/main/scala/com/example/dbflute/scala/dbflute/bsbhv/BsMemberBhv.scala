@@ -68,6 +68,7 @@ abstract class BsMemberBhv extends AbstractBehaviorWritable[DbleMember, MemberCB
     val PATH_selectPurchaseSummaryMember: String = "selectPurchaseSummaryMember";
     /** Simple Member Select */
     val PATH_selectSimpleMember: String = "selectSimpleMember";
+    /** Example for AutoPaging */
     val PATH_selectUnpaidSummaryMember: String = "selectUnpaidSummaryMember";
     /*df:endQueryPath*/
 

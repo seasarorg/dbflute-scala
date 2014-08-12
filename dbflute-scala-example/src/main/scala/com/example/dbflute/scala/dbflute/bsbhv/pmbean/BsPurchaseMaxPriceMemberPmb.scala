@@ -219,7 +219,7 @@ abstract class CponPurchaseMaxPriceMemberPmb {
      * [set as prefixSearch] memberNameList:likePrefix <br />
      * @param memberNameList The value of memberNameList. (NullAllowed)
      */
-    def setMemberNameList_PrefixSearch(memberNameList: immutable.List[String]): Unit = {
+    def setMemberNameList_PrefixSearch(memberNameList: List[String]): Unit = {
         _memberNameList = toBindingType(memberNameList);
         _memberNameListInternalLikeSearchOption = createLikeSearchOption().likePrefix();
     }
@@ -238,5 +238,13 @@ abstract class CponPurchaseMaxPriceMemberPmb {
      */
     def getMemberStatusCodeList(): List[com.example.dbflute.scala.dbflute.allcommon.CDef.MemberStatus] = {
         return _memberStatusCodeList;
+    }
+
+    /**
+     * [set] memberStatusCodeList:cls(MemberStatus) <br />
+     * @param memberStatusCodeList The value of memberStatusCodeList. (NullAllowed)
+     */
+    def setMemberStatusCodeList(memberStatusCodeList: List[com.example.dbflute.scala.dbflute.allcommon.CDef.MemberStatus]): Unit = {
+        _memberStatusCodeList = toBindingType(memberStatusCodeList);
     }
 }

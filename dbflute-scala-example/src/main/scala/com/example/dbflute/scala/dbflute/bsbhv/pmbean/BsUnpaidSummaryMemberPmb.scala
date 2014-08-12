@@ -9,7 +9,9 @@ import org.seasar.dbflute.cbean.SimplePagingBean;
 import org.seasar.dbflute.immutable.outsidesql._;
 import org.seasar.dbflute.jdbc._;
 import org.seasar.dbflute.jdbc.ParameterUtil.ShortCharHandlingMode;
+import org.seasar.dbflute.cbean.coption.LikeSearchOption;
 import org.seasar.dbflute.util.DfCollectionUtil;
+import org.seasar.dbflute.exception._;
 import org.seasar.dbflute.util.DfTypeUtil;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -43,14 +45,20 @@ abstract class CponUnpaidSummaryMemberPmb {
     /** The parameter of memberId. */
     protected var _memberId: Integer = null;
 
-    /** The parameter of memberName. */
+    /** The parameter of memberName:likePrefix. */
     protected var _memberName: String = null;
 
-    /** The parameter of memberStatusCode:cls(MemberStatus). */
+    /** The option of like-search for memberName. */
+    protected var _memberNameInternalLikeSearchOption: LikeSearchOption = null;
+
+    /** The parameter of memberStatusCode:ref(MEMBER) :: refers to (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus}. */
     protected var _memberStatusCode: String = null;
 
     /** The parameter of unpaidMemberOnly. */
     protected var _unpaidMemberOnly: Boolean = false;
+
+    /** The parameter of unpaidSmallPaymentAmount. */
+    protected var _unpaidSmallPaymentAmount: scala.math.BigDecimal = null;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -139,6 +147,22 @@ abstract class CponUnpaidSummaryMemberPmb {
         return "byte[" + (if (bytes != null) { String.valueOf(bytes.length) } else { "null" }) + "]";
     }
 
+    protected def assertLikeSearchOptionValid(name: String, option: LikeSearchOption): Unit = {
+        if (option == null) { // relic
+            val msg: String = "The like-search option is required!";
+            throw new RequiredOptionNotFoundException(msg);
+        }
+        if (option.isSplit()) {
+            var msg: String = "The split of like-search is NOT available on parameter-bean.";
+            msg = msg + " Don't use splitByXxx(): " + option;
+            throw new IllegalOutsideSqlOperationException(msg);
+        }
+    }
+
+    protected def callbackLSOP(optionCall: (ScrLikeSearchOption) => Unit): LikeSearchOption =
+    { val op = createLikeSearchOption(); optionCall(op); return op; }
+    protected def createLikeSearchOption(): ScrLikeSearchOption = { new ScrLikeSearchOption() }
+
     protected def toBindingType[PROP](obj: Any): PROP = { // except from-to Date
         return if (obj.isInstanceOf[immutable.List[_]]) {
             obj.asInstanceOf[immutable.List[_]].asJava.asInstanceOf[PROP]
@@ -166,6 +190,7 @@ abstract class CponUnpaidSummaryMemberPmb {
         sb.append(dm).append(_memberName);
         sb.append(dm).append(_memberStatusCode);
         sb.append(dm).append(_unpaidMemberOnly);
+        sb.append(dm).append(_unpaidSmallPaymentAmount);
         if (sb.length() > 0) { sb.delete(0, dm.length()); }
         sb.insert(0, "{").append("}");
         return sb.toString();
@@ -191,7 +216,7 @@ abstract class CponUnpaidSummaryMemberPmb {
     }
 
     /**
-     * [get] memberName <br />
+     * [get] memberName:likePrefix <br />
      * @return The value of memberName. (Nullable, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberName(): String = {
@@ -199,23 +224,34 @@ abstract class CponUnpaidSummaryMemberPmb {
     }
 
     /**
-     * [set] memberName <br />
+     * [set as prefixSearch] memberName:likePrefix <br />
      * @param memberName The value of memberName. (NullAllowed)
      */
-    def setMemberName(memberName: String): Unit = {
+    def setMemberName_PrefixSearch(memberName: String): Unit = {
         _memberName = toBindingType(memberName);
+        _memberNameInternalLikeSearchOption = createLikeSearchOption().likePrefix();
     }
 
     /**
-     * [get] memberStatusCode:cls(MemberStatus) <br />
+     * Get the internal option of likeSearch for memberName. {Internal Method: Don't invoke this}
+     * @return The internal option of likeSearch for memberName. (NullAllowed)
+     */
+    def getMemberNameInternalLikeSearchOption(): LikeSearchOption = {
+        return _memberNameInternalLikeSearchOption;
+    }
+
+    /**
+     * [get] memberStatusCode:ref(MEMBER) :: refers to (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
      * @return The value of memberStatusCode. (Nullable, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberStatusCode(): String = {
-        return filterStringParameter(_memberStatusCode);
+        var filtered: String = filterStringParameter(_memberStatusCode);
+        filtered = handleShortChar("memberStatusCode", filtered, 3);
+        return filtered;
     }
 
     /**
-     * [set as Formalized] memberStatusCode:cls(MemberStatus) <br />
+     * [set as Formalized] memberStatusCode:ref(MEMBER) :: refers to (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
      * as formal member, allowed to use all service
      */
     def setMemberStatusCode_Formalized(): Unit = {
@@ -223,7 +259,7 @@ abstract class CponUnpaidSummaryMemberPmb {
     }
 
     /**
-     * [set as Withdrawal] memberStatusCode:cls(MemberStatus) <br />
+     * [set as Withdrawal] memberStatusCode:ref(MEMBER) :: refers to (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
      * withdrawal is fixed, not allowed to use service
      */
     def setMemberStatusCode_Withdrawal(): Unit = {
@@ -231,7 +267,7 @@ abstract class CponUnpaidSummaryMemberPmb {
     }
 
     /**
-     * [set as Provisional] memberStatusCode:cls(MemberStatus) <br />
+     * [set as Provisional] memberStatusCode:ref(MEMBER) :: refers to (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
      * first status after entry, allowed to use only part of service
      */
     def setMemberStatusCode_Provisional(): Unit = {
@@ -252,5 +288,21 @@ abstract class CponUnpaidSummaryMemberPmb {
      */
     def setUnpaidMemberOnly(unpaidMemberOnly: Boolean): Unit = {
         _unpaidMemberOnly = toBindingType(unpaidMemberOnly);
+    }
+
+    /**
+     * [get] unpaidSmallPaymentAmount <br />
+     * @return The value of unpaidSmallPaymentAmount. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     */
+    def getUnpaidSmallPaymentAmount(): scala.math.BigDecimal = {
+        return _unpaidSmallPaymentAmount;
+    }
+
+    /**
+     * [set] unpaidSmallPaymentAmount <br />
+     * @param unpaidSmallPaymentAmount The value of unpaidSmallPaymentAmount. (NullAllowed)
+     */
+    def setUnpaidSmallPaymentAmount(unpaidSmallPaymentAmount: scala.math.BigDecimal): Unit = {
+        _unpaidSmallPaymentAmount = toBindingType(unpaidSmallPaymentAmount);
     }
 }

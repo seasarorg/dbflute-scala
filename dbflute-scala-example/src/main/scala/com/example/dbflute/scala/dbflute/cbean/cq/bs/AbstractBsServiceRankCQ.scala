@@ -406,7 +406,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param servicePointIncidence The value of servicePointIncidence as equal. (NullAllowed: if null, no condition)
      */
     def setServicePointIncidence_Equal(servicePointIncidence: scala.math.BigDecimal): Unit = {
-        doSetServicePointIncidence_Equal(servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
+        doSetServicePointIncidence_Equal(servicePointIncidence.underlying);
     }
 
     protected def doSetServicePointIncidence_Equal(servicePointIncidence: java.math.BigDecimal): Unit = {
@@ -419,7 +419,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param servicePointIncidence The value of servicePointIncidence as notEqual. (NullAllowed: if null, no condition)
      */
     def setServicePointIncidence_NotEqual(servicePointIncidence: scala.math.BigDecimal): Unit = {
-        doSetServicePointIncidence_NotEqual(servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
+        doSetServicePointIncidence_NotEqual(servicePointIncidence.underlying);
     }
 
     protected def doSetServicePointIncidence_NotEqual(servicePointIncidence: java.math.BigDecimal): Unit = {
@@ -432,7 +432,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param servicePointIncidence The value of servicePointIncidence as greaterThan. (NullAllowed: if null, no condition)
      */
     def setServicePointIncidence_GreaterThan(servicePointIncidence: scala.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_GT, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
+        regServicePointIncidence(CK_GT, servicePointIncidence.underlying);
     }
 
     /**
@@ -441,7 +441,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param servicePointIncidence The value of servicePointIncidence as lessThan. (NullAllowed: if null, no condition)
      */
     def setServicePointIncidence_LessThan(servicePointIncidence: scala.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_LT, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
+        regServicePointIncidence(CK_LT, servicePointIncidence.underlying);
     }
 
     /**
@@ -450,7 +450,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param servicePointIncidence The value of servicePointIncidence as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setServicePointIncidence_GreaterEqual(servicePointIncidence: scala.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_GE, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
+        regServicePointIncidence(CK_GE, servicePointIncidence.underlying);
     }
 
     /**
@@ -459,7 +459,7 @@ abstract class AbstractBsServiceRankCQ(referrerQuery: ConditionQuery, sqlClause:
      * @param servicePointIncidence The value of servicePointIncidence as lessEqual. (NullAllowed: if null, no condition)
      */
     def setServicePointIncidence_LessEqual(servicePointIncidence: scala.math.BigDecimal): Unit = {
-        regServicePointIncidence(CK_LE, servicePointIncidence.asInstanceOf[java.math.BigDecimal]);
+        regServicePointIncidence(CK_LE, servicePointIncidence.underlying);
     }
 
     /**

@@ -23,15 +23,16 @@ import org.seasar.dbflute.Entity.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.exentity.customize._;
+import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
  * The entity of UnpaidSummaryMember. <br />
  * <pre>
  * [primary-key]
- *     
+ *     UNPAID_MAN_ID
  * 
  * [column]
- *     MEMBER_ID, MEMBER_NAME, UNPAID_PRICE_SUMMARY, MEMBER_STATUS_NAME
+ *     UNPAID_MAN_ID, UNPAID_MAN_NAME, UNPAID_PRICE_SUMMARY, STATUS_NAME
  * 
  * [sequence]
  *     
@@ -56,14 +57,14 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * 
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer memberId = entity.getMemberId();
- * String memberName = entity.getMemberName();
+ * Integer unpaidManId = entity.getUnpaidManId();
+ * String unpaidManName = entity.getUnpaidManName();
  * Long unpaidPriceSummary = entity.getUnpaidPriceSummary();
- * String memberStatusName = entity.getMemberStatusName();
- * entity.setMemberId(memberId);
- * entity.setMemberName(memberName);
+ * String statusName = entity.getStatusName();
+ * entity.setUnpaidManId(unpaidManId);
+ * entity.setUnpaidManName(unpaidManName);
  * entity.setUnpaidPriceSummary(unpaidPriceSummary);
- * entity.setMemberStatusName(memberStatusName);
+ * entity.setStatusName(statusName);
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
@@ -76,17 +77,17 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
     // -----------------------------------------------------
     //                                                Column
     //                                                ------
-    /** (会員ID)MEMBER_ID: {INTEGER(10), refers to MEMBER.MEMBER_ID} */
-    protected var _memberId: Integer = null;
+    /** (会員ID)UNPAID_MAN_ID: {PK, INTEGER(10), refers to MEMBER.MEMBER_ID} */
+    protected var _unpaidManId: Integer = null;
 
-    /** (会員名称)MEMBER_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} */
-    protected var _memberName: String = null;
+    /** (会員名称)UNPAID_MAN_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} */
+    protected var _unpaidManName: String = null;
 
     /** UNPAID_PRICE_SUMMARY: {BIGINT(10)} */
     protected var _unpaidPriceSummary: Long = null;
 
-    /** (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} */
-    protected var _memberStatusName: String = null;
+    /** (会員ステータス名称)STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} */
+    protected var _statusName: String = null;
 
     // -----------------------------------------------------
     //                                              Internal
@@ -110,10 +111,10 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
      * {@inheritDoc}
      */
     def acceptImmutable(immu: UnpaidSummaryMember): DbleUnpaidSummaryMember = {
-        setMemberId(immu.memberId.map(int2Integer(_)).orNull);
-        setMemberName(immu.memberName.orNull);
+        setUnpaidManId(immu.unpaidManId.map(int2Integer(_)).orNull);
+        setUnpaidManName(immu.unpaidManName.orNull);
         setUnpaidPriceSummary(immu.unpaidPriceSummary.map(long2Long(_)).orNull);
-        setMemberStatusName(immu.memberStatusName.orNull);
+        setStatusName(immu.statusName.orNull);
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
@@ -162,7 +163,8 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
      * {@inheritDoc}
      */
     def hasPrimaryKeyValue(): scala.Boolean = {
-        return false;
+        if (getUnpaidManId() == null) { return false; }
+        return true;
     }
 
     /**
@@ -182,6 +184,76 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    protected var __innerDomain: DbleMember = null;
+
+    protected def innerDomain(): DbleMember = {
+        if (__innerDomain == null) {
+            __innerDomain = new DbleMember();
+        }
+        return __innerDomain;
+    }
+
+    /**
+     * Prepare the inner instance of domain entity (basically for LoadReferrer).
+     * <pre>
+     * List&lt;UnpaidSummaryMember&gt; memberList = memberBhv.outsideSql()...;
+     * List&lt;Member&gt; domainList = new ArrayList&lt;Member&gt;();
+     * for (UnpaidSummaryMember member : memberList) {
+     *     domainList.add(member.<span style="color: #DD4747">prepareDomain()</span>);
+     * }
+     * memberBhv.<span style="color: #DD4747">loadPurchaseList</span>(domainList, new ConditionBeanSetupper...);
+     * for (UnpaidSummaryMember member : memberList) {
+     *     Purchase purchase = member.<span style="color: #DD4747">getPurchaseList()</span>; <span style="color: #3F7E5E">// you can get it</span>
+     *     ...
+     * }
+     * </pre>
+     * @return The domain entity for this customize entity. (NotNull)
+     */
+    def prepareDomain(): DbleMember = {
+        innerDomain().setMemberId(getUnpaidManId());
+        return innerDomain();
+    }
+
+    /**
+     * (会員住所情報)MEMBER_ADDRESS by MEMBER_ID, named 'memberAddressList'.
+     * @return The entity list of referrer property 'memberAddressList'. (NotNull: If it's not loaded yet, initializes the list instance of referrer as empty and returns it.)
+     */
+    def getMemberAddressList(): List[DbleMemberAddress] = {
+        return innerDomain().getMemberAddressList();
+    }
+
+    /**
+     * (会員フォローイング)MEMBER_FOLLOWING by MY_MEMBER_ID, named 'memberFollowingByMyMemberIdList'.
+     * @return The entity list of referrer property 'memberFollowingByMyMemberIdList'. (NotNull: If it's not loaded yet, initializes the list instance of referrer as empty and returns it.)
+     */
+    def getMemberFollowingByMyMemberIdList(): List[DbleMemberFollowing] = {
+        return innerDomain().getMemberFollowingByMyMemberIdList();
+    }
+
+    /**
+     * (会員フォローイング)MEMBER_FOLLOWING by YOUR_MEMBER_ID, named 'memberFollowingByYourMemberIdList'.
+     * @return The entity list of referrer property 'memberFollowingByYourMemberIdList'. (NotNull: If it's not loaded yet, initializes the list instance of referrer as empty and returns it.)
+     */
+    def getMemberFollowingByYourMemberIdList(): List[DbleMemberFollowing] = {
+        return innerDomain().getMemberFollowingByYourMemberIdList();
+    }
+
+    /**
+     * (会員ログイン)MEMBER_LOGIN by MEMBER_ID, named 'memberLoginList'.
+     * @return The entity list of referrer property 'memberLoginList'. (NotNull: If it's not loaded yet, initializes the list instance of referrer as empty and returns it.)
+     */
+    def getMemberLoginList(): List[DbleMemberLogin] = {
+        return innerDomain().getMemberLoginList();
+    }
+
+    /**
+     * (購入)PURCHASE by MEMBER_ID, named 'purchaseList'.
+     * @return The entity list of referrer property 'purchaseList'. (NotNull: If it's not loaded yet, initializes the list instance of referrer as empty and returns it.)
+     */
+    def getPurchaseList(): List[DblePurchase] = {
+        return innerDomain().getPurchaseList();
+    }
+
     protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
         return new ArrayList[ELEMENT]();
     }
@@ -279,10 +351,7 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
             case obj: BsDbleUnpaidSummaryMember => {
                 val other: BsDbleUnpaidSummaryMember = obj.asInstanceOf[BsDbleUnpaidSummaryMember];
                 {(
-                     xSV(getMemberId(), other.getMemberId())
-                    && xSV(getMemberName(), other.getMemberName())
-                    && xSV(getUnpaidPriceSummary(), other.getUnpaidPriceSummary())
-                    && xSV(getMemberStatusName(), other.getMemberStatusName())
+                     xSV(getUnpaidManId(), other.getUnpaidManId())
                 )}
             }
             case _ => false
@@ -299,10 +368,7 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
     override def hashCode(): Int = {
         var hs: Int = 17;
         hs = xCH(hs, getTableDbName());
-        hs = xCH(hs, getMemberId());
-        hs = xCH(hs, getMemberName());
-        hs = xCH(hs, getUnpaidPriceSummary());
-        hs = xCH(hs, getMemberStatusName());
+        hs = xCH(hs, getUnpaidManId());
         return hs;
     }
     protected def xCH(hs: Int, value: Object): Int = {
@@ -347,10 +413,10 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
     protected def buildColumnString(): String = {
         val sb: StringBuilder = new StringBuilder();
         val dm: String = ", ";
-        sb.append(dm).append(getMemberId());
-        sb.append(dm).append(getMemberName());
+        sb.append(dm).append(getUnpaidManId());
+        sb.append(dm).append(getUnpaidManName());
         sb.append(dm).append(getUnpaidPriceSummary());
-        sb.append(dm).append(getMemberStatusName());
+        sb.append(dm).append(getStatusName());
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length());
         }
@@ -379,37 +445,37 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] (会員ID)MEMBER_ID: {INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
-     * @return The value of the column 'MEMBER_ID'. (NullAllowed even if selected: for no constraint)
+     * [get] (会員ID)UNPAID_MAN_ID: {PK, INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
+     * @return The value of the column 'UNPAID_MAN_ID'. (NullAllowed even if selected: for no constraint)
      */
-    def getMemberId(): Integer = {
-        return _memberId;
+    def getUnpaidManId(): Integer = {
+        return _unpaidManId;
     }
 
     /**
-     * [set] (会員ID)MEMBER_ID: {INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
-     * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
+     * [set] (会員ID)UNPAID_MAN_ID: {PK, INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
+     * @param unpaidManId The value of the column 'UNPAID_MAN_ID'. (NullAllowed: null update allowed for no constraint)
      */
-    def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
-        _memberId = memberId;
+    def setUnpaidManId(unpaidManId: Integer): Unit = {
+        __modifiedProperties.addPropertyName("unpaidManId");
+        _unpaidManId = unpaidManId;
     }
 
     /**
-     * [get] (会員名称)MEMBER_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
-     * @return The value of the column 'MEMBER_NAME'. (NullAllowed even if selected: for no constraint)
+     * [get] (会員名称)UNPAID_MAN_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
+     * @return The value of the column 'UNPAID_MAN_NAME'. (NullAllowed even if selected: for no constraint)
      */
-    def getMemberName(): String = {
-        return convertEmptyToNull(_memberName);
+    def getUnpaidManName(): String = {
+        return convertEmptyToNull(_unpaidManName);
     }
 
     /**
-     * [set] (会員名称)MEMBER_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
-     * @param memberName The value of the column 'MEMBER_NAME'. (NullAllowed: null update allowed for no constraint)
+     * [set] (会員名称)UNPAID_MAN_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
+     * @param unpaidManName The value of the column 'UNPAID_MAN_NAME'. (NullAllowed: null update allowed for no constraint)
      */
-    def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
-        _memberName = memberName;
+    def setUnpaidManName(unpaidManName: String): Unit = {
+        __modifiedProperties.addPropertyName("unpaidManName");
+        _unpaidManName = unpaidManName;
     }
 
     /**
@@ -430,20 +496,20 @@ abstract class BsDbleUnpaidSummaryMember extends Entity with DBableEntity[Unpaid
     }
 
     /**
-     * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
-     * @return The value of the column 'MEMBER_STATUS_NAME'. (NullAllowed even if selected: for no constraint)
+     * [get] (会員ステータス名称)STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
+     * @return The value of the column 'STATUS_NAME'. (NullAllowed even if selected: for no constraint)
      */
-    def getMemberStatusName(): String = {
-        return convertEmptyToNull(_memberStatusName);
+    def getStatusName(): String = {
+        return convertEmptyToNull(_statusName);
     }
 
     /**
-     * [set] (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
-     * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (NullAllowed: null update allowed for no constraint)
+     * [set] (会員ステータス名称)STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
+     * @param statusName The value of the column 'STATUS_NAME'. (NullAllowed: null update allowed for no constraint)
      */
-    def setMemberStatusName(memberStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusName");
-        _memberStatusName = memberStatusName;
+    def setStatusName(statusName: String): Unit = {
+        __modifiedProperties.addPropertyName("statusName");
+        _statusName = statusName;
     }
 
     protected def convertEmptyToNull(value: String): String = {

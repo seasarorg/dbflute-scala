@@ -142,7 +142,7 @@ abstract class BsDblePurchasePayment extends EntityDefinedCommonColumn with DBab
     def acceptImmutable(immu: PurchasePayment): DblePurchasePayment = {
         setPurchasePaymentId(immu.purchasePaymentId);
         setPurchaseId(immu.purchaseId);
-        setPaymentAmount(immu.paymentAmount.asInstanceOf[java.math.BigDecimal]);
+        setPaymentAmount(immu.paymentAmount.underlying);
         setPaymentDatetime(immu.paymentDatetime);
         setPaymentMethodCode(immu.paymentMethodCode);
         setRegisterDatetime(immu.registerDatetime);

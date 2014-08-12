@@ -274,7 +274,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentAmount The value of paymentAmount as equal. (NullAllowed: if null, no condition)
      */
     def setPaymentAmount_Equal(paymentAmount: scala.math.BigDecimal): Unit = {
-        doSetPaymentAmount_Equal(paymentAmount.asInstanceOf[java.math.BigDecimal]);
+        doSetPaymentAmount_Equal(paymentAmount.underlying);
     }
 
     protected def doSetPaymentAmount_Equal(paymentAmount: java.math.BigDecimal): Unit = {
@@ -287,7 +287,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentAmount The value of paymentAmount as notEqual. (NullAllowed: if null, no condition)
      */
     def setPaymentAmount_NotEqual(paymentAmount: scala.math.BigDecimal): Unit = {
-        doSetPaymentAmount_NotEqual(paymentAmount.asInstanceOf[java.math.BigDecimal]);
+        doSetPaymentAmount_NotEqual(paymentAmount.underlying);
     }
 
     protected def doSetPaymentAmount_NotEqual(paymentAmount: java.math.BigDecimal): Unit = {
@@ -300,7 +300,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentAmount The value of paymentAmount as greaterThan. (NullAllowed: if null, no condition)
      */
     def setPaymentAmount_GreaterThan(paymentAmount: scala.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_GT, paymentAmount.asInstanceOf[java.math.BigDecimal]);
+        regPaymentAmount(CK_GT, paymentAmount.underlying);
     }
 
     /**
@@ -309,7 +309,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentAmount The value of paymentAmount as lessThan. (NullAllowed: if null, no condition)
      */
     def setPaymentAmount_LessThan(paymentAmount: scala.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_LT, paymentAmount.asInstanceOf[java.math.BigDecimal]);
+        regPaymentAmount(CK_LT, paymentAmount.underlying);
     }
 
     /**
@@ -318,7 +318,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentAmount The value of paymentAmount as greaterEqual. (NullAllowed: if null, no condition)
      */
     def setPaymentAmount_GreaterEqual(paymentAmount: scala.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_GE, paymentAmount.asInstanceOf[java.math.BigDecimal]);
+        regPaymentAmount(CK_GE, paymentAmount.underlying);
     }
 
     /**
@@ -327,7 +327,7 @@ abstract class AbstractBsPurchasePaymentCQ(referrerQuery: ConditionQuery, sqlCla
      * @param paymentAmount The value of paymentAmount as lessEqual. (NullAllowed: if null, no condition)
      */
     def setPaymentAmount_LessEqual(paymentAmount: scala.math.BigDecimal): Unit = {
-        regPaymentAmount(CK_LE, paymentAmount.asInstanceOf[java.math.BigDecimal]);
+        regPaymentAmount(CK_LE, paymentAmount.underlying);
     }
 
     /**

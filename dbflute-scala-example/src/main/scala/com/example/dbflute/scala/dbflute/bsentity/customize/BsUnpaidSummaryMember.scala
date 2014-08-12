@@ -9,15 +9,16 @@ import java.util.Collection;
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.Entity.FunCustodial;
 import com.example.dbflute.scala.dbflute.exentity.customize._;
+import com.example.dbflute.scala.dbflute.exentity._;
 
 /**
  * The immutable entity of UnpaidSummaryMember. <br />
  * <pre>
  * [primary-key]
- *     
+ *     UNPAID_MAN_ID
  * 
  * [column]
- *     MEMBER_ID, MEMBER_NAME, UNPAID_PRICE_SUMMARY, MEMBER_STATUS_NAME
+ *     UNPAID_MAN_ID, UNPAID_MAN_NAME, UNPAID_PRICE_SUMMARY, STATUS_NAME
  * 
  * [sequence]
  *     
@@ -42,10 +43,10 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * 
  * [get template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * val memberId: Option[Int] = entity.memberId
- * val memberName: Option[String] = entity.memberName
+ * val unpaidManId: Option[Int] = entity.unpaidManId
+ * val unpaidManName: Option[String] = entity.unpaidManName
  * val unpaidPriceSummary: Option[Long] = entity.unpaidPriceSummary
- * val memberStatusName: Option[String] = entity.memberStatusName
+ * val statusName: Option[String] = entity.statusName
  * = = = = = = = = = =/
  * </pre>
  * @author DBFlute(AutoGenerator)
@@ -56,18 +57,18 @@ abstract class BsUnpaidSummaryMember(dble: DbleUnpaidSummaryMember) extends Seri
     //                                                                           Case Like
     //                                                                           =========
     def copy(
-         memberId: Option[Int] = memberId
-        , memberName: Option[String] = memberName
+         unpaidManId: Option[Int] = unpaidManId
+        , unpaidManName: Option[String] = unpaidManName
         , unpaidPriceSummary: Option[Long] = unpaidPriceSummary
-        , memberStatusName: Option[String] = memberStatusName
+        , statusName: Option[String] = statusName
     ): UnpaidSummaryMember = {
         val newDble = new DbleUnpaidSummaryMember
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
         newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
-        if (!memberId.equals(this.memberId)) { newDble.setMemberId(memberId.map(int2Integer(_)).orNull) }
-        if (!memberName.equals(this.memberName)) { newDble.setMemberName(memberName.orNull) }
+        if (!unpaidManId.equals(this.unpaidManId)) { newDble.setUnpaidManId(unpaidManId.map(int2Integer(_)).orNull) }
+        if (!unpaidManName.equals(this.unpaidManName)) { newDble.setUnpaidManName(unpaidManName.orNull) }
         if (!unpaidPriceSummary.equals(this.unpaidPriceSummary)) { newDble.setUnpaidPriceSummary(unpaidPriceSummary.map(long2Long(_)).orNull) }
-        if (!memberStatusName.equals(this.memberStatusName)) { newDble.setMemberStatusName(memberStatusName.orNull) }
+        if (!statusName.equals(this.statusName)) { newDble.setStatusName(statusName.orNull) }
         new UnpaidSummaryMember(newDble)
     }
 
@@ -116,10 +117,7 @@ abstract class BsUnpaidSummaryMember(dble: DbleUnpaidSummaryMember) extends Seri
             case obj: BsUnpaidSummaryMember => {
                 val other: BsUnpaidSummaryMember = obj.asInstanceOf[BsUnpaidSummaryMember];
                 {(
-                     xSV(memberId, other.memberId)
-                    && xSV(memberName, other.memberName)
-                    && xSV(unpaidPriceSummary, other.unpaidPriceSummary)
-                    && xSV(memberStatusName, other.memberStatusName)
+                     xSV(unpaidManId, other.unpaidManId)
                 )}
             }
             case _ => false
@@ -146,16 +144,16 @@ abstract class BsUnpaidSummaryMember(dble: DbleUnpaidSummaryMember) extends Seri
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] (会員ID)MEMBER_ID: {INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
-     * @return The value of the column 'MEMBER_ID'. (basically NotNull if selected: for the constraint)
+     * [get] (会員ID)UNPAID_MAN_ID: {PK, INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
+     * @return The value of the column 'UNPAID_MAN_ID'. (basically NotNull if selected: for the constraint)
      */
-    def memberId: Option[Int] = { Option(dble.getMemberId) }
+    def unpaidManId: Option[Int] = { Option(dble.getUnpaidManId) }
 
     /**
-     * [get] (会員名称)MEMBER_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
-     * @return The value of the column 'MEMBER_NAME'. (basically NotNull if selected: for the constraint)
+     * [get] (会員名称)UNPAID_MAN_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
+     * @return The value of the column 'UNPAID_MAN_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def memberName: Option[String] = { Option(dble.getMemberName) }
+    def unpaidManName: Option[String] = { Option(dble.getUnpaidManName) }
 
     /**
      * [get] UNPAID_PRICE_SUMMARY: {BIGINT(10)} <br />
@@ -164,10 +162,10 @@ abstract class BsUnpaidSummaryMember(dble: DbleUnpaidSummaryMember) extends Seri
     def unpaidPriceSummary: Option[Long] = { Option(dble.getUnpaidPriceSummary) }
 
     /**
-     * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
-     * @return The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if selected: for the constraint)
+     * [get] (会員ステータス名称)STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
+     * @return The value of the column 'STATUS_NAME'. (basically NotNull if selected: for the constraint)
      */
-    def memberStatusName: Option[String] = { Option(dble.getMemberStatusName) }
+    def statusName: Option[String] = { Option(dble.getStatusName) }
 }
 
 /* _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ */
@@ -184,14 +182,14 @@ abstract class BsUnpaidSummaryMember(dble: DbleUnpaidSummaryMember) extends Seri
  * The mutable entity of UnpaidSummaryMember. <br />
  * [get/set template]
  * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * val memberId: Option[Int] = entity.memberId
- * val memberName: Option[String] = entity.memberName
+ * val unpaidManId: Option[Int] = entity.unpaidManId
+ * val unpaidManName: Option[String] = entity.unpaidManName
  * val unpaidPriceSummary: Option[Long] = entity.unpaidPriceSummary
- * val memberStatusName: Option[String] = entity.memberStatusName
- * entity.memberId = memberId
- * entity.memberName = memberName
+ * val statusName: Option[String] = entity.statusName
+ * entity.unpaidManId = unpaidManId
+ * entity.unpaidManName = unpaidManName
  * entity.unpaidPriceSummary = unpaidPriceSummary
- * entity.memberStatusName = memberStatusName
+ * entity.statusName = statusName
  * = = = = = = = = = =/
  * @author DBFlute(AutoGenerator)
  */
@@ -219,28 +217,28 @@ abstract class BsMbleUnpaidSummaryMember {
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] (会員ID)MEMBER_ID: {INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
-     * @return The value of the column 'MEMBER_ID'. (NotNull but EmptyAllowed if null in database)
+     * [get] (会員ID)UNPAID_MAN_ID: {PK, INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
+     * @return The value of the column 'UNPAID_MAN_ID'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberId: Option[Int] = { Option(dble.getMemberId) }
+    def unpaidManId: Option[Int] = { Option(dble.getUnpaidManId) }
 
     /**
-     * [set] (会員ID)MEMBER_ID: {INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
-     * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
+     * [set] (会員ID)UNPAID_MAN_ID: {PK, INTEGER(10), refers to MEMBER.MEMBER_ID} <br />
+     * @param unpaidManId The value of the column 'UNPAID_MAN_ID'. (basically NotNull if update: for the constraint)
      */
-    def memberId_=(memberId: Option[Int]) = { dble.setMemberId(memberId.map(int2Integer(_)).orNull) }
+    def unpaidManId_=(unpaidManId: Option[Int]) = { dble.setUnpaidManId(unpaidManId.map(int2Integer(_)).orNull) }
 
     /**
-     * [get] (会員名称)MEMBER_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
-     * @return The value of the column 'MEMBER_NAME'. (NotNull but EmptyAllowed if null in database)
+     * [get] (会員名称)UNPAID_MAN_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
+     * @return The value of the column 'UNPAID_MAN_NAME'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberName: Option[String] = { Option(dble.getMemberName) }
+    def unpaidManName: Option[String] = { Option(dble.getUnpaidManName) }
 
     /**
-     * [set] (会員名称)MEMBER_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
-     * @param memberName The value of the column 'MEMBER_NAME'. (basically NotNull if update: for the constraint)
+     * [set] (会員名称)UNPAID_MAN_NAME: {VARCHAR(200), refers to MEMBER.MEMBER_NAME} <br />
+     * @param unpaidManName The value of the column 'UNPAID_MAN_NAME'. (basically NotNull if update: for the constraint)
      */
-    def memberName_=(memberName: Option[String]) = { dble.setMemberName(memberName.orNull) }
+    def unpaidManName_=(unpaidManName: Option[String]) = { dble.setUnpaidManName(unpaidManName.orNull) }
 
     /**
      * [get] UNPAID_PRICE_SUMMARY: {BIGINT(10)} <br />
@@ -255,14 +253,14 @@ abstract class BsMbleUnpaidSummaryMember {
     def unpaidPriceSummary_=(unpaidPriceSummary: Option[Long]) = { dble.setUnpaidPriceSummary(unpaidPriceSummary.map(long2Long(_)).orNull) }
 
     /**
-     * [get] (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
-     * @return The value of the column 'MEMBER_STATUS_NAME'. (NotNull but EmptyAllowed if null in database)
+     * [get] (会員ステータス名称)STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
+     * @return The value of the column 'STATUS_NAME'. (NotNull but EmptyAllowed if null in database)
      */
-    def memberStatusName: Option[String] = { Option(dble.getMemberStatusName) }
+    def statusName: Option[String] = { Option(dble.getStatusName) }
 
     /**
-     * [set] (会員ステータス名称)MEMBER_STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
-     * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if update: for the constraint)
+     * [set] (会員ステータス名称)STATUS_NAME: {VARCHAR(50), refers to MEMBER_STATUS.MEMBER_STATUS_NAME} <br />
+     * @param statusName The value of the column 'STATUS_NAME'. (basically NotNull if update: for the constraint)
      */
-    def memberStatusName_=(memberStatusName: Option[String]) = { dble.setMemberStatusName(memberStatusName.orNull) }
+    def statusName_=(statusName: Option[String]) = { dble.setStatusName(statusName.orNull) }
 }
