@@ -250,7 +250,7 @@ abstract class CponOptionMemberPmb {
     //                                                                            ========
     /**
      * [get] memberId <br />
-     * @return The value of memberId. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberId. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberId(): Integer = {
         return _memberId;
@@ -266,7 +266,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] memberName:likePrefix <br />
-     * @return The value of memberName. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberName. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberName(): String = {
         return filterStringParameter(_memberName);
@@ -291,7 +291,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] memberAccount:like <br />
-     * @return The value of memberAccount. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberAccount. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberAccount(): String = {
         return filterStringParameter(_memberAccount);
@@ -319,7 +319,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] fromFormalizedDate:fromDate <br />
-     * @return The value of fromFormalizedDate. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of fromFormalizedDate. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getFromFormalizedDate(): org.joda.time.LocalDate = {
         return _fromFormalizedDate;
@@ -335,7 +335,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] toFormalizedDate:toDate <br />
-     * @return The value of toFormalizedDate. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of toFormalizedDate. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getToFormalizedDate(): org.joda.time.LocalDate = {
         return _toFormalizedDate;
@@ -351,7 +351,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] fromFormalizedOptionDate:fromDate(option) <br />
-     * @return The value of fromFormalizedOptionDate. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of fromFormalizedOptionDate. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getFromFormalizedOptionDate(): org.joda.time.LocalDateTime = {
         return _fromFormalizedOptionDate;
@@ -370,7 +370,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] toFormalizedOptionDate:toDate(option) <br />
-     * @return The value of toFormalizedOptionDate. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of toFormalizedOptionDate. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getToFormalizedOptionDate(): org.joda.time.LocalDateTime = {
         return _toFormalizedOptionDate;
@@ -389,7 +389,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] memberStatusCode:cls(MemberStatus) <br />
-     * @return The value of memberStatusCode. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberStatusCode. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberStatusCode(): String = {
         return filterStringParameter(_memberStatusCode);
@@ -421,7 +421,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] displayOrder:ref(MemberStatus) :: refers to (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} <br />
-     * @return The value of displayOrder. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of displayOrder. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getDisplayOrder(): Integer = {
         return _displayOrder;
@@ -437,7 +437,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] birthdate:fromDate|ref(Member) :: refers to (生年月日)BIRTHDATE: {DATE(8)} <br />
-     * @return The value of birthdate. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of birthdate. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getBirthdate(): org.joda.time.LocalDate = {
         return _birthdate;
@@ -453,7 +453,7 @@ abstract class CponOptionMemberPmb {
 
     /**
      * [get] status:cls(MemberStatus)|ref(Member.MEMBER_STATUS_CODE) :: refers to (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
-     * @return The value of status. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of status. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getStatus(): String = {
         var filtered: String = filterStringParameter(_status);

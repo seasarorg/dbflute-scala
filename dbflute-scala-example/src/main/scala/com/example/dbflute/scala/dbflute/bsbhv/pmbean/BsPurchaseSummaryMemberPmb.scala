@@ -178,7 +178,7 @@ abstract class CponPurchaseSummaryMemberPmb {
     //                                                                            ========
     /**
      * [get] memberStatusCode:cls(MemberStatus) <br />
-     * @return The value of memberStatusCode. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberStatusCode. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberStatusCode(): String = {
         return filterStringParameter(_memberStatusCode);
@@ -210,7 +210,7 @@ abstract class CponPurchaseSummaryMemberPmb {
 
     /**
      * [get] formalizedDatetime <br />
-     * @return The value of formalizedDatetime. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of formalizedDatetime. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getFormalizedDatetime(): org.joda.time.LocalDateTime = {
         return _formalizedDatetime;

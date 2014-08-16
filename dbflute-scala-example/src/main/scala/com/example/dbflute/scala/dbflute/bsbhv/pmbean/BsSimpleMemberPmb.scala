@@ -203,7 +203,7 @@ abstract class CponSimpleMemberPmb {
     //                                                                            ========
     /**
      * [get] memberId <br />
-     * @return The value of memberId. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberId. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberId(): Integer = {
         return _memberId;
@@ -219,7 +219,7 @@ abstract class CponSimpleMemberPmb {
 
     /**
      * [get] memberName:likePrefix <br />
-     * @return The value of memberName. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberName. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberName(): String = {
         return filterStringParameter(_memberName);
@@ -244,7 +244,7 @@ abstract class CponSimpleMemberPmb {
 
     /**
      * [get] birthdate <br />
-     * @return The value of birthdate. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of birthdate. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getBirthdate(): org.joda.time.LocalDate = {
         return _birthdate;

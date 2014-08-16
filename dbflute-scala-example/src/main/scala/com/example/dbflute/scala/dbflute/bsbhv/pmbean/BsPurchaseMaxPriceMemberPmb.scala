@@ -193,7 +193,7 @@ abstract class CponPurchaseMaxPriceMemberPmb {
     //                                                                            ========
     /**
      * [get] memberId <br />
-     * @return The value of memberId. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberId. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberId(): Integer = {
         return _memberId;
@@ -209,7 +209,7 @@ abstract class CponPurchaseMaxPriceMemberPmb {
 
     /**
      * [get] memberNameList:likePrefix <br />
-     * @return The value of memberNameList. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberNameList. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberNameList(): List[String] = {
         return _memberNameList;
@@ -234,7 +234,7 @@ abstract class CponPurchaseMaxPriceMemberPmb {
 
     /**
      * [get] memberStatusCodeList:cls(MemberStatus) <br />
-     * @return The value of memberStatusCodeList. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberStatusCodeList. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberStatusCodeList(): List[com.example.dbflute.scala.dbflute.allcommon.CDef.MemberStatus] = {
         return _memberStatusCodeList;

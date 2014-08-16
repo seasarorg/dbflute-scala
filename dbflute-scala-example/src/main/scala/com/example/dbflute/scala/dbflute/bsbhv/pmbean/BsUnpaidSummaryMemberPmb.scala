@@ -201,7 +201,7 @@ abstract class CponUnpaidSummaryMemberPmb {
     //                                                                            ========
     /**
      * [get] memberId <br />
-     * @return The value of memberId. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberId. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberId(): Integer = {
         return _memberId;
@@ -217,7 +217,7 @@ abstract class CponUnpaidSummaryMemberPmb {
 
     /**
      * [get] memberName:likePrefix <br />
-     * @return The value of memberName. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberName. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberName(): String = {
         return filterStringParameter(_memberName);
@@ -242,7 +242,7 @@ abstract class CponUnpaidSummaryMemberPmb {
 
     /**
      * [get] memberStatusCode:ref(MEMBER) :: refers to (会員ステータスコード)MEMBER_STATUS_CODE: {IX, NotNull, CHAR(3), FK to MEMBER_STATUS, classification=MemberStatus} <br />
-     * @return The value of memberStatusCode. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of memberStatusCode. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getMemberStatusCode(): String = {
         var filtered: String = filterStringParameter(_memberStatusCode);
@@ -276,7 +276,7 @@ abstract class CponUnpaidSummaryMemberPmb {
 
     /**
      * [get] unpaidMemberOnly <br />
-     * @return The value of unpaidMemberOnly. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of unpaidMemberOnly. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getUnpaidMemberOnly(): Boolean = {
         return _unpaidMemberOnly;
@@ -292,7 +292,7 @@ abstract class CponUnpaidSummaryMemberPmb {
 
     /**
      * [get] unpaidSmallPaymentAmount <br />
-     * @return The value of unpaidSmallPaymentAmount. (Nullable, NotEmptyString(when String): if empty string, returns null)
+     * @return The value of unpaidSmallPaymentAmount. (NotNull, NotEmptyString(when String): if empty string, returns null)
      */
     def getUnpaidSmallPaymentAmount(): scala.math.BigDecimal = {
         return _unpaidSmallPaymentAmount;
