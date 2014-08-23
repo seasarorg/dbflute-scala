@@ -82,7 +82,12 @@ object PurchaseDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnPaymentCompleteFlg();
             dgccls(col, vl);
-            et.asInstanceOf[DblePurchase].setPaymentCompleteFlgAsFlg(dggcls(col, vl).asInstanceOf[CDef.Flg]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.Flg];
+            if (cls != null) {
+                et.asInstanceOf[DblePurchase].setPaymentCompleteFlgAsFlg(cls);
+            } else {
+                et.asInstanceOf[DblePurchase].mynativeMappingPaymentCompleteFlg(dgctn(vl, classOf[Integer]));
+            }
         }
     }
     class EpgRegisterDatetime extends PropertyGateway {
@@ -109,7 +114,7 @@ object PurchaseDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -148,7 +153,7 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, classOf[Long], "purchaseId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_27386204_5E28_427E_89DD_DDE9475E50C7", false, null, null, null, "purchasePaymentList", null);
+    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, classOf[Long], "purchaseId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_4CB777BC_5194_4D68_821D_C93E330C753B", false, null, null, null, "purchasePaymentList", null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, "商品ID", classOf[Integer], "productId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "product", null, null);
     protected val _columnPurchaseDatetime: ColumnInfo = cci("PURCHASE_DATETIME", "PURCHASE_DATETIME", null, "購入日時", classOf[org.joda.time.LocalDateTime], "purchaseDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);

@@ -71,7 +71,12 @@ object OptionMemberDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnMemberStatusCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleOptionMember].setMemberStatusCodeAsMemberStatus(dggcls(col, vl).asInstanceOf[CDef.MemberStatus]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.MemberStatus];
+            if (cls != null) {
+                et.asInstanceOf[DbleOptionMember].setMemberStatusCodeAsMemberStatus(cls);
+            } else {
+                et.asInstanceOf[DbleOptionMember].mynativeMappingMemberStatusCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgStatusDisplayOrder extends PropertyGateway {
@@ -87,7 +92,12 @@ object OptionMemberDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnDummyFlg();
             dgccls(col, vl);
-            et.asInstanceOf[DbleOptionMember].setDummyFlgAsFlg(dggcls(col, vl).asInstanceOf[CDef.Flg]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.Flg];
+            if (cls != null) {
+                et.asInstanceOf[DbleOptionMember].setDummyFlgAsFlg(cls);
+            } else {
+                et.asInstanceOf[DbleOptionMember].mynativeMappingDummyFlg(dgctn(vl, classOf[Integer]));
+            }
         }
     }
     class EpgDummyNoflg extends PropertyGateway {
@@ -98,7 +108,7 @@ object OptionMemberDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }

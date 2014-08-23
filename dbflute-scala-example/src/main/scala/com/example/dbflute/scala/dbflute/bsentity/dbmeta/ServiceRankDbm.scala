@@ -52,7 +52,12 @@ object ServiceRankDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnServiceRankCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleServiceRank].setServiceRankCodeAsServiceRank(dggcls(col, vl).asInstanceOf[CDef.ServiceRank]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.ServiceRank];
+            if (cls != null) {
+                et.asInstanceOf[DbleServiceRank].setServiceRankCodeAsServiceRank(cls);
+            } else {
+                et.asInstanceOf[DbleServiceRank].mynativeMappingServiceRankCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgServiceRankName extends PropertyGateway {
@@ -68,7 +73,12 @@ object ServiceRankDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnNewAcceptableFlg();
             dgccls(col, vl);
-            et.asInstanceOf[DbleServiceRank].setNewAcceptableFlgAsFlg(dggcls(col, vl).asInstanceOf[CDef.Flg]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.Flg];
+            if (cls != null) {
+                et.asInstanceOf[DbleServiceRank].setNewAcceptableFlgAsFlg(cls);
+            } else {
+                et.asInstanceOf[DbleServiceRank].mynativeMappingNewAcceptableFlg(dgctn(vl, classOf[Integer]));
+            }
         }
     }
     class EpgDescription extends PropertyGateway {
@@ -83,7 +93,7 @@ object ServiceRankDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }

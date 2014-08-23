@@ -539,6 +539,7 @@ abstract class BsDbleWithdrawalReason extends Entity with DBableEntity[Withdrawa
      * @param withdrawalReasonCode The value of the column 'WITHDRAWAL_REASON_CODE'. (basically NotNull if update: for the constraint)
      */
     protected def setWithdrawalReasonCode(withdrawalReasonCode: String): Unit = {
+        checkClassificationCode("WITHDRAWAL_REASON_CODE", CDef.DefMeta.WithdrawalReason, withdrawalReasonCode);
         __modifiedProperties.addPropertyName("withdrawalReasonCode");
         _withdrawalReasonCode = withdrawalReasonCode;
     }
@@ -577,7 +578,19 @@ abstract class BsDbleWithdrawalReason extends Entity with DBableEntity[Withdrawa
         _displayOrder = displayOrder;
     }
 
+    /**
+     * For framework so basically DON'T use this method.
+     * @param withdrawalReasonCode The value of the column 'WITHDRAWAL_REASON_CODE'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingWithdrawalReasonCode(withdrawalReasonCode: String): Unit = {
+        setWithdrawalReasonCode(withdrawalReasonCode);
+    }
+
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
+    }
+
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

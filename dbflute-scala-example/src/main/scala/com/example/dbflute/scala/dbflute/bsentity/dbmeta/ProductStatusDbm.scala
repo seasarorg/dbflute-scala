@@ -49,7 +49,12 @@ object ProductStatusDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnProductStatusCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleProductStatus].setProductStatusCodeAsProductStatus(dggcls(col, vl).asInstanceOf[CDef.ProductStatus]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.ProductStatus];
+            if (cls != null) {
+                et.asInstanceOf[DbleProductStatus].setProductStatusCodeAsProductStatus(cls);
+            } else {
+                et.asInstanceOf[DbleProductStatus].mynativeMappingProductStatusCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgProductStatusName extends PropertyGateway {
@@ -64,7 +69,7 @@ object ProductStatusDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }

@@ -69,7 +69,12 @@ object MemberDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnMemberStatusCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleMember].setMemberStatusCodeAsMemberStatus(dggcls(col, vl).asInstanceOf[CDef.MemberStatus]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.MemberStatus];
+            if (cls != null) {
+                et.asInstanceOf[DbleMember].setMemberStatusCodeAsMemberStatus(cls);
+            } else {
+                et.asInstanceOf[DbleMember].mynativeMappingMemberStatusCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgFormalizedDatetime extends PropertyGateway {
@@ -104,7 +109,7 @@ object MemberDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -155,7 +160,7 @@ object MemberDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_56FF7819_11B4_487C_8A38_279FF3DB7316", false, null, null, null, "memberAddressList,memberFollowingByMyMemberIdList,memberFollowingByYourMemberIdList,memberLoginList,purchaseList", null);
+    protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_79E1B73F_0C6A_4D6A_9747_626FC808B3B9", false, null, null, null, "memberAddressList,memberFollowingByMyMemberIdList,memberFollowingByYourMemberIdList,memberLoginList,purchaseList", null);
     protected val _columnMemberName: ColumnInfo = cci("MEMBER_NAME", "MEMBER_NAME", null, "会員名称", classOf[String], "memberName", null, false, false, true, "VARCHAR", 200, 0, null, false, null, null, null, null, null);
     protected val _columnMemberAccount: ColumnInfo = cci("MEMBER_ACCOUNT", "MEMBER_ACCOUNT", null, "会員アカウント", classOf[String], "memberAccount", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnMemberStatusCode: ColumnInfo = cci("MEMBER_STATUS_CODE", "MEMBER_STATUS_CODE", null, "会員ステータスコード", classOf[String], "memberStatusCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "memberStatus", null, CDef.DefMeta.MemberStatus);

@@ -737,6 +737,7 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
      * @param productStatusCode The value of the column 'PRODUCT_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
     protected def setProductStatusCode(productStatusCode: String): Unit = {
+        checkClassificationCode("PRODUCT_STATUS_CODE", CDef.DefMeta.ProductStatus, productStatusCode);
         __modifiedProperties.addPropertyName("productStatusCode");
         _productStatusCode = productStatusCode;
     }
@@ -843,7 +844,19 @@ abstract class BsDbleProduct extends EntityDefinedCommonColumn with DBableEntity
         _versionNo = versionNo;
     }
 
+    /**
+     * For framework so basically DON'T use this method.
+     * @param productStatusCode The value of the column 'PRODUCT_STATUS_CODE'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingProductStatusCode(productStatusCode: String): Unit = {
+        setProductStatusCode(productStatusCode);
+    }
+
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
+    }
+
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

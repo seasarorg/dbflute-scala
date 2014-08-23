@@ -48,7 +48,12 @@ object RegionDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnRegionId();
             dgccls(col, vl);
-            et.asInstanceOf[DbleRegion].setRegionIdAsRegion(dggcls(col, vl).asInstanceOf[CDef.Region]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.Region];
+            if (cls != null) {
+                et.asInstanceOf[DbleRegion].setRegionIdAsRegion(cls);
+            } else {
+                et.asInstanceOf[DbleRegion].mynativeMappingRegionId(dgctn(vl, classOf[Integer]));
+            }
         }
     }
     class EpgRegionName extends PropertyGateway {
@@ -59,7 +64,7 @@ object RegionDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }

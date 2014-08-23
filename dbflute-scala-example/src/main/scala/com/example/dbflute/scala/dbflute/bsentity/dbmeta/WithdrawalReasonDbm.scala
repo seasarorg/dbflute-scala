@@ -49,7 +49,12 @@ object WithdrawalReasonDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnWithdrawalReasonCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleWithdrawalReason].setWithdrawalReasonCodeAsWithdrawalReason(dggcls(col, vl).asInstanceOf[CDef.WithdrawalReason]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.WithdrawalReason];
+            if (cls != null) {
+                et.asInstanceOf[DbleWithdrawalReason].setWithdrawalReasonCodeAsWithdrawalReason(cls);
+            } else {
+                et.asInstanceOf[DbleWithdrawalReason].mynativeMappingWithdrawalReasonCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgWithdrawalReasonText extends PropertyGateway {
@@ -64,7 +69,7 @@ object WithdrawalReasonDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }

@@ -50,7 +50,12 @@ object MemberStatusDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnMemberStatusCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleMemberStatus].setMemberStatusCodeAsMemberStatus(dggcls(col, vl).asInstanceOf[CDef.MemberStatus]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.MemberStatus];
+            if (cls != null) {
+                et.asInstanceOf[DbleMemberStatus].setMemberStatusCodeAsMemberStatus(cls);
+            } else {
+                et.asInstanceOf[DbleMemberStatus].mynativeMappingMemberStatusCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgMemberStatusName extends PropertyGateway {
@@ -69,7 +74,7 @@ object MemberStatusDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }

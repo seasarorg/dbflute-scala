@@ -712,6 +712,7 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBable
      * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
      */
     protected def setServiceRankCode(serviceRankCode: String): Unit = {
+        checkClassificationCode("SERVICE_RANK_CODE", CDef.DefMeta.ServiceRank, serviceRankCode);
         __modifiedProperties.addPropertyName("serviceRankCode");
         _serviceRankCode = serviceRankCode;
     }
@@ -801,7 +802,19 @@ abstract class BsDbleMemberService extends EntityDefinedCommonColumn with DBable
         _versionNo = versionNo;
     }
 
+    /**
+     * For framework so basically DON'T use this method.
+     * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingServiceRankCode(serviceRankCode: String): Unit = {
+        setServiceRankCode(serviceRankCode);
+    }
+
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
+    }
+
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

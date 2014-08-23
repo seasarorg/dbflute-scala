@@ -1,3 +1,10 @@
+/*
+ [df:title]
+ The example for CursorSelect
+ 
+ [df:description]
+ you can use cursor handling with this option
+*/
 -- #df:entity#
 -- +cursor+
 

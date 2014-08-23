@@ -910,6 +910,7 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
      * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
     protected def setMemberStatusCode(memberStatusCode: String): Unit = {
+        checkClassificationCode("MEMBER_STATUS_CODE", CDef.DefMeta.MemberStatus, memberStatusCode);
         __modifiedProperties.addPropertyName("memberStatusCode");
         _memberStatusCode = memberStatusCode;
     }
@@ -1033,7 +1034,19 @@ abstract class BsDbleMember extends EntityDefinedCommonColumn with DBableEntity[
         _versionNo = versionNo;
     }
 
+    /**
+     * For framework so basically DON'T use this method.
+     * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingMemberStatusCode(memberStatusCode: String): Unit = {
+        setMemberStatusCode(memberStatusCode);
+    }
+
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
+    }
+
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

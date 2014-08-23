@@ -65,7 +65,7 @@ object MemberFollowingDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -104,7 +104,7 @@ object MemberFollowingDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberFollowingId: ColumnInfo = cci("MEMBER_FOLLOWING_ID", "MEMBER_FOLLOWING_ID", null, "会員フォローイングID", classOf[Long], "memberFollowingId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_362F2295_5606_4611_A1B1_2EC783C4A3F1", false, null, null, null, null, null);
+    protected val _columnMemberFollowingId: ColumnInfo = cci("MEMBER_FOLLOWING_ID", "MEMBER_FOLLOWING_ID", null, "会員フォローイングID", classOf[Long], "memberFollowingId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_83F1029E_2CFF_40DC_B792_3B1A69F2873E", false, null, null, null, null, null);
     protected val _columnMyMemberId: ColumnInfo = cci("MY_MEMBER_ID", "MY_MEMBER_ID", null, "わたし", classOf[Integer], "myMemberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "memberByMyMemberId", null, null);
     protected val _columnYourMemberId: ColumnInfo = cci("YOUR_MEMBER_ID", "YOUR_MEMBER_ID", null, "あなた", classOf[Integer], "yourMemberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "memberByYourMemberId", null, null);
     protected val _columnFollowDatetime: ColumnInfo = cci("FOLLOW_DATETIME", "FOLLOW_DATETIME", null, "その瞬間", classOf[org.joda.time.LocalDateTime], "followDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);

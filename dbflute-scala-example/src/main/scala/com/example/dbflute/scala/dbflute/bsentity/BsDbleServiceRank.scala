@@ -659,6 +659,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
      */
     protected def setServiceRankCode(serviceRankCode: String): Unit = {
+        checkClassificationCode("SERVICE_RANK_CODE", CDef.DefMeta.ServiceRank, serviceRankCode);
         __modifiedProperties.addPropertyName("serviceRankCode");
         _serviceRankCode = serviceRankCode;
     }
@@ -710,7 +711,7 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
      * @param newAcceptableFlg The value of the column 'NEW_ACCEPTABLE_FLG'. (basically NotNull if update: for the constraint)
      */
     protected def setNewAcceptableFlg(newAcceptableFlg: Integer): Unit = {
-        checkImplicitSet("NEW_ACCEPTABLE_FLG", CDef.DefMeta.Flg, newAcceptableFlg);
+        checkClassificationCode("NEW_ACCEPTABLE_FLG", CDef.DefMeta.Flg, newAcceptableFlg);
         __modifiedProperties.addPropertyName("newAcceptableFlg");
         _newAcceptableFlg = newAcceptableFlg;
     }
@@ -749,11 +750,27 @@ abstract class BsDbleServiceRank extends Entity with DBableEntity[ServiceRank] w
         _displayOrder = displayOrder;
     }
 
+    /**
+     * For framework so basically DON'T use this method.
+     * @param serviceRankCode The value of the column 'SERVICE_RANK_CODE'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingServiceRankCode(serviceRankCode: String): Unit = {
+        setServiceRankCode(serviceRankCode);
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param newAcceptableFlg The value of the column 'NEW_ACCEPTABLE_FLG'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingNewAcceptableFlg(newAcceptableFlg: Integer): Unit = {
+        setNewAcceptableFlg(newAcceptableFlg);
+    }
+
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
     }
 
-    protected def checkImplicitSet(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
-        FunCustodial.checkImplicitSet(this, columnDbName, meta, value);
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

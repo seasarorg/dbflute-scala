@@ -78,7 +78,25 @@ object ${myClassName} extends AbstractDBMeta {
 #if ($col.isCheckSelectedClassification())
             dgccls(col, vl);
 #end
-            et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}As${col.classificationName}(dggcls(col, vl).asInstanceOf[${glCDef}.${col.classificationName}]);
+#if ($col.isForceClassificationSetting())
+            val cls = dggcls(col, vl).asInstanceOf[${glCDef}.${col.classificationName}];
+            if (cls != null) {
+                et.asInstanceOf[${myExtendedObjectClassName}].set${col.javaName}As${col.classificationName}(cls);
+            } else {
+## undefined code or null here, use internal method for native mapping
+#if ($col.isJavaNativeNumberObject())
+                et.asInstanceOf[${myExtendedObjectClassName}].mynativeMapping${col.javaName}(dgctn(vl, classOf[${col.javaNative}]));
+#else
+                et.asInstanceOf[${myExtendedObjectClassName}].mynativeMapping${col.javaName}(vl.asInstanceOf[${col.javaNative}]);
+#end
+            }
+#else
+#if ($col.isJavaNativeNumberObject())
+            ((${myExtendedObjectClassName})et).set${col.javaName}(ctn(vl, ${col.javaNative}.class));
+#else
+            ((${myExtendedObjectClassName})et).set${col.javaName}((${col.javaNative})vl);
+#end
+#end
         }
 #else
 ## /- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -111,7 +129,7 @@ object ${myClassName} extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }

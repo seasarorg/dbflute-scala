@@ -73,7 +73,12 @@ object ProductDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnProductStatusCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleProduct].setProductStatusCodeAsProductStatus(dggcls(col, vl).asInstanceOf[CDef.ProductStatus]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.ProductStatus];
+            if (cls != null) {
+                et.asInstanceOf[DbleProduct].setProductStatusCodeAsProductStatus(cls);
+            } else {
+                et.asInstanceOf[DbleProduct].mynativeMappingProductStatusCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgRegularPrice extends PropertyGateway {
@@ -104,7 +109,7 @@ object ProductDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -143,7 +148,7 @@ object ProductDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, null, classOf[Integer], "productId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_1F0F0DD7_9FE2_4DF8_888F_3EA54CB293B8", false, null, null, null, "purchaseList", null);
+    protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, null, classOf[Integer], "productId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_D4C61167_C9B4_402F_8A75_F60B1AE36AE0", false, null, null, null, "purchaseList", null);
     protected val _columnProductName: ColumnInfo = cci("PRODUCT_NAME", "PRODUCT_NAME", null, "商品名称", classOf[String], "productName", null, false, false, true, "VARCHAR", 50, 0, null, false, null, null, null, null, null);
     protected val _columnProductHandleCode: ColumnInfo = cci("PRODUCT_HANDLE_CODE", "PRODUCT_HANDLE_CODE", null, "商品ハンドルコード", classOf[String], "productHandleCode", null, false, false, true, "VARCHAR", 100, 0, null, false, null, null, null, null, null);
     protected val _columnProductCategoryCode: ColumnInfo = cci("PRODUCT_CATEGORY_CODE", "PRODUCT_CATEGORY_CODE", null, null, classOf[String], "productCategoryCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "productCategory", null, null);

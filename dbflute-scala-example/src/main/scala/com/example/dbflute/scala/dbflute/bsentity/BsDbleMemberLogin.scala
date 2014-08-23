@@ -700,7 +700,7 @@ abstract class BsDbleMemberLogin extends Entity with DBableEntity[MemberLogin] w
      * @param mobileLoginFlg The value of the column 'MOBILE_LOGIN_FLG'. (basically NotNull if update: for the constraint)
      */
     protected def setMobileLoginFlg(mobileLoginFlg: Integer): Unit = {
-        checkImplicitSet("MOBILE_LOGIN_FLG", CDef.DefMeta.Flg, mobileLoginFlg);
+        checkClassificationCode("MOBILE_LOGIN_FLG", CDef.DefMeta.Flg, mobileLoginFlg);
         __modifiedProperties.addPropertyName("mobileLoginFlg");
         _mobileLoginFlg = mobileLoginFlg;
     }
@@ -718,15 +718,32 @@ abstract class BsDbleMemberLogin extends Entity with DBableEntity[MemberLogin] w
      * @param loginMemberStatusCode The value of the column 'LOGIN_MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
      */
     protected def setLoginMemberStatusCode(loginMemberStatusCode: String): Unit = {
+        checkClassificationCode("LOGIN_MEMBER_STATUS_CODE", CDef.DefMeta.MemberStatus, loginMemberStatusCode);
         __modifiedProperties.addPropertyName("loginMemberStatusCode");
         _loginMemberStatusCode = loginMemberStatusCode;
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param mobileLoginFlg The value of the column 'MOBILE_LOGIN_FLG'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingMobileLoginFlg(mobileLoginFlg: Integer): Unit = {
+        setMobileLoginFlg(mobileLoginFlg);
+    }
+
+    /**
+     * For framework so basically DON'T use this method.
+     * @param loginMemberStatusCode The value of the column 'LOGIN_MEMBER_STATUS_CODE'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingLoginMemberStatusCode(loginMemberStatusCode: String): Unit = {
+        setLoginMemberStatusCode(loginMemberStatusCode);
     }
 
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
     }
 
-    protected def checkImplicitSet(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
-        FunCustodial.checkImplicitSet(this, columnDbName, meta, value);
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

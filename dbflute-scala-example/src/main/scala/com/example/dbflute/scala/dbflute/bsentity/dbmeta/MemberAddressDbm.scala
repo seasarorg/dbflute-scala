@@ -77,7 +77,12 @@ object MemberAddressDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnRegionId();
             dgccls(col, vl);
-            et.asInstanceOf[DbleMemberAddress].setRegionIdAsRegion(dggcls(col, vl).asInstanceOf[CDef.Region]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.Region];
+            if (cls != null) {
+                et.asInstanceOf[DbleMemberAddress].setRegionIdAsRegion(cls);
+            } else {
+                et.asInstanceOf[DbleMemberAddress].mynativeMappingRegionId(dgctn(vl, classOf[Integer]));
+            }
         }
     }
     class EpgRegisterDatetime extends PropertyGateway {
@@ -104,7 +109,7 @@ object MemberAddressDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -143,7 +148,7 @@ object MemberAddressDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberAddressId: ColumnInfo = cci("MEMBER_ADDRESS_ID", "MEMBER_ADDRESS_ID", null, "会員住所ID", classOf[Integer], "memberAddressId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_EB339422_502D_49A4_A830_60D343D420F4", false, null, null, null, null, null);
+    protected val _columnMemberAddressId: ColumnInfo = cci("MEMBER_ADDRESS_ID", "MEMBER_ADDRESS_ID", null, "会員住所ID", classOf[Integer], "memberAddressId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_7DB07A08_102D_4804_ADBF_2C43A51CCF6B", false, null, null, null, null, null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnValidBeginDate: ColumnInfo = cci("VALID_BEGIN_DATE", "VALID_BEGIN_DATE", null, "有効開始日", classOf[org.joda.time.LocalDate], "validBeginDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
     protected val _columnValidEndDate: ColumnInfo = cci("VALID_END_DATE", "VALID_END_DATE", null, "有効終了日", classOf[org.joda.time.LocalDate], "validEndDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);

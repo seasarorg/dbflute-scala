@@ -4334,7 +4334,17 @@ SUMMARY_WITHDRAWAL
 <h2 id="outsidesql">OutsideSql List</h2>
 <h3 id="member_sql"><a href="#member">MEMBER</a></h3>
 <dl class="bqplist">
-	<dt>&nbsp;selectOptionMember</dt>
+	<dt>(The&nbsp;example&nbsp;for&nbsp;select&nbsp;using&nbsp;options)selectOptionMember</dt>
+	<dd>
+		<pre class="commentdesc"> This SQL is an example for various options of parameter.
+ Point:
+   o The option of like search (like, likePrefix, likeContain, likeSuffix)
+   o The option of from-to search (fromDate, toDate)
+   o The option of classifications for ParameterBean (ref(...) or cls(...))
+   o The auto option of classifications for CustomizeEntity 
+   o The option of reference to table columns (ref(...))
+   o How to set several options (...|...)</pre>
+	</dd>
 	<dd class="subinfo">
 		<span class="file">MemberBhv_selectOptionMember.sql</span>
 		<span class="ctet">(df:entity)</span>
@@ -4353,7 +4363,10 @@ SUMMARY_WITHDRAWAL
 		<span class="ctet">(df:entity)</span>
 		<span class="pmb">(df:pmb extends Paging)</span>
 	</dd>
-	<dt>&nbsp;selectPurchaseSummaryMember</dt>
+	<dt>(The&nbsp;example&nbsp;for&nbsp;CursorSelect)selectPurchaseSummaryMember</dt>
+	<dd>
+		<pre class="commentdesc"> you can use cursor handling with this option</pre>
+	</dd>
 	<dd class="subinfo">
 		<span class="file">MemberBhv_selectPurchaseSummaryMember.sql</span>
 		<span class="ctet">(df:entity *cursor)</span>

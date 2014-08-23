@@ -67,7 +67,12 @@ object MemberServiceDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnServiceRankCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleMemberService].setServiceRankCodeAsServiceRank(dggcls(col, vl).asInstanceOf[CDef.ServiceRank]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.ServiceRank];
+            if (cls != null) {
+                et.asInstanceOf[DbleMemberService].setServiceRankCodeAsServiceRank(cls);
+            } else {
+                et.asInstanceOf[DbleMemberService].mynativeMappingServiceRankCode(vl.asInstanceOf[String]);
+            }
         }
     }
     class EpgRegisterDatetime extends PropertyGateway {
@@ -94,7 +99,7 @@ object MemberServiceDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -133,7 +138,7 @@ object MemberServiceDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberServiceId: ColumnInfo = cci("MEMBER_SERVICE_ID", "MEMBER_SERVICE_ID", null, "会員サービスID", classOf[Integer], "memberServiceId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_9FDFCBB0_2E43_4BB7_8C4C_9532A9B9FDDF", false, null, null, null, null, null);
+    protected val _columnMemberServiceId: ColumnInfo = cci("MEMBER_SERVICE_ID", "MEMBER_SERVICE_ID", null, "会員サービスID", classOf[Integer], "memberServiceId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_9E412A8E_90B8_4DC0_A766_30D4EDD8D640", false, null, null, null, null, null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnServicePointCount: ColumnInfo = cci("SERVICE_POINT_COUNT", "SERVICE_POINT_COUNT", null, "サービスポイント数", classOf[Integer], "servicePointCount", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, null);
     protected val _columnServiceRankCode: ColumnInfo = cci("SERVICE_RANK_CODE", "SERVICE_RANK_CODE", null, "サービスランクコード", classOf[String], "serviceRankCode", null, false, false, true, "CHAR", 3, 0, null, false, null, null, "serviceRank", null, CDef.DefMeta.ServiceRank);

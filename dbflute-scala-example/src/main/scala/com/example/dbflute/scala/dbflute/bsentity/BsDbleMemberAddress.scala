@@ -743,6 +743,7 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
      * @param regionId The value of the column 'REGION_ID'. (basically NotNull if update: for the constraint)
      */
     protected def setRegionId(regionId: Integer): Unit = {
+        checkClassificationCode("REGION_ID", CDef.DefMeta.Region, regionId);
         __modifiedProperties.addPropertyName("regionId");
         _regionId = regionId;
     }
@@ -832,7 +833,19 @@ abstract class BsDbleMemberAddress extends EntityDefinedCommonColumn with DBable
         _versionNo = versionNo;
     }
 
+    /**
+     * For framework so basically DON'T use this method.
+     * @param regionId The value of the column 'REGION_ID'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingRegionId(regionId: Integer): Unit = {
+        setRegionId(regionId);
+    }
+
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
+    }
+
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

@@ -50,7 +50,7 @@ object VendorIdentityOnlyDbm extends AbstractDBMeta {
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -69,7 +69,7 @@ object VendorIdentityOnlyDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnIdentityOnlyId: ColumnInfo = cci("IDENTITY_ONLY_ID", "IDENTITY_ONLY_ID", null, null, classOf[Long], "identityOnlyId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_B419584E_D26D_4C77_9920_DB8642FA4A25", false, null, null, null, null, null);
+    protected val _columnIdentityOnlyId: ColumnInfo = cci("IDENTITY_ONLY_ID", "IDENTITY_ONLY_ID", null, null, classOf[Long], "identityOnlyId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_32DFA8ED_A567_46D6_9A2E_7A059FF77A55", false, null, null, null, null, null);
 
     def columnIdentityOnlyId(): ColumnInfo = { return _columnIdentityOnlyId; }
 

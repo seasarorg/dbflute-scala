@@ -784,7 +784,7 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with DBableEntit
      * @param paymentCompleteFlg The value of the column 'PAYMENT_COMPLETE_FLG'. (basically NotNull if update: for the constraint)
      */
     protected def setPaymentCompleteFlg(paymentCompleteFlg: Integer): Unit = {
-        checkImplicitSet("PAYMENT_COMPLETE_FLG", CDef.DefMeta.Flg, paymentCompleteFlg);
+        checkClassificationCode("PAYMENT_COMPLETE_FLG", CDef.DefMeta.Flg, paymentCompleteFlg);
         __modifiedProperties.addPropertyName("paymentCompleteFlg");
         _paymentCompleteFlg = paymentCompleteFlg;
     }
@@ -874,11 +874,19 @@ abstract class BsDblePurchase extends EntityDefinedCommonColumn with DBableEntit
         _versionNo = versionNo;
     }
 
+    /**
+     * For framework so basically DON'T use this method.
+     * @param paymentCompleteFlg The value of the column 'PAYMENT_COMPLETE_FLG'. (basically NotNull if update: for the constraint)
+     */
+    def mynativeMappingPaymentCompleteFlg(paymentCompleteFlg: Integer): Unit = {
+        setPaymentCompleteFlg(paymentCompleteFlg);
+    }
+
     protected def convertEmptyToNull(value: String): String = {
         return FunCustodial.convertEmptyToNull(value);
     }
 
-    protected def checkImplicitSet(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
-        FunCustodial.checkImplicitSet(this, columnDbName, meta, value);
+    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
+        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

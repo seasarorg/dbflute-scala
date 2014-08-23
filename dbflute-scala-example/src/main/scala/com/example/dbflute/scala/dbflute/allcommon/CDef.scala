@@ -8,6 +8,7 @@ import java.util._;
 import org.seasar.dbflute.jdbc.Classification;
 import org.seasar.dbflute.jdbc.ClassificationCodeType;
 import org.seasar.dbflute.jdbc.ClassificationMeta;
+import org.seasar.dbflute.jdbc.ClassificationUndefinedHandlingType;
 
 /**
  * The definition of classification.
@@ -635,6 +636,10 @@ object CDef {
 
     sealed abstract class DefMeta(val name: String) extends ClassificationMeta {
 
+        def classificationName(): String = {
+            return this.name; // same as definition name
+        }
+
         def codeOf(code: Object): Classification = {
             if ("Flg".equals(this.name)) { return CDef.Flg.codeOf(code).asInstanceOf[CDef.Flg]; }
             if ("MemberStatus".equals(this.name)) { return CDef.MemberStatus.codeOf(code).asInstanceOf[CDef.MemberStatus]; }
@@ -684,14 +689,25 @@ object CDef {
         }
 
         def codeType(): ClassificationCodeType = {
-            if ("Flg".equals(name)) { return ClassificationCodeType.Number; }
-            if ("MemberStatus".equals(name)) { return ClassificationCodeType.String; }
-            if ("ServiceRank".equals(name)) { return ClassificationCodeType.Number; }
-            if ("Region".equals(name)) { return ClassificationCodeType.Number; }
-            if ("WithdrawalReason".equals(name)) { return ClassificationCodeType.String; }
-            if ("ProductCategory".equals(name)) { return ClassificationCodeType.String; }
-            if ("ProductStatus".equals(name)) { return ClassificationCodeType.String; }
+            if ("Flg".equals(this.name)) { return ClassificationCodeType.Number; }
+            if ("MemberStatus".equals(this.name)) { return ClassificationCodeType.String; }
+            if ("ServiceRank".equals(this.name)) { return ClassificationCodeType.Number; }
+            if ("Region".equals(this.name)) { return ClassificationCodeType.Number; }
+            if ("WithdrawalReason".equals(this.name)) { return ClassificationCodeType.String; }
+            if ("ProductCategory".equals(this.name)) { return ClassificationCodeType.String; }
+            if ("ProductStatus".equals(this.name)) { return ClassificationCodeType.String; }
             return ClassificationCodeType.String; // as default
+        }
+
+        def undefinedHandlingType(): ClassificationUndefinedHandlingType = {
+            if ("Flg".equals(this.name)) { return ClassificationUndefinedHandlingType.EXCEPTION; }
+            if ("MemberStatus".equals(this.name)) { return ClassificationUndefinedHandlingType.EXCEPTION; }
+            if ("ServiceRank".equals(this.name)) { return ClassificationUndefinedHandlingType.EXCEPTION; }
+            if ("Region".equals(this.name)) { return ClassificationUndefinedHandlingType.EXCEPTION; }
+            if ("WithdrawalReason".equals(this.name)) { return ClassificationUndefinedHandlingType.EXCEPTION; }
+            if ("ProductCategory".equals(this.name)) { return ClassificationUndefinedHandlingType.EXCEPTION; }
+            if ("ProductStatus".equals(this.name)) { return ClassificationUndefinedHandlingType.EXCEPTION; }
+            return ClassificationUndefinedHandlingType.LOGGING; // as default
         }
     }
 

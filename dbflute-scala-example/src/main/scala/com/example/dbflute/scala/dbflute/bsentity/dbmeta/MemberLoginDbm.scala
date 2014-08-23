@@ -63,7 +63,12 @@ object MemberLoginDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnMobileLoginFlg();
             dgccls(col, vl);
-            et.asInstanceOf[DbleMemberLogin].setMobileLoginFlgAsFlg(dggcls(col, vl).asInstanceOf[CDef.Flg]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.Flg];
+            if (cls != null) {
+                et.asInstanceOf[DbleMemberLogin].setMobileLoginFlgAsFlg(cls);
+            } else {
+                et.asInstanceOf[DbleMemberLogin].mynativeMappingMobileLoginFlg(dgctn(vl, classOf[Integer]));
+            }
         }
     }
     class EpgLoginMemberStatusCode extends PropertyGateway {
@@ -71,14 +76,19 @@ object MemberLoginDbm extends AbstractDBMeta {
         def write(et: Entity, vl: Object): Unit = {
             val col: ColumnInfo = columnLoginMemberStatusCode();
             dgccls(col, vl);
-            et.asInstanceOf[DbleMemberLogin].setLoginMemberStatusCodeAsMemberStatus(dggcls(col, vl).asInstanceOf[CDef.MemberStatus]);
+            val cls = dggcls(col, vl).asInstanceOf[CDef.MemberStatus];
+            if (cls != null) {
+                et.asInstanceOf[DbleMemberLogin].setLoginMemberStatusCodeAsMemberStatus(cls);
+            } else {
+                et.asInstanceOf[DbleMemberLogin].mynativeMappingLoginMemberStatusCode(vl.asInstanceOf[String]);
+            }
         }
     }
     // #avoided delegating to protected static (illegal access error if directly call)
     def dgcti(vl: Object): Integer = { cti(vl); }
     def dgctl(vl: Object): Long = { ctl(vl); }
     def dgctb(vl: Object): BigDecimal = { ctb(vl); }
-    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): Number = { ctn(vl, tp); }
+    def dgctn[NUMBER <: Number](vl: Object, tp: Class[NUMBER]): NUMBER = { ctn(vl, tp); }
     def dggcls(col: ColumnInfo, cd: Object): Classification = { gcls(col, cd); }
     def dgccls(col: ColumnInfo, cd: Object): Unit = { ccls(col, cd); }
     override def findPropertyGateway(prop: String): PropertyGateway = { return doFindEpg(_epgMap, prop); }
@@ -117,7 +127,7 @@ object MemberLoginDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberLoginId: ColumnInfo = cci("MEMBER_LOGIN_ID", "MEMBER_LOGIN_ID", null, "会員ログインID", classOf[Long], "memberLoginId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_EDC8A7B3_7F2B_4E41_9940_BE24DD93E6FF", false, null, null, null, null, null);
+    protected val _columnMemberLoginId: ColumnInfo = cci("MEMBER_LOGIN_ID", "MEMBER_LOGIN_ID", null, "会員ログインID", classOf[Long], "memberLoginId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_AC4EB5A7_0531_4170_BFC7_4F3140BEEBBB", false, null, null, null, null, null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnLoginDatetime: ColumnInfo = cci("LOGIN_DATETIME", "LOGIN_DATETIME", null, "ログイン日時", classOf[org.joda.time.LocalDateTime], "loginDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
     protected val _columnMobileLoginFlg: ColumnInfo = cci("MOBILE_LOGIN_FLG", "MOBILE_LOGIN_FLG", null, "モバイルログインフラグ", classOf[Integer], "mobileLoginFlg", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, null, null, CDef.DefMeta.Flg);

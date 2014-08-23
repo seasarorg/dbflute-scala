@@ -1,3 +1,17 @@
+/*
+ [df:title]
+ The example for select using options
+ 
+ [df:description]
+ This SQL is an example for various options of parameter.
+ Point:
+   o The option of like search (like, likePrefix, likeContain, likeSuffix)
+   o The option of from-to search (fromDate, toDate)
+   o The option of classifications for ParameterBean (ref(...) or cls(...))
+   o The auto option of classifications for CustomizeEntity 
+   o The option of reference to table columns (ref(...))
+   o How to set several options (...|...)
+*/
 -- #df:entity#
 
 -- !df:pmb!
