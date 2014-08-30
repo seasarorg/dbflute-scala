@@ -148,7 +148,7 @@ object MemberAddressDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberAddressId: ColumnInfo = cci("MEMBER_ADDRESS_ID", "MEMBER_ADDRESS_ID", null, "会員住所ID", classOf[Integer], "memberAddressId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_7DB07A08_102D_4804_ADBF_2C43A51CCF6B", false, null, null, null, null, null);
+    protected val _columnMemberAddressId: ColumnInfo = cci("MEMBER_ADDRESS_ID", "MEMBER_ADDRESS_ID", null, "会員住所ID", classOf[Integer], "memberAddressId", null, true, true, true, "INTEGER", 10, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_7B1F12BC_7941_4EF9_98D1_AA525B29A2CB", false, null, null, null, null, null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnValidBeginDate: ColumnInfo = cci("VALID_BEGIN_DATE", "VALID_BEGIN_DATE", null, "有効開始日", classOf[org.joda.time.LocalDate], "validBeginDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);
     protected val _columnValidEndDate: ColumnInfo = cci("VALID_END_DATE", "VALID_END_DATE", null, "有効終了日", classOf[org.joda.time.LocalDate], "validEndDate", null, false, false, true, "DATE", 8, 0, null, false, null, null, null, null, null);

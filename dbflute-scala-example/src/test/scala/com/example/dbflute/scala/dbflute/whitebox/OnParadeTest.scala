@@ -185,7 +185,7 @@ class OnParadeTest extends UnitContainerFunSuite {
     //
     // <<< CB: on parade >>>
     //
-    val keyOfFooDate = "fooDate"
+    val keyOfFooDate = "$fooDate"
     val onparadeList = DBFlutist.memberBhv.selectList { cb =>
       cb.setupSelect_MemberStatus
       cb.setupSelect_MemberServiceAsOne.withServiceRank

@@ -221,7 +221,7 @@ abstract class BsSummaryProductBhv extends AbstractBehaviorReadable[DbleSummaryP
 
     override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
-    override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
+    override protected def isEntityDerivedMappable(): Boolean = { true }
 
     // ===================================================================================
     //                                                                         Page Select

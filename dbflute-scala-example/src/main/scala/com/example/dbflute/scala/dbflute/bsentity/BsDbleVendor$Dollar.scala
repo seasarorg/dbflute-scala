@@ -234,6 +234,15 @@ abstract class BsDbleVendor$Dollar extends Entity with DBableEntity[Vendor$Dolla
 
     /**
      * Find the derived value from derived map.
+     * <pre>
+     * mapping type:
+     *  count()      : Integer
+     *  max(), min() : (same as property type of the column)
+     *  sum(), avg() : BigDecimal
+     *
+     * e.g. use count()
+     *  Integer loginCount = member.derived("$LOGIN_COUNT");
+     * </pre>
      * @param <VALUE> The type of the value.
      * @param aliasName The alias name of derived-referrer. (NotNull)
      * @return The derived value found in the map. (NullAllowed: when null selected)

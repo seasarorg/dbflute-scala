@@ -271,7 +271,7 @@ abstract class BsWithdrawalReasonBhv extends AbstractBehaviorWritable[DbleWithdr
 
     override protected def doReadList(cb: ConditionBean): ListResultBean[_ <: Entity] = { facadeSelectList(downcast(cb))() }
 
-    override protected def isSuppressSpecifyDerivedReferrerEntityPropertyCheck(): Boolean = { true }
+    override protected def isEntityDerivedMappable(): Boolean = { true }
 
     // ===================================================================================
     //                                                                         Page Select
