@@ -153,7 +153,7 @@ object PurchaseDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, classOf[Long], "purchaseId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_DE8B1971_E9B3_4FAC_B7EE_96DDEF51DE32", false, null, null, null, "purchasePaymentList", null);
+    protected val _columnPurchaseId: ColumnInfo = cci("PURCHASE_ID", "PURCHASE_ID", null, null, classOf[Long], "purchaseId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_CC110CCC_A5B8_4E7D_A50C_F3B7D5339C22", false, null, null, null, "purchasePaymentList", null);
     protected val _columnMemberId: ColumnInfo = cci("MEMBER_ID", "MEMBER_ID", null, "会員ID", classOf[Integer], "memberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "member", null, null);
     protected val _columnProductId: ColumnInfo = cci("PRODUCT_ID", "PRODUCT_ID", null, "商品ID", classOf[Integer], "productId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "product", null, null);
     protected val _columnPurchaseDatetime: ColumnInfo = cci("PURCHASE_DATETIME", "PURCHASE_DATETIME", null, "購入日時", classOf[org.joda.time.LocalDateTime], "purchaseDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);

@@ -14,6 +14,7 @@ import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.exception.IllegalBehaviorStateException;
 import org.seasar.dbflute.util.DfTraceViewUtil;
 import org.seasar.dbflute.util.DfTypeUtil;
+import org.seasar.dbflute.util.Srl;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -147,6 +148,10 @@ class ImplementedBehaviorSelector extends BehaviorSelector {
     // ===================================================================================
     //                                                                      General Helper
     //                                                                      ==============
+    protected def replace(str: String, fromStr: String, toStr: String): String = {
+        return Srl.replace(str, fromStr, toStr);
+    }
+
     protected def initUncap(str: String): String = {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }

@@ -100,14 +100,6 @@ map:{
             ; code=PRODUCT_STATUS_CODE; name=PRODUCT_STATUS_NAME
         }
     }
-    ; ServiceRank = list:{
-        ; map:{topComment=rank of service member gets; codeType=Number}
-        ; map:{
-            ; table=SERVICE_RANK
-            ; code=SERVICE_RANK_CODE; name=SERVICE_RANK_NAME
-            ; comment=DESCRIPTION; orderBy=DISPLAY_ORDER
-        }
-    }
 }
 # ----------------/
 
