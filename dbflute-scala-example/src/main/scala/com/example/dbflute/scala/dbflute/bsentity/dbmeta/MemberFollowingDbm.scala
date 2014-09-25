@@ -104,7 +104,7 @@ object MemberFollowingDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected val _columnMemberFollowingId: ColumnInfo = cci("MEMBER_FOLLOWING_ID", "MEMBER_FOLLOWING_ID", null, "会員フォローイングID", classOf[Long], "memberFollowingId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_470D55BB_9E66_4CF5_9328_32266E106703", false, null, null, null, null, null);
+    protected val _columnMemberFollowingId: ColumnInfo = cci("MEMBER_FOLLOWING_ID", "MEMBER_FOLLOWING_ID", null, "会員フォローイングID", classOf[Long], "memberFollowingId", null, true, true, true, "BIGINT", 19, 0, "NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_4BDE48BE_D9E7_4552_91F3_DF9283658714", false, null, null, null, null, null);
     protected val _columnMyMemberId: ColumnInfo = cci("MY_MEMBER_ID", "MY_MEMBER_ID", null, "わたし", classOf[Integer], "myMemberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "memberByMyMemberId", null, null);
     protected val _columnYourMemberId: ColumnInfo = cci("YOUR_MEMBER_ID", "YOUR_MEMBER_ID", null, "あなた", classOf[Integer], "yourMemberId", null, false, false, true, "INTEGER", 10, 0, null, false, null, null, "memberByYourMemberId", null, null);
     protected val _columnFollowDatetime: ColumnInfo = cci("FOLLOW_DATETIME", "FOLLOW_DATETIME", null, "その瞬間", classOf[org.joda.time.LocalDateTime], "followDatetime", null, false, false, true, "TIMESTAMP", 23, 10, null, false, null, null, null, null, null);
