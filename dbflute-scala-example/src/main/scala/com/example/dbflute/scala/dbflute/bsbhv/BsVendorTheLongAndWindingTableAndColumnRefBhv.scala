@@ -644,7 +644,8 @@ abstract class BsVendorTheLongAndWindingTableAndColumnRefBhv extends AbstractBeh
      * @return The basic executor of outside-SQL. (NotNull)
      */
     def outsideSql(): ScrOutsideSqlTypedBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv] = {
-        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
+        val facadeExecutor: OutsideSqlAllFacadeExecutor[VendorTheLongAndWindingTableAndColumnRefBhv] = doOutsideSql();
+        return toImmutableOutsideSqlTypedBasicExecutor(facadeExecutor.xbasicExecutor()); // variable to resolve generic type
     }
 
     protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv]): ScrOutsideSqlTypedBasicExecutor[VendorTheLongAndWindingTableAndColumnRefBhv] =

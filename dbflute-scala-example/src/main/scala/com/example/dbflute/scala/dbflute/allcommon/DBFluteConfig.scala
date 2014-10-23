@@ -68,6 +68,7 @@ object DBFluteConfig {
     protected var _emptyStringQueryAllowed: Boolean = false;
     protected var _emptyStringParameterAllowed: Boolean = false;
     protected var _overridingQueryAllowed: Boolean = false;
+    protected var _nonSpecifiedColumnAccessAllowed: Boolean = false;
     protected var _disableSelectIndex: Boolean = false;
     protected var _queryUpdateCountPreCheck: Boolean = false;
 
@@ -136,7 +137,7 @@ object DBFluteConfig {
     }
 
     def setPagingCountLater(pagingCountLater: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting pagingCountLater: " + pagingCountLater);
         }
@@ -148,7 +149,7 @@ object DBFluteConfig {
     }
 
     def setPagingCountLeastJoin(pagingCountLeastJoin: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting pagingCountLeastJoin: " + pagingCountLeastJoin);
         }
@@ -163,7 +164,7 @@ object DBFluteConfig {
     }
 
     def setInnerJoinAutoDetect(innerJoinAutoDetect: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting innerJoinAutoDetect: " + innerJoinAutoDetect);
         }
@@ -178,7 +179,7 @@ object DBFluteConfig {
     }
 
     def setThatsBadTimingDetect(thatsBadTimingDetect: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting thatsBadTimingDetect: " + thatsBadTimingDetect);
         }
@@ -198,7 +199,7 @@ object DBFluteConfig {
      * @param nullOrEmptyQueryAllowed The determination, true or false.
      */
     def setNullOrEmptyQueryAllowed(nullOrEmptyQueryAllowed: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting nullOrEmptyQueryAllowed: " + nullOrEmptyQueryAllowed);
         }
@@ -215,7 +216,7 @@ object DBFluteConfig {
      * @param emptyStringQueryAllowed The determination, true or false.
      */
     def setEmptyStringQueryAllowed(emptyStringQueryAllowed: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting emptyStringQueryAllowed: " + emptyStringQueryAllowed);
         }
@@ -232,7 +233,7 @@ object DBFluteConfig {
      * @param emptyStringParameterAllowed The determination, true or false.
      */
     def setEmptyStringParameterAllowed(emptyStringParameterAllowed: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting emptyStringParameterAllowed: " + emptyStringParameterAllowed);
         }
@@ -249,11 +250,31 @@ object DBFluteConfig {
      * @param overridingQueryAllowed The determination, true or false.
      */
     def setOverridingQueryAllowed(overridingQueryAllowed: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting overridingQueryAllowed: " + overridingQueryAllowed);
         }
         _overridingQueryAllowed = overridingQueryAllowed;
+    }
+
+    // ===================================================================================
+    //                                                                Non-Specified Access
+    //                                                                ====================
+    def isNonSpecifiedColumnAccessAllowed(): Boolean = {
+        return _nonSpecifiedColumnAccessAllowed;
+    }
+
+    /**
+     * Set whether non-specified column access is allowed or not. <br />
+     * This configuration is only for ConditionBean.
+     * @param nonSpecifiedColumnAccessAllowed The determination, true or false.
+     */
+    def setNonSpecifiedColumnAccessAllowed(nonSpecifiedColumnAccessAllowed: Boolean): Unit = {
+        assertUnlocked();
+        if (_log.isInfoEnabled()) {
+            _log.info("...Setting nonSpecifiedColumnAccessAllowed: " + nonSpecifiedColumnAccessAllowed);
+        }
+        _nonSpecifiedColumnAccessAllowed = nonSpecifiedColumnAccessAllowed;
     }
 
     // ===================================================================================
@@ -264,7 +285,7 @@ object DBFluteConfig {
     }
 
     def setDisableSelectIndex(disableSelectIndex: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting disableSelectIndex: " + disableSelectIndex);
         }
@@ -279,7 +300,7 @@ object DBFluteConfig {
     }
 
     def setQueryUpdateCountPreCheck(queryUpdateCountPreCheck: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting queryUpdateCountPreCheck: " + queryUpdateCountPreCheck);
         }
@@ -290,7 +311,7 @@ object DBFluteConfig {
     //                                                                Query Log Level Info
     //                                                                ====================
     def setQueryLogLevelInfo(queryLogLevelInfo: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting queryLogLevelInfo: " + queryLogLevelInfo);
         }
@@ -303,7 +324,7 @@ object DBFluteConfig {
     //                                                       Execute Status Log Level Info
     //                                                       =============================
     def setExecuteStatusLogLevelInfo(executeStatusLogLevelInfo: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting executeStatusLogLevelInfo: " + executeStatusLogLevelInfo);
         }
@@ -320,7 +341,7 @@ object DBFluteConfig {
     }
 
     def setLogDateFormat(logDateFormat: String): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting logDateFormat: " + logDateFormat);
         }
@@ -332,7 +353,7 @@ object DBFluteConfig {
     }
 
     def setLogTimestampFormat(logTimestampFormat: String): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting logTimestampFormat: " + logTimestampFormat);
         }
@@ -347,7 +368,7 @@ object DBFluteConfig {
     }
 
     def setDefaultStatementConfig(defaultStatementConfig: StatementConfig): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting defaultStatementConfig: " + defaultStatementConfig);
         }
@@ -362,7 +383,7 @@ object DBFluteConfig {
     }
 
     def setCursorSelectFetchSize(cursorSelectFetchSize: Integer): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting cursorSelectFetchSize: " + cursorSelectFetchSize);
         }
@@ -384,7 +405,7 @@ object DBFluteConfig {
      * @param dataSourceHandler The handler of data source. (NullAllowed)
      */
     def setDataSourceHandler(dataSourceHandler: DataSourceHandler): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting dataSourceHandler: " + dataSourceHandler);
         }
@@ -406,7 +427,7 @@ object DBFluteConfig {
      * @param physicalConnectionDigger The digger of physical connection. (NotNull)
      */
     def setPhysicalConnectionDigger(physicalConnectionDigger: PhysicalConnectionDigger): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting physicalConnectionDigger: " + physicalConnectionDigger);
         }
@@ -431,7 +452,7 @@ object DBFluteConfig {
      * @param sqlExceptionDigger The digger of SQLException. (NotNull)
      */
     def setSQLExceptionDigger(sqlExceptionDigger: SQLExceptionDigger): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting sqlExceptionDigger: " + sqlExceptionDigger);
         }
@@ -455,7 +476,7 @@ object DBFluteConfig {
      * @param outsideSqlPackage The package of outside SQL. (NullAllowed)
      */
     def setOutsideSqlPackage(outsideSqlPackage: String): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting outsideSqlPackage: " + outsideSqlPackage);
         }
@@ -471,7 +492,7 @@ object DBFluteConfig {
     }
 
     def setUseSqlLogRegistry(useSqlLogRegistry: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting useSqlLogRegistry: " + useSqlLogRegistry);
         }
@@ -493,7 +514,7 @@ object DBFluteConfig {
      * @param sequenceCacheKeyGenerator The key generator of sequence cache. (NullAllowed)
      */
     def setSequenceCacheKeyGenerator(sequenceCacheKeyGenerator: SequenceCacheKeyGenerator): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting sequenceCacheKeyGenerator: " + sequenceCacheKeyGenerator);
         }
@@ -515,7 +536,7 @@ object DBFluteConfig {
      * @param sqlClauseCreator The creator of SQL clause. (NullAllowed)
      */
     def setSqlClauseCreator(sqlClauseCreator: SqlClauseCreator): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting sqlClauseCreator: " + sqlClauseCreator);
         }
@@ -540,7 +561,7 @@ object DBFluteConfig {
      * @param tableSqlNameFilter The SQL name filter for table. (NullAllowed)
      */
     def setTableSqlNameFilter(tableSqlNameFilter: SqlNameFilter): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting tableSqlNameFilter: " + tableSqlNameFilter);
         }
@@ -556,7 +577,7 @@ object DBFluteConfig {
     }
 
     def setOutsideSqlExecutorFactory(outsideSqlExecutorFactory: OutsideSqlExecutorFactory): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting outsideSqlExecutorFactory: " + outsideSqlExecutorFactory);
         }
@@ -572,7 +593,7 @@ object DBFluteConfig {
     }
 
     def setGearedCipherManager(gearedCipherManager: GearedCipherManager): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting gearedCipherManager: " + gearedCipherManager);
         }
@@ -591,7 +612,7 @@ object DBFluteConfig {
     }
 
     def setInternalDebug(internalDebug: Boolean): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Setting internalDebug: " + internalDebug);
         }
@@ -608,7 +629,7 @@ object DBFluteConfig {
      * @param valueType The basic value type. (NotNull)
      */
     def registerBasicValueType(keyType: Class[_], valueType: ValueType): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Registering basic valueType: " + keyType + " = " + valueType);
         }
@@ -616,7 +637,7 @@ object DBFluteConfig {
     }
 
     def removeBasicValueType(keyType: Class[_]): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Removing basic valueType: " + keyType);
         }
@@ -630,7 +651,7 @@ object DBFluteConfig {
      * @param valueType The plug-in value type. (NotNull)
      */
     def registerPluginValueType(keyName: String, valueType: ValueType): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Registering plug-in valueType: " + keyName + " = " + valueType);
         }
@@ -638,7 +659,7 @@ object DBFluteConfig {
     }
 
     def removePluginValueType(keyName: String): Unit = {
-        assertNotLocked();
+        assertUnlocked();
         if (_log.isInfoEnabled()) {
             _log.info("...Removing plug-in valueType: keyName=" + keyName);
         }
@@ -648,10 +669,6 @@ object DBFluteConfig {
     // ===================================================================================
     //                                                                  Configuration Lock
     //                                                                  ==================
-    def isLocked(): Boolean = {
-        return _locked;
-    }
-
     def lock(): Unit = {
         if (_locked) {
             return;
@@ -672,7 +689,11 @@ object DBFluteConfig {
         _locked = false;
     }
 
-    protected def assertNotLocked(): Unit = {
+    def isLocked(): Boolean = {
+        return _locked;
+    }
+
+    protected def assertUnlocked(): Unit = {
         if (!isLocked()) {
             return;
         }

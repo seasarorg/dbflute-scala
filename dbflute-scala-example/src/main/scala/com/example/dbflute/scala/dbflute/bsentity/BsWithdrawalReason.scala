@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -63,7 +63,7 @@ abstract class BsWithdrawalReason(dble: DbleWithdrawalReason) extends Serializab
     ): WithdrawalReason = {
         val newDble = new DbleWithdrawalReason
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
-        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        newDble.mymodifiedProperties.addAll(dble.mymodifiedProperties) // inherit
         if (!withdrawalReasonCode.equals(this.withdrawalReasonCode)) { newDble.setWithdrawalReasonCodeAsWithdrawalReason(withdrawalReasonCode) }
         if (!withdrawalReasonText.equals(this.withdrawalReasonText)) { newDble.setWithdrawalReasonText(withdrawalReasonText) }
         if (!displayOrder.equals(this.displayOrder)) { newDble.setDisplayOrder(displayOrder) }
@@ -76,7 +76,7 @@ abstract class BsWithdrawalReason(dble: DbleWithdrawalReason) extends Serializab
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
     def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
-    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+    def getMyModifiedProperties(): Set[String] = { toScalaStringSet(dble.mymodifiedProperties) }
 
     protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
     { Set(javaList.toArray).asInstanceOf[Set[String]] }

@@ -859,7 +859,8 @@ abstract class BsProductBhv extends AbstractBehaviorWritable[DbleProduct, Produc
      * @return The basic executor of outside-SQL. (NotNull)
      */
     def outsideSql(): ScrOutsideSqlTypedBasicExecutor[ProductBhv] = {
-        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
+        val facadeExecutor: OutsideSqlAllFacadeExecutor[ProductBhv] = doOutsideSql();
+        return toImmutableOutsideSqlTypedBasicExecutor(facadeExecutor.xbasicExecutor()); // variable to resolve generic type
     }
 
     protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[ProductBhv]): ScrOutsideSqlTypedBasicExecutor[ProductBhv] =

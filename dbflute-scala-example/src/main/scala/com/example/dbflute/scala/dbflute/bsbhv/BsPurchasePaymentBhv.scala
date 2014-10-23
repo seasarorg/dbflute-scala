@@ -644,7 +644,8 @@ abstract class BsPurchasePaymentBhv extends AbstractBehaviorWritable[DblePurchas
      * @return The basic executor of outside-SQL. (NotNull)
      */
     def outsideSql(): ScrOutsideSqlTypedBasicExecutor[PurchasePaymentBhv] = {
-        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
+        val facadeExecutor: OutsideSqlAllFacadeExecutor[PurchasePaymentBhv] = doOutsideSql();
+        return toImmutableOutsideSqlTypedBasicExecutor(facadeExecutor.xbasicExecutor()); // variable to resolve generic type
     }
 
     protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[PurchasePaymentBhv]): ScrOutsideSqlTypedBasicExecutor[PurchasePaymentBhv] =

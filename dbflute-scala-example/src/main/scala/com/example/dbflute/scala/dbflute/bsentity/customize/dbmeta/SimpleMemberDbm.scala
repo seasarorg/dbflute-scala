@@ -14,7 +14,7 @@ import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta;
 import org.seasar.dbflute.dbmeta.AbstractDBMeta._;
 import org.seasar.dbflute.dbmeta.DBMeta.OptimisticLockType
-import org.seasar.dbflute.dbmeta.PropertyGateway;
+import org.seasar.dbflute.dbmeta.property.PropertyGateway;
 import org.seasar.dbflute.dbmeta.info._;
 import org.seasar.dbflute.dbmeta.name._;
 import org.seasar.dbflute.jdbc.Classification;

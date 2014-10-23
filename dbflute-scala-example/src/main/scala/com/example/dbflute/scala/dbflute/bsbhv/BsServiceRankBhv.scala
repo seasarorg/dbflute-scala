@@ -742,7 +742,8 @@ abstract class BsServiceRankBhv extends AbstractBehaviorWritable[DbleServiceRank
      * @return The basic executor of outside-SQL. (NotNull)
      */
     def outsideSql(): ScrOutsideSqlTypedBasicExecutor[ServiceRankBhv] = {
-        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
+        val facadeExecutor: OutsideSqlAllFacadeExecutor[ServiceRankBhv] = doOutsideSql();
+        return toImmutableOutsideSqlTypedBasicExecutor(facadeExecutor.xbasicExecutor()); // variable to resolve generic type
     }
 
     protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[ServiceRankBhv]): ScrOutsideSqlTypedBasicExecutor[ServiceRankBhv] =

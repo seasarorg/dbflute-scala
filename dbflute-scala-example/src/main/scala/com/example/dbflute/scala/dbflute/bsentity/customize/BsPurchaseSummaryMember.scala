@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.FunCustodial;
 import com.example.dbflute.scala.dbflute.exentity.customize._;
 
 /**
@@ -65,7 +65,7 @@ abstract class BsPurchaseSummaryMember(dble: DblePurchaseSummaryMember) extends 
     ): PurchaseSummaryMember = {
         val newDble = new DblePurchaseSummaryMember
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
-        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        newDble.mymodifiedProperties.addAll(dble.mymodifiedProperties) // inherit
         if (!memberId.equals(this.memberId)) { newDble.setMemberId(memberId.map(int2Integer(_)).orNull) }
         if (!memberName.equals(this.memberName)) { newDble.setMemberName(memberName.orNull) }
         if (!birthdate.equals(this.birthdate)) { newDble.setBirthdate(birthdate.orNull) }
@@ -80,7 +80,7 @@ abstract class BsPurchaseSummaryMember(dble: DblePurchaseSummaryMember) extends 
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
     def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
-    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+    def getMyModifiedProperties(): Set[String] = { toScalaStringSet(dble.mymodifiedProperties) }
 
     protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
     { Set(javaList.toArray).asInstanceOf[Set[String]] }

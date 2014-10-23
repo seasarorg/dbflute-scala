@@ -7,19 +7,14 @@ import scala.collection.JavaConverters._;
 import java.lang.Long;
 import java.lang.Boolean;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 
 import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.dbmeta.DerivedMappable;
-import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
-import org.seasar.dbflute.Entity.EntityModifiedProperties;
-import org.seasar.dbflute.Entity.EntityDerivedMap;
-import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.dbmeta.AbstractEntity;
+import org.seasar.dbflute.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.EntityDefinedCommonColumn;
@@ -81,7 +76,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBableEntity[MemberWithdrawal] with Serializable with Cloneable with DerivedMappable {
+abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedCommonColumn with DBableEntity[MemberWithdrawal] with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -116,24 +111,6 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
     /** VERSION_NO: {NotNull, BIGINT(19)} */
     protected var _versionNo: Long = null;
 
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
-
-    /** The map of derived value, key is alias name. (NullAllowed: lazy-loaded) */
-    protected var __derivedMap: EntityDerivedMap = null;
-
-    /** Is common column auto set up effective? */
-    protected var __canCommonColumnAutoSetup: Boolean = true;
-
-    /** Is the entity created by DBFlute select process? */
-    protected var __createdBySelect: Boolean = false;
-
     // ===================================================================================
     //                                                                           Immutable
     //                                                                           =========
@@ -155,7 +132,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
-        immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
+        immu.getMyModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleMemberWithdrawal];
     }
 
@@ -179,7 +156,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
     /**
      * {@inheritDoc}
      */
-    def getTablePropertyName(): String = { // according to Java Beans rule
+    def getTablePropertyName(): String = {
         return "memberWithdrawal";
     }
 
@@ -202,17 +179,6 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
     def hasPrimaryKeyValue(): scala.Boolean = {
         if (getMemberId() == null) { return false; }
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def myuniqueDrivenProperties(): Set[String] = {
-        return __uniqueDrivenProperties.getPropertyNames();
-    }
-
-    protected def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
-        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -381,112 +347,8 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
+    protected def newReferrerScalaList[ELEMENT](): List[ELEMENT] = {
         return new ArrayList[ELEMENT]();
-    }
-
-    // ===================================================================================
-    //                                                                 Modified Properties
-    //                                                                 ===================
-    /**
-     * {@inheritDoc}
-     */
-    def modifiedProperties(): Set[String] = {
-        return __modifiedProperties.getPropertyNames();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def clearModifiedInfo(): Unit = {
-        __modifiedProperties.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def hasModification(): scala.Boolean = {
-        return !__modifiedProperties.isEmpty();
-    }
-
-    protected def newModifiedProperties(): EntityModifiedProperties = {
-        return new EntityModifiedProperties();
-    }
-
-    // ===================================================================================
-    //                                                                     Birthplace Mark
-    //                                                                     ===============
-    /**
-     * {@inheritDoc}
-     */
-    def markAsSelect(): Unit = {
-        __createdBySelect = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def createdBySelect(): scala.Boolean = {
-        return __createdBySelect;
-    }
-
-    // ===================================================================================
-    //                                                                       Common Column
-    //                                                                       =============
-    /**
-     * {@inheritDoc}
-     */
-    def enableCommonColumnAutoSetup(): Unit = {
-        __canCommonColumnAutoSetup = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def disableCommonColumnAutoSetup(): Unit = {
-        __canCommonColumnAutoSetup = false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def canCommonColumnAutoSetup(): scala.Boolean = {
-        return __canCommonColumnAutoSetup;
-    }
-
-    // ===================================================================================
-    //                                                                    Derived Mappable
-    //                                                                    ================
-    /**
-     * {@inheritDoc}
-     */
-    def registerDerivedValue(aliasName: String, selectedValue: Object): Unit = {
-        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
-        __derivedMap.registerDerivedValue(aliasName, selectedValue);
-    }
-
-    /**
-     * Find the derived value from derived map.
-     * <pre>
-     * mapping type:
-     *  count()      : Integer
-     *  max(), min() : (same as property type of the column)
-     *  sum(), avg() : BigDecimal
-     *
-     * e.g. use count()
-     *  Integer loginCount = member.derived("$LOGIN_COUNT");
-     * </pre>
-     * @param <VALUE> The type of the value.
-     * @param aliasName The alias name of derived-referrer. (NotNull)
-     * @return The derived value found in the map. (NullAllowed: when null selected)
-     */
-    def derived[VALUE](aliasName: String): VALUE = {
-        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
-        return __derivedMap.findDerivedValue(aliasName);
-    }
-
-    protected def newDerivedMap(): EntityDerivedMap = {
-        return new EntityDerivedMap();
     }
 
     // ===================================================================================
@@ -506,7 +368,7 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    override def equals(obj: Any) = {
+    override protected def doEquals(obj: Any) = {
         obj match {
             case obj: BsDbleMemberWithdrawal => {
                 val other: BsDbleMemberWithdrawal = obj.asInstanceOf[BsDbleMemberWithdrawal];
@@ -517,73 +379,28 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): scala.Boolean = {
-        return FunCustodial.isSameValue(v1, v2);
-    }
 
-    /**
-     * Calculate the hash-code from primary-keys or columns.
-     * @return The hash-code from primary-key or columns.
-     */
-    override def hashCode(): Int = {
-        var hs: Int = 17;
+    override protected def doHashCode(initial: Int): Int = {
+        var hs: Int = initial;
         hs = xCH(hs, getTableDbName());
         hs = xCH(hs, getMemberId());
         return hs;
     }
-    protected def xCH(hs: Int, value: Object): Int = {
-        return FunCustodial.calculateHashcode(hs, value);
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    def instanceHash(): Int = {
-        return super.hashCode();
-    }
-
-    /**
-     * Convert to display string of entity's data. (no relation data)
-     * @return The display string of all columns and relation existences. (NotNull)
-     */
-    override def toString(): String = {
-        return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def toStringWithRelation(): String = {
+    override protected def doBuildStringWithRelation(li: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        sb.append(toString());
-        val li: String = "\n  ";
-        if (_member != null)
+        if (_member != null && _member.isEmpty)
         { sb.append(li).append(xbRDS(_member, "member")); }
-        if (_withdrawalReason != null)
+        if (_withdrawalReason != null && _withdrawalReason.isEmpty)
         { sb.append(li).append(xbRDS(_withdrawalReason, "withdrawalReason")); }
         return sb.toString();
-    }
-    protected def xbRDS(et: Entity, name: String): String = {
-        return et.buildDisplayString(name, true, true);
     }
     protected def xbRDS[ET <: Entity](et: Option[ET], name: String): String = {
         return et.get.buildDisplayString(name, true, true);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    def buildDisplayString(name: String, column: scala.Boolean, relation: scala.Boolean): String = {
+    override protected def doBuildColumnString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
-        if (column) { sb.append(buildColumnString()); }
-        if (relation) { sb.append(buildRelationString()); }
-        sb.append("@").append(Integer.toHexString(hashCode()));
-        return sb.toString();
-    }
-    protected def buildColumnString(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        val dm: String = ", ";
         sb.append(dm).append(getMemberId());
         sb.append(dm).append(getWithdrawalReasonCode());
         sb.append(dm).append(getWithdrawalReasonInputText());
@@ -599,29 +416,19 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
-    protected def buildRelationString(): String = {
+
+    override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        val cm: String = ",  ";
-        if (_member != null) { sb.append(cm).append("member"); }
-        if (_withdrawalReason != null) { sb.append(cm).append("withdrawalReason"); }
-        if (sb.length() > cm.length()) {
-            sb.delete(0, cm.length()).insert(0, "(").append(")");
+        if (_member != null) { sb.append(dm).append("member"); }
+        if (_withdrawalReason != null) { sb.append(dm).append("withdrawalReason"); }
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }
 
-    /**
-     * Clone entity instance using super.clone(). (shallow copy) 
-     * @return The cloned instance of this entity. (NotNull)
-     */
     override def clone(): DbleMemberWithdrawal = {
-        try {
-            return super.clone().asInstanceOf[DbleMemberWithdrawal];
-        } catch {
-            case e: CloneNotSupportedException => {
-                throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
-            }
-        }
+        return super.clone().asInstanceOf[DbleMemberWithdrawal];
     }
 
     // ===================================================================================
@@ -787,13 +594,5 @@ abstract class BsDbleMemberWithdrawal extends EntityDefinedCommonColumn with DBa
      */
     def mynativeMappingWithdrawalReasonCode(withdrawalReasonCode: String): Unit = {
         setWithdrawalReasonCode(withdrawalReasonCode);
-    }
-
-    protected def convertEmptyToNull(value: String): String = {
-        return FunCustodial.convertEmptyToNull(value);
-    }
-
-    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
-        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

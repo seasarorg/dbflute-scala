@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.allcommon.CDef;
 import com.example.dbflute.scala.dbflute.exentity._;
@@ -79,7 +79,7 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
     ): Product = {
         val newDble = new DbleProduct
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
-        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        newDble.mymodifiedProperties.addAll(dble.mymodifiedProperties) // inherit
         if (!productId.equals(this.productId)) { newDble.setProductId(productId) }
         if (!productName.equals(this.productName)) { newDble.setProductName(productName) }
         if (!productHandleCode.equals(this.productHandleCode)) { newDble.setProductHandleCode(productHandleCode) }
@@ -100,7 +100,7 @@ abstract class BsProduct(dble: DbleProduct) extends Serializable {
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
     def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
-    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+    def getMyModifiedProperties(): Set[String] = { toScalaStringSet(dble.mymodifiedProperties) }
 
     protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
     { Set(javaList.toArray).asInstanceOf[Set[String]] }

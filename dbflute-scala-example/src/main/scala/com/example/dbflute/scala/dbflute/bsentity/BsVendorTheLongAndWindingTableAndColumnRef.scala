@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.FunCustodial;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
 import com.example.dbflute.scala.dbflute.exentity._;
 
@@ -64,7 +64,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnRef(dble: DbleVendorTheLon
     ): VendorTheLongAndWindingTableAndColumnRef = {
         val newDble = new DbleVendorTheLongAndWindingTableAndColumnRef
         newDble.myuniqueDrivenProperties.addAll(dble.myuniqueDrivenProperties) // inherit
-        newDble.modifiedProperties.addAll(dble.modifiedProperties) // inherit
+        newDble.mymodifiedProperties.addAll(dble.mymodifiedProperties) // inherit
         if (!theLongAndWindingTableAndColumnRefId.equals(this.theLongAndWindingTableAndColumnRefId)) { newDble.setTheLongAndWindingTableAndColumnRefId(theLongAndWindingTableAndColumnRefId) }
         if (!theLongAndWindingTableAndColumnId.equals(this.theLongAndWindingTableAndColumnId)) { newDble.setTheLongAndWindingTableAndColumnId(theLongAndWindingTableAndColumnId) }
         if (!theLongAndWindingTableAndColumnRefDate.equals(this.theLongAndWindingTableAndColumnRefDate)) { newDble.setTheLongAndWindingTableAndColumnRefDate(theLongAndWindingTableAndColumnRefDate) }
@@ -78,7 +78,7 @@ abstract class BsVendorTheLongAndWindingTableAndColumnRef(dble: DbleVendorTheLon
     def getTableDbName(): String = { dble.getTableDbName }
     def getDBMeta(): DBMeta = { dble.getDBMeta }
     def getMyUniqueDrivenProperties(): Set[String] = { toScalaStringSet(dble.myuniqueDrivenProperties) }
-    def getModifiedProperties(): Set[String] = { toScalaStringSet(dble.modifiedProperties) }
+    def getMyModifiedProperties(): Set[String] = { toScalaStringSet(dble.mymodifiedProperties) }
 
     protected def toScalaStringSet(javaList: java.util.Collection[String]): Set[String] =
     { Set(javaList.toArray).asInstanceOf[Set[String]] }

@@ -634,7 +634,8 @@ abstract class BsVendor$DollarBhv extends AbstractBehaviorWritable[DbleVendor$Do
      * @return The basic executor of outside-SQL. (NotNull)
      */
     def outsideSql(): ScrOutsideSqlTypedBasicExecutor[Vendor$DollarBhv] = {
-        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
+        val facadeExecutor: OutsideSqlAllFacadeExecutor[Vendor$DollarBhv] = doOutsideSql();
+        return toImmutableOutsideSqlTypedBasicExecutor(facadeExecutor.xbasicExecutor()); // variable to resolve generic type
     }
 
     protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[Vendor$DollarBhv]): ScrOutsideSqlTypedBasicExecutor[Vendor$DollarBhv] =

@@ -7,19 +7,13 @@ import scala.collection.JavaConverters._;
 import java.lang.Long;
 import java.lang.Boolean;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 
-import org.seasar.dbflute.Entity;
 import org.seasar.dbflute.dbmeta.DBMeta;
-import org.seasar.dbflute.dbmeta.DerivedMappable;
-import org.seasar.dbflute.Entity.EntityUniqueDrivenProperties;
-import org.seasar.dbflute.Entity.EntityModifiedProperties;
-import org.seasar.dbflute.Entity.EntityDerivedMap;
-import org.seasar.dbflute.Entity.FunCustodial;
+import org.seasar.dbflute.dbmeta.AbstractEntity;
+import org.seasar.dbflute.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
 import com.example.dbflute.scala.dbflute.allcommon.DBMetaInstanceHandler;
@@ -68,7 +62,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatus] with Serializable with Cloneable with DerivedMappable {
+abstract class BsDbleProductStatus extends AbstractEntity with DBableEntity[ProductStatus] with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -85,21 +79,6 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
     /** (表示順)DISPLAY_ORDER: {UQ, NotNull, INTEGER(10)} */
     protected var _displayOrder: Integer = null;
 
-    // -----------------------------------------------------
-    //                                              Internal
-    //                                              --------
-    /** The unique-driven properties for this entity. (NotNull) */
-    protected val __uniqueDrivenProperties: EntityUniqueDrivenProperties = newUniqueDrivenProperties();
-
-    /** The modified properties for this entity. (NotNull) */
-    protected val __modifiedProperties: EntityModifiedProperties = newModifiedProperties();
-
-    /** The map of derived value, key is alias name. (NullAllowed: lazy-loaded) */
-    protected var __derivedMap: EntityDerivedMap = null;
-
-    /** Is the entity created by DBFlute select process? */
-    protected var __createdBySelect: Boolean = false;
-
     // ===================================================================================
     //                                                                           Immutable
     //                                                                           =========
@@ -114,7 +93,7 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
         __uniqueDrivenProperties.clear();
         immu.getMyUniqueDrivenProperties().foreach(__uniqueDrivenProperties.addPropertyName(_))
         __modifiedProperties.clear();
-        immu.getModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
+        immu.getMyModifiedProperties().foreach(__modifiedProperties.addPropertyName(_))
         return this.asInstanceOf[DbleProductStatus];
     }
 
@@ -138,7 +117,7 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
     /**
      * {@inheritDoc}
      */
-    def getTablePropertyName(): String = { // according to Java Beans rule
+    def getTablePropertyName(): String = {
         return "productStatus";
     }
 
@@ -172,17 +151,6 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
         __uniqueDrivenProperties.clear();
         __uniqueDrivenProperties.addPropertyName("displayOrder");
         setDisplayOrder(displayOrder);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def myuniqueDrivenProperties(): Set[String] = {
-        return __uniqueDrivenProperties.getPropertyNames();
-    }
-
-    protected def newUniqueDrivenProperties(): EntityUniqueDrivenProperties = {
-        return new EntityUniqueDrivenProperties();
     }
 
     // ===================================================================================
@@ -286,7 +254,7 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
      * @return The entity list of referrer property 'productList'. (NotNull: even if no loading, returns empty list)
      */
     def getProductList(): List[DbleProduct] = {
-        if (_productList == null) { _productList = newReferrerList(); }
+        if (_productList == null) { _productList = newReferrerScalaList(); }
         return _productList;
     }
 
@@ -306,88 +274,8 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
         return toScalaList(_productList).map(_.toImmutable());
     }
 
-    protected def newReferrerList[ELEMENT](): List[ELEMENT] = {
+    protected def newReferrerScalaList[ELEMENT](): List[ELEMENT] = {
         return new ArrayList[ELEMENT]();
-    }
-
-    // ===================================================================================
-    //                                                                 Modified Properties
-    //                                                                 ===================
-    /**
-     * {@inheritDoc}
-     */
-    def modifiedProperties(): Set[String] = {
-        return __modifiedProperties.getPropertyNames();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def clearModifiedInfo(): Unit = {
-        __modifiedProperties.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def hasModification(): scala.Boolean = {
-        return !__modifiedProperties.isEmpty();
-    }
-
-    protected def newModifiedProperties(): EntityModifiedProperties = {
-        return new EntityModifiedProperties();
-    }
-
-    // ===================================================================================
-    //                                                                     Birthplace Mark
-    //                                                                     ===============
-    /**
-     * {@inheritDoc}
-     */
-    def markAsSelect(): Unit = {
-        __createdBySelect = true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def createdBySelect(): scala.Boolean = {
-        return __createdBySelect;
-    }
-
-    // ===================================================================================
-    //                                                                    Derived Mappable
-    //                                                                    ================
-    /**
-     * {@inheritDoc}
-     */
-    def registerDerivedValue(aliasName: String, selectedValue: Object): Unit = {
-        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
-        __derivedMap.registerDerivedValue(aliasName, selectedValue);
-    }
-
-    /**
-     * Find the derived value from derived map.
-     * <pre>
-     * mapping type:
-     *  count()      : Integer
-     *  max(), min() : (same as property type of the column)
-     *  sum(), avg() : BigDecimal
-     *
-     * e.g. use count()
-     *  Integer loginCount = member.derived("$LOGIN_COUNT");
-     * </pre>
-     * @param <VALUE> The type of the value.
-     * @param aliasName The alias name of derived-referrer. (NotNull)
-     * @return The derived value found in the map. (NullAllowed: when null selected)
-     */
-    def derived[VALUE](aliasName: String): VALUE = {
-        if (__derivedMap == null) { __derivedMap = newDerivedMap(); }
-        return __derivedMap.findDerivedValue(aliasName);
-    }
-
-    protected def newDerivedMap(): EntityDerivedMap = {
-        return new EntityDerivedMap();
     }
 
     // ===================================================================================
@@ -407,7 +295,7 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
      * @param obj The object as other entity. (NullAllowed: if null, returns false fixedly)
      * @return Comparing result.
      */
-    override def equals(obj: Any) = {
+    override protected def doEquals(obj: Any) = {
         obj match {
             case obj: BsDbleProductStatus => {
                 val other: BsDbleProductStatus = obj.asInstanceOf[BsDbleProductStatus];
@@ -418,67 +306,22 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
             case _ => false
         }
     }
-    protected def xSV(v1: Object, v2: Object): scala.Boolean = {
-        return FunCustodial.isSameValue(v1, v2);
-    }
 
-    /**
-     * Calculate the hash-code from primary-keys or columns.
-     * @return The hash-code from primary-key or columns.
-     */
-    override def hashCode(): Int = {
-        var hs: Int = 17;
+    override protected def doHashCode(initial: Int): Int = {
+        var hs: Int = initial;
         hs = xCH(hs, getTableDbName());
         hs = xCH(hs, getProductStatusCode());
         return hs;
     }
-    protected def xCH(hs: Int, value: Object): Int = {
-        return FunCustodial.calculateHashcode(hs, value);
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    def instanceHash(): Int = {
-        return super.hashCode();
-    }
-
-    /**
-     * Convert to display string of entity's data. (no relation data)
-     * @return The display string of all columns and relation existences. (NotNull)
-     */
-    override def toString(): String = {
-        return buildDisplayString(FunCustodial.toClassTitle(this), true, true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    def toStringWithRelation(): String = {
+    override protected def doBuildStringWithRelation(li: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        sb.append(toString());
-        val li: String = "\n  ";
         toScalaList(_productList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "productList")) } });
         return sb.toString();
     }
-    protected def xbRDS(et: Entity, name: String): String = {
-        return et.buildDisplayString(name, true, true);
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    def buildDisplayString(name: String, column: scala.Boolean, relation: scala.Boolean): String = {
+    override protected def doBuildColumnString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (name != null) { sb.append(name).append(if (column || relation) { ":" } else { "" }); }
-        if (column) { sb.append(buildColumnString()); }
-        if (relation) { sb.append(buildRelationString()); }
-        sb.append("@").append(Integer.toHexString(hashCode()));
-        return sb.toString();
-    }
-    protected def buildColumnString(): String = {
-        val sb: StringBuilder = new StringBuilder();
-        val dm: String = ", ";
         sb.append(dm).append(getProductStatusCode());
         sb.append(dm).append(getProductStatusName());
         sb.append(dm).append(getDisplayOrder());
@@ -488,29 +331,19 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
         sb.insert(0, "{").append("}");
         return sb.toString();
     }
-    protected def buildRelationString(): String = {
+
+    override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        val cm: String = ",  ";
         if (_productList != null && !_productList.isEmpty)
-        { sb.append(cm).append("productList"); }
-        if (sb.length() > cm.length()) {
-            sb.delete(0, cm.length()).insert(0, "(").append(")");
+        { sb.append(dm).append("productList"); }
+        if (sb.length() > dm.length()) {
+            sb.delete(0, dm.length()).insert(0, "(").append(")");
         }
         return sb.toString();
     }
 
-    /**
-     * Clone entity instance using super.clone(). (shallow copy) 
-     * @return The cloned instance of this entity. (NotNull)
-     */
     override def clone(): DbleProductStatus = {
-        try {
-            return super.clone().asInstanceOf[DbleProductStatus];
-        } catch {
-            case e: CloneNotSupportedException => {
-                throw new IllegalStateException("Failed to clone the entity: " + toString(), e);
-            }
-        }
+        return super.clone().asInstanceOf[DbleProductStatus];
     }
 
     // ===================================================================================
@@ -574,13 +407,5 @@ abstract class BsDbleProductStatus extends Entity with DBableEntity[ProductStatu
      */
     def mynativeMappingProductStatusCode(productStatusCode: String): Unit = {
         setProductStatusCode(productStatusCode);
-    }
-
-    protected def convertEmptyToNull(value: String): String = {
-        return FunCustodial.convertEmptyToNull(value);
-    }
-
-    protected def checkClassificationCode(columnDbName: String, meta: CDef.DefMeta, value: Object): Unit = {
-        FunCustodial.checkClassificationCode(this, columnDbName, meta, value);
     }
 }

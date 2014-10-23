@@ -742,7 +742,8 @@ abstract class BsWithdrawalReasonBhv extends AbstractBehaviorWritable[DbleWithdr
      * @return The basic executor of outside-SQL. (NotNull)
      */
     def outsideSql(): ScrOutsideSqlTypedBasicExecutor[WithdrawalReasonBhv] = {
-        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
+        val facadeExecutor: OutsideSqlAllFacadeExecutor[WithdrawalReasonBhv] = doOutsideSql();
+        return toImmutableOutsideSqlTypedBasicExecutor(facadeExecutor.xbasicExecutor()); // variable to resolve generic type
     }
 
     protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[WithdrawalReasonBhv]): ScrOutsideSqlTypedBasicExecutor[WithdrawalReasonBhv] =

@@ -45,6 +45,9 @@ class BsVendor$DollarCB extends AbstractConditionBean {
         if (DBFluteConfig.isPagingCountLeastJoin()) {
             enablePagingCountLeastJoin();
         }
+        if (DBFluteConfig.isNonSpecifiedColumnAccessAllowed()) {
+            enableNonSpecifiedColumnAccess();
+        }
         if (DBFluteConfig.isQueryUpdateCountPreCheck()) {
             enableQueryUpdateCountPreCheck();
         }

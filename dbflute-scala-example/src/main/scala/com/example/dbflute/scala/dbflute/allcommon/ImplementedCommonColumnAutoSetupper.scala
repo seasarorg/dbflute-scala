@@ -77,19 +77,11 @@ class ImplementedCommonColumnAutoSetupper extends CommonColumnAutoSetupper {
         if (!hasCommonColumn(targetEntity)) {
             return null;
         }
-        val entity: EntityDefinedCommonColumn = downcastEntity(targetEntity);
-        if (!canCommonColumnAutoSetup(entity)) {
-            return null;
-        }
-        return entity;
+        return downcastEntity(targetEntity);
     }
 
     protected def hasCommonColumn(targetEntity: Entity): Boolean = {
         return targetEntity.isInstanceOf[EntityDefinedCommonColumn];
-    }
-
-    protected def canCommonColumnAutoSetup(entity: EntityDefinedCommonColumn): Boolean = {
-        return entity.canCommonColumnAutoSetup();
     }
 
     protected def downcastEntity(targetEntity: Entity): EntityDefinedCommonColumn = {

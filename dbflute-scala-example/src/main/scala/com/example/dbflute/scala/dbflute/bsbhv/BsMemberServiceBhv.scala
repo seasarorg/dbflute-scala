@@ -786,7 +786,8 @@ abstract class BsMemberServiceBhv extends AbstractBehaviorWritable[DbleMemberSer
      * @return The basic executor of outside-SQL. (NotNull)
      */
     def outsideSql(): ScrOutsideSqlTypedBasicExecutor[MemberServiceBhv] = {
-        return toImmutableOutsideSqlTypedBasicExecutor(doOutsideSql());
+        val facadeExecutor: OutsideSqlAllFacadeExecutor[MemberServiceBhv] = doOutsideSql();
+        return toImmutableOutsideSqlTypedBasicExecutor(facadeExecutor.xbasicExecutor()); // variable to resolve generic type
     }
 
     protected def toImmutableOutsideSqlTypedBasicExecutor(executor: OutsideSqlBasicExecutor[MemberServiceBhv]): ScrOutsideSqlTypedBasicExecutor[MemberServiceBhv] =
