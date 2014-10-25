@@ -673,7 +673,7 @@ abstract class PlainFunSuite extends FunSuite with BeforeAndAfter {
   //                                                                        ============
   protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): scala.collection.immutable.List[ENTITY] = {
     if (javaList == null) { scala.collection.immutable.List() }
-    return scala.collection.immutable.List.fromArray(javaList.toArray()).asInstanceOf[scala.collection.immutable.List[ENTITY]];
+    return javaList.toArray.toList.asInstanceOf[scala.collection.immutable.List[ENTITY]];
   }
 
   // wall
