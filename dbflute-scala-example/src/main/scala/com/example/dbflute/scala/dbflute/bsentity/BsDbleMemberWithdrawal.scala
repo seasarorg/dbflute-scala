@@ -419,8 +419,10 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_member != null) { sb.append(dm).append("member"); }
-        if (_withdrawalReason != null) { sb.append(dm).append("withdrawalReason"); }
+        if (_member != null && _member.isEmpty)
+        { sb.append(dm).append("member"); }
+        if (_withdrawalReason != null && _withdrawalReason.isEmpty)
+        { sb.append(dm).append("withdrawalReason"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

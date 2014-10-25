@@ -289,7 +289,8 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_member != null) { sb.append(dm).append("member"); }
+        if (_member != null && _member.isEmpty)
+        { sb.append(dm).append("member"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

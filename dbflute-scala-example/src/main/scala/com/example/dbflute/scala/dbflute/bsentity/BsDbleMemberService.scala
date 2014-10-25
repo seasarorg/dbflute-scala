@@ -449,8 +449,10 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_member != null) { sb.append(dm).append("member"); }
-        if (_serviceRank != null) { sb.append(dm).append("serviceRank"); }
+        if (_member != null && _member.isEmpty)
+        { sb.append(dm).append("member"); }
+        if (_serviceRank != null && _serviceRank.isEmpty)
+        { sb.append(dm).append("serviceRank"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

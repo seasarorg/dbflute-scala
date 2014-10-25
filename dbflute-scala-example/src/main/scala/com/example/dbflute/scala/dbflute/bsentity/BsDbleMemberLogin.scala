@@ -464,8 +464,10 @@ abstract class BsDbleMemberLogin extends AbstractEntity with DBableEntity[Member
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_memberStatus != null) { sb.append(dm).append("memberStatus"); }
-        if (_member != null) { sb.append(dm).append("member"); }
+        if (_memberStatus != null && _memberStatus.isEmpty)
+        { sb.append(dm).append("memberStatus"); }
+        if (_member != null && _member.isEmpty)
+        { sb.append(dm).append("member"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

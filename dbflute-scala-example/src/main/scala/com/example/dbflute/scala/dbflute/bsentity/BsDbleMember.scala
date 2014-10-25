@@ -635,10 +635,14 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_memberStatus != null) { sb.append(dm).append("memberStatus"); }
-        if (_memberSecurityAsOne != null) { sb.append(dm).append("memberSecurityAsOne"); }
-        if (_memberServiceAsOne != null) { sb.append(dm).append("memberServiceAsOne"); }
-        if (_memberWithdrawalAsOne != null) { sb.append(dm).append("memberWithdrawalAsOne"); }
+        if (_memberStatus != null && _memberStatus.isEmpty)
+        { sb.append(dm).append("memberStatus"); }
+        if (_memberSecurityAsOne != null && _memberSecurityAsOne.isEmpty)
+        { sb.append(dm).append("memberSecurityAsOne"); }
+        if (_memberServiceAsOne != null && _memberServiceAsOne.isEmpty)
+        { sb.append(dm).append("memberServiceAsOne"); }
+        if (_memberWithdrawalAsOne != null && _memberWithdrawalAsOne.isEmpty)
+        { sb.append(dm).append("memberWithdrawalAsOne"); }
         if (_memberAddressList != null && !_memberAddressList.isEmpty)
         { sb.append(dm).append("memberAddressList"); }
         if (_memberFollowingByMyMemberIdList != null && !_memberFollowingByMyMemberIdList.isEmpty)

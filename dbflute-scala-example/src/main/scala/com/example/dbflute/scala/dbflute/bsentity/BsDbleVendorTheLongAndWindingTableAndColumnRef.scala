@@ -246,7 +246,8 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends AbstractEn
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_vendorTheLongAndWindingTableAndColumn != null) { sb.append(dm).append("vendorTheLongAndWindingTableAndColumn"); }
+        if (_vendorTheLongAndWindingTableAndColumn != null && _vendorTheLongAndWindingTableAndColumn.isEmpty)
+        { sb.append(dm).append("vendorTheLongAndWindingTableAndColumn"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

@@ -289,8 +289,10 @@ abstract class BsDbleMemberFollowing extends AbstractEntity with DBableEntity[Me
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_memberByMyMemberId != null) { sb.append(dm).append("memberByMyMemberId"); }
-        if (_memberByYourMemberId != null) { sb.append(dm).append("memberByYourMemberId"); }
+        if (_memberByMyMemberId != null && _memberByMyMemberId.isEmpty)
+        { sb.append(dm).append("memberByMyMemberId"); }
+        if (_memberByYourMemberId != null && _memberByYourMemberId.isEmpty)
+        { sb.append(dm).append("memberByYourMemberId"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

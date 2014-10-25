@@ -299,7 +299,8 @@ abstract class BsDbleProductCategory extends AbstractEntity with DBableEntity[Pr
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_productCategorySelf != null) { sb.append(dm).append("productCategorySelf"); }
+        if (_productCategorySelf != null && _productCategorySelf.isEmpty)
+        { sb.append(dm).append("productCategorySelf"); }
         if (_productList != null && !_productList.isEmpty)
         { sb.append(dm).append("productList"); }
         if (_productCategorySelfList != null && !_productCategorySelfList.isEmpty)

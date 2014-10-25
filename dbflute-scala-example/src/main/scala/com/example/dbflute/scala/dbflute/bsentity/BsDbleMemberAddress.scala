@@ -446,8 +446,10 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_member != null) { sb.append(dm).append("member"); }
-        if (_region != null) { sb.append(dm).append("region"); }
+        if (_member != null && _member.isEmpty)
+        { sb.append(dm).append("member"); }
+        if (_region != null && _region.isEmpty)
+        { sb.append(dm).append("region"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

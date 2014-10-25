@@ -282,7 +282,8 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_purchase != null) { sb.append(dm).append("purchase"); }
+        if (_purchase != null && _purchase.isEmpty)
+        { sb.append(dm).append("purchase"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

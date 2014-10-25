@@ -455,8 +455,10 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
 
     override protected def doBuildRelationString(dm: String): String = {
         val sb: StringBuilder = new StringBuilder();
-        if (_productCategory != null) { sb.append(dm).append("productCategory"); }
-        if (_productStatus != null) { sb.append(dm).append("productStatus"); }
+        if (_productCategory != null && _productCategory.isEmpty)
+        { sb.append(dm).append("productCategory"); }
+        if (_productStatus != null && _productStatus.isEmpty)
+        { sb.append(dm).append("productStatus"); }
         if (_purchaseList != null && !_purchaseList.isEmpty)
         { sb.append(dm).append("purchaseList"); }
         if (sb.length() > dm.length()) {
