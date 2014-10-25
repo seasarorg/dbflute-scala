@@ -596,11 +596,11 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
         val sb: StringBuilder = new StringBuilder();
         if (_memberStatus != null && _memberStatus.isEmpty)
         { sb.append(li).append(xbRDS(_memberStatus, "memberStatus")); }
-        if (_memberSecurityAsOne != null)
+        if (_memberSecurityAsOne != null && _memberSecurityAsOne.isEmpty)
         { sb.append(li).append(xbRDS(_memberSecurityAsOne, "memberSecurityAsOne")); }
-        if (_memberServiceAsOne != null)
+        if (_memberServiceAsOne != null && _memberServiceAsOne.isEmpty)
         { sb.append(li).append(xbRDS(_memberServiceAsOne, "memberServiceAsOne")); }
-        if (_memberWithdrawalAsOne != null)
+        if (_memberWithdrawalAsOne != null && _memberWithdrawalAsOne.isEmpty)
         { sb.append(li).append(xbRDS(_memberWithdrawalAsOne, "memberWithdrawalAsOne")); }
         toScalaList(_memberAddressList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberAddressList")) } });
         toScalaList(_memberFollowingByMyMemberIdList).foreach(et => { if (et != null) { sb.append(li).append(xbRDS(et, "memberFollowingByMyMemberIdList")) } });
