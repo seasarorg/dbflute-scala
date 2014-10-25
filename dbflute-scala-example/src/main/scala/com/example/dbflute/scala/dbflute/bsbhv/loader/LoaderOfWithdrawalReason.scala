@@ -85,7 +85,7 @@ class LoaderOfWithdrawalReason {
 
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
         if (javaList == null) { immutable.List() }
-        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
+        return javaList.toArray.toList.asInstanceOf[immutable.List[ENTITY]];
     }
 
     // ===================================================================================

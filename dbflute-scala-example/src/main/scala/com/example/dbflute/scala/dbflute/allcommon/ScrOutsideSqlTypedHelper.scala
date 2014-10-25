@@ -444,7 +444,7 @@ class ScrOutsideSqlTypedBasicExecutor[BEHAVIOR](executor: OutsideSqlBasicExecuto
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
         if (javaList == null) { scala.collection.immutable.List() }
-        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
+        return javaList.toArray.toList.asInstanceOf[immutable.List[ENTITY]];
     }
 
     protected def createPagingView[ENTITY](selectedList: immutable.List[ENTITY], bean: PagingResultBean[_]): ScrPagingView[ENTITY] = {
@@ -591,7 +591,7 @@ class ScrOutsideSqlTypedAutoPagingExecutor[BEHAVIOR](executor: OutsideSqlAutoPag
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
         if (javaList == null) { scala.collection.immutable.List() }
-        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
+        return javaList.toArray.toList.asInstanceOf[immutable.List[ENTITY]];
     }
 
     protected def createPagingView[ENTITY](selectedList: immutable.List[ENTITY], bean: PagingResultBean[_]): ScrPagingView[ENTITY] = {

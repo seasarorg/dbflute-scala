@@ -950,7 +950,7 @@ abstract class BsProductBhv extends AbstractBehaviorWritable[DbleProduct, Produc
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
         if (javaList == null) { immutable.List() }
-        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
+        return javaList.toArray.toList.asInstanceOf[immutable.List[ENTITY]];
     }
 
     def toImmutableEntityList(dbleList: Collection[DbleProduct]): immutable.List[Product] =

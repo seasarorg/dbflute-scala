@@ -764,7 +764,7 @@ abstract class BsMemberLoginBhv extends AbstractBehaviorWritable[DbleMemberLogin
     //                                                                        ============
     protected def toScalaList[ENTITY](javaList: Collection[ENTITY]): immutable.List[ENTITY] = {
         if (javaList == null) { immutable.List() }
-        return immutable.List.fromArray(javaList.toArray()).asInstanceOf[immutable.List[ENTITY]];
+        return javaList.toArray.toList.asInstanceOf[immutable.List[ENTITY]];
     }
 
     def toImmutableEntityList(dbleList: Collection[DbleMemberLogin]): immutable.List[MemberLogin] =
