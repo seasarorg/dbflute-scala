@@ -487,7 +487,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param productId The value of the column 'PRODUCT_ID'. (basically NotNull if update: for the constraint)
      */
     def setProductId(productId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("productId");
+        registerModifiedProperty("productId");
         _productId = productId;
     }
 
@@ -504,7 +504,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param productName The value of the column 'PRODUCT_NAME'. (basically NotNull if update: for the constraint)
      */
     def setProductName(productName: String): Unit = {
-        __modifiedProperties.addPropertyName("productName");
+        registerModifiedProperty("productName");
         _productName = productName;
     }
 
@@ -521,7 +521,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param productHandleCode The value of the column 'PRODUCT_HANDLE_CODE'. (basically NotNull if update: for the constraint)
      */
     def setProductHandleCode(productHandleCode: String): Unit = {
-        __modifiedProperties.addPropertyName("productHandleCode");
+        registerModifiedProperty("productHandleCode");
         _productHandleCode = productHandleCode;
     }
 
@@ -538,7 +538,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param productCategoryCode The value of the column 'PRODUCT_CATEGORY_CODE'. (basically NotNull if update: for the constraint)
      */
     def setProductCategoryCode(productCategoryCode: String): Unit = {
-        __modifiedProperties.addPropertyName("productCategoryCode");
+        registerModifiedProperty("productCategoryCode");
         _productCategoryCode = productCategoryCode;
     }
 
@@ -556,7 +556,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      */
     protected def setProductStatusCode(productStatusCode: String): Unit = {
         checkClassificationCode("PRODUCT_STATUS_CODE", CDef.DefMeta.ProductStatus, productStatusCode);
-        __modifiedProperties.addPropertyName("productStatusCode");
+        registerModifiedProperty("productStatusCode");
         _productStatusCode = productStatusCode;
     }
 
@@ -573,7 +573,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param regularPrice The value of the column 'REGULAR_PRICE'. (basically NotNull if update: for the constraint)
      */
     def setRegularPrice(regularPrice: Integer): Unit = {
-        __modifiedProperties.addPropertyName("regularPrice");
+        registerModifiedProperty("regularPrice");
         _regularPrice = regularPrice;
     }
 
@@ -590,7 +590,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -607,7 +607,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -624,7 +624,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -641,7 +641,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 
@@ -658,7 +658,7 @@ abstract class BsDbleProduct extends AbstractEntity with EntityDefinedCommonColu
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
+        registerModifiedProperty("versionNo");
         _versionNo = versionNo;
     }
 

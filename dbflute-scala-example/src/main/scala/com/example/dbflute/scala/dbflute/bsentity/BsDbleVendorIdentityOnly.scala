@@ -212,7 +212,7 @@ abstract class BsDbleVendorIdentityOnly extends AbstractEntity with DBableEntity
      * @param identityOnlyId The value of the column 'IDENTITY_ONLY_ID'. (basically NotNull if update: for the constraint)
      */
     def setIdentityOnlyId(identityOnlyId: Long): Unit = {
-        __modifiedProperties.addPropertyName("identityOnlyId");
+        registerModifiedProperty("identityOnlyId");
         _identityOnlyId = identityOnlyId;
     }
 }

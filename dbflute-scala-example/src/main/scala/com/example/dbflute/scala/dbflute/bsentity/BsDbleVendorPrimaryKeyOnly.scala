@@ -212,7 +212,7 @@ abstract class BsDbleVendorPrimaryKeyOnly extends AbstractEntity with DBableEnti
      * @param primaryKeyOnlyId The value of the column 'PRIMARY_KEY_ONLY_ID'. (basically NotNull if update: for the constraint)
      */
     def setPrimaryKeyOnlyId(primaryKeyOnlyId: Long): Unit = {
-        __modifiedProperties.addPropertyName("primaryKeyOnlyId");
+        registerModifiedProperty("primaryKeyOnlyId");
         _primaryKeyOnlyId = primaryKeyOnlyId;
     }
 }

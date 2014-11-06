@@ -402,7 +402,7 @@ abstract class BsDbleMemberStatus extends AbstractEntity with DBableEntity[Membe
      */
     protected def setMemberStatusCode(memberStatusCode: String): Unit = {
         checkClassificationCode("MEMBER_STATUS_CODE", CDef.DefMeta.MemberStatus, memberStatusCode);
-        __modifiedProperties.addPropertyName("memberStatusCode");
+        registerModifiedProperty("memberStatusCode");
         _memberStatusCode = memberStatusCode;
     }
 
@@ -419,7 +419,7 @@ abstract class BsDbleMemberStatus extends AbstractEntity with DBableEntity[Membe
      * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (basically NotNull if update: for the constraint)
      */
     def setMemberStatusName(memberStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusName");
+        registerModifiedProperty("memberStatusName");
         _memberStatusName = memberStatusName;
     }
 
@@ -436,7 +436,7 @@ abstract class BsDbleMemberStatus extends AbstractEntity with DBableEntity[Membe
      * @param description The value of the column 'DESCRIPTION'. (basically NotNull if update: for the constraint)
      */
     def setDescription(description: String): Unit = {
-        __modifiedProperties.addPropertyName("description");
+        registerModifiedProperty("description");
         _description = description;
     }
 
@@ -453,7 +453,7 @@ abstract class BsDbleMemberStatus extends AbstractEntity with DBableEntity[Membe
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
      */
     def setDisplayOrder(displayOrder: Integer): Unit = {
-        __modifiedProperties.addPropertyName("displayOrder");
+        registerModifiedProperty("displayOrder");
         _displayOrder = displayOrder;
     }
 

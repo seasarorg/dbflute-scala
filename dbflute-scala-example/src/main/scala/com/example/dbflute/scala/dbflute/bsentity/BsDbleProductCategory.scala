@@ -331,7 +331,7 @@ abstract class BsDbleProductCategory extends AbstractEntity with DBableEntity[Pr
      * @param productCategoryCode The value of the column 'PRODUCT_CATEGORY_CODE'. (basically NotNull if update: for the constraint)
      */
     def setProductCategoryCode(productCategoryCode: String): Unit = {
-        __modifiedProperties.addPropertyName("productCategoryCode");
+        registerModifiedProperty("productCategoryCode");
         _productCategoryCode = productCategoryCode;
     }
 
@@ -348,7 +348,7 @@ abstract class BsDbleProductCategory extends AbstractEntity with DBableEntity[Pr
      * @param productCategoryName The value of the column 'PRODUCT_CATEGORY_NAME'. (basically NotNull if update: for the constraint)
      */
     def setProductCategoryName(productCategoryName: String): Unit = {
-        __modifiedProperties.addPropertyName("productCategoryName");
+        registerModifiedProperty("productCategoryName");
         _productCategoryName = productCategoryName;
     }
 
@@ -365,7 +365,7 @@ abstract class BsDbleProductCategory extends AbstractEntity with DBableEntity[Pr
      * @param parentCategoryCode The value of the column 'PARENT_CATEGORY_CODE'. (NullAllowed: null update allowed for no constraint)
      */
     def setParentCategoryCode(parentCategoryCode: String): Unit = {
-        __modifiedProperties.addPropertyName("parentCategoryCode");
+        registerModifiedProperty("parentCategoryCode");
         _parentCategoryCode = parentCategoryCode;
     }
 }

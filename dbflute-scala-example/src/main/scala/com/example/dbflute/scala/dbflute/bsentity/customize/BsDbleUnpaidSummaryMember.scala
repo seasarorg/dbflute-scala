@@ -303,7 +303,7 @@ abstract class BsDbleUnpaidSummaryMember extends AbstractEntity with DBableEntit
      * @param unpaidManId The value of the column 'UNPAID_MAN_ID'. (NullAllowed: null update allowed for no constraint)
      */
     def setUnpaidManId(unpaidManId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("unpaidManId");
+        registerModifiedProperty("unpaidManId");
         _unpaidManId = unpaidManId;
     }
 
@@ -320,7 +320,7 @@ abstract class BsDbleUnpaidSummaryMember extends AbstractEntity with DBableEntit
      * @param unpaidManName The value of the column 'UNPAID_MAN_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setUnpaidManName(unpaidManName: String): Unit = {
-        __modifiedProperties.addPropertyName("unpaidManName");
+        registerModifiedProperty("unpaidManName");
         _unpaidManName = unpaidManName;
     }
 
@@ -337,7 +337,7 @@ abstract class BsDbleUnpaidSummaryMember extends AbstractEntity with DBableEntit
      * @param unpaidPriceSummary The value of the column 'UNPAID_PRICE_SUMMARY'. (NullAllowed: null update allowed for no constraint)
      */
     def setUnpaidPriceSummary(unpaidPriceSummary: Long): Unit = {
-        __modifiedProperties.addPropertyName("unpaidPriceSummary");
+        registerModifiedProperty("unpaidPriceSummary");
         _unpaidPriceSummary = unpaidPriceSummary;
     }
 
@@ -354,7 +354,7 @@ abstract class BsDbleUnpaidSummaryMember extends AbstractEntity with DBableEntit
      * @param statusName The value of the column 'STATUS_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setStatusName(statusName: String): Unit = {
-        __modifiedProperties.addPropertyName("statusName");
+        registerModifiedProperty("statusName");
         _statusName = statusName;
     }
 }

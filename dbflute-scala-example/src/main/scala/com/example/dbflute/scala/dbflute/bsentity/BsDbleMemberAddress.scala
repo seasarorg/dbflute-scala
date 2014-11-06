@@ -476,7 +476,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param memberAddressId The value of the column 'MEMBER_ADDRESS_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberAddressId(memberAddressId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberAddressId");
+        registerModifiedProperty("memberAddressId");
         _memberAddressId = memberAddressId;
     }
 
@@ -493,7 +493,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -510,7 +510,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param validBeginDate The value of the column 'VALID_BEGIN_DATE'. (basically NotNull if update: for the constraint)
      */
     def setValidBeginDate(validBeginDate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("validBeginDate");
+        registerModifiedProperty("validBeginDate");
         _validBeginDate = validBeginDate;
     }
 
@@ -527,7 +527,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param validEndDate The value of the column 'VALID_END_DATE'. (basically NotNull if update: for the constraint)
      */
     def setValidEndDate(validEndDate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("validEndDate");
+        registerModifiedProperty("validEndDate");
         _validEndDate = validEndDate;
     }
 
@@ -544,7 +544,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param address The value of the column 'ADDRESS'. (basically NotNull if update: for the constraint)
      */
     def setAddress(address: String): Unit = {
-        __modifiedProperties.addPropertyName("address");
+        registerModifiedProperty("address");
         _address = address;
     }
 
@@ -562,7 +562,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      */
     protected def setRegionId(regionId: Integer): Unit = {
         checkClassificationCode("REGION_ID", CDef.DefMeta.Region, regionId);
-        __modifiedProperties.addPropertyName("regionId");
+        registerModifiedProperty("regionId");
         _regionId = regionId;
     }
 
@@ -579,7 +579,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -596,7 +596,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -613,7 +613,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -630,7 +630,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 
@@ -647,7 +647,7 @@ abstract class BsDbleMemberAddress extends AbstractEntity with EntityDefinedComm
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
+        registerModifiedProperty("versionNo");
         _versionNo = versionNo;
     }
 

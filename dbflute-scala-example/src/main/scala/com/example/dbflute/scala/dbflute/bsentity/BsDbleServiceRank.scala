@@ -502,7 +502,7 @@ abstract class BsDbleServiceRank extends AbstractEntity with DBableEntity[Servic
      */
     protected def setServiceRankCode(serviceRankCode: String): Unit = {
         checkClassificationCode("SERVICE_RANK_CODE", CDef.DefMeta.ServiceRank, serviceRankCode);
-        __modifiedProperties.addPropertyName("serviceRankCode");
+        registerModifiedProperty("serviceRankCode");
         _serviceRankCode = serviceRankCode;
     }
 
@@ -519,7 +519,7 @@ abstract class BsDbleServiceRank extends AbstractEntity with DBableEntity[Servic
      * @param serviceRankName The value of the column 'SERVICE_RANK_NAME'. (basically NotNull if update: for the constraint)
      */
     def setServiceRankName(serviceRankName: String): Unit = {
-        __modifiedProperties.addPropertyName("serviceRankName");
+        registerModifiedProperty("serviceRankName");
         _serviceRankName = serviceRankName;
     }
 
@@ -536,7 +536,7 @@ abstract class BsDbleServiceRank extends AbstractEntity with DBableEntity[Servic
      * @param servicePointIncidence The value of the column 'SERVICE_POINT_INCIDENCE'. (basically NotNull if update: for the constraint)
      */
     def setServicePointIncidence(servicePointIncidence: java.math.BigDecimal): Unit = {
-        __modifiedProperties.addPropertyName("servicePointIncidence");
+        registerModifiedProperty("servicePointIncidence");
         _servicePointIncidence = servicePointIncidence;
     }
 
@@ -554,7 +554,7 @@ abstract class BsDbleServiceRank extends AbstractEntity with DBableEntity[Servic
      */
     protected def setNewAcceptableFlg(newAcceptableFlg: Integer): Unit = {
         checkClassificationCode("NEW_ACCEPTABLE_FLG", CDef.DefMeta.Flg, newAcceptableFlg);
-        __modifiedProperties.addPropertyName("newAcceptableFlg");
+        registerModifiedProperty("newAcceptableFlg");
         _newAcceptableFlg = newAcceptableFlg;
     }
 
@@ -571,7 +571,7 @@ abstract class BsDbleServiceRank extends AbstractEntity with DBableEntity[Servic
      * @param description The value of the column 'DESCRIPTION'. (basically NotNull if update: for the constraint)
      */
     def setDescription(description: String): Unit = {
-        __modifiedProperties.addPropertyName("description");
+        registerModifiedProperty("description");
         _description = description;
     }
 
@@ -588,7 +588,7 @@ abstract class BsDbleServiceRank extends AbstractEntity with DBableEntity[Servic
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
      */
     def setDisplayOrder(displayOrder: Integer): Unit = {
-        __modifiedProperties.addPropertyName("displayOrder");
+        registerModifiedProperty("displayOrder");
         _displayOrder = displayOrder;
     }
 

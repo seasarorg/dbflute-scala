@@ -319,7 +319,7 @@ abstract class BsDbleMemberFollowing extends AbstractEntity with DBableEntity[Me
      * @param memberFollowingId The value of the column 'MEMBER_FOLLOWING_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberFollowingId(memberFollowingId: Long): Unit = {
-        __modifiedProperties.addPropertyName("memberFollowingId");
+        registerModifiedProperty("memberFollowingId");
         _memberFollowingId = memberFollowingId;
     }
 
@@ -336,7 +336,7 @@ abstract class BsDbleMemberFollowing extends AbstractEntity with DBableEntity[Me
      * @param myMemberId The value of the column 'MY_MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMyMemberId(myMemberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("myMemberId");
+        registerModifiedProperty("myMemberId");
         _myMemberId = myMemberId;
     }
 
@@ -353,7 +353,7 @@ abstract class BsDbleMemberFollowing extends AbstractEntity with DBableEntity[Me
      * @param yourMemberId The value of the column 'YOUR_MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setYourMemberId(yourMemberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("yourMemberId");
+        registerModifiedProperty("yourMemberId");
         _yourMemberId = yourMemberId;
     }
 
@@ -370,7 +370,7 @@ abstract class BsDbleMemberFollowing extends AbstractEntity with DBableEntity[Me
      * @param followDatetime The value of the column 'FOLLOW_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setFollowDatetime(followDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("followDatetime");
+        registerModifiedProperty("followDatetime");
         _followDatetime = followDatetime;
     }
 }

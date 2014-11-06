@@ -449,7 +449,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -467,7 +467,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      */
     protected def setWithdrawalReasonCode(withdrawalReasonCode: String): Unit = {
         checkClassificationCode("WITHDRAWAL_REASON_CODE", CDef.DefMeta.WithdrawalReason, withdrawalReasonCode);
-        __modifiedProperties.addPropertyName("withdrawalReasonCode");
+        registerModifiedProperty("withdrawalReasonCode");
         _withdrawalReasonCode = withdrawalReasonCode;
     }
 
@@ -484,7 +484,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param withdrawalReasonInputText The value of the column 'WITHDRAWAL_REASON_INPUT_TEXT'. (NullAllowed: null update allowed for no constraint)
      */
     def setWithdrawalReasonInputText(withdrawalReasonInputText: String): Unit = {
-        __modifiedProperties.addPropertyName("withdrawalReasonInputText");
+        registerModifiedProperty("withdrawalReasonInputText");
         _withdrawalReasonInputText = withdrawalReasonInputText;
     }
 
@@ -501,7 +501,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param withdrawalDatetime The value of the column 'WITHDRAWAL_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setWithdrawalDatetime(withdrawalDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("withdrawalDatetime");
+        registerModifiedProperty("withdrawalDatetime");
         _withdrawalDatetime = withdrawalDatetime;
     }
 
@@ -518,7 +518,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -535,7 +535,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -552,7 +552,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -569,7 +569,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 
@@ -586,7 +586,7 @@ abstract class BsDbleMemberWithdrawal extends AbstractEntity with EntityDefinedC
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
+        registerModifiedProperty("versionNo");
         _versionNo = versionNo;
     }
 

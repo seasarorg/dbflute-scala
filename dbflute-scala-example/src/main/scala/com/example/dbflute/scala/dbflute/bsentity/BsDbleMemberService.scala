@@ -479,7 +479,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param memberServiceId The value of the column 'MEMBER_SERVICE_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberServiceId(memberServiceId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberServiceId");
+        registerModifiedProperty("memberServiceId");
         _memberServiceId = memberServiceId;
     }
 
@@ -496,7 +496,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -513,7 +513,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param servicePointCount The value of the column 'SERVICE_POINT_COUNT'. (basically NotNull if update: for the constraint)
      */
     def setServicePointCount(servicePointCount: Integer): Unit = {
-        __modifiedProperties.addPropertyName("servicePointCount");
+        registerModifiedProperty("servicePointCount");
         _servicePointCount = servicePointCount;
     }
 
@@ -531,7 +531,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      */
     protected def setServiceRankCode(serviceRankCode: String): Unit = {
         checkClassificationCode("SERVICE_RANK_CODE", CDef.DefMeta.ServiceRank, serviceRankCode);
-        __modifiedProperties.addPropertyName("serviceRankCode");
+        registerModifiedProperty("serviceRankCode");
         _serviceRankCode = serviceRankCode;
     }
 
@@ -548,7 +548,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -565,7 +565,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -582,7 +582,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -599,7 +599,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 
@@ -616,7 +616,7 @@ abstract class BsDbleMemberService extends AbstractEntity with EntityDefinedComm
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
+        registerModifiedProperty("versionNo");
         _versionNo = versionNo;
     }
 

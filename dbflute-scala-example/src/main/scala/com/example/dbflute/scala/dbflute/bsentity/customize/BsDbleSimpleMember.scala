@@ -237,7 +237,7 @@ abstract class BsDbleSimpleMember extends AbstractEntity with DBableEntity[Simpl
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -254,7 +254,7 @@ abstract class BsDbleSimpleMember extends AbstractEntity with DBableEntity[Simpl
      * @param memberName The value of the column 'MEMBER_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
+        registerModifiedProperty("memberName");
         _memberName = memberName;
     }
 
@@ -271,7 +271,7 @@ abstract class BsDbleSimpleMember extends AbstractEntity with DBableEntity[Simpl
      * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
      */
     def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("birthdate");
+        registerModifiedProperty("birthdate");
         _birthdate = birthdate;
     }
 
@@ -288,7 +288,7 @@ abstract class BsDbleSimpleMember extends AbstractEntity with DBableEntity[Simpl
      * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberStatusName(memberStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusName");
+        registerModifiedProperty("memberStatusName");
         _memberStatusName = memberStatusName;
     }
 }

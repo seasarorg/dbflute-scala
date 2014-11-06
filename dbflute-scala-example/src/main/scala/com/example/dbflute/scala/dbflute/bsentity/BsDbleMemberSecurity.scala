@@ -317,7 +317,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -334,7 +334,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param loginPassword The value of the column 'LOGIN_PASSWORD'. (basically NotNull if update: for the constraint)
      */
     def setLoginPassword(loginPassword: String): Unit = {
-        __modifiedProperties.addPropertyName("loginPassword");
+        registerModifiedProperty("loginPassword");
         _loginPassword = loginPassword;
     }
 
@@ -351,7 +351,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param reminderQuestion The value of the column 'REMINDER_QUESTION'. (basically NotNull if update: for the constraint)
      */
     def setReminderQuestion(reminderQuestion: String): Unit = {
-        __modifiedProperties.addPropertyName("reminderQuestion");
+        registerModifiedProperty("reminderQuestion");
         _reminderQuestion = reminderQuestion;
     }
 
@@ -368,7 +368,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param reminderAnswer The value of the column 'REMINDER_ANSWER'. (basically NotNull if update: for the constraint)
      */
     def setReminderAnswer(reminderAnswer: String): Unit = {
-        __modifiedProperties.addPropertyName("reminderAnswer");
+        registerModifiedProperty("reminderAnswer");
         _reminderAnswer = reminderAnswer;
     }
 
@@ -385,7 +385,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param reminderUseCount The value of the column 'REMINDER_USE_COUNT'. (basically NotNull if update: for the constraint)
      */
     def setReminderUseCount(reminderUseCount: Integer): Unit = {
-        __modifiedProperties.addPropertyName("reminderUseCount");
+        registerModifiedProperty("reminderUseCount");
         _reminderUseCount = reminderUseCount;
     }
 
@@ -402,7 +402,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -419,7 +419,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -436,7 +436,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -453,7 +453,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 
@@ -470,7 +470,7 @@ abstract class BsDbleMemberSecurity extends AbstractEntity with EntityDefinedCom
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
+        registerModifiedProperty("versionNo");
         _versionNo = versionNo;
     }
 }

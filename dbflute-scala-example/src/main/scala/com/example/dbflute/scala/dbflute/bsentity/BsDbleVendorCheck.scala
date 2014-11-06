@@ -401,7 +401,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param vendorCheckId The value of the column 'VENDOR_CHECK_ID'. (basically NotNull if update: for the constraint)
      */
     def setVendorCheckId(vendorCheckId: Long): Unit = {
-        __modifiedProperties.addPropertyName("vendorCheckId");
+        registerModifiedProperty("vendorCheckId");
         _vendorCheckId = vendorCheckId;
     }
 
@@ -418,7 +418,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfChar The value of the column 'TYPE_OF_CHAR'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfChar(typeOfChar: String): Unit = {
-        __modifiedProperties.addPropertyName("typeOfChar");
+        registerModifiedProperty("typeOfChar");
         _typeOfChar = typeOfChar;
     }
 
@@ -435,7 +435,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfVarchar The value of the column 'TYPE_OF_VARCHAR'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfVarchar(typeOfVarchar: String): Unit = {
-        __modifiedProperties.addPropertyName("typeOfVarchar");
+        registerModifiedProperty("typeOfVarchar");
         _typeOfVarchar = typeOfVarchar;
     }
 
@@ -452,7 +452,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfClob The value of the column 'TYPE_OF_CLOB'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfClob(typeOfClob: String): Unit = {
-        __modifiedProperties.addPropertyName("typeOfClob");
+        registerModifiedProperty("typeOfClob");
         _typeOfClob = typeOfClob;
     }
 
@@ -469,7 +469,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfText The value of the column 'TYPE_OF_TEXT'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfText(typeOfText: String): Unit = {
-        __modifiedProperties.addPropertyName("typeOfText");
+        registerModifiedProperty("typeOfText");
         _typeOfText = typeOfText;
     }
 
@@ -486,7 +486,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericInteger The value of the column 'TYPE_OF_NUMERIC_INTEGER'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericInteger(typeOfNumericInteger: Integer): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericInteger");
+        registerModifiedProperty("typeOfNumericInteger");
         _typeOfNumericInteger = typeOfNumericInteger;
     }
 
@@ -503,7 +503,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericBigint The value of the column 'TYPE_OF_NUMERIC_BIGINT'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericBigint(typeOfNumericBigint: Long): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericBigint");
+        registerModifiedProperty("typeOfNumericBigint");
         _typeOfNumericBigint = typeOfNumericBigint;
     }
 
@@ -520,7 +520,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericDecimal The value of the column 'TYPE_OF_NUMERIC_DECIMAL'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericDecimal(typeOfNumericDecimal: java.math.BigDecimal): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericDecimal");
+        registerModifiedProperty("typeOfNumericDecimal");
         _typeOfNumericDecimal = typeOfNumericDecimal;
     }
 
@@ -537,7 +537,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericIntegerMin The value of the column 'TYPE_OF_NUMERIC_INTEGER_MIN'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericIntegerMin(typeOfNumericIntegerMin: Integer): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericIntegerMin");
+        registerModifiedProperty("typeOfNumericIntegerMin");
         _typeOfNumericIntegerMin = typeOfNumericIntegerMin;
     }
 
@@ -554,7 +554,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericIntegerMax The value of the column 'TYPE_OF_NUMERIC_INTEGER_MAX'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericIntegerMax(typeOfNumericIntegerMax: Integer): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericIntegerMax");
+        registerModifiedProperty("typeOfNumericIntegerMax");
         _typeOfNumericIntegerMax = typeOfNumericIntegerMax;
     }
 
@@ -571,7 +571,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericBigintMin The value of the column 'TYPE_OF_NUMERIC_BIGINT_MIN'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericBigintMin(typeOfNumericBigintMin: Long): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericBigintMin");
+        registerModifiedProperty("typeOfNumericBigintMin");
         _typeOfNumericBigintMin = typeOfNumericBigintMin;
     }
 
@@ -588,7 +588,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericBigintMax The value of the column 'TYPE_OF_NUMERIC_BIGINT_MAX'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericBigintMax(typeOfNumericBigintMax: Long): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericBigintMax");
+        registerModifiedProperty("typeOfNumericBigintMax");
         _typeOfNumericBigintMax = typeOfNumericBigintMax;
     }
 
@@ -605,7 +605,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericSuperintMin The value of the column 'TYPE_OF_NUMERIC_SUPERINT_MIN'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericSuperintMin(typeOfNumericSuperintMin: java.math.BigDecimal): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericSuperintMin");
+        registerModifiedProperty("typeOfNumericSuperintMin");
         _typeOfNumericSuperintMin = typeOfNumericSuperintMin;
     }
 
@@ -622,7 +622,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericSuperintMax The value of the column 'TYPE_OF_NUMERIC_SUPERINT_MAX'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericSuperintMax(typeOfNumericSuperintMax: java.math.BigDecimal): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericSuperintMax");
+        registerModifiedProperty("typeOfNumericSuperintMax");
         _typeOfNumericSuperintMax = typeOfNumericSuperintMax;
     }
 
@@ -639,7 +639,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfNumericMaxdecimal The value of the column 'TYPE_OF_NUMERIC_MAXDECIMAL'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfNumericMaxdecimal(typeOfNumericMaxdecimal: java.math.BigDecimal): Unit = {
-        __modifiedProperties.addPropertyName("typeOfNumericMaxdecimal");
+        registerModifiedProperty("typeOfNumericMaxdecimal");
         _typeOfNumericMaxdecimal = typeOfNumericMaxdecimal;
     }
 
@@ -656,7 +656,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfInteger The value of the column 'TYPE_OF_INTEGER'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfInteger(typeOfInteger: Integer): Unit = {
-        __modifiedProperties.addPropertyName("typeOfInteger");
+        registerModifiedProperty("typeOfInteger");
         _typeOfInteger = typeOfInteger;
     }
 
@@ -673,7 +673,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfBigint The value of the column 'TYPE_OF_BIGINT'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfBigint(typeOfBigint: Long): Unit = {
-        __modifiedProperties.addPropertyName("typeOfBigint");
+        registerModifiedProperty("typeOfBigint");
         _typeOfBigint = typeOfBigint;
     }
 
@@ -690,7 +690,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfDate The value of the column 'TYPE_OF_DATE'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfDate(typeOfDate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("typeOfDate");
+        registerModifiedProperty("typeOfDate");
         _typeOfDate = typeOfDate;
     }
 
@@ -707,7 +707,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfTimestamp The value of the column 'TYPE_OF_TIMESTAMP'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfTimestamp(typeOfTimestamp: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("typeOfTimestamp");
+        registerModifiedProperty("typeOfTimestamp");
         _typeOfTimestamp = typeOfTimestamp;
     }
 
@@ -724,7 +724,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfTime The value of the column 'TYPE_OF_TIME'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfTime(typeOfTime: org.joda.time.LocalTime): Unit = {
-        __modifiedProperties.addPropertyName("typeOfTime");
+        registerModifiedProperty("typeOfTime");
         _typeOfTime = typeOfTime;
     }
 
@@ -741,7 +741,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfBoolean The value of the column 'TYPE_OF_BOOLEAN'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfBoolean(typeOfBoolean: Boolean): Unit = {
-        __modifiedProperties.addPropertyName("typeOfBoolean");
+        registerModifiedProperty("typeOfBoolean");
         _typeOfBoolean = typeOfBoolean;
     }
 
@@ -758,7 +758,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfBinary The value of the column 'TYPE_OF_BINARY'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfBinary(typeOfBinary: Array[Byte]): Unit = {
-        __modifiedProperties.addPropertyName("typeOfBinary");
+        registerModifiedProperty("typeOfBinary");
         _typeOfBinary = typeOfBinary;
     }
 
@@ -775,7 +775,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfBlob The value of the column 'TYPE_OF_BLOB'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfBlob(typeOfBlob: Array[Byte]): Unit = {
-        __modifiedProperties.addPropertyName("typeOfBlob");
+        registerModifiedProperty("typeOfBlob");
         _typeOfBlob = typeOfBlob;
     }
 
@@ -792,7 +792,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfUuid The value of the column 'TYPE_OF_UUID'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfUuid(typeOfUuid: Array[Byte]): Unit = {
-        __modifiedProperties.addPropertyName("typeOfUuid");
+        registerModifiedProperty("typeOfUuid");
         _typeOfUuid = typeOfUuid;
     }
 
@@ -809,7 +809,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfArray The value of the column 'TYPE_OF_ARRAY'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfArray(typeOfArray: String): Unit = {
-        __modifiedProperties.addPropertyName("typeOfArray");
+        registerModifiedProperty("typeOfArray");
         _typeOfArray = typeOfArray;
     }
 
@@ -826,7 +826,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param typeOfOther The value of the column 'TYPE_OF_OTHER'. (NullAllowed: null update allowed for no constraint)
      */
     def setTypeOfOther(typeOfOther: String): Unit = {
-        __modifiedProperties.addPropertyName("typeOfOther");
+        registerModifiedProperty("typeOfOther");
         _typeOfOther = typeOfOther;
     }
 
@@ -843,7 +843,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param jAVABeansProperty The value of the column 'J_A_V_A_BEANS_PROPERTY'. (NullAllowed: null update allowed for no constraint)
      */
     def setJAVABeansProperty(jAVABeansProperty: String): Unit = {
-        __modifiedProperties.addPropertyName("JAVABeansProperty");
+        registerModifiedProperty("JAVABeansProperty");
         _jAVABeansProperty = jAVABeansProperty;
     }
 
@@ -860,7 +860,7 @@ abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[Vendor
      * @param jPopBeansProperty The value of the column 'J_POP_BEANS_PROPERTY'. (NullAllowed: null update allowed for no constraint)
      */
     def setJPopBeansProperty(jPopBeansProperty: String): Unit = {
-        __modifiedProperties.addPropertyName("JPopBeansProperty");
+        registerModifiedProperty("JPopBeansProperty");
         _jPopBeansProperty = jPopBeansProperty;
     }
 }

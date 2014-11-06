@@ -364,7 +364,7 @@ abstract class BsDbleRegion extends AbstractEntity with DBableEntity[Region] wit
      */
     protected def setRegionId(regionId: Integer): Unit = {
         checkClassificationCode("REGION_ID", CDef.DefMeta.Region, regionId);
-        __modifiedProperties.addPropertyName("regionId");
+        registerModifiedProperty("regionId");
         _regionId = regionId;
     }
 
@@ -381,7 +381,7 @@ abstract class BsDbleRegion extends AbstractEntity with DBableEntity[Region] wit
      * @param regionName The value of the column 'REGION_NAME'. (basically NotNull if update: for the constraint)
      */
     def setRegionName(regionName: String): Unit = {
-        __modifiedProperties.addPropertyName("regionName");
+        registerModifiedProperty("regionName");
         _regionName = regionName;
     }
 

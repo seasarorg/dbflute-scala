@@ -219,7 +219,7 @@ abstract class BsDbleVendor$Dollar extends AbstractEntity with DBableEntity[Vend
      * @param vendor$DollarId The value of the column 'VENDOR_$_DOLLAR_ID'. (basically NotNull if update: for the constraint)
      */
     def setVendor$DollarId(vendor$DollarId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("vendor$DollarId");
+        registerModifiedProperty("vendor$DollarId");
         _vendor$DollarId = vendor$DollarId;
     }
 
@@ -236,7 +236,7 @@ abstract class BsDbleVendor$Dollar extends AbstractEntity with DBableEntity[Vend
      * @param vendor$DollarName The value of the column 'VENDOR_$_DOLLAR_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setVendor$DollarName(vendor$DollarName: String): Unit = {
-        __modifiedProperties.addPropertyName("vendor$DollarName");
+        registerModifiedProperty("vendor$DollarName");
         _vendor$DollarName = vendor$DollarName;
     }
 }

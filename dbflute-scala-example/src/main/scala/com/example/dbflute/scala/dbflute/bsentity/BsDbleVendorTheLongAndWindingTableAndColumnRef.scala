@@ -274,7 +274,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends AbstractEn
      * @param theLongAndWindingTableAndColumnRefId The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_ID'. (basically NotNull if update: for the constraint)
      */
     def setTheLongAndWindingTableAndColumnRefId(theLongAndWindingTableAndColumnRefId: Long): Unit = {
-        __modifiedProperties.addPropertyName("theLongAndWindingTableAndColumnRefId");
+        registerModifiedProperty("theLongAndWindingTableAndColumnRefId");
         _theLongAndWindingTableAndColumnRefId = theLongAndWindingTableAndColumnRefId;
     }
 
@@ -291,7 +291,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends AbstractEn
      * @param theLongAndWindingTableAndColumnId The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID'. (basically NotNull if update: for the constraint)
      */
     def setTheLongAndWindingTableAndColumnId(theLongAndWindingTableAndColumnId: Long): Unit = {
-        __modifiedProperties.addPropertyName("theLongAndWindingTableAndColumnId");
+        registerModifiedProperty("theLongAndWindingTableAndColumnId");
         _theLongAndWindingTableAndColumnId = theLongAndWindingTableAndColumnId;
     }
 
@@ -308,7 +308,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends AbstractEn
      * @param theLongAndWindingTableAndColumnRefDate The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_DATE'. (basically NotNull if update: for the constraint)
      */
     def setTheLongAndWindingTableAndColumnRefDate(theLongAndWindingTableAndColumnRefDate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("theLongAndWindingTableAndColumnRefDate");
+        registerModifiedProperty("theLongAndWindingTableAndColumnRefDate");
         _theLongAndWindingTableAndColumnRefDate = theLongAndWindingTableAndColumnRefDate;
     }
 
@@ -325,7 +325,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumnRef extends AbstractEn
      * @param shortDate The value of the column 'SHORT_DATE'. (basically NotNull if update: for the constraint)
      */
     def setShortDate(shortDate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("shortDate");
+        registerModifiedProperty("shortDate");
         _shortDate = shortDate;
     }
 }

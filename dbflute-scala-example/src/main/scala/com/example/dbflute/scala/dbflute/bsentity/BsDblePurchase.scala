@@ -500,7 +500,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param purchaseId The value of the column 'PURCHASE_ID'. (basically NotNull if update: for the constraint)
      */
     def setPurchaseId(purchaseId: Long): Unit = {
-        __modifiedProperties.addPropertyName("purchaseId");
+        registerModifiedProperty("purchaseId");
         _purchaseId = purchaseId;
     }
 
@@ -517,7 +517,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -534,7 +534,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param productId The value of the column 'PRODUCT_ID'. (basically NotNull if update: for the constraint)
      */
     def setProductId(productId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("productId");
+        registerModifiedProperty("productId");
         _productId = productId;
     }
 
@@ -551,7 +551,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param purchaseDatetime The value of the column 'PURCHASE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setPurchaseDatetime(purchaseDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("purchaseDatetime");
+        registerModifiedProperty("purchaseDatetime");
         _purchaseDatetime = purchaseDatetime;
     }
 
@@ -568,7 +568,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param purchaseCount The value of the column 'PURCHASE_COUNT'. (basically NotNull if update: for the constraint)
      */
     def setPurchaseCount(purchaseCount: Integer): Unit = {
-        __modifiedProperties.addPropertyName("purchaseCount");
+        registerModifiedProperty("purchaseCount");
         _purchaseCount = purchaseCount;
     }
 
@@ -585,7 +585,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param purchasePrice The value of the column 'PURCHASE_PRICE'. (basically NotNull if update: for the constraint)
      */
     def setPurchasePrice(purchasePrice: Integer): Unit = {
-        __modifiedProperties.addPropertyName("purchasePrice");
+        registerModifiedProperty("purchasePrice");
         _purchasePrice = purchasePrice;
     }
 
@@ -603,7 +603,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      */
     protected def setPaymentCompleteFlg(paymentCompleteFlg: Integer): Unit = {
         checkClassificationCode("PAYMENT_COMPLETE_FLG", CDef.DefMeta.Flg, paymentCompleteFlg);
-        __modifiedProperties.addPropertyName("paymentCompleteFlg");
+        registerModifiedProperty("paymentCompleteFlg");
         _paymentCompleteFlg = paymentCompleteFlg;
     }
 
@@ -620,7 +620,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -637,7 +637,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -654,7 +654,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -671,7 +671,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 
@@ -688,7 +688,7 @@ abstract class BsDblePurchase extends AbstractEntity with EntityDefinedCommonCol
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
+        registerModifiedProperty("versionNo");
         _versionNo = versionNo;
     }
 

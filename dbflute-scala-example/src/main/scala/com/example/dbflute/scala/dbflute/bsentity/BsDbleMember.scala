@@ -679,7 +679,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -696,7 +696,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param memberName The value of the column 'MEMBER_NAME'. (basically NotNull if update: for the constraint)
      */
     def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
+        registerModifiedProperty("memberName");
         _memberName = memberName;
     }
 
@@ -713,7 +713,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param memberAccount The value of the column 'MEMBER_ACCOUNT'. (basically NotNull if update: for the constraint)
      */
     def setMemberAccount(memberAccount: String): Unit = {
-        __modifiedProperties.addPropertyName("memberAccount");
+        registerModifiedProperty("memberAccount");
         _memberAccount = memberAccount;
     }
 
@@ -731,7 +731,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      */
     protected def setMemberStatusCode(memberStatusCode: String): Unit = {
         checkClassificationCode("MEMBER_STATUS_CODE", CDef.DefMeta.MemberStatus, memberStatusCode);
-        __modifiedProperties.addPropertyName("memberStatusCode");
+        registerModifiedProperty("memberStatusCode");
         _memberStatusCode = memberStatusCode;
     }
 
@@ -748,7 +748,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
     def setFormalizedDatetime(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("formalizedDatetime");
+        registerModifiedProperty("formalizedDatetime");
         _formalizedDatetime = formalizedDatetime;
     }
 
@@ -765,7 +765,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
      */
     def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("birthdate");
+        registerModifiedProperty("birthdate");
         _birthdate = birthdate;
     }
 
@@ -782,7 +782,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -799,7 +799,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -816,7 +816,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -833,7 +833,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 
@@ -850,7 +850,7 @@ abstract class BsDbleMember extends AbstractEntity with EntityDefinedCommonColum
      * @param versionNo The value of the column 'VERSION_NO'. (basically NotNull if update: for the constraint)
      */
     def setVersionNo(versionNo: Long): Unit = {
-        __modifiedProperties.addPropertyName("versionNo");
+        registerModifiedProperty("versionNo");
         _versionNo = versionNo;
     }
 

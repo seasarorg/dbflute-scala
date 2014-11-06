@@ -363,7 +363,7 @@ abstract class BsDbleProductStatus extends AbstractEntity with DBableEntity[Prod
      */
     protected def setProductStatusCode(productStatusCode: String): Unit = {
         checkClassificationCode("PRODUCT_STATUS_CODE", CDef.DefMeta.ProductStatus, productStatusCode);
-        __modifiedProperties.addPropertyName("productStatusCode");
+        registerModifiedProperty("productStatusCode");
         _productStatusCode = productStatusCode;
     }
 
@@ -380,7 +380,7 @@ abstract class BsDbleProductStatus extends AbstractEntity with DBableEntity[Prod
      * @param productStatusName The value of the column 'PRODUCT_STATUS_NAME'. (basically NotNull if update: for the constraint)
      */
     def setProductStatusName(productStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("productStatusName");
+        registerModifiedProperty("productStatusName");
         _productStatusName = productStatusName;
     }
 
@@ -397,7 +397,7 @@ abstract class BsDbleProductStatus extends AbstractEntity with DBableEntity[Prod
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
      */
     def setDisplayOrder(displayOrder: Integer): Unit = {
-        __modifiedProperties.addPropertyName("displayOrder");
+        registerModifiedProperty("displayOrder");
         _displayOrder = displayOrder;
     }
 

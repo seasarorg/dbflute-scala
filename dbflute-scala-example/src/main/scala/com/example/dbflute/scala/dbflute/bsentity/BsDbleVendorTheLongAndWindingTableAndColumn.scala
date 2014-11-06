@@ -281,7 +281,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumn extends AbstractEntit
      * @param theLongAndWindingTableAndColumnId The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID'. (basically NotNull if update: for the constraint)
      */
     def setTheLongAndWindingTableAndColumnId(theLongAndWindingTableAndColumnId: Long): Unit = {
-        __modifiedProperties.addPropertyName("theLongAndWindingTableAndColumnId");
+        registerModifiedProperty("theLongAndWindingTableAndColumnId");
         _theLongAndWindingTableAndColumnId = theLongAndWindingTableAndColumnId;
     }
 
@@ -298,7 +298,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumn extends AbstractEntit
      * @param theLongAndWindingTableAndColumnName The value of the column 'THE_LONG_AND_WINDING_TABLE_AND_COLUMN_NAME'. (basically NotNull if update: for the constraint)
      */
     def setTheLongAndWindingTableAndColumnName(theLongAndWindingTableAndColumnName: String): Unit = {
-        __modifiedProperties.addPropertyName("theLongAndWindingTableAndColumnName");
+        registerModifiedProperty("theLongAndWindingTableAndColumnName");
         _theLongAndWindingTableAndColumnName = theLongAndWindingTableAndColumnName;
     }
 
@@ -315,7 +315,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumn extends AbstractEntit
      * @param shortName The value of the column 'SHORT_NAME'. (basically NotNull if update: for the constraint)
      */
     def setShortName(shortName: String): Unit = {
-        __modifiedProperties.addPropertyName("shortName");
+        registerModifiedProperty("shortName");
         _shortName = shortName;
     }
 
@@ -332,7 +332,7 @@ abstract class BsDbleVendorTheLongAndWindingTableAndColumn extends AbstractEntit
      * @param shortSize The value of the column 'SHORT_SIZE'. (basically NotNull if update: for the constraint)
      */
     def setShortSize(shortSize: Integer): Unit = {
-        __modifiedProperties.addPropertyName("shortSize");
+        registerModifiedProperty("shortSize");
         _shortSize = shortSize;
     }
 }

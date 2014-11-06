@@ -247,7 +247,7 @@ abstract class BsDbleSummaryProduct extends AbstractEntity with DBableEntity[Sum
      * @param productId The value of the column 'PRODUCT_ID'. (NullAllowed: null update allowed for no constraint)
      */
     def setProductId(productId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("productId");
+        registerModifiedProperty("productId");
         _productId = productId;
     }
 
@@ -264,7 +264,7 @@ abstract class BsDbleSummaryProduct extends AbstractEntity with DBableEntity[Sum
      * @param productName The value of the column 'PRODUCT_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setProductName(productName: String): Unit = {
-        __modifiedProperties.addPropertyName("productName");
+        registerModifiedProperty("productName");
         _productName = productName;
     }
 
@@ -281,7 +281,7 @@ abstract class BsDbleSummaryProduct extends AbstractEntity with DBableEntity[Sum
      * @param productHandleCode The value of the column 'PRODUCT_HANDLE_CODE'. (NullAllowed: null update allowed for no constraint)
      */
     def setProductHandleCode(productHandleCode: String): Unit = {
-        __modifiedProperties.addPropertyName("productHandleCode");
+        registerModifiedProperty("productHandleCode");
         _productHandleCode = productHandleCode;
     }
 
@@ -298,7 +298,7 @@ abstract class BsDbleSummaryProduct extends AbstractEntity with DBableEntity[Sum
      * @param productStatusCode The value of the column 'PRODUCT_STATUS_CODE'. (NullAllowed: null update allowed for no constraint)
      */
     def setProductStatusCode(productStatusCode: String): Unit = {
-        __modifiedProperties.addPropertyName("productStatusCode");
+        registerModifiedProperty("productStatusCode");
         _productStatusCode = productStatusCode;
     }
 
@@ -315,7 +315,7 @@ abstract class BsDbleSummaryProduct extends AbstractEntity with DBableEntity[Sum
      * @param latestPurchaseDatetime The value of the column 'LATEST_PURCHASE_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
     def setLatestPurchaseDatetime(latestPurchaseDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("latestPurchaseDatetime");
+        registerModifiedProperty("latestPurchaseDatetime");
         _latestPurchaseDatetime = latestPurchaseDatetime;
     }
 }

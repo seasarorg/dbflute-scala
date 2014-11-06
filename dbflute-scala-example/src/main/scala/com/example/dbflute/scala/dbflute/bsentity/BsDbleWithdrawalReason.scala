@@ -382,7 +382,7 @@ abstract class BsDbleWithdrawalReason extends AbstractEntity with DBableEntity[W
      */
     protected def setWithdrawalReasonCode(withdrawalReasonCode: String): Unit = {
         checkClassificationCode("WITHDRAWAL_REASON_CODE", CDef.DefMeta.WithdrawalReason, withdrawalReasonCode);
-        __modifiedProperties.addPropertyName("withdrawalReasonCode");
+        registerModifiedProperty("withdrawalReasonCode");
         _withdrawalReasonCode = withdrawalReasonCode;
     }
 
@@ -399,7 +399,7 @@ abstract class BsDbleWithdrawalReason extends AbstractEntity with DBableEntity[W
      * @param withdrawalReasonText The value of the column 'WITHDRAWAL_REASON_TEXT'. (basically NotNull if update: for the constraint)
      */
     def setWithdrawalReasonText(withdrawalReasonText: String): Unit = {
-        __modifiedProperties.addPropertyName("withdrawalReasonText");
+        registerModifiedProperty("withdrawalReasonText");
         _withdrawalReasonText = withdrawalReasonText;
     }
 
@@ -416,7 +416,7 @@ abstract class BsDbleWithdrawalReason extends AbstractEntity with DBableEntity[W
      * @param displayOrder The value of the column 'DISPLAY_ORDER'. (basically NotNull if update: for the constraint)
      */
     def setDisplayOrder(displayOrder: Integer): Unit = {
-        __modifiedProperties.addPropertyName("displayOrder");
+        registerModifiedProperty("displayOrder");
         _displayOrder = displayOrder;
     }
 

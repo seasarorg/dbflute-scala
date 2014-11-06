@@ -450,7 +450,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -467,7 +467,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      * @param memberName The value of the column 'MEMBER_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
+        registerModifiedProperty("memberName");
         _memberName = memberName;
     }
 
@@ -484,7 +484,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
      */
     def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("birthdate");
+        registerModifiedProperty("birthdate");
         _birthdate = birthdate;
     }
 
@@ -501,7 +501,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
     def setFormalizedDatetime(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("formalizedDatetime");
+        registerModifiedProperty("formalizedDatetime");
         _formalizedDatetime = formalizedDatetime;
     }
 
@@ -519,7 +519,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      */
     protected def setMemberStatusCode(memberStatusCode: String): Unit = {
         checkClassificationCode("MEMBER_STATUS_CODE", CDef.DefMeta.MemberStatus, memberStatusCode);
-        __modifiedProperties.addPropertyName("memberStatusCode");
+        registerModifiedProperty("memberStatusCode");
         _memberStatusCode = memberStatusCode;
     }
 
@@ -536,7 +536,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      * @param statusDisplayOrder The value of the column 'STATUS_DISPLAY_ORDER'. (NullAllowed: null update allowed for no constraint)
      */
     def setStatusDisplayOrder(statusDisplayOrder: Integer): Unit = {
-        __modifiedProperties.addPropertyName("statusDisplayOrder");
+        registerModifiedProperty("statusDisplayOrder");
         _statusDisplayOrder = statusDisplayOrder;
     }
 
@@ -553,7 +553,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberStatusName(memberStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusName");
+        registerModifiedProperty("memberStatusName");
         _memberStatusName = memberStatusName;
     }
 
@@ -571,7 +571,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      */
     protected def setDummyFlg(dummyFlg: Integer): Unit = {
         checkClassificationCode("DUMMY_FLG", CDef.DefMeta.Flg, dummyFlg);
-        __modifiedProperties.addPropertyName("dummyFlg");
+        registerModifiedProperty("dummyFlg");
         _dummyFlg = dummyFlg;
     }
 
@@ -588,7 +588,7 @@ abstract class BsDbleOptionMember extends AbstractEntity with DBableEntity[Optio
      * @param dummyNoflg The value of the column 'DUMMY_NOFLG'. (NullAllowed: null update allowed for no constraint)
      */
     def setDummyNoflg(dummyNoflg: Integer): Unit = {
-        __modifiedProperties.addPropertyName("dummyNoflg");
+        registerModifiedProperty("dummyNoflg");
         _dummyNoflg = dummyNoflg;
     }
 

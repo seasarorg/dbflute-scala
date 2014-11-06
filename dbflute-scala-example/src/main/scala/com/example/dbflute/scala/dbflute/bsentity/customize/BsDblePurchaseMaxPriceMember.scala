@@ -237,7 +237,7 @@ abstract class BsDblePurchaseMaxPriceMember extends AbstractEntity with DBableEn
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -254,7 +254,7 @@ abstract class BsDblePurchaseMaxPriceMember extends AbstractEntity with DBableEn
      * @param memberName The value of the column 'MEMBER_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
+        registerModifiedProperty("memberName");
         _memberName = memberName;
     }
 
@@ -271,7 +271,7 @@ abstract class BsDblePurchaseMaxPriceMember extends AbstractEntity with DBableEn
      * @param purchaseMaxPrice The value of the column 'PURCHASE_MAX_PRICE'. (NullAllowed: null update allowed for no constraint)
      */
     def setPurchaseMaxPrice(purchaseMaxPrice: Integer): Unit = {
-        __modifiedProperties.addPropertyName("purchaseMaxPrice");
+        registerModifiedProperty("purchaseMaxPrice");
         _purchaseMaxPrice = purchaseMaxPrice;
     }
 
@@ -288,7 +288,7 @@ abstract class BsDblePurchaseMaxPriceMember extends AbstractEntity with DBableEn
      * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberStatusName(memberStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusName");
+        registerModifiedProperty("memberStatusName");
         _memberStatusName = memberStatusName;
     }
 }

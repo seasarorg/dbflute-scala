@@ -494,7 +494,7 @@ abstract class BsDbleMemberLogin extends AbstractEntity with DBableEntity[Member
      * @param memberLoginId The value of the column 'MEMBER_LOGIN_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberLoginId(memberLoginId: Long): Unit = {
-        __modifiedProperties.addPropertyName("memberLoginId");
+        registerModifiedProperty("memberLoginId");
         _memberLoginId = memberLoginId;
     }
 
@@ -511,7 +511,7 @@ abstract class BsDbleMemberLogin extends AbstractEntity with DBableEntity[Member
      * @param memberId The value of the column 'MEMBER_ID'. (basically NotNull if update: for the constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -528,7 +528,7 @@ abstract class BsDbleMemberLogin extends AbstractEntity with DBableEntity[Member
      * @param loginDatetime The value of the column 'LOGIN_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setLoginDatetime(loginDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("loginDatetime");
+        registerModifiedProperty("loginDatetime");
         _loginDatetime = loginDatetime;
     }
 
@@ -546,7 +546,7 @@ abstract class BsDbleMemberLogin extends AbstractEntity with DBableEntity[Member
      */
     protected def setMobileLoginFlg(mobileLoginFlg: Integer): Unit = {
         checkClassificationCode("MOBILE_LOGIN_FLG", CDef.DefMeta.Flg, mobileLoginFlg);
-        __modifiedProperties.addPropertyName("mobileLoginFlg");
+        registerModifiedProperty("mobileLoginFlg");
         _mobileLoginFlg = mobileLoginFlg;
     }
 
@@ -564,7 +564,7 @@ abstract class BsDbleMemberLogin extends AbstractEntity with DBableEntity[Member
      */
     protected def setLoginMemberStatusCode(loginMemberStatusCode: String): Unit = {
         checkClassificationCode("LOGIN_MEMBER_STATUS_CODE", CDef.DefMeta.MemberStatus, loginMemberStatusCode);
-        __modifiedProperties.addPropertyName("loginMemberStatusCode");
+        registerModifiedProperty("loginMemberStatusCode");
         _loginMemberStatusCode = loginMemberStatusCode;
     }
 

@@ -310,7 +310,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param purchasePaymentId The value of the column 'PURCHASE_PAYMENT_ID'. (basically NotNull if update: for the constraint)
      */
     def setPurchasePaymentId(purchasePaymentId: Long): Unit = {
-        __modifiedProperties.addPropertyName("purchasePaymentId");
+        registerModifiedProperty("purchasePaymentId");
         _purchasePaymentId = purchasePaymentId;
     }
 
@@ -327,7 +327,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param purchaseId The value of the column 'PURCHASE_ID'. (basically NotNull if update: for the constraint)
      */
     def setPurchaseId(purchaseId: Long): Unit = {
-        __modifiedProperties.addPropertyName("purchaseId");
+        registerModifiedProperty("purchaseId");
         _purchaseId = purchaseId;
     }
 
@@ -344,7 +344,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param paymentAmount The value of the column 'PAYMENT_AMOUNT'. (basically NotNull if update: for the constraint)
      */
     def setPaymentAmount(paymentAmount: java.math.BigDecimal): Unit = {
-        __modifiedProperties.addPropertyName("paymentAmount");
+        registerModifiedProperty("paymentAmount");
         _paymentAmount = paymentAmount;
     }
 
@@ -361,7 +361,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param paymentDatetime The value of the column 'PAYMENT_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setPaymentDatetime(paymentDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("paymentDatetime");
+        registerModifiedProperty("paymentDatetime");
         _paymentDatetime = paymentDatetime;
     }
 
@@ -378,7 +378,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param paymentMethodCode The value of the column 'PAYMENT_METHOD_CODE'. (basically NotNull if update: for the constraint)
      */
     def setPaymentMethodCode(paymentMethodCode: String): Unit = {
-        __modifiedProperties.addPropertyName("paymentMethodCode");
+        registerModifiedProperty("paymentMethodCode");
         _paymentMethodCode = paymentMethodCode;
     }
 
@@ -395,7 +395,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setRegisterDatetime(registerDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("registerDatetime");
+        registerModifiedProperty("registerDatetime");
         _registerDatetime = registerDatetime;
     }
 
@@ -412,7 +412,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param registerUser The value of the column 'REGISTER_USER'. (basically NotNull if update: for the constraint)
      */
     def setRegisterUser(registerUser: String): Unit = {
-        __modifiedProperties.addPropertyName("registerUser");
+        registerModifiedProperty("registerUser");
         _registerUser = registerUser;
     }
 
@@ -429,7 +429,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     def setUpdateDatetime(updateDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("updateDatetime");
+        registerModifiedProperty("updateDatetime");
         _updateDatetime = updateDatetime;
     }
 
@@ -446,7 +446,7 @@ abstract class BsDblePurchasePayment extends AbstractEntity with EntityDefinedCo
      * @param updateUser The value of the column 'UPDATE_USER'. (basically NotNull if update: for the constraint)
      */
     def setUpdateUser(updateUser: String): Unit = {
-        __modifiedProperties.addPropertyName("updateUser");
+        registerModifiedProperty("updateUser");
         _updateUser = updateUser;
     }
 }

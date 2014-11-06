@@ -283,7 +283,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -300,7 +300,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param memberName The value of the column 'MEMBER_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
+        registerModifiedProperty("memberName");
         _memberName = memberName;
     }
 
@@ -317,7 +317,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param withdrawalReasonCode The value of the column 'WITHDRAWAL_REASON_CODE'. (NullAllowed: null update allowed for no constraint)
      */
     def setWithdrawalReasonCode(withdrawalReasonCode: String): Unit = {
-        __modifiedProperties.addPropertyName("withdrawalReasonCode");
+        registerModifiedProperty("withdrawalReasonCode");
         _withdrawalReasonCode = withdrawalReasonCode;
     }
 
@@ -334,7 +334,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param withdrawalReasonText The value of the column 'WITHDRAWAL_REASON_TEXT'. (NullAllowed: null update allowed for no constraint)
      */
     def setWithdrawalReasonText(withdrawalReasonText: String): Unit = {
-        __modifiedProperties.addPropertyName("withdrawalReasonText");
+        registerModifiedProperty("withdrawalReasonText");
         _withdrawalReasonText = withdrawalReasonText;
     }
 
@@ -351,7 +351,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param withdrawalReasonInputText The value of the column 'WITHDRAWAL_REASON_INPUT_TEXT'. (NullAllowed: null update allowed for no constraint)
      */
     def setWithdrawalReasonInputText(withdrawalReasonInputText: String): Unit = {
-        __modifiedProperties.addPropertyName("withdrawalReasonInputText");
+        registerModifiedProperty("withdrawalReasonInputText");
         _withdrawalReasonInputText = withdrawalReasonInputText;
     }
 
@@ -368,7 +368,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param withdrawalDatetime The value of the column 'WITHDRAWAL_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
     def setWithdrawalDatetime(withdrawalDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("withdrawalDatetime");
+        registerModifiedProperty("withdrawalDatetime");
         _withdrawalDatetime = withdrawalDatetime;
     }
 
@@ -385,7 +385,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param memberStatusCode The value of the column 'MEMBER_STATUS_CODE'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberStatusCode(memberStatusCode: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusCode");
+        registerModifiedProperty("memberStatusCode");
         _memberStatusCode = memberStatusCode;
     }
 
@@ -402,7 +402,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param memberStatusName The value of the column 'MEMBER_STATUS_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberStatusName(memberStatusName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberStatusName");
+        registerModifiedProperty("memberStatusName");
         _memberStatusName = memberStatusName;
     }
 
@@ -419,7 +419,7 @@ abstract class BsDbleSummaryWithdrawal extends AbstractEntity with DBableEntity[
      * @param maxPurchasePrice The value of the column 'MAX_PURCHASE_PRICE'. (NullAllowed: null update allowed for no constraint)
      */
     def setMaxPurchasePrice(maxPurchasePrice: Integer): Unit = {
-        __modifiedProperties.addPropertyName("maxPurchasePrice");
+        registerModifiedProperty("maxPurchasePrice");
         _maxPurchasePrice = maxPurchasePrice;
     }
 }

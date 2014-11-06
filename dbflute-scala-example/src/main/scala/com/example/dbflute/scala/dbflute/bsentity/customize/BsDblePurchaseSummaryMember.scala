@@ -246,7 +246,7 @@ abstract class BsDblePurchaseSummaryMember extends AbstractEntity with DBableEnt
      * @param memberId The value of the column 'MEMBER_ID'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberId(memberId: Integer): Unit = {
-        __modifiedProperties.addPropertyName("memberId");
+        registerModifiedProperty("memberId");
         _memberId = memberId;
     }
 
@@ -263,7 +263,7 @@ abstract class BsDblePurchaseSummaryMember extends AbstractEntity with DBableEnt
      * @param memberName The value of the column 'MEMBER_NAME'. (NullAllowed: null update allowed for no constraint)
      */
     def setMemberName(memberName: String): Unit = {
-        __modifiedProperties.addPropertyName("memberName");
+        registerModifiedProperty("memberName");
         _memberName = memberName;
     }
 
@@ -280,7 +280,7 @@ abstract class BsDblePurchaseSummaryMember extends AbstractEntity with DBableEnt
      * @param birthdate The value of the column 'BIRTHDATE'. (NullAllowed: null update allowed for no constraint)
      */
     def setBirthdate(birthdate: org.joda.time.LocalDate): Unit = {
-        __modifiedProperties.addPropertyName("birthdate");
+        registerModifiedProperty("birthdate");
         _birthdate = birthdate;
     }
 
@@ -297,7 +297,7 @@ abstract class BsDblePurchaseSummaryMember extends AbstractEntity with DBableEnt
      * @param formalizedDatetime The value of the column 'FORMALIZED_DATETIME'. (NullAllowed: null update allowed for no constraint)
      */
     def setFormalizedDatetime(formalizedDatetime: org.joda.time.LocalDateTime): Unit = {
-        __modifiedProperties.addPropertyName("formalizedDatetime");
+        registerModifiedProperty("formalizedDatetime");
         _formalizedDatetime = formalizedDatetime;
     }
 
@@ -314,7 +314,7 @@ abstract class BsDblePurchaseSummaryMember extends AbstractEntity with DBableEnt
      * @param purchaseSummary The value of the column 'PURCHASE_SUMMARY'. (NullAllowed: null update allowed for no constraint)
      */
     def setPurchaseSummary(purchaseSummary: Long): Unit = {
-        __modifiedProperties.addPropertyName("purchaseSummary");
+        registerModifiedProperty("purchaseSummary");
         _purchaseSummary = purchaseSummary;
     }
 }
