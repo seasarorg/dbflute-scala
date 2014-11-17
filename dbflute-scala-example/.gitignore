@@ -1,6 +1,7 @@
 /target
 /bin
 /.cache
+/.idea
 /*.epoch
 /tm.out
 /tm.out.*
