@@ -18,6 +18,7 @@ import org.seasar.dbflute.jdbc.SQLExceptionDigger;
 import org.seasar.dbflute.jdbc.StatementConfig;
 import org.seasar.dbflute.jdbc.StatementFactory;
 import org.seasar.dbflute.optional.RelationOptionalFactory;
+import org.seasar.dbflute.outsidesql.OutsideSqlOption;
 import org.seasar.dbflute.outsidesql.factory.DefaultOutsideSqlExecutorFactory;
 import org.seasar.dbflute.outsidesql.factory.OutsideSqlExecutorFactory;
 import org.seasar.dbflute.resource.ResourceParameter;
@@ -168,6 +169,9 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
         factory.setDefaultStatementConfig(assistDefaultStatementConfig());
         factory.setInternalDebug(DBFluteConfig.isInternalDebug());
         factory.setCursorSelectFetchSize(DBFluteConfig.getCursorSelectFetchSize());
+        factory.setEntitySelectFetchSize(DBFluteConfig.getEntitySelectFetchSize());
+        factory.setUsePagingByCursorSkipSynchronizedFetchSize(DBFluteConfig.isUsePagingByCursorSkipSynchronizedFetchSize());
+        factory.setFixedPagingByCursorSkipSynchronizedFetchSize(DBFluteConfig.getFixedPagingByCursorSkipSynchronizedFetchSize());
         return factory;
     }
 
@@ -255,6 +259,23 @@ class ImplementedInvokerAssistant extends InvokerAssistant {
 
     protected def newDefaultSqlAnalyzerFactory(): DefaultSqlAnalyzerFactory = {
         return new DefaultSqlAnalyzerFactory();
+    }
+
+    // -----------------------------------------------------
+    //                               First OutsideSql Option
+    //                               -----------------------
+    /** {@inheritDoc} */
+    def assistFirstOutsideSqlOption(tableDbName: String): OutsideSqlOption = {
+        return prepareFirstOutsideSqlOption(tableDbName);
+    }
+
+    protected def prepareFirstOutsideSqlOption(tableDbName: String): OutsideSqlOption = {
+        if (DBFluteConfig.isNonSpecifiedColumnAccessAllowed()) {
+            val option = new OutsideSqlOption();
+            option.setTableDbName(tableDbName);
+            return option.enableNonSpecifiedColumnAccess();
+        }
+        return null; // no instance (lazy-loaded) as default
     }
 
     // -----------------------------------------------------

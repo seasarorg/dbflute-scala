@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.dbmeta.AbstractEntity;
+import org.seasar.dbflute.dbmeta.accessory.CustomizeEntity;
 import org.seasar.dbflute.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -64,7 +65,7 @@ import com.example.dbflute.scala.dbflute.exentity.customize._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDblePurchaseSummaryMember extends AbstractEntity with DBableEntity[PurchaseSummaryMember] with Serializable with Cloneable {
+abstract class BsDblePurchaseSummaryMember extends AbstractEntity with CustomizeEntity with DBableEntity[PurchaseSummaryMember] with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                           Attribute

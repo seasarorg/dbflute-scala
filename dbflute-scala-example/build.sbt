@@ -12,13 +12,13 @@ resolvers += "The Seasar Foundation Maven2 Repository" at "http://maven.seasar.o
 // but old version doesn't exist in maven repository
 // = = = = = = = = = =/
 libraryDependencies ++= Seq(
-  "org.seasar.dbflute" % "dbflute-runtime" % "1.0.5K",
+  "org.seasar.dbflute" % "dbflute-runtime" % "1.0.5N-RC1",
   "com.h2database" % "h2" % "1.4.178" % "runtime",
   "com.github.nscala-time" %% "nscala-time" % "1.2.0",
   "com.google.inject" % "guice" % "3.0",
   "org.apache.geronimo.specs" % "geronimo-jta_1.1_spec" % "1.0" % "runtime",
   "log4j" % "log4j" % "1.2.14" % "runtime",
-  "org.seasar.dbflute" % "utflute-guice" % "0.4.6" % "test",
+  "org.seasar.dbflute" % "utflute-guice" % "0.4.8" % "test",
   "junit" % "junit" % "4.8.2" % "test",
   "org.scalatest" %% "scalatest" % "2.2.0" % "test"
 )

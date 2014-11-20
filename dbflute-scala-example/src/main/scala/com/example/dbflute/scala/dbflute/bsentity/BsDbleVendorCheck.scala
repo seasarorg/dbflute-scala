@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.dbmeta.AbstractEntity;
+import org.seasar.dbflute.dbmeta.accessory.DomainEntity;
 import org.seasar.dbflute.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -111,7 +112,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleVendorCheck extends AbstractEntity with DBableEntity[VendorCheck] with Serializable with Cloneable {
+abstract class BsDbleVendorCheck extends AbstractEntity with DomainEntity with DBableEntity[VendorCheck] with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                           Attribute

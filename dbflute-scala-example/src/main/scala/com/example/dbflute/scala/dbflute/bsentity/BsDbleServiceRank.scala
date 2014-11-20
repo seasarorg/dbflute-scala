@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import org.seasar.dbflute.dbmeta.DBMeta;
 import org.seasar.dbflute.dbmeta.AbstractEntity;
+import org.seasar.dbflute.dbmeta.accessory.DomainEntity;
 import org.seasar.dbflute.FunCustodial;
 import org.seasar.dbflute.helper.beans.DfCoupleProperties;
 import org.seasar.dbflute.immutable.DBableEntity;
@@ -68,7 +69,7 @@ import com.example.dbflute.scala.dbflute.exentity._;
  * </pre>
  * @author DBFlute(AutoGenerator)
  */
-abstract class BsDbleServiceRank extends AbstractEntity with DBableEntity[ServiceRank] with Serializable with Cloneable {
+abstract class BsDbleServiceRank extends AbstractEntity with DomainEntity with DBableEntity[ServiceRank] with Serializable with Cloneable {
 
     // ===================================================================================
     //                                                                           Attribute

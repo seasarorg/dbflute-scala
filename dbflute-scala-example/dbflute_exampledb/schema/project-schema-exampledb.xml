@@ -8,9 +8,9 @@
         <column autoIncrement="true"
             comment="会員ID: 連番として自動採番される。会員IDだけに限らず採番方法はDBMS次第。"
             dbType="INTEGER"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_69403146_73D5_4CC2_B36A_568CCE465A2E"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_1903338D_5B0B_4C89_AC03_BA7DC47E29FB"
             javaType="Integer" name="MEMBER_ID" pkName="CONSTRAINT_8"
-            primaryKey="true" required="true" size="10" type="INTEGER"/>
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column
             comment="会員名称: 会員のフルネームの名称。&#xa;苗字と名前を分けて管理することが多いが、ここでは単純にひとまとめ。"
             dbType="VARCHAR" javaType="String" name="MEMBER_NAME"
@@ -72,10 +72,10 @@
         <column autoIncrement="true"
             comment="会員住所ID: 会員住所を識別するID。&#xa;期間ごとに同じ会員のデータを保持することがあるため、これは単なるPKであってFKではない。"
             dbType="INTEGER"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_2291F287_D6EC_4F85_86D0_8D71FE7A76F1"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A559C4E1_2327_46CB_8EF1_CF18E5A1D1EC"
             javaType="Integer" name="MEMBER_ADDRESS_ID"
-            pkName="CONSTRAINT_B" primaryKey="true" required="true"
-            size="10" type="INTEGER"/>
+            pkName="CONSTRAINT_B" pkPosition="1" primaryKey="true"
+            required="true" size="10" type="INTEGER"/>
         <column
             comment="会員ID: 会員を参照するID。&#xa;期間ごとのデータがあるので、これだけではユニークにはならない。有効開始日と合わせて複合ユニーク制約となるが、厳密には完全な制約にはなっていない。有効期間の概念はRDBでは表現しきれないのである。"
             dbType="INTEGER" javaType="Integer" name="MEMBER_ID"
@@ -129,10 +129,10 @@
         name="MEMBER_FOLLOWING" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column autoIncrement="true" comment="会員フォローイングID: 連番"
             dbType="BIGINT"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_3D02FEDD_68B1_49D3_B55A_4B074D861C23"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_33F547A1_F9E2_4719_BE12_41C52F50E57C"
             javaType="Long" name="MEMBER_FOLLOWING_ID"
-            pkName="CONSTRAINT_BD" primaryKey="true" required="true"
-            size="19" type="BIGINT"/>
+            pkName="CONSTRAINT_BD" pkPosition="1" primaryKey="true"
+            required="true" size="19" type="BIGINT"/>
         <column comment="わたし: 気になった人がいて...勇気を振り絞った会員のID。"
             dbType="INTEGER" javaType="Integer" name="MY_MEMBER_ID"
             required="true" size="10" type="INTEGER"/>
@@ -173,10 +173,10 @@
         name="MEMBER_LOGIN" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column autoIncrement="true" comment="会員ログインID: "
             dbType="BIGINT"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_1091AEAA_3BDF_4A4B_A35A_0B1757CE349D"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_54CEC946_F9BE_4522_9E7C_423C9A9874BB"
             javaType="Long" name="MEMBER_LOGIN_ID"
-            pkName="CONSTRAINT_BDA" primaryKey="true" required="true"
-            size="19" type="BIGINT"/>
+            pkName="CONSTRAINT_BDA" pkPosition="1" primaryKey="true"
+            required="true" size="19" type="BIGINT"/>
         <column comment="会員ID: " dbType="INTEGER" javaType="Integer"
             name="MEMBER_ID" required="true" size="10" type="INTEGER"/>
         <column
@@ -216,8 +216,8 @@
         name="MEMBER_SECURITY" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="会員ID: そのまま one-to-one を構成するためのFKとなる。"
             dbType="INTEGER" javaType="Integer" name="MEMBER_ID"
-            pkName="CONSTRAINT_6" primaryKey="true" required="true"
-            size="10" type="INTEGER"/>
+            pkName="CONSTRAINT_6" pkPosition="1" primaryKey="true"
+            required="true" size="10" type="INTEGER"/>
         <column
             comment="ログインパスワード: ログイン時に利用するパスワード。&#xa;本当は良くないが、Exampleなのでひとまず暗号化していない。"
             dbType="VARCHAR" javaType="String" name="LOGIN_PASSWORD"
@@ -255,10 +255,10 @@
         <column autoIncrement="true"
             comment="会員サービスID: 独立した主キーとなるが、実質的に会員IDとは one-to-one である。"
             dbType="INTEGER"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_F4523638_5AB0_44E0_85B8_74F04FDA0B98"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_5669CC8E_5767_4A74_BBEB_C41C752DFBD6"
             javaType="Integer" name="MEMBER_SERVICE_ID"
-            pkName="CONSTRAINT_6F" primaryKey="true" required="true"
-            size="10" type="INTEGER"/>
+            pkName="CONSTRAINT_6F" pkPosition="1" primaryKey="true"
+            required="true" size="10" type="INTEGER"/>
         <column comment="会員ID: 会員を参照するID。ユニークなので、会員とは one-to-one の関係に。"
             dbType="INTEGER" javaType="Integer" name="MEMBER_ID"
             required="true" size="10" type="INTEGER"/>
@@ -307,8 +307,8 @@
         <column
             comment="会員ステータスコード: 会員ステータスを識別するコード。&#xa;固定的なデータなので連番とか番号にはせず、データを直接見たときも人が直感的にわかるように、例えば &quot;FML&quot; とかの３桁のコード形式にしている。(3って何会員だっけ？とかの問答をやりたくないので)&#xa;"
             dbType="CHAR" javaType="String" name="MEMBER_STATUS_CODE"
-            pkName="CONSTRAINT_4" primaryKey="true" required="true"
-            size="3" type="CHAR"/>
+            pkName="CONSTRAINT_4" pkPosition="1" primaryKey="true"
+            required="true" size="3" type="CHAR"/>
         <column
             comment="会員ステータス名称: 表示用の名称。&#xa;国際化対応するときはもっと色々考える必要があるかと...ということで英語名カラムがないので、そのまま区分値メソッド名の一部としても利用される。"
             dbType="VARCHAR" javaType="String" name="MEMBER_STATUS_NAME"
@@ -329,8 +329,8 @@
         comment="会員退会情報: 退会会員の退会に関する詳細な情報。&#xa;退会会員のみデータが存在し、&quot;1 : 0..1&quot; のパターンの one-to-one である。&#xa;共通カラムがあってバージョンNOがないパターン。&#xa;基本的に更新は入らないが、重要なデータなので万が一のために更新系の共通カラムも。"
         name="MEMBER_WITHDRAWAL" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="" dbType="INTEGER" javaType="Integer"
-            name="MEMBER_ID" pkName="CONSTRAINT_E" primaryKey="true"
-            required="true" size="10" type="INTEGER"/>
+            name="MEMBER_ID" pkName="CONSTRAINT_E" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column
             comment="退会理由コード: 定型的な退会した理由を参照するコード。&#xa;何も言わずに退会する会員もいるので必須項目ではない。"
             dbType="CHAR" javaType="String"
@@ -369,9 +369,9 @@
     </table>
     <table comment="商品:" name="PRODUCT" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column autoIncrement="true" comment="" dbType="INTEGER"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_FA740CD0_143D_475B_B86D_C99E89F039D6"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_5D492277_68D6_4730_BD7D_01395D156B55"
             javaType="Integer" name="PRODUCT_ID" pkName="CONSTRAINT_1"
-            primaryKey="true" required="true" size="10" type="INTEGER"/>
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column
             comment="商品名称: ExampleDBとして、コメントの少ないケースを表現するため、あえてコメントを控えている。&#xa;実業務ではしっかりとコメントを入れることが強く強く推奨される。「よりによってこのテーブルでやらないでよ！」あわわ、何も聞こえません〜"
             dbType="VARCHAR" javaType="String" name="PRODUCT_NAME"
@@ -423,8 +423,8 @@
         name="PRODUCT_CATEGORY" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="商品カテゴリコード: 自分のテーブルの別のレコードからも参照される。"
             dbType="CHAR" javaType="String" name="PRODUCT_CATEGORY_CODE"
-            pkName="CONSTRAINT_3" primaryKey="true" required="true"
-            size="3" type="CHAR"/>
+            pkName="CONSTRAINT_3" pkPosition="1" primaryKey="true"
+            required="true" size="3" type="CHAR"/>
         <column comment="商品カテゴリ名称: " dbType="VARCHAR" javaType="String"
             name="PRODUCT_CATEGORY_NAME" required="true" size="50" type="VARCHAR"/>
         <column comment="親カテゴリコード: 最上位の場合はデータなし。まさひく自己参照FKカラム！"
@@ -442,8 +442,8 @@
         name="PRODUCT_STATUS" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="商品ステータスコード: 商品ステータスを識別するコード。" dbType="CHAR"
             javaType="String" name="PRODUCT_STATUS_CODE"
-            pkName="CONSTRAINT_1B" primaryKey="true" required="true"
-            size="3" type="CHAR"/>
+            pkName="CONSTRAINT_1B" pkPosition="1" primaryKey="true"
+            required="true" size="3" type="CHAR"/>
         <column
             comment="商品ステータス名称: 表示用の名称、英語名カラムがないのでそのままメソッド名の一部としても利用される。"
             dbType="VARCHAR" javaType="String"
@@ -459,9 +459,9 @@
         comment="購入: 一つの商品に対する購入を表現する(購入履歴とも言える)。&#xa;実業務であれば購入詳細というテーブルを作り、「購入という行為」と「その中身（詳細）」を違う粒度のデータとしてそれぞれ管理するのが一般的と言えるでしょう。というか、注文とか請求とかそういうことを考え始めたらもっと複雑になるはずですが、ExampleDBということで割り切っています。"
         name="PURCHASE" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column autoIncrement="true" comment="" dbType="BIGINT"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_82C7A58D_8135_4954_A2B0_662AE23F6C1F"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_11C6B3F4_84AF_4EE2_93A6_2FCBDAD8BBEA"
             javaType="Long" name="PURCHASE_ID" pkName="CONSTRAINT_9"
-            primaryKey="true" required="true" size="19" type="BIGINT"/>
+            pkPosition="1" primaryKey="true" required="true" size="19" type="BIGINT"/>
         <column
             comment="会員ID: 会員を参照するID。&#xa;購入を識別する自然キー(複合ユニーク制約)の筆頭要素。"
             dbType="INTEGER" javaType="Integer" name="MEMBER_ID"
@@ -530,10 +530,10 @@
         name="PURCHASE_PAYMENT" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column autoIncrement="true" comment="購入支払ID: 連番"
             dbType="BIGINT"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_43F45B68_2D8A_4383_BBFA_CC9FDC244B68"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A4B2590B_405F_46A4_81E9_45F6D56D7BE1"
             javaType="Long" name="PURCHASE_PAYMENT_ID"
-            pkName="CONSTRAINT_C" primaryKey="true" required="true"
-            size="19" type="BIGINT"/>
+            pkName="CONSTRAINT_C" pkPosition="1" primaryKey="true"
+            required="true" size="19" type="BIGINT"/>
         <column comment="購入ID: 支払い対象の購入へのID" dbType="BIGINT"
             javaType="Long" name="PURCHASE_ID" required="true" size="19" type="BIGINT"/>
         <column comment="支払金額: 支払った金額。さて、小数点なのはなぜでしょう？" dbType="DECIMAL"
@@ -573,8 +573,8 @@
         <column
             comment="地域ID: 地域をしっかりと識別するID。&#xa;珍しく(固定的な)マスタテーブルとしては数値だが、Exampleなのでやはり色々なパターンがないとね、ってところで。"
             dbType="INTEGER" javaType="Integer" name="REGION_ID"
-            pkName="CONSTRAINT_8F" primaryKey="true" required="true"
-            size="10" type="INTEGER"/>
+            pkName="CONSTRAINT_8F" pkPosition="1" primaryKey="true"
+            required="true" size="10" type="INTEGER"/>
         <column comment="地域名称: 地域を漠然と表す名称。" dbType="VARCHAR"
             javaType="String" name="REGION_NAME" required="true"
             size="50" type="VARCHAR"/>
@@ -583,8 +583,8 @@
         name="SERVICE_RANK" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="サービスランクコード: サービスランクを識別するコード。" dbType="CHAR"
             javaType="String" name="SERVICE_RANK_CODE"
-            pkName="CONSTRAINT_A" primaryKey="true" required="true"
-            size="3" type="CHAR"/>
+            pkName="CONSTRAINT_A" pkPosition="1" primaryKey="true"
+            required="true" size="3" type="CHAR"/>
         <column
             comment="サービスランク名称: サービスランクの名称。&#xa;ゴールドとかプラチナとか基本的には威厳のある名前"
             dbType="VARCHAR" javaType="String" name="SERVICE_RANK_NAME"
@@ -643,13 +643,13 @@
     <table name="VENDOR_$_DOLLAR" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="" dbType="INTEGER" javaType="Integer"
             name="VENDOR_$_DOLLAR_ID" pkName="CONSTRAINT_B4"
-            primaryKey="true" required="true" size="10" type="INTEGER"/>
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
         <column comment="" dbType="VARCHAR" javaType="String"
             name="VENDOR_$_DOLLAR_NAME" size="32" type="VARCHAR"/>
     </table>
     <table name="VENDOR_CHECK" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="" dbType="DECIMAL" javaType="Long"
-            name="VENDOR_CHECK_ID" pkName="CONSTRAINT_2"
+            name="VENDOR_CHECK_ID" pkName="CONSTRAINT_2" pkPosition="1"
             primaryKey="true" required="true" size="16" type="DECIMAL"/>
         <column comment="" dbType="CHAR" javaType="String"
             name="TYPE_OF_CHAR" size="3" type="CHAR"/>
@@ -715,22 +715,22 @@
     </table>
     <table name="VENDOR_IDENTITY_ONLY" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column autoIncrement="true" comment="" dbType="BIGINT"
-            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A79358E1_6AFE_4AE7_8AE5_524F1565556D"
+            default="NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_B3094644_8A7F_49FD_8696_CDB2AC2CA9C3"
             javaType="Long" name="IDENTITY_ONLY_ID"
-            pkName="CONSTRAINT_A3" primaryKey="true" required="true"
-            size="19" type="BIGINT"/>
+            pkName="CONSTRAINT_A3" pkPosition="1" primaryKey="true"
+            required="true" size="19" type="BIGINT"/>
     </table>
     <table name="VENDOR_PRIMARY_KEY_ONLY" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="" dbType="BIGINT" javaType="Long"
             name="PRIMARY_KEY_ONLY_ID" pkName="CONSTRAINT_3B"
-            primaryKey="true" required="true" size="19" type="BIGINT"/>
+            pkPosition="1" primaryKey="true" required="true" size="19" type="BIGINT"/>
     </table>
     <table name="VENDOR_THE_LONG_AND_WINDING_TABLE_AND_COLUMN"
         schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="" dbType="BIGINT" javaType="Long"
             name="THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID"
-            pkName="CONSTRAINT_A0" primaryKey="true" required="true"
-            size="19" type="BIGINT"/>
+            pkName="CONSTRAINT_A0" pkPosition="1" primaryKey="true"
+            required="true" size="19" type="BIGINT"/>
         <column comment="" dbType="VARCHAR" javaType="String"
             name="THE_LONG_AND_WINDING_TABLE_AND_COLUMN_NAME"
             required="true" size="200" type="VARCHAR"/>
@@ -747,8 +747,8 @@
         schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="" dbType="BIGINT" javaType="Long"
             name="THE_LONG_AND_WINDING_TABLE_AND_COLUMN_REF_ID"
-            pkName="CONSTRAINT_5" primaryKey="true" required="true"
-            size="19" type="BIGINT"/>
+            pkName="CONSTRAINT_5" pkPosition="1" primaryKey="true"
+            required="true" size="19" type="BIGINT"/>
         <column comment="" dbType="BIGINT" javaType="Long"
             name="THE_LONG_AND_WINDING_TABLE_AND_COLUMN_ID"
             required="true" size="19" type="BIGINT"/>
@@ -773,7 +773,7 @@
         name="WITHDRAWAL_REASON" schema="EXAMPLEDB.PUBLIC" type="TABLE">
         <column comment="退会理由コード: " dbType="CHAR" javaType="String"
             name="WITHDRAWAL_REASON_CODE" pkName="CONSTRAINT_10"
-            primaryKey="true" required="true" size="3" type="CHAR"/>
+            pkPosition="1" primaryKey="true" required="true" size="3" type="CHAR"/>
         <column
             comment="退会理由テキスト: 退会理由の内容。&#xa;テキスト形式なので目いっぱい書けるが、そうするとUI側できれいに見せるのが大変でしょうね。"
             dbType="CLOB" javaType="String"
@@ -787,26 +787,26 @@
     </table>
     <sequenceGroup>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_69403146_73D5_4CC2_B36A_568CCE465A2E" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_A4B2590B_405F_46A4_81E9_45F6D56D7BE1" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_FA740CD0_143D_475B_B86D_C99E89F039D6" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_54CEC946_F9BE_4522_9E7C_423C9A9874BB" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1" name="SEQ_NOT_RELATED_TO_TABLE" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_A79358E1_6AFE_4AE7_8AE5_524F1565556D" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_11C6B3F4_84AF_4EE2_93A6_2FCBDAD8BBEA" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_82C7A58D_8135_4954_A2B0_662AE23F6C1F" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_A559C4E1_2327_46CB_8EF1_CF18E5A1D1EC" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_1091AEAA_3BDF_4A4B_A35A_0B1757CE349D" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_33F547A1_F9E2_4719_BE12_41C52F50E57C" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_F4523638_5AB0_44E0_85B8_74F04FDA0B98" schema="EXAMPLEDB.PUBLIC"/>
-        <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_43F45B68_2D8A_4383_BBFA_CC9FDC244B68" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_1903338D_5B0B_4C89_AC03_BA7DC47E29FB" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="8" name="SEQ_PURCHASE" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_2291F287_D6EC_4F85_86D0_8D71FE7A76F1" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_5D492277_68D6_4730_BD7D_01395D156B55" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1"
-            name="SYSTEM_SEQUENCE_3D02FEDD_68B1_49D3_B55A_4B074D861C23" schema="EXAMPLEDB.PUBLIC"/>
+            name="SYSTEM_SEQUENCE_5669CC8E_5767_4A74_BBEB_C41C752DFBD6" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="1" name="SEQ_MEMBER" schema="EXAMPLEDB.PUBLIC"/>
+        <sequence incrementSize="1"
+            name="SYSTEM_SEQUENCE_B3094644_8A7F_49FD_8696_CDB2AC2CA9C3" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="3" name="SEQ_MEMBER_LOGIN" schema="EXAMPLEDB.PUBLIC"/>
         <sequence incrementSize="-1" name="SEQ_DECREMENT" schema="EXAMPLEDB.PUBLIC"/>
     </sequenceGroup>
