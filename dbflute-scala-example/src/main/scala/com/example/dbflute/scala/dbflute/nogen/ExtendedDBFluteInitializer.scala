@@ -44,14 +44,15 @@ class ExtendedDBFluteInitializer extends DBFluteInitializer {
   protected def prepareGearedCipher(): Unit = {
     val manager: GearedCipherManager = new GearedCipherManager();
     val purchasePrice: ColumnInfo = PurchaseDbm.columnPurchasePrice();
-    manager.addFunctionFilter(purchasePrice, new CipherFunctionFilter() {
-      def encrypt(valueExp: String): String = {
-        return "(" + valueExp + " + 13)";
-      }
-      def decrypt(valueExp: String): String = {
-        return "(" + valueExp + " - 13)";
-      }
-    });
+    // no setting for demo
+    //manager.addFunctionFilter(purchasePrice, new CipherFunctionFilter() {
+    //  def encrypt(valueExp: String): String = {
+    //    return "(" + valueExp + " + 13)";
+    //  }
+    //  def decrypt(valueExp: String): String = {
+    //    return "(" + valueExp + " - 13)";
+    //  }
+    //});
     DBFluteConfig.setGearedCipherManager(manager);
   }
 }
