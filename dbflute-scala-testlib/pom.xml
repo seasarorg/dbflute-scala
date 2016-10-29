@@ -198,22 +198,15 @@
 			<version>${guice.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions</artifactId>
-			<version>3.3.4</version>
-		</dependency>
-		<!-- multi thread problem fixed but JDBC driver problem
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions</artifactId>
-			<version>3.8.0</version>
+			<groupId>javax.transaction</groupId>
+			<artifactId>javax.transaction-api</artifactId>
+			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.atomikos</groupId>
 			<artifactId>transactions-jdbc</artifactId>
-			<version>3.8.0</version>
+			<version>4.0.4</version>
 		</dependency>
-		 -->
 		<dependency>
 			<groupId>org.seasar.dbflute</groupId>
 			<artifactId>dbflute-runtime</artifactId>

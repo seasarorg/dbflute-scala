@@ -13,7 +13,7 @@
 	<inceptionYear>2006</inceptionYear>
 
 	<properties>
-		<dbflute.version>1.0.5N-RC1</dbflute.version>
+		<dbflute.version>1.0.5N</dbflute.version>
 		<h2.jdbc.version>1.4.178</h2.jdbc.version>
 		<scala.version>2.11.2</scala.version>
 		<guice.version>3.0</guice.version>
@@ -222,15 +222,14 @@
 			<version>${guice.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions</artifactId>
-			<version>3.3.4</version>
+			<groupId>javax.transaction</groupId>
+			<artifactId>javax.transaction-api</artifactId>
+			<version>1.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-jta_1.1_spec</artifactId>
-			<version>1.0</version>
-			<scope>runtime</scope>
+			<groupId>com.atomikos</groupId>
+			<artifactId>transactions-jdbc</artifactId>
+			<version>4.0.4</version>
 		</dependency>
 
 		<!-- logging -->
