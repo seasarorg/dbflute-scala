@@ -19,20 +19,20 @@ import java.util.ArrayList
 import java.util.List
 import java.util.Map
 import javax.transaction.TransactionManager
-import org.seasar.dbflute.unit.core.binding.BindingAnnotationRule
-import org.seasar.dbflute.unit.core.binding.ComponentBinder
-import org.seasar.dbflute.unit.core.transaction.TransactionFailureException
-import org.seasar.dbflute.unit.core.transaction.TransactionResource
 import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.Module
 import com.google.inject.Inject
 import javax.inject.Inject
-import org.seasar.dbflute.unit.guice.GuiceTransactionResource
 import org.dbflute.unit.core.InjectionFunSuite
 import com.google.inject.Inject
 import javax.inject.Inject
 import java.lang.annotation.Annotation
+import org.dbflute.utflute.core.binding.ComponentBinder
+import org.dbflute.utflute.guice.GuiceTransactionResource
+import org.dbflute.utflute.core.transaction.TransactionFailureException
+import org.dbflute.utflute.core.binding.BindingAnnotationRule
+import org.dbflute.utflute.core.transaction.TransactionResource
 
 /**
  * @author jflute

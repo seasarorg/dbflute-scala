@@ -19,14 +19,14 @@ import scala.collection.JavaConverters._
 import java.util.ArrayList
 import java.util.List
 import java.util.Map
-import org.seasar.dbflute.unit.core.binding.BindingAnnotationRule
-import org.seasar.dbflute.unit.core.binding.BindingRuleProvider
-import org.seasar.dbflute.unit.core.binding.BoundResult
-import org.seasar.dbflute.unit.core.binding.ComponentBinder
-import org.seasar.dbflute.unit.core.binding.ComponentProvider
-import org.seasar.dbflute.unit.core.transaction.TransactionFailureException
-import org.seasar.dbflute.unit.core.transaction.TransactionResource
 import java.lang.annotation.Annotation
+import org.dbflute.utflute.core.binding.BindingRuleProvider
+import org.dbflute.utflute.core.binding.ComponentBinder
+import org.dbflute.utflute.core.transaction.TransactionFailureException
+import org.dbflute.utflute.core.binding.BindingAnnotationRule
+import org.dbflute.utflute.core.transaction.TransactionResource
+import org.dbflute.utflute.core.binding.ComponentProvider
+import org.dbflute.utflute.core.binding.BoundResult
 
 /**
  * @author jflute
@@ -164,7 +164,7 @@ abstract class InjectionFunSuite extends PlainFunSuite {
     }
 
     protected def xdestroyTestCaseComponent(): Unit = {
-        _xtestCaseComponentBinder.releaseBoundComponent(this, _xtestCaseBoundResult);
+        _xtestCaseComponentBinder.revertBoundComponent(_xtestCaseBoundResult)
         _xtestCaseBoundResult = null;
     }
 

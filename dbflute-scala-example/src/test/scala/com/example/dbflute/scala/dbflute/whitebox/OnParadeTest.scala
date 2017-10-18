@@ -19,8 +19,8 @@ import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 import com.example.dbflute.scala.dbflute.exentity.customize.DbleSimpleMember
 import com.example.dbflute.scala.dbflute.exentity.customize.SimpleMember
 import com.example.dbflute.scala.unit.UnitContainerFunSuite
-import com.github.nscala_time.time.Imports._
 import java.util.Arrays
+import org.joda.time.LocalDateTime
 
 /**
  * @author jflute
