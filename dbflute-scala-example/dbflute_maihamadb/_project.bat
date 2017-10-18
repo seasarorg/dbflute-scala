@@ -4,7 +4,7 @@ set ANT_OPTS=-Xmx512M
 
 set DBFLUTE_HOME=..\mydbflute\dbflute-1.x
 
-set MY_PROJECT_NAME=exampledb
+set MY_PROJECT_NAME=maihamadb
 
 set MY_PROPERTIES_PATH=build.properties
 

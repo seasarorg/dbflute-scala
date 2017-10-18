@@ -1,13 +1,39 @@
+# common
 /target
+/build
 /bin
-/.cache
-/.idea
+.DS_Store
+
+# IntelliJ IDEA
+/.idea/artifacts
+/.idea/libraries
+/.idea/modules
+/.idea/compiler.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
+/*.iml
+/out
+
+# Gradle
+/.gradle
+
+# Tomcat
+/tomcat.*
+
+# DBFlute
+/dbflute-intro.*
+/mydbflute/intro_resources
+
+# LastaFlute
+trial_config.ignored
+
+# Atomikos
 /*.epoch
 /tm.out
 /tm.out.*
 /tm*.log
-/project/project
-/project/target
-/.history
+
+# what?
 /.cache-main
 /.cache-tests

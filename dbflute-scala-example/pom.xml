@@ -113,21 +113,12 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.seasar.uruma</groupId>
-				<artifactId>maven-eclipath-plugin</artifactId>
-				<version>0.0.11</version>
-				<configuration>
-					<downloadJavadocs>false</downloadJavadocs>
-					<autoRefresh>true</autoRefresh>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.seasar.dbflute</groupId>
 				<artifactId>dbflute-maven-plugin</artifactId>
 				<version>1.0.0</version>
 				<configuration>
 					<dbfluteVersion>${dbflute.version}</dbfluteVersion>
-					<clientProject>exampledb</clientProject>
+					<clientProject>maihamadb</clientProject>
 				</configuration>
 			</plugin>
 		</plugins>

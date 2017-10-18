@@ -52,9 +52,9 @@ abstract class UnitContainerFunSuite extends ContainerFunSuite {
   def createDataSource(): DataSource = {
     val bean = new AtomikosNonXADataSourceBean();
     bean.setUniqueResourceName("NONXADBMS");
-    bean.setDriverClassName("org.h2.jdbcx.JdbcDataSource");
+    bean.setDriverClassName("org.h2.Driver");
     val factoryBean = new EmbeddedH2UrlFactoryBean();
-    factoryBean.urlSuffix = "/exampledb/exampledb";
+    factoryBean.urlSuffix = "/database/maihamadb";
     factoryBean.referenceClassName = classOf[EmbeddedH2UrlFactoryBean].getName();
     val url = try {
       factoryBean.getObject().toString();
